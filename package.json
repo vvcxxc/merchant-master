@@ -48,6 +48,9 @@
 
     },
   "lint-staged": {
+
+    "*.{ts,tsx}": ["tslint --fix", "git add"],
+
     "*.{js,jsx}": ["eslint --fix", "git add"]
   },
   "engines": {
