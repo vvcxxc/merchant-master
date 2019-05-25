@@ -1,8 +1,11 @@
 import React from 'react';
 import styles from './index.less';
 import { Flex, WingBlank } from 'antd-mobile';
+import verificationImage from '../assets/varied/verification@2x.png';
 
 export default function() {
+  /**核销 */
+  const handleVerification = () => {};
   return (
     <div className={styles.page}>
       {/* <NavBar mode="light">团卖物联</NavBar> */}
@@ -95,6 +98,15 @@ export default function() {
           </div>
         </div>
       </WingBlank>
+      {/* 核销按钮 */}
+      <Flex
+        onClick={handleVerification}
+        className={styles.verification}
+        justify="center"
+        align="center"
+      >
+        <img src={verificationImage} />
+      </Flex>
     </div>
   );
 }
