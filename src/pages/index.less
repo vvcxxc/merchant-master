@@ -1,3 +1,69 @@
-.welcome {
-  font-size: 16px;
+.page {
+  background: #ededed;
+  height: 100%;
+}
+
+.numberInfo {
+  background: #21418a;
+  padding-bottom: 72px;
+  color: #fff;
+  :global {
+    .matter {
+      padding: 40px 0 30px;
+      .label {
+        margin-bottom: 8px;
+      }
+      .value {
+        font-size: 50px;
+        font-weight: bold;
+        margin-left: 14px;
+      }
+      .btn {
+        width: 140px;
+        height: 38px;
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0px 4px 5px 0px rgba(4, 25, 71, 0.33);
+        border-radius: 10px;
+        color: #21418a;
+        text-align: center;
+        line-height: 38px;
+        margin: 20px 10px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.content {
+  margin-top: -72px;
+}
+
+.box {
+  background: #fff;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  :global {
+    .title {
+      padding: 18px 20px;
+      font-size: 32px;
+      font-weight: bold;
+    }
+    .inside {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-row-gap: 14px;
+    }
+    .icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 10px;
+    }
+    .label {
+      font-size: 26px;
+      font-weight: 400;
+      color: #666;
+      line-height: 48px;
+    }
+  }
 }
