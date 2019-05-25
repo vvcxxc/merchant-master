@@ -4,6 +4,8 @@
 
 特别注意使用**typescript**
 
+**git提交的时候tslint验证才能提交，如果是使用vscode的话，装上tslint和eslint能比较好解决错误**
+
 ## 目录结构
 
 
