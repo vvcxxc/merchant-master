@@ -5,35 +5,39 @@ const model: Model = {
   state: {
     active: 0,
     show: false,
-    pages: ['/', '/order'],
+    pages: ['/', '/finance', '/order', '/my'],
   },
   reducers: {
     setShow(state, { payload }) {
+      const index = state.pages.findIndex((_: any) => _ === payload);
       return {
         ...state,
         /**根据路由判断是否显示tabbar */
-        show: !!state.pages.find((_: any) => _ === payload),
+        show: index > -1,
+        active: index,
       };
     },
-    setActive(state, { payload }) {
-      return {
-        ...state,
-        active: payload,
-      };
-    },
-    setPages(state, { payload }) {
-      return {
-        ...state,
-        pages: payload,
-      };
-    },
+    // setActive(state, { payload }) {
+    //   return {
+    //     ...state,
+    //     active: payload,
+    //   };
+    // },
+    // setPages(state, { payload }) {
+    //   return {
+    //     ...state,
+    //     pages: payload,
+    //   };
+    // },
   },
   subscriptions: {
     history({ dispatch, history }) {
-      dispatch({
-        type: 'setShow',
-        payload: history.location.pathname,
-      });
+      history.listen(() =>
+        dispatch({
+          type: 'setShow',
+          payload: history.location.pathname,
+        }),
+      );
     },
   },
 };

@@ -1,11 +1,22 @@
+/**title: 团卖物联 */
+
 import React from 'react';
 import styles from './index.less';
 import { Flex, WingBlank } from 'antd-mobile';
 import verificationImage from '../assets/varied/verification@2x.png';
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 
-export default function() {
+interface Props {
+  dispatch: (arg0: any) => any;
+}
+
+export default connect()(function({ dispatch }: Props) {
   /**核销 */
   const handleVerification = () => {};
+  const goLogin = () => {
+    dispatch(routerRedux.push({ pathname: '/login' }));
+  };
   return (
     <div className={styles.page}>
       {/* <NavBar mode="light">团卖物联</NavBar> */}
@@ -18,7 +29,9 @@ export default function() {
               <span className="value">190,999.66</span>
             </Flex>
             <Flex justify="center">
-              <div className="btn">提现</div>
+              <div className="btn" onClick={goLogin}>
+                提现
+              </div>
               <div className="btn">充值</div>
             </Flex>
           </div>
@@ -104,9 +117,11 @@ export default function() {
         className={styles.verification}
         justify="center"
         align="center"
+        direction="column"
       >
         <img src={verificationImage} />
+        核销
       </Flex>
     </div>
   );
-}
+});
