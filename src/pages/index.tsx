@@ -1,19 +1,19 @@
 /**title: 团卖物联 */
 
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank } from 'antd-mobile';
 import verificationImage from '../assets/varied/verification@2x.png';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 
-interface Props {
-  dispatch: (arg0: any) => any;
-}
+export default connect()(function({ dispatch }: any) {
+  /**是否显示核销的界面 */
+  const [showVerification, setShowVerification] = useState(false);
 
-export default connect()(function({ dispatch }: Props) {
   /**核销 */
-  const handleVerification = () => {};
+  const handleVerification = () => setShowVerification(true);
+  /** */
   const goLogin = () => {
     dispatch(routerRedux.push({ pathname: '/login' }));
   };
@@ -122,6 +122,7 @@ export default connect()(function({ dispatch }: Props) {
         <img src={verificationImage} />
         核销
       </Flex>
+      {showVerification && <div>1</div>}
     </div>
   );
 });

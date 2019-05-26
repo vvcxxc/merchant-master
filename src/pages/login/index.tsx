@@ -1,3 +1,4 @@
+/**title: 团卖物联 */
 import React, { Component } from 'react';
 import { Flex, WingBlank, Button } from 'antd-mobile';
 import styles from './index.less';
@@ -35,15 +36,15 @@ export default class Login extends Component {
   /**登录 */
   submit = () => {
     const api = this.state.tab === 1 ? 'v3/login' : 'v3/Laaccghinopt';
-    const { mobile, code, account_name, password } = this.state;
+    const { mobile, code, account_name, password, tab } = this.state;
     request({
       url: api,
       method: 'post',
       data: {
-        mobile,
-        code,
-        account_name,
-        password,
+        mobile: tab === 0 ? mobile : undefined,
+        code: tab === 0 ? code : undefined,
+        account_name: tab === 1 ? account_name : undefined,
+        password: tab === 1 ? password : undefined,
       },
     }).then(res => {});
   };

@@ -5,7 +5,7 @@ interface Options extends AxiosRequestConfig {
   host?: string;
 }
 
-const host = 'http://test.api.supplier.tdianyi.com';
+const host = 'http://test.api.tdianyi.com/';
 
 /**发起请求
  *
