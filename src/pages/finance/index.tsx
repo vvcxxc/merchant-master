@@ -16,10 +16,13 @@ export default class FinancePage extends Component {
       <Flex key={_} className={styles.financeItem}>
         <img src="" alt="" />
         <Flex.Item className="content">
-          <div className="ordernum">AB12345678901234</div>
-          <div className="time">2018-12-06 18:00</div>
+          <div className="ordernum">扫码支付</div>
+          <div className="time">12-06 18:00</div>
         </Flex.Item>
-        <div className="status">已支付</div>
+        <div className="more">
+          <div>-50.00</div>
+          <span className="status">提现中</span>
+        </div>
       </Flex>
     ));
     return <FiltrateLayout>{financeList}</FiltrateLayout>;
