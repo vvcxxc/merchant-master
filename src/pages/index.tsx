@@ -2,17 +2,17 @@
 
 import React, { useState } from 'react';
 import styles from './index.less';
-import { Flex, WingBlank } from 'antd-mobile';
+import { Flex, WingBlank, Icon } from 'antd-mobile';
 import verificationImage from '../assets/varied/verification@2x.png';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 
-export default connect()(function({ dispatch }: any) {
+export default connect()(function IndexPage({ dispatch }: any) {
   /**是否显示核销的界面 */
   const [showVerification, setShowVerification] = useState(false);
 
   /**核销 */
-  const handleVerification = () => setShowVerification(true);
+  const handleVerification = () => setShowVerification(!showVerification);
   /** */
   const goLogin = () => {
     dispatch(routerRedux.push({ pathname: '/login' }));
@@ -122,7 +122,34 @@ export default connect()(function({ dispatch }: any) {
         <img src={verificationImage} />
         核销
       </Flex>
-      {showVerification && <div>1</div>}
+      {showVerification && verificationPage(handleVerification)}
     </div>
   );
 });
+
+/**审核页面 */
+function verificationPage(handleVerification: any) {
+  return (
+    <Flex className={styles.verificationPage} justify="end" direction="column">
+      <Flex className="icons">
+        <Flex justify="center" direction="column">
+          <img src={require('../assets/menu/15.png')} />
+          扫码验证
+        </Flex>
+        <Flex.Item>
+          <Flex justify="center" direction="column">
+            <img src={require('../assets/menu/16.png')} />
+            输码验证
+          </Flex>
+        </Flex.Item>
+        <Flex justify="center" direction="column">
+          <img src={require('../assets/menu/17.png')} />
+          核销记录
+        </Flex>
+      </Flex>
+      <Flex className="close-icon" align="center" justify="center">
+        <Icon type="cross-circle-o" color="rgba(0, 0, 0, 0.2)" onClick={handleVerification} />
+      </Flex>
+    </Flex>
+  );
+}
