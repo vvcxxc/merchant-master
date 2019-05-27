@@ -56,7 +56,7 @@ export default withRouter(
         const mySelectIcon = <img src={require('../assets/tabbar/my_active@2x.png')} />;
         return (
           <Flex direction="column" style={{ height: '100%' }}>
-            <Flex.Item style={{ width: '100%' }}>{this.props.children}</Flex.Item>
+            <Flex.Item style={{ width: '100%', overflow: 'auto' }}>{this.props.children}</Flex.Item>
             <TabBar noRenderContent={true} tabBarPosition="bottom" hidden={!this.props.show}>
               <TabBarItem
                 icon={homeIcon}

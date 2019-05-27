@@ -22,6 +22,10 @@ export default class OrderPage extends Component {
         <div className="status">已支付</div>
       </Flex>
     ));
-    return <FiltrateLayout>{orderList}</FiltrateLayout>;
+    return (
+      <FiltrateLayout undetermined={[]} hasInsignificant={true}>
+        {orderList}
+      </FiltrateLayout>
+    );
   }
 }

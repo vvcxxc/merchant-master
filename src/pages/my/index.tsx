@@ -1,3 +1,4 @@
+/**title: 个人中心 */
 import React, { Component } from 'react';
 import { Flex, WingBlank } from 'antd-mobile';
 import styles from './index.less';
