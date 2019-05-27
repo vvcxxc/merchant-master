@@ -1,3 +1,6 @@
+/**
+ * title：登陆
+ */
 import React, { Component } from 'react';
 import { Flex, WhiteSpace, WingBlank, Button } from 'antd-mobile';
 import styles from './index.less';
