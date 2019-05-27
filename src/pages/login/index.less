@@ -1,13 +1,27 @@
-.wrap {
+.page {
   padding-top: 96px;
+  height: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
   :global {
     .tab {
       margin: 120px 0;
       color: #999999;
       .tab-item {
         margin-right: 40px;
+        &:after {
+          content: '';
+          display: block;
+          height: 4px;
+          width: 90%;
+          margin-left: 5%;
+          margin: 10px;
+        }
         &.active {
           color: #21418a;
+          &:after {
+            background: #21418a;
+          }
         }
       }
     }
@@ -21,6 +35,26 @@
 .inputWrap {
   height: 108px;
   border-bottom: 2px solid #999;
+  :global {
+    .phone-prefix {
+      width: 107px;
+      height: 58px;
+      border: 2px solid rgba(51, 51, 51, 1);
+      border-radius: 29px;
+      text-align: center;
+      line-height: 58px;
+      margin-right: 24px;
+    }
+    .send-code {
+      width: 175px;
+      height: 58px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 29px;
+      text-align: center;
+      line-height: 58px;
+      color: #999;
+    }
+  }
 }
 
 .warring {
