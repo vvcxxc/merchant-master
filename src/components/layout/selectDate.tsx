@@ -23,6 +23,7 @@ export default function SelectDate({ reset, show, value, onChange }: Props) {
   /**父级点击事件 */
   const maskClick = (e: any) => {
     if (e.target.id === 'layoutModal') {
+      setDate(moment(value || undefined).toDate());
       onChange(value);
     }
   };
