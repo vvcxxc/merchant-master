@@ -49,7 +49,7 @@ export default connect()(
               <img src={require('./activity.png')} alt="" />
               <span>我的活动</span>
             </Flex>
-            <Flex>
+            <Flex onClick={this.pushPage('/my/coupon')}>
               <img src={require('./coupon.png')} alt="" />
               <span>我的优惠券</span>
             </Flex>
