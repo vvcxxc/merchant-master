@@ -17,7 +17,7 @@ export default connect()(
       return (
         <div className={styles.page}>
           <WingBlank>
-            <Flex className="activity-item">
+            <Flex className="activity-item" onClick={this.pushPage('/activitys/payment')}>
               <img className="item-icon" src={require('./images/1.png')} alt="" />
               <Flex.Item>
                 <ItemContent title="支付返券" subTitle="PAY COUPONS" />

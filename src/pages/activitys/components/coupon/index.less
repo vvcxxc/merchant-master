@@ -1,0 +1,61 @@
+.coupon {
+  width: 100%;
+  height: 220px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-top: 55px;
+  :global {
+    .content {
+      height: 150px;
+      box-sizing: border-box;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 0 20px;
+      .headimg {
+        width: 77px;
+        height: 77px;
+        background: rgba(33, 65, 138, 1);
+        border-radius: 50%;
+        font-size: 36px;
+        font-weight: bold;
+        color: rgba(255, 255, 255, 1);
+        text-align: center;
+        line-height: 77px;
+        margin-right: 34px;
+      }
+      .info {
+        .status {
+          text-align: right;
+          &.end {
+            font-size: 24px;
+          }
+        }
+        .labels {
+          .label {
+            float: left;
+            border: 1px solid rgba(255, 102, 84, 1);
+            border-radius: 10px;
+            font-size: 24px;
+            color: #999;
+            padding: 6px 10px;
+            margin: 12px 18px 0 0;
+          }
+        }
+      }
+    }
+    .bottom {
+      height: 70px;
+      padding: 0 26px;
+      .btn {
+        width: 102px;
+        height: 38px;
+        border: 1px solid rgba(33, 64, 138, 1);
+        border-radius: 19px;
+        line-height: 38px;
+        text-align: center;
+        font-size: 24px;
+        color: #21418a;
+      }
+    }
+  }
+}
