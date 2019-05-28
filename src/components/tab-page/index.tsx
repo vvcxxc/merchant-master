@@ -30,14 +30,14 @@ export default class TabPage extends Component<Props> {
       </div>
     ));
     return (
-      <div className={styles.component}>
+      <Flex className={styles.component} direction="column">
         <div className="tab">
           <WingBlank>
             <Flex>{tabItems}</Flex>
           </WingBlank>
         </div>
-        {this.props.children}
-      </div>
+        <Flex.Item>{this.props.children}</Flex.Item>
+      </Flex>
     );
   }
 }

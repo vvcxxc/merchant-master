@@ -29,7 +29,7 @@ export default connect()(
                 <ItemContent title="满减活动" subTitle="WITH REDUCED" />
               </Flex.Item>
             </Flex>
-            <Flex className="activity-item">
+            <Flex className="activity-item" onClick={this.pushPage('/activitys/group')}>
               <img className="item-icon" src={require('./images/3.png')} alt="" />
               <Flex.Item>
                 <ItemContent title="拼团活动" subTitle="GROUP ACTIVITIES" />
