@@ -23,7 +23,7 @@ export default connect()(
                 <ItemContent title="支付返券" subTitle="PAY COUPONS" />
               </Flex.Item>
             </Flex>
-            <Flex className="activity-item">
+            <Flex className="activity-item" onClick={this.pushPage('/activitys/money-off')}>
               <img className="item-icon" src={require('./images/2.png')} alt="" />
               <Flex.Item>
                 <ItemContent title="满减活动" subTitle="WITH REDUCED" />
