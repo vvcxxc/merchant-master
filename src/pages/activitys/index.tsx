@@ -35,7 +35,7 @@ export default connect()(
                 <ItemContent title="拼团活动" subTitle="GROUP ACTIVITIES" />
               </Flex.Item>
             </Flex>
-            <Flex className="activity-item">
+            <Flex className="activity-item" onClick={this.pushPage('/activitys/appreciation')}>
               <img className="item-icon" src={require('./images/4.png')} alt="" />
               <Flex.Item>
                 <ItemContent title="增值活动" subTitle="VALUE ADDED" />
