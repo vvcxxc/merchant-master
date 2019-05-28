@@ -37,7 +37,7 @@ export default connect()(
                     <div>1</div>
                   </Flex>
                 </Flex.Item>
-                <div className="give">
+                <div className="give" onClick={this.pushPage('/my/give')}>
                   <div className="label">礼品币</div>
                   <div className="value">23,280.00 </div>
                 </div>
