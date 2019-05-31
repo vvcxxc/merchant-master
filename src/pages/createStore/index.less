@@ -1,0 +1,110 @@
+.wrap {
+  background: #fff;
+  font-family: 'PingFang-SC-Bold';
+  .inputWrap {
+    height: 108px;
+    border-bottom: 1px solid #999;
+    span {
+      font-size: 28px;
+      color: #333;
+      width: 146px;
+      font-weight: bold;
+      // margin-right: 37px;
+    }
+    input{
+      width: 550px;
+    }
+  }
+}
+input::-webkit-input-placeholder {
+  color: #999999;
+}
+.imgWrap {
+  height: 108px;
+  font-weight: bold;
+  justify-content: space-between;
+
+}
+.imgTitle {
+  font-size: 28px;
+}
+.example {
+  color: red;
+  font-size: 24px;
+}
+.pushStore{
+  img{
+    width: 100%;
+  }
+}
+.imgSmall{
+  img{
+    width: 35%;
+    padding-right: 28px;
+  }
+}
+.inputWrap>div{
+  width: 100%;
+}
+:global{
+  .am-list-item{
+    padding-left: 0;
+    .am-list-line{
+      padding-right: 0;
+      flex: 1;
+      .am-list-content{
+        font-size: 28px;
+        width: 146px;
+        font-weight: bold;
+        flex: none;
+      }
+      .am-list-arrow{
+        width: 20px;
+        float: right;
+        margin-right: 0.16rem;
+        color: #999;
+      }
+      .am-list-extra{
+        font-size: 28px;
+        text-align: left;
+        flex-basis: 100%;
+        color: #333;
+      }
+    }
+  }
+}
+
+.pushStore :global{
+  .am-image-picker-list .am-image-picker-upload-btn{
+    background: url('./shangchuan.png') no-repeat;
+    background-size: 100%;
+  }
+  .am-image-picker-list{
+    padding: 0;
+  }
+  .am-image-picker-list .am-image-picker-item {
+    height: 432px;
+  }
+  .am-flexbox-item{
+    height: 432px;
+  }
+}
+
+.imgSmall :global {
+  .am-image-picker-list .am-image-picker-upload-btn{
+    background: #F7F7F7;
+  }
+  .am-flexbox-item{
+    width: 242px;
+    height: 158px;
+  }
+  .am-image-picker-list .am-image-picker-upload-btn:before, .am-image-picker-list .am-image-picker-upload-btn:after {
+    background-color: #2141a8;
+  }
+  .am-image-picker-list .am-image-picker-upload-btn:before {
+    width: 3px;
+  }
+  .am-image-picker-list .am-image-picker-upload-btn:after {
+    height: 3px;
+  }
+}

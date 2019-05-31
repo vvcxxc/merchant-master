@@ -2,7 +2,7 @@
  * title：注册账号
  */
 import React, { Component } from 'react';
-import { Flex, WingBlank, Button, } from 'antd-mobile';
+import { Flex, WingBlank, Button, Toast } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
 
@@ -49,19 +49,21 @@ export default class Register extends Component {
   getCode = () => {
     const { phone } = this.state;
     let wait = 60;
+    if(phone){
+      request({
+        url: 'v3/verify_code',
+        method: 'get',
+        params: {
+          phone: phone,
+        }
+      }).then(res => {
+        let { code } = res.data;
+        if ( code == 200 ){
+          let timer = setInterval(time, 1000);
+        }
+      });
+    }
 
-    request({
-      url: 'v3/verify_code',
-      method: 'get',
-      params: {
-        phone: phone,
-      }
-    }).then(res => {
-      let { code } = res.data;
-      if ( code == 200 ){
-        let timer = setInterval(time, 1000);
-      }
-    });
     //定时器执行函数
     let time = () => {
       if( wait == 0){
@@ -89,7 +91,15 @@ export default class Register extends Component {
         verify_code: code,
         invite_phone: inviter_phone
       },
-    }).then(res => {});
+    }).then(res => {
+      let {code} = res.data;
+      let {data} = res.data;
+      if(code == 200){
+        Toast.success(data)
+      }else{
+        Toast.fail(data)
+      }
+    });
   }
 
   componentWillUnmount(){
@@ -150,7 +160,7 @@ export default class Register extends Component {
           />
         </Flex>
         <WingBlank size="sm">
-          <Button type="primary" style={{ marginTop: 60 }}>
+          <Button type="primary" style={{ marginTop: 60 }} onClick={this.register}>
             注册账号
           </Button>
         </WingBlank>
