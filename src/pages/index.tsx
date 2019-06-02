@@ -29,9 +29,9 @@ export default connect(({ app }: any) => app)(
 
 		/**核销 */
 		handleVerification = () => this.setState({ showVerification: !this.state.showVerification });
-		/** */
-		goLogin = () => {
-			router.push({ pathname: '/login' });
+		/**跳转到任意页面 */
+		toPage = (pathname: any) => () => {
+			router.push({ pathname });
 		};
 
 		/**审核页面 */
@@ -80,7 +80,9 @@ export default connect(({ app }: any) => app)(
 								</Flex>
 								<Flex justify="center">
 									<div className="btn">提现</div>
-									<div className="btn">充值</div>
+									<div className="btn" onClick={this.toPage('/my/rechange')}>
+										充值
+									</div>
 								</Flex>
 							</div>
 						</Flex>
