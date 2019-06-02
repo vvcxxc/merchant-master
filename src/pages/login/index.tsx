@@ -54,7 +54,7 @@ export default connect()(
 		};
 		/**登录 */
 		submit = () => {
-			const api = this.state.tab === 1 ? 'v3/login' : 'v3/captchaLogin';
+			const api = this.state.tab === 1 ? 'v3/login' : 'v3/captcha_login';
 			const { mobile, code, account_name, password, tab } = this.state;
 			if (this.fixLogin()) {
 				Toast.loading('登录中', 20);
@@ -62,7 +62,7 @@ export default connect()(
 					url: api,
 					method: 'post',
 					data: {
-						mobile: tab === 0 ? mobile : undefined,
+						phone: tab === 0 ? mobile : undefined,
 						code: tab === 0 ? code : undefined,
 						account_name: tab === 1 ? account_name : undefined,
 						password: tab === 1 ? password : undefined
@@ -71,7 +71,7 @@ export default connect()(
 					.then((res: any) => {
 						Toast.hide();
 						if (res.code === 200) {
-							localStorage.setItem('token', res.data.token);
+							localStorage.setItem('token', 'Bearer ' + res.data.token);
 							this.props.dispatch(routerRedux.push({ pathname: '/' }));
 						} else {
 							Toast.fail(res.data, 1.5);

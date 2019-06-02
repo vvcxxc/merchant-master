@@ -1,4 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import router from 'umi/router';
+import { Toast } from 'antd-mobile';
 
 interface Options extends AxiosRequestConfig {
 	/**替换的主机域名 */
@@ -6,6 +8,13 @@ interface Options extends AxiosRequestConfig {
 }
 
 const host = 'http://test.api.supplier.tdianyi.com/';
+
+const fixLogin = (response: any) => {
+	if (response.code === 401) {
+		throw new Error('未登录');
+	}
+	return response;
+};
 
 /**发起请求
  *
@@ -21,5 +30,10 @@ export default function request(options: Options) {
 	/**拼接接口地址 */
 	options.url = options.host ? options.host + options.url : host + options.url;
 	/**axios 请求 */
-	return axios(options).then(res => res.data);
+	return axios(options)
+		.then(res => res.data)
+		.catch(err => {
+			Toast.hide();
+			router.push('/login');
+		});
 }
