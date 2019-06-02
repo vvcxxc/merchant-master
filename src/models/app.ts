@@ -2,23 +2,42 @@ import { Model } from 'dva';
 import { Toast } from 'antd-mobile';
 import request from '@/services/request';
 
+export interface Data {
+	money: number;
+	activity_management: ActivityManagementItem[];
+	ad_management: AdManagementItem[];
+	property_management: PropertyManagementItem[];
+}
+interface ActivityManagementItem {
+	name: string;
+	small_icon: string;
+}
+interface AdManagementItem {
+	name: string;
+	small_icon: string;
+}
+interface PropertyManagementItem {
+	name: string;
+	small_icon: string;
+}
+
+const data: Data = {
+	activity_management: [],
+	ad_management: [],
+	property_management: [],
+	money: 0
+};
+
 const model: Model = {
 	namespace: 'app',
 	state: {
-		pageData: {},
-		showVerification: false
+		data: { ...data }
 	},
 	reducers: {
 		saveData(state, { payload }) {
 			return {
 				...state,
-				pageData: payload
-			};
-		},
-		setShowVerification(state, { payload }) {
-			return {
-				...state,
-				showVerification: payload
+				data: payload
 			};
 		}
 	},
