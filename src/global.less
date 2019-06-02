@@ -1,43 +1,78 @@
 html,
 body,
 #root {
-  height: 100%;
-  background: #ededed;
-  color: #333;
+	height: 100%;
+	background: #ededed;
+	color: #333;
 }
 
 body {
-  margin: 0;
+	margin: 0;
 }
 
 a {
-  color: #21418a;
+	color: #21418a;
 }
 
 /* 覆盖antd组件样式 */
 .am-wingblank.am-wingblank-lg {
-  margin-left: 36px;
-  margin-right: 36px;
+	margin-left: 36px;
+	margin-right: 36px;
 }
 button,
 input {
-  border: none;
+	border: none;
 }
 
 .am-button {
-  border-radius: 88px !important;
-  height: 88px !important;
-  line-height: 88px !important;
+	border-radius: 88px !important;
+	height: 88px !important;
+	line-height: 88px !important;
 }
 
 .am-tab-bar-bar .am-tab-bar-tab-icon img {
-  width: 68px;
-  height: 68px;
+	width: 68px;
+	height: 68px;
 }
 
 .am-tab-bar {
-  width: 100%;
-  height: auto !important;
+	width: 100%;
+	height: auto !important;
+}
+
+.am-list {
+	width: 100%;
+}
+
+.am-list-item {
+	padding-left: 0 !important;
+}
+.am-list-body div:not(:last-child) .am-list-line,
+.am-list-item.am-list-item-middle .am-list-line {
+	padding-right: 0 !important;
+}
+
+.am-list-item .am-list-line .am-list-content {
+	font-size: 28px !important;
+}
+
+.am-list-item .am-input-label {
+	font-size: 28px !important;
+}
+
+.am-list-item .am-list-line .am-list-extra,
+.am-list-item .am-input-extra {
+	font-size: 24px !important;
+	color: #999 !important;
+}
+
+.am-list-item .am-input-control .fake-input-container .fake-input-placeholder {
+	font-size: 24px;
+	color: #999 !important;
+}
+
+.am-flexbox.am-flexbox-dir-column .am-flexbox-item {
+	width: 100%;
 }
 
 // .am-flexbox .am-flexbox-item:first-child {
