@@ -24,7 +24,9 @@ export default connect(({ app }: any) => app)(
 		componentDidMount() {
 			this.props.dispatch({
 				type: 'app/getData'
-			});
+      });
+
+
 		}
 
 		/**核销 */
@@ -41,13 +43,13 @@ export default connect(({ app }: any) => app)(
 					<Flex className="icons">
 						<Flex.Item>
 							<Flex justify="center" direction="column">
-								<img src={require('../assets/menu/15.png')} />
+								{/* <img src={require('../assets/menu/15.png')} /> */}
 								扫码验证
 							</Flex>
 						</Flex.Item>
 						<Flex.Item>
 							<Flex justify="center" direction="column">
-								<img src={require('../assets/menu/16.png')} />
+								{/* <img src={require('../assets/menu/16.png')} /> */}
 								输码验证
 							</Flex>
 						</Flex.Item>

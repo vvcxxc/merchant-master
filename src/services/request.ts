@@ -34,6 +34,6 @@ export default function request(options: Options) {
 		.then(res => res.data)
 		.catch(err => {
 			Toast.hide();
-			router.push('/login');
+			// router.push('/login');
 		});
 }

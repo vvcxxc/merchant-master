@@ -19,7 +19,27 @@ export default connect()(
 			account_name: '',
 			/**密码 */
 			password: ''
-		};
+    };
+    componentDidMount (){
+       /**获取oss */
+       request({
+        url: 'api/v2/up',
+        method: 'get'
+      }).then( res => {
+        let { data } = res;
+        let oss_data = {
+          policy: data.policy,
+          OSSAccessKeyId: data.accessid,
+          success_action_status: 200, //让服务端返回200,不然，默认会返回204
+          signature: data.signature,
+          callback: data.callback,
+          host: data.host,
+          key: data.dir
+        }
+
+        window.localStorage.setItem( 'oss_data' , JSON.stringify(oss_data) );
+      });
+    }
 		/**设置手机号 */
 		handleSetMobile = (value: any) => {
 			this.setState({ mobile: value.split(' ').join('') });
