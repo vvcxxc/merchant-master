@@ -3,7 +3,8 @@ import { Flex, WingBlank, Button, Toast, Picker, List, Icon, ImagePicker } from 
 import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router';
-
+// import axios from 'axios';
+import upload from '@/services/oss';
 export default class CreateStore extends Component {
   state = {
     /**店铺名 */
@@ -23,8 +24,16 @@ export default class CreateStore extends Component {
     files: [],
     /**个人照 */
     my_files: [],
+    /**个人照 */
+    my_files2: [],
     /**oss信息 */
-    oss_data: {}
+    oss_data: {},
+    /**门头照图片 */
+    store_door_header_img: '',
+    /**个人照1 */
+    store_img_one: '',
+    /**个人照2 */
+    store_img_two: ''
   };
 
   componentDidMount (){
@@ -33,7 +42,7 @@ export default class CreateStore extends Component {
       url: 'v3/manage_type',
       method: 'get',
     }).then( res => {
-      let { data } = res.data;
+      let { data } = res;
       this.setState({ manage_list : data });
     });
 
@@ -42,8 +51,18 @@ export default class CreateStore extends Component {
       url: 'api/v2/up',
       method: 'get'
     }).then( res => {
-      let { data } = res.data;
-      this.setState({ oss_data : data });
+      let { data } = res;
+
+      let oss_data = {
+        policy: data.policy,
+        OSSAccessKeyId: data.accessid,
+        success_action_status: 200, //让服务端返回200,不然，默认会返回204
+        signature: data.signature,
+        callback: data.callback,
+        host: data.host,
+        key: data.dir
+      }
+      this.setState({ oss_data });
     });
 
 
@@ -77,22 +96,54 @@ export default class CreateStore extends Component {
   }
 
   /**门店图片选择后 */
-  Storechange = (files: Object) => {
+  Storechange = (files: any) => {
     this.setState({
       files,
     });
-
+    if(files[0]){
+      let img = files[0].url;
+      upload(img).then(res => {
+        let store_door_header_img = res.data.path;
+        this.setState({store_door_header_img})
+      })
+    }else {
+      this.setState({store_door_header_img: ''})
+    }
   }
-  /**个人照 */
-  Mychange = (files: Object) => {
+  /**个人照1 */
+  Mychange = (files: any) => {
     this.setState({
       my_files: files,
     });
+    if(files[0]){
+      let img = files[0].url;
+      upload(img).then(res => {
+        let store_img_one = res.data.path;
+        this.setState({store_img_one})
+      })
+    }else {
+      this.setState({store_img_one: ''})
+    }
+  }
+  /**个人照2 */
+  Mychange2 = (files: any) => {
+    this.setState({
+      my_files2: files,
+    });
+    if(files[0]){
+      let img = files[0].url;
+      upload(img).then(res => {
+        let store_img_two = res.data.path;
+        this.setState({store_img_two})
+      })
+    }else {
+      this.setState({store_img_two: ''})
+    }
   }
 
 
   render() {
-    const { files, my_files } = this.state;
+    const { files, my_files, my_files2 } = this.state;
     return (
       <div style={{ height: 'auto', width: '100%', background:' #fff', paddingBottom: 60 }}>
           <WingBlank className={styles.wrap}>
@@ -160,15 +211,22 @@ export default class CreateStore extends Component {
               />
             </Flex>
             <Flex className={styles.imgWrap}>
-              <div className={styles.imgTitle}>上传个人照</div>
+              <div className={styles.imgTitle}>上传环境照</div>
             </Flex>
             <Flex className={styles.imgSmall}>
               <ImagePicker
                 files={my_files}
                 multiple={false}
-                length={2}
-                selectable={my_files.length < 2}
+                length={1}
+                selectable={my_files.length < 1}
                 onChange={this.Mychange}
+              />
+              <ImagePicker
+                files={my_files2}
+                multiple={false}
+                length={1}
+                selectable={my_files2.length < 1}
+                onChange={this.Mychange2}
               />
             </Flex>
               <Button type="primary" style={{ marginTop: 60, paddingBottom: 60 }}>
