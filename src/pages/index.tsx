@@ -1,13 +1,12 @@
 /**title: 团卖物联 */
 
-import React, { useState, Component } from 'react';
+import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, Icon } from 'antd-mobile';
 import verificationImage from '../assets/varied/verification@2x.png';
 import { connect } from 'dva';
 import router from 'umi/router';
 import { Data } from '@/models/app';
-import { Item } from 'antd-mobile/lib/tab-bar';
 
 interface Props {
 	data: Data;
