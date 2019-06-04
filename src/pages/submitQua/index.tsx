@@ -7,6 +7,8 @@ import { WingBlank, Flex, ImagePicker, List, InputItem, Icon, ActivityIndicator,
 import router from 'umi/router';
 import upload from '@/services/oss';
 import request from '@/services/request';
+import ChooseDate from './couponents/chooseDate/chooseDate';
+import moment from 'moment';
 
 export default class submitQua extends Component {
   state = {
@@ -19,7 +21,7 @@ export default class submitQua extends Component {
     /**手持身份证照 */
     id_hand: [],
     /**有效期 */
-    date: '2019-01-01',
+    date: '2019-09-22',
     /**银行卡正面照 */
     bank_front: [],
     /**银行卡反面照 */
@@ -42,8 +44,6 @@ export default class submitQua extends Component {
     contact_name: '',
     /**身份证号 */
     legal_id_no: '',
-    /**身份证号有效期 */
-    legal_id_valid_date: '',
     /**银行卡号 */
     settle_bank_account_no: '',
     /**银行名 */
@@ -59,11 +59,64 @@ export default class submitQua extends Component {
     /**法人 */
     legal_name: '',
     /**营业执照有效期 */
-    three_certs_in_one_valid_date: '2019-04-22',
-
-
-
+    three_certs_in_one_valid_date: '',
+    /**选择有效期子组件判断是为身份证还是营业执照 */
+    type: 1,
+    /**控制子组件的显示和隐藏 */
+    is_show: false,
+    /**传入组件的日期 */
+    choose_date: '',
+    /**用于二次进入该页面判断之前是否有图片 */
+    is_id_front: true,
+    is_id_back: true,
+    is_id_hand: true,
+    is_bank_front: true,
+    is_bank_back: true,
+    is_license: true
   };
+
+  componentDidMount(){
+    function getCaption(str: string){
+      return str.split('http://oss.tdianyi.com/')[1]
+    }
+    request({
+      url: 'v3/payment_profiles',
+      method: 'get'
+    }).then(res => {
+      let {data} = res;
+      let {contact_name, legal_id_no, legal_id_valid_date, settle_bank_account_name, settle_bank_account_no, settle_bank, three_certs_in_one_no, corn_bus_name, legal_name, three_certs_in_one_valid_date, bank_name, legal_id_front_img, legal_id_back_img, hand_hold_id_img, bank_card_front_img, bank_card_back_img, three_certs_in_one_img} = data;
+      if(three_certs_in_one_valid_date[0] == 0){
+        three_certs_in_one_valid_date = '长期'
+      }
+      this.setState({
+        contact_name,
+        legal_id_no,
+        date: legal_id_valid_date,
+        settle_bank_account_name,
+        settle_bank_account_no,
+        settle_bank,
+        three_certs_in_one_no,
+        corn_bus_name,
+        legal_name,
+        three_certs_in_one_valid_date,
+        bank_name,
+        legal_id_front_img: getCaption(legal_id_front_img),
+        legal_id_back_img: getCaption(legal_id_back_img),
+        hand_hold_id_img: getCaption(hand_hold_id_img),
+        bank_card_front_img: getCaption(bank_card_front_img),
+        bank_card_back_img: getCaption(bank_card_back_img),
+        three_certs_in_one_img: getCaption(three_certs_in_one_img)
+      });
+
+    })
+
+
+
+
+  }
+
+
+
   /**查看身份证示例 */
   toIdCardExample = () => {
     router.push('/submitQua/example/idcard')
@@ -75,15 +128,6 @@ export default class submitQua extends Component {
   /**查看营业执照示例 */
   toLicenseExample = () => {
     router.push('/submitQua/example/license')
-  }
-  /**跳转到选择日期 */
-  toChooseDate = () => {
-    router.push({
-      pathname: '/submitQua/chooseDate',
-      query: {
-        id: 1
-      }
-    })
   }
 
   /**姓名输入 */
@@ -117,7 +161,7 @@ export default class submitQua extends Component {
     this.setState({bank_name: e})
   }
   /**注册号 */
-  handleBankNUm = (e: any) => {
+  handleLicenseNUm = (e: any) => {
     this.setState({three_certs_in_one_no: e})
   }
   /**执照名称 */
@@ -155,11 +199,16 @@ export default class submitQua extends Component {
             let {data} = res;
             let id = data.front.words_result['公民身份号码'].words
             let name = data.front.words_result['姓名'].words;
+            let date = data.back.words_result['失效日期'].words;
+            if(date != '长期'){
+              date = moment(date).format("YYYY-MM-DD")
+            }
             this.setState({animating_id: !this.state.animating_id})
             if(id && name){
               this.setState({
                 contact_name: name,
-                legal_id_no: id
+                legal_id_no: id,
+                date
               })
             }else{
               Toast.fail('识别失败', 1);
@@ -195,11 +244,16 @@ export default class submitQua extends Component {
             let {data} = res;
             let id = data.front.words_result['公民身份号码'].words
             let name = data.front.words_result['姓名'].words;
+            let date = data.back.words_result['失效日期'].words;
+            if(date != '长期'){
+              date = moment(date).format("YYYY-MM-DD")
+            }
             this.setState({animating_id: !this.state.animating_id})
             if(id && name){
               this.setState({
                 contact_name: name,
-                legal_id_no: id
+                legal_id_no: id,
+                date
               })
             }else{
               Toast.fail('识别失败', 1);
@@ -315,9 +369,69 @@ export default class submitQua extends Component {
   }
 
 
+  /**选择有效期 */
+  chooseDate = (type: number, date: string) => {
+    this.setState({
+      type,
+      is_show: true,
+      choose_date: date
+    })
+  }
+
+  /**选择日期的回调 */
+  timeChange = (type: number, date: string) => {
+    if(type == 1){
+      this.setState({
+        date,
+        is_show: false
+      })
+    }else{
+      this.setState({
+        three_certs_in_one_valid_date: date,
+        is_show: false
+      })
+    }
+  }
+
+  /**保存或者提交 */
+  submit = (type: number) => {
+    const {legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.state;
+    let data = {
+      legal_id_back_img,
+      legal_id_front_img,
+      three_certs_in_one_img,
+      hand_hold_id_img,
+      bank_card_front_img,
+      bank_card_back_img,
+      contact_name,
+      legal_id_valid_date: date,
+      legal_id_no,
+      settle_bank_account_no,
+      settle_bank_account_name,
+      three_certs_in_one_valid_date,
+      three_certs_in_one_no,
+      corn_bus_name,
+      legal_name,
+      bank_name,
+      settle_bank,
+      confirm_step: type
+    }
+
+    request({
+      url: 'v3/payment_profiles',
+      method: 'post',
+      data
+    }).then(res => {
+    })
+
+  }
+
+
 
 
   render (){
+    const chooseTime = this.state.is_show == true ? (<ChooseDate type={this.state.type} choose_date={this.state.choose_date} onChange={this.timeChange}/>) : null;
+
     const { id_hand, id_back, id_front, bank_front, bank_back, license_img } = this.state;
     return (
       <div style={{ width: '100%', height: 'auto', background: '#fff' }}>
@@ -336,6 +450,7 @@ export default class submitQua extends Component {
               selectable={id_front.length < 1}
               onChange={this.changeIdFront}
             />
+            {/* <div className={styles.idcard}><img src="http://oss.tdianyi.com/front/2RAYCJ3zdkrt4BWWp4zcrHf8QA5rJpBp.png"/><div className={styles.close}></div></div> */}
             <ImagePicker
               className={styles.back_img}
               files={id_back}
@@ -356,7 +471,18 @@ export default class submitQua extends Component {
           <List>
             <InputItem placeholder='请输入姓名' value={this.state.contact_name} onChange={this.handleName}>姓名</InputItem>
             <InputItem placeholder='请输入身份证号' onChange={this.handleID} value={this.state.legal_id_no}>身份证号</InputItem>
-            <InputItem placeholder='请选择身份证有效期' editable={false} value={this.state.date} onClick={this.toChooseDate}>有效期<Icon type='right' className={styles.youxiao}/></InputItem>
+            <InputItem
+              placeholder='请选择身份证有效期'
+              editable={false}
+              value={this.state.date}
+              onClick={this.chooseDate.bind(this,1,this.state.date)}
+            >
+                有效期
+                <Icon
+                  type='right'
+                  className={styles.youxiao}
+                />
+            </InputItem>
           </List>
           <Flex className={styles.bank_title}>
             <div className={styles.sfz_left}>银行卡认证</div>
@@ -372,7 +498,7 @@ export default class submitQua extends Component {
               onChange={this.changeBankFront}
           />
           <ImagePicker
-            className={styles.bank_front}
+            className={styles.bank_back}
             files={bank_back}
             multiple={false}
             length={1}
@@ -382,7 +508,7 @@ export default class submitQua extends Component {
           </Flex>
           <List>
             <InputItem placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.state.settle_bank_account_name}>开户人</InputItem>
-            <InputItem placeholder='经营者银行卡（仅限储蓄卡）' value={this.state.settle_bank_account_no} onChange={this.handleBankNUm} >银行卡号</InputItem>
+            <InputItem placeholder='经营者银行卡（仅限储蓄卡）' value={this.state.settle_bank_account_no} onChange={this.handleBankNum}>银行卡号</InputItem>
             <InputItem placeholder='选择开户银行' editable={false} value={this.state.settle_bank} onChange={this.handleSettleBank}>开户行<Icon type='right' className={styles.youxiao}/></InputItem>
             <InputItem placeholder='请输入支行' value={this.state.bank_name} onChange={this.handleBankName}>支行</InputItem>
           </List>
@@ -400,16 +526,17 @@ export default class submitQua extends Component {
             onChange={this.changeLicense}
           />
           </Flex>
-          <InputItem placeholder='同统一社会信用代码' value={this.state.three_certs_in_one_no} onChange={this.handleBankNUm}>注册号</InputItem>
+          <InputItem placeholder='同统一社会信用代码' value={this.state.three_certs_in_one_no} onChange={this.handleLicenseNUm}>注册号</InputItem>
           <InputItem placeholder='无执照名称可填写经营者名称' value={this.state.corn_bus_name} onChange={this.handleLicenseName}>执照名称</InputItem>
           <InputItem placeholder='请输入法人姓名' value={this.state.legal_name} onChange={this.handleLegalName}>法人姓名</InputItem>
-          <InputItem placeholder='有效期' editable={false} value={this.state.three_certs_in_one_valid_date}  onClick={this.toChooseDate}>有效期<Icon type='right' className={styles.youxiao}/></InputItem>
+          <InputItem placeholder='有效期' editable={false} value={this.state.three_certs_in_one_valid_date} onClick={this.chooseDate.bind(this,2,this.state.three_certs_in_one_valid_date)}>有效期<Icon type='right' className={styles.youxiao}/></InputItem>
         </WingBlank>
         <ActivityIndicator toast={true} text='识别中...' animating={this.state.animating_id}/>
         <Flex className={styles.buttons}>
-          <div className={styles.save}>保存</div>
-          <div className={styles.submit}>提交审核</div>
+          <div className={styles.save} onClick={this.submit.bind(this,1)}>保存</div>
+          <div className={styles.submit} onClick={this.submit.bind(this,2)}>提交审核</div>
         </Flex>
+        {chooseTime}
       </div>
     )
   }
