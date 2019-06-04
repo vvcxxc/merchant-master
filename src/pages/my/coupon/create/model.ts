@@ -2,7 +2,7 @@ import { Model } from 'dva';
 
 export interface CouponForm {
 	coupons_type: number;
-	coupons_name: number;
+	coupons_name: string;
 	return_money: number;
 	total_num: number;
 	pay_money: number;
@@ -12,11 +12,24 @@ export interface CouponForm {
 	image_url: any[];
 }
 
+export interface MoneyForm {
+	return_money: number;
+	coupons_type: number;
+	pay_money: number;
+	total_fee: number;
+	validity: number;
+	total_num: number;
+}
+
 const model: Model = {
 	namespace: 'createCoupon',
 	state: {
-		couponForm: {},
-		moneyForm: {}
+		couponForm: {
+			coupons_type: 0
+		},
+		moneyForm: {
+			coupons_type: 1
+		}
 	},
 	reducers: {
 		setCoupon(state, { payload }) {
@@ -28,11 +41,22 @@ const model: Model = {
 				}
 			};
 		},
+		reset(state) {
+			return {
+				...state,
+				couponForm: {
+					coupons_type: 1
+				},
+				moneyForm: {
+					coupons_type: 1
+				}
+			};
+		},
 		setMoney(state, { payload }) {
 			return {
 				...state,
 				moneyForm: {
-					...state.couponForm,
+					...state.moneyForm,
 					...payload
 				}
 			};

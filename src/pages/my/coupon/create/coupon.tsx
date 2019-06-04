@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { InputItem, List, Flex } from 'antd-mobile';
+import { InputItem, List, Flex, ImagePicker, Toast } from 'antd-mobile';
 import { connect } from 'dva';
 import { CouponForm } from './model';
-import styles from './index.less';
 import upload from '@/services/oss';
 
 interface Props extends CouponForm {
@@ -12,31 +11,62 @@ interface Props extends CouponForm {
 /**创建优惠券 */
 export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 	class CouponForm extends Component<Props> {
-		fileInput: HTMLInputElement | null | undefined;
-
 		state = {
-			inputFile: false
+			inputFile: false,
+			files: [],
+			detailFiles: []
 		};
 
 		handleInput = (type: string) => (value: any) => {
 			this.props.dispatch({
 				type: 'createCoupon/setCoupon',
 				payload: {
-					[type]: parseInt(value)
+					[type]: type === 'coupons_name' ? value : parseInt(value)
 				}
 			});
 		};
 
-		handleUpload = () => this.fileInput && this.fileInput.click();
-
-		uploadImage = (e: any) => {
-			upload(e.target.files[0].url);
+		uploadImage = (type: any) => (files: any[], operationType: string, index?: number): void => {
+			this.setState({ [type]: files });
+			if (operationType === 'add') {
+				Toast.loading('上传图片中');
+				upload(files[files.length - 1].url).then(res => {
+					Toast.hide();
+					if (res.status === 'ok') {
+						if (type === 'files') {
+							this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { image: res.data.path } });
+						} else {
+							this.props.dispatch({
+								type: 'createCoupon/setCoupon',
+								payload: { image_url: [...(this.props.image_url || []), res.data.path] }
+							});
+						}
+					}
+				});
+			} else if (operationType === 'remove') {
+				if (type === 'files') {
+					this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { image: '' } });
+				} else {
+					const urls = [...(this.props.image_url || [])];
+					urls.splice(index || -1, 1);
+					this.props.dispatch({
+						type: 'createCoupon/setCoupon',
+						payload: { image_url: [...urls] }
+					});
+				}
+			}
 		};
 
 		render() {
 			return (
 				<div>
-					<InputItem placeholder="请输入券的名称">优惠券名称</InputItem>
+					<InputItem
+						value={this.props.coupons_name}
+						placeholder="请输入券的名称"
+						onChange={this.handleInput('coupons_name')}
+					>
+						优惠券名称
+					</InputItem>
 					<InputItem
 						extra="元"
 						type="money"
@@ -70,17 +100,17 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						优惠券有效期
 					</InputItem>
 					<List.Item arrow="horizontal">使用须知</List.Item>
-					<List.Item arrow="horizontal">
-						<Flex>
-							<span className={styles.coverTitle}>封面图片</span>{' '}
-							<div className={styles.addImg} onClick={this.handleUpload} />
-						</Flex>
-					</List.Item>
-					<input
-						ref={then => (this.fileInput = then)}
-						type="file"
-						className={styles.upload}
-						onChange={this.uploadImage}
+					<List.Item arrow="horizontal">封面图片</List.Item>
+					<ImagePicker
+						files={this.state.files}
+						onChange={this.uploadImage('files')}
+						selectable={!this.state.files.length}
+					/>
+					<List.Item arrow="horizontal">图片详情</List.Item>
+					<ImagePicker
+						files={this.state.detailFiles}
+						onChange={this.uploadImage('detailFiles')}
+						selectable={!(this.state.detailFiles.length === 2)}
 					/>
 				</div>
 			);

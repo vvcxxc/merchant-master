@@ -9,7 +9,7 @@ export default class NoData extends Component {
 	render() {
 		return (
 			<Flex justify="center" align="center" direction="column" className={styles.noDataPage}>
-				<img className={styles.noData} src="" alt="" />
+				<img className={styles.noData} src={require('./coupon.png')} alt="" />
 				<div className={styles.noDataTip}>
 					暂无优惠券 <span onClick={this.toCreateCoupon}>快去添加吧>></span>
 				</div>

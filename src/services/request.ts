@@ -9,13 +9,6 @@ interface Options extends AxiosRequestConfig {
 
 const host = 'http://test.api.supplier.tdianyi.com/';
 
-const fixLogin = (response: any) => {
-	if (response.code === 401) {
-		throw new Error('未登录');
-	}
-	return response;
-};
-
 /**发起请求
  *
  * 使用axios为底层方法
@@ -34,6 +27,12 @@ export default function request(options: Options) {
 		.then(res => res.data)
 		.catch(err => {
 			Toast.hide();
-			// router.push('/login');
+			if (err.response && err.response.status === 401) {
+				router.push('/login');
+			}
+			if (err.response && err.response.status !== 401) {
+				Toast.fail(err.response.data.message);
+			}
+			return new Promise(() => {});
 		});
 }
