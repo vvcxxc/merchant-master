@@ -5,8 +5,8 @@ import React, { Component } from 'react';
 import { WingBlank, Flex, DatePickerView, Button } from 'antd-mobile';
 import styles from './index.less'
 import moment from 'moment';
-import router from 'umi/router';
-export default class IdTime extends Component {
+
+export default class chooseDate extends Component {
   state = {
     value: null,
     date: '',
@@ -14,10 +14,6 @@ export default class IdTime extends Component {
     is_type1: true,
     /**长期有效 */
     is_type2: false
-  }
-  componentDidMount (){
-    let serch = location.search;
-
   }
   changeTime = (v: Date) => {
     let date = moment(v).format("YYYY-MM-DD");
@@ -37,10 +33,6 @@ export default class IdTime extends Component {
       is_type1: false,
       is_type2: true
     })
-  }
-  /**完成 */
-  goBack = () => {
-    router.push('/submitQua')
   }
 
   render (){
@@ -69,7 +61,7 @@ export default class IdTime extends Component {
     )
 
     return (
-      <div style={{ width: '100%', height: '100%', background: '#fff' }}>
+      <div style={{ width: '100%', height: '100%', background: '#fff', position: 'fixed', top: '0' }}>
         <WingBlank>
           <Flex className={styles.title}>有效期</Flex>
           <Flex className={styles.type}>
@@ -87,7 +79,7 @@ export default class IdTime extends Component {
         {picker}
         <Flex className={styles.buttons}>
           <WingBlank style={{ width: '100%' }}>
-            <Button type="primary" className={styles.button} onClick={this.goBack}>
+            <Button type="primary" className={styles.button}>
               完成
             </Button>
           </WingBlank>

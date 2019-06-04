@@ -7,6 +7,7 @@ import { WingBlank, Flex, ImagePicker, List, InputItem, Icon, ActivityIndicator,
 import router from 'umi/router';
 import upload from '@/services/oss';
 import request from '@/services/request';
+import ChooseDate from './couponents/chooseDate/chooseDate'
 
 export default class submitQua extends Component {
   state = {
@@ -60,6 +61,10 @@ export default class submitQua extends Component {
     legal_name: '',
     /**营业执照有效期 */
     three_certs_in_one_valid_date: '2019-04-22',
+    /**选择有效期子组件判断是为身份证还是营业执照 */
+    type: 1,
+    /**控制子组件的显示和隐藏 */
+    is_show: false
 
 
 
@@ -75,15 +80,6 @@ export default class submitQua extends Component {
   /**查看营业执照示例 */
   toLicenseExample = () => {
     router.push('/submitQua/example/license')
-  }
-  /**跳转到选择日期 */
-  toChooseDate = () => {
-    router.push({
-      pathname: '/submitQua/chooseDate',
-      query: {
-        id: 1
-      }
-    })
   }
 
   /**姓名输入 */
@@ -315,9 +311,21 @@ export default class submitQua extends Component {
   }
 
 
+  /**选择有效期 */
+  chooseDate = (type: number) => {
+    this.setState({
+      type,
+      is_show: true
+    })
+
+  }
+
+
 
 
   render (){
+    const Choosetime = this.state.is_show == true ? (<ChooseDate/>) : null;
+
     const { id_hand, id_back, id_front, bank_front, bank_back, license_img } = this.state;
     return (
       <div style={{ width: '100%', height: 'auto', background: '#fff' }}>
@@ -356,7 +364,18 @@ export default class submitQua extends Component {
           <List>
             <InputItem placeholder='请输入姓名' value={this.state.contact_name} onChange={this.handleName}>姓名</InputItem>
             <InputItem placeholder='请输入身份证号' onChange={this.handleID} value={this.state.legal_id_no}>身份证号</InputItem>
-            <InputItem placeholder='请选择身份证有效期' editable={false} value={this.state.date} onClick={this.toChooseDate}>有效期<Icon type='right' className={styles.youxiao}/></InputItem>
+            <InputItem
+              placeholder='请选择身份证有效期'
+              editable={false}
+              value={this.state.date}
+              onClick={this.chooseDate}
+            >
+                有效期
+                <Icon
+                  type='right'
+                  className={styles.youxiao}
+                />
+            </InputItem>
           </List>
           <Flex className={styles.bank_title}>
             <div className={styles.sfz_left}>银行卡认证</div>
@@ -403,13 +422,14 @@ export default class submitQua extends Component {
           <InputItem placeholder='同统一社会信用代码' value={this.state.three_certs_in_one_no} onChange={this.handleBankNUm}>注册号</InputItem>
           <InputItem placeholder='无执照名称可填写经营者名称' value={this.state.corn_bus_name} onChange={this.handleLicenseName}>执照名称</InputItem>
           <InputItem placeholder='请输入法人姓名' value={this.state.legal_name} onChange={this.handleLegalName}>法人姓名</InputItem>
-          <InputItem placeholder='有效期' editable={false} value={this.state.three_certs_in_one_valid_date}  onClick={this.toChooseDate}>有效期<Icon type='right' className={styles.youxiao}/></InputItem>
+          <InputItem placeholder='有效期' editable={false} value={this.state.three_certs_in_one_valid_date}>有效期<Icon type='right' className={styles.youxiao}/></InputItem>
         </WingBlank>
         <ActivityIndicator toast={true} text='识别中...' animating={this.state.animating_id}/>
         <Flex className={styles.buttons}>
           <div className={styles.save}>保存</div>
           <div className={styles.submit}>提交审核</div>
         </Flex>
+        {Choosetime}
       </div>
     )
   }
