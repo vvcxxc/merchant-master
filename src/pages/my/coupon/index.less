@@ -1,71 +1,90 @@
 .page {
-  height: 100%;
-  background-color: #fff;
-  overflow-y: scroll;
-  padding-top: 38px;
-  box-sizing: border-box;
+	height: 100%;
+	background-color: #fff;
+	overflow-y: scroll;
+	padding-top: 38px;
+	box-sizing: border-box;
 }
 
 .coupon {
-  width: 670px;
-  height: 195px;
-  margin: 0 auto 22px;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  padding-bottom: 14px;
-  box-sizing: border-box;
-  :global {
-    .info {
-      font-size: 24px;
-    }
-    .price-wrap {
-      width: 248px;
-      color: #fff;
-      margin-right: 30px;
-      .price {
-        font-size: 46px;
-        font-weight: bold;
-        span {
-          font-size: 94px;
-        }
-      }
-    }
-    .title {
-      font-weight: bold;
-      padding-top: 10px;
-    }
-    .label {
-      font-weight: normal;
-      background: #c5c5c5;
-      font-size: 20px;
-      padding: 2px 14px;
-      border-radius: 2px;
-    }
-    .right-info {
-      margin-top: 14px;
-      color: #999;
-    }
-  }
+	width: 670px;
+	height: 195px;
+	margin: 0 auto 22px;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	padding-bottom: 14px;
+	box-sizing: border-box;
+	:global {
+		.info {
+			font-size: 24px;
+		}
+		.price-wrap {
+			width: 248px;
+			color: #fff;
+			margin-right: 30px;
+			.price {
+				font-size: 46px;
+				font-weight: bold;
+				span {
+					font-size: 94px;
+				}
+			}
+		}
+		.title {
+			font-weight: bold;
+			padding-top: 10px;
+		}
+		.label {
+			font-weight: normal;
+			background: #c5c5c5;
+			font-size: 20px;
+			padding: 2px 14px;
+			border-radius: 2px;
+		}
+		.right-info {
+			margin-top: 14px;
+			color: #999;
+		}
+	}
 }
 
 .progress {
-  padding-right: 20px;
-  margin-top: 30px;
-  :global {
-    .bar {
-      height: 12px;
-      border-radius: 6px;
-      background-color: #eee;
-      .line {
-        height: 100%;
-        border-radius: 6px;
-        background-color: rgb(255, 174, 53);
-      }
-    }
-    .number {
-      margin-left: 20px;
-      font-size: 24px;
-      color: #999;
-    }
-  }
+	padding-right: 20px;
+	margin-top: 30px;
+	:global {
+		.bar {
+			height: 12px;
+			border-radius: 6px;
+			background-color: #eee;
+			.line {
+				height: 100%;
+				border-radius: 6px;
+				background-color: rgb(255, 174, 53);
+			}
+		}
+		.number {
+			margin-left: 20px;
+			font-size: 24px;
+			color: #999;
+		}
+	}
+}
+
+.noDataPage {
+	height: 100%;
+}
+
+.noData {
+	width: 146px;
+	height: 121px;
+	background-color: #e4e4e4;
+}
+
+.noDataTip {
+	text-align: center;
+	margin-top: 96px;
+	color: #999;
+	span {
+		color: #21418a;
+	}
 }

@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
 import MyCouponItem from './item';
 
-export default class MyCouponList extends Component {
-  state = {
-    list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 113, 14, 15, 16, 167, 1778],
-  };
-  render() {
-    const list = this.state.list.map(_ => <MyCouponItem key={_} />);
-    return <div>{list}</div>;
-  }
+interface Item {
+	id: number;
+	coupons_name: string;
+	begin_time: number;
+	end_time: number;
+	return_money: string;
+	total_num: number;
+	image: string;
+	total_fee: number;
+	pay_money: string;
+	user_count: number;
+	store_name: string;
+	validity: string;
+}
+
+export default class MyCouponList extends Component<any> {
+	render() {
+		const list = this.props.list.map((_: Item) => <MyCouponItem key={_.id} {..._} />);
+		return <div>{list}</div>;
+	}
 }

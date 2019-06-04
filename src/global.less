@@ -4,6 +4,12 @@ body,
 	height: 100%;
 	background: #ededed;
 	color: #333;
+	> .am-flexbox {
+		> .am-flexbox-item,
+		> div {
+			-webkit-overflow-scrolling: touch;
+		}
+	}
 }
 
 body {
@@ -73,6 +79,11 @@ input {
 
 .am-flexbox.am-flexbox-dir-column .am-flexbox-item {
 	width: 100%;
+}
+
+.am-list-item .am-input-control input::-webkit-input-placeholder {
+	font-size: 28px;
+	color: #999;
 }
 
 // .am-flexbox .am-flexbox-item:first-child {
