@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import {Toast} from 'antd-mobile'
+import { Toast } from 'antd-mobile';
 interface Options extends AxiosRequestConfig {
 	/**替换的主机域名 */
 	host?: string;
@@ -40,36 +40,38 @@ function randomString(len: any) {
 	return pwd;
 }
 
-function oss(options: Options, files: any) {
-  const imgUrl = files;
-  const length = 4194304;
-  if(imgUrl.length > length){
-    return Toast.fail('上传失败，请上传小于4M的图片')
-  }
-	const block = imgUrl.split(';');
-	const contentType = block[0].split(':')[1]; // In this case "image/jpeg"
-	const realData = block[1].split(',')[1];
-	var blob = b64toBlob(realData, contentType);
-	const formData = new FormData();
+function oss(options: Options, files: any): Promise<any> {
+	const imgUrl = files;
+	const length = 4194304;
+	if (imgUrl.length > length) {
+		Toast.fail('上传失败，请上传小于4M的图片');
+		return new Promise(() => {});
+	} else {
+		const block = imgUrl.split(';');
+		const contentType = block[0].split(':')[1]; // In this case "image/jpeg"
+		const realData = block[1].split(',')[1];
+		var blob = b64toBlob(realData, contentType);
+		const formData = new FormData();
 
-	let oss_data = JSON.parse(localStorage.getItem('oss_data') || '');
-	formData.append('OSSAccessKeyId', oss_data.OSSAccessKeyId);
-	formData.append('callback', oss_data.callback);
-	formData.append('host', oss_data.host);
-	formData.append('policy', oss_data.policy);
-	formData.append('signature', oss_data.signature);
-	formData.append('success_action_status', '200');
-	formData.append('key', oss_data.key + randomString(32) + '.png');
-	formData.append('file', blob);
+		let oss_data = JSON.parse(localStorage.getItem('oss_data') || '');
+		formData.append('OSSAccessKeyId', oss_data.OSSAccessKeyId);
+		formData.append('callback', oss_data.callback);
+		formData.append('host', oss_data.host);
+		formData.append('policy', oss_data.policy);
+		formData.append('signature', oss_data.signature);
+		formData.append('success_action_status', '200');
+		formData.append('key', oss_data.key + randomString(32) + '.png');
+		formData.append('file', blob);
 
-	options.headers = { ...options.headers, 'Content-Type': 'multipart/form-data' };
-	options.url = host;
-	options.data = formData;
-	return axios(options)
-		.then(res => res.data)
-		.catch(err => {});
+		options.headers = { ...options.headers, 'Content-Type': 'multipart/form-data' };
+		options.url = host;
+		options.data = formData;
+		return axios(options)
+			.then(res => res.data)
+			.catch(err => {});
+	}
 }
 
-export default function upload(img: any) {
+export default function upload(img: any): Promise<any> {
 	return oss({ method: 'post' }, img);
 }
