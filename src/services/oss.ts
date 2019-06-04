@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import {Toast} from 'antd-mobile'
 interface Options extends AxiosRequestConfig {
 	/**替换的主机域名 */
 	host?: string;
@@ -40,7 +41,11 @@ function randomString(len: any) {
 }
 
 function oss(options: Options, files: any) {
-	const imgUrl = files;
+  const imgUrl = files;
+  const length = 4194304;
+  if(imgUrl.length > length){
+    return Toast.fail('上传失败，请上传小于4M的图片')
+  }
 	const block = imgUrl.split(';');
 	const contentType = block[0].split(':')[1]; // In this case "image/jpeg"
 	const realData = block[1].split(',')[1];
