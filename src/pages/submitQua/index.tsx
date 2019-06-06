@@ -360,8 +360,10 @@ export default class submitQua extends Component {
             this.setState({animating_id: !this.state.animating_id})
             let {data, code} = res;
             if(code == 200){
+              let str = data.bank_card_number;
+              str = str.replace(/\s*/g,"");
               this.setState({
-                settle_bank_account_no: data.bank_card_number,
+                settle_bank_account_no: str,
                 settle_bank: data.bank_name
               })
             }else{
@@ -402,8 +404,10 @@ export default class submitQua extends Component {
             this.setState({animating_id: !this.state.animating_id})
             let {data, code} = res;
             if(code == 200){
+              let str = data.bank_card_number;
+              str = str.replace(/\s*/g,"");
               this.setState({
-                settle_bank_account_no: data.bank_card_number,
+                settle_bank_account_no: str,
                 settle_bank: data.bank_name
               })
             }else{

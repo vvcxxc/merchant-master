@@ -22,6 +22,7 @@ export default class chooseDate extends Component<Props> {
     is_type2: false,
     /**判断是哪一个选择的 */
     type: 1,
+
   }
 
   componentDidMount(){
