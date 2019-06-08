@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react';
 import styles from './index.less';
-import { Flex, WingBlank, DatePicker, List, InputItem, Icon } from 'antd-mobile';
+import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast } from 'antd-mobile';
 import ChooseGift from '../../components/choosegift/';
 import PayMent from '../../components/payment';
 import moment from 'moment'
@@ -38,7 +38,11 @@ export default class createAppreciation extends Component {
     /**邮费由谁付 */
     mail_mode: '1',
     /**存在礼品？ */
-    is_gift: false
+    is_gift: false,
+    /**去支付？ */
+    is_pay: false,
+    /**提交后返回的信息 */
+    pay_list: {}
   };
   /**改变值 */
   handleStartPri = (e: any) => {
@@ -115,6 +119,16 @@ export default class createAppreciation extends Component {
         gift_id,
         mail_mode
       }
+    }).then(res => {
+      let {data} = res;
+      Toast.success(res.message);
+      if (data.order_sn){
+        this.setState ({
+          pay_list: data,
+          is_pay: true
+        })
+      }
+
     })
   }
 
@@ -159,6 +173,11 @@ export default class createAppreciation extends Component {
         </Flex>
         <div style={{width: '100%', height: '90px'}}>{''}</div>
       </div>
+    ) : (
+      ''
+    );
+    const Pay = this.state.is_pay == true ? (
+      <PayMent list={this.state.pay_list}/>
     ) : (
       ''
     )
@@ -226,7 +245,7 @@ export default class createAppreciation extends Component {
           <div className={styles.button} onClick={this.submit}>确认发布</div>
         </Flex>
         {chooseGift}
-        <PayMent/>
+        {Pay}
       </div>
 
     )
