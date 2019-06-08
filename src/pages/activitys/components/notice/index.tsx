@@ -30,7 +30,7 @@ export default class Notice extends Component {
     return (
       <Flex className={styles.row}>
         · {tag.content}
-        <img src={require('./delete.png')}/>
+        <img src={require('./delete.png')} onClick={this.Delete.bind(this,tag)}/>
       </Flex>
     )
   }
@@ -53,8 +53,9 @@ export default class Notice extends Component {
       drag_list,
       key: id
     })
-
-
+  }
+  /**删除 */
+  Delete = (item: any) => {
   }
 
   render (){
