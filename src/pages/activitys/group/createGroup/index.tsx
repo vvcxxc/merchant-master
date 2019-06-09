@@ -4,6 +4,9 @@ import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast, ImagePicker 
 import upload from '@/services/oss';
 import ChooseGift from '../../components/choosegift/';
 import Notice from '../../components/notice/';
+import PayMent from '../../components/payment'
+import moment from 'moment'
+import request from '@/services/request'
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
@@ -14,6 +17,8 @@ export default class createGroup extends Component {
     end_date: now,
     is_gift: false,
     is_show: false,
+    is_notice: false,
+    is_pay:false,
     /**支付方式 */
     mail_mode: '1',
     /**活动名字 */
@@ -39,7 +44,13 @@ export default class createGroup extends Component {
     /**礼品id */
     gift_id: '',
     /**礼品图片 */
-    gift_pic: ''
+    gift_pic: '',
+    /**使用须知组件计数用 */
+    keys: '100',
+    /**使用须知列表 */
+    notice_list: [],
+    /**跳转支付 */
+    pay_list:[]
   };
   startChange = (value: any) => {
     this.setState({start_date: value})
@@ -81,6 +92,8 @@ export default class createGroup extends Component {
         let { data } = res;
         this.setState({image: data.path})
       });
+    }else {
+      this.setState({image: ''})
     }
   }
   changeDescribe1 = ( files: any ) => {
@@ -93,6 +106,8 @@ export default class createGroup extends Component {
         let { data } = res;
         this.setState({image_url1: data.path});
       });
+    }else {
+      this.setState({image_url1: ''})
     }
   }
   changeDescribe2 = ( files: any ) => {
@@ -105,6 +120,8 @@ export default class createGroup extends Component {
         let { data } = res;
         this.setState({image_url2: data.path});
       });
+    }else {
+      this.setState({image_url2: ''})
     }
   }
 
@@ -126,6 +143,70 @@ export default class createGroup extends Component {
       is_show: true
     })
   }
+  toNotice = () => {
+    this.setState({
+      is_notice: true
+    });
+  }
+
+  /**使用须知的回调 */
+  changeNotice = (notice_list: any, keys: string) => {
+    this.setState({
+      notice_list,
+      keys,
+      is_notice: false
+    })
+  }
+
+
+  /**确认发布 */
+  confirm = () => {
+    let { activity_name, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, notice_list, mail_mode } = this.state;
+    let activity_begin_time = moment(start_date).format('X');
+    let activity_end_tine = moment(end_date).format('X');
+    let image_url = [];
+    image_url.push(image_url1);
+    image_url.push(image_url2);
+    let description = [];
+    if(notice_list){
+      for (let i = 0; i < notice_list.length; i ++){
+        description.push(notice_list[i].content);
+      }
+    }
+
+    request({
+      url: 'api/merchant/youhui/addYouhuiGroup',
+      method: 'post',
+      data: {
+        name: activity_name,
+        activity_begin_time,
+        activity_end_tine,
+        validity,
+        participation_money,
+        image_url,
+        image,
+        group_number,
+        group_sum,
+        pay_money: old_price,
+        description,
+        mail_mode,
+        gift_id,
+        gift_pic
+      }
+    }).then(res => {
+
+      let {data} = res;
+      Toast.success(res.message);
+      if (data.order_sn){
+        this.setState ({
+          pay_list: data,
+          is_pay: true
+        })
+      }
+    })
+
+  }
+
 
   render (){
     const { cover_img, describe_img1, describe_img2 } = this.state;
@@ -170,6 +251,16 @@ export default class createGroup extends Component {
     ) : (
       ''
     );
+    const notice = this.state.is_notice == true ? (
+      <Notice onChange={this.changeNotice} keys={this.state.keys} notice_list={this.state.notice_list}/>
+    ) : (
+      ''
+    )
+    const payment = this.state.is_pay == true ? (
+      <PayMent  list={this.state.pay_list}/>
+    ) : (
+      ''
+    )
 
     return (
       <div style={{width: '100%', height: 'auto', minHeight: '100%', background: '#fff'}}>
@@ -232,7 +323,7 @@ export default class createGroup extends Component {
               有效期<span className={styles.right_text}>天可用</span>
             </InputItem>
           </List>
-          <Flex className={styles.notice}><div>使用须知</div><div><Icon type="right"  color='#999' className={styles.icon_right}/></div>
+          <Flex className={styles.notice} onClick={this.toNotice}><div>使用须知</div><div><Icon type="right"  color='#999' className={styles.icon_right}/></div>
           </Flex>
           <Flex className={styles.img_title}>
             <div>图片详情</div>
@@ -275,12 +366,14 @@ export default class createGroup extends Component {
               {Gift}
             </div>
           </div>
+          <Flex className={styles.read}><img src={require('./image/tip.png')}/>创建必读</Flex>
         </WingBlank>
         <Flex>
-          <div className={styles.button}>确认发布</div>
+          <div className={styles.button} onClick={this.confirm}>确认发布</div>
         </Flex>
         {chooseGift}
-        <Notice/>
+        {notice}
+        {payment}
       </div>
     )
   }

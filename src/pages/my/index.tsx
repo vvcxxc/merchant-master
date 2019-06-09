@@ -32,7 +32,7 @@ export default connect()(
               </Flex>
               <Flex className="bottom">
                 <Flex.Item>
-                  <Flex direction="column" className="card">
+                  <Flex direction="column" className="card" onClick={this.pushPage('/my/bank')}>
                     <div>银行卡</div>
                     <div>1</div>
                   </Flex>

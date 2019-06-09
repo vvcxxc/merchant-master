@@ -4,17 +4,28 @@ import styles from './index.less';
 import request from '@/services/request'
 import { DraggableArea } from 'react-draggable-tags';
 
-export default class Notice extends Component {
+interface Props {
+  onChange: (notice_list: any, key: string) => any;
+  keys: string;
+  notice_list: any
+}
+
+export default class Notice extends Component<Props> {
   state = {
     /**推荐列表 */
     list: [],
     /**可拖拽列表 */
     drag_list: [],
     /**id(key值) */
-    key: '100'
+    key: '100',
+    tag: ''
   };
 
   componentDidMount (){
+    this.setState({
+      drag_list: this.props.notice_list,
+      // key: this.props.key
+    })
     request({
       url: 'v3/activity/employ_notice',
       method: 'get',
@@ -37,10 +48,12 @@ export default class Notice extends Component {
 
   /**当拖拽位置发生改变的时候 */
   changeList = (data: any) => {
-
+    this.setState({
+      drag_list: data
+    })
   }
 
-  /**添加 */
+  /**添加到拖拽 */
   Add = (item: string) => {
     let { key, drag_list } = this.state;
     let list = {
@@ -56,6 +69,32 @@ export default class Notice extends Component {
   }
   /**删除 */
   Delete = (item: any) => {
+    // let id = item.id;
+    let { drag_list } = this.state;
+    let list = [...drag_list];
+    let idx = list.indexOf(item);
+    list.splice(idx,1);
+    this.setState({drag_list: list});
+  }
+
+  /**添加到推荐 */
+  addToRecommend = () => {
+    let tag = this.state.tag;
+    let { list } = this.state;
+    let lis = [...list];
+    lis.unshift(tag);
+    this.setState({
+      list: lis,
+      tag: ''
+    })
+  }
+  /**input值发生改变 */
+  handleChange = (e: any) => {
+    this.setState({tag: e.target.value});
+  }
+  /**完成 */
+  Finish = () => {
+    this.props.onChange(this.state.drag_list, this.state.key)
   }
 
   render (){
@@ -66,27 +105,14 @@ export default class Notice extends Component {
           <img src={require('./add.png')} onClick={this.Add.bind(this,item)}/>
         </Flex>
       )
-    })
-    // const initialTags = [{
-    //   id: '1',
-    //   content: '大叔大婶大所多',
-    // },{
-    //   id: '2',
-    //   content: 'watermelon',
-    // },{
-    //   id: '3',
-    //   content: 'banana',
-    // },{
-    //   id: '4',
-    //   content: 'lemon',
-    // }];
+    });
     const { drag_list } = this.state;
     return (
       <div style={{width: '100%', height: '100%', background: '#fff', position: 'absolute', top: '0'}}>
         <WingBlank>
           <Flex className={styles.title}>使用须知</Flex>
           <div className={styles.box}>
-            <div className={styles.list}>
+
               <DraggableArea
                 className={styles.list}
                 isList={true}
@@ -95,8 +121,8 @@ export default class Notice extends Component {
                 onChange={this.changeList}
               />
 
-            </div>
-            <div className={styles.button}>完成</div>
+
+            <div className={styles.button} onClick={this.Finish}>完成</div>
           </div>
           <Flex className={styles.tip}>
             <img src={require('./tip.png')}/>
@@ -108,8 +134,8 @@ export default class Notice extends Component {
             <ul>
              {list}
             </ul>
-            <input type="text" placeholder='自定义'/>
-            <div className={styles.button}>添加</div>
+            <input type="text" placeholder='自定义' onChange={this.handleChange} value={this.state.tag}/>
+            <div className={styles.button} onClick={this.addToRecommend}>添加</div>
           </div>
         </WingBlank>
       </div>
