@@ -2,7 +2,7 @@
  * title：忘记密码
  */
 import React, { Component } from 'react';
-import { Flex, WhiteSpace, WingBlank, Button, List, InputItem } from 'antd-mobile';
+import { Flex, WingBlank, Button, Toast } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
 
@@ -56,21 +56,22 @@ export default class ForgetPassword extends Component {
           phone: phone,
         }
       }).then(res => {
-        let { code } = res.data;
+        let { code } = res;
         if ( code == 200 ){
-          let timer = setInterval(time, 1000);
+          let timer = setInterval(()=>{
+            if( wait == 0){
+              this.setState({ is_ok: true });
+              clearInterval(timer)
+            }else{
+              wait --;
+              this.setState({ is_ok: false , wait});
+              clearInterval();
+            }
+          }, 1000);
         }
       });
-    }
-    //定时器执行函数
-    let time = () => {
-      if( wait == 0){
-        this.setState({ is_ok: true })
-      }else{
-        wait --;
-        this.setState({ is_ok: false, wait:wait });
-        clearInterval();
-      }
+    }else{
+      Toast.fail('请输入手机号',1)
     }
   }
   /**

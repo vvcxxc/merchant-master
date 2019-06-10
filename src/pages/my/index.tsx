@@ -28,7 +28,7 @@ export default connect()(
                   <div className="label">平台收益</div>
                   <div className="money">￥23,280.00 </div>
                 </Flex.Item>
-                <div className="btn">提额</div>
+                <div className="btn">提现</div>
               </Flex>
               <Flex className="bottom">
                 <Flex.Item>

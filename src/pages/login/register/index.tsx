@@ -20,8 +20,7 @@ export default class Register extends Component {
     inviter_phone:'',
     /**限制发验证码的次数，每分钟可发一次 */
     is_ok:true,
-    /**验证码时间 */
-    wait:''
+    wait: ''
   };
   componentDidMount (){
     /**获取oss */
@@ -77,24 +76,23 @@ export default class Register extends Component {
           phone: phone,
         }
       }).then(res => {
-        let { code } = res.data;
+        let { code } = res;
         if ( code == 200 ){
-          let timer = setInterval(time, 1000);
+          let timer = setInterval(()=>{
+            if( wait == 0){
+              this.setState({ is_ok: true });
+              clearInterval(timer)
+            }else{
+              wait --;
+              this.setState({ is_ok: false , wait});
+              clearInterval();
+            }
+          }, 1000);
         }
       });
+    }else{
+      Toast.fail('请输入手机号',1)
     }
-
-    //定时器执行函数
-    let time = () => {
-      if( wait == 0){
-        this.setState({ is_ok: true })
-      }else{
-        wait --;
-        this.setState({ is_ok: false, wait:wait });
-        clearInterval();
-      }
-    }
-
   }
   /**
    * 注册
@@ -131,7 +129,7 @@ export default class Register extends Component {
       this.state.is_ok === true ? (
         <div className={styles.sendCode} onClick={this.getCode}>发送验证码</div>
       ) : (
-        <div className={styles.doneSend} onClick={this.getCode}>{this.state.wait}秒</div>
+        <div className={styles.doneSend}>{this.state.wait}秒</div>
       );
     return (
       <div style={{ height: '100%', width: '100%', background:' #fff' }}>
