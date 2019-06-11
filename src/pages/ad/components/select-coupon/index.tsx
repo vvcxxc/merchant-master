@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styles from './index.less';
-import { Flex, PickerView, ActivityIndicator } from 'antd-mobile';
+import { Flex, PickerView, ActivityIndicator, Toast } from 'antd-mobile';
 import request from '@/services/request';
 import { any } from 'prop-types';
 import router from 'umi/router';
@@ -16,7 +16,6 @@ interface Props {
 export default class SelectCoupon extends Component<Props> {
 	state = {
 		result: '',
-		loading: false,
 		list: [],
 		value: [],
 		current: {}
@@ -29,9 +28,9 @@ export default class SelectCoupon extends Component<Props> {
 	}
 
 	getCouponList = async () => {
-		this.setState({ loading: true });
+		Toast.loading('');
 		const res = await request({ url: 'v3/coupons' });
-		this.setState({ loading: false });
+		Toast.hide();
 		if (res.code === 200) {
 			this.setState({ list: res.data.map((_: { name: any; id: any }) => ({ label: _.name, value: _.id })) });
 		}
@@ -58,11 +57,6 @@ export default class SelectCoupon extends Component<Props> {
 	};
 
 	render() {
-		const picker = this.state.loading ? (
-			<ActivityIndicator />
-		) : (
-			<PickerView cols={1} data={this.state.list} value={this.state.value} onChange={this.handleChangeCoupon} />
-		);
 		return (
 			<Modal
 				title="选择优惠券"
@@ -74,7 +68,14 @@ export default class SelectCoupon extends Component<Props> {
 				cancelBtn="取消"
 			>
 				<div className={styles.result}>{this.state.result}</div>
-				<Flex className={styles.picker}>{picker}</Flex>
+				<Flex className={styles.picker}>
+					<PickerView
+						cols={1}
+						data={this.state.list}
+						value={this.state.value}
+						onChange={this.handleChangeCoupon}
+					/>
+				</Flex>
 			</Modal>
 		);
 	}
