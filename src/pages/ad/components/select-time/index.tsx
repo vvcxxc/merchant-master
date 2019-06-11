@@ -7,21 +7,25 @@ import moment from 'moment';
 interface Props {
 	show: boolean;
 	onClose: () => any;
+	onConfirm: (arg0: any) => any;
 }
 
 export default class SelectTime extends Component<Props> {
 	state = {
 		startTime: undefined,
 		endTime: undefined,
-		active: 0
+		active: 1
 	};
-	handleConfirm = () => {};
-	handleSetActive = (type: number) => () => {
-		if (type === this.state.active) {
-			this.setState({ active: 0 });
-		} else {
-			this.setState({ active: type });
+	handleConfirm = () => {
+		if (this.state.endTime && this.state.startTime) {
+			this.props.onConfirm({
+				startTime: moment(this.state.startTime).unix(),
+				endTime: moment(this.state.endTime).unix()
+			});
 		}
+	};
+	handleSetActive = (type: number) => () => {
+		this.setState({ active: type });
 	};
 	handleChange = (
 		date: string | number | void | moment.Moment | Date | (string | number)[] | moment.MomentInputObject | undefined
@@ -31,8 +35,6 @@ export default class SelectTime extends Component<Props> {
 		}
 	};
 	render() {
-		const value =
-			this.state.active === 1 ? this.state.startTime : this.state.active === 2 ? this.state.endTime : undefined;
 		const minDate = this.state.active === 1 ? moment().toDate() : moment(this.state.startTime).toDate();
 
 		const datePicker =
