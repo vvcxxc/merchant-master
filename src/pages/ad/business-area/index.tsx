@@ -4,11 +4,13 @@ import React, { Component } from 'react';
 import AdLayout from '../components/ad-layout';
 import From from './form';
 import ExpenseCalendar from '../components/expense-calendar';
+import Chart from './chart';
 
 export default class BusinessArea extends Component {
 	render() {
 		const form = <From />;
 		const expenseCalendar = <ExpenseCalendar />;
-		return <AdLayout children={[form, expenseCalendar]} />;
+		const chart = <Chart />;
+		return <AdLayout children={[form, expenseCalendar, chart]} />;
 	}
 }
