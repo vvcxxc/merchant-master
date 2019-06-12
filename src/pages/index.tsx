@@ -7,6 +7,7 @@ import verificationImage from '../assets/varied/verification@2x.png';
 import { connect } from 'dva';
 import router from 'umi/router';
 import { Data } from '@/models/app';
+import { routerRedux } from 'dva/router';
 
 interface Props {
 	data: Data;
@@ -24,7 +25,9 @@ export default connect(({ app }: any) => app)(
 			this.props.dispatch({
 				type: 'app/getData'
 			});
-		}
+    }
+    /**跳转到页面 */
+    pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
 
 		/**核销 */
 		handleVerification = () => this.setState({ showVerification: !this.state.showVerification });
@@ -38,7 +41,19 @@ export default connect(({ app }: any) => app)(
 				case '铂金展位':
 				case '钻石展位':
 					router.push('/ad/other-page');
-					break;
+          break;
+        case '增值':
+          router.push('/activitys/appreciation');
+          break;
+        case '拼团':
+          router.push('/activitys/group');
+          break;
+        case '满减':
+          router.push('/activitys/money-off');
+          break;
+        case '提现记录':
+          router.push('/my/withdraw/list');
+          break;
 			}
 			// router.push('');
 		};
@@ -88,8 +103,8 @@ export default connect(({ app }: any) => app)(
 									<span className="value">{data.money}</span>
 								</Flex>
 								<Flex justify="center">
-									<div className="btn">提现</div>
-									<div className="btn" onClick={this.toPage('/my/rechange')}>
+									<div className="btn" onClick={this.pushPage('/my/withdraw')}>提现</div>
+									<div className="btn" onClick={this.pushPage('/my/rechange')}>
 										充值
 									</div>
 								</Flex>

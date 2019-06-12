@@ -5,6 +5,7 @@ import styles from './index.less';
 import request from '@/services/request';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
+import router from 'umi/router';
 
 export default connect()(
 	class Login extends Component<any> {
@@ -113,7 +114,11 @@ export default connect()(
 					params: { phone: this.state.mobile }
 				});
 			}
-		};
+    };
+
+    /**跳转到页面 */
+    pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
+
 		render() {
 			const content =
 				this.state.tab === 1 ? (
@@ -136,7 +141,7 @@ export default connect()(
 							/>
 						</Flex>
 						<Flex justify="end">
-							<span className={styles.warring}>忘记密码？</span>
+							<span className={styles.warring} onClick={this.pushPage('/login/forgetpassword')}>忘记密码？</span>
 						</Flex>
 					</div>
 				) : (
@@ -174,7 +179,7 @@ export default connect()(
 							<Flex.Item>
 								<span className={styles.title}>商家登录</span>
 							</Flex.Item>
-							<a href="#">注册</a>
+							<a onClick={this.pushPage('/login/register')}>注册</a>
 						</Flex>
 						<div className="tab">
 							<Flex>
