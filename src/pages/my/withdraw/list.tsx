@@ -5,17 +5,33 @@ import request from '@/services/request'
 
 export default class WithDrawList extends Component {
   state = {
-
+    scrollDom: ''
   };
 
   componentDidMount (){
     request({
       url: 'api/merchant/staff/withdrawLogList',
       method: 'get',
+      data: {
+        page: 2
+      }
     }).then(res =>{
-
-    })
+    });
+    document.addEventListener('scroll',this.handleChangeScroll)
   }
+
+  handleChangeScroll = () => {
+    let scrollTop = document.documentElement.scrollTop;
+    let clientHeight = window.innerHeight;
+    let scrollHeight = document.documentElement.scrollHeight;
+    // console.log(scrollTop,clientHeight,scrollHeight);
+    let is_bottom = scrollTop + clientHeight === scrollHeight;
+    // console.log(is_bottom);
+    if(is_bottom){
+      alert('距离顶部的高：'+scrollTop+'视窗高度：'+clientHeight+'总高度：'+scrollHeight)
+    }
+  }
+
 
 
   render (){
@@ -46,6 +62,8 @@ export default class WithDrawList extends Component {
                 <div className={styles.type}>提现成功</div>
               </Flex>
             </div>
+
+
 
           </div>
         </WingBlank>
