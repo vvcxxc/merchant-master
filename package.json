@@ -22,7 +22,8 @@
     "react": "^16.7.0",
     "react-amap": "^1.2.8",
     "react-dom": "^16.7.0",
-    "react-draggable-tags": "^0.3.5"
+    "react-draggable-tags": "^0.3.5",
+    "react-infinite-scroll-component": "^4.5.2"
   },
   "devDependencies": {
     "@types/jest": "^23.3.12",

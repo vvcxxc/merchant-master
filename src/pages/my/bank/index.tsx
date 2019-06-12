@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, Button } from 'antd-mobile'
-import request from '@/services/request'
+import request from '@/services/request';
+import router from 'umi/router'
 
 export default class MyBank extends Component {
   state = {
@@ -19,6 +20,10 @@ export default class MyBank extends Component {
     })
   }
 
+  toChange = () => {
+    router.push('bank/changeBank')
+  }
+
   render (){
     const { info } = this.state;
     return (
@@ -29,7 +34,7 @@ export default class MyBank extends Component {
             <Flex className={styles.bank_type}>储蓄卡</Flex>
             <Flex className={styles.bank_num}>{info.bank_info}</Flex>
           </div>
-          <Button className={styles.button}>修改银行卡</Button>
+          <Button className={styles.button} onClick={this.toChange}>修改银行卡</Button>
         </WingBlank>
       </div>
     )
