@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
-import { Flex, PickerView, ActivityIndicator, Toast } from 'antd-mobile';
+import { Flex, PickerView, Toast } from 'antd-mobile';
 import request from '@/services/request';
-import { any } from 'prop-types';
 import router from 'umi/router';
 import Modal from '@/components/modal';
 

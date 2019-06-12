@@ -23,16 +23,24 @@ export default connect(({ app }: any) => app)(
 		componentDidMount() {
 			this.props.dispatch({
 				type: 'app/getData'
-      });
-
-
+			});
 		}
 
 		/**核销 */
 		handleVerification = () => this.setState({ showVerification: !this.state.showVerification });
 		/**跳转到任意页面 */
-		toPage = (pathname: any) => () => {
-			router.push({ pathname });
+		toPage = (item: any) => () => {
+			switch (item.name) {
+				case '商圈广告':
+					router.push('/ad/business-area');
+					break;
+				case '黄金展位':
+				case '铂金展位':
+				case '钻石展位':
+					router.push('/ad/other-page');
+					break;
+			}
+			// router.push('');
 		};
 
 		/**审核页面 */
@@ -63,7 +71,7 @@ export default connect(({ app }: any) => app)(
 			const { data } = this.props;
 			const mapIcons = (list: Array<any>) =>
 				list.map(_ => (
-					<Flex direction="column" justify="center" key={_.name}>
+					<Flex direction="column" justify="center" key={_.name} onClick={this.toPage(_)}>
 						<img src={_.small_icon} className="icon" />
 						<div className="label">{_.name}</div>
 					</Flex>
