@@ -37,7 +37,7 @@ export default connect(({ app }: any) => app)(
 				case '黄金展位':
 				case '铂金展位':
 				case '钻石展位':
-					router.push('/ad/other-page');
+					router.push({ pathname: '/ad/other-page', query: { type: item.name } });
 					break;
 			}
 			// router.push('');
