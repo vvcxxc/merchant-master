@@ -79,14 +79,20 @@ export default class Notice extends Component<Props> {
 
   /**添加到推荐 */
   addToRecommend = () => {
-    let tag = this.state.tag;
+    let {tag, key, drag_list} = this.state;
     if(tag){
       let { list } = this.state;
       let lis = [...list];
-      lis.unshift(tag);
+      let lists = {
+        id: key,
+        content: tag
+      }
+      let id = key -1
+      drag_list.unshift(lists);
       this.setState({
-        list: lis,
-        tag: ''
+        drag_list,
+        tag: '',
+        key: id
       })
     }
 
@@ -111,7 +117,7 @@ export default class Notice extends Component<Props> {
     });
     const { drag_list } = this.state;
     return (
-      <div style={{width: '100%', height: '100%', background: '#fff', position: 'absolute', top: '0'}}>
+      <div style={{width: '100%', height: '100%', background: '#fff', position: 'fixed', top: '0'}}>
         <WingBlank>
           <Flex className={styles.title}>使用须知</Flex>
           <div className={styles.box}>
