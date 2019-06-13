@@ -3,6 +3,7 @@ import { InputItem, List, Flex, ImagePicker, Toast } from 'antd-mobile';
 import { connect } from 'dva';
 import { CouponForm } from './model';
 import upload from '@/services/oss';
+import Notice from '@/pages/activitys/components/notice';
 
 interface Props extends CouponForm {
 	dispatch: (arg0: any) => any;
@@ -14,8 +15,20 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 		state = {
 			inputFile: false,
 			files: [],
-			detailFiles: []
+			detailFiles: [],
+			showNotice: false
 		};
+
+		handleNoticeChange = (notice: any[]) => {
+			this.props.dispatch({
+				type: 'createCoupon/setCoupon',
+				paylaod: {
+					description: notice
+				}
+			});
+			this.setState({ showNotice: false });
+		};
+		handleShowNotice = () => this.setState({ showNotice: true });
 
 		handleInput = (type: string) => (value: any) => {
 			this.props.dispatch({
@@ -58,6 +71,9 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 		};
 
 		render() {
+			const notice = this.state.showNotice && (
+				<Notice keys="1" notice_list={[this.props.description]} onChange={this.handleNoticeChange} />
+			);
 			return (
 				<div>
 					<InputItem
@@ -99,7 +115,9 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					>
 						优惠券有效期
 					</InputItem>
-					<List.Item arrow="horizontal">使用须知</List.Item>
+					<List.Item arrow="horizontal" onClick={this.handleShowNotice}>
+						使用须知
+					</List.Item>
 					<List.Item arrow="horizontal">封面图片</List.Item>
 					<ImagePicker
 						files={this.state.files}
@@ -112,6 +130,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						onChange={this.uploadImage('detailFiles')}
 						selectable={!(this.state.detailFiles.length === 2)}
 					/>
+					{notice}
 				</div>
 			);
 		}

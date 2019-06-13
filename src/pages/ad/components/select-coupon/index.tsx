@@ -9,6 +9,7 @@ interface Props {
 	show: boolean;
 	onClose: () => any;
 	onSelect: (arg0: any) => any;
+	isAd?: number;
 }
 
 /**选择优惠券 */
@@ -50,7 +51,7 @@ export default class SelectCoupon extends Component<Props> {
 	};
 
 	handleAddCoupon = () => {
-		router.push('/my/coupon/create');
+		router.push({ pathname: '/my/coupon/create', query: { isAd: this.props.isAd } });
 	};
 
 	handleSelected = () => {
@@ -72,7 +73,7 @@ export default class SelectCoupon extends Component<Props> {
 				onClose={this.props.onClose}
 				onConfirm={this.handleSelected}
 				okBtn="确定"
-				cancelBtn="取消"
+				cancelBtn="添加"
 			>
 				<div className={styles.result}>{this.state.result}</div>
 				<Flex className={styles.picker}>

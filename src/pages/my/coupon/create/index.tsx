@@ -38,7 +38,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			request({
 				url: 'api/merchant/youhui/addDiscounts',
 				method: 'post',
-				data: this.props.couponForm
+				data: { ...this.props.couponForm, is_ad: this.props.location.query.isAd }
 			});
 
 		postMoney = () =>
