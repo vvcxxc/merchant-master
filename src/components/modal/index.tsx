@@ -19,14 +19,17 @@ export default class Modal extends Component<Props> {
 		}
 	};
 	render() {
+		const head = this.props.title && (
+			<Flex className={styles.head + ' flex center'}>
+				<Flex.Item>{this.props.title}</Flex.Item>
+				<img className={styles.closeIcon} src="" alt="" />
+			</Flex>
+		);
 		return (
 			this.props.show && (
 				<div className={styles.mask} id="mask" onClick={this.handleClickMask}>
 					<div className={styles.modal}>
-						<Flex className={styles.head + ' flex center'}>
-							<Flex.Item>{this.props.title}</Flex.Item>
-							<img className={styles.closeIcon} src="" alt="" />
-						</Flex>
+						{head}
 						<Flex align="center" justify="center" direction="column" className={styles.content}>
 							{this.props.children}
 						</Flex>

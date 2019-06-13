@@ -8,6 +8,7 @@ import request from '@/services/request';
 import SelectTime from '../components/select-time';
 import moment from 'moment';
 import SelectAdType from '../components/selectType';
+import StopAd from '../components/stop';
 
 interface Props {
 	editForm: any;
@@ -27,7 +28,8 @@ export default class From extends Component<Props> {
 		endTime: undefined,
 		/**广告投的类型 */
 		adType: 0,
-		edit: false
+		edit: false,
+		stopModalShow: false
 	};
 	UNSAFE_componentWillReceiveProps(nextProps: any) {
 		if (nextProps.editForm.coupon_id) {
@@ -76,18 +78,27 @@ export default class From extends Component<Props> {
 				Toast.fail(res.data);
 			}
 		} else {
-			Toast.loading('');
-			const res = await request({ url: 'v3/ads/stop', method: 'put', data: { ad_id: this.props.editForm.id } });
-			Toast.hide();
-			if (res.code === 200) {
-				return Toast.success('暂停成功');
-			} else {
-				Toast.fail(res.data);
-			}
+			this.handleShowStopAd();
 		}
 	};
 
 	handleChangeType = (type: number) => this.setState({ adType: type });
+
+	handleCloseModal = () => this.setState({ stopModalShow: false });
+
+	handleConfirmModal = async () => {
+		Toast.loading('');
+		const res = await request({ url: 'v3/ads/stop', method: 'put', data: { ad_id: this.props.editForm.id } });
+		Toast.hide();
+		if (res.code === 200) {
+			return Toast.success('暂停成功');
+		} else {
+			Toast.fail(res.data);
+		}
+	};
+
+	handleShowStopAd = () => this.setState({ stopModalShow: true });
+
 	render() {
 		const time = this.state.startTime
 			? moment.unix(this.state.startTime || 0).format('YYYY.MM.DD') +
@@ -137,6 +148,11 @@ export default class From extends Component<Props> {
 						onConfirm={this.handleSelectTime}
 					/>
 				</WingBlank>
+				<StopAd
+					show={this.state.stopModalShow}
+					onClose={this.handleCloseModal}
+					onConfirm={this.handleConfirmModal}
+				/>
 			</div>
 		);
 	}
