@@ -3,15 +3,25 @@ import styles from './index.less';
 import { Flex, WingBlank, InputItem, Button, Toast } from 'antd-mobile';
 import request from '@/services/request';
 import Succeed from './succeed';
+import router from 'umi/router'
 
 export default class WithDraw extends Component {
   state = {
     money: '',
-    info: {},
+    info: {
+      id: '',
+      bank_name: '',
+      bank_info: '',
+      bank_user: '',
+      money: '',
+      subbranch: '',
+      bank_img: '',
+      withdraw_info: ''
+    },
     num: '',
     is_ok: false,
     data: {}
-  };
+  }
 
   componentWillMount (){
     request({
@@ -41,11 +51,16 @@ export default class WithDraw extends Component {
     }else{
       this.setState({ money: parseFloat(value) })
     }
-  };
+  }
 
   /**提现成功的回调 */
   succeedBack = () => {
     this.setState({is_ok: false})
+  }
+
+  /**去提现列表 */
+  goWithDraw = () => {
+    router.push('/my/withdraw/list')
   }
 
   /**提现 */
@@ -86,9 +101,14 @@ export default class WithDraw extends Component {
     ) : (
       ''
     )
+    const top = this.state.info.withdraw_info ? (
+      <Flex className={styles.top}>{info.withdraw_info}</Flex>
+    ) : (
+      ''
+    )
     return (
       <div style={{width: '100%', height: '100%', background: '#fff'}}>
-        <Flex className={styles.top}>{info.withdraw_info}</Flex>
+        {top}
         <WingBlank>
           <Flex className={styles.header}><img src=""/>{info.bank_name}<span>（{num}）</span></Flex>
           <Flex className={styles.title}>提现余额</Flex>
@@ -105,7 +125,7 @@ export default class WithDraw extends Component {
           <Button type="primary" style={{marginTop: 60}} onClick={this.WithDraw}>
 						提现
 					</Button>
-          <Button type="primary" style={{marginTop: 46, background: '#fff', color: '#21418A', fontSize: '26px'}}>
+          <Button onClick={this.goWithDraw} type="primary" style={{marginTop: 46, background: '#fff', color: '#21418A', fontSize: '0.28rem'}}>
 						提现记录
 					</Button>
         </WingBlank>

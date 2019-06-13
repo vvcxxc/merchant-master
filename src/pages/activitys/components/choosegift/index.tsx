@@ -7,6 +7,7 @@ import request from '@/services/request'
 interface Props {
   onChange: (id: string, is_show: boolean, gift_pic: string) => any;
   id: string ;
+  money: string;
 }
 
 export default class ChooseGift extends Component<Props> {
@@ -18,15 +19,20 @@ export default class ChooseGift extends Component<Props> {
     gift_pic: ''
   };
   componentDidMount(){
-    request({
-      url: 'api/integral_goods',
-      method: 'get'
-    }).then(res => {
-      let { data } = res;
-      this.setState({list: data});
-    })
-    if(this.props.id){
-      this.setState({id: this.props.id, value: this.props.id})
+    if(this.props.money){
+      request({
+        url: 'api/integral_goods',
+        method: 'get',
+        params: {
+          price: this.props.money
+        }
+      }).then(res => {
+        let { data } = res;
+        this.setState({list: data});
+      })
+      if(this.props.id){
+        this.setState({id: this.props.id, value: this.props.id})
+      }
     }
   }
   chooseOne = (id: string, gift_pic: string) => {

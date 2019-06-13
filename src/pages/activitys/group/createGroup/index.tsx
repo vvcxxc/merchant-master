@@ -215,7 +215,7 @@ export default class createGroup extends Component {
   render (){
     const { cover_img, describe_img1, describe_img2 } = this.state;
     const chooseGift = this.state.is_show == true ? (
-      <ChooseGift onChange={this.changeGift} id={this.state.gift_id}/>
+      <ChooseGift onChange={this.changeGift} id={this.state.gift_id} money={this.state.participation_money}/>
     ) : (
       ''
     )

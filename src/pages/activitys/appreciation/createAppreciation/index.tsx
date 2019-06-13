@@ -140,7 +140,7 @@ export default class createAppreciation extends Component {
 
   render (){
     const chooseGift = this.state.is_show == true ? (
-      <ChooseGift onChange={this.changeGift} id={this.state.gift_id}/>
+      <ChooseGift onChange={this.changeGift} id={this.state.gift_id} money={this.state.pay_money}/>
     ) : (
       ''
     )
@@ -234,7 +234,9 @@ export default class createAppreciation extends Component {
               使用门槛<span className={styles.left_text_door}>满</span><span className={styles.right_text}>元可用</span>
             </InputItem>
             <InputItem type={'number'} className={styles.textLong} onChange={this.handleValidity} value={validity}>
-              有效期<span className={styles.left_text}>领券日起</span><span className={styles.right_text}>天内可用</span>
+              有效期
+                <span className={styles.left_text}>领券日起</span>
+                <span className={styles.right_text}>天内可用</span>
             </InputItem>
             <InputItem type={'digit'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num}>
               发放数量<span className={styles.right_text}>张</span>
