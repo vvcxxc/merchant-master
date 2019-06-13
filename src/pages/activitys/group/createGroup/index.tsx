@@ -79,7 +79,11 @@ export default class createGroup extends Component {
     this.setState({group_sum: e})
   }
   handleValidity = (e: any) => {
-    this.setState({validity: e})
+    if(e.length > 3){
+      this.setState({validity: this.state.validity})
+    }else {
+      this.setState({validity: e})
+    }
   }
   /**选择图片 */
   changeCover = ( files: any ) => {
@@ -319,8 +323,8 @@ export default class createGroup extends Component {
             <InputItem className={styles.activity_name} placeholder="请输入团数" value={this.state.group_sum} onChange={this.handleSum} type={'digit'}>
               团数
             </InputItem>
-            <InputItem type={'digit'} className={styles.textLong} placeholder="发起券日起  " value={this.state.validity} onChange={this.handleValidity}>
-              有效期<span className={styles.right_text}>天可用</span>
+            <InputItem type={'number'} className={styles.textLong} value={this.state.validity} onChange={this.handleValidity}>
+              有效期<span className={styles.left_text}>领券日起</span><span className={styles.right_text}>天内可用</span>
             </InputItem>
           </List>
           <Flex className={styles.notice} onClick={this.toNotice}><div>使用须知</div><div><Icon type="right"  color='#999' className={styles.icon_right}/></div>

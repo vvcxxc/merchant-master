@@ -60,7 +60,7 @@ export default class Notice extends Component<Props> {
       id: key,
       content: item
     }
-    drag_list.push(list);
+    drag_list.unshift(list);
     let id = key -1
     this.setState({
       drag_list,
@@ -80,13 +80,16 @@ export default class Notice extends Component<Props> {
   /**添加到推荐 */
   addToRecommend = () => {
     let tag = this.state.tag;
-    let { list } = this.state;
-    let lis = [...list];
-    lis.unshift(tag);
-    this.setState({
-      list: lis,
-      tag: ''
-    })
+    if(tag){
+      let { list } = this.state;
+      let lis = [...list];
+      lis.unshift(tag);
+      this.setState({
+        list: lis,
+        tag: ''
+      })
+    }
+
   }
   /**input值发生改变 */
   handleChange = (e: any) => {

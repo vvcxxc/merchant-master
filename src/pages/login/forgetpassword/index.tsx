@@ -131,6 +131,7 @@ export default class ForgetPassword extends Component {
           <input
             style={{ width: '100%' }}
             placeholder="请输入新密码"
+            type='password'
             onChange={this.handlePassword}
             value={this.state.password}
           />
@@ -139,6 +140,7 @@ export default class ForgetPassword extends Component {
           <input
             style={{ width: '100%' }}
             placeholder="确认密码"
+            type='password'
             value={this.state.confirm_password}
             onChange={this.handleConfPass}
           />

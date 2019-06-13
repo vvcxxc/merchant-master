@@ -40,20 +40,23 @@ export default connect(({ app }: any) => app)(
 				case '黄金展位':
 				case '铂金展位':
 				case '钻石展位':
-					router.push({ pathname: '/ad/other-page', query: { type: item.name } });
-					break;
-				case '增值':
-					router.push('/activitys/appreciation');
-					break;
-				case '拼团':
-					router.push('/activitys/group');
-					break;
-				case '满减':
-					router.push('/activitys/money-off');
-					break;
-				case '提现记录':
-					router.push('/my/withdraw/list');
-					break;
+					router.push('/ad/other-page');
+          break;
+        case '增值':
+          router.push('/activitys/appreciation/createAppreciation');
+          break;
+        case '拼团':
+          router.push('/activitys/group/createGroup');
+          break;
+        case '满减':
+          router.push('/activitys/money-off');
+          break;
+        case '提现记录':
+          router.push('/my/withdraw/list');
+          break;
+        case '店内领券':
+          router.push('/my/coupon/create');
+          break;
 			}
 			// router.push('');
 		};

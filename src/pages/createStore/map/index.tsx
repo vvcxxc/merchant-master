@@ -3,14 +3,26 @@
  */
 import React, { Component } from 'react';
 import styles from './index.less';
-import { Flex, WingBlank, Button, Toast, Icon, List, InputItem} from 'antd-mobile';
-import request from '@/services/request';
+import { Flex, WingBlank, Button, Icon, InputItem, PickerView} from 'antd-mobile';
 import { Map } from 'react-amap';
-
+import axios from 'axios';
 export default class MapPage extends Component {
   state = {
-
+    city_list: []
   };
+
+  componentDidMount (){
+    axios({
+      url: 'http://test.api.tdianyi.com/v3/district',
+      method: 'get'
+    }).then(res => {
+      this.setState({
+        city_list: res.data.data
+      })
+    })
+  }
+
+
 
   render (){
     return (
@@ -25,18 +37,22 @@ export default class MapPage extends Component {
               </div>
             </div>
 
-            <div className={styles.inputBox}>
-              <div className={styles.inputicon}><img src={require('./icon-map.png')} /></div>
-              <List>
+            <Flex className={styles.inputBox}>
+              <div className={styles.inputIcon}><img src={require('./icon-map.png')} /></div>
+              <Flex>
                 <InputItem
                   placeholder='请输入详细门牌号'
                 >广州市天河区
                 </InputItem>
-              </List>
-            </div>
+              </Flex>
+            </Flex>
           </Flex>
+          <PickerView
+            data={this.state.city_list}
+            value={['02', '02-1', '02-1-1']}
+          />
         </WingBlank>
-        <div className={styles.mapbox}>
+        <div className={styles.mapBox}>
           <Map amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'}/>
         </div>
       </div>

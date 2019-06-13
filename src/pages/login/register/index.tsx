@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { Flex, WingBlank, Button, Toast } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
+import router from 'umi/router';
 
 export default class Register extends Component {
   state = {
@@ -110,10 +111,11 @@ export default class Register extends Component {
         invite_phone: inviter_phone
       },
     }).then(res => {
-      let {code} = res.data;
-      let {data} = res.data;
+      let {code, data} = res;
       if(code == 200){
         Toast.success(data)
+        // 注册成功后跳转到创建门店页面
+        router.push('/createStore');
       }else{
         Toast.fail(data)
       }
