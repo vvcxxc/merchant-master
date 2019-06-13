@@ -16,6 +16,7 @@ interface Props {
 	/**条件重置时 */
 	hotreset?: () => any;
 	timeReset?: () => any;
+	onChange?: (query: any) => any;
 }
 
 /**筛选列表页组件
@@ -45,12 +46,18 @@ export default class FiltrateLayout extends Component<Props> {
 
 	handleTimeClick = () => this.setState({ timeShow: !this.state.timeShow, hotShow: false });
 
-	hotChange = () => this.setState({ hotShow: false });
+	hotChange = (id: any) => {
+		this.setState({ hotShow: false, query: { ...this.state.query, hot: id } }, this.handleQueryChange);
+	};
+	hotHide = () => this.setState({ hotShow: false });
 	timeChange = (value: string): any =>
-		this.setState({ query: { ...this.state.query, time: value }, timeShow: false });
+		this.setState({ query: { ...this.state.query, time: value }, timeShow: false }, this.handleQueryChange);
 
 	hotReset = () => this.props.hotreset && this.props.hotreset();
 	timeReset = () => this.props.timeReset && this.props.timeReset();
+
+	/**条件变更时触发onChange事件 */
+	handleQueryChange = () => this.props.onChange && this.props.onChange(this.state.query);
 
 	render() {
 		const insignificant = this.props.hasInsignificant && (
@@ -93,6 +100,7 @@ export default class FiltrateLayout extends Component<Props> {
 					undetermined={this.props.undetermined}
 					after={this.props.after}
 					reset={this.hotReset}
+					onHide={this.hotHide}
 				/>
 				<SelectDate
 					show={this.state.timeShow}
