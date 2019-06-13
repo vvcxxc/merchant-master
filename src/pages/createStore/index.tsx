@@ -3,7 +3,7 @@ import { Flex, WingBlank, Button, Toast, Picker, List, Icon, ImagePicker } from 
 import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router';
-// import axios from 'axios';
+import MapPage from './map/index'
 import upload from '@/services/oss';
 export default class CreateStore extends Component {
   state = {
@@ -33,7 +33,9 @@ export default class CreateStore extends Component {
     /**个人照1 */
     store_img_one: '',
     /**个人照2 */
-    store_img_two: ''
+    store_img_two: '',
+    /**是否展示地图 */
+    is_map: false
   };
 
   componentDidMount (){
@@ -142,8 +144,19 @@ export default class CreateStore extends Component {
   }
 
 
+  /**打开地图 */
+  openMap = () => {
+    this.setState({is_map: true});
+  }
+
+
   render() {
     const { files, my_files, my_files2 } = this.state;
+    const map = this.state.is_map == true ? (
+      <MapPage/>
+    ) : (
+      ''
+    )
     return (
       <div style={{ height: 'auto', width: '100%', background:' #fff', paddingBottom: 60 }}>
           <WingBlank className={styles.wrap}>
@@ -156,7 +169,7 @@ export default class CreateStore extends Component {
                 onChange={this.handleName}
               />
             </Flex>
-            <Flex className={styles.inputWrap}>
+            <Flex className={styles.inputWrap} onClick={this.openMap}>
               <span>门店地址</span>
               <input
                 type="text"
@@ -234,6 +247,7 @@ export default class CreateStore extends Component {
               </Button>
 
           </WingBlank>
+          {map}
       </div>
     )
   }

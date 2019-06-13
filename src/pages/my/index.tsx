@@ -75,7 +75,7 @@ export default connect()(
 									<div className="label">平台收益</div>
 									<div className="money">￥{this.state.info.money} </div>
 								</Flex.Item>
-								<div className="btn" onClick={this.pushPage('/my/withdraw')}>提现</div>
+								<div className="btn" onClick={this.pushPage('/my/withdraw')}>转到余额</div>
 							</Flex>
 							<Flex className="bottom">
 								<Flex.Item>

@@ -43,16 +43,19 @@ export default connect(({ app }: any) => app)(
 					router.push('/ad/other-page');
           break;
         case '增值':
-          router.push('/activitys/appreciation');
+          router.push('/activitys/appreciation/createAppreciation');
           break;
         case '拼团':
-          router.push('/activitys/group');
+          router.push('/activitys/group/createGroup');
           break;
         case '满减':
           router.push('/activitys/money-off');
           break;
         case '提现记录':
           router.push('/my/withdraw/list');
+          break;
+        case '店内领券':
+          router.push('/my/coupon/create');
           break;
 			}
 			// router.push('');

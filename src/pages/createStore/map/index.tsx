@@ -25,15 +25,15 @@ export default class MapPage extends Component {
               </div>
             </div>
 
-            <div className={styles.inputBox}>
+            <Flex className={styles.inputBox}>
               <div className={styles.inputicon}><img src={require('./icon-map.png')} /></div>
-              <List>
+              <Flex>
                 <InputItem
                   placeholder='请输入详细门牌号'
                 >广州市天河区
                 </InputItem>
-              </List>
-            </div>
+              </Flex>
+            </Flex>
           </Flex>
         </WingBlank>
         <div className={styles.mapbox}>
