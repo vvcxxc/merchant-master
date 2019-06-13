@@ -39,7 +39,7 @@ export default class BusinessArea extends Component<any> {
 		}
 	};
 	render() {
-		const form = <From />;
+		const form = <From formData={{}} />;
 		const expenseCalendar = <ExpenseCalendar />;
 		const chart = <Chart />;
 		return <AdLayout children={[form, expenseCalendar, chart]} />;

@@ -30,8 +30,16 @@ export default class SelectCoupon extends Component<Props> {
 		Toast.loading('');
 		const res = await request({ url: 'v3/coupons' });
 		Toast.hide();
-		if (res.code === 200) {
-			this.setState({ list: res.data.map((_: { name: any; id: any }) => ({ label: _.name, value: _.id })) });
+		if (res.code === 200 && res.data.length) {
+			this.setState({
+				list: res.data.map((_: { name: any; id: any }) => ({ label: _.name, value: _.id })),
+				value: [res.data[0].id],
+				current: {
+					label: res.data[0].name,
+					value: res.data[0].id
+				},
+				result: res.data[0].name
+			});
 		}
 	};
 
