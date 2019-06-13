@@ -8,7 +8,11 @@ import request from '@/services/request';
 import SelectTime from '../components/select-time';
 import moment from 'moment';
 
-export default class From extends Component {
+interface Props {
+	editForm: any;
+}
+
+export default class From extends Component<Props> {
 	state = {
 		showSelectCoupon: false,
 		showSelectTime: false,
@@ -19,8 +23,22 @@ export default class From extends Component {
 		price: 0,
 		time: 0,
 		startTime: undefined,
-		endTime: undefined
+		endTime: undefined,
+		edit: false
 	};
+	UNSAFE_componentWillReceiveProps(nextProps: any) {
+		if (nextProps.editForm.coupon_id) {
+			this.setState({
+				coupon: {
+					label: '',
+					value: nextProps.editForm.coupon_id
+				},
+				price: nextProps.editForm.daily_budget,
+				time: 0,
+				edit: true
+			});
+		}
+	}
 	handleToRechange = () => router.push('/my/rechange');
 	closeModal = () => this.setState({ showSelectCoupon: false, showSelectTime: false });
 	showModal = () => this.setState({ showSelectCoupon: true });
@@ -30,28 +48,39 @@ export default class From extends Component {
 	handleShowSelectTime = () => this.setState({ showSelectTime: true });
 	handleSelectTime = (time: any) => this.setState({ ...time }, this.closeModal);
 	handleSubmit = async () => {
-		if (!this.state.coupon.value) {
-			return Toast.info('请选择优惠券');
-		}
-		if (!this.state.startTime) {
-			return Toast.info('请选择广告投放时长');
-		}
-		if (!this.state.price) {
-			return Toast.info('请输入每日预算');
-		}
-		Toast.loading('');
-		const data = {
-			coupon_id: this.state.coupon.value,
-			daily_budget: this.state.price,
-			begin_time: this.state.startTime,
-			end_time: this.state.endTime
-		};
-		const res = await request({ url: 'v3/ads/business', method: 'post', data });
-		Toast.hide();
-		if (res.code === 200) {
-			return Toast.success('投放成功');
+		if (!this.state.edit) {
+			if (!this.state.coupon.value) {
+				return Toast.info('请选择优惠券');
+			}
+			if (!this.state.startTime) {
+				return Toast.info('请选择广告投放时长');
+			}
+			if (!this.state.price) {
+				return Toast.info('请输入每日预算');
+			}
+			Toast.loading('');
+			const data = {
+				coupon_id: this.state.coupon.value,
+				daily_budget: this.state.price,
+				begin_time: this.state.startTime,
+				end_time: this.state.endTime
+			};
+			const res = await request({ url: 'v3/ads/business', method: 'post', data });
+			Toast.hide();
+			if (res.code === 200) {
+				return Toast.success('投放成功');
+			} else {
+				Toast.fail(res.data);
+			}
 		} else {
-			Toast.fail(res.data);
+			Toast.loading('');
+			const res = await request({ url: 'v3/ads/stop', method: 'put', data: { ad_id: this.props.editForm.id } });
+			Toast.hide();
+			if (res.code === 200) {
+				return Toast.success('暂停成功');
+			} else {
+				Toast.fail(res.data);
+			}
 		}
 	};
 	render() {
@@ -87,7 +116,7 @@ export default class From extends Component {
 						</Flex>
 					</Flex.Item>
 					<Button type="primary" className={styles.submitBtn} onClick={this.handleSubmit}>
-						投放
+						{!this.state.edit ? '投放' : '暂停'}
 					</Button>
 				</Flex>
 				<SelectCoupon

@@ -10,7 +10,8 @@ import { Toast } from 'antd-mobile';
 
 export default class BusinessArea extends Component<any> {
 	state = {
-		data: {}
+		data: {},
+		log: []
 	};
 	componentDidMount() {
 		this.getDetail();
@@ -34,13 +35,22 @@ export default class BusinessArea extends Component<any> {
 		}
 		const res = await request({ url: 'v3/ads/by_type', params: { ad_type: 2, position_id: position } });
 		Toast.hide();
-		if (res.code === 200) {
+		if (res.code === 200 && res.data.coupon_id) {
 			this.setState({ data: res.data });
+			this.setLog();
 		}
 	};
+
+	setLog = async () => {
+		const res = await request({ url: 'v3/ad_logs' });
+		if (res.code === 200) {
+			this.setState({ log: res.data.data });
+		}
+	};
+
 	render() {
-		const form = <From formData={{}} />;
-		const expenseCalendar = <ExpenseCalendar />;
+		const form = <From editForm={this.state.data} />;
+		const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
 		const chart = <Chart />;
 		return <AdLayout children={[form, expenseCalendar, chart]} />;
 	}

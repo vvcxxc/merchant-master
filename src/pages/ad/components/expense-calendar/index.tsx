@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import { WingBlank, Flex } from 'antd-mobile';
 import styles from '../../index.less';
+import moment from 'moment';
 
-export default class ExpenseCalendar extends Component {
+interface Props {
+	log: any[];
+}
+
+export default class ExpenseCalendar extends Component<Props> {
 	render() {
-		const tableItems = [1, 2, 3, 4, 5, 6].map(_ => (
-			<Flex className={styles.tableItem} key={_}>
-				<Flex.Item>时间</Flex.Item>
-				<span>事件</span>
-				<Flex.Item>消耗</Flex.Item>
+		const tableItems = this.props.log.map(_ => (
+			<Flex className={styles.tableItem} key={_.create_time}>
+				<Flex.Item>{moment(_.create_time).format('YYYY-MM-DD')}</Flex.Item>
+				<span>{_.event}</span>
+				<Flex.Item>{0}</Flex.Item>
 			</Flex>
 		));
 		return (

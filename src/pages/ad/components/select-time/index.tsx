@@ -12,7 +12,7 @@ interface Props {
 
 export default class SelectTime extends Component<Props> {
 	state = {
-		startTime: undefined,
+		startTime: moment().format('YYYY-MM-DD'),
 		endTime: undefined,
 		active: 1
 	};
@@ -36,13 +36,15 @@ export default class SelectTime extends Component<Props> {
 	};
 	render() {
 		const minDate = this.state.active === 1 ? moment().toDate() : moment(this.state.startTime).toDate();
+		const maxDate = this.state.active === 1 && this.state.endTime ? moment(this.state.endTime).toDate() : undefined;
 
 		const datePicker =
 			this.state.active === 1 ? (
 				<DatePickerView
 					mode="date"
 					value={moment(this.state.startTime).toDate()}
-					minDate={minDate}
+					minDate={moment().toDate()}
+					maxDate={maxDate}
 					onChange={this.handleChange}
 				/>
 			) : (
