@@ -14,9 +14,21 @@ export default class SelectAdType extends Component<Props> {
 		value: 0
 	};
 
+	componentWillReceiveProps(nextProps: any) {
+		if (nextProps.value !== this.state.value) {
+			this.setState({ value: nextProps.value });
+		}
+	}
+
+	handleClick = (index: number) => () => this.props.onChange(index);
+
 	render() {
 		const labels = this.list.map((_, index) => (
-			<div className={index === this.state.value ? styles.activeLabel : styles.label} key={_}>
+			<div
+				className={index === this.state.value ? styles.activeLabel : styles.label}
+				key={_}
+				onClick={this.handleClick(index)}
+			>
 				{_}
 			</div>
 		));

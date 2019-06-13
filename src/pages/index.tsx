@@ -25,9 +25,9 @@ export default connect(({ app }: any) => app)(
 			this.props.dispatch({
 				type: 'app/getData'
 			});
-    }
-    /**跳转到页面 */
-    pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
+		}
+		/**跳转到页面 */
+		pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
 
 		/**核销 */
 		handleVerification = () => this.setState({ showVerification: !this.state.showVerification });
@@ -106,7 +106,9 @@ export default connect(({ app }: any) => app)(
 									<span className="value">{data.money}</span>
 								</Flex>
 								<Flex justify="center">
-									<div className="btn" onClick={this.pushPage('/my/withdraw')}>提现</div>
+									<div className="btn" onClick={this.pushPage('/my/withdraw')}>
+										提现
+									</div>
 									<div className="btn" onClick={this.pushPage('/my/rechange')}>
 										充值
 									</div>

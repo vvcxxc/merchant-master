@@ -9,7 +9,11 @@ import SelectTime from '../components/select-time';
 import moment from 'moment';
 import SelectAdType from '../components/selectType';
 
-export default class From extends Component {
+interface Props {
+	formData: any;
+}
+
+export default class From extends Component<Props> {
 	state = {
 		showSelectCoupon: false,
 		showSelectTime: false,
@@ -20,8 +24,18 @@ export default class From extends Component {
 		price: 0,
 		time: 0,
 		startTime: undefined,
-		endTime: undefined
+		endTime: undefined,
+		/**广告投的类型 */
+		adType: 0
 	};
+	UNSAFE_componentWillReceiveProps(nextProps: any) {
+		if (nextProps.formData.sname) {
+			this.setState({
+				price: nextProps.formData.daily_budget,
+				adType: nextProps.formData.romotion_type - 1
+			});
+		}
+	}
 	handleToRechange = () => router.push('/my/rechange');
 	closeModal = () => this.setState({ showSelectCoupon: false, showSelectTime: false });
 	showModal = () => this.setState({ showSelectCoupon: true });
@@ -56,7 +70,7 @@ export default class From extends Component {
 		}
 	};
 
-	handleChangeType = () => {};
+	handleChangeType = (type: number) => this.setState({ adType: type });
 	render() {
 		const time = this.state.startTime
 			? moment.unix(this.state.startTime || 0).format('YYYY.MM.DD') +
@@ -65,7 +79,7 @@ export default class From extends Component {
 			: '广告投放时长';
 		return (
 			<div>
-				<SelectAdType onChange={this.handleChangeType} />
+				<SelectAdType value={this.state.adType} onChange={this.handleChangeType} />
 				<WingBlank className={styles.maxheight}>
 					<Flex direction="column" className={styles.maxheight}>
 						<Flex.Item>
