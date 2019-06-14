@@ -8,6 +8,7 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import { Data } from '@/models/app';
 import { routerRedux } from 'dva/router';
+import request from '@/services/request';
 
 interface Props {
 	data: Data;
@@ -18,8 +19,22 @@ export default connect(({ app }: any) => app)(
 	class IndexPage extends Component<Props> {
 		/**是否显示核销的界面 */
 		state = {
-			showVerification: false
-		};
+      showVerification: false,
+      //支付开通状态
+      payment_status: {}
+    };
+
+    componentWillMount() {
+      request({
+        url: 'v3/payment_profiles/payment_status',
+        method: 'get',
+      }).then(res => {
+        let { data } = res;
+        if(data.store_open_status != 1){
+          router.push('/createStore')
+        }
+      })
+    }
 
 		componentDidMount() {
 			this.props.dispatch({

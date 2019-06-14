@@ -58,7 +58,7 @@ export default connect()(
 
     /**转到余额 */
     transferredBalance = () => {
-      let money = parseInt(this.state.info.money);
+      let money = Number(this.state.info.money);
       if(money > 0){
         request({
           url: 'api/merchant/staff/earnings_go_balance',
