@@ -5,12 +5,14 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, Button, Icon, InputItem, PickerView} from 'antd-mobile';
 import { Map } from 'react-amap';
+import request from '@/services/request';
 import axios from 'axios';
+import wx from "weixin-js-sdk"
 export default class MapPage extends Component {
   state = {
     city_list: [],
     // 城市选择页
-    is_show: true,
+    is_show: false,
     // picker的value
     value: [],
     // picker选好的值
@@ -18,7 +20,9 @@ export default class MapPage extends Component {
     // 城市名称
     city_name: '北京',
     // 省市区
-    province: '北京'
+    province: '北京',
+    // 经纬度
+    location: {}
   };
 
   componentDidMount (){
@@ -30,6 +34,45 @@ export default class MapPage extends Component {
         city_list: res.data.data
       })
     });
+    let url = location.href;
+    request({
+      url: 'wechat/getShareSign',
+      method: 'get',
+      params: {
+        url
+      }
+    }).then(res => {
+      wx.config({
+        debug: true,
+        appId: res.appId,
+        timestamp: res.timestamp,
+        nonceStr: res.nonceStr,
+        signature: res.signature,
+        jsApiList: [
+          "getLocation",
+          "openLocation"
+        ]
+      });
+      this.getLocation();
+    })
+  }
+
+  getLocation = () => {
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res: any) {
+        let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+        let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+        let speed = res.speed; // 速度，以米/每秒计
+        let accuracy = res.accuracy; // 位置精度
+
+        let location = {
+          x: latitude,
+          y: longitude
+        };
+
+      }
+    })
   }
 
   handleChangeCity = (e: any) => {
@@ -105,7 +148,7 @@ export default class MapPage extends Component {
 
         </WingBlank>
         <div className={styles.mapBox}>
-          <Map amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} zoom={13}/>
+          {/* <Map amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} zoom={13}/> */}
         </div>
         {picker}
 
