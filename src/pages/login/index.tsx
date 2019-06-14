@@ -5,7 +5,7 @@ import styles from './index.less';
 import request from '@/services/request';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import router from 'umi/router';
+import Cookies from 'js-cookie'
 
 export default connect()(
 	class Login extends Component<any> {
@@ -93,7 +93,14 @@ export default connect()(
 						Toast.hide();
 						if (res.code === 200) {
 							localStorage.setItem('token', 'Bearer ' + res.data.token);
-							this.props.dispatch(routerRedux.push({ pathname: '/' }));
+              this.props.dispatch(routerRedux.push({ pathname: '/' }));
+
+              let url = 'http://test.api.tdianyi.com/wechat/wxoauth?code_id=0&from=v3_supplier';
+              url = encodeURIComponent(url);
+              let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+              return window.location.href = urls;
+
+
 						} else {
 							Toast.fail(res.data, 1.5);
 						}
