@@ -15,16 +15,29 @@ export default class Notice extends Component<Props> {
     /**推荐列表 */
     list: [],
     /**可拖拽列表 */
-    drag_list: [],
+    drag_list: [{
+      id: '',
+      content: ''
+    }],
     /**id(key值) */
     key: '100',
     tag: ''
   };
 
   componentDidMount (){
+    let notice_list = this.props.notice_list;
+    let drag_list = [];
+    if(notice_list){
+      for(let i = 0; i < notice_list.length; i ++){
+        let list = {
+          id: i,
+          content: notice_list[i]
+        }
+        drag_list.push(list);
+      }
+    }
     this.setState({
-      drag_list: this.props.notice_list,
-      // key: this.props.key
+      drag_list
     })
     request({
       url: 'v3/activity/employ_notice',
@@ -103,7 +116,14 @@ export default class Notice extends Component<Props> {
   }
   /**完成 */
   Finish = () => {
-    this.props.onChange(this.state.drag_list, this.state.key)
+    let {drag_list} = this.state;
+    let description = [];
+    if(drag_list){
+      for (let i = 0; i < drag_list.length; i ++){
+        description.push(drag_list[i].content);
+      }
+    }
+    this.props.onChange(description, this.state.key)
   }
 
   render (){
@@ -117,7 +137,7 @@ export default class Notice extends Component<Props> {
     });
     const { drag_list } = this.state;
     return (
-      <div style={{width: '100%', height: '100%', background: '#fff', position: 'fixed', top: '0'}}>
+      <div style={{width: '100%', height: '100%', background: '#fff', position: 'fixed', top: '0', left: '0'}}>
         <WingBlank>
           <Flex className={styles.title}>使用须知</Flex>
           <div className={styles.box}>

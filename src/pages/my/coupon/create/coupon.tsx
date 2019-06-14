@@ -16,10 +16,13 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			inputFile: false,
 			files: [],
 			detailFiles: [],
-			showNotice: false
+      showNotice: false,
+      // notice的key值
+      keys: '100'
 		};
 
-		handleNoticeChange = (notice: any[]) => {
+		handleNoticeChange = (notice: any[], keys: string) => {
+      this.setState({keys})
 			this.props.dispatch({
 				type: 'createCoupon/setCoupon',
 				paylaod: {
@@ -72,7 +75,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 
 		render() {
 			const notice = this.state.showNotice && (
-				<Notice keys="1" notice_list={[this.props.description]} onChange={this.handleNoticeChange} />
+				<Notice keys={this.state.keys} notice_list={this.props.description} onChange={this.handleNoticeChange} />
 			);
 			return (
 				<div>

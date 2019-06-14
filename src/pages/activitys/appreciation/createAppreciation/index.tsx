@@ -247,6 +247,7 @@ export default class createAppreciation extends Component {
             <Flex className={styles.giftBox} onClick={this.toGift}><div>选择礼品</div><div><Icon type="right"  color='#999' className={styles.icon_right}/></div>
             </Flex>
             {Gift}
+            <div style={{width: '100%', height: '.88rem'}}>{''}</div>
           </div>
         </WingBlank>
         <Flex>
