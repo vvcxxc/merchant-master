@@ -5,7 +5,7 @@ import styles from './index.less';
 import request from '@/services/request';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 
 export default connect()(
 	class Login extends Component<any> {
@@ -20,27 +20,27 @@ export default connect()(
 			account_name: '',
 			/**密码 */
 			password: ''
-    };
-    componentDidMount (){
-       /**获取oss */
-       request({
-        url: 'api/v2/up',
-        method: 'get'
-      }).then( res => {
-        let { data } = res;
-        let oss_data = {
-          policy: data.policy,
-          OSSAccessKeyId: data.accessid,
-          success_action_status: 200, //让服务端返回200,不然，默认会返回204
-          signature: data.signature,
-          callback: data.callback,
-          host: data.host,
-          key: data.dir
-        }
+		};
+		componentDidMount() {
+			/**获取oss */
+			request({
+				url: 'api/v2/up',
+				method: 'get'
+			}).then(res => {
+				let { data } = res;
+				let oss_data = {
+					policy: data.policy,
+					OSSAccessKeyId: data.accessid,
+					success_action_status: 200, //让服务端返回200,不然，默认会返回204
+					signature: data.signature,
+					callback: data.callback,
+					host: data.host,
+					key: data.dir
+				};
 
-        window.localStorage.setItem( 'oss_data' , JSON.stringify(oss_data) );
-      });
-    }
+				window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
+			});
+		}
 		/**设置手机号 */
 		handleSetMobile = (value: any) => {
 			this.setState({ mobile: value.split(' ').join('') });
@@ -93,13 +93,12 @@ export default connect()(
 						Toast.hide();
 						if (res.code === 200) {
 							localStorage.setItem('token', 'Bearer ' + res.data.token);
-              this.props.dispatch(routerRedux.push({ pathname: '/' }));
+							this.props.dispatch(routerRedux.push({ pathname: '/' }));
 
-              let url = 'http://test.api.tdianyi.com/wechat/wxoauth?code_id=0&from=v3_supplier';
-              url = encodeURIComponent(url);
-              let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
-              return window.location.href = urls;
-
+							// let url = 'http://test.api.tdianyi.com/wechat/wxoauth?code_id=0&from=v3_supplier';
+							// url = encodeURIComponent(url);
+							// let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+							// return window.location.href = urls;
 						} else {
 							Toast.fail(res.data, 1.5);
 						}
@@ -120,10 +119,10 @@ export default connect()(
 					params: { phone: this.state.mobile }
 				});
 			}
-    };
+		};
 
-    /**跳转到页面 */
-    pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
+		/**跳转到页面 */
+		pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
 
 		render() {
 			const content =
@@ -147,7 +146,9 @@ export default connect()(
 							/>
 						</Flex>
 						<Flex justify="end">
-							<span className={styles.warring} onClick={this.pushPage('/login/forgetpassword')}>忘记密码？</span>
+							<span className={styles.warring} onClick={this.pushPage('/login/forgetpassword')}>
+								忘记密码？
+							</span>
 						</Flex>
 					</div>
 				) : (
