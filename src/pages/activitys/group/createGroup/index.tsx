@@ -48,7 +48,7 @@ export default class createGroup extends Component {
     /**使用须知组件计数用 */
     keys: '100',
     /**使用须知列表 */
-    notice_list: [],
+    description: [],
     /**跳转支付 */
     pay_list:[]
   };
@@ -156,7 +156,7 @@ export default class createGroup extends Component {
   /**使用须知的回调 */
   changeNotice = (notice_list: any, keys: string) => {
     this.setState({
-      notice_list,
+      description: notice_list,
       keys,
       is_notice: false
     })
@@ -165,18 +165,12 @@ export default class createGroup extends Component {
 
   /**确认发布 */
   confirm = () => {
-    let { activity_name, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, notice_list, mail_mode } = this.state;
+    let { activity_name, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, description, mail_mode } = this.state;
     let activity_begin_time = moment(start_date).format('X');
     let activity_end_tine = moment(end_date).format('X');
     let image_url = [];
     image_url.push(image_url1);
     image_url.push(image_url2);
-    let description = [];
-    if(notice_list){
-      for (let i = 0; i < notice_list.length; i ++){
-        description.push(notice_list[i].content);
-      }
-    }
 
     request({
       url: 'api/merchant/youhui/addYouhuiGroup',
@@ -256,7 +250,7 @@ export default class createGroup extends Component {
       ''
     );
     const notice = this.state.is_notice == true ? (
-      <Notice onChange={this.changeNotice} keys={this.state.keys} notice_list={this.state.notice_list}/>
+      <Notice onChange={this.changeNotice} keys={this.state.keys} notice_list={this.state.description}/>
     ) : (
       ''
     )
