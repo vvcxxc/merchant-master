@@ -20,7 +20,7 @@ export default class StopAd extends Component<Props> {
 				okBtn="暂停"
 				cancelBtn="取消"
 			>
-				<img src={''} className={styles.tipImage} />
+				<img src={require('./img.png')} className={styles.tipImage} />
 				<div className={styles.tipText}>暂停投放广告 将会怎么样怎么样</div>
 			</Modal>
 		);
