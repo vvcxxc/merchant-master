@@ -42,7 +42,7 @@ export default class OrderPage extends Component {
 	handleLayoutChange = (query: any) => {
 		this.getData({
 			pay_status: query.hot,
-			date: query.time ? moment(query.time).valueOf() : undefined
+			date: query.time ? moment(query.time).unix() : undefined
 		});
 	};
 
