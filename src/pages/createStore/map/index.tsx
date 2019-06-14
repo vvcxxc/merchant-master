@@ -66,7 +66,6 @@ export default class MapPage extends Component {
             y: longitude
           };
           alert(location);
-
         }
       })
     })
