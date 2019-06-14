@@ -16,8 +16,9 @@ export default function Coupon(props: Props) {
 			{_}
 		</div>
 	));
+	const handleClick = () => props.onClick(props.activity_id);
 	return (
-		<div className={styles.coupon}>
+		<div className={styles.coupon} onClick={handleClick}>
 			<Flex className="content">
 				<div className="headimg">{types[props.type]}</div>
 				<Flex.Item className="info">
