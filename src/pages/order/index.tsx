@@ -32,7 +32,7 @@ export default class OrderPage extends Component {
 
 	getData = async (query?: any) => {
 		Toast.loading('');
-		const res = await request({ url: 'v3/coupons/order_list', ...query });
+		const res = await request({ url: 'v3/coupons/order_list', params: query });
 		Toast.hide();
 		if (res.code === 200) {
 			this.setState({ list: res.data, insignificant: res.total });
@@ -42,17 +42,17 @@ export default class OrderPage extends Component {
 	handleLayoutChange = (query: any) => {
 		this.getData({
 			pay_status: query.hot,
-			date: query.time
+			date: query.time ? moment(query.time).valueOf() : undefined
 		});
 	};
 
 	render() {
 		const orderList = this.state.list.map((_: any) => (
 			<Flex key={_.id} className={styles.orderItem}>
-				<img src="" alt="" />
+				<img src={_.small_icon} />
 				<Flex.Item className="content">
 					<div className="ordernum">{_.youhui_sn}</div>
-					<div className="time">{moment.unix(_.create_time).format('YYYY-MM-DD hh:mm')}</div>
+					<div className="time">{_.create_time}</div>
 				</Flex.Item>
 				<div className="status">{_.status_msg}</div>
 			</Flex>
