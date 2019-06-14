@@ -53,25 +53,22 @@ export default class MapPage extends Component {
           "openLocation"
         ]
       });
-      this.getLocation();
-    })
-  }
+      wx.getLocation({
+        type: 'wgs84',
+        success: function (res: any) {
+          let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+          let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+          let speed = res.speed; // 速度，以米/每秒计
+          let accuracy = res.accuracy; // 位置精度
 
-  getLocation = () => {
-    wx.getLocation({
-      type: 'wgs84',
-      success: function (res: any) {
-        let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-        let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-        let speed = res.speed; // 速度，以米/每秒计
-        let accuracy = res.accuracy; // 位置精度
+          let location = {
+            x: latitude,
+            y: longitude
+          };
+          alert(location);
 
-        let location = {
-          x: latitude,
-          y: longitude
-        };
-
-      }
+        }
+      })
     })
   }
 
