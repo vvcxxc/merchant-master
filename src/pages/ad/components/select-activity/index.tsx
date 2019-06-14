@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './index.less';
+import styles from '../select-coupon/index.less';
 import { Flex, PickerView, Toast } from 'antd-mobile';
 import request from '@/services/request';
 import router from 'umi/router';
@@ -12,8 +12,8 @@ interface Props {
 	isAd?: number;
 }
 
-/**选择优惠券 */
-export default class SelectCoupon extends Component<Props> {
+/**选择活动 */
+export default class SelectActivity extends Component<Props> {
 	state = {
 		result: '',
 		list: [],
@@ -23,13 +23,13 @@ export default class SelectCoupon extends Component<Props> {
 
 	UNSAFE_componentWillReceiveProps(nextProps: { show: boolean }) {
 		if (!this.props.show && nextProps.show === true) {
-			this.getCouponList();
+			this.getActivityList();
 		}
 	}
 
-	getCouponList = async () => {
+	getActivityList = async () => {
 		Toast.loading('');
-		const res = await request({ url: 'v3/coupons' });
+		const res = await request({ url: 'v3/return_coupons' });
 		Toast.hide();
 		if (res.code === 200 && res.data.length) {
 			this.setState({
@@ -67,7 +67,7 @@ export default class SelectCoupon extends Component<Props> {
 	render() {
 		return (
 			<Modal
-				title="选择优惠券"
+				title="选择活动"
 				show={this.props.show}
 				onCancel={this.handleAddCoupon}
 				onClose={this.props.onClose}

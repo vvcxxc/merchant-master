@@ -9,6 +9,8 @@ import SelectTime from '../components/select-time';
 import moment from 'moment';
 import SelectAdType from '../components/selectType';
 import StopAd from '../components/stop';
+import SelectActivity from '../components/select-activity';
+import { string } from 'prop-types';
 
 interface Props {
 	editForm: any;
@@ -16,20 +18,31 @@ interface Props {
 
 export default class From extends Component<Props> {
 	state = {
+		/**显示选择优惠券 */
 		showSelectCoupon: false,
+		showSelectActivity: false,
+		/**显示选择时间 */
 		showSelectTime: false,
+		/**优惠券 */
 		coupon: {
 			label: '',
 			value: 0
 		},
+		/**活动 */
+		activity: {
+			label: '',
+			value: 0
+		},
+		/**每日预算 */
 		price: 0,
-		time: 0,
 		startTime: undefined,
 		endTime: undefined,
-		/**广告投的类型 */
-		adType: 0,
 		edit: false,
-		stopModalShow: false
+		/**是否暂停提示显示 */
+		stopModalShow: false,
+		/**表单类型 本店, 优惠券，活动，链接 */
+		formType: 0,
+		link: ''
 	};
 	UNSAFE_componentWillReceiveProps(nextProps: any) {
 		if (nextProps.editForm.coupon_id) {
@@ -45,11 +58,16 @@ export default class From extends Component<Props> {
 		}
 	}
 	handleToRechange = () => router.push('/my/rechange');
-	closeModal = () => this.setState({ showSelectCoupon: false, showSelectTime: false });
-	showModal = () => this.setState({ showSelectCoupon: true });
-	handleSelectCoupon = (coupon: any) => this.setState({ coupon }, this.closeModal);
+	closeModal = () => this.setState({ showSelectCoupon: false, showSelectTime: false, showSelectActivity: false });
+	showModal = () => this.setState({ [this.state.formType === 1 ? 'showSelectCoupon' : 'showSelectActivity']: true });
+	handleSelectCoupon = (coupon: any) => {
+		if (this.state.formType === 1) {
+			this.setState({ coupon }, this.closeModal);
+		} else if (this.state.formType === 2) {
+			this.setState({ activity: coupon }, this.closeModal);
+		}
+	};
 	handleChangePrice = (price: any) => this.setState({ price });
-	handleChangeTime = (time: any) => this.setState({ time });
 	handleShowSelectTime = () => this.setState({ showSelectTime: true });
 	handleSelectTime = (time: any) => this.setState({ ...time }, this.closeModal);
 	handleSubmit = async () => {
@@ -82,7 +100,9 @@ export default class From extends Component<Props> {
 		}
 	};
 
-	handleChangeType = (type: number) => this.setState({ adType: type });
+	handleChangeType = (type: number) => {
+		this.setState({ formType: type });
+	};
 
 	handleCloseModal = () => this.setState({ stopModalShow: false });
 
@@ -99,26 +119,53 @@ export default class From extends Component<Props> {
 
 	handleShowStopAd = () => this.setState({ stopModalShow: true });
 
+	handleChangeLink = (value: string) => this.setState({ link: value });
+
 	render() {
 		const time = this.state.startTime
 			? moment.unix(this.state.startTime || 0).format('YYYY.MM.DD') +
 			  '-' +
 			  moment.unix(this.state.endTime || 0).format('YYYY.MM.DD')
 			: '广告投放时长';
+
+		let typeFormInput;
+		if (this.state.formType === 0) {
+			typeFormInput = '';
+		} else if (this.state.formType === 1) {
+			typeFormInput = (
+				<List.Item
+					extra={this.state.coupon.label ? this.state.coupon.label : '请选择优惠券'}
+					arrow="horizontal"
+					onClick={this.showModal}
+				>
+					优惠券
+				</List.Item>
+			);
+		} else if (this.state.formType === 2) {
+			typeFormInput = (
+				<List.Item
+					extra={this.state.activity.label ? this.state.activity.label : '请选择活动'}
+					arrow="horizontal"
+					onClick={this.showModal}
+				>
+					活动
+				</List.Item>
+			);
+		} else if (this.state.formType === 3) {
+			typeFormInput = (
+				<InputItem placeholder="请输入链接" onChange={this.handleChangeLink}>
+					链接
+				</InputItem>
+			);
+		}
 		return (
 			<div>
-				<SelectAdType value={this.state.adType} onChange={this.handleChangeType} />
+				<SelectAdType value={this.state.formType} onChange={this.handleChangeType} />
 				<WingBlank className={styles.maxheight}>
 					<Flex direction="column" className={styles.maxheight}>
 						<Flex.Item>
 							<List>
-								<List.Item
-									extra={this.state.coupon.label ? this.state.coupon.label : '请选择优惠券'}
-									arrow="horizontal"
-									onClick={this.showModal}
-								>
-									优惠券
-								</List.Item>
+								{typeFormInput}
 								<List.Item extra={time} arrow="horizontal" onClick={this.handleShowSelectTime}>
 									广告投放时长
 								</List.Item>
@@ -139,6 +186,12 @@ export default class From extends Component<Props> {
 					</Flex>
 					<SelectCoupon
 						show={this.state.showSelectCoupon}
+						onClose={this.closeModal}
+						onSelect={this.handleSelectCoupon}
+						isAd={1}
+					/>
+					<SelectActivity
+						show={this.state.showSelectActivity}
 						onClose={this.closeModal}
 						onSelect={this.handleSelectCoupon}
 						isAd={1}
