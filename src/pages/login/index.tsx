@@ -96,13 +96,13 @@ export default connect()(
 							this.props.dispatch(routerRedux.push({ pathname: '/' }));
 
 							// 授权（暂未完善）
-							let url = 'http://test.api.tdianyi.com/wechat/wxoauth?code_id=0&from=v3_supplier';
-							url = encodeURIComponent(url);
-							let urls =
-								'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
-								url +
-								'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
-							return (window.location.href = urls);
+							// let url = 'http://test.api.tdianyi.com/wechat/wxoauth?code_id=0&from=v3_supplier';
+							// url = encodeURIComponent(url);
+							// let urls =
+							// 	'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
+							// 	url +
+							// 	'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+							// return (window.location.href = urls);
 
 							// let url = 'http://test.api.tdianyi.com/wechat/wxoauth?code_id=0&from=v3_supplier';
 							// url = encodeURIComponent(url);
