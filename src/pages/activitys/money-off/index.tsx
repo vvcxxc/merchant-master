@@ -10,7 +10,7 @@ export default class MoneyOff extends Component {
 
 	componentDidMount = () => this.getData();
 
-	handleChange = (id: any) => {};
+	handleChange = (id: any) => this.setState({ type: id }, this.getData);
 
 	getData = async () => {
 		Toast.loading('');
