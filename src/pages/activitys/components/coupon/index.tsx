@@ -4,23 +4,28 @@ import { Flex } from 'antd-mobile';
 
 const types = ['返', '减'];
 
-interface Props {
+type Any = any;
+
+interface Props extends Any {
 	type: number;
 }
 
-export default function Coupon({ type }: Props) {
+export default function Coupon(props: Props) {
+	const tags = props.tag.map((_: string) => (
+		<div className="label" key={_}>
+			{_}
+		</div>
+	));
 	return (
 		<div className={styles.coupon}>
 			<Flex className="content">
-				<div className="headimg">{types[type]}</div>
+				<div className="headimg">{types[props.type]}</div>
 				<Flex.Item className="info">
 					<Flex className="title">
-						支付返券
-						<Flex.Item className="status">即将结束</Flex.Item>
+						{props.name}
+						<Flex.Item className="status">{props.status_msg}</Flex.Item>
 					</Flex>
-					<div className="labels">
-						<div className="label">满30返2</div>
-					</div>
+					<div className="labels">{tags}</div>
 				</Flex.Item>
 			</Flex>
 			<Flex className="bottom" justify="end">
