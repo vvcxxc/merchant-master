@@ -62,12 +62,22 @@ export default class MapPage extends Component {
           let accuracy = res.accuracy; // 位置精度
 
           let location = {
-            x: latitude,
-            y: longitude
+            latitude,
+            longitude
           };
-          alert(location);
+          this.setState({location});
+          wx.openLocation({
+            latitude : res.latitude, // 纬度，浮点数，范围为90 ~ -90
+            longitude : res.longitude, // 经度，浮点数，范围为180 ~ -180。
+            name : '我的位置', // 位置名
+            address : '', // 地址详情说明
+            scale : 28, // 地图缩放级别,整形值,范围从1~28。默认为最大
+          });
+
+
         }
-      })
+      });
+
     })
   }
 
