@@ -100,7 +100,6 @@ export default connect()(
               let urls = 'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
               return window.location.href = urls;
 
-
 						} else {
 							Toast.fail(res.data, 1.5);
 						}
