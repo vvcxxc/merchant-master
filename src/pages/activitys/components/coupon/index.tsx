@@ -11,11 +11,13 @@ interface Props extends Any {
 }
 
 export default function Coupon(props: Props) {
-	const tags = props.tag.map((_: string) => (
-		<div className="label" key={_}>
-			{_}
-		</div>
-	));
+	const tags =
+		props.tag &&
+		props.tag.map((_: string) => (
+			<div className="label" key={_}>
+				{_}
+			</div>
+		));
 	const handleClick = () => props.onClick(props.activity_id);
 	return (
 		<div className={styles.coupon} onClick={handleClick}>
