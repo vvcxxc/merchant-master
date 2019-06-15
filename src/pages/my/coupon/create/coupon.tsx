@@ -34,7 +34,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 		handleShowNotice = () => this.setState({ showNotice: true });
 
 		handleInput = (type: string) => (value: any) => {
-
 			this.props.dispatch({
 				type: 'createCoupon/setCoupon',
 				payload: {
@@ -123,7 +122,11 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					>
 						优惠券有效期
 					</InputItem>
-					<List.Item arrow="horizontal" onClick={this.handleShowNotice}>
+					<List.Item
+						extra={<span>{this.props.description[0] ? this.props.description[0] + '...' : undefined}</span>}
+						arrow="horizontal"
+						onClick={this.handleShowNotice}
+					>
 						使用须知
 					</List.Item>
 					<List.Item arrow="horizontal">封面图片</List.Item>
