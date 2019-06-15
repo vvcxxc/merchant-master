@@ -48,6 +48,7 @@ export default class CreateStore extends Component {
       this.setState({ manage_list : data });
     });
 
+
     /**获取oss */
     request({
       url: 'api/v2/up',
