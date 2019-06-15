@@ -37,7 +37,14 @@ export default class MapPage extends Component {
         city_list: res.data.data
       })
     });
-    let url = location.href;
+    let userAgent = navigator.userAgent;
+    let isIos = userAgent.indexOf('iPhone') > -1;
+    let url = '';
+    if(isIos){
+      url = sessionStorage.getItem('url');
+    }else{
+      url = location.href;
+    }
     request({
       url: 'wechat/getShareSign',
       method: 'get',
@@ -57,20 +64,20 @@ export default class MapPage extends Component {
           "openLocation"
         ]
       });
-      wx.getLocation({
-        type: 'wgs84',
-        success: function (res: any) {
-          let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-          let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-          let location = {
-            latitude,
-            longitude
-          };
-          _this.setState({location})
+    });
+    let _this = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res: any) {
+        let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+        let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+        let location = {
+          latitude,
+          longitude
+        };
+        _this.setState({location})
 
-        }
-      });
-
+      }
     });
   }
 
