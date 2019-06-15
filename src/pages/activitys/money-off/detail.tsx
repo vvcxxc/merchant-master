@@ -22,7 +22,7 @@ export default class MoneyOffDetail extends Component<any> {
 	getDetail = async () => {
 		if (this.state.id) {
 			Toast.loading('');
-			const res = await request({ url: '/v3/activity/more_decrease_info/' + this.state.id });
+			const res = await request({ url: 'v3/activity/more_decrease_info/' + this.state.id });
 			Toast.hide();
 			if (res.code === 200) {
 				this.setState({ detail: res.data });

@@ -28,7 +28,7 @@ export default class MoneyOff extends Component {
 	};
 
 	render() {
-		const tabs = [{ id: 0, label: '进行中' }, { id: 1, label: '待生效' }, { id: 2, label: '已结束' }];
+		const tabs = [{ id: 1, label: '进行中' }, { id: 2, label: '待生效' }, { id: 3, label: '已结束' }];
 		const coupons = this.state.data.map((_: any) => (
 			<Coupon {..._} onClick={this.handleClickCoupon} key={_.activity_id} type={1} />
 		));
