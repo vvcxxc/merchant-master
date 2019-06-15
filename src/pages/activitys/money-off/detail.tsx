@@ -45,9 +45,18 @@ export default class MoneyOffDetail extends Component<any> {
 			router.goBack();
 		}
 	};
+
+	handleRuleClick = () => {};
+
 	render() {
 		const rules = this.state.rules.map((_, index) => (
-			<LimitItem {..._} key={index} index={index} onChange={this.handleRuleChange} />
+			<LimitItem
+				{..._}
+				key={index}
+				index={index}
+				onChange={this.handleRuleChange}
+				onClick={this.handleRuleClick}
+			/>
 		));
 		return (
 			<Flex direction="column" className={styles.page}>

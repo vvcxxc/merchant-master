@@ -5,7 +5,9 @@ import styles from './index.less';
 
 interface Props {
 	index: number;
+	showAdd?: boolean;
 	onChange: (index: number, params: Params) => void;
+	onClick: (index: number) => void;
 }
 interface Params {
 	min?: number;
@@ -20,10 +22,15 @@ export default class LimitItem extends Component<Props & Params> {
 	handleMaxChange = (e: any) => {
 		this.props.onChange(this.props.index, { max: parseFloat(e.target.value), min: this.props.min });
 	};
+	handleIconClick = () => this.props.onClick(this.props.index);
 	render() {
-		const icon = this.props.index !== 0 && (
+		const icon = (
 			<Flex.Item>
-				<img src={require('./icon.png')} alt="" />
+				<img
+					src={this.props.showAdd ? require('./add-icon.png') : require('./icon.png')}
+					alt=""
+					onClick={this.handleIconClick}
+				/>
 			</Flex.Item>
 		);
 		return (
