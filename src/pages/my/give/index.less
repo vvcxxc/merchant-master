@@ -1,71 +1,72 @@
 .page {
-  height: 100%;
-  background: #fff;
-  > div {
-    width: 100%;
-    overflow: hidden;
-  }
-  :global {
-    .head {
-      width: 100%;
-      height: 332px;
-      background-color: #21418a;
-      color: #fff;
-      > div {
-        margin-right: 135px;
-        &:last-child {
-          margin-right: 0;
-        }
-      }
-      .value {
-        font-size: 50px;
-        font-weight: bold;
-      }
-      span {
-        font-size: 24px;
-        opacity: 0.8;
-        margin-top: 24px;
-      }
-    }
-    .page-content {
-      height: 100%;
-      > div {
-        width: 100%;
-        &:last-child {
-          overflow-y: scroll;
-        }
-      }
-      .content-head {
-        padding: 36px 0 30px;
-        img {
-          width: 24px;
-          height: 28px;
-          background-color: #ccc;
-          margin-right: 14px;
-        }
-      }
-    }
-  }
+	height: 100%;
+	background: #fff;
+	> div {
+		width: 100%;
+		overflow: hidden;
+	}
+	:global {
+		.head {
+			width: 100%;
+			height: 332px;
+			color: #fff;
+			background: #21418a url(./bg.png) bottom no-repeat;
+			background-size: 100%;
+			> div {
+				margin-right: 135px;
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+			.value {
+				font-size: 50px;
+				font-weight: bold;
+			}
+			span {
+				font-size: 24px;
+				opacity: 0.8;
+				margin-top: 24px;
+			}
+		}
+		.page-content {
+			height: 100%;
+			> div {
+				width: 100%;
+				&:last-child {
+					overflow-y: scroll;
+				}
+			}
+			.content-head {
+				padding: 36px 0 30px;
+				img {
+					width: 24px;
+					height: 28px;
+					background-color: #ccc;
+					margin-right: 14px;
+				}
+			}
+		}
+	}
 }
 
 .item {
-  padding: 0 0 30px;
-  margin-bottom: 30px;
-  border-bottom: 1px solid #eeeeee;
-  &:last-child {
-    border-bottom: none;
-  }
-  :global {
-    span {
-      font-size: 24px;
-      color: #999;
-      margin-top: 20px;
-    }
-    .after {
-      text-align: right;
-      > div {
-        color: #666;
-      }
-    }
-  }
+	padding: 0 0 30px;
+	margin-bottom: 30px;
+	border-bottom: 1px solid #eeeeee;
+	&:last-child {
+		border-bottom: none;
+	}
+	:global {
+		span {
+			font-size: 24px;
+			color: #999;
+			margin-top: 20px;
+		}
+		.after {
+			text-align: right;
+			> div {
+				color: #666;
+			}
+		}
+	}
 }
