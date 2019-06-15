@@ -652,7 +652,7 @@ export default class submitQua extends Component {
 
 
     return (
-      <div style={{ width: '100%', height: 'auto', background: '#fff' }}>
+      <div style={{ width: '100%', height: 'auto', background: '#fff' }} className={styles.submitQua}>
         <WingBlank>
           <Flex className={styles.sfz_title}>
             <div className={styles.sfz_left}>身份证</div>

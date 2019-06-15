@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, Button, Icon, InputItem, PickerView} from 'antd-mobile';
-import { Map } from 'react-amap';
+import { Map, Marker  } from 'react-amap';
 import request from '@/services/request';
 import axios from 'axios';
 import wx from "weixin-js-sdk"
@@ -22,7 +22,10 @@ export default class MapPage extends Component {
     // 省市区
     province: '北京',
     // 经纬度
-    location: {}
+    location: {
+      longitude: '',
+      latitude: ''
+    }
   };
 
   componentDidMount (){
@@ -42,6 +45,7 @@ export default class MapPage extends Component {
         url
       }
     }).then(res => {
+      let _this = this;
       wx.config({
         debug: true,
         appId: res.appId,
@@ -58,26 +62,16 @@ export default class MapPage extends Component {
         success: function (res: any) {
           let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
           let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-          let speed = res.speed; // 速度，以米/每秒计
-          let accuracy = res.accuracy; // 位置精度
-
-          // let location = {
-          //   latitude,
-          //   longitude
-          // };
-          wx.openLocation({
-            latitude : res.latitude, // 纬度，浮点数，范围为90 ~ -90
-            longitude : res.longitude, // 经度，浮点数，范围为180 ~ -180。
-            name : '我的位置', // 位置名
-            address : '', // 地址详情说明
-            scale : 28, // 地图缩放级别,整形值,范围从1~28。默认为最大
-          });
-
+          let location = {
+            latitude,
+            longitude
+          };
+          _this.setState({location})
 
         }
       });
 
-    })
+    });
   }
 
   handleChangeCity = (e: any) => {
@@ -124,7 +118,7 @@ export default class MapPage extends Component {
       ''
     );
     const { city_name, province } = this.state;
-
+    const { location} = this.state
 
 
 
@@ -153,7 +147,9 @@ export default class MapPage extends Component {
 
         </WingBlank>
         <div className={styles.mapBox}>
-          {/* <Map amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} zoom={13}/> */}
+          <Map amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} zoom={13}>
+            <Marker position={location}/>>
+          </Map>
         </div>
         {picker}
 
