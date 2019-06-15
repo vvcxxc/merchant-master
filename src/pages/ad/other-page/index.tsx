@@ -1,4 +1,4 @@
-/**title: 商圈广告 */
+/**title: 展位广告 */
 
 import React, { Component } from 'react';
 import AdLayout from '../components/ad-layout';
@@ -11,15 +11,14 @@ import { Toast } from 'antd-mobile';
 export default class BusinessArea extends Component<any> {
 	state = {
 		data: {},
-		log: []
+		log: [],
+		position: 0
 	};
 	componentDidMount() {
 		this.getDetail();
 	}
 	getDetail = async () => {
 		Toast.loading('');
-		// const types = await request({ url: 'v3/ad_positions' });
-		// console.log(types);
 		// 钻石-》支付页-》1      铂金-》线上商城-》3        黄金-》活动-》2
 		let position;
 		switch (this.props.location.query.type) {
@@ -33,6 +32,7 @@ export default class BusinessArea extends Component<any> {
 				position = 3;
 				break;
 		}
+		this.setState({ position });
 		const res = await request({ url: 'v3/ads/by_type', params: { ad_type: 2, position_id: position } });
 		Toast.hide();
 		if (res.code === 200 && res.data.coupon_id) {
@@ -48,8 +48,10 @@ export default class BusinessArea extends Component<any> {
 		}
 	};
 
+	handleSuccess = () => this.getDetail();
+
 	render() {
-		const form = <From editForm={this.state.data} />;
+		const form = <From onSuccess={this.handleSuccess} position={this.state.position} editForm={this.state.data} />;
 		const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
 		const chart = <Chart />;
 		return <AdLayout children={[form, expenseCalendar, chart]} />;

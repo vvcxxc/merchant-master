@@ -4,6 +4,7 @@ import { WingBlank, Flex } from 'antd-mobile';
 
 interface Props {
 	tabs: Array<TabItem>;
+	value?: number;
 	onChange: (arg0: TabItem['id']) => any;
 }
 
@@ -14,6 +15,10 @@ interface TabItem {
 
 export default class TabPage extends Component<Props> {
 	state = { active: 1 };
+	constructor(props: Readonly<Props>) {
+		super(props);
+		this.state.active = this.props.value !== undefined ? this.props.value : 1;
+	}
 	handleTabChange = (e: any) =>
 		this.setState({ active: Number(e.target.getAttribute('data-value')) }, () =>
 			this.props.onChange(this.state.active)

@@ -12,7 +12,7 @@ export default function AdLayout({ children }: Props) {
 	const content = children[tab];
 
 	return (
-		<TabPage tabs={tabs} onChange={handleTabChange}>
+		<TabPage value={0} tabs={tabs} onChange={handleTabChange}>
 			{content}
 		</TabPage>
 	);
