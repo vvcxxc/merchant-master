@@ -12,7 +12,7 @@ export default class PayMent extends Component {
 	};
 	componentDidMount = () => this.getData(1);
 	getData = async (type: number) => {
-		Toast.loading('');
+		Toast.loading('');\
 		const res = await request({ url: 'v3/return_coupons', params: { status: type } });
 		Toast.hide();
 		if (res.code === 200) {
