@@ -64,20 +64,20 @@ export default class MapPage extends Component {
           "openLocation"
         ]
       });
-    });
-    let _this = this;
-    wx.getLocation({
-      type: 'wgs84',
-      success: function (res: any) {
-        let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-        let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-        let location = {
-          latitude,
-          longitude
-        };
-        _this.setState({location})
-
-      }
+      wx.ready(() => {
+        wx.getLocation({
+          type: 'wgs84',
+          success: function (res: any) {
+            let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+            let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+            let location = {
+              latitude,
+              longitude
+            };
+            _this.setState({location})
+          }
+        });
+      })
     });
   }
 
@@ -154,9 +154,11 @@ export default class MapPage extends Component {
 
         </WingBlank>
         <div className={styles.mapBox}>
-          <Map amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} zoom={13}>
-            <Marker position={location}/>>
-          </Map>
+          {/* <Map amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} zoom={13}><Marker position={location}/></Map> */}
+          <div>
+            <p>精度：{location.latitude}</p>
+            <p>纬度：{location.longitude}</p>
+          </div>
         </div>
         {picker}
 
