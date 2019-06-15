@@ -16,16 +16,16 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			inputFile: false,
 			files: [],
 			detailFiles: [],
-      showNotice: false,
-      // notice的key值
-      keys: '100'
+			showNotice: false,
+			// notice的key值
+			keys: '100'
 		};
 
 		handleNoticeChange = (notice: any[], keys: string) => {
-      this.setState({keys})
+			this.setState({ keys });
 			this.props.dispatch({
 				type: 'createCoupon/setCoupon',
-				paylaod: {
+				payload: {
 					description: notice
 				}
 			});
@@ -34,7 +34,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 		handleShowNotice = () => this.setState({ showNotice: true });
 
 		handleInput = (type: string) => (value: any) => {
-
 			this.props.dispatch({
 				type: 'createCoupon/setCoupon',
 				payload: {
@@ -76,7 +75,11 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 
 		render() {
 			const notice = this.state.showNotice && (
-				<Notice keys={this.state.keys} notice_list={this.props.description} onChange={this.handleNoticeChange} />
+				<Notice
+					keys={this.state.keys}
+					notice_list={this.props.description}
+					onChange={this.handleNoticeChange}
+				/>
 			);
 			return (
 				<div>
@@ -119,7 +122,11 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					>
 						优惠券有效期
 					</InputItem>
-					<List.Item arrow="horizontal" onClick={this.handleShowNotice}>
+					<List.Item
+						extra={<span>{this.props.description[0] ? this.props.description[0] + '...' : undefined}</span>}
+						arrow="horizontal"
+						onClick={this.handleShowNotice}
+					>
 						使用须知
 					</List.Item>
 					<List.Item arrow="horizontal">封面图片</List.Item>
