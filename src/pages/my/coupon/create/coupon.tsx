@@ -34,6 +34,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 		handleShowNotice = () => this.setState({ showNotice: true });
 
 		handleInput = (type: string) => (value: any) => {
+
 			this.props.dispatch({
 				type: 'createCoupon/setCoupon',
 				payload: {

@@ -7,7 +7,7 @@ import request from '@/services/request';
 import Cookies from 'js-cookie';
 
 export default class Rechange extends Component {
-	openId = Cookies.get('open_id') || 'oy6pQ0yY_L34r_vcMkCNHJPk-iCk';
+	openId = Cookies.get('test_open_id') || 'oy6pQ0yY_L34r_vcMkCNHJPk-iCk';
 	state = { money: 0 };
 	/**input change */
 	handleInputChange = (value: any) => this.setState({ money: parseFloat(value) });
