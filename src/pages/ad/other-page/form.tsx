@@ -36,7 +36,7 @@ export default class From extends Component<Props, any> {
 			value: 0
 		},
 		/**每日预算 */
-		price: 0,
+		price: '',
 		startTime: undefined,
 		endTime: undefined,
 		edit: false,
@@ -64,7 +64,11 @@ export default class From extends Component<Props, any> {
 				formType: nextProps.editForm.romotion_type - 1,
 				maked: true,
 				id: nextProps.editForm.id,
-				files: []
+				files: nextProps.editForm.original
+					? [{ url: nextProps.editForm.original, path: nextProps.editForm.original }]
+					: [],
+				startTime: nextProps.editForm.begin_time,
+				endTime: nextProps.editForm.end_time
 			});
 		} else {
 			this.setState({ files: [] });
@@ -155,6 +159,7 @@ export default class From extends Component<Props, any> {
 
 	handleChangeLink = (value: string) => this.setState({ link: value });
 
+	/**选择广告图 */
 	handleCheckImage = async (files: any[], operationType: string) => {
 		if (operationType === 'add' && files.length) {
 			Toast.loading('上传图片中');
@@ -228,7 +233,12 @@ export default class From extends Component<Props, any> {
 								<List.Item extra={time} arrow="horizontal" onClick={this.handleShowSelectTime}>
 									广告投放时长
 								</List.Item>
-								<InputItem extra="元" type="money" onChange={this.handleChangePrice}>
+								<InputItem
+									value={this.state.price}
+									extra="元"
+									type="money"
+									onChange={this.handleChangePrice}
+								>
 									每日预算
 								</InputItem>
 							</List>

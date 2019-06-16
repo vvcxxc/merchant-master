@@ -33,10 +33,10 @@ export default class BusinessArea extends Component<any> {
 				break;
 		}
 		this.setState({ position });
-		const res = await request({ url: 'v3/ads/by_type', params: { ad_type: 2, position_id: position } });
+		const res = await request({ url: 'v3/ads/by_type', params: { ad_type: 1, position_id: position } });
 		Toast.hide();
-		if (res.code === 200 && res.data.coupon_id) {
-			this.setState({ data: res.data });
+		if (res.code === 200 && res.data.length) {
+			this.setState({ data: res.data[0] });
 			this.setLog();
 		}
 	};
