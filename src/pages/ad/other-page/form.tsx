@@ -39,6 +39,7 @@ export default class From extends Component<Props, any> {
 		price: '',
 		startTime: undefined,
 		endTime: undefined,
+		/**是否是修改状态，修改状态下，只能暂停 */
 		edit: false,
 		/**是否暂停提示显示 */
 		stopModalShow: false,
@@ -48,18 +49,17 @@ export default class From extends Component<Props, any> {
 		/**是否已经发布过 */
 		maked: false,
 		id: 0,
-
+		banner: '',
 		files: [{ path: '' }]
 	};
 	UNSAFE_componentWillReceiveProps(nextProps: any) {
 		if (nextProps.editForm.id) {
 			this.setState({
 				coupon: {
-					label: '',
+					label: nextProps.editForm.coupon_name,
 					value: nextProps.editForm.coupon_id
 				},
 				price: nextProps.editForm.daily_budget,
-				time: 0,
 				edit: nextProps.editForm.is_pause === 0,
 				formType: nextProps.editForm.romotion_type - 1,
 				maked: true,
@@ -67,8 +67,10 @@ export default class From extends Component<Props, any> {
 				files: nextProps.editForm.original
 					? [{ url: nextProps.editForm.original, path: nextProps.editForm.original }]
 					: [],
+				banner: nextProps.editForm.original,
 				startTime: nextProps.editForm.begin_time,
-				endTime: nextProps.editForm.end_time
+				endTime: nextProps.editForm.end_time,
+				link: nextProps.editForm.link
 			});
 		} else {
 			this.setState({ files: [] });
@@ -109,7 +111,6 @@ export default class From extends Component<Props, any> {
 			}
 			Toast.loading('');
 			let data: any = {
-				coupon_id: this.state.coupon.value,
 				daily_budget: this.state.price,
 				begin_time: this.state.startTime,
 				end_time: this.state.endTime,
@@ -117,6 +118,13 @@ export default class From extends Component<Props, any> {
 				position_id: this.props.position,
 				ad_pic: this.state.files[0].path
 			};
+			if (this.state.formType === 1) {
+				data.coupon_id = this.state.coupon.value;
+			} else if (this.state.formType === 2) {
+				data.activity_id = this.state.activity.value;
+			} else if (this.state.formType === 3) {
+				data.link = this.state.link;
+			}
 			let res;
 			if (this.state.maked) {
 				res = await request({ url: 'v3/ads/' + this.state.id, method: 'put', data });
@@ -127,12 +135,13 @@ export default class From extends Component<Props, any> {
 			Toast.hide();
 
 			if (res.code === 200) {
-				return Toast.success('投放成功');
-				this.props.onSuccess();
+				Toast.success('投放成功', 1);
+				setTimeout(() => this.props.onSuccess(), 1000);
 			} else {
 				Toast.fail(res.data);
 			}
 		} else {
+			this.props.onSuccess();
 			this.handleShowStopAd();
 		}
 	};
@@ -209,7 +218,12 @@ export default class From extends Component<Props, any> {
 			);
 		} else if (this.state.formType === 3) {
 			typeFormInput = (
-				<InputItem placeholder="请输入链接" onChange={this.handleChangeLink}>
+				<InputItem
+					style={{ textAlign: 'right' }}
+					value={this.state.link}
+					placeholder="请输入链接"
+					onChange={this.handleChangeLink}
+				>
 					链接
 				</InputItem>
 			);
@@ -250,7 +264,7 @@ export default class From extends Component<Props, any> {
 							</Flex>
 							<div className={styles.adTitle}>广告图</div>
 							{imagePicker}
-							{this.state.edit && <img className={styles.banner} src="" />}
+							{this.state.edit && <img className={styles.banner} src={this.state.banner} />}
 						</Flex.Item>
 						<Button type="primary" className={styles.submitBtn} onClick={this.handleSubmit}>
 							{!this.state.edit ? '投放' : '暂停'}
