@@ -8,6 +8,7 @@ type Any = any;
 
 interface Props extends Any {
 	type: number;
+	onClick: (id: number) => any;
 }
 
 export default function Coupon(props: Props) {

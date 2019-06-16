@@ -19,28 +19,27 @@ export default connect(({ app }: any) => app)(
 	class IndexPage extends Component<Props> {
 		/**是否显示核销的界面 */
 		state = {
-      showVerification: false,
-      //支付开通状态
-      payment_status: {}
-    };
+			showVerification: false,
+			//支付开通状态
+			payment_status: {}
+		};
 
-    componentWillMount() {
-      request({
-        url: 'v3/payment_profiles/payment_status',
-        method: 'get',
-      }).then(res => {
-        let { data } = res;
-        if(data.store_open_status != 1){
-          router.push('/createStore')
-        }
-      })
-    }
+		componentWillMount() {
+			request({
+				url: 'v3/payment_profiles/payment_status',
+				method: 'get'
+			}).then(res => {
+				let { data } = res;
+				if (data.store_open_status != 1) {
+					router.push('/createStore');
+				}
+			});
+		}
 
 		componentDidMount() {
 			this.props.dispatch({
 				type: 'app/getData'
-      });
-
+			});
 		}
 		/**跳转到页面 */
 		pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
@@ -59,10 +58,10 @@ export default connect(({ app }: any) => app)(
 					router.push({ pathname: '/ad/other-page', query: { type: item.name } });
 					break;
 				case '增值':
-					router.push('/activitys/appreciation/createAppreciation');
+					router.push('/activitys/appreciation');
 					break;
 				case '拼团':
-					router.push('/activitys/group/createGroup');
+					router.push('/activitys/group');
 					break;
 				case '满减':
 					router.push('/activitys/money-off');
@@ -72,6 +71,12 @@ export default connect(({ app }: any) => app)(
 					break;
 				case '店内领券':
 					router.push('/my/coupon/create');
+					break;
+				case '财务统计':
+					router.push('/finance/statistics');
+					break;
+				case '下单返券':
+					router.push('/activitys/payment');
 					break;
 			}
 			// router.push('');

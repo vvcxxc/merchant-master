@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import MyGiveItem from './item';
 
-export default class MyGiveList extends Component {
-  state = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-  render() {
-    const list = this.state.map(_ => <MyGiveItem key={_} />);
-    return <div>{list}</div>;
-  }
+interface Props {
+	list: any[];
+}
+export default class MyGiveList extends Component<Props> {
+	render() {
+		const list = this.props.list.map((_: any) => <MyGiveItem key={_.id} {..._} />);
+		return <div>{list}</div>;
+	}
 }
