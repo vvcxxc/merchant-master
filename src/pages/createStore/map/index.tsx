@@ -65,6 +65,7 @@ export default class MapPage extends Component {
         ]
       });
       wx.ready(() => {
+
         wx.getLocation({
           type: 'wgs84',
           success: function (res: any) {
@@ -77,6 +78,7 @@ export default class MapPage extends Component {
             _this.setState({location})
           }
         });
+
       })
     });
   }
@@ -154,11 +156,8 @@ export default class MapPage extends Component {
 
         </WingBlank>
         <div className={styles.mapBox}>
-          {/* <Map amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} zoom={13}><Marker position={location}/></Map> */}
-          <div>
-            <p>精度：{location.latitude}</p>
-            <p>纬度：{location.longitude}</p>
-          </div>
+          <Map amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} zoom={13}><Marker position={location}/></Map>
+          
         </div>
         {picker}
 
