@@ -9,6 +9,7 @@ import router from 'umi/router';
 import { Data } from '@/models/app';
 import { routerRedux } from 'dva/router';
 import request from '@/services/request';
+import wx from "weixin-js-sdk";
 
 interface Props {
 	data: Data;
@@ -33,6 +34,34 @@ export default connect(({ app }: any) => app)(
 				if (data.store_open_status != 1) {
 					router.push('/createStore');
 				}
+			});
+			let userAgent = navigator.userAgent;
+			let isIos = userAgent.indexOf('iPhone') > -1;
+			let url: any;
+			if(isIos){
+			url = sessionStorage.getItem('url');
+			}else{
+			url = location.href;
+			}
+			request({
+				url: 'wechat/getShareSign',
+				method: 'get',
+				params: {
+				  url
+				}
+			  }).then(res => {
+				let _this = this;
+				wx.config({
+				  debug: true,
+				  appId: res.appId,
+				  timestamp: res.timestamp,
+				  nonceStr: res.nonceStr,
+				  signature: res.signature,
+				  jsApiList: [
+					"getLocation",
+					"openLocation"
+				  ]
+				});
 			});
 		}
 
@@ -82,13 +111,25 @@ export default connect(({ app }: any) => app)(
 			// router.push('');
 		};
 
+
+		/**点击核销 */
+		Verification = () => {
+			wx.scanQRCode({
+				needResult: 1,
+				desc: "scanQRCode desc",
+				success: ({ resultStr }) => {
+				//   console.log(resultStr)
+				}
+			})
+		}
+
 		/**审核页面 */
 		verificationPage = () =>
 			this.state.showVerification ? (
 				<Flex className={styles.verificationPage} justify="end" direction="column">
 					<Flex className="icons">
 						<Flex.Item>
-							<Flex justify="center" direction="column">
+							<Flex justify="center" direction="column" onClick={this.Verification}>
 								<img src={require('../assets/menu/15.png')} />
 								扫码验证
 							</Flex>
