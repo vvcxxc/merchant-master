@@ -78,6 +78,9 @@ export default connect(({ app }: any) => app)(
 				case '下单返券':
 					router.push('/activitys/payment');
 					break;
+				case '核销记录':
+					router.push('/verification');
+					break;
 			}
 			// router.push('');
 		};
