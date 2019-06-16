@@ -9,7 +9,7 @@ import router from 'umi/router';
 import { Data } from '@/models/app';
 import { routerRedux } from 'dva/router';
 import request from '@/services/request';
-import wx from "weixin-js-sdk";
+import wx from 'weixin-js-sdk';
 
 interface Props {
 	data: Data;
@@ -38,29 +38,26 @@ export default connect(({ app }: any) => app)(
 			let userAgent = navigator.userAgent;
 			let isIos = userAgent.indexOf('iPhone') > -1;
 			let url: any;
-			if(isIos){
-			url = sessionStorage.getItem('url');
-			}else{
-			url = location.href;
+			if (isIos) {
+				url = sessionStorage.getItem('url');
+			} else {
+				url = location.href;
 			}
 			request({
 				url: 'wechat/getShareSign',
 				method: 'get',
 				params: {
-				  url
+					url
 				}
-			  }).then(res => {
+			}).then(res => {
 				let _this = this;
 				wx.config({
-				  debug: true,
-				  appId: res.appId,
-				  timestamp: res.timestamp,
-				  nonceStr: res.nonceStr,
-				  signature: res.signature,
-				  jsApiList: [
-					"getLocation",
-					"openLocation"
-				  ]
+					debug: true,
+					appId: res.appId,
+					timestamp: res.timestamp,
+					nonceStr: res.nonceStr,
+					signature: res.signature,
+					jsApiList: ['getLocation', 'openLocation']
 				});
 			});
 		}
@@ -110,21 +107,23 @@ export default connect(({ app }: any) => app)(
 				case '核销记录':
 					router.push('/verification');
 					break;
+				case '我的收益':
+					router.push('/my/benefit');
+					break;
 			}
 			// router.push('');
 		};
-
 
 		/**点击核销 */
 		Verification = () => {
 			wx.scanQRCode({
 				needResult: 1,
-				desc: "scanQRCode desc",
-				success: ({ resultStr }) => {
-				//   console.log(resultStr)
+				desc: 'scanQRCode desc',
+				success: ({}) => {
+					//   console.log(resultStr)
 				}
-			})
-		}
+			});
+		};
 
 		/**审核页面 */
 		verificationPage = () =>
