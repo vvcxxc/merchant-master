@@ -4,10 +4,15 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, Button, Icon, InputItem, PickerView} from 'antd-mobile';
-import { Map, Marker  } from 'react-amap';
+import { Map, Marker, MouseTool} from 'react-amap';
 import request from '@/services/request';
 import axios from 'axios';
-import wx from "weixin-js-sdk"
+import wx from "weixin-js-sdk";
+
+
+
+
+
 export default class MapPage extends Component {
   state = {
     city_list: [],
@@ -23,9 +28,10 @@ export default class MapPage extends Component {
     province: '北京',
     // 经纬度
     location: {
-      longitude: '',
-      latitude: ''
-    }
+      longitude: 113.3348617553711,
+      latitude: 23.18288803100586
+    },
+    address: ''
   };
 
   componentDidMount (){
@@ -39,7 +45,7 @@ export default class MapPage extends Component {
     });
     let userAgent = navigator.userAgent;
     let isIos = userAgent.indexOf('iPhone') > -1;
-    let url = '';
+    let url: any;
     if(isIos){
       url = sessionStorage.getItem('url');
     }else{
@@ -106,7 +112,29 @@ export default class MapPage extends Component {
       city_name,
       province
     })
+  };
+
+
+  search = () => {
+    let keywords = this.state.address;
+    this.msearch = new AMap.PlaceSearch({
+      pageSize:5,
+      pageIndex:1,
+      city: '广州'
+      // city:this.state.city_name //城市
+      //panel: "_ListContainer"
+    });
+    this.msearch.search(keywords, function(status: any, result: object){
+      // console.log(result)
+    })
   }
+
+
+  handleAddress = (e: any) => {
+    this.setState({address: e})
+  }
+
+  
 
 
 
@@ -127,7 +155,98 @@ export default class MapPage extends Component {
       ''
     );
     const { city_name, province } = this.state;
-    const { location} = this.state
+    const { location} = this.state;
+
+    let that = this;
+    const plugins = [
+      'Scale',
+      {
+        name:'ToolBar',
+        options:{
+            visible: true,  // 不设置该属性默认就是 true
+            onCreated(ins: any) {},
+        },
+      }
+    ];
+
+    let onComplete=(data: any)=>{
+      that.setState({
+          // position:[data.position.getLng(),data.position.getLat()]
+          location: {
+            latitude: data.position.getLat(),
+            longitude: data.position.getLng()
+          }
+      })
+    };
+    let onError = ()=>{
+        alert('定位失败');
+    };
+    const _this = this;
+    const events = {
+      created: (instance: any) => {
+          instance.plugin('AMap.Geolocation', function () {
+              let geolocation = new AMap.Geolocation({
+                  enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                  timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+                  maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+                  convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+                  showButton: true,        //显示定位按钮，默认：true
+                  buttonPosition: 'RB',    //定位按钮停靠位置，默认：'LB'，左下角
+                  buttonOffset: new AMap.Pixel(14, 130),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                  showMarker: false,        //定位成功后在定位到的位置显示点标记，默认：true
+                  showCircle: false,        //定位成功后用圆圈表示定位精度范围，默认：true
+                  panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+                  zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+              });
+              instance.addControl(geolocation);
+              geolocation.getCurrentPosition();
+              AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+              AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+          });
+          AMap.plugin('AMap.Geocoder',() => {
+            _this.geocoder = new AMap.Geocoder({
+                city: "010"//城市，默认：“全国”
+            });
+          })
+          AMap.plugin('AMap.PlaceSearch',() => {
+            this.msearch = new AMap.PlaceSearch({
+              pageSize:10,
+              pageIndex:1,
+              city: '广州'
+              // city:this.state.city_name //城市
+              //panel: "_ListContainer"
+            });
+          })
+      },
+      click: (e: any) => {
+        this.setState({
+          location:{
+            longitude: e.lnglat.lng,
+            latitude: e.lnglat.lat
+          }
+        });
+        const lnglat = e.lnglat;
+        _this.geocoder && _this.geocoder.getAddress(lnglat, (status, result) => {
+          // console.log(result);
+        	if (status === 'complete'){
+          	if (result.regeocode){
+              _this.setState({
+                address: result.regeocode.formattedAddress || '未知地点',
+                city_name: result.regeocode.addressComponent.city
+              });
+            } else {
+              _this.setState({
+                address: '未知地点'
+              });
+            }
+          } else {
+            _this.setState({
+              address: '未知地点'
+            });
+          }
+        })
+      },
+    };
 
 
 
@@ -148,16 +267,21 @@ export default class MapPage extends Component {
               <Flex>
                 <InputItem
                   placeholder='请输入详细门牌号'
+                  value={this.state.address}
+                  onChange={this.handleAddress}
                 >{province}
                 </InputItem>
               </Flex>
+              <Icon type='search' size={'sm'} onClick={this.search}/>
             </Flex>
           </Flex>
 
         </WingBlank>
         <div className={styles.mapBox}>
-          <Map amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} zoom={13}><Marker position={location}/></Map>
-          
+          <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
+            <Marker position={location}/>
+            {/* <MouseTool events={toolEvents}/> */}
+          </Map>
         </div>
         {picker}
 
