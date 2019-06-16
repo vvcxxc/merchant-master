@@ -22,9 +22,12 @@ export default class PayMent extends Component {
 	};
 	handleChange = (id: any) => this.getData(id);
 	handleAdd = () => router.push('payment/create');
+	handleClickCoupon = () => {};
 	render() {
 		const tabs = [{ id: 1, label: '进行中' }, { id: 2, label: '待生效' }, { id: 3, label: '已结束' }];
-		const coupons = this.state.data.map((_: any, index: number) => <Coupon type={0} key={_.id} {..._} />);
+		const coupons = this.state.data.map((_: any, index: number) => (
+			<Coupon onClick={this.handleClickCoupon} type={0} key={_.id} {..._} />
+		));
 		return (
 			<TabPage tabs={tabs} onChange={this.handleChange}>
 				<WingBlank>{coupons}</WingBlank>
