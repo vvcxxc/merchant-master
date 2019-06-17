@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import styles from './index.less';
-import { Flex, WingBlank, Icon } from 'antd-mobile';
+import { Flex, WingBlank, Icon, Toast } from 'antd-mobile';
 import verificationImage from '../assets/varied/verification@2x.png';
 import { connect } from 'dva';
 import router from 'umi/router';
@@ -120,7 +120,16 @@ export default connect(({ app }: any) => app)(
 				needResult: 1,
 				desc: 'scanQRCode desc',
 				success: (resultStr: any) => {
-					  // console.log(resultStr)
+            // console.log(resultStr)
+            request({
+              url: 'api/merchant/youhui/userConsume',
+              method: 'post',
+              data: {
+                code: resultStr.youhui_sn
+              }
+            }).then(res => {
+              Toast.success(res.message)
+            })
 				}
 			});
 		};
