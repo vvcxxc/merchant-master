@@ -28,7 +28,11 @@ export default class MoneyOffDetail extends Component<any> {
 			Toast.hide();
 			if (res.code === 200) {
 				this.setState({
-					rules: res.data.more_decrease.map((_: any) => ({ min: _.more, max: _.decrease })),
+					rules: res.data.more_decrease.map((_: any) => ({
+						min: _.more,
+						max: _.decrease,
+						id: _.more_decrease_id
+					})),
 					startTime: res.data.activity.begin_time,
 					endTime: res.data.activity.end_time
 				});
@@ -44,7 +48,7 @@ export default class MoneyOffDetail extends Component<any> {
 
 	handleDelete = async () => {
 		Toast.loading('');
-		const res = await request({ url: 'v3/activity/more_decrease/' + this.state.id, method: 'delete' });
+		const res = await request({ url: 'v3/activity/more_decrease/' + this.state.id, method: 'post' });
 		Toast.hide();
 		if (res.code === 200) {
 			Toast.success('删除成功');
@@ -54,7 +58,24 @@ export default class MoneyOffDetail extends Component<any> {
 		}
 	};
 
-	handleRuleClick = () => {};
+	handleRuleClick = async (index: number) => {
+		const item: any = this.state.rules[index];
+		if (item) {
+			Toast.loading('');
+			const res = await request({
+				url: 'v3/activity/more_decrease_grade',
+				method: 'post',
+				data: { activity_id: this.state.id, more_decrease_id: item.id }
+			});
+			Toast.hide();
+			if (res.code === 200) {
+				Toast.success('删除成功');
+				this.getDetail();
+			} else {
+				Toast.fail(res.data);
+			}
+		}
+	};
 
 	render() {
 		const rules = this.state.rules.map((_, index) => (
