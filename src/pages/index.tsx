@@ -119,18 +119,16 @@ export default connect(({ app }: any) => app)(
 			wx.scanQRCode({
 				needResult: 1,
 				desc: 'scanQRCode desc',
-				success: (resultStr: any) => {
-            // console.log(resultStr)
-            alert(resultStr)
-            // request({
-            //   url: 'api/merchant/youhui/userConsume',
-            //   method: 'post',
-            //   data: {
-            //     code: resultStr.youhui_sn
-            //   }
-            // }).then(res => {
-            //   Toast.success(res.message)
-            // })
+				success: ({resultStr}: any) => {
+            request({
+              url: 'api/merchant/youhui/userConsume',
+              method: 'post',
+              data: {
+                code: resultStr.youhui_sn
+              }
+            }).then(res => {
+              Toast.success(res.message)
+            })
 				}
 			});
 		};
