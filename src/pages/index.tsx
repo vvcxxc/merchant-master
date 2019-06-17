@@ -52,7 +52,7 @@ export default connect(({ app }: any) => app)(
 			}).then(res => {
 				let _this = this;
 				wx.config({
-					debug: true,
+					debug: false,
 					appId: res.appId,
 					timestamp: res.timestamp,
 					nonceStr: res.nonceStr,
@@ -146,7 +146,7 @@ export default connect(({ app }: any) => app)(
 							</Flex>
 						</Flex.Item>
 						<Flex.Item>
-							<Flex justify="center" direction="column">
+							<Flex justify="center" direction="column" onClick={this.pushPage('/verification/inputcode')}>
 								<img src={require('../assets/menu/16.png')} />
 								输码验证
 							</Flex>
