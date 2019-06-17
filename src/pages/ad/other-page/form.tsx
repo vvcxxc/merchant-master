@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Flex, List, WingBlank, InputItem, Button, Toast } from 'antd-mobile';
+import { Flex, List, WingBlank, InputItem, Button, Toast, ImagePicker } from 'antd-mobile';
 
 import styles from '../index.less';
 import router from 'umi/router';
@@ -10,13 +10,15 @@ import moment from 'moment';
 import SelectAdType from '../components/selectType';
 import StopAd from '../components/stop';
 import SelectActivity from '../components/select-activity';
-import { string } from 'prop-types';
+import oss from '@/services/oss';
 
 interface Props {
 	editForm: any;
+	position: number;
+	onSuccess: () => void;
 }
 
-export default class From extends Component<Props> {
+export default class From extends Component<Props, any> {
 	state = {
 		/**显示选择优惠券 */
 		showSelectCoupon: false,
@@ -34,27 +36,44 @@ export default class From extends Component<Props> {
 			value: 0
 		},
 		/**每日预算 */
-		price: 0,
+		price: '',
 		startTime: undefined,
 		endTime: undefined,
+		/**是否是修改状态，修改状态下，只能暂停 */
 		edit: false,
 		/**是否暂停提示显示 */
 		stopModalShow: false,
 		/**表单类型 本店, 优惠券，活动，链接 */
 		formType: 0,
-		link: ''
+		link: '',
+		/**是否已经发布过 */
+		maked: false,
+		id: 0,
+		banner: '',
+		files: [{ path: '' }]
 	};
 	UNSAFE_componentWillReceiveProps(nextProps: any) {
-		if (nextProps.editForm.coupon_id) {
+		if (nextProps.editForm.id) {
 			this.setState({
 				coupon: {
-					label: '',
+					label: nextProps.editForm.coupon_name,
 					value: nextProps.editForm.coupon_id
 				},
 				price: nextProps.editForm.daily_budget,
-				time: 0,
-				edit: true
+				edit: nextProps.editForm.is_pause === 0,
+				formType: nextProps.editForm.romotion_type - 1,
+				maked: true,
+				id: nextProps.editForm.id,
+				files: nextProps.editForm.original
+					? [{ url: nextProps.editForm.original, path: nextProps.editForm.original }]
+					: [],
+				banner: nextProps.editForm.original,
+				startTime: nextProps.editForm.begin_time,
+				endTime: nextProps.editForm.end_time,
+				link: nextProps.editForm.link
 			});
+		} else {
+			this.setState({ files: [] });
 		}
 	}
 	handleToRechange = () => router.push('/my/rechange');
@@ -72,8 +91,14 @@ export default class From extends Component<Props> {
 	handleSelectTime = (time: any) => this.setState({ ...time }, this.closeModal);
 	handleSubmit = async () => {
 		if (!this.state.edit) {
-			if (!this.state.coupon.value) {
+			if (this.state.formType === 1 && !this.state.coupon.value) {
 				return Toast.info('请选择优惠券');
+			}
+			if (this.state.formType === 2 && !this.state.activity.value) {
+				return Toast.info('请选择活动');
+			}
+			if (this.state.formType === 3 && !this.state.link) {
+				return Toast.info('请填写链接');
 			}
 			if (!this.state.startTime) {
 				return Toast.info('请选择广告投放时长');
@@ -81,21 +106,42 @@ export default class From extends Component<Props> {
 			if (!this.state.price) {
 				return Toast.info('请输入每日预算');
 			}
+			if (!this.state.files.length) {
+				return Toast.info('请选择广告图');
+			}
 			Toast.loading('');
-			const data = {
-				coupon_id: this.state.coupon.value,
+			let data: any = {
 				daily_budget: this.state.price,
 				begin_time: this.state.startTime,
-				end_time: this.state.endTime
+				end_time: this.state.endTime,
+				type: this.state.formType + 1,
+				position_id: this.props.position,
+				ad_pic: this.state.files[0].path
 			};
-			const res = await request({ url: 'v3/ads/business', method: 'post', data });
+			if (this.state.formType === 1) {
+				data.coupon_id = this.state.coupon.value;
+			} else if (this.state.formType === 2) {
+				data.activity_id = this.state.activity.value;
+			} else if (this.state.formType === 3) {
+				data.link = this.state.link;
+			}
+			let res;
+			if (this.state.maked) {
+				res = await request({ url: 'v3/ads/' + this.state.id, method: 'put', data });
+			} else {
+				res = await request({ url: 'v3/ads', method: 'post', data });
+			}
+
 			Toast.hide();
+
 			if (res.code === 200) {
-				return Toast.success('投放成功');
+				Toast.success('投放成功', 1);
+				setTimeout(() => this.props.onSuccess(), 1000);
 			} else {
 				Toast.fail(res.data);
 			}
 		} else {
+			this.props.onSuccess();
 			this.handleShowStopAd();
 		}
 	};
@@ -110,6 +156,7 @@ export default class From extends Component<Props> {
 		Toast.loading('');
 		const res = await request({ url: 'v3/ads/stop', method: 'put', data: { ad_id: this.props.editForm.id } });
 		Toast.hide();
+		this.handleCloseModal();
 		if (res.code === 200) {
 			return Toast.success('暂停成功');
 		} else {
@@ -120,6 +167,24 @@ export default class From extends Component<Props> {
 	handleShowStopAd = () => this.setState({ stopModalShow: true });
 
 	handleChangeLink = (value: string) => this.setState({ link: value });
+
+	/**选择广告图 */
+	handleCheckImage = async (files: any[], operationType: string) => {
+		if (operationType === 'add' && files.length) {
+			Toast.loading('上传图片中');
+			const res = await oss(files[0].url);
+			Toast.hide();
+			if (res.status === 'ok') {
+				files.splice(0, 1, { ...files[0], path: res.data.path });
+				this.setState({ files });
+			} else {
+				this.setState({ files: [] });
+				Toast.fail('上传图片失败');
+			}
+		} else if (operationType === 'remove') {
+			this.setState({ files: [] });
+		}
+	};
 
 	render() {
 		const time = this.state.startTime
@@ -153,11 +218,24 @@ export default class From extends Component<Props> {
 			);
 		} else if (this.state.formType === 3) {
 			typeFormInput = (
-				<InputItem placeholder="请输入链接" onChange={this.handleChangeLink}>
+				<InputItem
+					style={{ textAlign: 'right' }}
+					value={this.state.link}
+					placeholder="请输入链接"
+					onChange={this.handleChangeLink}
+				>
 					链接
 				</InputItem>
 			);
 		}
+		const imagePicker = !this.state.edit && (
+			<ImagePicker
+				selectable={!this.state.files.length}
+				files={this.state.files}
+				length={1}
+				onChange={this.handleCheckImage}
+			/>
+		);
 		return (
 			<div>
 				<SelectAdType value={this.state.formType} onChange={this.handleChangeType} />
@@ -169,7 +247,12 @@ export default class From extends Component<Props> {
 								<List.Item extra={time} arrow="horizontal" onClick={this.handleShowSelectTime}>
 									广告投放时长
 								</List.Item>
-								<InputItem extra="元" type="money" onChange={this.handleChangePrice}>
+								<InputItem
+									value={this.state.price}
+									extra="元"
+									type="money"
+									onChange={this.handleChangePrice}
+								>
 									每日预算
 								</InputItem>
 							</List>
@@ -179,6 +262,9 @@ export default class From extends Component<Props> {
 									点击充值
 								</span>
 							</Flex>
+							<div className={styles.adTitle}>广告图</div>
+							{imagePicker}
+							{this.state.edit && <img className={styles.banner} src={this.state.banner} />}
 						</Flex.Item>
 						<Button type="primary" className={styles.submitBtn} onClick={this.handleSubmit}>
 							{!this.state.edit ? '投放' : '暂停'}

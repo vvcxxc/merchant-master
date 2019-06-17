@@ -9,6 +9,7 @@ import router from 'umi/router';
 import { Data } from '@/models/app';
 import { routerRedux } from 'dva/router';
 import request from '@/services/request';
+import wx from 'weixin-js-sdk';
 
 interface Props {
 	data: Data;
@@ -19,28 +20,52 @@ export default connect(({ app }: any) => app)(
 	class IndexPage extends Component<Props> {
 		/**是否显示核销的界面 */
 		state = {
-      showVerification: false,
-      //支付开通状态
-      payment_status: {}
-    };
+			showVerification: false,
+			//支付开通状态
+			payment_status: {}
+		};
 
-    componentWillMount() {
-      request({
-        url: 'v3/payment_profiles/payment_status',
-        method: 'get',
-      }).then(res => {
-        let { data } = res;
-        if(data.store_open_status != 1){
-          router.push('/createStore')
-        }
-      })
-    }
+		componentWillMount() {
+			request({
+				url: 'v3/payment_profiles/payment_status',
+				method: 'get'
+			}).then(res => {
+				let { data } = res;
+				if (data.store_open_status != 1) {
+					router.push('/createStore');
+				}
+			});
+			let userAgent = navigator.userAgent;
+			let isIos = userAgent.indexOf('iPhone') > -1;
+			let url: any;
+			if (isIos) {
+				url = sessionStorage.getItem('url');
+			} else {
+				url = location.href;
+			}
+			request({
+				url: 'wechat/getShareSign',
+				method: 'get',
+				params: {
+					url
+				}
+			}).then(res => {
+				let _this = this;
+				wx.config({
+					debug: true,
+					appId: res.appId,
+					timestamp: res.timestamp,
+					nonceStr: res.nonceStr,
+					signature: res.signature,
+					jsApiList: ['getLocation', 'openLocation', 'scanQRCode']
+				});
+			});
+		}
 
 		componentDidMount() {
 			this.props.dispatch({
 				type: 'app/getData'
-      });
-
+			});
 		}
 		/**跳转到页面 */
 		pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
@@ -59,10 +84,10 @@ export default connect(({ app }: any) => app)(
 					router.push({ pathname: '/ad/other-page', query: { type: item.name } });
 					break;
 				case '增值':
-					router.push('/activitys/appreciation/createAppreciation');
+					router.push('/activitys/appreciation');
 					break;
 				case '拼团':
-					router.push('/activitys/group/createGroup');
+					router.push('/activitys/group');
 					break;
 				case '满减':
 					router.push('/activitys/money-off');
@@ -73,8 +98,31 @@ export default connect(({ app }: any) => app)(
 				case '店内领券':
 					router.push('/my/coupon/create');
 					break;
+				case '财务统计':
+					router.push('/finance/statistics');
+					break;
+				case '下单返券':
+					router.push('/activitys/payment');
+					break;
+				case '核销记录':
+					router.push('/verification');
+					break;
+				case '我的收益':
+					router.push('/my/benefit');
+					break;
 			}
 			// router.push('');
+		};
+
+		/**点击核销 */
+		Verification = () => {
+			wx.scanQRCode({
+				needResult: 1,
+				desc: 'scanQRCode desc',
+				success: ({}) => {
+					//   console.log(resultStr)
+				}
+			});
 		};
 
 		/**审核页面 */
@@ -83,7 +131,7 @@ export default connect(({ app }: any) => app)(
 				<Flex className={styles.verificationPage} justify="end" direction="column">
 					<Flex className="icons">
 						<Flex.Item>
-							<Flex justify="center" direction="column">
+							<Flex justify="center" direction="column" onClick={this.Verification}>
 								<img src={require('../assets/menu/15.png')} />
 								扫码验证
 							</Flex>

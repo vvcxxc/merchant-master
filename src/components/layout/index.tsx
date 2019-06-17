@@ -92,7 +92,7 @@ export default class FiltrateLayout extends Component<Props> {
 				{/* 无关紧要的信息 */}
 				{insignificant}
 				<Flex.Item className={styles.content}>
-					<WingBlank>{this.props.children}</WingBlank>
+					<WingBlank style={{ minHeight: '100%' }}>{this.props.children}</WingBlank>
 				</Flex.Item>
 				<UndeterminedModal
 					show={this.state.hotShow}

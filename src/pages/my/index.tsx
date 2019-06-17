@@ -54,30 +54,27 @@ export default connect()(
 			if (res.code === 200) {
 				this.setState({ info: res.data });
 			}
-    };
+		};
 
-    /**转到余额 */
-    transferredBalance = () => {
-      let money = Number(this.state.info.money);
-      if(money > 0){
-        request({
-          url: 'api/merchant/staff/earnings_go_balance',
-          method: 'post',
-        }).then(res => {
-          let { data, message } = res;
-          if(data[0]){
-            Toast.success(message, 1)
-          }else {
-            Toast.fail(message,1)
-          }
-        })
-      }else {
-        Toast.fail('暂无平台收益',1);
-      }
-
-    }
-
-
+		/**转到余额 */
+		transferredBalance = () => {
+			let money = Number(this.state.info.money);
+			if (money > 0) {
+				request({
+					url: 'api/merchant/staff/earnings_go_balance',
+					method: 'post'
+				}).then(res => {
+					let { data, message } = res;
+					if (data[0]) {
+						Toast.success(message, 1);
+					} else {
+						Toast.fail(message, 1);
+					}
+				});
+			} else {
+				Toast.fail('暂无平台收益', 1);
+			}
+		};
 
 		render() {
 			return (
@@ -98,11 +95,18 @@ export default connect()(
 									<div className="label">平台收益</div>
 									<div className="money">￥{this.state.info.money} </div>
 								</Flex.Item>
-								<div className="btn" onClick={this.transferredBalance}>转到余额</div>
+								<div className="btn" onClick={this.transferredBalance}>
+									转到余额
+								</div>
 							</Flex>
 							<Flex className="bottom">
 								<Flex.Item>
-									<Flex direction="column" className="card" onClick={this.pushPage('/my/bank')}>
+									<Flex
+										direction="column"
+										align="start"
+										className="card"
+										onClick={this.pushPage('/my/bank')}
+									>
 										<div>银行卡</div>
 										<div>{this.state.info.bank_count}</div>
 									</Flex>
