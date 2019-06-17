@@ -121,15 +121,16 @@ export default connect(({ app }: any) => app)(
 				desc: 'scanQRCode desc',
 				success: (resultStr: any) => {
             // console.log(resultStr)
-            request({
-              url: 'api/merchant/youhui/userConsume',
-              method: 'post',
-              data: {
-                code: resultStr.youhui_sn
-              }
-            }).then(res => {
-              Toast.success(res.message)
-            })
+            alert(resultStr)
+            // request({
+            //   url: 'api/merchant/youhui/userConsume',
+            //   method: 'post',
+            //   data: {
+            //     code: resultStr.youhui_sn
+            //   }
+            // }).then(res => {
+            //   Toast.success(res.message)
+            // })
 				}
 			});
 		};
