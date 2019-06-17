@@ -119,8 +119,8 @@ export default connect(({ app }: any) => app)(
 			wx.scanQRCode({
 				needResult: 1,
 				desc: 'scanQRCode desc',
-				success: ({}) => {
-					//   console.log(resultStr)
+				success: (resultStr: any) => {
+					  // console.log(resultStr)
 				}
 			});
 		};
