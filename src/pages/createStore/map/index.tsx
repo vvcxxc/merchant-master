@@ -77,7 +77,7 @@ export default class MapPage extends Component {
             _this.setState({location})
           }
         });
-      })
+      });
     });
   }
 
