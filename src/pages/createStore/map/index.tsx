@@ -31,7 +31,19 @@ export default class MapPage extends Component {
       longitude: 113.3348617553711,
       latitude: 23.18288803100586
     },
-    address: ''
+    address: '',
+    is_map: true,
+    search_list: [{
+      name: '',
+      address: ''
+    }],
+    searchList: [{
+      name: '',
+      address: ''
+    }],
+    // 行政区
+    district: '',
+    search: ''
   };
 
   componentDidMount (){
@@ -60,7 +72,7 @@ export default class MapPage extends Component {
     }).then(res => {
       let _this = this;
       wx.config({
-        debug: true,
+        debug: false,
         appId: res.appId,
         timestamp: res.timestamp,
         nonceStr: res.nonceStr,
@@ -71,7 +83,6 @@ export default class MapPage extends Component {
         ]
       });
       wx.ready(() => {
-
         wx.getLocation({
           type: 'wgs84',
           success: function (res: any) {
@@ -81,7 +92,28 @@ export default class MapPage extends Component {
               latitude,
               longitude
             };
-            _this.setState({location})
+            _this.setState({location});
+            const lnglat = [longitude, latitude]
+            _this.geocoder && _this.geocoder.getAddress(lnglat, (status, result) => {
+              if (status === 'complete'){
+                if (result.regeocode){
+                  _this.createSearch(result);
+                  _this.setState({
+                    district: result.regeocode.addressComponent.district,
+                    address: result.regeocode.formattedAddress || '未知地点',
+                    city_name: result.regeocode.addressComponent.city
+                  });
+                } else {
+                  _this.setState({
+                    address: '未知地点'
+                  });
+                }
+              } else {
+                _this.setState({
+                  address: '未知地点'
+                });
+              }
+            })
           }
         });
 
@@ -106,6 +138,34 @@ export default class MapPage extends Component {
     for (let i = 0; i < value.length; i ++){
       province += value[i]
     }
+
+    let that = this;
+    let keywords = province;
+    this.msearch = new AMap.PlaceSearch({
+      pageSize:5,
+      pageIndex:1,
+      // city: '广州'
+      city:city_name //城市
+    });
+    this.msearch.search(keywords, function(status: any, result: object){
+      let one = result.poiList.pois[0]
+      let location = {
+        longitude: one.location.lng,
+        latitude: one.location.lat
+      }
+      that.setState({
+        address: one.address,
+        district: one.address,
+        searchList: result.poiList.pois,
+        location
+      })
+
+    })
+
+
+
+
+
     this.setState({
       is_show: false,
       city: this.state.value,
@@ -113,25 +173,53 @@ export default class MapPage extends Component {
       province
     })
   };
-
-
-  search = () => {
-    let keywords = this.state.address;
-    this.msearch = new AMap.PlaceSearch({
-      pageSize:5,
-      pageIndex:1,
-      city: '广州'
-      // city:this.state.city_name //城市
-      //panel: "_ListContainer"
-    });
-    this.msearch.search(keywords, function(status: any, result: object){
-      // console.log(result)
-    })
+  /**地图页初始化搜索 */
+  createSearch = (result: any) => {
+    let _this = this;
+    let { city, district, street } = result.regeocode.addressComponent
+      this.msearch = new AMap.PlaceSearch({
+        pageSize:5,
+        pageIndex:1,
+        city: '广州'
+      });
+      let keywords = city + district + street;
+      this.msearch.search(keywords, function(status: any, result: object){
+        _this.setState({
+          searchList: result.poiList.pois
+        })
+      })
   }
 
 
-  handleAddress = (e: any) => {
-    this.setState({address: e})
+  search = (e: any) => {
+    let that = this;
+    let keywords = e;
+    this.msearch = new AMap.PlaceSearch({
+      pageSize:10,
+      pageIndex:1,
+      // city: '广州'
+      city:this.state.city_name //城市
+    });
+    this.msearch.search(keywords, function(status: any, result: object){
+      that.setState({
+        search_list: result.poiList.pois
+      })
+
+    })
+  }
+
+  chooseOne = (item: any) => {
+    let location = {
+      longitude: item.location.lng,
+      latitude: item.location.lat
+    }
+    let name = item.name;
+
+  }
+
+
+  clickAddress = () => {
+    this.setState({is_map: !this.state.is_map})
   }
 
 
@@ -171,16 +259,15 @@ export default class MapPage extends Component {
 
     let onComplete=(data: any)=>{
       that.setState({
-          // position:[data.position.getLng(),data.position.getLat()]
           location: {
             latitude: data.position.getLat(),
             longitude: data.position.getLng()
           }
       })
     };
-    let onError = ()=>{
-        alert('定位失败');
-    };
+    // let onError = ()=>{
+    //     alert('定位失败');
+    // };
     const _this = this;
     const events = {
       created: (instance: any) => {
@@ -201,20 +288,18 @@ export default class MapPage extends Component {
               instance.addControl(geolocation);
               geolocation.getCurrentPosition();
               AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
-              AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+              // AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
           });
           AMap.plugin('AMap.Geocoder',() => {
             _this.geocoder = new AMap.Geocoder({
                 city: "010"//城市，默认：“全国”
-            });
+            })
           })
           AMap.plugin('AMap.PlaceSearch',() => {
             this.msearch = new AMap.PlaceSearch({
               pageSize:10,
               pageIndex:1,
-              city: '广州'
-              // city:this.state.city_name //城市
-              //panel: "_ListContainer"
+              city:this.state.city_name //城市
             });
           })
       },
@@ -227,10 +312,11 @@ export default class MapPage extends Component {
         });
         const lnglat = e.lnglat;
         _this.geocoder && _this.geocoder.getAddress(lnglat, (status, result) => {
-          // console.log(result);
         	if (status === 'complete'){
           	if (result.regeocode){
+              _this.createSearch(result);
               _this.setState({
+                district: result.regeocode.addressComponent.district,
                 address: result.regeocode.formattedAddress || '未知地点',
                 city_name: result.regeocode.addressComponent.city
               });
@@ -249,8 +335,25 @@ export default class MapPage extends Component {
     };
 
 
+    const list_item = this.state.search_list.map((item,idx) => {
+      return (
+        <div className={styles.list_item} key={idx} onClick={this.chooseOne.bind(this,item)}>
+          <p className={styles.name}>{item.name}</p>
+          <p className={styles.address}>{item.address}</p>
+        </div>
+      )
+    });
+    const searchList = this.state.searchList.map((item,idx) => {
+      return (
+        <div className={styles.list_item} key={idx} onClick={this.chooseOne.bind(this,item)}>
+          <p className={styles.name}>{item.name}</p>
+          <p className={styles.address}>{item.address}</p>
+        </div>
+      )
+    })
 
-    return (
+
+    const map = this.state.is_map == true ? (
       <div className={styles.box}>
         <WingBlank>
           <Flex className={styles.inputWrap}>
@@ -264,28 +367,75 @@ export default class MapPage extends Component {
 
             <Flex className={styles.inputBox}>
               <div className={styles.inputIcon}><img src={require('./icon-map.png')} /></div>
-              <Flex>
+              <Flex onClick={this.clickAddress}>
                 <InputItem
                   placeholder='请输入详细门牌号'
-                  value={this.state.address}
-                  onChange={this.handleAddress}
                 >{province}
                 </InputItem>
               </Flex>
-              <Icon type='search' size={'sm'} onClick={this.search}/>
             </Flex>
           </Flex>
 
         </WingBlank>
-        <div className={styles.mapBox}>
-          <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
-            <Marker position={location}/>
-            {/* <MouseTool events={toolEvents}/> */}
-          </Map>
-        </div>
-        {picker}
+        <Flex direction='column'>
+          <div className={styles.mapBox}>
+            <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
+              <Marker position={location}/>
+            </Map>
+          </div>
+          {picker}
+          <div className={styles.searchList}>
+            <div className={styles.list_item}>
+              <p className={styles.name} style={{color: '#FF6654'}}>{this.state.address}</p>
+              <p className={styles.address}>{this.state.district}</p>
+              <div className={styles.iconMap}><img src={require("./iconMap.png")}/></div>
+            </div>
+            {searchList}
+          </div>
+        </Flex>
 
       </div>
+    ) : (
+      <div className={styles.box}>
+        <WingBlank>
+        <Flex className={styles.inputWrap}>
+
+          <div className={styles.city}>
+            <div className={styles.city_name} onClick={this.pickerCityOpen}>{city_name}</div>
+            <div className={styles.icon}>
+              <Icon type='down' color='#000' size='xxs'/>
+            </div>
+          </div>
+
+          <Flex className={styles.inputBox_search}>
+            <div className={styles.inputIcon}><img src={require('./icon-map.png')} /></div>
+            <Flex>
+              <InputItem
+                placeholder='请输入详细门牌号'
+                onChange={this.search}
+              >{province}
+              </InputItem>
+            </Flex>
+          </Flex>
+          <div className={styles.search_close} onClick={this.clickAddress}>取消</div>
+        </Flex>
+        </WingBlank>
+        <div className={styles.list}>
+          {list_item}
+        </div>
+        <div style={{display: 'none'}}>
+          <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
+            <Marker position={location}/>
+          </Map>
+        </div>
+
+      </div>
+    )
+
+
+
+    return (
+      <div>{map}</div>
     )
   }
 }

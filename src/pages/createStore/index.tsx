@@ -11,6 +11,8 @@ export default class CreateStore extends Component {
     name: '',
     /**店铺地址 */
     address: '',
+    /**门牌号 */
+    house_num: '',
     /**门店电话 */
     phone: '',
     /**经营范围 */
@@ -91,6 +93,11 @@ export default class CreateStore extends Component {
   Checkout = (v : any) => {
     this.setState({ manage_type : v[0] });
     this.setState({ value : v });
+  }
+
+  /**门牌号 */
+  handleHouseNum = (e: any) => {
+    this.setState({house_num: e.target.value})
   }
 
   /**查看示例 */
@@ -178,6 +185,15 @@ export default class CreateStore extends Component {
                 readOnly={true}
               />
               <Icon type='right' />
+            </Flex>
+            <Flex className={styles.inputWrap}>
+              <span>门牌号</span>
+              <input
+                type="text"
+                placeholder='请输入详细门牌号，如：5栋2楼401'
+                value={this.state.house_num}
+                onChange={this.handleHouseNum}
+              />
             </Flex>
             <Flex className={styles.inputWrap}>
               <span>门店电话</span>

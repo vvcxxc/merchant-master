@@ -1,8 +1,8 @@
 .box{
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: #fff;
-  position: absolute;
+  position: fixed;
   top: 0;
   .inputWrap{
     height: 88px;
@@ -36,11 +36,34 @@
       }
 
     }
+    .inputBox_search {
+      width: 77%;
+      height: 58px;
+      background: #eee;
+      border-radius:10px;
+      display: flex;
+      overflow: hidden;
+      .inputIcon{
+        float: left;
+        width: 25px;
+        margin: 0 9px;
+        padding-top: 10px;
+        img {
+          width: 100%;
+        }
+      }
+
+
+    }
+    .search_close {
+      padding-left: 10px;
+      color: #999;
+    }
   }
 }
 .mapBox {
   width: 100%;
-  height: 91%;
+  height: 429px;
 }
 
 
@@ -83,7 +106,7 @@
 }
 
 .picker {
-  z-index: 9999;
+  z-index: 99999;
   .picker_buttons {
     width: 100%;
     box-sizing: border-box;
@@ -99,4 +122,88 @@
   bottom: 0;
   width: 100%;
   background: #fff;
+}
+
+
+.list {
+  width: 100%;
+  height: 90%;
+  background: #fafafa;
+  padding: 0 30px;
+  box-sizing: border-box;
+}
+.list_item {
+  height: 100px;
+  border-bottom: 1px solid #eee;
+  p {
+    margin: 0;
+    padding: 0;
+  }
+  .name {
+    font-size: 31px;
+    font-weight: bold;
+    line-height: 40px;
+    overflow: hidden;/*超出部分隐藏*/
+    text-overflow:ellipsis;/* 超出部分显示省略号 */
+    white-space: nowrap;/*规定段落中的文本不进行换行 */
+  }
+  .address {
+    margin-top: 20px;
+    font-size: 23px;
+    color: #666;
+    line-height: 30px;
+    overflow: hidden;/*超出部分隐藏*/
+    text-overflow:ellipsis;/* 超出部分显示省略号 */
+    white-space: nowrap;/*规定段落中的文本不进行换行 */
+  }
+}
+
+.searchList {
+  width: 100%;
+  height: 60%;
+  position: fixed;
+  bottom: 0;
+  background: #fff;
+  z-index: 9999;
+  padding: 0 30px;
+  box-sizing: border-box;
+  overflow: auto;
+  .list_item {
+    height: 122px;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    p {
+      margin: 0;
+      padding: 0;
+    }
+    .name {
+      font-size: 31px;
+      font-weight: bold;
+      line-height: 40px;
+      margin-top: 26px;
+      overflow: hidden;/*超出部分隐藏*/
+      text-overflow:ellipsis;/* 超出部分显示省略号 */
+      white-space: nowrap;/*规定段落中的文本不进行换行 */
+    }
+    .address {
+      margin-top: 20px;
+      font-size: 23px;
+      color: #666;
+      line-height: 30px;
+      overflow: hidden;/*超出部分隐藏*/
+      text-overflow:ellipsis;/* 超出部分显示省略号 */
+      white-space: nowrap;/*规定段落中的文本不进行换行 */
+    }
+    .iconMap {
+      width: 23px;
+      height: 33px;
+      position: absolute;
+      right: 0px;
+      top: 35px;
+      img {
+        width: 100%;
+      }
+    }
+  }
+
 }
