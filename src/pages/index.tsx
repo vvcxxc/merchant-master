@@ -120,15 +120,16 @@ export default connect(({ app }: any) => app)(
 				needResult: 1,
 				desc: 'scanQRCode desc',
 				success: ({resultStr}: any) => {
-            request({
-              url: 'api/merchant/youhui/userConsume',
-              method: 'post',
-              data: {
-                code: resultStr.youhui_sn
-              }
-            }).then(res => {
-              Toast.success(res.message)
-            })
+          let res = JSON.parse(resultStr)
+          request({
+            url: 'api/merchant/youhui/userConsume',
+            method: 'post',
+            data: {
+              code: res.youhui_sn
+            }
+          }).then(res => {
+            Toast.success(res.message)
+          })
 				}
 			});
 		};
