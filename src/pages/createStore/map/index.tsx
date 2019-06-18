@@ -9,11 +9,13 @@ import request from '@/services/request';
 import axios from 'axios';
 import wx from "weixin-js-sdk";
 
+interface Props {
+  onChange: (location: object, address: string) => any
+}
 
 
 
-
-export default class MapPage extends Component {
+export default class MapPage extends Component<Props> {
   state = {
     city_list: [],
     // 城市选择页
@@ -23,9 +25,9 @@ export default class MapPage extends Component {
     // picker选好的值
     city: [],
     // 城市名称
-    city_name: '北京',
+    city_name: '',
     // 省市区
-    province: '北京',
+    province: '',
     // 经纬度
     location: {
       longitude: 113.3348617553711,
@@ -43,7 +45,7 @@ export default class MapPage extends Component {
     }],
     // 行政区
     district: '',
-    search: ''
+    search: '',
   };
 
   componentDidMount (){
@@ -98,7 +100,12 @@ export default class MapPage extends Component {
               if (status === 'complete'){
                 if (result.regeocode){
                   _this.createSearch(result);
+                  let res = result.regeocode.addressComponent
+                  let province = res.province + res.city + res.district;
                   _this.setState({
+                    province,
+                    value: [res.province,res.city,res.district],
+                    city: [res.province,res.city,res.district],
                     district: result.regeocode.addressComponent.district,
                     address: result.regeocode.formattedAddress || '未知地点',
                     city_name: result.regeocode.addressComponent.city
@@ -204,7 +211,6 @@ export default class MapPage extends Component {
       that.setState({
         search_list: result.poiList.pois
       })
-
     })
   }
 
@@ -214,7 +220,23 @@ export default class MapPage extends Component {
       latitude: item.location.lat
     }
     let name = item.name;
+    let province = this.state.city[0];
+    let address = item.address;
+    let city = this.state.city_name;
+    let Address = province + city + address + name;
+    this.props.onChange(location,Address);
+  }
 
+  chooseBest = () => {
+    let location = this.state.location;
+    let address = this.state.address;
+    this.props.onChange(location,address);
+  }
+
+  chooseSearch = (item: any) => {
+    // console.log(item)
+    let address = this.state.city[0] + this.state.city[1] + item.address + item.name;
+    // console.log(address)
   }
 
 
@@ -258,7 +280,12 @@ export default class MapPage extends Component {
     ];
 
     let onComplete=(data: any)=>{
+      let res = data.addressComponent;
+      let province = res.province + res.city + res.district;
       that.setState({
+          province,
+          city: [res.province, res.city, res.district],
+          value: [res.province, res.city, res.district],
           location: {
             latitude: data.position.getLat(),
             longitude: data.position.getLng()
@@ -315,7 +342,12 @@ export default class MapPage extends Component {
         	if (status === 'complete'){
           	if (result.regeocode){
               _this.createSearch(result);
+              let res = result.regeocode.addressComponent
+              let province = res.province + res.city + res.district;
               _this.setState({
+                province,
+                value: [res.province,res.city,res.district],
+                city: [res.province,res.city,res.district],
                 district: result.regeocode.addressComponent.district,
                 address: result.regeocode.formattedAddress || '未知地点',
                 city_name: result.regeocode.addressComponent.city
@@ -337,7 +369,7 @@ export default class MapPage extends Component {
 
     const list_item = this.state.search_list.map((item,idx) => {
       return (
-        <div className={styles.list_item} key={idx} onClick={this.chooseOne.bind(this,item)}>
+        <div className={styles.list_item} key={idx} onClick={this.chooseSearch.bind(this,item)}>
           <p className={styles.name}>{item.name}</p>
           <p className={styles.address}>{item.address}</p>
         </div>
@@ -375,7 +407,6 @@ export default class MapPage extends Component {
               </Flex>
             </Flex>
           </Flex>
-
         </WingBlank>
         <Flex direction='column'>
           <div className={styles.mapBox}>
@@ -385,7 +416,7 @@ export default class MapPage extends Component {
           </div>
           {picker}
           <div className={styles.searchList}>
-            <div className={styles.list_item}>
+            <div className={styles.list_item} onClick={this.chooseBest}>
               <p className={styles.name} style={{color: '#FF6654'}}>{this.state.address}</p>
               <p className={styles.address}>{this.state.district}</p>
               <div className={styles.iconMap}><img src={require("./iconMap.png")}/></div>

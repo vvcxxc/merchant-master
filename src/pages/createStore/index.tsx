@@ -156,12 +156,20 @@ export default class CreateStore extends Component {
   openMap = () => {
     this.setState({is_map: true});
   }
+  /**地图的回调 */
+  mapChange = (location: object, address: string) => {
+    this.setState({
+      location,
+      address,
+      is_map: false
+    })
+  }
 
 
   render() {
     const { files, my_files, my_files2 } = this.state;
     const map = this.state.is_map == true ? (
-      <MapPage/>
+      <MapPage onChange={this.mapChange}/>
     ) : (
       ''
     )
@@ -183,6 +191,7 @@ export default class CreateStore extends Component {
                 type="text"
                 placeholder='请输入门店地址'
                 readOnly={true}
+                value={this.state.address}
               />
               <Icon type='right' />
             </Flex>
