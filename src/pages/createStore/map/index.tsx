@@ -182,7 +182,7 @@ export default class MapPage extends Component<Props> {
   };
   /**地图页初始化搜索 */
   createSearch = (result: any) => {
-    alert('ok')
+    // alert('ok')
     let _this = this;
     let { city, district, street } = result.regeocode.addressComponent
       this.msearch = new AMap.PlaceSearch({

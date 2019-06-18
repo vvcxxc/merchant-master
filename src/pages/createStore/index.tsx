@@ -187,7 +187,8 @@ export default class CreateStore extends Component {
         method: 'post',
         data: {
           store_name: name,
-          address: address+house_num,
+          address,
+          house_num,
           phone,
           manage_type,
           store_door_header_img,
