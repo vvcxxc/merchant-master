@@ -3,6 +3,7 @@ import { Flex, WingBlank, Button, Toast, Picker, List, Icon, ImagePicker } from 
 import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router';
+import Example from './example/index'
 import MapPage from './map/index'
 import upload from '@/services/oss';
 export default class CreateStore extends Component {
@@ -38,6 +39,7 @@ export default class CreateStore extends Component {
     store_img_two: '',
     /**是否展示地图 */
     is_map: false,
+    is_example: false,
     /**经纬度 */
     location: {
       longitude: 0,
@@ -107,7 +109,12 @@ export default class CreateStore extends Component {
 
   /**查看示例 */
   toExample = () => {
-    router.push('/createStore/example');
+    this.setState({
+      is_example: true
+    })
+  }
+  exampleChange = () => {
+    this.setState({is_example: false})
   }
 
   /**门店图片选择后 */
@@ -194,6 +201,7 @@ export default class CreateStore extends Component {
         let { code, data } = res;
         if(code == 200){
           Toast.success(data)
+          router.push('/submitQua');
         }else{
           Toast.fail(data)
         }
@@ -208,6 +216,11 @@ export default class CreateStore extends Component {
     const { files, my_files, my_files2 } = this.state;
     const map = this.state.is_map == true ? (
       <MapPage onChange={this.mapChange}/>
+    ) : (
+      ''
+    );
+    const example = this.state.is_example == true ? (
+      <Example onChange={this.exampleChange}/>
     ) : (
       ''
     )
@@ -267,7 +280,7 @@ export default class CreateStore extends Component {
               <span>邮箱</span>
               <input
                 type="text"
-                placeholder='请输入邮箱（非必填）'
+                placeholder='请输入邮箱'
                 value={this.state.email}
                 onChange={this.handleEmail}
               />
@@ -277,7 +290,6 @@ export default class CreateStore extends Component {
               <div className={styles.example} onClick={this.toExample}>查看示例</div>
             </Flex>
             <Flex className={styles.pushStore}>
-              {/* <img src={require('./shangchuan.png')} /> */}
               <ImagePicker
                 style={{ width: '100%'}}
                 files={files}
@@ -312,6 +324,7 @@ export default class CreateStore extends Component {
 
           </WingBlank>
           {map}
+          {example}
       </div>
     )
   }

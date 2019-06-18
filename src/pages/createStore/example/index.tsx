@@ -4,16 +4,16 @@
 import React, { Component } from 'react';
 import { Flex, WingBlank, Button, Toast } from 'antd-mobile';
 import styles from './index.less';
-import router from 'umi/router';
-export default class Example extends Component {
-  state = {
 
-  };
+interface Props {
+  onChange: () => any
+}
+
+export default class Example extends Component<Props> {
 
   goBack = () => {
-    router.push('/createStore');
+    this.props.onChange()
   }
-
   render (){
     return (
       <div className={styles.example_box}>

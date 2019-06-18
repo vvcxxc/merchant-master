@@ -182,14 +182,16 @@ export default class MapPage extends Component<Props> {
   };
   /**地图页初始化搜索 */
   createSearch = (result: any) => {
+    alert('ok')
     let _this = this;
     let { city, district, street } = result.regeocode.addressComponent
       this.msearch = new AMap.PlaceSearch({
         pageSize:5,
         pageIndex:1,
-        city: '广州'
+        city
       });
       let keywords = city + district + street;
+
       this.msearch.search(keywords, function(status: any, result: object){
         _this.setState({
           searchList: result.poiList.pois
