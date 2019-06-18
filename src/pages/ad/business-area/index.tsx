@@ -10,7 +10,7 @@ import { Toast } from 'antd-mobile';
 
 export default class BusinessArea extends Component {
 	state = {
-		form: {},
+		data: {},
 		log: []
 	};
 	componentDidMount() {
@@ -23,7 +23,7 @@ export default class BusinessArea extends Component {
 		/**判断当前是否有广告 */
 		if (res.code === 200 && res.data.coupon_id) {
 			this.setState({
-				form: res.data
+				data: res.data
 			});
 			this.setLog();
 		}
@@ -35,7 +35,7 @@ export default class BusinessArea extends Component {
 		}
 	};
 	render() {
-		const form = <From editForm={this.state.form} />;
+		const form = <From editForm={this.state.data} />;
 		const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
 		const chart = <Chart />;
 		return <AdLayout children={[form, expenseCalendar, chart]} />;
