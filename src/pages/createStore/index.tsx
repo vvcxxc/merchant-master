@@ -37,7 +37,12 @@ export default class CreateStore extends Component {
     /**个人照2 */
     store_img_two: '',
     /**是否展示地图 */
-    is_map: false
+    is_map: false,
+    /**经纬度 */
+    location: {
+      longitude: 0,
+      latitude: 0
+    }
   };
 
   componentDidMount (){
@@ -166,6 +171,39 @@ export default class CreateStore extends Component {
   }
 
 
+  createStore = () => {
+    let { name, address, house_num, phone, manage_type, email, store_door_header_img, store_img_one, store_img_two, location } = this.state;
+    if (name&&address&&house_num&&phone&&manage_type&&email&&store_door_header_img&&store_img_one&&store_img_two){
+
+      request({
+        url: 'v3/stores',
+        method: 'post',
+        data: {
+          store_name: name,
+          address: address+house_num,
+          phone,
+          manage_type,
+          store_door_header_img,
+          store_img_one,
+          store_img_two,
+          xpoint: location.longitude,
+          ypoint: location.latitude,
+          email
+        }
+      }).then(res => {
+        let { code, data } = res;
+        if(code == 200){
+          Toast.success(data)
+        }else{
+          Toast.fail(data)
+        }
+      })
+    }else{
+      Toast.fail('请将信息填写完整')
+    }
+  }
+
+
   render() {
     const { files, my_files, my_files2 } = this.state;
     const map = this.state.is_map == true ? (
@@ -268,7 +306,7 @@ export default class CreateStore extends Component {
                 onChange={this.Mychange2}
               />
             </Flex>
-              <Button type="primary" style={{ marginTop: 60, paddingBottom: 60 }}>
+              <Button type="primary" style={{ marginTop: 60, paddingBottom: 60 }} onClick={this.createStore}>
                 确认创建
               </Button>
 

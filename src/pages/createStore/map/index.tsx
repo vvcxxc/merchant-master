@@ -21,11 +21,11 @@ export default class MapPage extends Component<Props> {
     // 城市选择页
     is_show: false,
     // picker的value
-    value: [],
+    value: ['广东省','广州市','天河区'],
     // picker选好的值
-    city: [],
+    city: ['广东省','广州市','天河区'],
     // 城市名称
-    city_name: '',
+    city_name: '广州',
     // 省市区
     province: '',
     // 经纬度
@@ -235,17 +235,19 @@ export default class MapPage extends Component<Props> {
 
   chooseSearch = (item: any) => {
     // console.log(item)
+    let location = {
+      longitude: item.location.lng,
+      latitude: item.location.lat
+    }
     let address = this.state.city[0] + this.state.city[1] + item.address + item.name;
     // console.log(address)
+    this.props.onChange(location,address);
   }
 
 
   clickAddress = () => {
     this.setState({is_map: !this.state.is_map})
   }
-
-
-
 
 
   render (){
