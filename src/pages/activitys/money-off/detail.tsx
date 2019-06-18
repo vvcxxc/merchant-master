@@ -13,7 +13,9 @@ export default class MoneyOffDetail extends Component<any> {
 	state = {
 		/**当前详情id */
 		id: 0,
-		rules: [{}, {}, {}]
+		rules: [],
+		startTime: '',
+		endTime: ''
 	};
 	componentDidMount() {
 		this.setState({ id: this.props.location.state.id }, this.getDetail);
@@ -25,28 +27,55 @@ export default class MoneyOffDetail extends Component<any> {
 			const res = await request({ url: 'v3/activity/more_decrease_info/' + this.state.id });
 			Toast.hide();
 			if (res.code === 200) {
-				this.setState({ detail: res.data });
+				this.setState({
+					rules: res.data.more_decrease.map((_: any) => ({
+						min: _.more,
+						max: _.decrease,
+						id: _.more_decrease_id
+					})),
+					startTime: res.data.activity.begin_time,
+					endTime: res.data.activity.end_time
+				});
 			}
 		}
 	};
 
-	handleRuleChange = (index: number, rule: any) => {
-		const rules = [...this.state.rules];
-		rules.splice(index, 1, rule);
-		this.setState({ rules });
+	handleRuleChange = (index: number, rule: never) => {
+		// const rules = [...this.state.rules];
+		// rules.splice(index, 1, rule);
+		// this.setState({ rules });
 	};
 
 	handleDelete = async () => {
 		Toast.loading('');
-		const res = await request({ url: 'v3/activity/more_decrease/' + this.state.id, method: 'delete' });
+		const res = await request({ url: 'v3/activity/more_decrease/' + this.state.id, method: 'post' });
 		Toast.hide();
 		if (res.code === 200) {
 			Toast.success('删除成功');
 			router.goBack();
+		} else {
+			Toast.show(res.data);
 		}
 	};
 
-	handleRuleClick = () => {};
+	handleRuleClick = async (index: number) => {
+		const item: any = this.state.rules[index];
+		if (item) {
+			Toast.loading('');
+			const res = await request({
+				url: 'v3/activity/more_decrease_grade',
+				method: 'post',
+				data: { activity_id: this.state.id, more_decrease_id: item.id }
+			});
+			Toast.hide();
+			if (res.code === 200) {
+				Toast.success('删除成功');
+				this.getDetail();
+			} else {
+				Toast.fail(res.data);
+			}
+		}
+	};
 
 	render() {
 		const rules = this.state.rules.map((_, index) => (
@@ -65,7 +94,9 @@ export default class MoneyOffDetail extends Component<any> {
 						<Flex className={styles.headTitle}>
 							<span className={styles.headLabel}>满</span>
 							<div>满减活动</div>
-							<Flex.Item className={styles.time}>2019/04/12-2019/05/11</Flex.Item>
+							<Flex.Item className={styles.time}>
+								{this.state.startTime}-{this.state.endTime}
+							</Flex.Item>
 						</Flex>
 						{rules}
 					</WingBlank>

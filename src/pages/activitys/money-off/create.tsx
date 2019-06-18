@@ -9,6 +9,7 @@ import LimitItem from '../components/limit-item';
 import moment from 'moment';
 import Modal from '@/components/modal';
 import request from '@/services/request';
+import router from 'umi/router';
 
 /**创建 */
 export default class CreateMoneyOff extends Component {
@@ -68,8 +69,12 @@ export default class CreateMoneyOff extends Component {
 				}
 			});
 			Toast.hide();
+
 			if (res.code === 200) {
 				Toast.success('添加成功');
+				router.goBack();
+			} else {
+				Toast.fail(res.data);
 			}
 		}
 	};
