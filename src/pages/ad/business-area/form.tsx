@@ -21,23 +21,25 @@ export default class From extends Component<Props> {
 			label: '',
 			value: 0
 		},
-		price: 0,
-		time: 0,
+		price: '',
 		startTime: undefined,
 		endTime: undefined,
+		/**是否是修改状态，修改状态下，只能暂停 */
 		edit: false,
 		stopModalShow: false
 	};
+
 	UNSAFE_componentWillReceiveProps(nextProps: any) {
-		if (nextProps.editForm.coupon_id) {
+		if (nextProps.editForm.id) {
 			this.setState({
 				coupon: {
 					label: '',
 					value: nextProps.editForm.coupon_id
 				},
 				price: nextProps.editForm.daily_budget,
-				time: 0,
-				edit: true
+				startTime: nextProps.editForm.begin_time,
+				endTime: nextProps.editForm.end_time,
+				edit: !nextProps.editForm.is_pause
 			});
 		}
 	}
@@ -115,7 +117,12 @@ export default class From extends Component<Props> {
 							<List.Item extra={time} arrow="horizontal" onClick={this.handleShowSelectTime}>
 								广告投放时长
 							</List.Item>
-							<InputItem extra="元" type="money" onChange={this.handleChangePrice}>
+							<InputItem
+								extra="元"
+								value={this.state.price}
+								type="money"
+								onChange={this.handleChangePrice}
+							>
 								每日预算
 							</InputItem>
 						</List>
