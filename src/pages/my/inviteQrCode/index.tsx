@@ -4,24 +4,61 @@
 
 import React, {Component} from 'react';
 import styles from './index.less';
-import { Flex, WingBlank } from 'antd-mobile';
+import { Flex, WingBlank, Toast } from 'antd-mobile';
 import request from '@/services/request';
-import QRCode from 'qrcode.react';
+import QRCode from 'qrcode'
 
 export default class InviteQrCode extends Component {
   state = {
-
+    url: '',
+    invite_count: '',
+    invite_profit: ''
   }
   componentDidMount (){
     request ({
       url: 'api/merchant/invite',
       method: 'get',
     }).then(res => {
-      // console.log(res)
+      let { code, data } = res;
+      this.setState({
+        invite_count: data.invite_count,
+        invite_profit: data.invite_profit
+      })
+      if(code == 200){
+        let phone = data.invite_phone;
+        QRCode.toDataURL('http://test.supplierv2.tdianyi.com/login/register?phone='+phone)
+        .then((url: any) => {
+          this.setState({
+            url
+          })
+        })
+        .catch((err: any) => {})
+      }else{
+        Toast.fail('暂无')
+      }
     })
   }
 
+  // changeCanvasToPic = () => {
+  //   let canvasImg = document.getElementsByTagName('canvas')[0];
+  //   let image = new Image();
+  //   image.src = canvasImg.toDataURL("image/png");
+  //   //将canvas格式图片转换成image
+  //   let alink = document.createElement("img");
+  //   alink.className = 'qrcode';
+  //   alink.id ="qr-img";
+  //   alink.src = image.src;
+  //   alink.download = "ceshi.png";
+  //   let qrImg = document.getElementById('qr-img');
+  //   if(qrImg){
+  //       canvasImg.parentNode.replaceChild(alink,qrCode);
+  //   } else{
+  //       canvasImg.parentNode.insertBefore(alink,canvasImg);
+  //   }
+  // }
+
   render (){
+    const { invite_profit, invite_count } = this.state;
     return (
         <div className={styles.pages}>
           <Flex style={{marginTop: 41}} justify='around'>
@@ -32,7 +69,7 @@ export default class InviteQrCode extends Component {
           </Flex>
           <WingBlank className={styles.qrCode}>
             <Flex className={styles.qrImg} justify='around'>
-              <QRCode value="http://facebook.github.io/react/" renderAs='canvas'/>
+             <img src={this.state.url}/>
             </Flex>
             <WingBlank className={styles.tips}>
               <p>1、点击右上角分享邀请链接，朋友通过链接注册</p>
@@ -43,12 +80,12 @@ export default class InviteQrCode extends Component {
           <Flex style={{marginTop: 70, color: '#fff', fontSize: '32px'}} justify='around'>我的邀请</Flex>
           <Flex className={styles.my_invite} justify='around'>
             <div>
-              <p>成功邀请（人）</p>
-              <p className={styles.num}>20</p>
+              <p>成功邀请(人)</p>
+              <p className={styles.num}>{invite_count}</p>
             </div>
             <div>
-              <p>我的分成（元）</p>
-              <p className={styles.num}>2000</p>
+              <p>我的分成(元)</p>
+              <p className={styles.num}>{invite_profit}</p>
             </div>
           </Flex>
         </div>

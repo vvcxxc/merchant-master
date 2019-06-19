@@ -21,7 +21,8 @@ export default class Register extends Component {
     inviter_phone:'',
     /**限制发验证码的次数，每分钟可发一次 */
     is_ok:true,
-    wait: ''
+    wait: '',
+    is_show: true
   };
   componentDidMount (){
     /**获取oss */
@@ -39,9 +40,14 @@ export default class Register extends Component {
        host: data.host,
        key: data.dir
      }
-
      window.localStorage.setItem( 'oss_data' , JSON.stringify(oss_data) );
    });
+   if(this.props.location.query.phone){
+      this.setState({
+        is_show: false,
+        inviter_phone: this.props.location.query.phone
+      })
+   }
  }
   /**设置账号 */
   handleSetUser = (e: any) => {
@@ -139,6 +145,18 @@ export default class Register extends Component {
       ) : (
         <div className={styles.doneSend}>{this.state.wait}秒</div>
       );
+    const inviter = this.state.is_show == true ? (
+      <Flex className={styles.inputWrap}>
+          <input
+            style={{ width: '100%' }}
+            placeholder="请输入邀请人手机号（非必填）"
+            value={this.state.inviter_phone}
+            onChange={this.handleInviter}
+          />
+        </Flex>
+    ) : (
+      ''
+    )
     return (
       <div style={{ height: '100%', width: '100%', background:' #fff' }}>
       <WingBlank className={styles.wrap}>
@@ -177,14 +195,7 @@ export default class Register extends Component {
           />
           {button}
         </Flex>
-        <Flex className={styles.inputWrap}>
-          <input
-            style={{ width: '100%' }}
-            placeholder="请输入邀请人手机号（非必填）"
-            value={this.state.inviter_phone}
-            onChange={this.handleInviter}
-          />
-        </Flex>
+        {inviter}
         <WingBlank size="sm">
           <Button type="primary" style={{ marginTop: 60 }} onClick={this.register}>
             注册账号
