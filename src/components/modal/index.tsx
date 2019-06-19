@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex } from 'antd-mobile';
 
-interface Props {
+interface ModalProps {
 	show: boolean;
 	title?: string;
 	okBtn?: string;
@@ -12,7 +12,7 @@ interface Props {
 	onConfirm: () => any;
 }
 
-export default class Modal extends Component<Props> {
+export default class Modal extends Component<ModalProps> {
 	handleClickMask = (e: any) => {
 		if (e.target.id === 'mask') {
 			this.props.onClose();

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import TabPage from '@/components/tab-page';
 import ContentDetail from './detail';
+import ReceiveList from './list';
 
 export default class Detial extends Component<any> {
 	state = {
@@ -18,7 +19,8 @@ export default class Detial extends Component<any> {
 	handleChange = (id: number) => this.setState({ pageType: id });
 
 	render() {
-		const content = this.state.pageType === 1 ? <ContentDetail id={this.state.id} /> : null;
+		const content =
+			this.state.pageType === 1 ? <ContentDetail id={this.state.id} /> : <ReceiveList id={this.state.id} />;
 		return (
 			<TabPage tabs={this.tabs} onChange={this.handleChange}>
 				{content}

@@ -19,6 +19,7 @@ export interface Item {
 	user_count?: number;
 	store_name?: string;
 	validity?: string;
+	description?: any[];
 }
 
 export default class MyCouponItem extends Component<Props & Item> {
