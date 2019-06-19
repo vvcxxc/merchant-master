@@ -100,26 +100,32 @@ export default class Register extends Component {
    */
   register = () => {
     const { username, phone, password, code, inviter_phone} = this.state;
-    request({
-      url: 'v3/register',
-      method: 'post',
-      data: {
-        user_name: username,
-        password,
-        user_phone: phone,
-        verify_code: code,
-        invite_phone: inviter_phone
-      },
-    }).then(res => {
-      let {code, data} = res;
-      if(code == 200){
-        Toast.success(data)
-        // 注册成功后跳转到创建门店页面
-        router.push('/createStore');
-      }else{
-        Toast.fail(data)
-      }
-    });
+    if(username&&phone&&password&&code){
+      request({
+        url: 'v3/register',
+        method: 'post',
+        data: {
+          user_name: username,
+          password,
+          user_phone: phone,
+          verify_code: code,
+          invite_phone: inviter_phone
+        },
+      }).then(res => {
+        let {code, data} = res;
+        if(code == 200){
+          Toast.success('注册成功',2 ,()=> {
+            localStorage.setItem('token', 'Bearer ' + res.data.token);
+            router.push('/createStore');
+          })
+
+        }else{
+          Toast.fail(data)
+        }
+      });
+    }else{
+      Toast.fail('请将信息填写完整', 2)
+    }
   }
 
   componentWillUnmount(){
