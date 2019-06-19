@@ -16,9 +16,14 @@ interface Item {
 	validity: string;
 }
 
-export default class MyCouponList extends Component<any> {
+interface Props {
+	onClick: (id: any) => any;
+	list: Item[];
+}
+
+export default class MyCouponList extends Component<Props> {
 	render() {
-		const list = this.props.list.map((_: Item) => <MyCouponItem key={_.id} {..._} />);
+		const list = this.props.list.map((_: Item) => <MyCouponItem key={_.id} {..._} onClick={this.props.onClick} />);
 		return <div>{list}</div>;
 	}
 }

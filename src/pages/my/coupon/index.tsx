@@ -5,6 +5,7 @@ import styles from './index.less';
 import MyCouponList from './list';
 import request from '@/services/request';
 import NoData from './noData';
+import router from 'umi/router';
 
 export default class MyCoupon extends Component {
 	state = { list: [] };
@@ -22,10 +23,13 @@ export default class MyCoupon extends Component {
 			}
 		});
 	};
+
+	hanldeClick = (id: number) => router.push({ pathname: './coupon/detail', state: { id } });
+
 	render() {
 		const content = this.state.list.length ? (
 			<WingBlank>
-				<MyCouponList list={this.state.list} />
+				<MyCouponList list={this.state.list} onClick={this.hanldeClick} />
 			</WingBlank>
 		) : (
 			<NoData />

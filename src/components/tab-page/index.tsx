@@ -5,7 +5,7 @@ import { WingBlank, Flex } from 'antd-mobile';
 interface Props {
 	tabs: Array<TabItem>;
 	value?: number;
-	onChange: (arg0: TabItem['id']) => any;
+	onChange: (id: any) => any;
 }
 
 interface TabItem {
