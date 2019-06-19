@@ -39,7 +39,7 @@ export default class ReceiveList extends Component<Props> {
 				<Flex.Item>
 					<Flex className="title">
 						<Flex.Item>{_.user_name}</Flex.Item>
-						{_.status_msg}
+						<span className={_.status === 2 ? 'yellow' : ''}>{_.status_msg}</span>
 					</Flex>
 					<div className="time">{_.create_time}</div>
 				</Flex.Item>
