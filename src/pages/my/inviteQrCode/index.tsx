@@ -39,24 +39,6 @@ export default class InviteQrCode extends Component {
     })
   }
 
-  // changeCanvasToPic = () => {
-  //   let canvasImg = document.getElementsByTagName('canvas')[0];
-  //   let image = new Image();
-  //   image.src = canvasImg.toDataURL("image/png");
-  //   //将canvas格式图片转换成image
-  //   let alink = document.createElement("img");
-  //   alink.className = 'qrcode';
-  //   alink.id ="qr-img";
-  //   alink.src = image.src;
-  //   alink.download = "ceshi.png";
-  //   let qrImg = document.getElementById('qr-img');
-  //   if(qrImg){
-  //       canvasImg.parentNode.replaceChild(alink,qrCode);
-  //   } else{
-  //       canvasImg.parentNode.insertBefore(alink,canvasImg);
-  //   }
-  // }
-
   render (){
     const { invite_profit, invite_count } = this.state;
     return (
