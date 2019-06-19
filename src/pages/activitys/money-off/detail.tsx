@@ -48,7 +48,7 @@ export default class MoneyOffDetail extends Component<any> {
 
 	handleDelete = async () => {
 		Toast.loading('');
-		const res = await request({ url: 'v3/activity/more_decrease/' + this.state.id, method: 'post' });
+		const res = await request({ url: 'v3/activity/more_decrease/' + this.state.id, method: 'delete' });
 		Toast.hide();
 		if (res.code === 200) {
 			Toast.success('删除成功');
@@ -64,7 +64,7 @@ export default class MoneyOffDetail extends Component<any> {
 			Toast.loading('');
 			const res = await request({
 				url: 'v3/activity/more_decrease_grade',
-				method: 'post',
+				method: 'delete',
 				data: { activity_id: this.state.id, more_decrease_id: item.id }
 			});
 			Toast.hide();
