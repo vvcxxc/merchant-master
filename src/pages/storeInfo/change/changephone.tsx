@@ -125,7 +125,7 @@ export default class ChangePhone extends Component {
 
 
     const step1 = this.state.steps == true ? (
-      <div>
+      <div className={styles.phonePages}>
         <Flex className={styles.header}>
           <Flex className={styles.actives}>
             <div className={styles.num}>1</div>验证身份
@@ -148,7 +148,7 @@ export default class ChangePhone extends Component {
         </WingBlank>
       </div>
     ) : (
-      <div>
+      <div className={styles.phonePages}>
           <Flex className={styles.header}>
             <Flex className={styles.no_actives}>
               <div className={styles.num}>1</div>验证身份
