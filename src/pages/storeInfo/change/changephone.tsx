@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import styles from './index.less';
-import { Flex, WingBlank, Button  } from 'antd-mobile';
-
+import { Flex, WingBlank, Button, Toast  } from 'antd-mobile';
+import request from '@/services/request';
+import router from 'umi/router'
 export default class ChangePhone extends Component {
   state = {
     steps: true,
@@ -12,8 +13,15 @@ export default class ChangePhone extends Component {
     /**新手机号 */
     new_phone: '',
     /**第二部验证码 */
-    code2: ''
+    code2: '',
+    is_ok: true,
+    wait: ''
   };
+  componentDidMount (){
+    this.setState({
+      old_phone: this.props.location.query.account_mobile
+    })
+  }
   handleCode1 = (e : any) => {
     this.setState({code1: e.target.value})
   }
@@ -25,11 +33,97 @@ export default class ChangePhone extends Component {
   }
   /**下一步 */
   confirm1 = () => {
-    this.setState({steps: false})
+    const { old_phone, code1 } = this.state;
+    request({
+      url: 'v3/phones/step_one',
+      method: 'get',
+      params: {
+        phone: old_phone,
+        verify_code: code1
+      }
+    }).then(res => {
+      const {code, data} = res;
+      if(code == 200){
+        Toast.success(data)
+        this.setState({steps: false})
+      }else{
+        Toast.fail(data);
+      }
+
+    })
+
+  }
+
+  /**完成 */
+  confirm2 = () => {
+    const { new_phone, code2 } = this.state;
+    request({
+      url: 'v3/phones/step_two',
+      method: 'put',
+      data: {
+        phone: new_phone,
+        verify_code: code2
+      }
+    }).then(res => {
+      const {code, data} = res;
+      if(code == 200){
+        Toast.success(data,2,() => {
+          router.goBack();
+        })
+      }else{
+        Toast.fail(data);
+      }
+    })
+  }
+
+  /**
+ * 获取验证码
+ */
+  getCode = (phone: string) => {
+    let wait = 60;
+    if(phone){
+      request({
+        url: 'v3/verify_code',
+        method: 'get',
+        params: {
+          phone: phone,
+        }
+      }).then(res => {
+        let { code } = res;
+        if ( code == 200 ){
+          let timer = setInterval(()=>{
+            if( wait == 0){
+              this.setState({ is_ok: true });
+              clearInterval(timer)
+            }else{
+              wait --;
+              this.setState({ is_ok: false , wait});
+              clearInterval();
+            }
+          }, 1000);
+        }
+      });
+    }else{
+      Toast.fail('请输入手机号',1)
+    }
   }
 
 
+
   render (){
+    const code = this.state.is_ok == true ? (
+      <div className={styles.code} onClick={this.getCode.bind(this,this.state.old_phone)}>获取验证码</div>
+    ) : (
+      <div className={styles.code} style={{color: '#999'}}>{this.state.wait}</div>
+    )
+
+    const codes = this.state.is_ok == true ? (
+      <div className={styles.code} onClick={this.getCode.bind(this,this.state.new_phone)}>获取验证码</div>
+    ) : (
+      <div className={styles.code} style={{color: '#999'}}>{this.state.wait}</div>
+    )
+
+
     const step1 = this.state.steps == true ? (
       <div>
         <Flex className={styles.header}>
@@ -41,11 +135,11 @@ export default class ChangePhone extends Component {
           </Flex>
         </Flex>
         <Flex className={styles.inputRow}>
-          当前手机号：13012312312
+          当前手机号：{this.state.old_phone}
         </Flex>
         <Flex className={styles.inputRow}>
           <input type="text" placeholder="请输入验证码" value={this.state.code1} onChange={this.handleCode1}/>
-          <div className={styles.code}>获取验证码</div>
+          {code}
         </Flex>
         <WingBlank className={styles.buttons}>
           <Button type="primary" style={{ marginTop: 86 }} onClick={this.confirm1}>
@@ -68,10 +162,10 @@ export default class ChangePhone extends Component {
           </Flex>
           <Flex className={styles.inputRow}>
             <input type="text" placeholder="请输入验证码" value={this.state.code2} onChange={this.handleCode2}/>
-            <div className={styles.code}>获取验证码</div>
+            {codes}
           </Flex>
           <WingBlank className={styles.buttons}>
-            <Button type="primary" style={{ marginTop: 86 }}>
+            <Button type="primary" style={{ marginTop: 86 }} onClick={this.confirm2}>
               确认修改
             </Button>
           </WingBlank>

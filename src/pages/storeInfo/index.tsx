@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react';
 import styles from './index.less';
-import { WingBlank, Flex, InputItem, List, Picker, ImagePicker, Button} from 'antd-mobile';
+import { WingBlank, Flex, InputItem, List, Picker, ImagePicker, Button, Toast} from 'antd-mobile';
 import router from 'umi/router';
 import request from '@/services/request';
 import MapPage from '@/pages/createStore/map/index';
@@ -34,7 +34,12 @@ export default class StoreInfo extends Component {
 
     is_header: true,
     is_one: true,
-    is_two: true
+    is_two: true,
+    location: {
+      longitude: 0,
+      latitude: 0
+    },
+    email: ''
   };
   componentDidMount (){
     /**获取经营品类 */
@@ -50,7 +55,13 @@ export default class StoreInfo extends Component {
       method: 'get',
     }).then(res => {
       let {data} = res;
+      let location = {
+        longitude: data.xpoint,
+        latitude: data.ypoint
+      }
       this.setState({
+        email: data.email,
+        location,
         store_name: data.name,
         phone: data.tel,
         address: data.address,
@@ -118,16 +129,7 @@ export default class StoreInfo extends Component {
     }
   }
 
-  /**修改密码去 */
-  toChangePassword = () => {
-    router.push('/storeInfo/change/changepassword')
-  }
-  /**去换绑手机 */
-  toChangePhone = () => {
-    router.push({
-      pathname: '/storeInfo/change/changephone'
-    })
-  }
+
   handleStoreName = (e: any) => {
     this.setState({store_name: e})
   }
@@ -136,6 +138,9 @@ export default class StoreInfo extends Component {
   }
   handlePhone = (e: any) => {
     this.setState({phone: e})
+  }
+  handleEmail = (e: any) => {
+    this.setState({email: e});
   }
 
 
@@ -173,11 +178,12 @@ export default class StoreInfo extends Component {
 
 
   save = () => {
-    const { store_head, store_img1, store_img2, store_img3, store_name, address, house_num, phone, account_mobile, store_img_one, store_img_two, shop_door_header_img, manage_type} = this.state;
+    const { store_name, address, house_num, phone, store_img_one, store_img_two, shop_door_header_img, manage_type, location, email} = this.state;
     request ({
       url: 'v3/stores',
       method: 'put',
       data: {
+        email,
         store_name,
         address,
         phone,
@@ -185,14 +191,24 @@ export default class StoreInfo extends Component {
         store_door_header_img: shop_door_header_img,
         store_img_one,
         store_img_two,
-        house_num
-
+        house_num,
+        xpoint: location.longitude,
+        ypoint: location.latitude
+      }
+    }).then(res => {
+      let { code, data } = res;
+      if(code == 200){
+        Toast.success(data,2,() => {
+          router.goBack();
+        });
+      }else{
+        Toast.fail(data);
       }
     })
   }
 
   render (){
-    const { store_head, store_img1, store_img2, store_img3, store_name, address, house_num, phone, account_mobile, store_img_one, store_img_two, shop_door_header_img} = this.state;
+    const { store_head, store_img1, store_img2, store_name, address, house_num, phone, email, store_img_one, store_img_two, shop_door_header_img} = this.state;
     const map = this.state.is_map == true ? (
       <MapPage onChange={this.mapChange}/>
     ) : (
@@ -258,6 +274,7 @@ export default class StoreInfo extends Component {
             <InputItem placeholder='门店地址' onClick={this.openMap} value={address}>门店地址</InputItem>
             <InputItem placeholder='请输入详细门牌号，如：5栋2楼401' value={house_num} onChange={this.handleHouseNum}>门牌号</InputItem>
             <InputItem placeholder='门店电话' value={phone} onChange={this.handlePhone}>门店电话</InputItem>
+            <InputItem placeholder='邮箱' value={email} onChange={this.handleEmail}>邮箱</InputItem>
             <Flex className={styles.pickers}>
               <Picker
                 style={{width : '100%', fontSize: '28px'}}
@@ -285,10 +302,8 @@ export default class StoreInfo extends Component {
 
               </Flex>
             </Flex>
-            <Item extra="修改" arrow="horizontal" onClick={this.toChangePassword}>修改账户密码</Item>
-            <Item extra={account_mobile} arrow="horizontal" onClick={this.toChangePhone}>换绑手机</Item>
           </List>
-          <Button type='primary' className={styles.button}>保存</Button>
+          <Button type='primary' className={styles.button} onClick={this.save}>保存</Button>
         </WingBlank>
         {map}
       </div>
