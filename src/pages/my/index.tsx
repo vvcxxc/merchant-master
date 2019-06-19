@@ -127,11 +127,11 @@ export default connect()(
 							<img src={require('./coupon.png')} alt="" />
 							<span>我的优惠券</span>
 						</Flex>
-						<Flex>
+						<Flex onClick={this.pushPage('/my/moneyreceiveQr')}>
 							<img src={require('./code.png')} alt="" />
 							<span>我的收款码</span>
 						</Flex>
-						<Flex>
+						<Flex onClick={this.pushPage('/my/inviteQrCode')}>
 							<img src={require('./benefit.png')} alt="" />
 							<span>店铺邀请码</span>
 						</Flex>
