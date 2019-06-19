@@ -34,8 +34,9 @@ export default class BusinessArea extends Component {
 			this.setState({ log: res.data.data });
 		}
 	};
+	handleFormChange = () => this.getDetail();
 	render() {
-		const form = <From editForm={this.state.data} />;
+		const form = <From editForm={this.state.data} onChange={this.handleFormChange} />;
 		const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
 		const chart = <Chart />;
 		return <AdLayout children={[form, expenseCalendar, chart]} />;

@@ -11,33 +11,40 @@ import StopAd from '../components/stop';
 
 interface Props {
 	editForm: any;
+	onChange: () => any;
 }
 
 export default class From extends Component<Props> {
 	state = {
+		id: 0,
 		showSelectCoupon: false,
 		showSelectTime: false,
 		coupon: {
 			label: '',
 			value: 0
 		},
-		price: 0,
-		time: 0,
+		price: '',
 		startTime: undefined,
 		endTime: undefined,
+		/**是否是修改状态，修改状态下，只能暂停 */
 		edit: false,
+		isOld: false,
 		stopModalShow: false
 	};
+
 	UNSAFE_componentWillReceiveProps(nextProps: any) {
-		if (nextProps.editForm.coupon_id) {
+		if (nextProps.editForm.id) {
 			this.setState({
+				id: nextProps.editForm.id,
 				coupon: {
 					label: '',
 					value: nextProps.editForm.coupon_id
 				},
 				price: nextProps.editForm.daily_budget,
-				time: 0,
-				edit: true
+				startTime: nextProps.editForm.begin_time,
+				endTime: nextProps.editForm.end_time,
+				edit: !nextProps.editForm.is_pause,
+				isOld: true
 			});
 		}
 	}
@@ -67,10 +74,17 @@ export default class From extends Component<Props> {
 				begin_time: this.state.startTime,
 				end_time: this.state.endTime
 			};
-			const res = await request({ url: 'v3/ads/business', method: 'post', data });
+			let res;
+			if (this.state.isOld) {
+				res = await request({ url: 'v3/ads/business/' + this.state.id, method: 'put', data });
+			} else {
+				res = await request({ url: 'v3/ads/business', method: 'post', data });
+			}
+
 			Toast.hide();
 			if (res.code === 200) {
 				return Toast.success('投放成功');
+				this.props.onChange();
 			} else {
 				Toast.fail(res.data);
 			}
@@ -115,7 +129,12 @@ export default class From extends Component<Props> {
 							<List.Item extra={time} arrow="horizontal" onClick={this.handleShowSelectTime}>
 								广告投放时长
 							</List.Item>
-							<InputItem extra="元" type="money" onChange={this.handleChangePrice}>
+							<InputItem
+								extra="元"
+								value={this.state.price}
+								type="money"
+								onChange={this.handleChangePrice}
+							>
 								每日预算
 							</InputItem>
 						</List>
