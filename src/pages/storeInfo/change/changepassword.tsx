@@ -2,9 +2,10 @@
  * 修改密码
  */
 import React, { Component } from 'react';
-import { Flex, Button, WingBlank } from 'antd-mobile';
+import { Flex, Button, WingBlank, Toast } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
+import router from 'umi/router'
 
 export default class ChangePassword extends Component {
   state = {
@@ -34,8 +35,15 @@ export default class ChangePassword extends Component {
         new_password
       }
     }).then(res => {
-
-    })
+      let {code, data} = res;
+      if(code == 200){
+        Toast.success(data,2, () => {
+          router.goBack();
+        });
+      }else{
+        Toast.fail(data);
+      }
+    });
   }
 
   render (){

@@ -201,8 +201,9 @@ export default class CreateStore extends Component {
       }).then(res => {
         let { code, data } = res;
         if(code == 200){
-          Toast.success(data)
-          router.push('/submitQua');
+          Toast.success(data,2,()=> {
+            router.push('/submitQua');
+          })
         }else{
           Toast.fail(data)
         }
@@ -211,8 +212,6 @@ export default class CreateStore extends Component {
       Toast.fail('请将信息填写完整')
     }
   }
-
-
   render() {
     const { files, my_files, my_files2 } = this.state;
     const map = this.state.is_map == true ? (
