@@ -576,7 +576,7 @@ export default class submitQua extends Component {
 
 
   render (){
-    const { id_hand, id_back, id_front, bank_front, bank_back, license_img } = this.state;
+    const { id_hand, id_back, id_front, bank_front, bank_back, license_img, date, three_certs_in_one_valid_date } = this.state;
     const idFront = this.state.is_id_front == true ? (
       <div className={styles.idcard}><img src={"http://oss.tdianyi.com/"+ this.state.legal_id_front_img}/><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
     ) : (
@@ -675,7 +675,7 @@ export default class submitQua extends Component {
               placeholder='请选择身份证有效期'
               editable={false}
               value={this.state.date}
-              onClick={this.chooseDate.bind(this,1,this.state.date)}
+              onClick={this.chooseDate.bind(this,1,date)}
             >
                 有效期
                 <Icon
@@ -709,7 +709,7 @@ export default class submitQua extends Component {
           <InputItem placeholder='同统一社会信用代码' value={this.state.three_certs_in_one_no} onChange={this.handleLicenseNUm}>注册号</InputItem>
           <InputItem placeholder='无执照名称可填写经营者名称' value={this.state.corn_bus_name} onChange={this.handleLicenseName}>执照名称</InputItem>
           <InputItem placeholder='请输入法人姓名' value={this.state.legal_name} onChange={this.handleLegalName}>法人姓名</InputItem>
-          <InputItem placeholder='有效期' editable={false} value={this.state.three_certs_in_one_valid_date} onClick={this.chooseDate.bind(this,2,this.state.three_certs_in_one_valid_date)}>有效期<Icon type='right' className={styles.youxiao}/></InputItem>
+          <InputItem placeholder='有效期' editable={false} value={this.state.three_certs_in_one_valid_date} onClick={this.chooseDate.bind(this,2,three_certs_in_one_valid_date)}>有效期<Icon type='right' className={styles.youxiao}/></InputItem>
         </WingBlank>
         <ActivityIndicator toast={true} text='识别中...' animating={this.state.animating_id}/>
         <Flex className={styles.buttons}>

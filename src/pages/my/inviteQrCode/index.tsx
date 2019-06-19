@@ -32,7 +32,7 @@ export default class InviteQrCode extends Component {
           </Flex>
           <WingBlank className={styles.qrCode}>
             <Flex className={styles.qrImg} justify='around'>
-              <QRCode value="http://facebook.github.io/react/" size={450} renderAs='canvas'/>
+              <QRCode value="http://facebook.github.io/react/" renderAs='canvas'/>
             </Flex>
             <WingBlank className={styles.tips}>
               <p>1、点击右上角分享邀请链接，朋友通过链接注册</p>
