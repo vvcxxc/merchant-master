@@ -133,7 +133,11 @@ export default connect()(
 						</Flex>
 						<Flex>
 							<img src={require('./benefit.png')} alt="" />
-							<span>我的创客收益</span>
+							<span>店铺邀请码</span>
+						</Flex>
+            <Flex>
+							<img src={require('./signed.png')} alt="" />
+							<span>我的签约码</span>
 						</Flex>
 					</WingBlank>
 				</div>

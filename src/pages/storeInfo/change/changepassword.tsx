@@ -48,7 +48,7 @@ export default class ChangePassword extends Component {
 
   render (){
     return (
-      <div style={{ width: '100%', height: '100%', background: '#fff' }}>
+      <div style={{ width: '100%', height: '100%', background: '#fff' }} className={styles.phonePages}>
         <Flex className={styles.inputBox}>
           <input type="password" placeholder='请输入原密码' value={this.state.old_password} onChange={this.handleOld}/>
         </Flex>
