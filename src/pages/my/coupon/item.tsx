@@ -3,28 +3,38 @@ import { Flex } from 'antd-mobile';
 import styles from './index.less';
 
 interface Props {
-	id: number;
-	coupons_name: string;
-	begin_time: number;
-	end_time: number;
-	return_money: string;
-	total_num: number;
-	image: string;
-	total_fee: number;
-	pay_money: string;
-	user_count: number;
-	store_name: string;
-	validity: string;
+	onClick: (id: number) => any;
 }
 
-export default class MyCouponItem extends Component<Props> {
+export interface Item {
+	id?: number;
+	coupons_name?: string;
+	begin_time?: number;
+	end_time?: number;
+	return_money?: string;
+	total_num?: number;
+	image?: string;
+	total_fee?: number;
+	pay_money?: string;
+	user_count?: number;
+	store_name?: string;
+	validity?: string;
+}
+
+export default class MyCouponItem extends Component<Props & Item> {
+	handleClick = () => this.props.id && this.props.onClick(this.props.id);
 	render() {
-		const useScale = (this.props.total_num / this.props.user_count) * 100;
+		const useScale =
+			this.props.total_num && this.props.user_count && (this.props.total_num / this.props.user_count) * 100;
 		return (
-			<Flex className={styles.coupon} style={{ backgroundImage: `url(${require('./active-bg.png')})` }}>
+			<Flex
+				className={styles.coupon}
+				style={{ backgroundImage: `url(${require('./active-bg.png')})` }}
+				onClick={this.handleClick}
+			>
 				<Flex className="price-wrap" direction="column">
 					<div className="price">
-						￥<span>{parseFloat(this.props.return_money).toFixed(0)}</span>
+						￥<span>{parseFloat(this.props.return_money || '0').toFixed(0)}</span>
 					</div>
 					<span className="info">满{this.props.total_fee}可用</span>
 				</Flex>
