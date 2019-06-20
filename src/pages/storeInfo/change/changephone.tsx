@@ -3,6 +3,9 @@ import styles from './index.less';
 import { Flex, WingBlank, Button, Toast  } from 'antd-mobile';
 import request from '@/services/request';
 import router from 'umi/router'
+
+
+let timer = null;
 export default class ChangePhone extends Component {
   state = {
     steps: true,
@@ -43,9 +46,11 @@ export default class ChangePhone extends Component {
       }
     }).then(res => {
       const {code, data} = res;
+      clearInterval();
       if(code == 200){
         Toast.success(data)
-        this.setState({steps: false})
+        clearInterval(timer);
+        this.setState({steps: false, is_ok: true, wait: ''});
       }else{
         Toast.fail(data);
       }
@@ -77,7 +82,7 @@ export default class ChangePhone extends Component {
   }
 
   /**
- * 获取验证码
+ * 获取验证码1
  */
   getCode = (phone: string) => {
     let wait = 60;
@@ -91,14 +96,13 @@ export default class ChangePhone extends Component {
       }).then(res => {
         let { code } = res;
         if ( code == 200 ){
-          let timer = setInterval(()=>{
+          timer = setInterval(()=>{
             if( wait == 0){
-              this.setState({ is_ok: true });
-              clearInterval(timer)
+              this.setState({ is_ok: true, wait: '' });
+              clearInterval(timer);
             }else{
               wait --;
               this.setState({ is_ok: false , wait});
-              clearInterval();
             }
           }, 1000);
         }
