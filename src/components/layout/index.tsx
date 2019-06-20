@@ -15,8 +15,8 @@ interface Props {
 	after?: After;
 	tabs?: string[];
 	/**条件重置时 */
-	hotreset?: () => any;
-	timeReset?: () => any;
+	// hotreset?: () => any;
+	// timeReset?: () => any;
 	onChange?: (query: any) => any;
 	onTabChange?: (index: number) => any;
 }
@@ -56,8 +56,8 @@ export default class FiltrateLayout extends Component<Props> {
 	timeChange = (value: string): any =>
 		this.setState({ query: { ...this.state.query, time: value }, timeShow: false }, this.handleQueryChange);
 
-	hotReset = () => this.props.hotreset && this.props.hotreset();
-	timeReset = () => this.props.timeReset && this.props.timeReset();
+	// hotReset = () => this.props.onChange && this.props.onChange({hot: {}, time: this.state.query.time});
+	// timeReset = () => this.props.timeReset && this.props.timeReset();
 
 	/**条件变更时触发onChange事件 */
 	handleQueryChange = () => this.props.onChange && this.props.onChange(this.state.query);
@@ -128,12 +128,12 @@ export default class FiltrateLayout extends Component<Props> {
 					onChange={this.hotChange}
 					undetermined={this.props.undetermined}
 					after={this.props.after}
-					reset={this.hotReset}
+					// reset={this.hotReset}
 					onHide={this.hotHide}
 				/>
 				<SelectDate
 					show={this.state.timeShow}
-					reset={this.timeReset}
+					// reset={this.timeReset}
 					value={this.state.query.time}
 					onChange={this.timeChange}
 				/>

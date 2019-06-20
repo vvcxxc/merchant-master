@@ -3,6 +3,7 @@ import styles from './index.less';
 import FiltrateLayout from '@/components/layout';
 import request from '@/services/request';
 import { Toast, Flex, WingBlank } from 'antd-mobile';
+import moment from 'moment';
 
 interface RateItem {
 	order_sn: string;
@@ -31,10 +32,12 @@ export default class PlatformBenefit extends Component {
 		data: [],
 		type: 0,
 		total: 0,
-		invoice: 0
+		invoice: 0,
+		time: ''
 	};
 	componentDidMount = () => this.getData();
 	handleTabChange = (index: number) => this.setState({ type: index, data: [] }, this.getData);
+	handleChange = (query: any) => this.setState({ time: query.time }, this.getData);
 	getData = async () => {
 		let url = '';
 		if (this.state.type === 0) {
@@ -45,7 +48,10 @@ export default class PlatformBenefit extends Component {
 			url = 'v3/finance/ad_earnings';
 		}
 		Toast.loading('');
-		const res = await request({ url });
+		const res = await request({
+			url,
+			params: { date: this.state.time ? moment(this.state.time).unix() : undefined }
+		});
 		Toast.hide();
 		if (res.code === 200) {
 			this.setState({
@@ -108,6 +114,7 @@ export default class PlatformBenefit extends Component {
 				onTabChange={this.handleTabChange}
 				hasInsignificant={true}
 				insignificant={insignificant}
+				onChange={this.handleChange}
 			>
 				<WingBlank>{list}</WingBlank>
 			</FiltrateLayout>

@@ -8,7 +8,6 @@ interface Props {
 	onHide: () => any;
 	show: boolean /**后备条件 */;
 	after?: After;
-	reset: () => any;
 }
 
 export interface After {
@@ -29,7 +28,7 @@ interface Item {
 }
 
 /**条件模态框口 */
-export default function UndeterminedModal({ undetermined, onChange, show, after, reset, onHide }: Props) {
+export default function UndeterminedModal({ undetermined, onChange, show, after, onHide }: Props) {
 	// const [selfUndetermined, setSelfUndetermined] = useState([...undetermined]);
 	const [checked, setChecked] = useState();
 	/**点击某个条件时 */
@@ -43,7 +42,6 @@ export default function UndeterminedModal({ undetermined, onChange, show, after,
 	const _reset = () => {
 		setChecked(undefined);
 		onChange('');
-		reset();
 	};
 	/**渲染条件列表 */
 	const undeterminedList = undetermined.map((_, index) => (
