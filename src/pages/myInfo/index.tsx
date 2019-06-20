@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import router from 'umi/router';
 import request from '@/services/request';
-import { List, WingBlank, Flex, Button } from 'antd-mobile';
+import { List, WingBlank, Flex, Button, Toast } from 'antd-mobile';
 const Item = List.Item;
 export default class MyInfo extends Component {
   state = {
@@ -43,7 +43,18 @@ export default class MyInfo extends Component {
 
   /**退出登录 */
   logOut = () => {
-
+    request({
+      url: 'v3/logout',
+      method: 'post',
+    }).then(res => {
+      let { data, code } = res;
+      if (code == 200){
+        Toast.success(data,2,()=>{
+          localStorage.removeItem('token');
+          router.push('/login');
+        })
+      }
+    })
   }
 
   render (){
@@ -64,7 +75,7 @@ export default class MyInfo extends Component {
         </List>
 
         <WingBlank style={{marginTop: 200}}>
-          <Button type='ghost'>退出登录</Button>
+          <Button type='ghost' onClick={this.logOut}>退出登录</Button>
         </WingBlank>
       </div>
     )

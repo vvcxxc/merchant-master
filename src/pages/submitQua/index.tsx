@@ -106,25 +106,25 @@ export default class submitQua extends Component {
       if(three_certs_in_one_img){
         this.setState({is_license: true})
       }
-      // this.setState({
-      //   contact_name,
-      //   legal_id_no,
-      //   date: legal_id_valid_date,
-      //   settle_bank_account_name,
-      //   settle_bank_account_no,
-      //   settle_bank,
-      //   three_certs_in_one_no,
-      //   corn_bus_name,
-      //   legal_name,
-      //   three_certs_in_one_valid_date,
-      //   bank_name,
-      //   legal_id_front_img: getCaption(legal_id_front_img),
-      //   legal_id_back_img: getCaption(legal_id_back_img),
-      //   hand_hold_id_img: getCaption(hand_hold_id_img),
-      //   bank_card_front_img: getCaption(bank_card_front_img),
-      //   bank_card_back_img: getCaption(bank_card_back_img),
-      //   three_certs_in_one_img: getCaption(three_certs_in_one_img)
-      // });
+      this.setState({
+        contact_name,
+        legal_id_no,
+        date: legal_id_valid_date,
+        settle_bank_account_name,
+        settle_bank_account_no,
+        settle_bank,
+        three_certs_in_one_no,
+        corn_bus_name,
+        legal_name,
+        three_certs_in_one_valid_date,
+        bank_name,
+        legal_id_front_img: getCaption(legal_id_front_img),
+        legal_id_back_img: getCaption(legal_id_back_img),
+        hand_hold_id_img: getCaption(hand_hold_id_img),
+        bank_card_front_img: getCaption(bank_card_front_img),
+        bank_card_back_img: getCaption(bank_card_back_img),
+        three_certs_in_one_img: getCaption(three_certs_in_one_img)
+      });
 
     })
 
