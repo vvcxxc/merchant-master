@@ -26,8 +26,8 @@ export default class chooseDate extends Component<Props> {
   }
 
   componentDidMount(){
-    const {type, choose_date} = this.props;
-    if(choose_date){
+    let {type, choose_date} = this.props;
+    if(choose_date && choose_date != '无'){
       let is_have = choose_date.includes('长')
       if(is_have){
         this.setState({is_type1: false, is_type2: true})
