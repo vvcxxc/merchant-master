@@ -13,10 +13,12 @@ interface Props {
 	undetermined: Undetermined;
 	/**备用筛选条件 */
 	after?: After;
+	tabs?: string[];
 	/**条件重置时 */
 	hotreset?: () => any;
 	timeReset?: () => any;
 	onChange?: (query: any) => any;
+	onTabChange?: (index: number) => any;
 }
 
 /**筛选列表页组件
@@ -39,7 +41,8 @@ export default class FiltrateLayout extends Component<Props> {
 		/**条件是否已选择 */
 		hotCheck: false,
 		/**是否选择了时间筛选 */
-		timeCheck: false
+		timeCheck: false,
+		tabActive: 0
 	};
 
 	handleHotClick = () => this.setState({ hotShow: !this.state.hotShow, timeShow: false });
@@ -59,26 +62,51 @@ export default class FiltrateLayout extends Component<Props> {
 	/**条件变更时触发onChange事件 */
 	handleQueryChange = () => this.props.onChange && this.props.onChange(this.state.query);
 
+	handleChangeTab = (index: number) => () => {
+		this.setState({ tabActive: index });
+		this.props.onTabChange && this.props.onTabChange(index);
+	};
+
 	render() {
 		const insignificant = this.props.hasInsignificant && (
 			<div className={styles.num}>
 				<WingBlank>{this.props.insignificant}</WingBlank>
 			</div>
 		);
+		const filterButton = (
+			<Flex
+				align="center"
+				onClick={this.handleHotClick}
+				className={this.state.hotCheck || this.state.hotShow ? 'checked' : ''}
+			>
+				<span>筛选</span>
+				<img src="" alt="" />
+			</Flex>
+		);
+		const tabs =
+			this.props.tabs &&
+			this.props.tabs.map((_, index) => (
+				<Flex.Item
+					key={_}
+					className={this.state.tabActive === index ? 'tabItem active' : 'tabItem'}
+					onClick={this.handleChangeTab(index)}
+				>
+					{_}
+				</Flex.Item>
+			));
+		const tab = this.props.tabs && (
+			<Flex.Item>
+				<Flex>{tabs}</Flex>
+			</Flex.Item>
+		);
 		return (
 			<Flex className={styles.wrap} direction="column">
 				<div className={styles.filtrate}>
 					<WingBlank>
 						<Flex align="center">
+							{!!this.props.undetermined.length && filterButton}
 							<Flex
-								align="center"
-								onClick={this.handleHotClick}
-								className={this.state.hotCheck || this.state.hotShow ? 'checked' : ''}
-							>
-								<span>筛选</span>
-								<img src="" alt="" />
-							</Flex>
-							<Flex
+								style={{ width: 'auto' }}
 								align="center"
 								onClick={this.handleTimeClick}
 								className={this.state.timeCheck || this.state.timeShow ? 'checked' : ''}
@@ -86,6 +114,7 @@ export default class FiltrateLayout extends Component<Props> {
 								<span>月份</span>
 								<img src="" alt="" />
 							</Flex>
+							{tab}
 						</Flex>
 					</WingBlank>
 				</div>

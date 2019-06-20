@@ -104,11 +104,14 @@ export default connect(({ app }: any) => app)(
 				case '下单返券':
 					router.push('/activitys/payment');
 					break;
+				case '线下收银':
+					router.push('/my/benefit');
+					break;
 				case '核销记录':
 					router.push('/verification');
 					break;
 				case '我的收益':
-					router.push('/my/benefit');
+					router.push('/my/platformBenefit');
 					break;
 			}
 			// router.push('');
@@ -119,17 +122,17 @@ export default connect(({ app }: any) => app)(
 			wx.scanQRCode({
 				needResult: 1,
 				desc: 'scanQRCode desc',
-				success: ({resultStr}: any) => {
-          let res = JSON.parse(resultStr)
-          request({
-            url: 'api/merchant/youhui/userConsume',
-            method: 'post',
-            data: {
-              code: res.youhui_sn
-            }
-          }).then(res => {
-            Toast.success(res.message)
-          })
+				success: ({ resultStr }: any) => {
+					let res = JSON.parse(resultStr);
+					request({
+						url: 'api/merchant/youhui/userConsume',
+						method: 'post',
+						data: {
+							code: res.youhui_sn
+						}
+					}).then(res => {
+						Toast.success(res.message);
+					});
 				}
 			});
 		};
@@ -146,7 +149,11 @@ export default connect(({ app }: any) => app)(
 							</Flex>
 						</Flex.Item>
 						<Flex.Item>
-							<Flex justify="center" direction="column" onClick={this.pushPage('/verification/inputcode')}>
+							<Flex
+								justify="center"
+								direction="column"
+								onClick={this.pushPage('/verification/inputcode')}
+							>
 								<img src={require('../assets/menu/16.png')} />
 								输码验证
 							</Flex>
