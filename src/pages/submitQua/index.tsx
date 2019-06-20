@@ -106,25 +106,25 @@ export default class submitQua extends Component {
       if(three_certs_in_one_img){
         this.setState({is_license: true})
       }
-      this.setState({
-        contact_name,
-        legal_id_no,
-        date: legal_id_valid_date,
-        settle_bank_account_name,
-        settle_bank_account_no,
-        settle_bank,
-        three_certs_in_one_no,
-        corn_bus_name,
-        legal_name,
-        three_certs_in_one_valid_date,
-        bank_name,
-        legal_id_front_img: getCaption(legal_id_front_img),
-        legal_id_back_img: getCaption(legal_id_back_img),
-        hand_hold_id_img: getCaption(hand_hold_id_img),
-        bank_card_front_img: getCaption(bank_card_front_img),
-        bank_card_back_img: getCaption(bank_card_back_img),
-        three_certs_in_one_img: getCaption(three_certs_in_one_img)
-      });
+      // this.setState({
+      //   contact_name,
+      //   legal_id_no,
+      //   date: legal_id_valid_date,
+      //   settle_bank_account_name,
+      //   settle_bank_account_no,
+      //   settle_bank,
+      //   three_certs_in_one_no,
+      //   corn_bus_name,
+      //   legal_name,
+      //   three_certs_in_one_valid_date,
+      //   bank_name,
+      //   legal_id_front_img: getCaption(legal_id_front_img),
+      //   legal_id_back_img: getCaption(legal_id_back_img),
+      //   hand_hold_id_img: getCaption(hand_hold_id_img),
+      //   bank_card_front_img: getCaption(bank_card_front_img),
+      //   bank_card_back_img: getCaption(bank_card_back_img),
+      //   three_certs_in_one_img: getCaption(three_certs_in_one_img)
+      // });
 
     })
 
@@ -528,7 +528,7 @@ export default class submitQua extends Component {
   }
 
   /**保存或者提交 */
-  submit = (type: number) => {
+  submit = (type: number) => () => {
     const {legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.state;
     let data = {
       legal_id_back_img,
@@ -713,8 +713,8 @@ export default class submitQua extends Component {
         </WingBlank>
         <ActivityIndicator toast={true} text='识别中...' animating={this.state.animating_id}/>
         <Flex className={styles.buttons}>
-          <div className={styles.save} onClick={this.submit.bind(this,1)}>保存</div>
-          <div className={styles.submit} onClick={this.submit.bind(this,2)}>提交审核</div>
+          <div className={styles.save} onClick={this.submit(1)}>保存</div>
+          <div className={styles.submit} onClick={this.submit(2)}>提交审核</div>
         </Flex>
         {chooseTime}
       </div>

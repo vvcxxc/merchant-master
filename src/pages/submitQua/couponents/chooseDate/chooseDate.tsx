@@ -11,10 +11,11 @@ interface Props {
   choose_date: string ;
   type: number;
 }
-
+const nowTimeStamp = Date.now();
+const now = new Date(nowTimeStamp);
 export default class chooseDate extends Component<Props> {
   state = {
-    value: null,
+    value: now,
     date: '',
     /**选择日期 */
     is_type1: true,
@@ -22,7 +23,6 @@ export default class chooseDate extends Component<Props> {
     is_type2: false,
     /**判断是哪一个选择的 */
     type: 1,
-
   }
 
   componentDidMount(){
