@@ -49,7 +49,7 @@ export default class MyInfo extends Component {
   render (){
     const { account_mobile } = this.state
     return (
-      <div style={{width: '100%', height: '100%', background: '#ededed'}}>
+      <div style={{width: '100%', height: '100%', background: '#f8f8f8'}}>
         <List style={{marginTop:'22px'}}>
           <WingBlank>
             <Item extra="修改" arrow="horizontal" onClick={this.toChangePassword} style={{height: '165px'}}>修改账户密码</Item>

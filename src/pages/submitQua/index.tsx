@@ -467,7 +467,7 @@ export default class submitQua extends Component {
 
 
   /**选择有效期 */
-  chooseDate = (type: number, date: string) => {
+  chooseDate = (type: number, date: string) => () => {
     this.setState({
       type,
       is_show: true,
@@ -675,7 +675,7 @@ export default class submitQua extends Component {
               placeholder='请选择身份证有效期'
               editable={false}
               value={this.state.date}
-              onClick={this.chooseDate.bind(this,1,date)}
+              onClick={this.chooseDate(1,date)}
             >
                 有效期
                 <Icon
@@ -709,7 +709,7 @@ export default class submitQua extends Component {
           <InputItem placeholder='同统一社会信用代码' value={this.state.three_certs_in_one_no} onChange={this.handleLicenseNUm}>注册号</InputItem>
           <InputItem placeholder='无执照名称可填写经营者名称' value={this.state.corn_bus_name} onChange={this.handleLicenseName}>执照名称</InputItem>
           <InputItem placeholder='请输入法人姓名' value={this.state.legal_name} onChange={this.handleLegalName}>法人姓名</InputItem>
-          <InputItem placeholder='有效期' editable={false} value={this.state.three_certs_in_one_valid_date} onClick={this.chooseDate.bind(this,2,three_certs_in_one_valid_date)}>有效期<Icon type='right' className={styles.youxiao}/></InputItem>
+          <InputItem placeholder='有效期' editable={false} value={this.state.three_certs_in_one_valid_date} onClick={this.chooseDate(2,three_certs_in_one_valid_date)}>有效期<Icon type='right' className={styles.youxiao}/></InputItem>
         </WingBlank>
         <ActivityIndicator toast={true} text='识别中...' animating={this.state.animating_id}/>
         <Flex className={styles.buttons}>
