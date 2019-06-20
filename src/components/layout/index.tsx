@@ -3,6 +3,8 @@ import styles from './index.less';
 import { WingBlank, Flex } from 'antd-mobile';
 import UndeterminedModal, { Undetermined, After } from './undeterminedModal';
 import SelectDate from './selectDate';
+import checkIcon from './icon-check.png';
+import icon from './icon.png';
 
 interface Props {
 	/**无关紧要的信息 */
@@ -80,7 +82,7 @@ export default class FiltrateLayout extends Component<Props> {
 				className={this.state.hotCheck || this.state.hotShow ? 'checked' : ''}
 			>
 				<span>筛选</span>
-				<img src="" alt="" />
+				<img src={this.state.hotCheck ? checkIcon : icon} />
 			</Flex>
 		);
 		const tabs =
@@ -99,6 +101,7 @@ export default class FiltrateLayout extends Component<Props> {
 				<Flex>{tabs}</Flex>
 			</Flex.Item>
 		);
+		const datepng = this.state.timeCheck || this.state.timeShow ? checkIcon : icon;
 		return (
 			<Flex className={styles.wrap} direction="column">
 				<div className={styles.filtrate}>
@@ -112,7 +115,7 @@ export default class FiltrateLayout extends Component<Props> {
 								className={this.state.timeCheck || this.state.timeShow ? 'checked' : ''}
 							>
 								<span>月份</span>
-								<img src="" alt="" />
+								<img src={datepng} />
 							</Flex>
 							{tab}
 						</Flex>
