@@ -42,6 +42,8 @@ export default class chooseDate extends Component<Props> {
     }else{
       this.setState({
         value: now,
+        type,
+        date: moment(now).format("YYYY-MM-DD")
       })
     }
   }
