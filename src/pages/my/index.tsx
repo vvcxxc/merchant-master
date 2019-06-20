@@ -84,7 +84,7 @@ export default connect()(
 							<Flex className={styles.headInfoContent}>
 								<img src={this.state.info.preview} alt="" className="userImg" />
 								<Flex.Item className="name">{this.state.info.name}</Flex.Item>
-								<img src={require('./setting.png')} alt="" className="setting" />
+								<img src={require('./setting.png')} alt="" className="setting" onClick={this.pushPage('/myInfo')}/>
 							</Flex>
 						</WingBlank>
 					</div>

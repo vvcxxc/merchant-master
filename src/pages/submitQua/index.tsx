@@ -467,7 +467,7 @@ export default class submitQua extends Component {
 
 
   /**选择有效期 */
-  chooseDate = (type: number, date: string) => {
+  chooseDate = (type: number, date: string) => () => {
     this.setState({
       type,
       is_show: true,
@@ -528,7 +528,7 @@ export default class submitQua extends Component {
   }
 
   /**保存或者提交 */
-  submit = (type: number) => {
+  submit = (type: number) => () => {
     const {legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.state;
     let data = {
       legal_id_back_img,
@@ -675,7 +675,7 @@ export default class submitQua extends Component {
               placeholder='请选择身份证有效期'
               editable={false}
               value={this.state.date}
-              onClick={this.chooseDate.bind(this,1,date)}
+              onClick={this.chooseDate(1,date)}
             >
                 有效期
                 <Icon
@@ -709,12 +709,12 @@ export default class submitQua extends Component {
           <InputItem placeholder='同统一社会信用代码' value={this.state.three_certs_in_one_no} onChange={this.handleLicenseNUm}>注册号</InputItem>
           <InputItem placeholder='无执照名称可填写经营者名称' value={this.state.corn_bus_name} onChange={this.handleLicenseName}>执照名称</InputItem>
           <InputItem placeholder='请输入法人姓名' value={this.state.legal_name} onChange={this.handleLegalName}>法人姓名</InputItem>
-          <InputItem placeholder='有效期' editable={false} value={this.state.three_certs_in_one_valid_date} onClick={this.chooseDate.bind(this,2,three_certs_in_one_valid_date)}>有效期<Icon type='right' className={styles.youxiao}/></InputItem>
+          <InputItem placeholder='有效期' editable={false} value={this.state.three_certs_in_one_valid_date} onClick={this.chooseDate(2,three_certs_in_one_valid_date)}>有效期<Icon type='right' className={styles.youxiao}/></InputItem>
         </WingBlank>
         <ActivityIndicator toast={true} text='识别中...' animating={this.state.animating_id}/>
         <Flex className={styles.buttons}>
-          <div className={styles.save} onClick={this.submit.bind(this,1)}>保存</div>
-          <div className={styles.submit} onClick={this.submit.bind(this,2)}>提交审核</div>
+          <div className={styles.save} onClick={this.submit(1)}>保存</div>
+          <div className={styles.submit} onClick={this.submit(2)}>提交审核</div>
         </Flex>
         {chooseTime}
       </div>

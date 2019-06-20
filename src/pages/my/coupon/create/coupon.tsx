@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { InputItem, List, Flex, ImagePicker, Toast } from 'antd-mobile';
 import { connect } from 'dva';
 import { CouponForm } from './model';
+import styles from './index.less';
 import upload from '@/services/oss';
 import Notice from '@/pages/activitys/components/notice';
 
@@ -83,11 +84,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			);
 			return (
 				<div>
-					<InputItem
-						value={this.props.coupons_name}
-						placeholder="请输入券的名称"
-						onChange={this.handleInput('coupons_name')}
-					>
+					<InputItem className={styles.coupons_name} value={this.props.coupons_name} placeholder="请输入券的名称" onChange={this.handleInput('coupons_name')} >
 						优惠券名称
 					</InputItem>
 					<InputItem

@@ -84,13 +84,13 @@ export default connect(({ app }: any) => app)(
 					router.push({ pathname: '/ad/other-page', query: { type: item.name } });
 					break;
 				case '增值':
-					router.push('/activitys/appreciation');
+					router.push('/activitys/appreciation/createAppreciation');
 					break;
 				case '拼团':
-					router.push('/activitys/group');
+					router.push('/activitys/group/createGroup');
 					break;
 				case '满减':
-					router.push('/activitys/money-off');
+					router.push('/activitys/money-off/create');
 					break;
 				case '提现记录':
 					router.push('/my/withdraw/list');
@@ -102,7 +102,7 @@ export default connect(({ app }: any) => app)(
 					router.push('/finance/statistics');
 					break;
 				case '下单返券':
-					router.push('/activitys/payment');
+					router.push('/activitys/payment/create');
 					break;
 				case '线下收银':
 					router.push('/my/benefit');

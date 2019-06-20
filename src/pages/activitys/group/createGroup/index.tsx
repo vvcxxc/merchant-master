@@ -194,7 +194,6 @@ export default class createGroup extends Component {
     }).then(res => {
 
       let {data} = res;
-      Toast.success(res.message);
       if (data.order_sn){
         this.setState ({
           pay_list: data,
@@ -230,17 +229,11 @@ export default class createGroup extends Component {
         <Flex className={styles.giftBox}>
           <div>配送方式</div>
           <Flex className={styles.choose}>
-            <div style={{marginRight: 17}}><img src={require('./image/choose.png')}/>到店自取</div>
+            {/* <div style={{marginRight: 17}}><img src={require('./image/choose.png')}/>到店自取</div> */}
             <div><img src={require('./image/choose.png')}/>邮寄</div>
           </Flex>
         </Flex>
-        <Flex className={styles.giftBox}>
-          <div>自选地址</div>
-          <Flex className={styles.choose}>
-            <div style={{marginRight: 17}}><img src={require('./image/choose.png')}/>使用店铺地址</div>
-            <div className={styles.address}>自定义</div>
-          </Flex>
-        </Flex>
+        {/* <Flex className={styles.giftBox}><div>自选地址</div><Flex className={styles.choose}><div style={{marginRight: 17}}><img src={require('./image/choose.png')}/>使用店铺地址</div><div className={styles.address}>自定义</div></Flex></Flex> */}
         <Flex className={styles.giftBox}>
           <div>选择邮费</div>
           {chooseMail}
