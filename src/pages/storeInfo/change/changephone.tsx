@@ -54,7 +54,6 @@ export default class ChangePhone extends Component {
       }else{
         Toast.fail(data);
       }
-
     })
 
   }
