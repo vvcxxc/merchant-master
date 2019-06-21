@@ -9,21 +9,30 @@ type Any = any;
 interface Props extends Any {
 	type: number;
 	onClick: (id: number) => any;
+	/**是否是支付返券 */
+	isPayment: boolean;
 }
 
 export default function Coupon(props: Props) {
-	const tags =
+	let tags =
 		props.tag &&
 		props.tag.map((_: string) => (
 			<div className="label" key={_}>
 				{_}
 			</div>
 		));
+	if (props.isPayment) {
+		tags = props.coupon.map((_: any) => (
+			<div className="label" key={_.label}>
+				{_.label}
+			</div>
+		));
+	}
 	const handleClick = () => props.onClick(props.activity_id);
 	return (
 		<div className={styles.coupon} onClick={handleClick}>
 			<Flex className="content">
-				<div className="headimg">{types[props.type]}</div>
+				<div className="headimg">{types[props.isPayment ? 0 : props.type]}</div>
 				<Flex.Item className="info">
 					<Flex className="title">
 						{props.name}
