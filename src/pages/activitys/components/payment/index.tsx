@@ -3,13 +3,15 @@
  */
 
 import React, { Component } from 'react';
-import { Flex, WingBlank, Button} from 'antd-mobile';
+import { Flex, WingBlank, Button, Toast} from 'antd-mobile';
 import styles from './index.less';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import router from 'umi/router'
 
 interface Props {
-  list: any
+  list: any;
+  type: string;
 }
 
 export default class PayMent extends Component<Props> {
@@ -46,10 +48,20 @@ export default class PayMent extends Component<Props> {
     });
     let {data, code} = res.data;
     if(code == 200){
+      let _this = this;
       window.WeixinJSBridge.invoke('getBrandWCPayRequest', data, function(res: { err_msg: string }) {
 				``;
 				if (res.err_msg == 'get_brand_wcpay_request:ok') {
-					// '支付成功'
+          // '支付成功'
+          if(_this.props.type == 'group'){
+            Toast.success('支付成功',2,()=>{
+              router.push('/activity/group')
+            })
+          }else{
+            Toast.success('支付成功',2,()=>{
+              router.push('/activitys/appreciation');
+            })
+          }
 				}
 			});
     }

@@ -8,6 +8,7 @@ import ChooseGift from '../../components/choosegift/';
 import PayMent from '../../components/payment';
 import moment from 'moment'
 import request from '@/services/request'
+import router from 'umi/router';
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
@@ -107,7 +108,7 @@ export default class createAppreciation extends Component {
 
   /**提交 */
   submit = () => {
-    const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode } = this.state
+    const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic } = this.state
     let activity_begin_time = moment(start_date).format('X');
     let activity_end_tine = moment(end_date).format('X');
     request({
@@ -123,16 +124,27 @@ export default class createAppreciation extends Component {
         activity_end_tine,
         total_fee,
         gift_id,
-        mail_mode
+        mail_mode,
+        gift_pic,
+        appreciation_number_sum
       }
     }).then(res => {
-      let {data} = res;
-      if (data.order_sn){
-        this.setState ({
-          pay_list: data,
-          is_pay: true
-        })
+      let {data, code, message} = res;
+      if(code == 200){
+        if (data.order_sn){
+          this.setState ({
+            pay_list: data,
+            is_pay: true
+          })
+        }else{
+          Toast.success(message,2,()=>{
+            router.push('/activitys/appreciation');
+          })
+        }
+      }else {
+        Toast.fail(datmessagea)
       }
+
 
     })
   }
@@ -176,7 +188,7 @@ export default class createAppreciation extends Component {
       ''
     );
     const Pay = this.state.is_pay == true ? (
-      <PayMent list={this.state.pay_list}/>
+      <PayMent list={this.state.pay_list} type={'appreciation'}/>
     ) : (
       ''
     )

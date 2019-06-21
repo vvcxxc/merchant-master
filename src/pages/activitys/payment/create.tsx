@@ -53,11 +53,11 @@ export default class CreatePaymentReturn extends Component {
 		});
 		Toast.hide();
 		if (res.code === 200) {
-			Toast.success('发布成功');
-			router.goBack();
+			Toast.success('发布成功',2,()=>{
+        router.push('/activitys/payment')
+      });
 		}
 	};
-
 	render() {
 		const rules = this.state.rules.map((_, index) => (
 			<div>

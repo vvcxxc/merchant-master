@@ -7,6 +7,7 @@ import Notice from '../../components/notice/';
 import PayMent from '../../components/payment'
 import moment from 'moment'
 import request from '@/services/request'
+import router from 'umi/router';
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
@@ -193,18 +194,23 @@ export default class createGroup extends Component {
       }
     }).then(res => {
 
-      let {data} = res;
-      if (data.order_sn){
-        this.setState ({
-          pay_list: data,
-          is_pay: true
-        })
+      let {data, code, message} = res;
+      if(code == 200){
+        if (data.order_sn){
+          this.setState ({
+            pay_list: data,
+            is_pay: true
+          })
+        }else{
+          Toast.success(message,2,()=>{
+            router.push('/activitys/group')
+          })
+        }
+      }else {
+        Toast.fail(message);
       }
     })
-
   }
-
-
   render (){
     const { cover_img, describe_img1, describe_img2 } = this.state;
     const chooseGift = this.state.is_show == true ? (
@@ -248,7 +254,7 @@ export default class createGroup extends Component {
       ''
     )
     const payment = this.state.is_pay == true ? (
-      <PayMent  list={this.state.pay_list}/>
+      <PayMent  list={this.state.pay_list} type={'group'}/>
     ) : (
       ''
     )
