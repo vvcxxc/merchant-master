@@ -22,7 +22,9 @@ export default connect(({ app }: any) => app)(
 		state = {
 			showVerification: false,
 			//支付开通状态
-			payment_status: {}
+      payment_status: {},
+      reason: '',
+      is_show: false
 		};
 
 		componentWillMount() {
@@ -30,10 +32,27 @@ export default connect(({ app }: any) => app)(
 				url: 'v3/payment_profiles/payment_status',
 				method: 'get'
 			}).then(res => {
-				let { data } = res;
-				if (data.apply_store_status.store_open_status == 0 || data.apply_store_status.store_open_status == 2) {
+        let { data } = res;
+        let reason = '';
+				if (data.apply_store_status.store_open_status == 0) {
 					router.push('/createStore');
-				}
+        }else if(data.apply_store_status.store_open_status == 2){
+          router.push('/review');
+        }else{
+          if(data.payment_status.payment_open_status == 0){
+            reason = '请您提交经营资质，完成入驻'
+          }else if(data.payment_status.payment_open_status == 1){
+            reason = '资料审核中'
+          }else if(data.payment_status.payment_open_status == 2){
+            reason = '资质审核失败，查看详情'
+          }
+          this.setState({is_show: true});
+        }
+        this.setState({
+          reason
+        })
+
+
 			});
 			let userAgent = navigator.userAgent;
 			let isIos = userAgent.indexOf('iPhone') > -1;
@@ -173,15 +192,18 @@ export default connect(({ app }: any) => app)(
 						<img src={_.small_icon} className="icon" />
 						<div className="label">{_.name}</div>
 					</Flex>
-				));
+        ));
+      const title = this.state.is_show == true ? (
+        <Flex className={styles.header_title} justify='between' onClick={this.pushPage('/review')}>
+          {this.state.reason}
+          <Icon type='right' color='#FF6734'/>
+        </Flex>
+      ) : null;
 			return (
 				<div className={styles.page}>
 					{/* <NavBar mode="light">团卖物联</NavBar> */}
           {/* 数字信息 */}
-          <Flex className={styles.header_title} justify='between'>
-            店铺审核失败，查看详情
-            <Icon type='right' color='#FF6734'/>
-          </Flex>
+          {title}
 					<div className={styles.numberInfo}>
 						<Flex justify="center">
 							<div className="matter">
