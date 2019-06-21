@@ -77,12 +77,13 @@ export default class FiltrateLayout extends Component<Props> {
 		);
 		const filterButton = (
 			<Flex
+				style={{ width: 'auto' }}
 				align="center"
 				onClick={this.handleHotClick}
 				className={this.state.hotCheck || this.state.hotShow ? 'checked' : ''}
 			>
 				<span>筛选</span>
-				<img src={this.state.hotCheck ? checkIcon : icon} />
+				<img src={this.state.hotCheck || this.state.hotShow ? checkIcon : icon} />
 			</Flex>
 		);
 		const tabs =
