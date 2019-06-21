@@ -19,7 +19,16 @@ export default class Benefit extends Component {
 		},
 		{ id: 2, label: '支付宝' }
 	];
-	state = { data: [], type: 'today', payType: undefined, date: undefined, showNoData: false };
+	state = {
+		data: [],
+		type: 'today',
+		payType: undefined,
+		date: undefined,
+		showNoData: false,
+		sum: 0,
+		platform: 0,
+		count: 0
+	};
 	componentDidMount = () => this.getData();
 	getData = async () => {
 		Toast.loading('');
@@ -33,7 +42,7 @@ export default class Benefit extends Component {
 		});
 		Toast.hide();
 		if (res.code === 200) {
-			this.setState({ data: res.data });
+			this.setState({ data: res.data, sum: res.sum, platform: res.platform, count: res.count });
 			if (!res.data.length) {
 				this.setState({ showNoData: true });
 			}
@@ -47,9 +56,15 @@ export default class Benefit extends Component {
 				<span>暂无交易信息</span>
 			</Flex>
 		);
+		const insignificant = (
+			<Flex>
+				<Flex.Item>{this.state.count}笔交易</Flex.Item>
+				总计￥{this.state.sum}（{this.state.platform}元平台暂管）
+			</Flex>
+		);
 		return (
 			<div className={styles.page}>
-				<FiltrateLayout undetermined={this.undetermined}>
+				<FiltrateLayout undetermined={this.undetermined} insignificant={insignificant} hasInsignificant={true}>
 					{this.state.showNoData ? noData : list}
 				</FiltrateLayout>
 			</div>
