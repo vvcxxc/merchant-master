@@ -31,7 +31,7 @@ export default connect(({ app }: any) => app)(
 				method: 'get'
 			}).then(res => {
 				let { data } = res;
-				if (data.apply_store_status.store_open_status != 3) {
+				if (data.apply_store_status.store_open_status == 0 || data.apply_store_status.store_open_status == 2) {
 					router.push('/createStore');
 				}
 			});
@@ -177,7 +177,11 @@ export default connect(({ app }: any) => app)(
 			return (
 				<div className={styles.page}>
 					{/* <NavBar mode="light">团卖物联</NavBar> */}
-					{/* 数字信息 */}
+          {/* 数字信息 */}
+          <Flex className={styles.header_title} justify='between'>
+            店铺审核失败，查看详情
+            <Icon type='right' color='#FF6734'/>
+          </Flex>
 					<div className={styles.numberInfo}>
 						<Flex justify="center">
 							<div className="matter">

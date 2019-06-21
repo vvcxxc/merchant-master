@@ -560,11 +560,11 @@ export default class submitQua extends Component {
       if(code == 200){
         if(type == 1){
           Toast.success('保存成功', 2, ()=> {
-            router.push('/')
+            router.push('/review')
           })
         }else if(type == 2){
           Toast.success('提交成功', 2, ()=> {
-            router.push('/')
+            router.push('/review')
           })
         }
       }
