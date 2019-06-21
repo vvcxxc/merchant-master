@@ -31,7 +31,7 @@ export default connect(({ app }: any) => app)(
 				method: 'get'
 			}).then(res => {
 				let { data } = res;
-				if (data.store_open_status != 1) {
+				if (data.apply_store_status.store_open_status != 3) {
 					router.push('/createStore');
 				}
 			});
