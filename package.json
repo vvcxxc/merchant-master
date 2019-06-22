@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/js-cookie": "^2.2.2",
+    "@types/recharts": "^1.1.16",
     "@types/wx-js-sdk-dt": "^1.4.2",
     "ali-oss": "^6.1.1",
     "aliyun-oss-web": "^1.0.4",
@@ -25,9 +26,12 @@
     "qs": "^6.7.0",
     "react": "^16.7.0",
     "react-amap": "^1.2.8",
+    "react-circular-progressbar": "^2.0.1",
     "react-dom": "^16.7.0",
     "react-draggable-tags": "^0.3.5",
     "react-infinite-scroll-component": "^4.5.2",
+    "react-minimal-pie-chart": "^4.2.0",
+    "recharts": "^1.6.2",
     "weixin-js-sdk": "^1.4.0-test"
   },
   "devDependencies": {

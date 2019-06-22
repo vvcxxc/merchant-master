@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './index.less';
 import { Flex } from 'antd-mobile';
+import pages from '@/pages';
 
 const types = ['返', '减'];
 
@@ -11,6 +12,8 @@ interface Props extends Any {
 	onClick: (id: number) => any;
 	/**是否是支付返券 */
 	isPayment: boolean;
+	/**页面状态 0 进行中 1 未生效 2 已结束  */
+	pageStatus: number;
 }
 
 export default function Coupon(props: Props) {
@@ -29,6 +32,15 @@ export default function Coupon(props: Props) {
 		));
 	}
 	const handleClick = () => props.onClick(props.activity_id);
+	const statusMsg = props.pageStatus === 0 ? '即将结束' : props.begin_time + '-' + props.end_time;
+	const bottom = (
+		<Flex className="bottom" justify="end">
+			<Flex className="btn" justify="center">
+				<img src={require('./icon.png')} />
+				分享
+			</Flex>
+		</Flex>
+	);
 	return (
 		<div className={styles.coupon} onClick={handleClick}>
 			<Flex className="content">
@@ -36,17 +48,14 @@ export default function Coupon(props: Props) {
 				<Flex.Item className="info">
 					<Flex className="title">
 						{props.name}
-						<Flex.Item className="status">{props.status_msg}</Flex.Item>
+						<Flex.Item className={props.pageStatus === 0 ? 'status' : 'status small'}>
+							{statusMsg}
+						</Flex.Item>
 					</Flex>
 					<div className="labels">{tags}</div>
 				</Flex.Item>
 			</Flex>
-			<Flex className="bottom" justify="end">
-				<Flex className="btn" justify="center">
-					<img src={require('./icon.png')} />
-					分享
-				</Flex>
-			</Flex>
+			{props.pageStatus === 0 && bottom}
 		</div>
 	);
 }
