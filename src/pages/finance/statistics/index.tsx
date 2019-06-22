@@ -47,7 +47,7 @@ export default class FinanceStatistis extends Component {
 			platform: {}
 		}
 	};
-	handlePickerChange = (date: Date) => this.setState({ date: moment(date).format('YYYY/MM') });
+	handlePickerChange = (date: Date) => this.setState({ date: moment(date).format('YYYY/MM') }, this.getData);
 	componentDidMount = () => this.getData();
 
 	getPieChartLabel = ({ data, dataIndex }: any) => Math.round(data[dataIndex].percentage) + '%';
