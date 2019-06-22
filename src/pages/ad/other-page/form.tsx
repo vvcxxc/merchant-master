@@ -147,13 +147,15 @@ export default class From extends Component<Props, any> {
 			Toast.hide();
 
 			if (res.code === 200) {
-				this.props.onSuccess();
 				if (isStop) {
 					this.handleCloseModal();
 					Toast.success('暂停成功');
 				} else {
 					Toast.success('投放成功');
 				}
+				setTimeout(() => {
+					this.props.onSuccess();
+				}, 1000);
 			} else {
 				Toast.fail(res.data);
 			}
