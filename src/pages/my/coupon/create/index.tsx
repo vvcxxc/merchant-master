@@ -33,6 +33,13 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			Toast.hide();
 			if (res.code === 200) {
 				Toast.success('添加成功');
+				this.props.dispatch({
+					type: 'businessArea/setCoupon',
+					payload: {
+						label: this.state.type === 0 ? this.props.couponForm.coupons_name : '',
+						value: res.data.youhu_id
+					}
+				});
 				this.props.dispatch({ type: 'createCoupon/reset' });
 				setTimeout(() => {
 					router.goBack();
