@@ -56,8 +56,9 @@ export default class From extends Component<Props> {
 	handleChangeTime = (time: any) => this.setState({ time });
 	handleShowSelectTime = () => this.setState({ showSelectTime: true });
 	handleSelectTime = (time: any) => this.setState({ ...time }, this.closeModal);
-	handleSubmit = async () => {
-		if (!this.state.edit) {
+	handleSubmit = async (e: any, isStop?: boolean) => {
+		/**是否是修改提交状态 或者暂停请求状态 */
+		if (!this.state.edit || isStop) {
 			if (!this.state.coupon.value) {
 				return Toast.info('请选择优惠券');
 			}
@@ -72,19 +73,35 @@ export default class From extends Component<Props> {
 				coupon_id: this.state.coupon.value,
 				daily_budget: this.state.price,
 				begin_time: this.state.startTime,
-				end_time: this.state.endTime
+				end_time: this.state.endTime,
+				is_pause: 0
 			};
 			let res;
-			if (this.state.isOld) {
-				res = await request({ url: 'v3/ads/business/' + this.state.id, method: 'put', data });
+			/**是否是暂停操作 */
+			if (isStop) {
+				res = await request({
+					url: 'v3/ads/business/' + this.state.id,
+					method: 'put',
+					data: { ...data, is_pause: 1 }
+				});
 			} else {
-				res = await request({ url: 'v3/ads/business', method: 'post', data });
+				/**是否是修改状态 */
+				if (this.state.isOld) {
+					res = await request({ url: 'v3/ads/business/' + this.state.id, method: 'put', data });
+				} else {
+					res = await request({ url: 'v3/ads/business', method: 'post', data });
+				}
 			}
 
 			Toast.hide();
 			if (res.code === 200) {
-				return Toast.success('投放成功');
 				this.props.onChange();
+				if (isStop) {
+					this.handleCloseModal();
+					return Toast.success('暂停成功');
+				} else {
+					return Toast.success('投放成功');
+				}
 			} else {
 				Toast.fail(res.data);
 			}
@@ -95,15 +112,8 @@ export default class From extends Component<Props> {
 
 	handleCloseModal = () => this.setState({ stopModalShow: false });
 
-	handleConfirmModal = async () => {
-		Toast.loading('');
-		const res = await request({ url: 'v3/ads/stop', method: 'put', data: { ad_id: this.props.editForm.id } });
-		Toast.hide();
-		if (res.code === 200) {
-			return Toast.success('暂停成功');
-		} else {
-			Toast.fail(res.data);
-		}
+	handleConfirmModal = () => {
+		this.handleSubmit({}, true);
 	};
 
 	handleShowStopAd = () => this.setState({ stopModalShow: true });
