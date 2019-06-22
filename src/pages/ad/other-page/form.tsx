@@ -285,13 +285,11 @@ export default class From extends Component<Props, any> {
 						show={this.state.showSelectCoupon}
 						onClose={this.closeModal}
 						onSelect={this.handleSelectCoupon}
-						isAd={1}
 					/>
 					<SelectActivity
 						show={this.state.showSelectActivity}
 						onClose={this.closeModal}
 						onSelect={this.handleSelectCoupon}
-						isAd={1}
 					/>
 					<SelectTime
 						show={this.state.showSelectTime}

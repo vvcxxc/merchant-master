@@ -8,6 +8,7 @@ import Notice from '@/pages/activitys/components/notice';
 
 interface Props extends CouponForm {
 	dispatch: (arg0: any) => any;
+	showPrice: boolean;
 }
 
 /**创建优惠券 */
@@ -82,9 +83,24 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					onChange={this.handleNoticeChange}
 				/>
 			);
+			const priceInput = this.props.showPrice && (
+				<InputItem
+					type="money"
+					extra="元"
+					value={String(this.props.pay_money || '')}
+					onChange={this.handleInput('pay_money')}
+				>
+					购买价格
+				</InputItem>
+			);
 			return (
 				<div>
-					<InputItem className={styles.coupons_name} value={this.props.coupons_name} placeholder="请输入券的名称" onChange={this.handleInput('coupons_name')} >
+					<InputItem
+						className={styles.coupons_name}
+						value={this.props.coupons_name}
+						placeholder="请输入券的名称"
+						onChange={this.handleInput('coupons_name')}
+					>
 						优惠券名称
 					</InputItem>
 					<InputItem
@@ -103,14 +119,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					>
 						发放数量
 					</InputItem>
-					<InputItem
-						type="money"
-						extra="元"
-						value={String(this.props.pay_money || '')}
-						onChange={this.handleInput('pay_money')}
-					>
-						购买价格
-					</InputItem>
+					{priceInput}
 					<InputItem
 						extra="天可用"
 						type="money"

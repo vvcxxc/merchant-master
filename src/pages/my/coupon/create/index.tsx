@@ -13,7 +13,13 @@ const types = ['优惠券', '现金券'];
 export default connect(({ createCoupon }: any) => createCoupon)(
 	class CreateCoupon extends Component<any> {
 		state = {
-			type: 0 // 券的类型
+			type: 0, // 券的类型
+			/**是否显示购买价格，商圈广告下不显示 */
+			showPrice: true
+		};
+
+		componentDidMount = () => {
+			this.setState({ showPrice: !this.props.location.query.isAd });
 		};
 
 		handleSelectType = () =>
@@ -38,7 +44,12 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			request({
 				url: 'api/merchant/youhui/addDiscounts',
 				method: 'post',
-				data: { ...this.props.couponForm, is_ad: this.props.location.query.isAd }
+				data: {
+					...this.props.couponForm,
+					is_ad: this.props.location.query.isAd,
+					/**商圈广告下，购买价格为0 */
+					pay_money: this.state.showPrice ? this.props.couponForm : 0
+				}
 			});
 
 		postMoney = () =>
@@ -49,7 +60,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			});
 
 		render() {
-			const form = this.state.type === 0 ? <CouponForm /> : <MoneyForm />;
+			const form = this.state.type === 0 ? <CouponForm showPrice={this.state.showPrice} /> : <MoneyForm />;
 			return (
 				<Flex direction="column" className={styles.page}>
 					<Flex.Item>
