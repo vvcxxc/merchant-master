@@ -11,6 +11,7 @@ import { buildStyles, CircularProgressbarWithChildren } from 'react-circular-pro
 import 'react-circular-progressbar/dist/styles.css';
 import PieChart from 'react-minimal-pie-chart';
 import { Chart, Axis, Geom } from 'bizgoblin';
+import router from 'umi/router';
 
 interface Data {
 	business_sum: Business_sum;
@@ -62,6 +63,8 @@ export default class FinanceStatistis extends Component {
 			this.setState({ data: res.data });
 		}
 	};
+
+	hanldeLookMore = (path: string) => () => router.push(path);
 	render() {
 		const data: any = this.state.data;
 		const lineStyle = [
@@ -100,7 +103,7 @@ export default class FinanceStatistis extends Component {
 					>
 						<Flex className="time-select">
 							{this.state.date}
-							<img src="" alt="" />
+							<img src={require('./down-icon.png')} />
 						</Flex>
 					</DatePicker>
 					<Box title="营业收入走势图">
@@ -112,7 +115,7 @@ export default class FinanceStatistis extends Component {
 							<Area type="monotone" dataKey="value" stroke="#21418A" strokeWidth={6} fill="#Ff6654" />
 						</AreaChart>
 					</Box>
-					<Box title="营业收入">
+					<Box title="营业收入" lookMore={true} onClickMore={this.hanldeLookMore('/my/benefit')}>
 						<Flex className="incomeBox">
 							<Flex.Item>
 								<div className="small-title">线下收银</div>
@@ -137,7 +140,7 @@ export default class FinanceStatistis extends Component {
 							</Flex.Item>
 						</Flex>
 					</Box>
-					<Box title="支付渠道">
+					<Box title="支付渠道" lookMore={true} onClickMore={this.hanldeLookMore('/my/benefit')}>
 						<Flex align="end" style={{ padding: 50 }}>
 							<Flex.Item>
 								<div className="pie-chart">
@@ -160,7 +163,7 @@ export default class FinanceStatistis extends Component {
 							</Flex.Item>
 						</Flex>
 					</Box>
-					<Box title="平台收益">
+					<Box title="平台收益" lookMore={true} onClickMore={this.hanldeLookMore('/my/platformBenefit')}>
 						<Flex>
 							<Flex.Item>
 								<div className="progressbar">
