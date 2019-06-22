@@ -11,7 +11,8 @@ export default class WithDrawList extends Component {
     list: [],
     page: 1,
     total: 0,
-    hasMore: true
+    hasMore: true,
+    withdraw_sum: ''
   };
 
   componentDidMount (){
@@ -22,10 +23,11 @@ export default class WithDrawList extends Component {
         page: 1
       }
     }).then(res =>{
-      let { data, total } = res;
+      let { data, total, withdraw_sum } = res;
       this.setState({
         list: data,
-        total
+        total,
+        withdraw_sum
       });
     });
   }
@@ -33,7 +35,6 @@ export default class WithDrawList extends Component {
   more = () => {
     let { total } = this.state;
     let sum = Math.ceil(total/12);
-    // console.log(123)
     if(this.state.page <= sum){
       request({
         url: 'api/merchant/staff/withdrawLogList',
@@ -44,8 +45,11 @@ export default class WithDrawList extends Component {
       }).then(res =>{
         let { data, total } = res;
         this.setState({
-          list: data
+          list: this.state.list.concat(data),
+          total,
         });
+      },function(){
+        // console.log(this.state.list)
       });
     }else{
       this.setState({hasMore: false})
@@ -77,20 +81,16 @@ export default class WithDrawList extends Component {
     return (
       <div className={styles.list_page}>
         <WingBlank>
-          <Flex className={styles.title}>提现总金额：<span>￥2,333.00</span></Flex>
-          <div>
-
-            <InfiniteScroll
-              dataLength={this.state.list}
-              next={this.more}
-              hasMore={true}
-              loader={<h4>Loading...</h4>}
-            >
-              {items}
-            </InfiniteScroll>
-
-          </div>
+          <Flex className={styles.title}>提现总金额：<span>￥{this.state.withdraw_sum}</span></Flex>
         </WingBlank>
+        <InfiniteScroll
+          dataLength={this.state.list.length}
+          next={this.more}
+          hasMore={true}
+          loader={<h4>Loading...</h4>}
+        >
+          {items}
+        </InfiniteScroll>
       </div>
     )
   }

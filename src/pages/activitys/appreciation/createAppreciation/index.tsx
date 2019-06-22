@@ -9,6 +9,7 @@ import PayMent from '../../components/payment';
 import moment from 'moment'
 import request from '@/services/request'
 import router from 'umi/router';
+import { async } from 'q';
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
@@ -43,8 +44,11 @@ export default class createAppreciation extends Component {
     /**去支付？ */
     is_pay: false,
     /**提交后返回的信息 */
-    pay_list: {}
+    pay_list: {},
+    animating: false,
   };
+
+
   /**改变值 */
   handleStartPri = (e: any) => {
     this.setState({start_price: e})
@@ -107,46 +111,84 @@ export default class createAppreciation extends Component {
 
 
   /**提交 */
-  submit = () => {
+  submit = async() => {
     const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic } = this.state
     let activity_begin_time = moment(start_date).format('X');
     let activity_end_tine = moment(end_date).format('X');
-    request({
-      url: 'api/merchant/youhui/addYouhuiAppreciation',
-      method: 'post',
-      data: {
-        total_num,
-        pay_money,
-        validity,
-        init_money: start_price,
-        return_money: end_price,
-        activity_begin_time,
-        activity_end_tine,
-        total_fee,
-        gift_id,
-        mail_mode,
-        gift_pic,
-        appreciation_number_sum
-      }
-    }).then(res => {
-      let {data, code, message} = res;
-      if(code == 200){
-        if (data.order_sn){
-          this.setState ({
-            pay_list: data,
-            is_pay: true
-          })
-        }else{
-          Toast.success(message,2,()=>{
-            router.push('/activitys/appreciation');
-          })
+    if (start_price&&end_price&&appreciation_number_sum&&validity&&pay_money&&total_num&&total_fee&&start_date&&end_date&&mail_mode){
+      // this.setState({ animating: !this.state.animating });
+      // request({
+      //   url: 'api/merchant/youhui/addYouhuiAppreciation',
+      //   method: 'post',
+      //   data: {
+      //     total_num,
+      //     pay_money,
+      //     validity,
+      //     init_money: start_price,
+      //     return_money: end_price,
+      //     activity_begin_time,
+      //     activity_end_tine,
+      //     total_fee,
+      //     gift_id,
+      //     mail_mode,
+      //     gift_pic,
+      //     appreciation_number_sum
+      //   }
+      // }).then(res => {
+      //   // this.setState({ animating: !this.state.animating });
+      //   let {data, code, message} = res;
+      //   if(code == 200){
+      //     if (data.order_sn){
+      //       this.setState ({
+      //         pay_list: data,
+      //         is_pay: true
+      //       })
+      //     }else{
+      //       Toast.success(message,2,()=>{
+      //         router.push('/activitys/appreciation');
+      //       })
+      //     }
+      //   }else {
+      //     Toast.fail(message)
+      //   }
+      // })
+      Toast.loading('');
+
+      let res = await request({
+        url: 'api/merchant/youhui/addYouhuiAppreciation',
+        method: 'post',
+        data: {
+          total_num,
+          pay_money,
+          validity,
+          init_money: start_price,
+          return_money: end_price,
+          activity_begin_time,
+          activity_end_tine,
+          total_fee,
+          gift_id,
+          mail_mode,
+          gift_pic,
+          appreciation_number_sum
         }
-      }else {
-        Toast.fail(datmessagea)
+      });
+      let {data, message} = res;
+      if (data.order_sn){
+        this.setState ({
+          pay_list: data,
+          is_pay: true
+        })
+        Toast.hide();
+      }else{
+        Toast.success(message,2,()=>{
+          router.push('/activitys/appreciation');
+          Toast.hide();
+        })
       }
+    }else{
+      Toast.fail('请填写完整',2)
+    }
 
-
-    })
   }
 
   render (){

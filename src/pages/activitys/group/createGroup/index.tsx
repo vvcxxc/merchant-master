@@ -8,6 +8,7 @@ import PayMent from '../../components/payment'
 import moment from 'moment'
 import request from '@/services/request'
 import router from 'umi/router';
+import { async } from 'q';
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
@@ -165,7 +166,7 @@ export default class createGroup extends Component {
 
 
   /**确认发布 */
-  confirm = () => {
+  confirm = async() => {
     let { activity_name, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, description, mail_mode } = this.state;
     let activity_begin_time = moment(start_date).format('X');
     let activity_end_tine = moment(end_date).format('X');
@@ -173,43 +174,84 @@ export default class createGroup extends Component {
     image_url.push(image_url1);
     image_url.push(image_url2);
 
-    request({
-      url: 'api/merchant/youhui/addYouhuiGroup',
-      method: 'post',
-      data: {
-        name: activity_name,
-        activity_begin_time,
-        activity_end_tine,
-        validity,
-        participation_money,
-        image_url,
-        image,
-        group_number,
-        group_sum,
-        pay_money: old_price,
-        description,
-        mail_mode,
-        gift_id,
-        gift_pic
-      }
-    }).then(res => {
+    // request({
+    //   url: 'api/merchant/youhui/addYouhuiGroup',
+    //   method: 'post',
+    //   data: {
+    //     name: activity_name,
+    //     activity_begin_time,
+    //     activity_end_tine,
+    //     validity,
+    //     participation_money,
+    //     image_url,
+    //     image,
+    //     group_number,
+    //     group_sum,
+    //     pay_money: old_price,
+    //     description,
+    //     mail_mode,
+    //     gift_id,
+    //     gift_pic
+    //   }
+    // }).then(res => {
 
-      let {data, code, message} = res;
-      if(code == 200){
+    //   let {data, code, message} = res;
+    //   if(code == 200){
+    //     if (data.order_sn){
+    //       this.setState ({
+    //         pay_list: data,
+    //         is_pay: true
+    //       })
+    //     }else{
+    //       Toast.success(message,2,()=>{
+    //         router.push('/activitys/group')
+    //       })
+    //     }
+    //   }else {
+    //     Toast.fail(message);
+    //   }
+    // })
+    if(activity_name&&activity_begin_time&&activity_end_tine&&validity&&participation_money&&image_url&&image&&group_number&&group_sum&&old_price&&mail_mode){
+      Toast.loading('');
+      let res = await request({
+        url: 'api/merchant/youhui/addYouhuiGroup',
+        method: 'post',
+        data: {
+          name: activity_name,
+          activity_begin_time,
+          activity_end_tine,
+          validity,
+          participation_money,
+          image_url,
+          image,
+          group_number,
+          group_sum,
+          pay_money: old_price,
+          description,
+          mail_mode,
+          gift_id,
+          gift_pic
+        }
+      });
+      let {data, message, code} = res;
+      if (code == 200){
         if (data.order_sn){
           this.setState ({
             pay_list: data,
             is_pay: true
           })
+          Toast.hide();
         }else{
           Toast.success(message,2,()=>{
-            router.push('/activitys/group')
+            router.push('/activitys/group');
+            Toast.hide();
           })
         }
-      }else {
-        Toast.fail(message);
       }
-    })
+    }else{
+      Toast.fail('请将信息填写完整',2);
+    }
+
   }
   render (){
     const { cover_img, describe_img1, describe_img2 } = this.state;
