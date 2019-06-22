@@ -48,7 +48,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					...this.props.couponForm,
 					is_ad: this.props.location.query.isAd,
 					/**商圈广告下，购买价格为0 */
-					pay_money: this.state.showPrice ? this.props.couponForm : 0
+					pay_money: this.state.showPrice ? this.props.couponForm.pay_money : 0
 				}
 			});
 
@@ -56,11 +56,21 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			request({
 				url: 'api/merchant/youhui/addDiscounts',
 				method: 'post',
-				data: this.props.moneyForm
+				data: {
+					...this.props.moneyForm,
+					is_ad: this.props.location.query.isAd,
+					/**商圈广告下，购买价格为0 */
+					pay_money: this.state.showPrice ? this.props.moneyForm.pay_money : 0
+				}
 			});
 
 		render() {
-			const form = this.state.type === 0 ? <CouponForm showPrice={this.state.showPrice} /> : <MoneyForm />;
+			const form =
+				this.state.type === 0 ? (
+					<CouponForm showPrice={this.state.showPrice} />
+				) : (
+					<MoneyForm showPrice={this.state.showPrice} />
+				);
 			return (
 				<Flex direction="column" className={styles.page}>
 					<Flex.Item>
