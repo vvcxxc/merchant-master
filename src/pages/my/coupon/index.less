@@ -7,27 +7,36 @@
 }
 
 .coupon {
-	width: 670px;
-	height: 195px;
-	margin: 0 auto 22px;
-	background-size: 100%;
-	background-repeat: no-repeat;
-	padding-bottom: 14px;
+	height: 200px;
 	box-sizing: border-box;
+	padding: 10px 10px 20px;
 	:global {
 		.info {
 			font-size: 24px;
 		}
 		.price-wrap {
 			width: 248px;
+			height: 100%;
 			color: #fff;
-			margin-right: 30px;
+			background: linear-gradient(-48deg, rgba(93, 155, 224, 1), rgba(103, 123, 221, 1));
+			border-radius: 5px;
+			box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.1);
 			.price {
 				font-size: 46px;
 				font-weight: bold;
 				span {
 					font-size: 94px;
 				}
+			}
+		}
+		.rightBox {
+			padding-left: 40px;
+			height: 100%;
+			background-color: #fff;
+			border-radius: 5px;
+			box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.1);
+			.main {
+				height: 100%;
 			}
 		}
 		.title {
@@ -59,7 +68,7 @@
 			.line {
 				height: 100%;
 				border-radius: 6px;
-				background-color: rgb(255, 174, 53);
+				background-color: #ff6654;
 			}
 		}
 		.number {
