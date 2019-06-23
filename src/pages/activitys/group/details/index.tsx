@@ -38,6 +38,7 @@ export default class GroupDetails extends Component {
 
   }
   componentDidMount (){
+    this.setState({id: this.props.location.query.id})
     request({
       url: 'api/merchant/youhui/group_info',
       method: 'get',
@@ -53,7 +54,10 @@ export default class GroupDetails extends Component {
   stop = () => {
     request({
       url: 'api/merchant/youhui/appreciation/activity/stop/'+this.state.id,
-      method: 'put'
+      method: 'put',
+      data: {
+        type: 5
+      }
     }).then (res => {
       let {code, message} = res;
       if(code == 200){

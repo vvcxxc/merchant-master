@@ -53,7 +53,10 @@ export default class GroupDetails extends Component {
   stop = () => {
     request({
       url: 'api/merchant/youhui/appreciation/activity/stop/'+this.state.id,
-      method: 'put'
+      method: 'put',
+      data: {
+        type: 1
+      }
     }).then (res => {
       let {code, message} = res;
       if(code == 200){
