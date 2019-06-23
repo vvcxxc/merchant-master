@@ -18,11 +18,13 @@ export default class ContentDetail extends Component<Props, any> {
 
 	modal: any = {};
 
-	UNSAFE_componentWillReceiveProps(nextProps: { id: number }) {
-		if (nextProps.id !== 0) {
-			this.getData(nextProps.id);
-		}
-	}
+	// UNSAFE_componentWillReceiveProps(nextProps: { id: number }) {
+	// 	if (nextProps.id !== 0) {
+	// 		this.getData(nextProps.id);
+	// 	}
+	// }
+
+	componentDidMount = () => this.getData(this.props.id);
 
 	getData = async (id: number) => {
 		Toast.loading('');
