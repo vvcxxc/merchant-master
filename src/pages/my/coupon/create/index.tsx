@@ -36,7 +36,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				this.props.dispatch({
 					type: 'businessArea/setCoupon',
 					payload: {
-						label: this.state.type === 0 ? this.props.couponForm.coupons_name : '',
+						label: this.state.type === 0 ? this.props.couponForm.coupons_name : res.data.msg,
 						value: res.data.youhu_id
 					}
 				});

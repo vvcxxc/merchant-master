@@ -44,7 +44,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 					{priceInput}
 					<InputItem
 						type="money"
-						extra="张"
+						extra="元"
 						value={String(this.props.total_fee || '')}
 						onChange={this.handleInput('total_fee')}
 					>

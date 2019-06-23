@@ -45,6 +45,10 @@ export default class SelectCoupon extends Component<Props> {
 						},
 						result: cur.name
 					});
+				} else {
+					this.setState({
+						list: res.data.map((_: { name: any; id: any }) => ({ label: _.name, value: _.id }))
+					});
 				}
 			} else {
 				this.setState({
