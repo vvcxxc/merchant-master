@@ -19,7 +19,9 @@ export default connect()(
 			/**账号 */
 			account_name: '',
 			/**密码 */
-			password: ''
+			password: '',
+			/**发送验证码之后的倒计时 */
+			remainingTime: 0
 		};
 		componentDidMount() {
 			/**获取oss */
@@ -124,12 +126,29 @@ export default connect()(
 		 */
 		handleChangeTab = (active: number) => () => this.setState({ tab: active });
 		/**发送验证码 */
-		sendCode = () => {
-			if (this.state.mobile) {
-				request({
-					url: 'v3/verify_code',
-					params: { phone: this.state.mobile }
-				});
+		sendCode = async () => {
+			if (this.state.remainingTime === 0) {
+				if (this.state.mobile) {
+					Toast.loading('');
+					const res = await request({
+						url: 'v3/verify_code',
+						params: { phone: this.state.mobile }
+					});
+					Toast.hide();
+					if (res.code === 200) {
+						Toast.success('发送验证码成功');
+						this.setState({ remainingTime: 60 });
+						const time = setInterval(() => {
+							if (this.state.remainingTime > 0) {
+								this.setState({ remainingTime: this.state.remainingTime - 1 });
+							} else {
+								clearInterval(time);
+							}
+						}, 1000);
+					}
+				} else {
+					Toast.fail('请输入手机号');
+				}
 			}
 		};
 
@@ -186,7 +205,7 @@ export default connect()(
 								/>
 							</Flex.Item>
 							<div className="send-code" onClick={this.sendCode}>
-								发送验证码
+								{this.state.remainingTime === 0 ? '发送验证码' : this.state.remainingTime + 's'}
 							</div>
 						</Flex>
 					</div>
