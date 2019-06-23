@@ -18,14 +18,14 @@ export default class CouponCard extends Component<Props> {
 	render() {
 		return (
 			<div className={styles.couponCard}>
-				<div className="price">{this.props.return_money}</div>
+				<div className="price">¥ {this.props.return_money}</div>
 				<div className="info">
 					<span>满{30}可用</span>
 					<span>有效期{this.props.expire_day}天</span>
 				</div>
-				<ProgressBar title="库存" value={60} label="1000张" />
-				<ProgressBar title="已领" value={60} label="1000张" />
-				<ProgressBar title="已使用" value={60} label="1000张" />
+				<ProgressBar title="库存" value={60} label={this.props.total_num + '张'} />
+				<ProgressBar title="已领" value={70} label={this.props.user_count - this.props.total_num + '张'} />
+				<ProgressBar title="已使用" value={80} label={this.props.use_sum + '张'} />
 			</div>
 		);
 	}
