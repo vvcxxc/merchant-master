@@ -36,20 +36,23 @@ export default class MyCouponItem extends Component<Props & Item> {
 					<span className="info">满{this.props.total_fee}可用</span>
 				</Flex>
 				<Flex.Item className="rightBox">
-					<Flex className="main" direction="column" justify="center" align="start">
-						<Flex className="title">
-							<div className="label">现金券</div>
-							{this.props.coupons_name}
-						</Flex>
-						<div className="right-info info">{this.props.validity}</div>
-						<Flex className={styles.progress}>
-							<Flex.Item className="bar">
-								<div className="line" style={{ width: `${useScale}%` }} />
-							</Flex.Item>
-							<div className="number">
-								{this.props.total_num}/{this.props.user_count}
-							</div>
-						</Flex>
+					<Flex className="main">
+						<Flex.Item>
+							<Flex className="title">
+								<div className="label">现金券</div>
+								{this.props.coupons_name}
+							</Flex>
+							<div className="right-info info">{this.props.validity}</div>
+							<Flex className={styles.progress}>
+								<Flex.Item className="bar">
+									<div className="line" style={{ width: `${useScale}%` }} />
+								</Flex.Item>
+								<div className="number">
+									{this.props.total_num}/{this.props.user_count}
+								</div>
+							</Flex>
+						</Flex.Item>
+						<div className="createBannerBtn">生成海报</div>
 					</Flex>
 				</Flex.Item>
 			</Flex>
