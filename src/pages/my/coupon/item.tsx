@@ -44,9 +44,9 @@ export default class MyCouponItem extends Component<Props & Item> {
 							</Flex>
 							<div className="right-info info">{this.props.validity}</div>
 							<Flex className={styles.progress}>
-								<Flex.Item className="bar">
+								<div className="bar">
 									<div className="line" style={{ width: `${useScale}%` }} />
-								</Flex.Item>
+								</div>
 								<div className="number">
 									{this.props.total_num}/{this.props.user_count}
 								</div>
