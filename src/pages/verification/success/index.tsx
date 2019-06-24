@@ -37,10 +37,10 @@ export default class Success extends Component {
             <div className={styles.successPage}>
                 <div className={styles.infoBox}>
                     <Flex justify='around'>
-                        <div className={styles.success}>
-                            <img src=""/>
+                        <Flex className={styles.success}>
+                            <img src={require('./success.png')}/>
                             核销成功
-                        </div>
+                        </Flex>
                     </Flex>
                     <Flex justify='around'>
                         {/* <div> */}
@@ -75,20 +75,20 @@ export default class Success extends Component {
                         </Flex>
                         <Flex className={styles.infos} style={{marginTop: 44, marginBottom: 52}}>
                             <div className={styles.title_name}>订单号：</div>
-                            412457836915644161613   
+                            412457836915644161613
                         </Flex>
                         <Flex className={styles.infos} style={{marginBottom:26}}>
                             <div className={styles.title_name}>购买时间：</div>
-                            2018-10-14 18:00   
+                            2018-10-14 18:00
                         </Flex>
                         <Flex className={styles.infos}>
                             <div className={styles.title_name}>价格：</div>
-                            ￥40.8   
+                            ￥40.8
                         </Flex>
-                    
+
                 </WingBlank>
             </div>
         )
-        
+
     }
 }

@@ -302,7 +302,7 @@ export default class createGroup extends Component {
     )
 
     return (
-      <div style={{width: '100%', height: 'auto', minHeight: '100%', background: '#fff'}}>
+      <div style={{width: '100%', height: 'auto', minHeight: '100%', background: '#fff', overflow: 'hidden'}}>
         <WingBlank>
           <Flex className={styles.title}><div>活动设置</div></Flex>
           <List className={styles.input_Box}>

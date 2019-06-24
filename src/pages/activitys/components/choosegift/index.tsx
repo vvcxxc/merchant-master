@@ -78,7 +78,7 @@ export default class ChooseGift extends Component<Props> {
       )
     })
     return (
-      <div style={{width: '100%', height: 'auto', minHeight: '100%', background: '#fff', position: 'absolute', zIndex: 999, top: 0}}>
+      <div className={styles.page}>
         <WingBlank>
           {list}
           <div style={{width: '100%',height: '90px', background: '#fff', marginTop: -2}}>{''}</div>

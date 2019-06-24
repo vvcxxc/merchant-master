@@ -14,7 +14,7 @@ export default function GroupItem({
 }) {
 	const handleClick = () => onClick(id);
 	return (
-		<Flex className={styles.groupItem} align="end">
+		<Flex className={styles.groupItem} align="end" onClick={handleClick}>
 			<img src={image} alt="" className="main-img" />
 			<Flex.Item className="content">
 				<div className="title">
