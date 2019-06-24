@@ -78,11 +78,13 @@ export default class ChooseGift extends Component<Props> {
       )
     })
     return (
-      <div style={{width: '100%', height: 'auto', minHeight: '100%', background: '#fff', position: 'absolute', zIndex: 999, top: 0}}>
-        <WingBlank>
-          {list}
-          <div style={{width: '100%',height: '90px', background: '#fff', marginTop: -2}}>{''}</div>
-        </WingBlank>
+      <div className={styles.page}>
+        <div className={styles.lists}>
+          <WingBlank>
+            {list}
+            <div style={{width: '100%',height: '90px', background: '#fff', marginTop: -2}}>{''}</div>
+          </WingBlank>
+        </div>
         <Flex className={styles.buttons}>
           <div className={styles.cancel} onClick={this.cancel}>取消选择</div>
           <div className={styles.submit} onClick={this.submit}>确认</div>
