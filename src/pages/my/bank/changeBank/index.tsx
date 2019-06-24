@@ -3,6 +3,7 @@ import styles from './index.less';
 import { Flex, WingBlank, List, InputItem, ImagePicker, Button, ActivityIndicator, Toast } from 'antd-mobile';
 import upload from '@/services/oss';
 import request from '@/services/request';
+import router from 'umi/router';
 
 
 export default class ChangeBank extends Component {
@@ -170,7 +171,9 @@ export default class ChangeBank extends Component {
     }).then(res => {
       let { code, message } = res;
       if (code == 200){
-        Toast.success(message,1)
+        Toast.success(message,1,() => {
+          router.goBack()
+        })
       }else{
         Toast.fail(message,2)
       }
