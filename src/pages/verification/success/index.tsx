@@ -4,19 +4,27 @@ import { Flex, WingBlank, Icon } from 'antd-mobile';
 
 export default class Success extends Component {
     state = {
-        is_show: false
+        is_show: false,
+        data: {}
     };
+    componentDidMount (){
+      // console.log(this.props.location.query.res);
+      this.setState({
+        data: this.props.location.query.res
+      })
+    }
 
     isShow = () => {
         this.setState({is_show: !this.state.is_show})
     }
 
     render (){
+      const {data} = this.state;
         const info = this.state.is_show == true ? (
             <div className={styles.box2} style={{marginTop: 40}}>
                 <p>
                     <span>使用有效期：</span>
-                    2019.01.01-2019.02.02
+                    {data.begin_time}-{data.end_time}
                 </p>
                 <p><span>使用规则：</span></p>
                 <p>· 123</p>
@@ -45,8 +53,8 @@ export default class Success extends Component {
                     <Flex justify='around'>
                         {/* <div> */}
                             <img src="" className={styles.user_img}/>
-                            <span className={styles.name}>名字</span>
-                            <span className={styles.number}>券码：</span>
+                            <span className={styles.name}>{data.coupons_name}</span>
+                            <span className={styles.number}>券码：{data.youhui_sn}</span>
                         {/* </div> */}
                     </Flex>
                 </div>
@@ -58,8 +66,8 @@ export default class Success extends Component {
                             </Flex>
                             <Flex className={styles.coupon_right}>
                                 <div>
-                                    <p className={styles.store_name}>洛西路店</p>
-                                    <p className={styles.gift_name}>双服套装</p>
+                                    <p className={styles.store_name}>{null}</p>
+                                    <p className={styles.gift_name}>{data.coupons_name}</p>
                                     <p className={styles.youxiao_time}>2019.01.01-2019.02.02</p>
                                     <p className={styles.use_time}>使用时间：2019.02.01</p>
                                 </div>
@@ -75,15 +83,15 @@ export default class Success extends Component {
                         </Flex>
                         <Flex className={styles.infos} style={{marginTop: 44, marginBottom: 52}}>
                             <div className={styles.title_name}>订单号：</div>
-                            412457836915644161613
+                            {data.channel_order_sn}
                         </Flex>
                         <Flex className={styles.infos} style={{marginBottom:26}}>
                             <div className={styles.title_name}>购买时间：</div>
-                            2018-10-14 18:00
+                            {data.create_time}
                         </Flex>
                         <Flex className={styles.infos}>
                             <div className={styles.title_name}>价格：</div>
-                            ￥40.8
+                            {data.money}
                         </Flex>
 
                 </WingBlank>

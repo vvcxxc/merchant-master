@@ -153,7 +153,12 @@ export default connect(({ app }: any) => app)(
 							code: res.youhui_sn
 						}
 					}).then(res => {
-						Toast.success(res.message);
+						router.push({
+              pathname: '/verification/success',
+              query: {
+                res
+              }
+            })
 					});
 				}
 			});

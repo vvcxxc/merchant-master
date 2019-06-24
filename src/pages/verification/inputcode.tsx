@@ -6,6 +6,7 @@ import React, {Component} from 'react';
 import { InputItem, Flex, WingBlank, Button, Toast } from 'antd-mobile'
 import styles from './index.less';
 import request from '@/services/request'
+import router from 'umi/router';
 
 export default class InputCode extends Component {
   state = {
@@ -29,7 +30,12 @@ export default class InputCode extends Component {
         }
       }).then(res => {
         if(res.code == 200){
-          Toast.success(res.message)
+          router.push({
+            pathname: '/verification/success',
+            query: {
+              res
+            }
+          })
         }else{
           Toast.fail(res.message)
         }
