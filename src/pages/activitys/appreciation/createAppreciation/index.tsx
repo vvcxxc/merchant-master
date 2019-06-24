@@ -46,6 +46,7 @@ export default class createAppreciation extends Component {
     /**提交后返回的信息 */
     pay_list: {},
     animating: false,
+    display: 'block'
   };
 
 
@@ -95,12 +96,14 @@ export default class createAppreciation extends Component {
     this.setState({
       gift_id: id,
       is_show,
-      gift_pic
+      gift_pic,
+      display: 'block'
     })
   }
   toGift = () => {
     this.setState({
-      is_show: true
+      is_show: true,
+      display: 'none'
     })
   }
 
@@ -116,42 +119,6 @@ export default class createAppreciation extends Component {
     let activity_begin_time = moment(start_date).format('X');
     let activity_end_tine = moment(end_date).format('X');
     if (start_price&&end_price&&appreciation_number_sum&&validity&&pay_money&&total_num&&total_fee&&start_date&&end_date&&mail_mode){
-      // this.setState({ animating: !this.state.animating });
-      // request({
-      //   url: 'api/merchant/youhui/addYouhuiAppreciation',
-      //   method: 'post',
-      //   data: {
-      //     total_num,
-      //     pay_money,
-      //     validity,
-      //     init_money: start_price,
-      //     return_money: end_price,
-      //     activity_begin_time,
-      //     activity_end_tine,
-      //     total_fee,
-      //     gift_id,
-      //     mail_mode,
-      //     gift_pic,
-      //     appreciation_number_sum
-      //   }
-      // }).then(res => {
-      //   // this.setState({ animating: !this.state.animating });
-      //   let {data, code, message} = res;
-      //   if(code == 200){
-      //     if (data.order_sn){
-      //       this.setState ({
-      //         pay_list: data,
-      //         is_pay: true
-      //       })
-      //     }else{
-      //       Toast.success(message,2,()=>{
-      //         router.push('/activitys/appreciation');
-      //       })
-      //     }
-      //   }else {
-      //     Toast.fail(message)
-      //   }
-      // })
       Toast.loading('');
 
       let res = await request({
@@ -237,69 +204,72 @@ export default class createAppreciation extends Component {
 
 
 
-    const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee } = this.state
+    const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, display } = this.state
     return (
       <div style={{width: '100%', height: 'auto', minHeight: '100%', background: '#fff'}}>
-        <WingBlank>
-          <Flex className={styles.title}><div>活动设置</div></Flex>
-          <List className={styles.input_Box}>
-            <Flex className={styles.pickerDate}>
-              <DatePicker
-                mode="date"
-                title="起始日期"
-                extra="Optional"
-                value={this.state.start_date}
-                onChange={this.startChange}
-              >
-                <List.Item arrow="horizontal">起始日期</List.Item>
-              </DatePicker>
-            </Flex>
-            <Flex className={styles.pickerDate}>
-              <DatePicker
-                mode="date"
-                title="结束日期"
-                extra="Optional"
-                value={this.state.end_date}
-                onChange={this.endChange}
-              >
-                <List.Item arrow="horizontal">结束日期</List.Item>
-              </DatePicker>
-            </Flex>
-            <InputItem type={'digit'} className={styles.textShort} onChange={this.handleStartPri} value={start_price} placeholder='请输入 '>
-              起始值<span className={styles.right_text}>元</span>
-            </InputItem>
-            <InputItem type={'digit'} className={styles.textShort} onChange={this.handleEndPri} value={end_price} placeholder='请输入 '>
-              封顶值<span className={styles.right_text}>元</span>
-            </InputItem>
-            <InputItem type={'digit'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 '>
-              助力人数<span className={styles.right_text}>人</span>
-            </InputItem>
-            <InputItem type={'digit'} className={styles.textShort} onChange={this.handlePayMoney} value={pay_money} placeholder='请输入 '>
-              购买价格<span className={styles.right_text}>元</span>
-            </InputItem>
-            <InputItem type={'number'} className={styles.textLong_door} onChange={this.handleTotalFee} value={total_fee}>
-              使用门槛<span className={styles.left_text_door}>满</span><span className={styles.right_text}>元可用</span>
-            </InputItem>
-            <InputItem type={'number'} className={styles.textLong} onChange={this.handleValidity} value={validity}>
-              有效期
-                <span className={styles.left_text}>领券日起</span>
-                <span className={styles.right_text}>天内可用</span>
-            </InputItem>
-            <InputItem type={'digit'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num}>
-              发放数量<span className={styles.right_text}>张</span>
-            </InputItem>
-          </List>
-          <Flex className={styles.title}><div>礼品设置</div></Flex>
-          <div className={styles.gift_Box}>
-            <Flex className={styles.giftBox} onClick={this.toGift}><div>选择礼品</div><div><Icon type="right"  color='#999' className={styles.icon_right}/></div>
-            </Flex>
-            {Gift}
-            <div style={{width: '100%', height: '.88rem'}}>{''}</div>
-          </div>
-        </WingBlank>
-        <Flex>
-          <div className={styles.button} onClick={this.submit}>确认发布</div>
-        </Flex>
+        <div style={{display}}>
+          <WingBlank>
+            <Flex className={styles.title}><div>活动设置</div></Flex>
+            <List className={styles.input_Box}>
+              <Flex className={styles.pickerDate}>
+                <DatePicker
+                  mode="date"
+                  title="起始日期"
+                  extra="Optional"
+                  value={this.state.start_date}
+                  onChange={this.startChange}
+                >
+                  <List.Item arrow="horizontal">起始日期</List.Item>
+                </DatePicker>
+              </Flex>
+              <Flex className={styles.pickerDate}>
+                <DatePicker
+                  mode="date"
+                  title="结束日期"
+                  extra="Optional"
+                  value={this.state.end_date}
+                  onChange={this.endChange}
+                >
+                  <List.Item arrow="horizontal">结束日期</List.Item>
+                </DatePicker>
+              </Flex>
+              <InputItem type={'digit'} className={styles.textShort} onChange={this.handleStartPri} value={start_price} placeholder='请输入 '>
+                起始值<span className={styles.right_text}>元</span>
+              </InputItem>
+              <InputItem type={'digit'} className={styles.textShort} onChange={this.handleEndPri} value={end_price} placeholder='请输入 '>
+                封顶值<span className={styles.right_text}>元</span>
+              </InputItem>
+              <InputItem type={'digit'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 '>
+                助力人数<span className={styles.right_text}>人</span>
+              </InputItem>
+              <InputItem type={'digit'} className={styles.textShort} onChange={this.handlePayMoney} value={pay_money} placeholder='请输入 '>
+                购买价格<span className={styles.right_text}>元</span>
+              </InputItem>
+              <InputItem type={'number'} className={styles.textLong_door} onChange={this.handleTotalFee} value={total_fee}>
+                使用门槛<span className={styles.left_text_door}>满</span><span className={styles.right_text}>元可用</span>
+              </InputItem>
+              <InputItem type={'number'} className={styles.textLong} onChange={this.handleValidity} value={validity}>
+                有效期
+                  <span className={styles.left_text}>领券日起</span>
+                  <span className={styles.right_text}>天内可用</span>
+              </InputItem>
+              <InputItem type={'digit'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num}>
+                发放数量<span className={styles.right_text}>张</span>
+              </InputItem>
+            </List>
+            <Flex className={styles.title}><div>礼品设置</div></Flex>
+            <div className={styles.gift_Box}>
+              <Flex className={styles.giftBox} onClick={this.toGift}><div>选择礼品</div><div><Icon type="right"  color='#999' className={styles.icon_right}/></div>
+              </Flex>
+              {Gift}
+              <div style={{width: '100%', height: '.88rem'}}>{''}</div>
+            </div>
+          </WingBlank>
+          <Flex>
+            <div className={styles.button} onClick={this.submit}>确认发布</div>
+          </Flex>
+        </div>
+
         {chooseGift}
         {Pay}
       </div>
