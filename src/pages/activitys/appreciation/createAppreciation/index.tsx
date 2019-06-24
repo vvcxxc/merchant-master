@@ -69,7 +69,7 @@ export default class createAppreciation extends Component {
 
   }
   handlePayMoney = (e: any) => {
-    this.setState({pay_money: e})
+    this.setState({pay_money: e, gift_id: '', gift_pic: ''})
   }
   handleTotalNum = (e: any) => {
     this.setState({total_num: e})

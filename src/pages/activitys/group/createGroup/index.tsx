@@ -73,7 +73,7 @@ export default class createGroup extends Component {
     this.setState({old_price: e})
   }
   handleNewPrice = (e: any) => {
-    this.setState({participation_money: e})
+    this.setState({participation_money: e, gift_id: '', gift_pic: ''})
   }
   handleNum = (e: any) => {
     this.setState({group_number: e})

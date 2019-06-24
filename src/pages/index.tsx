@@ -41,12 +41,15 @@ export default connect(({ app }: any) => app)(
         }else{
           if(data.payment_status.payment_open_status == 0){
             reason = '请您提交经营资质，完成入驻'
+            this.setState({is_show: true});
           }else if(data.payment_status.payment_open_status == 1){
             reason = '资料审核中'
+            this.setState({is_show: true});
           }else if(data.payment_status.payment_open_status == 2){
             reason = '资质审核失败，查看详情'
+            this.setState({is_show: true});
           }
-          this.setState({is_show: true});
+
         }
         this.setState({
           reason
