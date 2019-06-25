@@ -42,7 +42,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				});
 				this.props.dispatch({ type: 'createCoupon/reset' });
 				setTimeout(() => {
-					router.goBack();
+					router.push('/my/coupon');
 				}, 2000);
 			}
 		};
