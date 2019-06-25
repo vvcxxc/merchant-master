@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import request from '@/services/request';
-import { Toast, Flex } from 'antd-mobile';
+import { Toast, Flex, WingBlank } from 'antd-mobile';
 import MyCouponItem, { Item } from '../item';
 import router from 'umi/router';
 import OperationTip from '@/components/OperationTip';
@@ -83,7 +83,9 @@ export default class ContentDetail extends Component<Props, any> {
 		return (
 			<Flex direction="column" className={styles.detail}>
 				<Flex.Item>
-					<MyCouponItem {...itemProps} onClick={this.handleClickItem} />
+					<WingBlank>
+						<MyCouponItem {...itemProps} onClick={this.handleClickItem} />
+					</WingBlank>
 					<div className="couponDetail">
 						<Flex className="head">
 							<img src={require('./icon.png')} alt="" />

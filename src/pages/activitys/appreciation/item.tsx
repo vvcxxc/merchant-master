@@ -19,12 +19,14 @@ export default function GroupItem(props: Item) {
 		<Flex className={styles.groupItem} align="end">
 			<Flex.Item className="content">
 				<div className="title">
-					<span>券的名称</span>
+					<span>{props.name}</span>
 				</div>
-				<div className="time">2019.01.04-2019.05.06</div>
+				<div className="time">
+					{props.activity_begin_time}-{props.activity_end_time}
+				</div>
 				<div className="detail">
-					<span>已参与122</span>
-					<span>最高可增值100</span>
+					<span>已参与{props.total_num}</span>
+					<span>最高可增值{props.return_money}</span>
 				</div>
 			</Flex.Item>
 			<Flex className="btn" justify="center">
