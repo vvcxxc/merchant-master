@@ -87,7 +87,7 @@ export default connect(({ app }: any) => app)(
 		componentDidMount() {
 			this.props.dispatch({
 				type: 'app/getData'
-			});
+      });
 		}
 		/**跳转到页面 */
 		pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
