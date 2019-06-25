@@ -31,7 +31,8 @@ export default class SelectCoupon extends Component<Props> {
 
 	getCouponList = async () => {
 		Toast.loading('');
-		const res = await request({ url: 'v3/coupons' });
+		// ad_type	广告类型：1，商圈广告 2，展位广告
+		const res = await request({ url: 'v3/coupons', params: { ad_type: this.props.isAd ? 1 : 2 } });
 		Toast.hide();
 		if (res.code === 200 && res.data.length) {
 			if (this.props.value) {

@@ -6,6 +6,15 @@ import request from '@/services/request';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import Cookies from 'js-cookie';
+import router from 'umi/router';
+
+declare global {
+  interface Window { open_id: string; url: string; from: string }
+}
+const Url = window.url ? window.url : 'http://test.api.tdianyi.com/';
+const open_id = window.open_id ? window.open_id : 'test_open_id';
+const from = window.from ? window.from : 'v3_supplier';
+
 
 export default connect()(
 	class Login extends Component<any> {
@@ -41,7 +50,9 @@ export default connect()(
 				};
 
 				window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
-			});
+      });
+
+
 		}
 		/**设置手机号 */
 		handleSetMobile = (value: any) => {
@@ -78,7 +89,7 @@ export default connect()(
 		/**登录 */
 		submit = () => {
 			const api = this.state.tab === 1 ? 'v3/login' : 'v3/captcha_login';
-			const { mobile, code, account_name, password, tab } = this.state;
+      const { mobile, code, account_name, password, tab } = this.state;
 			if (this.fixLogin()) {
 				Toast.loading('登录中', 20);
 				request({
@@ -95,6 +106,7 @@ export default connect()(
 						Toast.hide();
 						if (res.code === 200) {
 							localStorage.setItem('token', 'Bearer ' + res.data.token);
+<<<<<<< HEAD
 							this.props.dispatch(routerRedux.push({ pathname: '/' }));
 							// 授权（暂未完善）
 							let url = 'http://test.api.tdianyi.com/wechat/wxoauth?code_id=0&from=v3_supplier';
@@ -104,6 +116,21 @@ export default connect()(
 								url +
 								'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
 							return (window.location.href = urls);
+=======
+              this.props.dispatch(routerRedux.push({ pathname: '/' }));
+              if(Cookies.get(open_id)){
+                router.push('/')
+              }else{
+                // 授权（暂未完善）
+                let url = Url+'wechat/wxoauth?code_id=0&from='+from;
+                url = encodeURIComponent(url);
+                let urls =
+                  'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
+                  url +
+                  '&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+                return (window.location.href = urls);
+              }
+>>>>>>> master
 						} else {
 							Toast.fail(res.data, 1.5);
 						}
