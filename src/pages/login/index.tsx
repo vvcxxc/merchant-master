@@ -96,7 +96,6 @@ export default connect()(
 						if (res.code === 200) {
 							localStorage.setItem('token', 'Bearer ' + res.data.token);
 							this.props.dispatch(routerRedux.push({ pathname: '/' }));
-
 							// 授权（暂未完善）
 							let url = 'http://test.api.tdianyi.com/wechat/wxoauth?code_id=0&from=v3_supplier';
 							url = encodeURIComponent(url);
