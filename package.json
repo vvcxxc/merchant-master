@@ -3,7 +3,7 @@
 	"scripts": {
 		"start": "umi dev",
 		"build": "umi build",
-		"release": "umi build UMI_ENV=release",
+		"release": "UMI_ENV=release umi build",
 		"test": "umi test",
 		"lint:es": "eslint --ext .js src mock tests",
 		"lint:ts": "tslint \"src/**/*.ts\" \"src/**/*.tsx\"",
