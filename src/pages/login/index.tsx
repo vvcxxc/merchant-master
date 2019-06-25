@@ -7,6 +7,10 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import Cookies from 'js-cookie';
 
+declare global {
+  interface Window { open_id: string; }
+}
+const open_id = window.open_id ? window.open_id : 'test_open_id';
 export default connect()(
 	class Login extends Component<any> {
 		state = {
@@ -41,7 +45,11 @@ export default connect()(
 				};
 
 				window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
-			});
+      });
+
+      alert(open_id)
+
+
 		}
 		/**设置手机号 */
 		handleSetMobile = (value: any) => {
