@@ -569,7 +569,7 @@ export default class submitQua extends Component {
       method: 'post',
       data
     }).then(res => {
-      let { code } = res;
+      let { code, data } = res;
       if(code == 200){
         if(type == 1){
           Toast.success('保存成功', 2, ()=> {
@@ -580,6 +580,8 @@ export default class submitQua extends Component {
             router.push('/review')
           })
         }
+      }else{
+        Toast.fail(data)
       }
     })
 
