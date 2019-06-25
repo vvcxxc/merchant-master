@@ -76,6 +76,7 @@ export default class From extends Component<Props, any> {
 			this.setState({ files: [] });
 		}
 	}
+	componentDidMount = () => this.UNSAFE_componentWillReceiveProps(this.props);
 	handleToRechange = () => router.push('/my/rechange');
 	closeModal = () => this.setState({ showSelectCoupon: false, showSelectTime: false, showSelectActivity: false });
 	showModal = () => this.setState({ [this.state.formType === 1 ? 'showSelectCoupon' : 'showSelectActivity']: true });

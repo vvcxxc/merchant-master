@@ -41,12 +41,15 @@ export default connect(({ app }: any) => app)(
         }else{
           if(data.payment_status.payment_open_status == 0){
             reason = '请您提交经营资质，完成入驻'
+            this.setState({is_show: true});
           }else if(data.payment_status.payment_open_status == 1){
             reason = '资料审核中'
+            this.setState({is_show: true});
           }else if(data.payment_status.payment_open_status == 2){
             reason = '资质审核失败，查看详情'
+            this.setState({is_show: true});
           }
-          this.setState({is_show: true});
+
         }
         this.setState({
           reason
@@ -84,7 +87,7 @@ export default connect(({ app }: any) => app)(
 		componentDidMount() {
 			this.props.dispatch({
 				type: 'app/getData'
-			});
+      });
 		}
 		/**跳转到页面 */
 		pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
@@ -150,7 +153,12 @@ export default connect(({ app }: any) => app)(
 							code: res.youhui_sn
 						}
 					}).then(res => {
-						Toast.success(res.message);
+						router.push({
+              pathname: '/verification/success',
+              query: {
+                res
+              }
+            })
 					});
 				}
 			});

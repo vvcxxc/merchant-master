@@ -9,6 +9,9 @@ import upload from '@/services/oss';
 import request from '@/services/request';
 import ChooseDate from './couponents/chooseDate/chooseDate';
 import moment from 'moment';
+import IdCardExample from './example/idcard'
+import BankExample from './example/bank'
+import LicenseExample from './example/license'
 
 export default class submitQua extends Component {
   state = {
@@ -72,7 +75,11 @@ export default class submitQua extends Component {
     is_id_hand: false,
     is_bank_front: false,
     is_bank_back: false,
-    is_license: false
+    is_license: false,
+
+    is_id_example: false,
+    is_bank_example: false,
+    is_license_example: false
   };
 
   componentDidMount(){
@@ -137,16 +144,22 @@ export default class submitQua extends Component {
 
   /**查看身份证示例 */
   toIdCardExample = () => {
-    router.push('/submitQua/example/idcard')
+    this.setState({is_id_example: true})
   }
   /**查看银行卡示例 */
   toBankExample = () => {
-    router.push('/submitQua/example/bank')
+    this.setState({is_bank_example: true})
   }
   /**查看营业执照示例 */
   toLicenseExample = () => {
-    router.push('/submitQua/example/license')
+    this.setState({is_license_example: true})
   }
+  /**关闭示例 */
+  closeExample = () => {
+
+    this.setState({is_bank_example: false, is_id_example: false, is_license_example: false})
+  }
+
 
   /**姓名输入 */
   handleName = (e : any) => {
@@ -556,7 +569,7 @@ export default class submitQua extends Component {
       method: 'post',
       data
     }).then(res => {
-      let { code } = res;
+      let { code, data } = res;
       if(code == 200){
         if(type == 1){
           Toast.success('保存成功', 2, ()=> {
@@ -567,6 +580,8 @@ export default class submitQua extends Component {
             router.push('/review')
           })
         }
+      }else{
+        Toast.fail(data)
       }
     })
 
@@ -576,7 +591,16 @@ export default class submitQua extends Component {
 
 
   render (){
-    const { id_hand, id_back, id_front, bank_front, bank_back, license_img, date, three_certs_in_one_valid_date } = this.state;
+    const { id_hand, id_back, id_front, bank_front, bank_back, license_img, date, three_certs_in_one_valid_date, is_bank_example, is_id_example, is_license_example } = this.state;
+    const idExample = is_id_example == true ? (
+      <IdCardExample onChange={this.closeExample}/>
+    ) : null;
+    const bankExample = is_bank_example == true ? (
+      <BankExample onChange={this.closeExample}/>
+    ) : null;
+    const licenseExample = is_license_example == true ? (
+      <LicenseExample onChange={this.closeExample}/>
+    ) : null;
     const idFront = this.state.is_id_front == true ? (
       <div className={styles.idcard}><img src={"http://oss.tdianyi.com/"+ this.state.legal_id_front_img}/><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
     ) : (
@@ -717,6 +741,9 @@ export default class submitQua extends Component {
           <div className={styles.submit} onClick={this.submit(2)}>提交审核</div>
         </Flex>
         {chooseTime}
+        {idExample}
+        {bankExample}
+        {licenseExample}
       </div>
     )
   }
