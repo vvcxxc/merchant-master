@@ -47,8 +47,6 @@ export default connect()(
 				window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
       });
 
-      alert(open_id)
-
 
 		}
 		/**设置手机号 */
@@ -86,7 +84,8 @@ export default connect()(
 		/**登录 */
 		submit = () => {
 			const api = this.state.tab === 1 ? 'v3/login' : 'v3/captcha_login';
-			const { mobile, code, account_name, password, tab } = this.state;
+      const { mobile, code, account_name, password, tab } = this.state;
+      alert(open_id)
 			if (this.fixLogin()) {
 				Toast.loading('登录中', 20);
 				request({
