@@ -38,6 +38,8 @@ export default connect(({ app }: any) => app)(
 					router.push('/createStore');
         }else if(data.apply_store_status.store_open_status == 2){
           router.push('/review');
+        }else if(data.apply_store_status.store_open_status == 1){
+          router.push('/review');
         }else{
           if(data.payment_status.payment_open_status == 0){
             reason = '请您提交经营资质，完成入驻'
