@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { TabBar, Flex } from 'antd-mobile';
 import { connect } from 'dva';
 import { routerRedux, withRouter } from 'dva/router';
+import Header from './header';
 
 const TabBarItem = TabBar.Item;
 
@@ -56,6 +57,7 @@ export default withRouter(
 				const mySelectIcon = <img src={require('../assets/tabbar/my_active@2x.png')} />;
 				return (
 					<Flex direction="column" style={{ height: '100%' }}>
+						{!this.props.show && <Header />}
 						<Flex.Item style={{ width: '100%', overflow: 'auto' }}>{this.props.children}</Flex.Item>
 						<TabBar
 							tintColor="#21418a"
