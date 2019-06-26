@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Flex, WingBlank, Button, Toast } from 'antd-mobile';
+import { Flex, WingBlank, Button, Toast, Modal } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router';
-
+const alert = Modal.alert;
 export default class GroupDetails extends Component {
   state = {
     info: {
@@ -51,19 +51,37 @@ export default class GroupDetails extends Component {
     })
   }
 
+  // stop = () => {
+  //   request({
+  //     url: 'api/merchant/youhui/appreciation/activity/stop/'+this.state.id,
+  //     method: 'put',
+  //     data: {
+  //       type: 5
+  //     }
+  //   }).then (res => {
+  //     let {code, message} = res;
+  //     if(code == 200){
+  //       Toast.success(message,2,()=>router.goBack())
+  //     }
+  //   })
+  // }
+
+  // 撤销
   stop = () => {
-    request({
-      url: 'api/merchant/youhui/appreciation/activity/stop/'+this.state.id,
-      method: 'put',
-      data: {
-        type: 5
-      }
-    }).then (res => {
-      let {code, message} = res;
-      if(code == 200){
-        Toast.success(message,2,()=>router.goBack())
-      }
-    })
+    alert('撤销提醒', '撤销活动后，正在进行的活动不会被撤销，用户不能继续发起拼团活动，但可以参加正在拼团的活动，是否撤销活动？', [{ text: '取消', onPress: () => {} },{ text: '确认', onPress: () => {
+      request({
+            url: 'api/merchant/youhui/appreciation/activity/stop/'+this.state.id,
+            method: 'put',
+            data: {
+              type: 5
+            }
+          }).then (res => {
+            let {code, message} = res;
+            if(code == 200){
+              Toast.success(message,2,()=>router.goBack())
+            }
+          })
+    } },])
   }
 
   render (){
@@ -166,8 +184,14 @@ export default class GroupDetails extends Component {
           </Flex>
 
           {/* 撤销按钮 */}
-          <Button type='primary' style={{marginTop: 50, marginBottom: 30}}>撤销活动</Button>
-
+          {/* <Button  style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button> */}
+          <Button
+            className={styles.buttons}
+            type='primary'
+            onClick={this.stop}
+          >
+          撤销活动
+          </Button>
         </WingBlank>
       </div>
     )

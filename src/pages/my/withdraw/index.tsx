@@ -1,3 +1,4 @@
+/**title: 提现 */
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, InputItem, Button, Toast } from 'antd-mobile';

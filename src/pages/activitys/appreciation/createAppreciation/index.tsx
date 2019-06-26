@@ -1,6 +1,4 @@
-/**
- * 添加增值活动
- */
+/**title: 添加增值活动 */
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast } from 'antd-mobile';
@@ -23,6 +21,7 @@ export default class createAppreciation extends Component {
     gift_id: '',
     /**礼品图片 */
     gift_pic: '',
+    gift_name: '',
     /**起始值 */
     start_price: '',
     /**封顶值 */
@@ -87,7 +86,7 @@ export default class createAppreciation extends Component {
   endChange = (value: any) => {
     this.setState({end_date: value})
   }
-  changeGift = (id: string, is_show: boolean, gift_pic: string) =>{
+  changeGift = (id: string, is_show: boolean, gift_pic: string, gift_name: string) =>{
     if(id){
       this.setState({is_gift: true})
     }else{
@@ -97,6 +96,7 @@ export default class createAppreciation extends Component {
       gift_id: id,
       is_show,
       gift_pic,
+      gift_name,
       display: 'block'
     })
   }
@@ -115,7 +115,7 @@ export default class createAppreciation extends Component {
 
   /**提交 */
   submit = async() => {
-    const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic } = this.state
+    const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name } = this.state
     let activity_begin_time = moment(start_date).format('X');
     let activity_end_tine = moment(end_date).format('X');
     if (start_price&&end_price&&appreciation_number_sum&&validity&&pay_money&&total_num&&total_fee&&start_date&&end_date&&mail_mode){
@@ -136,6 +136,7 @@ export default class createAppreciation extends Component {
           gift_id,
           mail_mode,
           gift_pic,
+          gift_name,
           appreciation_number_sum
         }
       });
