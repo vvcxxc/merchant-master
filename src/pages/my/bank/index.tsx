@@ -35,7 +35,6 @@ export default class MyBank extends Component {
       return str.replace(/\s/g,'').replace(/(.{4})/g,"$1 ");
     }
   }
-
   render (){
     const { info } = this.state;
     const bank = this.state.is_show == true ? (
