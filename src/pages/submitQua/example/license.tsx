@@ -13,7 +13,7 @@ export default class LicenseExample extends Component<Props> {
   }
   render (){
     return (
-      <div style={{ width: '100%', height: '100%', background: '#fff' }} className={styles.examplePage}>
+      <div style={{ width: '100%', background: '#fff' }} className={styles.examplePage}>
         <WingBlank>
            <Flex className={styles.title}>拍照示例：营业执照</Flex>
            <img src="http://oss.tdianyi.com/front/a7DA2ftyfnzhMGMsTeQ5kJfNc4WRHfwm.png" style={{width: '100%'}}/>
