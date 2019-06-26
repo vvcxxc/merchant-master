@@ -12,7 +12,7 @@ interface Props {
 
 export default class ContentDetail extends Component<Props, any> {
 	state = {
-		data: { description: [] },
+		data: { description: [], publish_wait: 1 },
 		modalType: ''
 	};
 
@@ -53,22 +53,32 @@ export default class ContentDetail extends Component<Props, any> {
 
 	handleStopCoupon = async () => {
 		Toast.loading('');
-		const res = await request({ url: 'v3/coupons/stop/' + this.props.id, method: 'put' });
+		const res = await request({
+			url: 'v3/coupons/stop/' + this.props.id,
+			data: { status: this.state.data.publish_wait === 1 ? 2 : 1 },
+			method: 'put'
+		});
 		Toast.hide();
 		if (res.code === 200) {
-			Toast.success('暂停成功');
-			router.goBack();
+			Toast.success(this.state.data.publish_wait === 1 ? '暂停成功' : '发放成功');
+			setTimeout(() => {
+				router.goBack();
+			}, 1000);
 		} else {
 			Toast.fail(res.data);
 		}
 	};
 
 	showModal = (type: string) => () => {
-		this.setState({ modalType: type });
-		this.modal.show &&
-			this.modal.show({
-				text: type === 'stop' ? '暂停投放优惠券 将会怎么样怎么样' : '删除优惠券 将会怎么样怎么样'
-			});
+		if (this.state.data.publish_wait === 1) {
+			this.setState({ modalType: type });
+			this.modal.show &&
+				this.modal.show({
+					text: type === 'stop' ? '暂停投放优惠券 将会怎么样怎么样' : '删除优惠券 将会怎么样怎么样'
+				});
+		} else {
+			this.handleStopCoupon();
+		}
 	};
 
 	handleModalConfirm = (isConfirm: boolean) => {
@@ -101,7 +111,7 @@ export default class ContentDetail extends Component<Props, any> {
 						删除优惠券
 					</Flex.Item>
 					<Flex.Item className="stopBtn" onClick={this.showModal('stop')}>
-						暂停发放优惠券
+						{this.state.data.publish_wait === 1 ? '暂停' : ''}发放优惠券
 					</Flex.Item>
 				</Flex>
 
