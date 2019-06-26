@@ -76,7 +76,7 @@ export default connect(({ app }: any) => app)(
 			}).then(res => {
 				let _this = this;
 				wx.config({
-					debug: false,
+					debug: true,
 					appId: res.appId,
 					timestamp: res.timestamp,
 					nonceStr: res.nonceStr,
