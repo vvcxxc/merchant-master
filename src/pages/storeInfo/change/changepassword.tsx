@@ -38,7 +38,7 @@ export default class ChangePassword extends Component {
       let {code, data} = res;
       if(code == 200){
         Toast.success(data,2, () => {
-          router.goBack();
+          router.push('/login');
         });
       }else{
         Toast.fail(data);

@@ -316,20 +316,20 @@ export default class createGroup extends Component {
                 </div>
               </div>
 
-              <InputItem type={'digit'} className={styles.textShort} value={this.state.old_price} onChange={this.handleOldPrice}>
-                原价<span className={styles.right_text}>元</span>
+              <InputItem type={'money'} className={styles.textShort} value={this.state.old_price} onChange={this.handleOldPrice} extra='元'>
+                原价
               </InputItem>
-              <InputItem type={'digit'} className={styles.textShort} value={this.state.participation_money} onChange={this.handleNewPrice}>
-                拼团价<span className={styles.right_text}>元</span>
+              <InputItem type={'money'} className={styles.textShort} value={this.state.participation_money} onChange={this.handleNewPrice} extra='元'>
+                拼团价
               </InputItem>
-              <InputItem type={'digit'} className={styles.textShort} value={this.state.group_number} onChange={this.handleNum}>
-                拼团人数<span className={styles.right_text}>人</span>
+              <InputItem type={'money'} className={styles.textShort} value={this.state.group_number} onChange={this.handleNum} extra='人'>
+                拼团人数
               </InputItem>
-              <InputItem className={styles.activity_name} placeholder="请输入团数" value={this.state.group_sum} onChange={this.handleSum} type={'digit'}>
+              <InputItem className={styles.activity_name} placeholder="请输入团数" value={this.state.group_sum} onChange={this.handleSum} type={'money'}>
                 团数
               </InputItem>
-              <InputItem type={'number'} className={styles.textLong} value={this.state.validity} onChange={this.handleValidity}>
-                有效期<span className={styles.left_text}>领券日起</span><span className={styles.right_text}>天内可用</span>
+              <InputItem type={'money'} className={styles.textLong} value={this.state.validity} onChange={this.handleValidity} extra='天内可用'>
+                有效期<span className={styles.left_text}>领券日起</span>
               </InputItem>
             </List>
             <Flex className={styles.notice} onClick={this.toNotice}><div>使用须知</div><div><Icon type="right"  color='#999' className={styles.icon_right}/></div>

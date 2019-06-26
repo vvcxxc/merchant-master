@@ -46,6 +46,8 @@ export default class MapPage extends Component<Props> {
     // 行政区
     district: '',
     search: '',
+    search_words: '',
+    is_search: true
   };
 
   componentDidMount (){
@@ -209,10 +211,20 @@ export default class MapPage extends Component<Props> {
       // city: '广州'
       city:this.state.city_name //城市
     });
+    this.setState({search_words: e});
     this.msearch.search(keywords, function(status: any, result: object){
-      that.setState({
-        search_list: result.poiList.pois
-      })
+      if(result.poiList){
+        that.setState({
+          is_search: true,
+          search_list: result.poiList.pois
+        })
+      }else{
+        that.setState({
+          search_list: [],
+          is_search: false
+        })
+      }
+
     })
   }
 
@@ -379,6 +391,11 @@ export default class MapPage extends Component<Props> {
         </div>
       )
     });
+    const is_sear = this.state.is_search == true ? (
+      <div>{list_item}</div>
+    ) : (
+      <Flex justify='around' style={{color: '#999'}}>"{this.state.search_words}"无搜索结果，请确认您填写的地址</Flex>
+    )
     const searchList = this.state.searchList.map((item,idx) => {
       return (
         <div className={styles.list_item} key={idx} onClick={this.chooseOne.bind(this,item)}>
@@ -405,9 +422,8 @@ export default class MapPage extends Component<Props> {
               <div className={styles.inputIcon}><img src={require('./icon-map.png')} /></div>
               <Flex onClick={this.clickAddress}>
                 <InputItem
-                  placeholder='请输入详细门牌号'
-                >{province}
-                </InputItem>
+                  placeholder='请输入详细地址'
+                />
               </Flex>
             </Flex>
           </Flex>
@@ -446,24 +462,24 @@ export default class MapPage extends Component<Props> {
             <div className={styles.inputIcon}><img src={require('./icon-map.png')} /></div>
             <Flex>
               <InputItem
-                placeholder='请输入详细门牌号'
+                placeholder='请输入详细地址'
                 onChange={this.search}
-              >{province}
-              </InputItem>
+              />
+              {/* </InputItem> */}
             </Flex>
           </Flex>
           <div className={styles.search_close} onClick={this.clickAddress}>取消</div>
         </Flex>
         </WingBlank>
         <div className={styles.list}>
-          {list_item}
+         {is_sear}
         </div>
         <div style={{display: 'none'}}>
           <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
             <Marker position={location}/>
           </Map>
         </div>
-
+        {picker}
       </div>
     )
 
