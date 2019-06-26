@@ -68,7 +68,7 @@ export default class GroupDetails extends Component {
 
   // 撤销
   stop = () => {
-    alert('撤销提醒', '撤销活动后，正在进行的活动不会被撤销，用户不能继续发起拼团活动，但可以参加正在拼团的活动，是否撤销活动？', [{ text: '取消', onPress: () => {} },{ text: '确认', onPress: () => {
+    alert('撤销提醒', '撤销活动后，已经开团的活动可以继续参团，未开团将不能继续开团，是否撤销活动？', [{ text: '取消', onPress: () => {} },{ text: '确认', onPress: () => {
       request({
             url: 'api/merchant/youhui/appreciation/activity/stop/'+this.state.id,
             method: 'put',

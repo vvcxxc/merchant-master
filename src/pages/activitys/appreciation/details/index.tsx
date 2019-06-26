@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Flex, WingBlank, Button, Toast } from 'antd-mobile';
+import { Flex, WingBlank, Button, Toast, Modal } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router';
-
+const alert = Modal.alert;
 export default class GroupDetails extends Component {
   state = {
     info: {
@@ -49,28 +49,30 @@ export default class GroupDetails extends Component {
       this.setState({info: data})
     })
   }
-  
-  stop = () => {
-    request({
-      url: 'api/merchant/youhui/appreciation/activity/stop/'+this.state.id,
-      method: 'put',
-      data: {
-        type: 1
-      }
-    }).then (res => {
-      let {code, message} = res;
-      if(code == 200){
-        Toast.success(message,2,()=>router.goBack())
-      }
-    })
+
+
+
+   // 撤销
+   stop = () => {
+    alert('撤销提醒', '撤销活动后，已经开团的活动可以继续参团，未开团将不能继续开团，是否撤销活动？', [{ text: '取消', onPress: () => {} },{ text: '确认', onPress: () => {
+      request({
+            url: 'api/merchant/youhui/appreciation/activity/stop/'+this.state.id,
+            method: 'put',
+            data: {
+              type: 1
+            }
+          }).then (res => {
+            let {code, message} = res;
+            if(code == 200){
+              Toast.success(message,2,()=>router.goBack())
+            }
+          })
+    } },])
   }
 
   render (){
     const { info } = this.state;
     const description = info.appreciation_coupons_info.description.map((item,idx) => <p key={idx}>· {item}</p>)
-
-
-
     return (
       <div className={styles.detailsPage}>
         <WingBlank>

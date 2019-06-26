@@ -3,6 +3,7 @@ import { Flex } from 'antd-mobile';
 import styles from './index.less';
 
 export interface Item {
+  onClick: (id: number) => any;
 	id: number;
 	name: string;
 	list_brief: string;
@@ -14,9 +15,13 @@ export interface Item {
 	activity_end_time: string;
 }
 
+
 export default function GroupItem(props: Item) {
+  const handleClick = () => {
+    props.onClick(props.id)
+  }
 	return (
-		<Flex className={styles.groupItem} align="end">
+		<Flex className={styles.groupItem} align="end" onClick={handleClick}>
 			<Flex.Item className="content">
 				<div className="title">
 					<span>{props.name}</span>
