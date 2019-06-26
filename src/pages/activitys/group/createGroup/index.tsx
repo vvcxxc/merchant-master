@@ -1,3 +1,4 @@
+/**title: 添加拼团活动 */
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast, ImagePicker } from 'antd-mobile';
@@ -8,7 +9,6 @@ import PayMent from '../../components/payment'
 import moment from 'moment'
 import request from '@/services/request'
 import router from 'umi/router';
-import { async } from 'q';
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
@@ -47,6 +47,7 @@ export default class createGroup extends Component {
     gift_id: '',
     /**礼品图片 */
     gift_pic: '',
+    gift_name: '',
     /**使用须知组件计数用 */
     keys: '100',
     /**使用须知列表 */
@@ -133,7 +134,7 @@ export default class createGroup extends Component {
   }
 
   /**选择礼品的回调 */
-  changeGift = (id: string, is_show: boolean, gift_pic: string) =>{
+  changeGift = (id: string, is_show: boolean, gift_pic: string, gift_name:string) =>{
     if(id){
       this.setState({is_gift: true})
     }else{
@@ -143,6 +144,7 @@ export default class createGroup extends Component {
       gift_id: id,
       is_show,
       gift_pic,
+      gift_name,
       display: 'block'
     })
   }
@@ -171,7 +173,7 @@ export default class createGroup extends Component {
 
   /**确认发布 */
   confirm = async() => {
-    let { activity_name, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, description, mail_mode } = this.state;
+    let { activity_name, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, description, mail_mode, gift_name } = this.state;
     let activity_begin_time = moment(start_date).format('X');
     let activity_end_tine = moment(end_date).format('X');
     let image_url = [];
@@ -196,7 +198,8 @@ export default class createGroup extends Component {
           description,
           mail_mode,
           gift_id,
-          gift_pic
+          gift_pic,
+          gift_name
         }
       });
       let {data, message, code} = res;
@@ -268,7 +271,7 @@ export default class createGroup extends Component {
     )
 
     return (
-      <div style={{width: '100%', height: 'auto', minHeight: '100%', background: '#fff', overflow: 'hidden', }}>
+      <div style={{width: '100%', height: 'auto', minHeight: '100%', background: '#fff', overflow: 'hidden',}}>
         <div style={{display}}>
           <WingBlank>
             <Flex className={styles.title}><div>活动设置</div></Flex>
@@ -313,20 +316,20 @@ export default class createGroup extends Component {
                 </div>
               </div>
 
-              <InputItem type={'digit'} className={styles.textShort} value={this.state.old_price} onChange={this.handleOldPrice}>
-                原价<span className={styles.right_text}>元</span>
+              <InputItem type={'money'} className={styles.textShort} value={this.state.old_price} onChange={this.handleOldPrice} extra='元'>
+                原价
               </InputItem>
-              <InputItem type={'digit'} className={styles.textShort} value={this.state.participation_money} onChange={this.handleNewPrice}>
-                拼团价<span className={styles.right_text}>元</span>
+              <InputItem type={'money'} className={styles.textShort} value={this.state.participation_money} onChange={this.handleNewPrice} extra='元'>
+                拼团价
               </InputItem>
-              <InputItem type={'digit'} className={styles.textShort} value={this.state.group_number} onChange={this.handleNum}>
-                拼团人数<span className={styles.right_text}>人</span>
+              <InputItem type={'money'} className={styles.textShort} value={this.state.group_number} onChange={this.handleNum} extra='人'>
+                拼团人数
               </InputItem>
-              <InputItem className={styles.activity_name} placeholder="请输入团数" value={this.state.group_sum} onChange={this.handleSum} type={'digit'}>
+              <InputItem className={styles.activity_name} placeholder="请输入团数" value={this.state.group_sum} onChange={this.handleSum} type={'money'}>
                 团数
               </InputItem>
-              <InputItem type={'number'} className={styles.textLong} value={this.state.validity} onChange={this.handleValidity}>
-                有效期<span className={styles.left_text}>领券日起</span><span className={styles.right_text}>天内可用</span>
+              <InputItem type={'money'} className={styles.textLong} value={this.state.validity} onChange={this.handleValidity} extra='天内可用'>
+                有效期<span className={styles.left_text}>领券日起</span>
               </InputItem>
             </List>
             <Flex className={styles.notice} onClick={this.toNotice}><div>使用须知</div><div><Icon type="right"  color='#999' className={styles.icon_right}/></div>

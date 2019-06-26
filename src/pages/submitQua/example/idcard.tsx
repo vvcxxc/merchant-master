@@ -12,7 +12,7 @@ export default class IdCardExample extends Component<Props> {
   }
   render (){
     return (
-      <div style={{ width: '100%', height: 'auto', background: '#fff', overflow: 'auto' }} className={styles.examplePage}>
+      <div style={{ width: '100%', background: '#fff', overflow: 'auto' }} className={styles.examplePage}>
         <WingBlank>
           <Flex className={styles.title}>拍照示例：身份证正面照，反面照，营业执照</Flex>
           <Flex justify='around'>

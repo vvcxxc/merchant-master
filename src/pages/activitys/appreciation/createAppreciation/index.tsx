@@ -1,6 +1,4 @@
-/**
- * 添加增值活动
- */
+/**title: 添加增值活动 */
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast } from 'antd-mobile';
@@ -23,6 +21,7 @@ export default class createAppreciation extends Component {
     gift_id: '',
     /**礼品图片 */
     gift_pic: '',
+    gift_name: '',
     /**起始值 */
     start_price: '',
     /**封顶值 */
@@ -87,7 +86,7 @@ export default class createAppreciation extends Component {
   endChange = (value: any) => {
     this.setState({end_date: value})
   }
-  changeGift = (id: string, is_show: boolean, gift_pic: string) =>{
+  changeGift = (id: string, is_show: boolean, gift_pic: string, gift_name: string) =>{
     if(id){
       this.setState({is_gift: true})
     }else{
@@ -97,6 +96,7 @@ export default class createAppreciation extends Component {
       gift_id: id,
       is_show,
       gift_pic,
+      gift_name,
       display: 'block'
     })
   }
@@ -115,7 +115,7 @@ export default class createAppreciation extends Component {
 
   /**提交 */
   submit = async() => {
-    const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic } = this.state
+    const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name } = this.state
     let activity_begin_time = moment(start_date).format('X');
     let activity_end_tine = moment(end_date).format('X');
     if (start_price&&end_price&&appreciation_number_sum&&validity&&pay_money&&total_num&&total_fee&&start_date&&end_date&&mail_mode){
@@ -136,6 +136,7 @@ export default class createAppreciation extends Component {
           gift_id,
           mail_mode,
           gift_pic,
+          gift_name,
           appreciation_number_sum
         }
       });
@@ -233,28 +234,27 @@ export default class createAppreciation extends Component {
                   <List.Item arrow="horizontal">结束日期</List.Item>
                 </DatePicker>
               </Flex>
-              <InputItem type={'digit'} className={styles.textShort} onChange={this.handleStartPri} value={start_price} placeholder='请输入 '>
-                起始值<span className={styles.right_text}>元</span>
+              <InputItem type={'money'} className={styles.textShort} onChange={this.handleStartPri} value={start_price} placeholder='请输入 ' extra='元'>
+                起始值
               </InputItem>
-              <InputItem type={'digit'} className={styles.textShort} onChange={this.handleEndPri} value={end_price} placeholder='请输入 '>
-                封顶值<span className={styles.right_text}>元</span>
+              <InputItem type={'money'} className={styles.textShort} onChange={this.handleEndPri} value={end_price} placeholder='请输入 ' extra='元'>
+                封顶值
               </InputItem>
-              <InputItem type={'digit'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 '>
-                助力人数<span className={styles.right_text}>人</span>
+              <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人'>
+                助力人数
               </InputItem>
-              <InputItem type={'digit'} className={styles.textShort} onChange={this.handlePayMoney} value={pay_money} placeholder='请输入 '>
-                购买价格<span className={styles.right_text}>元</span>
+              <InputItem type={'money'} className={styles.textShort} onChange={this.handlePayMoney} value={pay_money} placeholder='请输入 ' extra='元'>
+                购买价格
               </InputItem>
-              <InputItem type={'number'} className={styles.textLong_door} onChange={this.handleTotalFee} value={total_fee}>
-                使用门槛<span className={styles.left_text_door}>满</span><span className={styles.right_text}>元可用</span>
+              <InputItem type={'money'} className={styles.textLong_door} onChange={this.handleTotalFee} value={total_fee} extra='元可用'>
+                使用门槛<span className={styles.left_text_door}>满</span>
               </InputItem>
-              <InputItem type={'number'} className={styles.textLong} onChange={this.handleValidity} value={validity}>
+              <InputItem type={'money'} className={styles.textLong} onChange={this.handleValidity} value={validity} extra='天内可用'>
                 有效期
                   <span className={styles.left_text}>领券日起</span>
-                  <span className={styles.right_text}>天内可用</span>
               </InputItem>
-              <InputItem type={'digit'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num}>
-                发放数量<span className={styles.right_text}>张</span>
+              <InputItem type={'money'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num} extra='张'>
+                发放数量
               </InputItem>
             </List>
             <Flex className={styles.title}><div>礼品设置</div></Flex>

@@ -11,7 +11,7 @@ export default class BankExample extends Component<Props> {
   }
   render (){
     return (
-      <div style={{ width: '100%', height: '100%', background: '#fff' }} className={styles.examplePage}>
+      <div style={{ width: '100%', background: '#fff' }} className={styles.examplePage}>
         <WingBlank>
            <Flex className={styles.title}>拍照示例：银行卡正面照</Flex>
            <Flex justify='around'>
