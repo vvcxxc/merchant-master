@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank } from 'antd-mobile';
 import request from '@/services/request';
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 
 export default class WithDrawList extends Component {
@@ -60,10 +59,8 @@ export default class WithDrawList extends Component {
 
 
   render (){
-
-    var items = [];
-    this.state.list.map((data,idx)=>{
-      items.push(
+    const item = this.state.list.map((data,idx)=>{
+      return(
         <div className={styles.item} key={data.id}>
           <Flex className={styles.item_li}>
             <div >余额提现</div>
@@ -83,14 +80,7 @@ export default class WithDrawList extends Component {
         <WingBlank>
           <Flex className={styles.title}>提现总金额：<span>￥{this.state.withdraw_sum}</span></Flex>
         </WingBlank>
-        <InfiniteScroll
-          dataLength={this.state.list.length}
-          next={this.more}
-          hasMore={true}
-          loader={<h4>Loading...</h4>}
-        >
-          {items}
-        </InfiniteScroll>
+        {item}
       </div>
     )
   }
