@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default class SelectAdType extends Component<Props> {
-	list = ['本店', '优惠券', '活动', '链接'];
+	list = ['本店', '兑换券', '活动', '链接'];
 
 	state = {
 		value: 0

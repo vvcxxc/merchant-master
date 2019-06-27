@@ -45,7 +45,7 @@ export default class OrderDetail extends Component<any, State> {
 								<Flex.Item>{data.channel_order_sn}</Flex.Item>
 							</Flex>
 							<Flex>
-								<div className="label">优惠券</div>
+								<div className="label">兑换券</div>
 								<Flex.Item>{data.youhui_type === 0 ? '兑换' : '优惠'}券</Flex.Item>
 							</Flex>
 						</div>

@@ -1,4 +1,4 @@
-/**title: 添加优惠券 */
+/**title: 添加兑换券 */
 import React, { Component } from 'react';
 import { WingBlank, Flex, List, InputItem, ActionSheet, Toast } from 'antd-mobile';
 import styles from './index.less';
@@ -8,7 +8,7 @@ import request from '@/services/request';
 import { connect } from 'dva';
 import router from 'umi/router';
 
-const types = ['优惠券', '现金券'];
+const types = ['兑换券', '现金券'];
 
 export default connect(({ createCoupon }: any) => createCoupon)(
 	class CreateCoupon extends Component<any> {

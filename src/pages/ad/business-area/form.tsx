@@ -74,7 +74,7 @@ export default connect(({ businessArea }: any) => businessArea)(
 			/**是否是修改提交状态 或者暂停请求状态 */
 			if (!this.state.edit || isStop) {
 				if (!this.state.coupon.value) {
-					return Toast.info('请选择优惠券');
+					return Toast.info('请选择兑换券');
 				}
 				if (!this.state.startTime) {
 					return Toast.info('请选择广告投放时长');
@@ -146,11 +146,11 @@ export default connect(({ businessArea }: any) => businessArea)(
 						<Flex.Item>
 							<List>
 								<List.Item
-									extra={this.state.coupon.label ? this.state.coupon.label : '请选择优惠券'}
+									extra={this.state.coupon.label ? this.state.coupon.label : '请选择兑换券'}
 									arrow="horizontal"
 									onClick={this.showModal}
 								>
-									优惠券
+									兑换券
 								</List.Item>
 								<List.Item extra={time} arrow="horizontal" onClick={this.handleShowSelectTime}>
 									广告投放时长
