@@ -53,7 +53,7 @@ export default class MyCouponItem extends Component<Props & Item> {
 									{this.props.youhui_type === 0 && '优惠券'}
 									{this.props.youhui_type === 1 && '现金券'}
 								</div>
-								{this.props.coupons_name}
+								<Flex.Item className="titleContent">{this.props.coupons_name}</Flex.Item>
 							</Flex>
 							<div className="right-info info">{this.props.validity}</div>
 							<Flex className={styles.progress}>
