@@ -22,9 +22,9 @@ export default connect(({ app }: any) => app)(
 		state = {
 			showVerification: false,
 			//支付开通状态
-      payment_status: {},
-      reason: '',
-      is_show: false
+			payment_status: {},
+			reason: '',
+			is_show: false
 		};
 
 		componentWillMount() {
@@ -32,30 +32,27 @@ export default connect(({ app }: any) => app)(
 				url: 'v3/payment_profiles/payment_status',
 				method: 'get'
 			}).then(res => {
-        let { data } = res;
-        let reason = '';
+				let { data } = res;
+				let reason = '';
 				if (data.apply_store_status.store_open_status == 0) {
 					router.push('/createStore');
-        }else if(data.apply_store_status.store_open_status == 2){
-          router.push('/review');
-        }else{
-          if(data.payment_status.payment_open_status == 0){
-            reason = '请您提交经营资质，完成入驻'
-            this.setState({is_show: true});
-          }else if(data.payment_status.payment_open_status == 1){
-            reason = '资料审核中'
-            this.setState({is_show: true});
-          }else if(data.payment_status.payment_open_status == 2){
-            reason = '资质审核失败，查看详情'
-            this.setState({is_show: true});
-          }
-
-        }
-        this.setState({
-          reason
-        })
-
-
+				} else if (data.apply_store_status.store_open_status == 2) {
+					router.push('/review');
+				} else {
+					if (data.payment_status.payment_open_status == 0) {
+						reason = '请您提交经营资质，完成入驻';
+						this.setState({ is_show: true });
+					} else if (data.payment_status.payment_open_status == 1) {
+						reason = '资料审核中';
+						this.setState({ is_show: true });
+					} else if (data.payment_status.payment_open_status == 2) {
+						reason = '资质审核失败，查看详情';
+						this.setState({ is_show: true });
+					}
+				}
+				this.setState({
+					reason
+				});
 			});
 			let userAgent = navigator.userAgent;
 			let isIos = userAgent.indexOf('iPhone') > -1;
@@ -87,7 +84,7 @@ export default connect(({ app }: any) => app)(
 		componentDidMount() {
 			this.props.dispatch({
 				type: 'app/getData'
-      });
+			});
 		}
 		/**跳转到页面 */
 		pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
@@ -123,7 +120,7 @@ export default connect(({ app }: any) => app)(
 				case '财务统计':
 					router.push('/finance/statistics');
 					break;
-				case '下单返券':
+				case '支付返券':
 					router.push('/activitys/payment/create');
 					break;
 				case '线下收银':
@@ -154,11 +151,11 @@ export default connect(({ app }: any) => app)(
 						}
 					}).then(res => {
 						router.push({
-              pathname: '/verification/success',
-              query: {
-                res
-              }
-            })
+							pathname: '/verification/success',
+							query: {
+								res
+							}
+						});
 					});
 				}
 			});
@@ -200,18 +197,19 @@ export default connect(({ app }: any) => app)(
 						<img src={_.small_icon} className="icon" />
 						<div className="label">{_.name}</div>
 					</Flex>
-        ));
-      const title = this.state.is_show == true ? (
-        <Flex className={styles.header_title} justify='between' onClick={this.pushPage('/review')}>
-          {this.state.reason}
-          <Icon type='right' color='#FF6734'/>
-        </Flex>
-      ) : null;
+				));
+			const title =
+				this.state.is_show == true ? (
+					<Flex className={styles.header_title} justify="between" onClick={this.pushPage('/review')}>
+						{this.state.reason}
+						<Icon type="right" color="#FF6734" />
+					</Flex>
+				) : null;
 			return (
 				<div className={styles.page}>
 					{/* <NavBar mode="light">团卖物联</NavBar> */}
-          {/* 数字信息 */}
-          {title}
+					{/* 数字信息 */}
+					{title}
 					<div className={styles.numberInfo}>
 						<Flex justify="center">
 							<div className="matter">
