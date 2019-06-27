@@ -16,11 +16,13 @@ export default class ExpenseCalendar extends Component<Props> {
 				<Flex.Item>{0}</Flex.Item>
 			</Flex>
 		));
+		{
+			/* <Flex className={styles.totalExpense} justify="end">
+					总消耗：1.4
+				</Flex> */
+		}
 		return (
 			<WingBlank>
-				<Flex className={styles.totalExpense} justify="end">
-					总消耗：1.4
-				</Flex>
 				<Flex className={styles.tableHead}>
 					<Flex.Item>时间</Flex.Item>
 					<span>事件</span>

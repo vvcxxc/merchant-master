@@ -84,7 +84,12 @@ export default connect()(
 							<Flex className={styles.headInfoContent}>
 								<img src={this.state.info.preview} alt="" className="userImg" />
 								<Flex.Item className="name">{this.state.info.name}</Flex.Item>
-								<img src={require('./setting.png')} alt="" className="setting" onClick={this.pushPage('/myInfo')}/>
+								<img
+									src={require('./setting.png')}
+									alt=""
+									className="setting"
+									onClick={this.pushPage('/myInfo')}
+								/>
 							</Flex>
 						</WingBlank>
 					</div>
@@ -125,7 +130,7 @@ export default connect()(
 						</Flex>
 						<Flex onClick={this.pushPage('/my/coupon')}>
 							<img src={require('./coupon.png')} alt="" />
-							<span>我的优惠券</span>
+							<span>我的兑换券</span>
 						</Flex>
 						<Flex onClick={this.pushPage('/my/moneyreceiveQr')}>
 							<img src={require('./code.png')} alt="" />
@@ -135,7 +140,7 @@ export default connect()(
 							<img src={require('./benefit.png')} alt="" />
 							<span>店铺邀请码</span>
 						</Flex>
-            <Flex>
+						<Flex>
 							<img src={require('./signed.png')} alt="" />
 							<span>我的签约码</span>
 						</Flex>

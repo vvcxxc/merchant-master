@@ -1,4 +1,4 @@
-/**title: 我的收益 */
+/**title: 线下收银 */
 import React, { Component } from 'react';
 import styles from './index.less';
 import FiltrateLayout from '@/components/layout';
@@ -48,6 +48,7 @@ export default class Benefit extends Component {
 			}
 		}
 	};
+	handleChange = (query: any) => this.setState({ date: query.time || undefined, payType: query.hot }, this.getData);
 	render() {
 		const list = this.state.data.map((_: Item) => <BenefitItem key={_.id} {..._} />);
 		const noData = (
@@ -64,7 +65,12 @@ export default class Benefit extends Component {
 		);
 		return (
 			<div className={styles.page}>
-				<FiltrateLayout undetermined={this.undetermined} insignificant={insignificant} hasInsignificant={true}>
+				<FiltrateLayout
+					undetermined={this.undetermined}
+					insignificant={insignificant}
+					hasInsignificant={true}
+					onChange={this.handleChange}
+				>
 					{this.state.showNoData ? noData : list}
 				</FiltrateLayout>
 			</div>

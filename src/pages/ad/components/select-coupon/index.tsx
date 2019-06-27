@@ -13,7 +13,7 @@ interface Props {
 	value?: number;
 }
 
-/**选择优惠券 */
+/**选择兑换券 */
 export default class SelectCoupon extends Component<Props> {
 	state = {
 		result: '',
@@ -88,7 +88,7 @@ export default class SelectCoupon extends Component<Props> {
 	render() {
 		return (
 			<Modal
-				title="选择优惠券"
+				title="选择兑换券"
 				show={this.props.show}
 				onCancel={this.handleAddCoupon}
 				onClose={this.props.onClose}

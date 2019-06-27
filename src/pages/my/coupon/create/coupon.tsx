@@ -11,7 +11,7 @@ interface Props extends CouponForm {
 	showPrice: boolean;
 }
 
-/**创建优惠券 */
+/**创建兑换券 */
 export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 	class CouponForm extends Component<Props> {
 		state = {
@@ -101,7 +101,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						placeholder="请输入券的名称"
 						onChange={this.handleInput('coupons_name')}
 					>
-						优惠券名称
+						兑换券名称
 					</InputItem>
 					<InputItem
 						extra="元"
@@ -126,7 +126,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						value={String(this.props.validity || '')}
 						onChange={this.handleInput('validity')}
 					>
-						优惠券有效期
+						兑换券有效期
 					</InputItem>
 					<List.Item
 						extra={<span>{this.props.description[0] ? this.props.description[0] + '...' : undefined}</span>}

@@ -13,9 +13,13 @@ interface Props {
   list: any;
   type: string;
 }
-
+declare global {
+  interface Window { open_id: string; pay_url: string;}
+}
+const pay_url = window.pay_url ? window.pay_url : 'http://test.api.tdianyi.com/payCentre/toSupplierWxPay'
+const open_id = window.open_id ? window.open_id : 'test_open_id';
 export default class PayMent extends Component<Props> {
-  openId = Cookies.get('test_open_id') || 'oy6pQ0yY_L34r_vcMkCNHJPk-iCk';
+  
   state = {
     list: {
       money: 0,
@@ -33,7 +37,7 @@ export default class PayMent extends Component<Props> {
   submit = async() => {
     let { list } = this.state;
     const res = await axios({
-      url: 'http://test.api.tdianyi.com/payCentre/toSupplierWxPay',
+      url: pay_url,
       method: 'post',
       headers: {
         Authorization: localStorage.getItem('token')
@@ -42,7 +46,7 @@ export default class PayMent extends Component<Props> {
         type: '10',
         public_type_id: list.order_sn,
         number: list.number,
-        open_id: this.openId,
+        open_id: open_id,
         xcx: '0'
       }
     });
