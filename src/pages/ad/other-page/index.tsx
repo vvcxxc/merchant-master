@@ -16,6 +16,7 @@ export default class BusinessArea extends Component<any> {
 	};
 	componentDidMount() {
 		this.getDetail();
+		this.setLog();
 	}
 	getDetail = async () => {
 		Toast.loading('');
@@ -37,7 +38,6 @@ export default class BusinessArea extends Component<any> {
 		Toast.hide();
 		if (res.code === 200 && res.data.length) {
 			this.setState({ data: res.data[0] });
-			this.setLog();
 		}
 	};
 
