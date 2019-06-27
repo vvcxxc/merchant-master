@@ -46,7 +46,7 @@ export default connect(({ businessArea }: any) => businessArea)(
 				this.setState({
 					id: nextProps.editForm.id,
 					coupon: {
-						label: '',
+						label: nextProps.editForm.coupon_name,
 						value: nextProps.editForm.coupon_id
 					},
 					price: nextProps.editForm.daily_budget,
@@ -171,7 +171,11 @@ export default connect(({ businessArea }: any) => businessArea)(
 								</span>
 							</Flex>
 						</Flex.Item>
-						<Button type="primary" className={styles.submitBtn} onClick={this.handleSubmit}>
+						<Button
+							type="primary"
+							className={!this.state.edit ? styles.submitBtn : styles.stopBtn}
+							onClick={this.handleSubmit}
+						>
 							{!this.state.edit ? '投放' : '暂停'}
 						</Button>
 					</Flex>
