@@ -62,7 +62,7 @@ export default class ContentDetail extends Component<Props, any> {
 		if (res.code === 200) {
 			Toast.success(this.state.data.publish_wait === 1 ? '暂停成功' : '发放成功');
 			setTimeout(() => {
-				router.goBack();
+				this.getData(this.props.id);
 			}, 1000);
 		} else {
 			Toast.fail(res.data);
@@ -90,6 +90,7 @@ export default class ContentDetail extends Component<Props, any> {
 	render() {
 		const itemProps: Item = this.state.data;
 		const rules = this.state.data.description.map((_: string) => <li key={_}>{_}</li>);
+		const stopBtnStyle = { backgroundColor: this.state.data.publish_wait === 1 ? '#ff6654' : '' };
 		return (
 			<Flex direction="column" className={styles.detail}>
 				<Flex.Item>
@@ -110,7 +111,7 @@ export default class ContentDetail extends Component<Props, any> {
 					<Flex.Item className="deleteBtn" onClick={this.showModal('delete')}>
 						删除优惠券
 					</Flex.Item>
-					<Flex.Item className="stopBtn" onClick={this.showModal('stop')}>
+					<Flex.Item className="stopBtn" onClick={this.showModal('stop')} style={stopBtnStyle}>
 						{this.state.data.publish_wait === 1 ? '暂停' : ''}发放优惠券
 					</Flex.Item>
 				</Flex>
