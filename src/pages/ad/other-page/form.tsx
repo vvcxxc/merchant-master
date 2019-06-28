@@ -242,6 +242,7 @@ export default class From extends Component<Props, any> {
 		}
 		const imagePicker = !this.state.edit && (
 			<ImagePicker
+				className={styles.imagePicker}
 				selectable={!this.state.files.length}
 				files={this.state.files}
 				length={1}
