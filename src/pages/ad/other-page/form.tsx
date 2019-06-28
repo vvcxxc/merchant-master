@@ -278,7 +278,11 @@ export default class From extends Component<Props, any> {
 							{imagePicker}
 							{this.state.edit && <img className={styles.banner} src={this.state.banner} />}
 						</Flex.Item>
-						<Button type="primary" className={styles.submitBtn} onClick={this.handleSubmit}>
+						<Button
+							type="primary"
+							className={!this.state.edit ? styles.submitBtn : styles.stopBtn}
+							onClick={this.handleSubmit}
+						>
 							{!this.state.edit ? '投放' : '暂停'}
 						</Button>
 					</Flex>
