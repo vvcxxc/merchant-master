@@ -37,7 +37,7 @@ export default class Success extends Component {
         ) : (
             <Flex justify='around' style={{marginTop: 40}} onClick={this.isShow}>
                 <Flex className={styles.button1} justify='around'>
-                    展示完整兑换券信息 <Icon type='down'/>
+                    展示完整优惠券信息 <Icon type='down'/>
                 </Flex>
             </Flex>
         )

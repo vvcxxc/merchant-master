@@ -41,7 +41,7 @@ export default class InputCode extends Component {
 				}
 			});
 		} else {
-			Toast.fail('请输入兑换券码');
+			Toast.fail('请输入优惠券码');
 		}
 	};
 
@@ -50,7 +50,7 @@ export default class InputCode extends Component {
 			<div style={{ width: '100%', height: '100%', background: '#fff', overflow: 'hidden' }}>
 				<WingBlank>
 					<Flex className={styles.input_code}>
-						<InputItem placeholder="输入兑换券码" value={this.state.code} onChange={this.handleCode} />
+						<InputItem placeholder="输入优惠券码" value={this.state.code} onChange={this.handleCode} />
 					</Flex>
 					<Button type="primary" style={{ marginTop: 400 }} onClick={this.submit}>
 						确定
