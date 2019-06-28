@@ -10,16 +10,17 @@ export default function GroupItem({
 	user_count = 0,
 	image = '',
 	activity_begin_time = '',
-	activity_end_time = ''
+	activity_end_time = '',
+	participation_number = 0
 }) {
 	const handleClick = () => onClick(id);
 	return (
-		<Flex className={styles.groupItem} align="end">
+		<Flex className={styles.groupItem} align="end" onClick={handleClick}>
 			<img src={image} alt="" className="main-img" />
 			<Flex.Item className="content">
 				<div className="title">
 					<span>{name}</span>
-					<span className="sub">{}人团</span>
+					<span className="sub">{participation_number}人团</span>
 				</div>
 				<div className="time">
 					{activity_begin_time}-{activity_end_time}

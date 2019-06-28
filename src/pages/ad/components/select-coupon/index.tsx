@@ -10,9 +10,10 @@ interface Props {
 	onClose: () => any;
 	onSelect: (arg0: any) => any;
 	isAd?: number;
+	value?: number;
 }
 
-/**选择优惠券 */
+/**选择兑换券 */
 export default class SelectCoupon extends Component<Props> {
 	state = {
 		result: '',
@@ -21,26 +22,46 @@ export default class SelectCoupon extends Component<Props> {
 		current: {}
 	};
 
-	UNSAFE_componentWillReceiveProps(nextProps: { show: boolean }) {
+	UNSAFE_componentWillReceiveProps(nextProps: Props) {
 		if (!this.props.show && nextProps.show === true) {
 			this.getCouponList();
 		}
+		this.setState({ value: [nextProps.value] });
 	}
 
 	getCouponList = async () => {
 		Toast.loading('');
-		const res = await request({ url: 'v3/coupons' });
+		// ad_type	广告类型：1，商圈广告 2，展位广告
+		const res = await request({ url: 'v3/coupons', params: { ad_type: this.props.isAd ? 1 : 2 } });
 		Toast.hide();
 		if (res.code === 200 && res.data.length) {
-			this.setState({
-				list: res.data.map((_: { name: any; id: any }) => ({ label: _.name, value: _.id })),
-				value: [res.data[0].id],
-				current: {
-					label: res.data[0].name,
-					value: res.data[0].id
-				},
-				result: res.data[0].name
-			});
+			if (this.props.value) {
+				const cur = res.data.find((_: any) => this.props.value === _.id);
+				if (cur) {
+					this.setState({
+						list: res.data.map((_: { name: any; id: any }) => ({ label: _.name, value: _.id })),
+						current: {
+							label: cur.name,
+							value: cur.id
+						},
+						result: cur.name
+					});
+				} else {
+					this.setState({
+						list: res.data.map((_: { name: any; id: any }) => ({ label: _.name, value: _.id }))
+					});
+				}
+			} else {
+				this.setState({
+					list: res.data.map((_: { name: any; id: any }) => ({ label: _.name, value: _.id })),
+					value: [res.data[0].id],
+					current: {
+						label: res.data[0].name,
+						value: res.data[0].id
+					},
+					result: res.data[0].name
+				});
+			}
 		}
 	};
 
@@ -67,7 +88,7 @@ export default class SelectCoupon extends Component<Props> {
 	render() {
 		return (
 			<Modal
-				title="选择优惠券"
+				title="选择兑换券"
 				show={this.props.show}
 				onCancel={this.handleAddCoupon}
 				onClose={this.props.onClose}

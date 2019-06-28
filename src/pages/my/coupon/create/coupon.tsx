@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { InputItem, List, Flex, ImagePicker, Toast } from 'antd-mobile';
 import { connect } from 'dva';
 import { CouponForm } from './model';
+import styles from './index.less';
 import upload from '@/services/oss';
 import Notice from '@/pages/activitys/components/notice';
 
 interface Props extends CouponForm {
 	dispatch: (arg0: any) => any;
+	showPrice: boolean;
 }
 
-/**创建优惠券 */
+/**创建兑换券 */
 export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 	class CouponForm extends Component<Props> {
 		state = {
@@ -81,14 +83,25 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					onChange={this.handleNoticeChange}
 				/>
 			);
+			const priceInput = this.props.showPrice && (
+				<InputItem
+					type="money"
+					extra="元"
+					value={String(this.props.pay_money || '')}
+					onChange={this.handleInput('pay_money')}
+				>
+					购买价格
+				</InputItem>
+			);
 			return (
 				<div>
 					<InputItem
+						className={styles.coupons_name}
 						value={this.props.coupons_name}
 						placeholder="请输入券的名称"
 						onChange={this.handleInput('coupons_name')}
 					>
-						优惠券名称
+						兑换券名称
 					</InputItem>
 					<InputItem
 						extra="元"
@@ -106,21 +119,14 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					>
 						发放数量
 					</InputItem>
-					<InputItem
-						type="money"
-						extra="元"
-						value={String(this.props.pay_money || '')}
-						onChange={this.handleInput('pay_money')}
-					>
-						购买价格
-					</InputItem>
+					{priceInput}
 					<InputItem
 						extra="天可用"
 						type="money"
 						value={String(this.props.validity || '')}
 						onChange={this.handleInput('validity')}
 					>
-						优惠券有效期
+						兑换券有效期
 					</InputItem>
 					<List.Item
 						extra={<span>{this.props.description[0] ? this.props.description[0] + '...' : undefined}</span>}

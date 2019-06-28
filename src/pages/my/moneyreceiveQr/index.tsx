@@ -22,10 +22,10 @@ export default class MoneyReceiveQr extends Component {
 
   render (){
     const img = this.state.list.map((item, idx) => {
-      return <img src={item} key={idx} style={{width: '100%'}}/>
+      return <img src={item} key={idx} style={{width: '100%', padding: '.46rem .36rem', boxSizing: 'border-box'}}/>
     })
     return (
-      <div>
+      <div style={{width: '100%', height: 'auto', minHeight: '100%', background: '#fff'}}>
         {img}
       </div>
     )

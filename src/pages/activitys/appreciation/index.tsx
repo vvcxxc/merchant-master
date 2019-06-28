@@ -19,10 +19,19 @@ export default class Group extends Component {
 		if (res.code === 200) {
 			this.setState({ data: res.data });
 		}
-	};
+  };
+  handleClick = (id: number) => {
+    router.push({
+      pathname: '/activitys/appreciation/details',
+      query: {
+        id
+      }
+    })
+  }
+
 	render() {
 		const tabs = [{ id: 1, label: '进行中' }, { id: 2, label: '待生效' }, { id: 3, label: '已结束' }];
-		const groups = this.state.data.map((_: Item) => <GroupItem key={_.id} {..._} />);
+		const groups = this.state.data.map((_: Item) => <GroupItem key={_.id} {..._} onClick={this.handleClick}/>);
 		return (
 			<TabPage tabs={tabs} onChange={this.handleChange}>
 				<Flex direction="column" style={{ height: '100%' }}>

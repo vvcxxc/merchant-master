@@ -53,11 +53,17 @@ export default class CreatePaymentReturn extends Component {
 		});
 		Toast.hide();
 		if (res.code === 200) {
-			Toast.success('发布成功');
-			router.goBack();
+			Toast.success('发布成功', 2, () => {
+				router.push('/activitys/payment');
+			});
 		}
 	};
 
+	handleDelete = () => {
+		const rules = [...this.state.rules];
+		rules.splice(rules.length - 1, 1);
+		this.setState({ rules });
+	};
 	render() {
 		const rules = this.state.rules.map((_, index) => (
 			<div>
@@ -69,6 +75,11 @@ export default class CreatePaymentReturn extends Component {
 		const endDate = this.state.endDate ? moment(this.state.endDate).toDate() : undefined;
 		const minDate = this.state.startDate ? moment(this.state.startDate).toDate() : moment().toDate();
 		const maxDate = this.state.endDate ? moment(this.state.endDate).toDate() : undefined;
+		const deleteBtn = (
+			<Flex justify="center" onClick={this.handleDelete}>
+				<div className="delete">删除</div>
+			</Flex>
+		);
 		return (
 			<div className={styles.page}>
 				<List className="topForm">
@@ -99,6 +110,7 @@ export default class CreatePaymentReturn extends Component {
 				</List>
 				<div className="line" />
 				{rules}
+				{this.state.rules.length > 1 && deleteBtn}
 				<Flex direction="column" className="add" onClick={this.handleAddRule}>
 					<img src={require('./add.png')} />
 					添加返券条件

@@ -178,7 +178,7 @@ export default class StoreInfo extends Component {
 
 
   save = () => {
-    const { store_name, address, house_num, phone, store_img_one, store_img_two, shop_door_header_img, manage_type, location, email} = this.state;
+    const { store_name, address, house_num, phone, store_img_one, store_img_two, store_door_header_img, manage_type, location, email} = this.state;
     request ({
       url: 'v3/stores',
       method: 'put',
@@ -188,7 +188,7 @@ export default class StoreInfo extends Component {
         address,
         phone,
         manage_type,
-        store_door_header_img: shop_door_header_img,
+        store_door_header_img,
         store_img_one,
         store_img_two,
         house_num,

@@ -6,7 +6,8 @@ import router from 'umi/router'
 
 export default class MyBank extends Component {
   state = {
-    info: []
+    info: [],
+    is_show: true,
   };
   componentDidMount (){
     request({
@@ -14,9 +15,14 @@ export default class MyBank extends Component {
       method: 'post',
     }).then(res => {
       let { data } = res;
-      this.setState({
-        info: data[0]
-      })
+      if(data[0].bank_info){
+        this.setState({
+          info: data[0]
+        })
+      }else{
+        this.setState({is_show: false})
+      }
+
     })
   }
 
@@ -29,18 +35,26 @@ export default class MyBank extends Component {
       return str.replace(/\s/g,'').replace(/(.{4})/g,"$1 ");
     }
   }
-
   render (){
     const { info } = this.state;
-    return (
-      <div style={{width: '100%', height: '100%', background: '#fff', overflow: 'hidden'}}>
-        <WingBlank>
-          <div className={styles.bank_card}>
+    const bank = this.state.is_show == true ? (
+      <div>
+        <div className={styles.bank_card}>
             <Flex className={styles.bank_name}>{info.bank_name}</Flex>
             <Flex className={styles.bank_type}>储蓄卡</Flex>
             <Flex className={styles.bank_num}>{this.replaceStr(info.bank_info)}</Flex>
           </div>
           <Button className={styles.button} onClick={this.toChange}>修改银行卡</Button>
+      </div>
+    ) : (
+      <Flex justify='around' className={styles.no_bank}>
+        <img src={require('./bank.png')}/>
+      </Flex>
+    )
+    return (
+      <div style={{width: '100%', height: '100%', background: '#fff', overflow: 'hidden'}}>
+        <WingBlank>
+          {bank}
         </WingBlank>
       </div>
     )

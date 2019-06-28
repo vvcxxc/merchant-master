@@ -11,10 +11,11 @@ interface Props {
   choose_date: string ;
   type: number;
 }
-
+const nowTimeStamp = Date.now();
+const now = new Date(nowTimeStamp);
 export default class chooseDate extends Component<Props> {
   state = {
-    value: null,
+    value: now,
     date: '',
     /**选择日期 */
     is_type1: true,
@@ -22,22 +23,29 @@ export default class chooseDate extends Component<Props> {
     is_type2: false,
     /**判断是哪一个选择的 */
     type: 1,
-
   }
 
   componentDidMount(){
-    const {type, choose_date} = this.props;
-    let is_have = choose_date.includes('长')
-    if(is_have){
-      this.setState({is_type1: false, is_type2: true})
+    let {type, choose_date} = this.props;
+    if(choose_date && choose_date != '无'){
+      let is_have = choose_date.includes('长')
+      if(is_have){
+        this.setState({is_type1: false, is_type2: true})
+      }else{
+        let value = moment(choose_date).toDate();
+        this.setState({value, date: choose_date})
+      }
+      this.setState({
+        type,
+        date: choose_date
+      });
     }else{
-      let value = moment(choose_date).toDate();
-      this.setState({value, date: choose_date})
+      this.setState({
+        value: now,
+        type,
+        date: moment(now).format("YYYY-MM-DD")
+      })
     }
-    this.setState({
-      type,
-      date: choose_date
-    });
   }
 
   changeTime = (v: Date) => {
@@ -49,7 +57,8 @@ export default class chooseDate extends Component<Props> {
   chooseDate = () => {
     this.setState({
       is_type1: true,
-      is_type2: false
+      is_type2: false,
+      date: moment(now).format("YYYY-MM-DD")
     })
   }
   /**长期有效 */

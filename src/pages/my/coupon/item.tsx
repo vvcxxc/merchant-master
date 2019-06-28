@@ -20,6 +20,8 @@ export interface Item {
 	store_name?: string;
 	validity?: string;
 	description?: any[];
+	/**0兑换 1现金 */
+	youhui_type?: number;
 }
 
 export default class MyCouponItem extends Component<Props & Item> {
@@ -27,31 +29,43 @@ export default class MyCouponItem extends Component<Props & Item> {
 	render() {
 		const useScale =
 			this.props.total_num && this.props.user_count && (this.props.total_num / this.props.user_count) * 100;
-		return (
-			<Flex
-				className={styles.coupon}
-				style={{ backgroundImage: `url(${require('./active-bg.png')})` }}
-				onClick={this.handleClick}
-			>
-				<Flex className="price-wrap" direction="column">
+		const leftMain =
+			this.props.youhui_type === 1 ? (
+				<Flex className="price-wrap" direction="column" justify="center">
 					<div className="price">
 						￥<span>{parseFloat(this.props.return_money || '0').toFixed(0)}</span>
 					</div>
 					<span className="info">满{this.props.total_fee}可用</span>
 				</Flex>
-				<Flex.Item>
-					<Flex className="title">
-						<div className="label">现金券</div>
-						{this.props.coupons_name}
-					</Flex>
-					<div className="right-info info">{this.props.validity}</div>
-					<Flex className={styles.progress}>
-						<Flex.Item className="bar">
-							<div className="line" style={{ width: `${useScale}%` }} />
+			) : (
+				<Flex className="price-wrap">
+					<img src={this.props.image} />
+				</Flex>
+			);
+		return (
+			<Flex className={styles.coupon} onClick={this.handleClick}>
+				{leftMain}
+				<Flex.Item className="rightBox">
+					<Flex className="main">
+						<Flex.Item>
+							<Flex className="title">
+								<div className={this.props.youhui_type === 1 ? 'label money' : 'label coupon'}>
+									{this.props.youhui_type === 0 && '兑换券'}
+									{this.props.youhui_type === 1 && '现金券'}
+								</div>
+								<Flex.Item className="titleContent">{this.props.coupons_name}</Flex.Item>
+							</Flex>
+							<div className="right-info info">{this.props.validity}</div>
+							<Flex className={styles.progress}>
+								<div className="bar">
+									<div className="line" style={{ width: `${useScale}%` }} />
+								</div>
+								<div className="number">
+									{this.props.total_num}/{this.props.user_count}
+								</div>
+							</Flex>
 						</Flex.Item>
-						<div className="number">
-							{this.props.total_num}/{this.props.user_count}
-						</div>
+						<div className="createBannerBtn">生成海报</div>
 					</Flex>
 				</Flex.Item>
 			</Flex>

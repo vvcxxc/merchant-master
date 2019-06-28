@@ -71,8 +71,10 @@ export default class CreateMoneyOff extends Component {
 			Toast.hide();
 
 			if (res.code === 200) {
-				Toast.success('添加成功');
-				router.goBack();
+				Toast.success('添加成功',2,()=>{
+          router.push('/activitys/money-off')
+        });
+
 			} else {
 				Toast.fail(res.data);
 			}

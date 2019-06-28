@@ -8,6 +8,7 @@ import { WingBlank, Flex, Toast } from 'antd-mobile';
 import FiltrateLayout from '../../components/layout';
 import request from '@/services/request';
 import moment from 'moment';
+import router from 'umi/router';
 
 export default class OrderPage extends Component {
 	state = {
@@ -46,9 +47,13 @@ export default class OrderPage extends Component {
 		});
 	};
 
+	handleClickOrder = (id: any) => () => {
+		router.push({ pathname: '/order/detail', query: { id } });
+	};
+
 	render() {
 		const orderList = this.state.list.map((_: any) => (
-			<Flex key={_.id} className={styles.orderItem}>
+			<Flex key={_.id} className={styles.orderItem} onClick={this.handleClickOrder(_.id)}>
 				<img src={_.small_icon} />
 				<Flex.Item className="content">
 					<div className="ordernum">{_.youhui_sn}</div>

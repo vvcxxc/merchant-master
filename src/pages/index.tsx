@@ -22,7 +22,9 @@ export default connect(({ app }: any) => app)(
 		state = {
 			showVerification: false,
 			//支付开通状态
-			payment_status: {}
+			payment_status: {},
+			reason: '',
+			is_show: false
 		};
 
 		componentWillMount() {
@@ -31,9 +33,31 @@ export default connect(({ app }: any) => app)(
 				method: 'get'
 			}).then(res => {
 				let { data } = res;
-				if (data.store_open_status != 1) {
+				let reason = '';
+				if (data.apply_store_status.store_open_status == 0) {
 					router.push('/createStore');
-				}
+        }else if(data.apply_store_status.store_open_status == 2){
+          router.push('/review');
+        }else if(data.apply_store_status.store_open_status == 1){
+          router.push('/review');
+        }else{
+          if(data.payment_status.payment_open_status == 0){
+            reason = '请您提交经营资质，完成入驻'
+            this.setState({is_show: true});
+          }else if(data.payment_status.payment_open_status == 1){
+            reason = '资料审核中'
+            this.setState({is_show: true});
+          }else if(data.payment_status.payment_open_status == 2){
+            reason = '资质审核失败，查看详情'
+            this.setState({is_show: true});
+          }
+
+        }
+        this.setState({
+          reason
+        })
+
+
 			});
 			let userAgent = navigator.userAgent;
 			let isIos = userAgent.indexOf('iPhone') > -1;
@@ -84,13 +108,13 @@ export default connect(({ app }: any) => app)(
 					router.push({ pathname: '/ad/other-page', query: { type: item.name } });
 					break;
 				case '增值':
-					router.push('/activitys/appreciation');
+					router.push('/activitys/appreciation/createAppreciation');
 					break;
 				case '拼团':
-					router.push('/activitys/group');
+					router.push('/activitys/group/createGroup');
 					break;
 				case '满减':
-					router.push('/activitys/money-off');
+					router.push('/activitys/money-off/create');
 					break;
 				case '提现记录':
 					router.push('/my/withdraw/list');
@@ -101,14 +125,17 @@ export default connect(({ app }: any) => app)(
 				case '财务统计':
 					router.push('/finance/statistics');
 					break;
-				case '下单返券':
-					router.push('/activitys/payment');
+				case '支付返券':
+					router.push('/activitys/payment/create');
+					break;
+				case '线下收银':
+					router.push('/my/benefit');
 					break;
 				case '核销记录':
 					router.push('/verification');
 					break;
 				case '我的收益':
-					router.push('/my/benefit');
+					router.push('/my/platformBenefit');
 					break;
 			}
 			// router.push('');
@@ -119,17 +146,22 @@ export default connect(({ app }: any) => app)(
 			wx.scanQRCode({
 				needResult: 1,
 				desc: 'scanQRCode desc',
-				success: ({resultStr}: any) => {
-          let res = JSON.parse(resultStr)
-          request({
-            url: 'api/merchant/youhui/userConsume',
-            method: 'post',
-            data: {
-              code: res.youhui_sn
-            }
-          }).then(res => {
-            Toast.success(res.message)
-          })
+				success: ({ resultStr }: any) => {
+					let res = JSON.parse(resultStr);
+					request({
+						url: 'api/merchant/youhui/userConsume',
+						method: 'post',
+						data: {
+							code: res.youhui_sn
+						}
+					}).then(res => {
+						router.push({
+							pathname: '/verification/success',
+							query: {
+								res
+							}
+						});
+					});
 				}
 			});
 		};
@@ -146,7 +178,11 @@ export default connect(({ app }: any) => app)(
 							</Flex>
 						</Flex.Item>
 						<Flex.Item>
-							<Flex justify="center" direction="column" onClick={this.pushPage('/verification/inputcode')}>
+							<Flex
+								justify="center"
+								direction="column"
+								onClick={this.pushPage('/verification/inputcode')}
+							>
 								<img src={require('../assets/menu/16.png')} />
 								输码验证
 							</Flex>
@@ -167,10 +203,18 @@ export default connect(({ app }: any) => app)(
 						<div className="label">{_.name}</div>
 					</Flex>
 				));
+			const title =
+				this.state.is_show == true ? (
+					<Flex className={styles.header_title} justify="between" onClick={this.pushPage('/review')}>
+						{this.state.reason}
+						<Icon type="right" color="#FF6734" />
+					</Flex>
+				) : null;
 			return (
 				<div className={styles.page}>
 					{/* <NavBar mode="light">团卖物联</NavBar> */}
 					{/* 数字信息 */}
+					{title}
 					<div className={styles.numberInfo}>
 						<Flex justify="center">
 							<div className="matter">

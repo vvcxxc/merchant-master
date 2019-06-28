@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { Flex, WingBlank, Button, Toast } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
+import router from 'umi/router';
 
 export default class ForgetPassword extends Component {
   state = {
@@ -78,7 +79,7 @@ export default class ForgetPassword extends Component {
    * 点击确认提交
    */
   confirm = () => {
-    const { code, password, phone, is_true} = this.state;
+    const { code, password, phone, is_true, confirm_password} = this.state;
     if ( code&&password&&phone&&is_true ){
        request({
         url: 'v3/passwords/forget',
@@ -86,9 +87,21 @@ export default class ForgetPassword extends Component {
         data: {
           verify_code: code,
           new_password: password,
-          phone: phone
+          phone: phone,
+          confirm_password
         }
-      }).then(res => {})
+      }).then(res => {
+        let { code, data } = res;
+        if(code == 200){
+          Toast.success(data,2,()=>{
+            router.push('/login')
+          })
+        }else{
+          Toast.fail(data,1)
+        }
+      })
+    }else{
+      Toast.fail('请填写完整')
     }
 
   }

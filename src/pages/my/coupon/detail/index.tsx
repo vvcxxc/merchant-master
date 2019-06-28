@@ -19,8 +19,13 @@ export default class Detial extends Component<any> {
 	handleChange = (id: number) => this.setState({ pageType: id });
 
 	render() {
-		const content =
-			this.state.pageType === 1 ? <ContentDetail id={this.state.id} /> : <ReceiveList id={this.state.id} />;
+		const content = this.state.id ? (
+			this.state.pageType === 1 ? (
+				<ContentDetail id={this.state.id} />
+			) : (
+				<ReceiveList id={this.state.id} />
+			)
+		) : null;
 		return (
 			<TabPage tabs={this.tabs} onChange={this.handleChange}>
 				{content}

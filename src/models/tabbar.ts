@@ -32,10 +32,8 @@ const model: Model = {
   },
   subscriptions: {
     history({ dispatch, history }) {
-      if(!sessionStorage.getItem('url')){
-        let url = location.href;
-        sessionStorage.setItem('url', url)
-      }
+      let url = location.href;
+      sessionStorage.setItem('url', url)
       history.listen(() =>
         dispatch({
           type: 'setShow',

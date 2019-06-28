@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import request from '@/services/request';
-import { Toast, Flex } from 'antd-mobile';
+import { Toast, Flex, WingBlank } from 'antd-mobile';
 import MyCouponItem, { Item } from '../item';
 import router from 'umi/router';
 import OperationTip from '@/components/OperationTip';
@@ -12,17 +12,19 @@ interface Props {
 
 export default class ContentDetail extends Component<Props, any> {
 	state = {
-		data: { description: [] },
+		data: { description: [], publish_wait: 1 },
 		modalType: ''
 	};
 
 	modal: any = {};
 
-	UNSAFE_componentWillReceiveProps(nextProps: { id: number }) {
-		if (nextProps.id !== 0) {
-			this.getData(nextProps.id);
-		}
-	}
+	// UNSAFE_componentWillReceiveProps(nextProps: { id: number }) {
+	// 	if (nextProps.id !== 0) {
+	// 		this.getData(nextProps.id);
+	// 	}
+	// }
+
+	componentDidMount = () => this.getData(this.props.id);
 
 	getData = async (id: number) => {
 		Toast.loading('');
@@ -51,22 +53,32 @@ export default class ContentDetail extends Component<Props, any> {
 
 	handleStopCoupon = async () => {
 		Toast.loading('');
-		const res = await request({ url: 'v3/coupons/stop/' + this.props.id, method: 'put' });
+		const res = await request({
+			url: 'v3/coupons/stop/' + this.props.id,
+			data: { status: this.state.data.publish_wait === 1 ? 2 : 1 },
+			method: 'put'
+		});
 		Toast.hide();
 		if (res.code === 200) {
-			Toast.success('暂停成功');
-			router.goBack();
+			Toast.success(this.state.data.publish_wait === 1 ? '暂停成功' : '发放成功');
+			setTimeout(() => {
+				this.getData(this.props.id);
+			}, 1000);
 		} else {
 			Toast.fail(res.data);
 		}
 	};
 
 	showModal = (type: string) => () => {
-		this.setState({ modalType: type });
-		this.modal.show &&
-			this.modal.show({
-				text: type === 'stop' ? '暂停投放优惠券 将会怎么样怎么样' : '删除优惠券 将会怎么样怎么样'
-			});
+		if (this.state.data.publish_wait === 1) {
+			this.setState({ modalType: type });
+			this.modal.show &&
+				this.modal.show({
+					text: type === 'stop' ? '暂停投放兑换券 将会怎么样怎么样' : '删除兑换券 将会怎么样怎么样'
+				});
+		} else {
+			this.handleStopCoupon();
+		}
 	};
 
 	handleModalConfirm = (isConfirm: boolean) => {
@@ -78,10 +90,13 @@ export default class ContentDetail extends Component<Props, any> {
 	render() {
 		const itemProps: Item = this.state.data;
 		const rules = this.state.data.description.map((_: string) => <li key={_}>{_}</li>);
+		const stopBtnStyle = { backgroundColor: this.state.data.publish_wait === 1 ? '#ff6654' : '' };
 		return (
 			<Flex direction="column" className={styles.detail}>
 				<Flex.Item>
-					<MyCouponItem {...itemProps} onClick={this.handleClickItem} />
+					<WingBlank>
+						<MyCouponItem {...itemProps} onClick={this.handleClickItem} />
+					</WingBlank>
 					<div className="couponDetail">
 						<Flex className="head">
 							<img src={require('./icon.png')} alt="" />
@@ -94,10 +109,10 @@ export default class ContentDetail extends Component<Props, any> {
 				</Flex.Item>
 				<Flex className="footerBtns">
 					<Flex.Item className="deleteBtn" onClick={this.showModal('delete')}>
-						删除优惠券
+						删除兑换券
 					</Flex.Item>
-					<Flex.Item className="stopBtn" onClick={this.showModal('stop')}>
-						暂停发放优惠券
+					<Flex.Item className="stopBtn" onClick={this.showModal('stop')} style={stopBtnStyle}>
+						{this.state.data.publish_wait === 1 ? '暂停' : ''}发放兑换券
 					</Flex.Item>
 				</Flex>
 

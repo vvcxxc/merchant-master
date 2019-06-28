@@ -46,7 +46,7 @@ const model: Model = {
       return {
         ...state,
         couponForm: {
-          coupons_type: 1,
+          coupons_type: 0,
           description: []
         },
         moneyForm: {
