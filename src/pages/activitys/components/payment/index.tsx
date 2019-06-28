@@ -36,6 +36,7 @@ export default class PayMent extends Component<Props> {
 
   submit = async() => {
     let { list } = this.state;
+    let openId = Cookies.get(open_id)
     const res = await axios({
       url: pay_url,
       method: 'post',
@@ -46,7 +47,7 @@ export default class PayMent extends Component<Props> {
         type: '10',
         public_type_id: list.order_sn,
         number: list.number,
-        open_id: open_id,
+        open_id: openId,
         xcx: '0'
       }
     });

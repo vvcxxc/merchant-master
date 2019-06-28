@@ -202,7 +202,7 @@ export default class CreateStore extends Component {
         let { code, data } = res;
         if(code == 200){
           Toast.success(data,2,()=> {
-            router.push('/review');
+            router.push('/submitQua');
           })
         }else{
           Toast.fail(data)

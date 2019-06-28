@@ -36,23 +36,28 @@ export default connect(({ app }: any) => app)(
 				let reason = '';
 				if (data.apply_store_status.store_open_status == 0) {
 					router.push('/createStore');
-				} else if (data.apply_store_status.store_open_status == 2) {
-					router.push('/review');
-				} else {
-					if (data.payment_status.payment_open_status == 0) {
-						reason = '请您提交经营资质，完成入驻';
-						this.setState({ is_show: true });
-					} else if (data.payment_status.payment_open_status == 1) {
-						reason = '资料审核中';
-						this.setState({ is_show: true });
-					} else if (data.payment_status.payment_open_status == 2) {
-						reason = '资质审核失败，查看详情';
-						this.setState({ is_show: true });
-					}
-				}
-				this.setState({
-					reason
-				});
+        }else if(data.apply_store_status.store_open_status == 2){
+          router.push('/review');
+        }else if(data.apply_store_status.store_open_status == 1){
+          router.push('/review');
+        }else{
+          if(data.payment_status.payment_open_status == 0){
+            reason = '请您提交经营资质，完成入驻'
+            this.setState({is_show: true});
+          }else if(data.payment_status.payment_open_status == 1){
+            reason = '资料审核中'
+            this.setState({is_show: true});
+          }else if(data.payment_status.payment_open_status == 2){
+            reason = '资质审核失败，查看详情'
+            this.setState({is_show: true});
+          }
+
+        }
+        this.setState({
+          reason
+        })
+
+
 			});
 			let userAgent = navigator.userAgent;
 			let isIos = userAgent.indexOf('iPhone') > -1;
