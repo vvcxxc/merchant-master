@@ -42,7 +42,11 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				});
 				this.props.dispatch({ type: 'createCoupon/reset' });
 				setTimeout(() => {
-					router.push('/my/coupon');
+					if (this.props.location.query.isAd) {
+						router.goBack();
+					} else {
+						router.push('/my/coupon');
+					}
 				}, 2000);
 			}
 		};
