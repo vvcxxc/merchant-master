@@ -34,7 +34,7 @@ export default class GroupDetails extends Component {
         delivery: ''
       }
     },
-    id: ''
+    id: '',
     is_gift: true
   }
   componentDidMount (){
