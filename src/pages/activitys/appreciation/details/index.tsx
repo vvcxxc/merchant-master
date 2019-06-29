@@ -33,7 +33,8 @@ export default class GroupDetails extends Component {
         delivery: ''
       }
     },
-    id: ''
+    id: '',
+    is_gift: true
   }
   componentDidMount (){
     this.setState({id: this.props.location.query.id})
@@ -46,6 +47,9 @@ export default class GroupDetails extends Component {
     }).then(res => {
       let {data} = res;
       // console.log(res)
+      if(data.appreciation_gif_info.gif_name == ''){
+        this.setState({is_gift: false})
+      }
       this.setState({info: data})
     })
   }
@@ -71,8 +75,37 @@ export default class GroupDetails extends Component {
   }
 
   render (){
-    const { info } = this.state;
-    const description = info.appreciation_coupons_info.description.map((item,idx) => <p key={idx}>· {item}</p>)
+    const { info, is_gift } = this.state;
+    const description = info.appreciation_coupons_info.description.map((item,idx) => <p key={idx}>· {item}</p>);
+    const isGift = is_gift == true ? (
+      <div>
+        <Flex className={styles.title}>
+            <div className={styles.gang}>{null}</div>
+            礼品信息
+          </Flex>
+          <Flex className={styles.item} align='start'>
+            <div className={styles.item_name}>礼品名称：</div>
+            <div className={styles.item_detail}>{info.appreciation_gif_info.gif_name}</div>
+          </Flex>
+          <Flex className={styles.item_height} align='start'>
+            <div className={styles.item_name}>礼品图片：</div>
+            <div className={styles.item_img}>
+              <img src={info.appreciation_gif_info.gif_pic}/>
+            </div>
+          </Flex>
+          <Flex className={styles.item} align='start'>
+            <div className={styles.item_name}>所需积分：</div>
+            <div className={styles.item_detail}>{info.appreciation_gif_info.delivery}积分</div>
+          </Flex>
+          <Flex className={styles.item_height} align='start'>
+            <div className={styles.item_name}>配送方式：</div>
+            <div className={styles.item_long}>
+              <p>{info.appreciation_gif_info.gif_integral}</p>
+              {/* <p>邮寄 邮费谁出</p> */}
+            </div>
+          </Flex>
+      </div>
+    ) : null;
     return (
       <div className={styles.detailsPage}>
         <WingBlank>
@@ -139,31 +172,7 @@ export default class GroupDetails extends Component {
           </Flex>
 
           {/* 礼品信息 */}
-          <Flex className={styles.title}>
-            <div className={styles.gang}>{null}</div>
-            礼品信息
-          </Flex>
-          <Flex className={styles.item} align='start'>
-            <div className={styles.item_name}>礼品名称：</div>
-            <div className={styles.item_detail}>{info.appreciation_gif_info.gif_name}</div>
-          </Flex>
-          <Flex className={styles.item_height} align='start'>
-            <div className={styles.item_name}>礼品图片：</div>
-            <div className={styles.item_img}>
-              <img src={info.appreciation_gif_info.gif_pic}/>
-            </div>
-          </Flex>
-          <Flex className={styles.item} align='start'>
-            <div className={styles.item_name}>所需积分：</div>
-            <div className={styles.item_detail}>{info.appreciation_gif_info.delivery}积分</div>
-          </Flex>
-          <Flex className={styles.item_height} align='start'>
-            <div className={styles.item_name}>配送方式：</div>
-            <div className={styles.item_long}>
-              <p>{info.appreciation_gif_info.gif_integral}</p>
-              {/* <p>邮寄 邮费谁出</p> */}
-            </div>
-          </Flex>
+          {isGift}
 
           {/* 撤销按钮 */}
           <Button type='primary' style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button>
