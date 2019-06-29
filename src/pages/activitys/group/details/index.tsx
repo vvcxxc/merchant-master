@@ -35,7 +35,7 @@ export default class GroupDetails extends Component {
       }
     },
     id: ''
-    is_gift: true;
+    is_gift: true
   }
   componentDidMount (){
     this.setState({id: this.props.location.query.id})
