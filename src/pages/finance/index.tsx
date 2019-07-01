@@ -4,6 +4,7 @@
 
 import React, { Component } from 'react';
 import FiltrateLayout from '@/components/layout';
+import NoData from '@/components/no-data';
 import { Flex } from 'antd-mobile';
 import styles from './index.less';
 import { FinanceItem } from './model';
@@ -81,7 +82,7 @@ export default connect(({ finance }: any) => finance)(
 					</Flex>
 				))
 			) : (
-				<Flex justify="center">无数据</Flex>
+				<NoData type="finance" />
 			);
 
 			return (
