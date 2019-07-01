@@ -9,6 +9,7 @@ import FiltrateLayout from '../../components/layout';
 import request from '@/services/request';
 import moment from 'moment';
 import router from 'umi/router';
+import NoData from '@/components/no-data';
 
 export default class OrderPage extends Component {
 	state = {
@@ -52,16 +53,20 @@ export default class OrderPage extends Component {
 	};
 
 	render() {
-		const orderList = this.state.list.map((_: any) => (
-			<Flex key={_.id} className={styles.orderItem} onClick={this.handleClickOrder(_.id)}>
-				<img src={_.small_icon} />
-				<Flex.Item className="content">
-					<div className="ordernum">{_.youhui_sn}</div>
-					<div className="time">{_.create_time}</div>
-				</Flex.Item>
-				<div className="status">{_.status_msg}</div>
-			</Flex>
-		));
+		const orderList = this.state.list.length ? (
+			this.state.list.map((_: any) => (
+				<Flex key={_.id} className={styles.orderItem} onClick={this.handleClickOrder(_.id)}>
+					<img src={_.small_icon} />
+					<Flex.Item className="content">
+						<div className="ordernum">{_.youhui_sn}</div>
+						<div className="time">{_.create_time}</div>
+					</Flex.Item>
+					<div className="status">{_.status_msg}</div>
+				</Flex>
+			))
+		) : (
+			<NoData type="order" />
+		);
 		return (
 			<FiltrateLayout
 				undetermined={this.undetermined}
