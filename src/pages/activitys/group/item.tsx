@@ -3,7 +3,7 @@ import { Flex } from 'antd-mobile';
 import styles from './index.less';
 
 export default function GroupItem({
-	onClick = (id: number) => {},
+	onClick = (id: number, type: string) => {},
 	id = 0,
 	name = '',
 	total_num = 0,
@@ -11,9 +11,10 @@ export default function GroupItem({
 	image = '',
 	activity_begin_time = '',
 	activity_end_time = '',
-	participation_number = 0
+  participation_number = 0,
+  type = ''
 }) {
-	const handleClick = () => onClick(id);
+	const handleClick = () => onClick(id,type);
 	return (
 		<Flex className={styles.groupItem} align="end" onClick={handleClick}>
 			<img src={image} alt="" className="main-img" />

@@ -22,11 +22,12 @@ export default class Group extends Component {
 	};
 	handleChange = (id: any) => this.getData(id);
 	handleClickAddButton = () => router.push('/activitys/group/createGroup');
-	handleClickGroup = (id: number) => {
+	handleClickGroup = (id: number, type: string) => {
     router.push({
       pathname: '/activitys/group/details',
       query: {
-        id
+        id,
+        type
       }
     })
   };

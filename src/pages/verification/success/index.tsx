@@ -5,7 +5,17 @@ import { Flex, WingBlank, Icon } from 'antd-mobile';
 export default class Success extends Component {
     state = {
         is_show: false,
-        data: {}
+        data: {
+          begin_time: '',
+          end_time: '',
+          coupons_name: '',
+          youhui_sn: '',
+          create_time: '',
+          channel_order_sn: '',
+          money: ''
+
+
+        }
     };
     componentDidMount (){
       // console.log(this.props.location.query.res);
