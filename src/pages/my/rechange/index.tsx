@@ -16,6 +16,7 @@ export default class Rechange extends Component {
 	handleInputChange = (value: any) => this.setState({ money: parseFloat(value) });
 	/** recahnge submit value */
 	submit = async () => {
+    let openId = Cookies.get(open_id)
 		Toast.loading('充值中');
 		const res = await request({
 			url: 'v3/pay/recharge',
@@ -23,7 +24,7 @@ export default class Rechange extends Component {
 			data: {
 				xcx: 0,
 				rechargeMoney: this.state.money,
-				open_id
+				open_id: openId
 			}
 		});
 
