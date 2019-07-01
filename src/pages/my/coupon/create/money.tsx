@@ -8,7 +8,7 @@ interface Props extends MoneyForm {
 	showPrice: boolean;
 }
 
-/**创建兑换券 */
+/**创建优惠券 */
 export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 	class MoneyForm extends Component<Props> {
 		handleInput = (type: string) => (value: any) => {
@@ -56,7 +56,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						value={String(this.props.validity || '')}
 						onChange={this.handleInput('validity')}
 					>
-						兑换券有效期
+						优惠券有效期
 					</InputItem>
 					<InputItem
 						type="money"

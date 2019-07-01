@@ -20,11 +20,12 @@ export default class Group extends Component {
 			this.setState({ data: res.data });
 		}
   };
-  handleClick = (id: number) => {
+  handleClick = (id: number, type: string) => {
     router.push({
       pathname: '/activitys/appreciation/details',
       query: {
-        id
+        id,
+        type
       }
     })
   }

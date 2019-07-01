@@ -61,7 +61,8 @@ export default class ChangeBank extends Component {
         let { bank_card_back_img } = this.state;
         let bank_card_front_img = data.path;
         if (bank_card_back_img&&bank_card_front_img){
-          this.setState({animating_id: !this.state.animating_id})
+          // this.setState({animating_id: !this.state.animating_id})
+          Toast.loading('识别中')
           request({
             url: 'v3/bankcard',
             method: 'get',
@@ -69,9 +70,10 @@ export default class ChangeBank extends Component {
               bank_card_front_img
             }
           }).then(res =>{
-            this.setState({animating_id: !this.state.animating_id});
+            // this.setState({animating_id: !this.state.animating_id});
             let {data, code} = res;
             if(code == 200){
+              Toast.hide()
               let str = data.bank_card_number;
               str = str.replace(/\s*/g,"");
               this.setState({
@@ -79,7 +81,7 @@ export default class ChangeBank extends Component {
                 bank_name: data.bank_name
               })
             }else{
-              Toast.fail('识别失败', 1);
+              Toast.fail('识别失败，请手动输入', 1);
             }
           })
         }
@@ -99,7 +101,8 @@ export default class ChangeBank extends Component {
         let bank_card_back_img = data.path;
         let { bank_card_front_img } = this.state
         if (bank_card_back_img&&bank_card_front_img){
-          this.setState({animating_id: !this.state.animating_id});
+          // this.setState({animating_id: !this.state.animating_id});
+          Toast.loading('识别中')
           request({
             url: 'v3/bankcard',
             method: 'get',
@@ -107,9 +110,10 @@ export default class ChangeBank extends Component {
               bank_card_front_img
             }
           }).then(res =>{
-            this.setState({animating_id: !this.state.animating_id});
+            // this.setState({animating_id: !this.state.animating_id});
             let {data, code} = res;
             if(code == 200){
+              Toast.hide()
               let str = data.bank_card_number;
               str = str.replace(/\s*/g,"");
               this.setState({
@@ -117,7 +121,7 @@ export default class ChangeBank extends Component {
                 bank_name: data.bank_name
               })
             }else{
-              Toast.fail('识别失败', 1);
+              Toast.fail('识别失败,请手动输入', 1);
             }
           })
         }
@@ -221,7 +225,7 @@ export default class ChangeBank extends Component {
             确认更新
           </Button>
         </WingBlank>
-        <ActivityIndicator toast={true} text='识别中...' animating={this.state.animating_id}/>
+        {/* <ActivityIndicator toast={true} text='识别中...' animating={this.state.animating_id}/> */}
       </div>
     )
   }

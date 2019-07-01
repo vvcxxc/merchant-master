@@ -158,7 +158,7 @@ export default connect(({ app }: any) => app)(
 						router.push({
 							pathname: '/verification/success',
 							query: {
-								res
+								res: JSON.stringify(res)
 							}
 						});
 					});

@@ -22,6 +22,8 @@ export interface Item {
 	description?: any[];
 	/**0兑换 1现金 */
 	youhui_type?: number;
+	/**状态 1:开启 2已暂停 3已删除 */
+	publish_wait: number;
 }
 
 export default class MyCouponItem extends Component<Props & Item> {
@@ -50,7 +52,7 @@ export default class MyCouponItem extends Component<Props & Item> {
 						<Flex.Item>
 							<Flex className="title">
 								<div className={this.props.youhui_type === 1 ? 'label money' : 'label coupon'}>
-									{this.props.youhui_type === 0 && '兑换券'}
+									{this.props.youhui_type === 0 && '优惠券'}
 									{this.props.youhui_type === 1 && '现金券'}
 								</div>
 								<Flex.Item className="titleContent">{this.props.coupons_name}</Flex.Item>
@@ -65,7 +67,9 @@ export default class MyCouponItem extends Component<Props & Item> {
 								</div>
 							</Flex>
 						</Flex.Item>
-						<div className="createBannerBtn">生成海报</div>
+						{this.props.publish_wait === 1 && <div className="createBannerBtn">生成海报</div>}
+						{this.props.publish_wait === 2 && <div className="stopBtn">已暂停发放</div>}
+						{this.props.publish_wait === 3 && <div className="stopBtn">已删除</div>}
 					</Flex>
 				</Flex.Item>
 			</Flex>

@@ -17,7 +17,7 @@ interface CouponItem {
 	store_name: string;
 	date: string;
 	money: number;
-	order_no: number;
+	order_sn: string;
 }
 
 interface AdItem {
@@ -83,7 +83,7 @@ export default class PlatformBenefit extends Component {
 					</Flex>
 					<Flex className="info">{_.store_name}</Flex>
 					<Flex className="info">
-						单号：<Flex.Item>{_.order_no}</Flex.Item>
+						单号：<Flex.Item>{_.order_sn}</Flex.Item>
 						{_.date}
 					</Flex>
 				</Flex>

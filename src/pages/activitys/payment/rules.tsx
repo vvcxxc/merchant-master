@@ -45,7 +45,7 @@ export default class PaymentReturnRules extends Component<Props> {
 						面额
 					</InputItem>
 					<List.Item extra={limitInput}>使用门槛</List.Item>
-					<List.Item extra={dateInput}>兑换券有效期</List.Item>
+					<List.Item extra={dateInput}>优惠券有效期</List.Item>
 					<InputItem type="money" extra="张" onChange={this.handleChange('num')}>
 						库存数量
 					</InputItem>

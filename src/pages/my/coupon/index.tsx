@@ -1,4 +1,4 @@
-/** title: 兑换券 */
+/** title: 优惠券 */
 import React, { Component } from 'react';
 import { WingBlank, Toast } from 'antd-mobile';
 import styles from './index.less';

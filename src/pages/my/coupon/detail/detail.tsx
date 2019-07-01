@@ -74,7 +74,7 @@ export default class ContentDetail extends Component<Props, any> {
 			this.setState({ modalType: type });
 			this.modal.show &&
 				this.modal.show({
-					text: type === 'stop' ? '暂停投放兑换券 将会怎么样怎么样' : '删除兑换券 将会怎么样怎么样'
+					text: type === 'stop' ? '暂停投放优惠券 将会怎么样怎么样' : '删除优惠券 将会怎么样怎么样'
 				});
 		} else {
 			this.handleStopCoupon();
@@ -109,10 +109,10 @@ export default class ContentDetail extends Component<Props, any> {
 				</Flex.Item>
 				<Flex className="footerBtns">
 					<Flex.Item className="deleteBtn" onClick={this.showModal('delete')}>
-						删除兑换券
+						删除优惠券
 					</Flex.Item>
 					<Flex.Item className="stopBtn" onClick={this.showModal('stop')} style={stopBtnStyle}>
-						{this.state.data.publish_wait === 1 ? '暂停' : ''}发放兑换券
+						{this.state.data.publish_wait === 1 ? '暂停' : ''}发放优惠券
 					</Flex.Item>
 				</Flex>
 

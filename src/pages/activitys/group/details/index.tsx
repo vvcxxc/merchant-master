@@ -34,11 +34,21 @@ export default class GroupDetails extends Component {
         delivery: ''
       }
     },
-    id: ''
-
+    id: '',
+    type: '',
+    is_gift: true,
+    types: ''
   }
   componentDidMount (){
-    this.setState({id: this.props.location.query.id})
+    let {type,id} = this.props.location.query;
+    if(type == '1'){
+      this.setState({types: '进行中'})
+    }else if(type == '2'){
+      this.setState({types: '待生效'})
+    }else{
+      this.setState({types: '已结束'})
+    }
+    this.setState({id, type})
     request({
       url: 'api/merchant/youhui/group_info',
       method: 'get',
@@ -47,47 +57,89 @@ export default class GroupDetails extends Component {
       }
     }).then(res => {
       let {data} = res;
+      if(data.group_gif_info.gift_id == 0){
+        this.setState({is_gift: false})
+      }
       this.setState({info: data})
     })
   }
 
-  // stop = () => {
-  //   request({
-  //     url: 'api/merchant/youhui/appreciation/activity/stop/'+this.state.id,
-  //     method: 'put',
-  //     data: {
-  //       type: 5
-  //     }
-  //   }).then (res => {
-  //     let {code, message} = res;
-  //     if(code == 200){
-  //       Toast.success(message,2,()=>router.goBack())
-  //     }
-  //   })
-  // }
-
   // 撤销
   stop = () => {
-    alert('撤销提醒', '撤销活动后，已经开团的活动可以继续参团，未开团将不能继续开团，是否撤销活动？', [{ text: '取消', onPress: () => {} },{ text: '确认', onPress: () => {
+    let { type } = this.state;
+    if(type == '1'){
+      alert('撤销提醒', '撤销活动后，已经开团的活动可以继续参团，未开团将不能继续开团，是否撤销活动？', [{ text: '取消', onPress: () => {} },{ text: '确认', onPress: () => {
+        request({
+              url: 'api/merchant/youhui/appreciation/activity/stop/'+this.state.id,
+              method: 'put',
+              data: {
+                type: 5
+              }
+            }).then (res => {
+              let {code, message} = res;
+              if(code == 200){
+                Toast.success(message,2,()=>router.goBack())
+              }
+            })
+      } },])
+    }else{
       request({
-            url: 'api/merchant/youhui/appreciation/activity/stop/'+this.state.id,
-            method: 'put',
-            data: {
-              type: 5
-            }
-          }).then (res => {
-            let {code, message} = res;
-            if(code == 200){
-              Toast.success(message,2,()=>router.goBack())
-            }
-          })
-    } },])
+        url: 'api/merchant/youhui/appreciation/activity/stop/'+this.state.id,
+        method: 'put',
+        data: {
+          type: 5
+        }
+      }).then (res => {
+        let {code, message} = res;
+        if(code == 200){
+          Toast.success(message,2,()=>router.goBack())
+        }
+      })
+    }
+
   }
 
   render (){
-    const { info } = this.state;
+    const { info, is_gift, types } = this.state;
     const description = info.group_coupons_info.description.map((item,idx) => <p key={idx}>· {item}</p>)
-
+    const button = this.state.type == '3' ? null : (
+      <Button
+        className={styles.buttons}
+        type='primary'
+        onClick={this.stop}
+      >
+      撤销活动
+      </Button>
+    );
+    const isGift = is_gift == true ? (
+      <div>
+        <Flex className={styles.title}>
+            <div className={styles.gang}>{null}</div>
+            礼品信息
+          </Flex>
+          <Flex className={styles.item} align='start'>
+            <div className={styles.item_name}>礼品名称：</div>
+            <div className={styles.item_detail}>{info.group_gif_info.gif_name}</div>
+          </Flex>
+          <Flex className={styles.item_height} align='start'>
+            <div className={styles.item_name}>礼品图片：</div>
+            <div className={styles.item_img}>
+              <img src={info.group_gif_info.gif_pic}/>
+            </div>
+          </Flex>
+          <Flex className={styles.item} align='start'>
+            <div className={styles.item_name}>所需积分：</div>
+            <div className={styles.item_detail}>{info.group_gif_info.delivery}积分</div>
+          </Flex>
+          <Flex className={styles.item_height} align='start'>
+            <div className={styles.item_name}>配送方式：</div>
+            <div className={styles.item_long}>
+              <p>{info.group_gif_info.gif_integral}</p>
+              {/* <p>邮寄 邮费谁出</p> */}
+            </div>
+          </Flex>
+      </div>
+    ) : null;
     return (
       <div className={styles.detailsPage}>
         <WingBlank>
@@ -95,7 +147,7 @@ export default class GroupDetails extends Component {
           <Flex justify='between' className={styles.headers}>
             <div className={styles.names}>
               活动名称
-              <span>进行中</span>
+              <span>{types}</span>
             </div>
             <img src={require('./share.png')}/>
           </Flex>
@@ -131,10 +183,10 @@ export default class GroupDetails extends Component {
             <div className={styles.item_detail}>{info.group_info.activity_time} </div>
           </Flex>
 
-          {/* 兑换券信息 */}
+          {/* 优惠券信息 */}
           <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
-            兑换券信息
+            优惠券信息
           </Flex>
           <Flex className={styles.item} align='start'>
             <div className={styles.item_name}>市场价：</div>
@@ -157,41 +209,11 @@ export default class GroupDetails extends Component {
           </Flex>
 
           {/* 礼品信息 */}
-          <Flex className={styles.title}>
-            <div className={styles.gang}>{null}</div>
-            礼品信息
-          </Flex>
-          <Flex className={styles.item} align='start'>
-            <div className={styles.item_name}>礼品名称：</div>
-            <div className={styles.item_detail}>{info.group_gif_info.gif_name}</div>
-          </Flex>
-          <Flex className={styles.item_height} align='start'>
-            <div className={styles.item_name}>礼品图片：</div>
-            <div className={styles.item_img}>
-              <img src={info.group_gif_info.gif_pic}/>
-            </div>
-          </Flex>
-          <Flex className={styles.item} align='start'>
-            <div className={styles.item_name}>所需积分：</div>
-            <div className={styles.item_detail}>{info.group_gif_info.delivery}积分</div>
-          </Flex>
-          <Flex className={styles.item_height} align='start'>
-            <div className={styles.item_name}>配送方式：</div>
-            <div className={styles.item_long}>
-              <p>{info.group_gif_info.gif_integral}</p>
-              {/* <p>邮寄 邮费谁出</p> */}
-            </div>
-          </Flex>
+          {isGift}
 
           {/* 撤销按钮 */}
           {/* <Button  style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button> */}
-          <Button
-            className={styles.buttons}
-            type='primary'
-            onClick={this.stop}
-          >
-          撤销活动
-          </Button>
+          {button}
         </WingBlank>
       </div>
     )
