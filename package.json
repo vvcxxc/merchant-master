@@ -2,7 +2,7 @@
 	"private": true,
 	"scripts": {
 		"start": "umi dev",
-		"build": "umi build",
+		"build": "UMI_ENV=master umi build",
 		"release": "UMI_ENV=release umi build",
 		"test": "umi test",
 		"lint:es": "eslint --ext .js src mock tests",
