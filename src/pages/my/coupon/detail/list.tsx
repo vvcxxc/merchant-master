@@ -33,18 +33,6 @@ export default class ReceiveList extends Component<Props> {
 		}
 	};
 	render() {
-<<<<<<< HEAD
-		const list = this.state.list.map((_: Item) => (
-			<Flex className="item">
-				<img className="headImg" src={_.image} alt="" />
-				<Flex.Item>
-					<Flex className="title">
-						<Flex.Item>{_.user_name}</Flex.Item>
-						<span className={_.status === 2 ? 'yellow' : ''}>{_.status_msg}</span>
-					</Flex>
-					<div className="time">{_.create_time}</div>
-				</Flex.Item>
-=======
 		const list = this.state.list.length ? (
 			this.state.list.map((_: Item) => (
 				<Flex className="item">
@@ -62,7 +50,6 @@ export default class ReceiveList extends Component<Props> {
 			<Flex direction="column" justify="center" className="noData">
 				<img src={require('./noData.png')} />
 				<span>暂无领取记录</span>
->>>>>>> release
 			</Flex>
 		);
 		return <div className={styles.receiceList}>{list}</div>;
