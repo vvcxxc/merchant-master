@@ -6,6 +6,7 @@ const config: IConfig = {
   theme: {
     '@brand-primary': '#21418A',
   },
+
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     [
@@ -17,7 +18,6 @@ const config: IConfig = {
         dynamicImport: { webpackChunkName: true },
         title: '团卖物联',
         dll: false,
-
         routes: {
           exclude: [
             /models\//,
@@ -31,5 +31,4 @@ const config: IConfig = {
     ],
   ],
 };
-
 export default config;

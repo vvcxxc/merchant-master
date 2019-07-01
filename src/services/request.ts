@@ -27,7 +27,7 @@ export default function request(options: Options) {
   /**拼接接口地址 */
   options.url = options.host ? options.host + options.url : host + options.url;
   /**请求超时 */
-  options.timeout = 45000;
+  options.timeout = 5000;
   /**axios 请求 */
   return axios(options)
     .then(res => res.data)
