@@ -4,23 +4,26 @@ import { Flex, WingBlank, Icon } from 'antd-mobile';
 
 export default class Success extends Component {
     state = {
-        is_show: false,
+      is_show: false,
+      res: {
         data: {
+          youhui_sn: '',
+          status: '',
+          confirm_time: '',
           begin_time: '',
           end_time: '',
-          coupons_name: '',
-          youhui_sn: '',
-          create_time: '',
+          description: [],
           channel_order_sn: '',
-          money: ''
-
-
-        }
+          pay_money: '',
+          create_time: '',
+          coupons_name: ''
+        },
+      }
     };
     componentDidMount (){
       // console.log(this.props.location.query.res);
       this.setState({
-        data: this.props.location.query.res
+        res: this.props.location.query.res
       })
     }
 
@@ -29,7 +32,8 @@ export default class Success extends Component {
     }
 
     render (){
-      const {data} = this.state;
+      const {res} = this.state;
+      let data = res.data;
         const info = this.state.is_show == true ? (
             <div className={styles.box2} style={{marginTop: 40}}>
                 <p>
@@ -101,7 +105,7 @@ export default class Success extends Component {
                         </Flex>
                         <Flex className={styles.infos}>
                             <div className={styles.title_name}>价格：</div>
-                            {data.money}
+                            {data.pay_money}
                         </Flex>
 
                 </WingBlank>
