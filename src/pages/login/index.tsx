@@ -6,6 +6,15 @@ import request from '@/services/request';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import Cookies from 'js-cookie';
+import router from 'umi/router';
+
+declare global {
+	interface Window { open_id: string; url: string; from: string }
+}
+const Url = window.url ? window.url : 'http://test.api.tdianyi.com/';
+const open_id = window.open_id ? window.open_id : 'test_open_id';
+const from = window.from ? window.from : 'v3_supplier';
+
 
 export default connect()(
 	class Login extends Component<any> {
@@ -19,7 +28,9 @@ export default connect()(
 			/**账号 */
 			account_name: '',
 			/**密码 */
-			password: ''
+			password: '',
+			/**发送验证码之后的倒计时 */
+			remainingTime: 0
 		};
 		componentDidMount() {
 			/**获取oss */
@@ -40,6 +51,8 @@ export default connect()(
 
 				window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
 			});
+
+
 		}
 		/**设置手机号 */
 		handleSetMobile = (value: any) => {
@@ -94,23 +107,18 @@ export default connect()(
 						if (res.code === 200) {
 							localStorage.setItem('token', 'Bearer ' + res.data.token);
 							this.props.dispatch(routerRedux.push({ pathname: '/' }));
-
-							// 授权（暂未完善）
-							let url = 'http://test.api.tdianyi.com/wechat/wxoauth?code_id=0&from=v3_supplier';
-							url = encodeURIComponent(url);
-							let urls =
-								'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
-								url +
-								'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
-							return (window.location.href = urls);
-
-							// let url = 'http://test.api.tdianyi.com/wechat/wxoauth?code_id=0&from=v3_supplier';
-							// url = encodeURIComponent(url);
-							// let urls =
-							// 	'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
-							// 	url +
-							// 	'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
-							// return (window.location.href = urls);
+							if (Cookies.get(open_id)) {
+								router.push('/')
+							} else {
+								// 授权（暂未完善）
+								let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
+								url = encodeURIComponent(url);
+								let urls =
+									'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
+									url +
+									'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+								return (window.location.href = urls);
+							}
 						} else {
 							Toast.fail(res.data, 1.5);
 						}
@@ -124,12 +132,29 @@ export default connect()(
 		 */
 		handleChangeTab = (active: number) => () => this.setState({ tab: active });
 		/**发送验证码 */
-		sendCode = () => {
-			if (this.state.mobile) {
-				request({
-					url: 'v3/verify_code',
-					params: { phone: this.state.mobile }
-				});
+		sendCode = async () => {
+			if (this.state.remainingTime === 0) {
+				if (this.state.mobile) {
+					Toast.loading('');
+					const res = await request({
+						url: 'v3/verify_code',
+						params: { phone: this.state.mobile }
+					});
+					Toast.hide();
+					if (res.code === 200) {
+						Toast.success('发送验证码成功');
+						this.setState({ remainingTime: 60 });
+						const time = setInterval(() => {
+							if (this.state.remainingTime > 0) {
+								this.setState({ remainingTime: this.state.remainingTime - 1 });
+							} else {
+								clearInterval(time);
+							}
+						}, 1000);
+					}
+				} else {
+					Toast.fail('请输入手机号');
+				}
 			}
 		};
 
@@ -164,33 +189,33 @@ export default connect()(
 						</Flex>
 					</div>
 				) : (
-					<div>
-						<Flex className={styles.inputWrap}>
-							<div className="phone-prefix">+86</div>
-							<Flex.Item>
-								<InputItem
-									type="phone"
-									style={{ width: '100%' }}
-									placeholder="请填写手机号"
-									onChange={this.handleSetMobile}
-								/>
-							</Flex.Item>
-						</Flex>
-						<Flex className={styles.inputWrap}>
-							<Flex.Item>
-								<input
-									value={this.state.code}
-									style={{ width: '100%' }}
-									placeholder="请填写短信验证码"
-									onChange={this.handleSetCode}
-								/>
-							</Flex.Item>
-							<div className="send-code" onClick={this.sendCode}>
-								发送验证码
-							</div>
-						</Flex>
-					</div>
-				);
+						<div>
+							<Flex className={styles.inputWrap}>
+								<div className="phone-prefix">+86</div>
+								<Flex.Item>
+									<InputItem
+										type="phone"
+										style={{ width: '100%' }}
+										placeholder="请填写手机号"
+										onChange={this.handleSetMobile}
+									/>
+								</Flex.Item>
+							</Flex>
+							<Flex className={styles.inputWrap}>
+								<Flex.Item>
+									<input
+										value={this.state.code}
+										style={{ width: '100%' }}
+										placeholder="请填写短信验证码"
+										onChange={this.handleSetCode}
+									/>
+								</Flex.Item>
+								<div className="send-code" onClick={this.sendCode}>
+									{this.state.remainingTime === 0 ? '发送验证码' : this.state.remainingTime + 's'}
+								</div>
+							</Flex>
+						</div>
+					);
 			return (
 				<div className={styles.page}>
 					<WingBlank>

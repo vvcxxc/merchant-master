@@ -5,6 +5,7 @@ import { MoneyForm } from './model';
 
 interface Props extends MoneyForm {
 	dispatch: (arg0: any) => any;
+	showPrice: boolean;
 }
 
 /**创建优惠券 */
@@ -20,6 +21,16 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 		};
 
 		render() {
+			const priceInput = this.props.showPrice && (
+				<InputItem
+					extra="元"
+					type="money"
+					value={String(this.props.pay_money || '')}
+					onChange={this.handleInput('pay_money')}
+				>
+					购买价格
+				</InputItem>
+			);
 			return (
 				<div>
 					<InputItem
@@ -30,17 +41,10 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 					>
 						面额
 					</InputItem>
+					{priceInput}
 					<InputItem
+						type="money"
 						extra="元"
-						type="money"
-						value={String(this.props.pay_money || '')}
-						onChange={this.handleInput('pay_money')}
-					>
-						购买价格
-					</InputItem>
-					<InputItem
-						type="money"
-						extra="张"
 						value={String(this.props.total_fee || '')}
 						onChange={this.handleInput('total_fee')}
 					>

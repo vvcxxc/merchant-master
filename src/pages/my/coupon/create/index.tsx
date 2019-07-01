@@ -13,7 +13,13 @@ const types = ['优惠券', '现金券'];
 export default connect(({ createCoupon }: any) => createCoupon)(
 	class CreateCoupon extends Component<any> {
 		state = {
-			type: 0 // 券的类型
+			type: 0, // 券的类型
+			/**是否显示购买价格，商圈广告下不显示 */
+			showPrice: true
+		};
+
+		componentDidMount = () => {
+			this.setState({ showPrice: !this.props.location.query.isAd });
 		};
 
 		handleSelectType = () =>
@@ -27,9 +33,20 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			Toast.hide();
 			if (res.code === 200) {
 				Toast.success('添加成功');
+				this.props.dispatch({
+					type: 'businessArea/setCoupon',
+					payload: {
+						label: this.state.type === 0 ? this.props.couponForm.coupons_name : res.data.msg,
+						value: res.data.youhu_id
+					}
+				});
 				this.props.dispatch({ type: 'createCoupon/reset' });
 				setTimeout(() => {
-					router.goBack();
+					if (this.props.location.query.isAd) {
+						router.goBack();
+					} else {
+						router.push('/my/coupon');
+					}
 				}, 2000);
 			}
 		};
@@ -38,18 +55,33 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			request({
 				url: 'api/merchant/youhui/addDiscounts',
 				method: 'post',
-				data: { ...this.props.couponForm, is_ad: this.props.location.query.isAd }
+				data: {
+					...this.props.couponForm,
+					is_ad: this.props.location.query.isAd,
+					/**商圈广告下，购买价格为0 */
+					pay_money: this.state.showPrice ? this.props.couponForm.pay_money : 0
+				}
 			});
 
 		postMoney = () =>
 			request({
 				url: 'api/merchant/youhui/addDiscounts',
 				method: 'post',
-				data: this.props.moneyForm
+				data: {
+					...this.props.moneyForm,
+					is_ad: this.props.location.query.isAd,
+					/**商圈广告下，购买价格为0 */
+					pay_money: this.state.showPrice ? this.props.moneyForm.pay_money : 0
+				}
 			});
 
 		render() {
-			const form = this.state.type === 0 ? <CouponForm /> : <MoneyForm />;
+			const form =
+				this.state.type === 0 ? (
+					<CouponForm showPrice={this.state.showPrice} />
+				) : (
+					<MoneyForm showPrice={this.state.showPrice} />
+				);
 			return (
 				<Flex direction="column" className={styles.page}>
 					<Flex.Item>

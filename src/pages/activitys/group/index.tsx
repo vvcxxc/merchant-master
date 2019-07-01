@@ -22,7 +22,15 @@ export default class Group extends Component {
 	};
 	handleChange = (id: any) => this.getData(id);
 	handleClickAddButton = () => router.push('/activitys/group/createGroup');
-	handleClickGroup = (id: number) => {};
+	handleClickGroup = (id: number, type: string) => {
+    router.push({
+      pathname: '/activitys/group/details',
+      query: {
+        id,
+        type
+      }
+    })
+  };
 	render() {
 		const tabs = [{ id: 1, label: '进行中' }, { id: 2, label: '待生效' }, { id: 3, label: '已结束' }];
 		const groups = this.state.data.map((_: any) => <GroupItem key={_.id} {..._} onClick={this.handleClickGroup} />);

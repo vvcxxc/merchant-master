@@ -76,6 +76,7 @@ export default class From extends Component<Props, any> {
 			this.setState({ files: [] });
 		}
 	}
+	componentDidMount = () => this.UNSAFE_componentWillReceiveProps(this.props);
 	handleToRechange = () => router.push('/my/rechange');
 	closeModal = () => this.setState({ showSelectCoupon: false, showSelectTime: false, showSelectActivity: false });
 	showModal = () => this.setState({ [this.state.formType === 1 ? 'showSelectCoupon' : 'showSelectActivity']: true });
@@ -89,8 +90,12 @@ export default class From extends Component<Props, any> {
 	handleChangePrice = (price: any) => this.setState({ price });
 	handleShowSelectTime = () => this.setState({ showSelectTime: true });
 	handleSelectTime = (time: any) => this.setState({ ...time }, this.closeModal);
-	handleSubmit = async () => {
-		if (!this.state.edit) {
+	/**
+	 * 暂停或是投放广告
+	 * @param isStop 是否是暂停提交操作
+	 */
+	handleSubmit = async (e: any, isStop?: boolean) => {
+		if (!this.state.edit || isStop) {
 			if (this.state.formType === 1 && !this.state.coupon.value) {
 				return Toast.info('请选择优惠券');
 			}
@@ -126,17 +131,32 @@ export default class From extends Component<Props, any> {
 				data.link = this.state.link;
 			}
 			let res;
-			if (this.state.maked) {
-				res = await request({ url: 'v3/ads/' + this.state.id, method: 'put', data });
+			if (isStop) {
+				res = await request({ url: 'v3/ads/' + this.state.id, method: 'put', data: { ...data, is_pause: 1 } });
 			} else {
-				res = await request({ url: 'v3/ads', method: 'post', data });
+				if (this.state.maked) {
+					res = await request({
+						url: 'v3/ads/' + this.state.id,
+						method: 'put',
+						data: { ...data, is_pause: 0 }
+					});
+				} else {
+					res = await request({ url: 'v3/ads', method: 'post', data });
+				}
 			}
 
 			Toast.hide();
 
 			if (res.code === 200) {
-				Toast.success('投放成功', 1);
-				setTimeout(() => this.props.onSuccess(), 1000);
+				if (isStop) {
+					this.handleCloseModal();
+					Toast.success('暂停成功');
+				} else {
+					Toast.success('投放成功');
+				}
+				setTimeout(() => {
+					this.props.onSuccess();
+				}, 1000);
 			} else {
 				Toast.fail(res.data);
 			}
@@ -153,15 +173,7 @@ export default class From extends Component<Props, any> {
 	handleCloseModal = () => this.setState({ stopModalShow: false });
 
 	handleConfirmModal = async () => {
-		Toast.loading('');
-		const res = await request({ url: 'v3/ads/stop', method: 'put', data: { ad_id: this.props.editForm.id } });
-		Toast.hide();
-		this.handleCloseModal();
-		if (res.code === 200) {
-			return Toast.success('暂停成功');
-		} else {
-			Toast.fail(res.data);
-		}
+		this.handleSubmit({}, true);
 	};
 
 	handleShowStopAd = () => this.setState({ stopModalShow: true });
@@ -230,6 +242,7 @@ export default class From extends Component<Props, any> {
 		}
 		const imagePicker = !this.state.edit && (
 			<ImagePicker
+				className={styles.imagePicker}
 				selectable={!this.state.files.length}
 				files={this.state.files}
 				length={1}
@@ -266,7 +279,11 @@ export default class From extends Component<Props, any> {
 							{imagePicker}
 							{this.state.edit && <img className={styles.banner} src={this.state.banner} />}
 						</Flex.Item>
-						<Button type="primary" className={styles.submitBtn} onClick={this.handleSubmit}>
+						<Button
+							type="primary"
+							className={!this.state.edit ? styles.submitBtn : styles.stopBtn}
+							onClick={this.handleSubmit}
+						>
 							{!this.state.edit ? '投放' : '暂停'}
 						</Button>
 					</Flex>
@@ -274,13 +291,11 @@ export default class From extends Component<Props, any> {
 						show={this.state.showSelectCoupon}
 						onClose={this.closeModal}
 						onSelect={this.handleSelectCoupon}
-						isAd={1}
 					/>
 					<SelectActivity
 						show={this.state.showSelectActivity}
 						onClose={this.closeModal}
 						onSelect={this.handleSelectCoupon}
-						isAd={1}
 					/>
 					<SelectTime
 						show={this.state.showSelectTime}

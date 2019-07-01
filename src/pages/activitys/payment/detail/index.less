@@ -1,0 +1,91 @@
+.page {
+	min-height: 100%;
+	background-color: #fff;
+	:global {
+		.head {
+			padding: 36px 0;
+			.label {
+				width: 38px;
+				height: 38px;
+				background: rgba(255, 102, 84, 1);
+				border-radius: 10px;
+				font-size: 22px;
+				color: #fff;
+				text-align: center;
+				line-height: 38px;
+				margin-right: 12px;
+			}
+			.name {
+				font-size: 32px;
+			}
+			.time {
+				font-size: 24px;
+				color: #999999;
+			}
+		}
+		.couponWrap {
+			float: left;
+			width: 320px;
+			margin: 0 32px 32px 0;
+		}
+		.buttonWrap {
+			width: 100%;
+			display: block;
+			padding-bottom: 40px;
+		}
+	}
+}
+
+.couponCard {
+	background: rgba(255, 255, 255, 1);
+	box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+	padding: 32px 20px 0;
+	:global {
+		.price {
+			font-size: 32px;
+			line-height: 1;
+			margin-bottom: 10px;
+		}
+		.info {
+			font-size: 24px;
+			color: #666;
+			line-height: 1;
+			margin-bottom: 54px;
+			span {
+				margin-right: 30px;
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+	}
+}
+
+.progressBar {
+	padding-bottom: 12px;
+	:global {
+		.title {
+			font-size: 28px;
+			margin-bottom: 12px;
+			line-height: 1;
+		}
+		.bar {
+			flex: 1;
+			height: 12px;
+			background-color: rgba(33, 65, 138, .4);
+			border-radius: 6px;
+			.line {
+				height: 100%;
+				background-color: rgba(33, 65, 138, 1);
+				border-radius: 6px;
+			}
+		}
+		.label {
+			width: 120px;
+			color: #999;
+			text-align: right;
+			overflow: hidden;
+		}
+	}
+}
