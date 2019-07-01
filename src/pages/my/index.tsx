@@ -130,7 +130,7 @@ export default connect()(
 						</Flex>
 						<Flex onClick={this.pushPage('/my/coupon')}>
 							<img src={require('./coupon.png')} alt="" />
-							<span>我的兑换券</span>
+							<span>我的优惠券</span>
 						</Flex>
 						<Flex onClick={this.pushPage('/my/moneyreceiveQr')}>
 							<img src={require('./code.png')} alt="" />

@@ -144,10 +144,10 @@ export default class GroupDetails extends Component {
             <div className={styles.item_detail}>{info.appreciation_info.activity_time}</div>
           </Flex>
 
-          {/* 兑换券信息 */}
+          {/* 优惠券信息 */}
           <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
-            兑换券信息
+            优惠券信息
           </Flex>
           <Flex className={styles.item} align='start'>
             <div className={styles.item_name}>市场价：</div>

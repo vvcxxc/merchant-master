@@ -20,12 +20,12 @@ interface Props {
 
 export default class From extends Component<Props, any> {
 	state = {
-		/**显示选择兑换券 */
+		/**显示选择优惠券 */
 		showSelectCoupon: false,
 		showSelectActivity: false,
 		/**显示选择时间 */
 		showSelectTime: false,
-		/**兑换券 */
+		/**优惠券 */
 		coupon: {
 			label: '',
 			value: 0
@@ -43,7 +43,7 @@ export default class From extends Component<Props, any> {
 		edit: false,
 		/**是否暂停提示显示 */
 		stopModalShow: false,
-		/**表单类型 本店, 兑换券，活动，链接 */
+		/**表单类型 本店, 优惠券，活动，链接 */
 		formType: 0,
 		link: '',
 		/**是否已经发布过 */
@@ -97,7 +97,7 @@ export default class From extends Component<Props, any> {
 	handleSubmit = async (e: any, isStop?: boolean) => {
 		if (!this.state.edit || isStop) {
 			if (this.state.formType === 1 && !this.state.coupon.value) {
-				return Toast.info('请选择兑换券');
+				return Toast.info('请选择优惠券');
 			}
 			if (this.state.formType === 2 && !this.state.activity.value) {
 				return Toast.info('请选择活动');
@@ -211,11 +211,11 @@ export default class From extends Component<Props, any> {
 		} else if (this.state.formType === 1) {
 			typeFormInput = (
 				<List.Item
-					extra={this.state.coupon.label ? this.state.coupon.label : '请选择兑换券'}
+					extra={this.state.coupon.label ? this.state.coupon.label : '请选择优惠券'}
 					arrow="horizontal"
 					onClick={this.showModal}
 				>
-					兑换券
+					优惠券
 				</List.Item>
 			);
 		} else if (this.state.formType === 2) {
@@ -242,6 +242,7 @@ export default class From extends Component<Props, any> {
 		}
 		const imagePicker = !this.state.edit && (
 			<ImagePicker
+				className={styles.imagePicker}
 				selectable={!this.state.files.length}
 				files={this.state.files}
 				length={1}
@@ -278,7 +279,11 @@ export default class From extends Component<Props, any> {
 							{imagePicker}
 							{this.state.edit && <img className={styles.banner} src={this.state.banner} />}
 						</Flex.Item>
-						<Button type="primary" className={styles.submitBtn} onClick={this.handleSubmit}>
+						<Button
+							type="primary"
+							className={!this.state.edit ? styles.submitBtn : styles.stopBtn}
+							onClick={this.handleSubmit}
+						>
 							{!this.state.edit ? '投放' : '暂停'}
 						</Button>
 					</Flex>
