@@ -22,7 +22,7 @@ export default class Success extends Component {
     };
     componentDidMount (){
       // console.log(this.props.location.query.res);
-      let res = JSON.parse(this.props.location.query.res)
+      let res = JSON.parse(sessionStorage.getItem('verification') || '');
       this.setState({
         res
       })
