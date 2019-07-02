@@ -30,11 +30,9 @@ export default class InputCode extends Component {
 				}
 			}).then(res => {
 				if (res.code == 200) {
+          sessionStorage.setItem('verification',JSON.stringify(res.data));
 					router.push({
 						pathname: '/verification/success',
-						query: {
-							res
-						}
 					});
 				} else {
 					Toast.fail(res.message);

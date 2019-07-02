@@ -6,4 +6,8 @@ interface SubmitQua {
   id_hand: any[];
   date: string;
   bank_front: any[];
+  bank_back: any[];
+  license_img: string;
+  legal_id_front_img: string;
+
 }

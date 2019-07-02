@@ -155,7 +155,8 @@ export default connect(({ app }: any) => app)(
 							code: res.youhui_sn
 						}
 					}).then(res => {
-            sessionStorage.setItem('verification',JSON.stringify(res))
+            sessionStorage.setItem('verification',JSON.stringify(res.data));
+
 						router.push({
 							pathname: '/verification/success',
             });
