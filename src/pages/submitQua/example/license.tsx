@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, Button } from 'antd-mobile';
+import router from 'umi/router';
 
-interface Props {
-  onChange: () => any
-}
 
-export default class LicenseExample extends Component<Props> {
+export default class LicenseExample extends Component {
   /**返回 */
   goBack = () => {
-    this.props.onChange()
+    router.push('/submitQua')
   }
   render (){
     return (

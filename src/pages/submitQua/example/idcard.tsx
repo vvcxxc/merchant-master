@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, Button } from 'antd-mobile';
-interface Props {
-  onChange: () => any
-}
+import router from 'umi/router';
 
-export default class IdCardExample extends Component<Props> {
+
+export default class IdCardExample extends Component {
   /**返回 */
   goBack = () => {
-    this.props.onChange()
+    router.push('/submitQua')
   }
   render (){
     return (
