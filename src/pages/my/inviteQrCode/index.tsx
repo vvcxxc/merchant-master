@@ -1,5 +1,5 @@
 /**
- * 店铺邀请二维码
+ * title:店铺邀请二维码
  */
 
 import React, {Component} from 'react';
@@ -8,6 +8,10 @@ import { Flex, WingBlank, Toast } from 'antd-mobile';
 import request from '@/services/request';
 import QRCode from 'qrcode'
 
+declare global {
+  interface Window { from: string; }
+}
+const url = window.from ? window.from : 'http://test.supplierv2.tdianyi.com';
 export default class InviteQrCode extends Component {
   state = {
     url: '',
@@ -26,7 +30,7 @@ export default class InviteQrCode extends Component {
       })
       if(code == 200){
         let phone = data.invite_phone;
-        QRCode.toDataURL('http://test.supplierv2.tdianyi.com/login/register?phone='+phone)
+        QRCode.toDataURL( url+'/login/register?phone='+phone)
         .then((url: any) => {
           this.setState({
             url
@@ -38,24 +42,6 @@ export default class InviteQrCode extends Component {
       }
     })
   }
-
-  // changeCanvasToPic = () => {
-  //   let canvasImg = document.getElementsByTagName('canvas')[0];
-  //   let image = new Image();
-  //   image.src = canvasImg.toDataURL("image/png");
-  //   //将canvas格式图片转换成image
-  //   let alink = document.createElement("img");
-  //   alink.className = 'qrcode';
-  //   alink.id ="qr-img";
-  //   alink.src = image.src;
-  //   alink.download = "ceshi.png";
-  //   let qrImg = document.getElementById('qr-img');
-  //   if(qrImg){
-  //       canvasImg.parentNode.replaceChild(alink,qrCode);
-  //   } else{
-  //       canvasImg.parentNode.insertBefore(alink,canvasImg);
-  //   }
-  // }
 
   render (){
     const { invite_profit, invite_count } = this.state;
