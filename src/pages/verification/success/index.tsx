@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, Icon } from 'antd-mobile';
+import request from '@/services/request';
 
 export default class Success extends Component {
     state = {
@@ -21,11 +22,18 @@ export default class Success extends Component {
       }
     };
     componentDidMount (){
-      // console.log(this.props.location.query.res);
-      let res = JSON.parse(sessionStorage.getItem('verification') || '');
+      // console.log(this.props.location.query.id);
       // console.log(res);
-      this.setState({
-        res
+      request({
+        url: 'api/merchant/youhui/cancel_succeed',
+        method: 'get',
+        params: {
+          youhu_log_id: this.props.location.query.id
+        }
+      }).then(res => {
+        this.setState({
+          res
+        })
       })
     }
 
