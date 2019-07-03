@@ -1,12 +1,13 @@
 /**
- * 店铺邀请二维码
+ * title:店铺邀请二维码
  */
 
 import React, {Component} from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, Toast } from 'antd-mobile';
 import request from '@/services/request';
-import QRCode from 'qrcode'
+import QRCode from 'qrcode';
+
 
 export default class InviteQrCode extends Component {
   state = {

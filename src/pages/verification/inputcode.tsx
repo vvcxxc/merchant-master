@@ -30,11 +30,12 @@ export default class InputCode extends Component {
 				}
 			}).then(res => {
 				if (res.code == 200) {
+
 					router.push({
-						pathname: '/verification/success',
-						query: {
-							res
-						}
+            pathname: '/verification/success',
+            query: {
+              id: res.data.youhu_log_id
+            }
 					});
 				} else {
 					Toast.fail(res.message);
