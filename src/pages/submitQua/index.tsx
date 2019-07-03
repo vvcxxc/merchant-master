@@ -111,44 +111,55 @@ export default connect(({submitQua}: any) => submitQua)(
       if(three_certs_in_one_valid_date[0] == 0){
         three_certs_in_one_valid_date = '长期'
       }
-      if(legal_id_front_img){
-        this.setState({is_id_front: true})
+      if(three_certs_in_one_valid_date[0] == 0){
+        three_certs_in_one_valid_date = '长期'
       }
-      if(legal_id_back_img){
-        this.setState({is_id_back: true})
+      if(
+        (this.props.contact_name || this.props.legal_id_no || this.props.date || this.props.settle_bank_account_name || this.props.settle_bank_account_no || this.props.settle_bank || this.props.three_certs_in_one_no || this.props.corn_bus_name || this.props.legal_name || this.props.three_certs_in_one_valid_date || this.props.bank_name || this.props.legal_id_front_img || this.props.legal_id_back_img || this.props.hand_hold_id_img || this.props.bank_card_front_img || this.props.bank_card_back_img || this.props.three_certs_in_one_img) == true
+        ){
+        return
+      }else{
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            contact_name,
+            legal_id_no,
+            date: legal_id_valid_date,
+            settle_bank_account_name,
+            settle_bank_account_no,
+            settle_bank,
+            three_certs_in_one_no,
+            corn_bus_name,
+            legal_name,
+            three_certs_in_one_valid_date,
+            bank_name,
+            legal_id_front_img: getCaption(legal_id_front_img),
+            legal_id_back_img: getCaption(legal_id_back_img),
+            hand_hold_id_img: getCaption(hand_hold_id_img),
+            bank_card_front_img: getCaption(bank_card_front_img),
+            bank_card_back_img: getCaption(bank_card_back_img),
+            three_certs_in_one_img: getCaption(three_certs_in_one_img)
+          }
+        })
+        if(legal_id_front_img){
+          this.setState({is_id_front: true})
+        }
+        if(legal_id_back_img){
+          this.setState({is_id_back: true})
+        }
+        if(hand_hold_id_img){
+          this.setState({is_id_hand: true})
+        }
+        if(bank_card_front_img){
+          this.setState({is_bank_front: true})
+        }
+        if(bank_card_back_img){
+          this.setState({is_bank_back: true})
+        }
+        if(three_certs_in_one_img){
+          this.setState({is_license: true})
+        }
       }
-      if(hand_hold_id_img){
-        this.setState({is_id_hand: true})
-      }
-      if(bank_card_front_img){
-        this.setState({is_bank_front: true})
-      }
-      if(bank_card_back_img){
-        this.setState({is_bank_back: true})
-      }
-      if(three_certs_in_one_img){
-        this.setState({is_license: true})
-      }
-      this.setState({
-        contact_name,
-        legal_id_no,
-        date: legal_id_valid_date,
-        settle_bank_account_name,
-        settle_bank_account_no,
-        settle_bank,
-        three_certs_in_one_no,
-        corn_bus_name,
-        legal_name,
-        three_certs_in_one_valid_date,
-        bank_name,
-        legal_id_front_img: getCaption(legal_id_front_img),
-        legal_id_back_img: getCaption(legal_id_back_img),
-        hand_hold_id_img: getCaption(hand_hold_id_img),
-        bank_card_front_img: getCaption(bank_card_front_img),
-        bank_card_back_img: getCaption(bank_card_back_img),
-        three_certs_in_one_img: getCaption(three_certs_in_one_img)
-      });
-
     })
 
 
@@ -361,11 +372,6 @@ export default connect(({submitQua}: any) => submitQua)(
             }
             if(id && name){
               Toast.hide();
-              // this.setState({
-              //   contact_name: name,
-              //   legal_id_no: id,
-              //   date
-              // },()=>Toast.hide())
               this.props.dispatch({
                 type: 'submitQua/setQua',
                 payload: {
@@ -689,7 +695,7 @@ export default connect(({submitQua}: any) => submitQua)(
 
   /**保存或者提交 */
   submit = (type: number) => () => {
-    const {legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.state;
+    const {legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.props;
     let data = {
       legal_id_back_img,
       legal_id_front_img,
@@ -733,13 +739,9 @@ export default connect(({submitQua}: any) => submitQua)(
     })
 
   }
-
-
-
-
   render (){
     const idFront = this.state.is_id_front == true ? (
-      <div className={styles.idcard}><img src={"http://oss.tdianyi.com/"+ this.state.legal_id_front_img}/><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
+      <div className={styles.idcard}><img src={"http://oss.tdianyi.com/"+ this.props.legal_id_front_img}/><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
     ) : (
       <ImagePicker
         className={styles.front_img}
@@ -751,7 +753,7 @@ export default connect(({submitQua}: any) => submitQua)(
       />
     );
     const idBack = this.state.is_id_back == true ? (
-      <div className={styles.idcard}><img src={"http://oss.tdianyi.com/"+ this.state.legal_id_back_img}/><div className={styles.close} onClick={this.closeIDBack}>{''}</div></div>
+      <div className={styles.idcard}><img src={"http://oss.tdianyi.com/"+ this.props.legal_id_back_img}/><div className={styles.close} onClick={this.closeIDBack}>{''}</div></div>
     ) : (
       <ImagePicker
         className={styles.back_img}
@@ -763,7 +765,7 @@ export default connect(({submitQua}: any) => submitQua)(
       />
     )
     const idHand = this.state.is_id_hand == true ? (
-      <div className={styles.idcard}><img src={"http://oss.tdianyi.com/"+ this.state.hand_hold_id_img}/><div className={styles.close} onClick={this.closeIDHand}>{''}</div></div>
+      <div className={styles.idcard}><img src={"http://oss.tdianyi.com/"+ this.props.hand_hold_id_img}/><div className={styles.close} onClick={this.closeIDHand}>{''}</div></div>
     ) : (
       <ImagePicker
         className={styles.hand_img}
@@ -775,7 +777,7 @@ export default connect(({submitQua}: any) => submitQua)(
       />
     )
     const bankFront = this.state.is_bank_front == true ? (
-      <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/"+ this.state.bank_card_front_img}/><div className={styles.close} onClick={this.closeBankFront}>{''}</div></div>
+      <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/"+ this.props.bank_card_front_img}/><div className={styles.close} onClick={this.closeBankFront}>{''}</div></div>
     ) : (
       <ImagePicker
         className={styles.bank_front}
@@ -787,7 +789,7 @@ export default connect(({submitQua}: any) => submitQua)(
       />
     )
     const bankBack = this.state.is_bank_back == true ? (
-      <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/"+ this.state.bank_card_back_img}/><div className={styles.close} onClick={this.closeBankBack}>{''}</div></div>
+      <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/"+ this.props.bank_card_back_img}/><div className={styles.close} onClick={this.closeBankBack}>{''}</div></div>
     ) : (
       <ImagePicker
         className={styles.bank_back}
@@ -799,7 +801,7 @@ export default connect(({submitQua}: any) => submitQua)(
       />
     )
     const License = this.state.is_license == true ? (
-      <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/"+ this.state.three_certs_in_one_img}/><div className={styles.close} onClick={this.closeLicense}>{''}</div></div>
+      <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/"+ this.props.three_certs_in_one_img}/><div className={styles.close} onClick={this.closeLicense}>{''}</div></div>
     ) : (
       <ImagePicker
         className={styles.license}
