@@ -14,10 +14,10 @@ export default class BankExample extends Component {
         <WingBlank>
            <Flex className={styles.title}>拍照示例：银行卡正面照</Flex>
            <Flex justify='around'>
-            <img src='http://oss.tdianyi.com/front/ztzWWnGZENDdZbHcxShyR4Ktdr7ccK5R.png'/>
+            <img src='http://oss.tdianyi.com/front/fjzbhAb5Y3BEMGfNdG2kkSDKFz622HKK.png'/>
           </Flex>
           <Flex justify='around'>
-            <img src='http://oss.tdianyi.com/front/D26ecKxsHhsCQk4JG8KRNksjxtWmTfXw.png'/>
+            <img src='http://oss.tdianyi.com/front/2TTyC6e8tAbajt6m4trtnZa4QXHGKTn3.png'/>
           </Flex>
            <Flex className={styles.footer}>请保证银行卡各项信息清晰可见，无遮挡</Flex>
            <Button type="primary" style={{ marginTop: 60 }} className={styles.button} onClick={this.goBack}>

@@ -14,7 +14,7 @@ export default class LicenseExample extends Component {
       <div style={{ width: '100%', background: '#fff' }} className={styles.examplePage}>
         <WingBlank>
            <Flex className={styles.title}>拍照示例：营业执照</Flex>
-           <img src="http://oss.tdianyi.com/front/a7DA2ftyfnzhMGMsTeQ5kJfNc4WRHfwm.png" style={{width: '100%'}}/>
+           <img src="http://oss.tdianyi.com/front/S3P3c3KSKKRNdJCSdNSTQ8GcNeN6aCt8.png" style={{width: '100%'}}/>
            <Flex className={styles.footer}>1、请上传营业执照原件照片 </Flex>
            <Flex className={styles.footer}>2、需文字清晰、完整，露出国徽及印章 </Flex>
            <Flex className={styles.footer}>3、不可使用其他证件替代，包括食品安全证明等 </Flex>

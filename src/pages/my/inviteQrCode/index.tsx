@@ -1,5 +1,5 @@
 /**
- * 店铺邀请二维码
+ * title:店铺邀请二维码
  */
 
 import React, {Component} from 'react';
