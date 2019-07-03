@@ -30,7 +30,7 @@ export default class InviteQrCode extends Component {
       })
       if(code == 200){
         let phone = data.invite_phone;
-        QRCode.toDataURL( url+'/login/register?phone='+phone)
+        QRCode.toDataURL( url+'login/register?phone='+phone)
         .then((url: any) => {
           this.setState({
             url
