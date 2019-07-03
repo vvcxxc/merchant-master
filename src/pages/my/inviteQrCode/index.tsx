@@ -6,7 +6,7 @@ import React, {Component} from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, Toast } from 'antd-mobile';
 import request from '@/services/request';
-import QRCode from 'qrcode'
+import QRCode from 'qrcode';
 
 declare global {
   interface Window { from: string; }
