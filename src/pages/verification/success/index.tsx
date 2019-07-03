@@ -1,8 +1,8 @@
+/**title: 核销成功 */
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, Icon } from 'antd-mobile';
 import request from '@/services/request';
-
 export default class Success extends Component {
     state = {
       is_show: false,
@@ -25,8 +25,6 @@ export default class Success extends Component {
       }
     };
     componentDidMount (){
-      // console.log(this.props.location.query.id);
-      // console.log(res);
       request({
         url: 'api/merchant/youhui/cancel_succeed',
         method: 'get',
@@ -83,7 +81,7 @@ export default class Success extends Component {
                           核销成功
                       </Flex>
                   </Flex>
-                  <Flex justify='around'>
+                  <Flex justify='around' className={styles.infos}>
                       {/* <div> */}
                           <img src={data.user_images} className={styles.user_img}/>
                           <span className={styles.name}>{data.user_name}</span>
