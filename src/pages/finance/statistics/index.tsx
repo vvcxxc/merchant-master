@@ -6,11 +6,10 @@ import { WingBlank, Flex, DatePicker, Toast } from 'antd-mobile';
 import moment from 'moment';
 import Box from './box';
 import request from '@/services/request';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Label } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { buildStyles, CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import PieChart from 'react-minimal-pie-chart';
-import { Chart, Axis, Geom } from 'bizgoblin';
 import router from 'umi/router';
 
 interface Data {
@@ -107,13 +106,15 @@ export default class FinanceStatistis extends Component {
 						</Flex>
 					</DatePicker>
 					<Box title="营业收入走势图">
-						<AreaChart width={1000} height={600} margin={{ left: 20, bottom: 80 }} data={data.business}>
-							<CartesianGrid strokeDasharray="3 3" />
-							<XAxis dataKey="day" padding={{ left: 20, right: 10 }} label={{ position: 'bottom' }} />
-							<YAxis label={{ color: '#ccc' }} />
-							<Tooltip />
-							<Area type="monotone" dataKey="value" stroke="#21418A" strokeWidth={6} fill="#Ff6654" />
-						</AreaChart>
+						<ResponsiveContainer width="100%" aspect={4.0 / 3.0}>
+							<AreaChart margin={{ left: 20, top: 20, bottom: 80, right: 20 }} data={data.business}>
+								<CartesianGrid strokeDasharray="3 3" />
+								<XAxis dataKey="day" padding={{ left: 20, right: 10 }} label={{ position: 'bottom' }} />
+								<YAxis label={{ color: '#ccc' }} />
+								<Tooltip />
+								<Area type="monotone" dataKey="value" stroke="#21418A" strokeWidth={6} fill="#Ff6654" />
+							</AreaChart>
+						</ResponsiveContainer>
 					</Box>
 					<Box title="营业收入" lookMore={true} onClickMore={this.hanldeLookMore('/my/benefit')}>
 						<Flex className="incomeBox">
