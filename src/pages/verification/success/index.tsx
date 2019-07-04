@@ -82,15 +82,15 @@ export default class Success extends Component {
                       </Flex>
                   </Flex>
                   <Flex justify='around' className={styles.infos}>
-                      {/* <div> */}
+                      <div className={styles.user_info}>
                           <img src={data.user_images} className={styles.user_img}/>
                           <span className={styles.name}>{data.user_name}</span>
                           <span className={styles.number}>券码：{data.youhui_sn}</span>
-                      {/* </div> */}
+                      </div>
                   </Flex>
               </div>
               <WingBlank>
-                  <Flex>
+                  <Flex style={{padding: 10}}>
                       <Flex className={styles.coupon}>
                           <Flex className={styles.coupon_left}>
                               <img src={data.coupons_images}/>
@@ -112,7 +112,7 @@ export default class Success extends Component {
                           <div className={styles.gang}>{null}</div>
                           订单信息
                       </Flex>
-                      <Flex className={styles.infos} style={{marginTop: 44, marginBottom: 52}}>
+                      <Flex className={styles.infos} style={{marginTop: 44, marginBottom: 26}}>
                           <div className={styles.title_name}>订单号：</div>
                           {data.channel_order_sn}
                       </Flex>
