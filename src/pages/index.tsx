@@ -155,11 +155,12 @@ export default connect(({ app }: any) => app)(
 							code: res.youhui_sn
 						}
 					}).then(res => {
-            sessionStorage.setItem('verification',JSON.stringify(res))
-						router.push({
-							pathname: '/verification/success',
-
-						});
+            router.push({
+              pathname: '/verification/success',
+              query: {
+                id: res.data.youhu_log_id
+              }
+            })
 					});
 				}
 			});
