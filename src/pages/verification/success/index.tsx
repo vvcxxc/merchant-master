@@ -90,7 +90,7 @@ export default class Success extends Component {
                   </Flex>
               </div>
               <WingBlank>
-                  <Flex justify='around'>
+                  <Flex>
                       <Flex className={styles.coupon}>
                           <Flex className={styles.coupon_left}>
                               <img src={data.coupons_images}/>
