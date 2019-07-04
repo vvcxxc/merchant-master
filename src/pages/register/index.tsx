@@ -1,6 +1,4 @@
-/**
- * title：注册账号
- */
+/** title：注册账号*/
 import React, { Component } from 'react';
 import { Flex, WingBlank, Button, Toast } from 'antd-mobile';
 import styles from './index.less';
@@ -42,10 +40,10 @@ export default class Register extends Component {
      }
      window.localStorage.setItem( 'oss_data' , JSON.stringify(oss_data) );
    });
-   if(this.props.location.query.phone){
+   if(this.props.location.query.invite_phone){
       this.setState({
         is_show: false,
-        inviter_phone: this.props.location.query.phone
+        inviter_phone: this.props.location.query.invite_phone
       })
    }
  }
