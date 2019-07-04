@@ -1,6 +1,4 @@
-/**
- * title：注册账号
- */
+/** title：注册账号*/
 import React, { Component } from 'react';
 import { Flex, WingBlank, Button, Toast } from 'antd-mobile';
 import styles from './index.less';

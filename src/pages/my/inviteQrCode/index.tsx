@@ -7,8 +7,15 @@ import styles from './index.less';
 import { Flex, WingBlank, Toast } from 'antd-mobile';
 import request from '@/services/request';
 import QRCode from 'qrcode';
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 
+declare global {
+  interface Window { from: string; }
+}
+const url = window.from ? window.from : 'http://test.supplierv2.tdianyi.com';
 export default class InviteQrCode extends Component {
   state = {
     url: '',
@@ -27,7 +34,7 @@ export default class InviteQrCode extends Component {
       })
       if(code == 200){
         let phone = data.invite_phone;
-        QRCode.toDataURL('http://test.supplierv2.tdianyi.com/login/register?phone='+phone)
+        QRCode.toDataURL( url+'login/register?phone='+phone)
         .then((url: any) => {
           this.setState({
             url

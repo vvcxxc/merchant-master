@@ -5,14 +5,18 @@ import styles from './index.less';
 import { WingBlank, Flex, InputItem, Button, Toast } from 'antd-mobile';
 import request from '@/services/request';
 import Cookies from 'js-cookie';
-
+declare global {
+  interface Window { open_id: string; pay_url: string;}
+}
+const open_id = window.open_id ? window.open_id : 'test_open_id';
 export default class Rechange extends Component {
-	openId = Cookies.get('test_open_id') || 'oy6pQ0yY_L34r_vcMkCNHJPk-iCk';
+
 	state = { money: 0 };
 	/**input change */
 	handleInputChange = (value: any) => this.setState({ money: parseFloat(value) });
 	/** recahnge submit value */
 	submit = async () => {
+    let openId = Cookies.get(open_id)
 		Toast.loading('充值中');
 		const res = await request({
 			url: 'v3/pay/recharge',
@@ -20,7 +24,7 @@ export default class Rechange extends Component {
 			data: {
 				xcx: 0,
 				rechargeMoney: this.state.money,
-				open_id: this.openId
+				open_id: openId
 			}
 		});
 

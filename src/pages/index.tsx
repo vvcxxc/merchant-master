@@ -155,15 +155,12 @@ export default connect(({ app }: any) => app)(
 							code: res.youhui_sn
 						}
 					}).then(res => {
-
-
-						router.push({
+            router.push({
               pathname: '/verification/success',
               query: {
                 id: res.data.youhu_log_id
               }
-            });
-
+            })
 					});
 				}
 			});
