@@ -1,7 +1,9 @@
 .successPage {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
+    height: auto;
     background: #fff;
+    padding-bottom: 40px;
     .infoBox {
         height: 246px;
         background: #21418A;
@@ -9,36 +11,62 @@
         .success {
             color: #fff;
             font-size: 42px;
-            margin-top: 57px;
+            margin-top: 50px;
             margin-bottom: 40px;
             width: 235px;
             img {
               padding-right: 15px;
+              width: 38px;
             }
+        }
+        .infos {
+          // padding: 0 120px;
+          box-sizing: border-box;
         }
         .user_img {
             width:64px;
             height:64px;
             border-radius: 50%;
+            border: 2px solid #fff;
             margin-right: 36px;
+        }
+        .user_info {
+          width: auto;
+          color: #fff;
+          display: flex;
         }
         .name {
             font-size: 28px;
+            line-height: 64px;
+            max-width: 235px;
             margin-right: 30px;
+            display: inline-block;
+            height: 64px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
         .number {
+            line-height: 64px;
+            display: inline-block;
             font-size: 24px;
+            height: 64px;
         }
     }
 
     .coupon {
-        width: 675px;
+        // width: 675px;
         height: 197px;
         margin-top: 39px;
+        -webkit-box-shadow: #666 0px 0px 10px;
+        -moz-box-shadow: #666 0px 0px 10px;
+        box-shadow: #eee 0px 0px 20px;
+        border-radius:5px;
         .coupon_left {
             width: 236px;
             height: 100%;
             background: #21418A;
+            flex: 1.2;
             img {
                 width: 100%;
                 height: 100%;
@@ -48,7 +76,10 @@
             width: 439px;
             height: 100%;
             padding-left: 38px;
+            flex: 2.5;
             box-sizing: border-box;
+            background: url('./used.png') no-repeat;
+            background-size: 100%;
             div {
                 width: 100%;
                 height: 100%;
@@ -66,12 +97,14 @@
                 margin: 15px 0;
             }
             .youxiao_time {
-                font-size: 28px;
+                font-size: 23px;
                 color: #a3a3a3;
+                margin-top: 39px;
                 margin-bottom: 15px;
             }
             .use_time {
-                font-size: 28px;
+                font-size: 23px;
+                margin-top: 50px;
                 color: #a3a3a3
             }
         }
