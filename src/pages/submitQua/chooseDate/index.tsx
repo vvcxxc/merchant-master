@@ -117,7 +117,7 @@ export default connect(({submitQua}: any) => submitQua)(
       )
 
       return (
-        <div style={{ width: '100%', height: '100%', background: '#fff', position: 'fixed', top: '0', zIndex: '999' }}>
+        <div style={{ width: '100%', height: '100%', background: '#fff',}}>
           <WingBlank>
             <Flex className={styles.title}>有效期</Flex>
             <Flex className={styles.type}>

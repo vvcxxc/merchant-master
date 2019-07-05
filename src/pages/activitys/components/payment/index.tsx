@@ -19,7 +19,7 @@ declare global {
 const pay_url = window.pay_url ? window.pay_url : 'http://test.api.tdianyi.com/payCentre/toSupplierWxPay'
 const open_id = window.open_id ? window.open_id : 'test_open_id';
 export default class PayMent extends Component<Props> {
-  
+
   state = {
     list: {
       money: 0,
@@ -29,6 +29,7 @@ export default class PayMent extends Component<Props> {
     }
   };
   componentDidMount (){
+    // console.log(this.props.type)
     this.setState({
       list: this.props.list
     })
@@ -46,7 +47,7 @@ export default class PayMent extends Component<Props> {
       data: {
         type: '10',
         public_type_id: list.order_sn,
-        number: list.number,
+        number: '1',
         open_id: openId,
         xcx: '0'
       }
