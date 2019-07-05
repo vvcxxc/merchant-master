@@ -155,12 +155,16 @@ export default connect(({ app }: any) => app)(
 							code: res.youhui_sn
 						}
 					}).then(res => {
-            router.push({
-              pathname: '/verification/success',
-              query: {
-                id: res.data.youhu_log_id
-              }
-            })
+            if (res.code == 200) {
+              router.push({
+                pathname: '/verification/success',
+                query: {
+                  id: res.data.youhu_log_id
+                }
+              })
+            } else {
+              Toast.fail(res.message);
+            }
 					});
 				}
 			});
