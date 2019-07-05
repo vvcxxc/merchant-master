@@ -132,7 +132,7 @@ export default class Review extends Component {
   render (){
     const {qua_status, store_status, status, reason, store_reason, qua_reason } = this.state;
     const button = this.state.is_show == true ? (
-      <Button type='primary' style={{marginTop: 152}} onClick={this.submit}>继续入住</Button>
+      <Button type='primary' style={{marginTop: 152}} onClick={this.submit}>继续入驻</Button>
     ) : null;
 
     return (
