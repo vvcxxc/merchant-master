@@ -42,9 +42,9 @@ function randomString(len: any) {
 
 function oss(options: Options, files: any): Promise<any> {
 	const imgUrl = files;
-	const length = 4194304;
+	const length = 14680064;
 	if (imgUrl.length > length) {
-		Toast.fail('上传失败，请上传小于4M的图片');
+		Toast.fail('上传失败，请上传小于10M的图片');
 		return new Promise(() => {});
 	} else {
 		const block = imgUrl.split(';');
