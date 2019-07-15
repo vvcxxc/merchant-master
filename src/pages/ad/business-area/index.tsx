@@ -31,7 +31,7 @@ export default class BusinessArea extends Component {
 	setLog = async () => {
     const res = await request({ url: 'v3/ad_logs' });
 		if (res.code === 200) {
-      if(res.data){
+      if(res.data.data){
         this.setState({ log: res.data.data });
       }else{
         this.setState({ log: [] })
