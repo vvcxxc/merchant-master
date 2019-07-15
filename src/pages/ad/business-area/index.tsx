@@ -17,7 +17,7 @@ export default class BusinessArea extends Component {
 		this.getDetail();
 	}
 	getDetail = async () => {
-		Toast.loading('');
+    Toast.loading('');
 		const res = await request({ url: 'v3/ads/by_type', params: { ad_type: 2, position_id: 4 } });
 		Toast.hide();
 		/**判断当前是否有广告 */
@@ -29,9 +29,13 @@ export default class BusinessArea extends Component {
 		}
 	};
 	setLog = async () => {
-		const res = await request({ url: 'v3/ad_logs' });
+    const res = await request({ url: 'v3/ad_logs' });
 		if (res.code === 200) {
-			this.setState({ log: res.data.data });
+      if(res.data){
+        this.setState({ log: res.data.data });
+      }else{
+        this.setState({ log: [] })
+      }
 		}
 	};
 	handleFormChange = () => this.getDetail();
