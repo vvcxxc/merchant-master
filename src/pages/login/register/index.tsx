@@ -202,7 +202,7 @@ export default class Register extends Component {
           </Button>
         </WingBlank>
         <Flex.Item className={styles.footer}>
-        点击“注册”即同意<span style={{ color: '#21418A' }}>《团卖物联服务及隐私条款》</span>
+        点击“注册”即同意<span style={{ color: '#21418A' }}>《小熊敬礼服务及隐私条款》</span>
         </Flex.Item>
       </WingBlank>
       </div>

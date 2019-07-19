@@ -16,7 +16,7 @@ const config: IConfig = {
         antd: true,
         dva: true,
         dynamicImport: { webpackChunkName: true },
-        title: '团卖物联',
+        title: '小熊敬礼',
         dll: false,
         routes: {
           exclude: [
