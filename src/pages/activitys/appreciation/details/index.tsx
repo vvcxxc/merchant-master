@@ -132,7 +132,7 @@ export default class GroupDetails extends Component {
               活动名称
               <span>{types}</span>
             </div>
-            <img src={require('./share.png')}/>
+            {/* <img src={require('./share.png')}/> */}
           </Flex>
 
           {/* 基本信息 */}
