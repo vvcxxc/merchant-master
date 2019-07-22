@@ -3,8 +3,8 @@
 	"scripts": {
 		"start": "umi dev",
 		"build": "UMI_ENV=master umi build",
-    "release": "UMI_ENV=release umi build",
-    "testing": "UMI_ENV=test umi build",
+		"release": "UMI_ENV=release umi build",
+		"testing": "UMI_ENV=test umi build",
 		"test": "umi test",
 		"lint:es": "eslint --ext .js src mock tests",
 		"lint:ts": "tslint \"src/**/*.ts\" \"src/**/*.tsx\"",
@@ -59,8 +59,14 @@
 		"umi-types": "^0.2.0"
 	},
 	"lint-staged": {
-		"*.{ts,tsx}": [ "tslint --fix", "git add" ],
-		"*.{js,jsx}": [ "eslint --fix", "git add" ]
+		"*.{ts,tsx}": [
+			"tslint --fix",
+			"git add"
+		],
+		"*.{js,jsx}": [
+			"eslint --fix",
+			"git add"
+		]
 	},
 	"engines": {
 		"node": ">=8.0.0"

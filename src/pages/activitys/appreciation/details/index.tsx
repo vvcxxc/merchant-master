@@ -3,6 +3,8 @@ import { Flex, WingBlank, Button, Toast, Modal } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router';
+import wx from "weixin-js-sdk";
+import Success from '@/pages/verification/success';
 const alert = Modal.alert;
 export default class GroupDetails extends Component {
   state = {
@@ -82,6 +84,54 @@ export default class GroupDetails extends Component {
     })
   }
 
+  shareClick = () => {
+
+    let userAgent = navigator.userAgent;
+    let isIos = userAgent.indexOf('iPhone') > -1;
+    let url: any;
+    if (isIos) {
+      url = sessionStorage.getItem('url');
+    } else {
+      url = location.href;
+    }
+    request({
+      url: 'wechat/getShareSign',
+      method: 'get',
+      params: {
+        url
+      }
+    }).then(res => {
+
+      let _this = this;
+      wx.config({
+        debug: false,
+        appId: res.appId,
+        timestamp: res.timestamp,
+        nonceStr: res.nonceStr,
+        signature: res.signature,
+        jsApiList: [
+          "updateAppMessageShareData"
+        ]
+      });
+     
+      wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+        wx.updateAppMessageShareData({
+          title: '34343', // 分享标题
+          desc: '4343434', // 分享描述
+          link: 'http://test.supplierv2.tdianyi.com',//分享链接该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: '', // 分享图标
+          success: function () {
+            // 设置成功
+
+          }
+        })
+      });
+
+
+    })
+  }
+
+
   render (){
     const { info, is_gift, types } = this.state;
     const description = info.appreciation_coupons_info.description.map((item,idx) => <p key={idx}>· {item}</p>);
@@ -132,7 +182,7 @@ export default class GroupDetails extends Component {
               活动名称
               <span>{types}</span>
             </div>
-            <img src={require('./share.png')}/>
+              <img src={require('./share.png')}  onClick={this.shareClick}/>
           </Flex>
 
           {/* 基本信息 */}
