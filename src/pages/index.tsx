@@ -1,4 +1,4 @@
-/**title: 团卖物联 */
+/**title: 小熊敬礼 */
 
 import React, { Component } from 'react';
 import styles from './index.less';
@@ -155,12 +155,16 @@ export default connect(({ app }: any) => app)(
 							code: res.youhui_sn
 						}
 					}).then(res => {
-            router.push({
-              pathname: '/verification/success',
-              query: {
-                id: res.data.youhu_log_id
-              }
-            })
+            if (res.code == 200) {
+              router.push({
+                pathname: '/verification/success',
+                query: {
+                  id: res.data.youhu_log_id
+                }
+              })
+            } else {
+              Toast.fail(res.message);
+            }
 					});
 				}
 			});
@@ -212,7 +216,7 @@ export default connect(({ app }: any) => app)(
 				) : null;
 			return (
 				<div className={styles.page}>
-					{/* <NavBar mode="light">团卖物联</NavBar> */}
+					{/* <NavBar mode="light">小熊敬礼</NavBar> */}
 					{/* 数字信息 */}
 					{title}
 					<div className={styles.numberInfo}>

@@ -375,7 +375,9 @@ export default class createGroup extends Component {
                 {Gift}
               </div>
             </div>
-            <Flex className={styles.read}><img src={require('./image/tip.png')}/>创建必读</Flex>
+            <Flex className={styles.read}>
+              {/* <img src={require('./image/tip.png')}/>创建必读 */}
+            </Flex>
           </WingBlank>
           <Flex>
             <div className={styles.button} onClick={this.confirm}>确认发布</div>

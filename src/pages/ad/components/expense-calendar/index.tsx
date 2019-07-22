@@ -7,13 +7,13 @@ interface Props {
 
 export default class ExpenseCalendar extends Component<Props> {
 	render() {
-		const tableItems = this.props.log.map(_ => (
+		const tableItems = this.props.log ? this.props.log.map(_ => (
 			<Flex className={styles.tableItem} key={_.create_time}>
 				<Flex.Item>{_.create_time}</Flex.Item>
 				<span>{_.info}</span>
 				<Flex.Item>{_.money}</Flex.Item>
 			</Flex>
-		));
+		)) : null;
 		{
 			/* <Flex className={styles.totalExpense} justify="end">
 					总消耗：1.4

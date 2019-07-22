@@ -55,7 +55,7 @@ export default function Coupon(props: Props) {
 					<div className="labels">{tags}</div>
 				</Flex.Item>
 			</Flex>
-			{props.pageStatus === 0 && bottom}
+			{/* {props.pageStatus === 0 && bottom} */}
 		</div>
 	);
 }

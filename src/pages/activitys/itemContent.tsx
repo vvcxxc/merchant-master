@@ -13,7 +13,7 @@ export function ItemContent({ title = '', subTitle = '' }: any) {
           <img src={require('./images/right.png')} alt="" />
         </Flex>
       </Flex.Item>
-      <div className="btn">创建必读</div>
+      {/* <div className="btn">创建必读</div> */}
     </Flex>
   );
 }

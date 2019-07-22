@@ -31,10 +31,10 @@ export default function GroupItem({
 					<span>成功拼团{user_count}</span>
 				</div>
 			</Flex.Item>
-			<Flex className="btn" justify="center">
-				<img src={require('./icon.png')} />
-				分享
-			</Flex>
+			{/* <Flex className="btn" justify="center"> */}
+				{/* <img src={require('./icon.png')} /> */}
+				{/* 分享 */}
+			{/* </Flex> */}
 		</Flex>
 	);
 }

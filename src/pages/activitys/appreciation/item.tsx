@@ -35,10 +35,10 @@ export default function GroupItem(props: Item) {
 					<span>最高可增值{props.return_money}</span>
 				</div>
 			</Flex.Item>
-			<Flex className="btn" justify="center">
-				<img src={require('./icon.png')} />
-				分享
-			</Flex>
+			{/* <Flex className="btn" justify="center"> */}
+				{/* <img src={require('./icon.png')} /> */}
+				{/* 分享 */}
+			{/* </Flex> */}
 		</Flex>
 	);
 }

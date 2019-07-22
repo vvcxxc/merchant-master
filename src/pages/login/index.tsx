@@ -1,4 +1,4 @@
-/**title: 团卖物联 */
+/**title: 小熊敬礼 */
 import React, { Component } from 'react';
 import { Flex, WingBlank, Button, Toast, InputItem } from 'antd-mobile';
 import styles from './index.less';
