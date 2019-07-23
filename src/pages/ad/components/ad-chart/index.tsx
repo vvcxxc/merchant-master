@@ -1,6 +1,7 @@
 // data-set 可以按需引入，除此之外不要引入别的包
 import React from 'react';
 import { Chart, Axis, Geom, Tooltip, Legend } from 'bizgoblin';
+import request from '@/services/request';
 
 // 下面的代码会被作为 cdn script 注入 注释勿删
 // CDN START
@@ -335,6 +336,17 @@ function onHideTooltip(
 }
 
 export default class AdChart extends React.Component {
+	
+	componentDidMount() {
+		this.getAdData()
+	}
+
+	getAdData = async () => {
+		// console.log(this.props.adId)
+		const res = await request({ url: 'v3/ads/stat', params: { ad_id: this.props.adId, nearest: 7 } });
+		console.log(res)
+	}
+
 	render() {
 		return (
 			<Chart width="100%" data={data} defs={defs}>

@@ -15,45 +15,58 @@ export default class WithDrawList extends Component {
   };
 
   componentDidMount (){
+    this.getData()
+  }
+
+  getData = () => {
     request({
       url: 'api/merchant/staff/withdrawLogList',
       method: 'get',
-      data: {
-        page: 1
+      params: {
+        page: this.state.page
       }
     }).then(res =>{
       let { data, total, withdraw_sum } = res;
       this.setState({
-        list: data,
+        list: this.state.list.concat(data),
         total,
-        withdraw_sum
+        withdraw_sum,
+        hasMore : res.data.length != 0 ? true : false
       });
     });
   }
 
-  more = () => {
-    let { total } = this.state;
-    let sum = Math.ceil(total/12);
-    if(this.state.page <= sum){
-      request({
-        url: 'api/merchant/staff/withdrawLogList',
-        method: 'get',
-        data: {
-          page: 2
-        }
-      }).then(res =>{
-        let { data, total } = res;
-        this.setState({
-          list: this.state.list.concat(data),
-          total,
-        });
-      },function(){
-        // console.log(this.state.list)
-      });
-    }else{
-      this.setState({hasMore: false})
-    }
+  // more = () => {
+  //   let { total } = this.state;
+  //   let sum = Math.ceil(total/12);
+  //   if(this.state.page <= sum){
+  //     request({
+  //       url: 'api/merchant/staff/withdrawLogList',
+  //       method: 'get',
+  //       data: {
+  //         page: 2
+  //       }
+  //     }).then(res =>{
+  //       let { data, total } = res;
+  //       this.setState({
+  //         list: this.state.list.concat(data),
+  //         total,
+  //       });
+  //     },function(){
+  //       // console.log(this.state.list)
+  //     });
+  //   }else{
+  //     this.setState({hasMore: false})
+  //   }
 
+  // }
+
+  handleLoadMore = () => {
+    this.setState({
+      page : this.state.page + 1
+    },() => {
+      this.getData()
+    })
   }
 
 
@@ -76,11 +89,12 @@ export default class WithDrawList extends Component {
 
 
     return (
-      <div className={styles.list_page}>
+      <div className={styles.list_page} >
         <WingBlank>
           <Flex className={styles.title}>提现总金额：<span>￥{this.state.withdraw_sum}</span></Flex>
         </WingBlank>
         {item}
+        <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
       </div>
     )
   }
