@@ -113,7 +113,19 @@ export default connect(({ finance }: any) => finance)(
       /**页面数据列表 */
       const financeList = this.props.data.length ? (
         this.props.data.map(_ => (
-          <Flex key={_.id} className={styles.financeItem}>
+          <Flex key={_.id} className={styles.financeItem} onClick={
+
+            () => {
+              console.log(_);
+              switch (_.type) {
+                case 3: this.pushPage('/finance/financeDetail/offlineDeal'); break;
+                case 5: this.pushPage('/finance/financeDetail/tariffRebates'); break;
+                case 6: this.pushPage('/finance/financeDetail/advertisingRevenue'); break;
+                case 13: this.pushPage('/finance/financeDetail/tariffRebates'); break;
+                default: return
+              }
+            }
+          }>
             <img src={_.small_icon} alt="" />
             <Flex.Item className="content">
               <div className="ordernum">{_.msg}</div>
