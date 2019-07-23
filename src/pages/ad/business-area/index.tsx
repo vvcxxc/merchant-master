@@ -11,7 +11,7 @@ import { Toast } from 'antd-mobile';
 export default class BusinessArea extends Component {
 	state = {
 		data: {},
-		log: [],
+		log: {},
 		adId : null // 广告ID 
 	};
 	componentDidMount() {

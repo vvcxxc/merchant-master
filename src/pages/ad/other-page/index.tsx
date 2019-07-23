@@ -11,7 +11,7 @@ import { Toast } from 'antd-mobile';
 export default class BusinessArea extends Component<any> {
 	state = {
 		data: {},
-		log: [],
+		log: {},
 		position: 0
 	};
 	componentDidMount() {
@@ -44,7 +44,7 @@ export default class BusinessArea extends Component<any> {
 	setLog = async () => {
 		const res = await request({ url: 'v3/ad_logs' });
 		if (res.code === 200) {
-			this.setState({ log: res.data.data });
+			this.setState({ log: res.data });
 		}
 	};
 
