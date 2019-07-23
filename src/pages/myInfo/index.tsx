@@ -63,14 +63,14 @@ export default class MyInfo extends Component {
       <div style={{width: '100%', height: '100%', background: '#f8f8f8'}}>
         <List style={{marginTop:'22px'}}>
           <WingBlank>
-            <Item extra="修改" arrow="horizontal" onClick={this.toChangePassword} style={{height: '165px'}}>修改账户密码</Item>
-            <Item extra={account_mobile} arrow="horizontal" onClick={this.toChangePhone} style={{height: '165px'}}>换绑手机</Item>
+            <Item extra="修改" arrow="horizontal" onClick={this.toChangePassword} style={{height: '1rem'}}>修改账户密码</Item>
+            <Item extra={account_mobile} arrow="horizontal" onClick={this.toChangePhone} style={{height: '1rem'}}>换绑手机</Item>
           </WingBlank>
         </List>
 
         <List style={{marginTop:'22px'}}>
           <WingBlank>
-            <Item arrow="horizontal" onClick={this.toStoreInfo} style={{height: '165px'}}>我的店铺</Item>
+            <Item arrow="horizontal" onClick={this.toStoreInfo} style={{height: '1rem'}}>我的店铺</Item>
           </WingBlank>
         </List>
 

@@ -7,13 +7,13 @@ import { WingBlank, Flex, ImagePicker, List, InputItem, Icon, Toast } from 'antd
 import router from 'umi/router';
 import upload from '@/services/oss';
 import request from '@/services/request';
-import ChooseDate from './couponents/chooseDate/chooseDate';
 import moment from 'moment';
-import IdCardExample from './example/idcard'
-import BankExample from './example/bank'
-import LicenseExample from './example/license'
+import { connect } from 'dva';
+import Axios from 'axios';
 
-export default class submitQua extends Component {
+export default connect(({submitQua}: any) => submitQua)(
+
+  class submitQua extends Component<any> {
   state = {
     /**身份证反面照 */
     id_back: [],
@@ -85,6 +85,23 @@ export default class submitQua extends Component {
     function getCaption(str: string){
       return str.split('http://oss.tdianyi.com/')[1]
     }
+    // 暂时
+    Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
+      let { data } = res.data;
+				let oss_data = {
+					policy: data.policy,
+					OSSAccessKeyId: data.accessid,
+					success_action_status: 200, //让服务端返回200,不然，默认会返回204
+					signature: data.signature,
+					callback: data.callback,
+					host: data.host,
+					key: data.dir
+				};
+
+				window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
+    })
+
+
     request({
       url: 'v3/payment_profiles',
       method: 'get'
@@ -94,44 +111,57 @@ export default class submitQua extends Component {
       if(three_certs_in_one_valid_date[0] == 0){
         three_certs_in_one_valid_date = '长期'
       }
-      if(legal_id_front_img){
-        this.setState({is_id_front: true})
+      if(three_certs_in_one_valid_date[0] == 0){
+        three_certs_in_one_valid_date = '长期'
       }
-      if(legal_id_back_img){
-        this.setState({is_id_back: true})
+      // console.log(this.props)
+      if(
+        (this.props.contact_name || this.props.legal_id_no || this.props.date || this.props.settle_bank_account_name || this.props.settle_bank_account_no || this.props.settle_bank || this.props.three_certs_in_one_no || this.props.corn_bus_name || this.props.legal_name || this.props.three_certs_in_one_valid_date || this.props.bank_name || this.props.legal_id_front_img || this.props.legal_id_back_img || this.props.hand_hold_id_img || this.props.bank_card_front_img || this.props.bank_card_back_img || this.props.three_certs_in_one_img) != []
+        ){
+          // console.log( [] != [])
+        return
+      }else{
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            contact_name,
+            legal_id_no,
+            date: legal_id_valid_date,
+            settle_bank_account_name,
+            settle_bank_account_no,
+            settle_bank,
+            three_certs_in_one_no,
+            corn_bus_name,
+            legal_name,
+            three_certs_in_one_valid_date,
+            bank_name,
+            legal_id_front_img: getCaption(legal_id_front_img),
+            legal_id_back_img: getCaption(legal_id_back_img),
+            hand_hold_id_img: getCaption(hand_hold_id_img),
+            bank_card_front_img: getCaption(bank_card_front_img),
+            bank_card_back_img: getCaption(bank_card_back_img),
+            three_certs_in_one_img: getCaption(three_certs_in_one_img)
+          }
+        })
+        if(legal_id_front_img){
+          this.setState({is_id_front: true})
+        }
+        if(legal_id_back_img){
+          this.setState({is_id_back: true})
+        }
+        if(hand_hold_id_img){
+          this.setState({is_id_hand: true})
+        }
+        if(bank_card_front_img){
+          this.setState({is_bank_front: true})
+        }
+        if(bank_card_back_img){
+          this.setState({is_bank_back: true})
+        }
+        if(three_certs_in_one_img){
+          this.setState({is_license: true})
+        }
       }
-      if(hand_hold_id_img){
-        this.setState({is_id_hand: true})
-      }
-      if(bank_card_front_img){
-        this.setState({is_bank_front: true})
-      }
-      if(bank_card_back_img){
-        this.setState({is_bank_back: true})
-      }
-      if(three_certs_in_one_img){
-        this.setState({is_license: true})
-      }
-      this.setState({
-        contact_name,
-        legal_id_no,
-        date: legal_id_valid_date,
-        settle_bank_account_name,
-        settle_bank_account_no,
-        settle_bank,
-        three_certs_in_one_no,
-        corn_bus_name,
-        legal_name,
-        three_certs_in_one_valid_date,
-        bank_name,
-        legal_id_front_img: getCaption(legal_id_front_img),
-        legal_id_back_img: getCaption(legal_id_back_img),
-        hand_hold_id_img: getCaption(hand_hold_id_img),
-        bank_card_front_img: getCaption(bank_card_front_img),
-        bank_card_back_img: getCaption(bank_card_back_img),
-        three_certs_in_one_img: getCaption(three_certs_in_one_img)
-      });
-
     })
 
 
@@ -143,79 +173,121 @@ export default class submitQua extends Component {
 
   /**查看身份证示例 */
   toIdCardExample = () => {
-    this.setState({is_id_example: true, display: 'none'})
+    router.push('/submitQua/example/idcard')
   }
   /**查看银行卡示例 */
   toBankExample = () => {
-    this.setState({is_bank_example: true, display: 'none'})
+    router.push('/submitQua/example/bank')
   }
   /**查看营业执照示例 */
   toLicenseExample = () => {
-    this.setState({is_license_example: true, display: 'none'})
-  }
-  /**关闭示例 */
-  closeExample = () => {
-
-    this.setState({is_bank_example: false, is_id_example: false, is_license_example: false, display: 'block'})
+    router.push('/submitQua/example/license')
   }
 
 
   /**姓名输入 */
   handleName = (e : any) => {
-    this.setState({
-      contact_name: e
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        contact_name: e
+      }
     })
   }
   /**身份证号输入 */
   handleID = (e : any) => {
-    this.setState({
-      legal_id_no: e
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        legal_id_no: e
+      }
     })
   }
   /**开户人 */
   handleBankAccountName = (e : any) => {
-    this.setState({
-      settle_bank_account_name: e
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        settle_bank_account_name: e
+      }
     })
   }
   /**银行卡号 */
   handleBankNum = (e: any) => {
-    this.setState({settle_bank_account_no: e})
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        settle_bank_account_no: e
+      }
+    })
   }
   /**开户银行 */
   handleSettleBank = (e: any) => {
-    this.setState({settle_bank: e})
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        settle_bank: e
+      }
+    })
   }
   /**支行 */
   handleBankName = (e: any) => {
-    this.setState({bank_name: e})
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        bank_name: e
+      }
+    })
   }
   /**注册号 */
   handleLicenseNUm = (e: any) => {
-    this.setState({three_certs_in_one_no: e})
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        three_certs_in_one_no: e
+      }
+    })
   }
   /**执照名称 */
   handleLicenseName = (e: any) => {
-    this.setState({corn_bus_name: e})
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        corn_bus_name: e
+      }
+    })
   }
   /**法人名称 */
   handleLegalName = (e: any) => {
-    this.setState({legal_name: e})
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        legal_name: e
+      }
+    })
   }
 
 
 
   /**身份证正面照选择 */
   changeIdFront = ( files: any ) => {
-    this.setState({
-      id_front: files,
-    });
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        id_front: files
+      }
+    })
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
         let legal_id_front_img = res.data.path;
-        this.setState({legal_id_front_img});
-        const {legal_id_back_img, hand_hold_id_img} = this.state;
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            legal_id_front_img: res.data.path
+          }
+        })
+        const {legal_id_back_img, hand_hold_id_img} = this.props;
         if(legal_id_back_img&&legal_id_front_img&&hand_hold_id_img){
           Toast.loading('识别中',0)
           request({
@@ -235,11 +307,15 @@ export default class submitQua extends Component {
               date = moment(date).format("YYYY-MM-DD")
             }
             if(id && name){
-              this.setState({
-                contact_name: name,
-                legal_id_no: id,
-                date
-              },()=>Toast.hide())
+              Toast.hide();
+              this.props.dispatch({
+                type: 'submitQua/setQua',
+                payload: {
+                  contact_name: name,
+                  legal_id_no: id,
+                  date
+                }
+              })
 
             }else{
               Toast.fail('识别失败', 1);
@@ -251,19 +327,32 @@ export default class submitQua extends Component {
         }
       });
     }else {
-      this.setState({legal_id_front_img: ''})
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          legal_id_front_img: ''
+        }
+      })
     }
   }
   /**身份证反面选择 */
   changeIdBack = ( files: any ) => {
-    this.setState({
-      id_back: files,
-    });
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        id_back: files
+      }
+    })
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
         let legal_id_back_img = res.data.path;
-        this.setState({legal_id_back_img});
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            legal_id_back_img
+          }
+        })
         const {legal_id_front_img, hand_hold_id_img} = this.state;
         if(legal_id_back_img&&legal_id_front_img&&hand_hold_id_img){
           Toast.loading('识别中',0)
@@ -284,11 +373,16 @@ export default class submitQua extends Component {
               date = moment(date).format("YYYY-MM-DD")
             }
             if(id && name){
-              this.setState({
-                contact_name: name,
-                legal_id_no: id,
-                date
-              },()=>Toast.hide())
+              Toast.hide();
+              this.props.dispatch({
+                type: 'submitQua/setQua',
+                payload: {
+                  contact_name: name,
+                  legal_id_no: id,
+                  date
+                }
+              })
+
 
             }else{
               Toast.fail('识别失败', 1);
@@ -299,19 +393,32 @@ export default class submitQua extends Component {
         }
       });
     }else {
-      this.setState({legal_id_back_img: ''})
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          legal_id_back_img: ''
+        }
+      })
     }
   }
   /**手持身份证照选择 */
   changeIdHand = ( files: any ) => {
-    this.setState({
-      id_hand: files,
-    });
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        id_hand: files
+      }
+    })
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
         let hand_hold_id_img = res.data.path;
-        this.setState({hand_hold_id_img});
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            hand_hold_id_img
+          }
+        })
         const {legal_id_front_img, legal_id_back_img} = this.state;
         if(legal_id_back_img&&legal_id_front_img&&hand_hold_id_img){
           Toast.loading('识别中',0)
@@ -331,11 +438,15 @@ export default class submitQua extends Component {
               date = moment(date).format("YYYY-MM-DD")
             }
             if(id && name){
-              this.setState({
-                contact_name: name,
-                legal_id_no: id,
-                date
-              },()=>Toast.hide())
+              Toast.hide();
+              this.props.dispatch({
+                type: 'submitQua/setQua',
+                payload: {
+                  contact_name: name,
+                  legal_id_no: id,
+                  date
+                }
+              })
 
             }else{
               Toast.fail('识别失败', 1);
@@ -346,19 +457,32 @@ export default class submitQua extends Component {
         }
       });
     }else {
-      this.setState({hand_hold_id_img: ''})
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          hand_hold_id_img: '',
+        }
+      })
     }
   }
   /**银行卡正面选择 */
   changeBankFront = ( files: any ) => {
-    this.setState({
-      bank_front: files,
-    });
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        bank_front: files
+      }
+    })
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
         let bank_card_front_img = res.data.path;
-        this.setState({bank_card_front_img});
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            bank_card_front_img
+          }
+        })
         const { bank_card_back_img } = this.state;
         if(bank_card_back_img&&bank_card_front_img){
           Toast.loading('识别中',0)
@@ -375,11 +499,14 @@ export default class submitQua extends Component {
 
               let str = data.bank_card_number;
               str = str.replace(/\s*/g,"");
-              this.setState({
-                settle_bank_account_no: str,
-                settle_bank: data.bank_name
-              },()=>Toast.hide())
-
+              Toast.hide();
+              this.props.dispatch({
+                type: 'submitQua/setQua',
+                payload: {
+                  settle_bank_account_no: str,
+                  settle_bank: data.bank_name
+                }
+              })
             }else{
               Toast.fail('识别失败', 1);
             }
@@ -390,19 +517,32 @@ export default class submitQua extends Component {
 
       });
     }else {
-      this.setState({bank_card_front_img: ''})
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          bank_card_front_img: ''
+        }
+      })
     }
   }
   /**银行卡反面选择 */
   changeBankBack = ( files: any ) => {
-    this.setState({
-      bank_back: files,
-    });
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        bank_back: files
+      }
+    })
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
         let bank_card_back_img = res.data.path;
-        this.setState({bank_card_back_img});
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            bank_card_back_img
+          }
+        })
         const { bank_card_front_img } = this.state;
         if(bank_card_back_img&&bank_card_front_img){
           Toast.loading('识别中',0)
@@ -418,10 +558,14 @@ export default class submitQua extends Component {
 
               let str = data.bank_card_number;
               str = str.replace(/\s*/g,"");
-              this.setState({
-                settle_bank_account_no: str,
-                settle_bank: data.bank_name
-              },()=>Toast.hide())
+              Toast.hide();
+              this.props.dispatch({
+                type: 'submitQua/setQua',
+                payload: {
+                  settle_bank_account_no: str,
+                  settle_bank: data.bank_name
+                }
+              })
 
             }else{
               Toast.fail('识别失败', 1);
@@ -432,19 +576,32 @@ export default class submitQua extends Component {
         }
       });
     }else {
-      this.setState({bank_card_back_img: ''})
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          bank_card_back_img: ''
+        }
+      })
     }
   }
   /**营业执照选择 */
   changeLicense = ( files: any ) => {
-    this.setState({
-      license_img: files,
-    });
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        license_img: files
+      }
+    })
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
         let three_certs_in_one_img = res.data.path;
-        this.setState({three_certs_in_one_img});
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            three_certs_in_one_img
+          }
+        })
         Toast.loading('识别中',0)
         request({
           url: 'v3/business_license',
@@ -459,45 +616,46 @@ export default class submitQua extends Component {
           let three_certs_in_one_no = data['社会信用代码'].words;
           let legal_name = data['法人'].words;
           let three_certs_in_one_valid_date = data['有效期'].words;
-          this.setState({
-            corn_bus_name,
-            three_certs_in_one_no,
-            legal_name,
-            three_certs_in_one_valid_date
-          },()=>Toast.hide())
+          Toast.hide();
+          this.props.dispatch({
+            type: 'submitQua/setQua',
+            payload: {
+              corn_bus_name,
+              three_certs_in_one_no,
+              legal_name,
+              three_certs_in_one_valid_date
+            }
+          })
 
         }).catch(err => {
           Toast.fail('识别失败',1)
         })
       });
     }else {
-      this.setState({three_certs_in_one_img: ''})
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          three_certs_in_one_img: ''
+        }
+      })
     }
   }
 
 
   /**选择有效期 */
-  chooseDate = (type: number, date: string) => () => {
-    this.setState({
-      type,
-      is_show: true,
-      choose_date: date
+  chooseDate = (type: number) => () => {
+    // this.setState({
+    //   type,
+    //   is_show: true,
+    //   choose_date: date
+    // })
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        type
+      }
     })
-  }
-
-  /**选择日期的回调 */
-  timeChange = (type: number, date: string) => {
-    if(type == 1){
-      this.setState({
-        date,
-        is_show: false
-      })
-    }else{
-      this.setState({
-        three_certs_in_one_valid_date: date,
-        is_show: false
-      })
-    }
+    router.push('/submitQua/chooseDate')
   }
   /**初始化渲染图片的时候取消选择图片 */
   closeIDFront = () => {
@@ -539,7 +697,7 @@ export default class submitQua extends Component {
 
   /**保存或者提交 */
   submit = (type: number) => () => {
-    const {legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.state;
+    const {legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.props;
     let data = {
       legal_id_back_img,
       legal_id_front_img,
@@ -583,102 +741,88 @@ export default class submitQua extends Component {
     })
 
   }
-
-
-
-
   render (){
-    const { id_hand, id_back, id_front, bank_front, bank_back, license_img, date, three_certs_in_one_valid_date, is_bank_example, is_id_example, is_license_example, display } = this.state;
-    const idExample = is_id_example == true ? (
-      <IdCardExample onChange={this.closeExample}/>
-    ) : null;
-    const bankExample = is_bank_example == true ? (
-      <BankExample onChange={this.closeExample}/>
-    ) : null;
-    const licenseExample = is_license_example == true ? (
-      <LicenseExample onChange={this.closeExample}/>
-    ) : null;
     const idFront = this.state.is_id_front == true ? (
-      <div className={styles.idcard}><img src={"http://oss.tdianyi.com/"+ this.state.legal_id_front_img}/><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
+      <div className={styles.idcard}><img src={"http://oss.tdianyi.com/"+ this.props.legal_id_front_img}/><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
     ) : (
       <ImagePicker
         className={styles.front_img}
-        files={id_front}
+        files={this.props.id_front}
         multiple={false}
         length={1}
-        selectable={id_front.length < 1}
+        selectable={this.props.id_front.length < 1}
         onChange={this.changeIdFront}
       />
     );
     const idBack = this.state.is_id_back == true ? (
-      <div className={styles.idcard}><img src={"http://oss.tdianyi.com/"+ this.state.legal_id_back_img}/><div className={styles.close} onClick={this.closeIDBack}>{''}</div></div>
+      <div className={styles.idcard}><img src={"http://oss.tdianyi.com/"+ this.props.legal_id_back_img}/><div className={styles.close} onClick={this.closeIDBack}>{''}</div></div>
     ) : (
       <ImagePicker
         className={styles.back_img}
-        files={id_back}
+        files={this.props.id_back}
         multiple={false}
         length={1}
-        selectable={id_back.length < 1}
+        selectable={this.props.id_back.length < 1}
         onChange={this.changeIdBack}
       />
     )
     const idHand = this.state.is_id_hand == true ? (
-      <div className={styles.idcard}><img src={"http://oss.tdianyi.com/"+ this.state.hand_hold_id_img}/><div className={styles.close} onClick={this.closeIDHand}>{''}</div></div>
+      <div className={styles.idcard}><img src={"http://oss.tdianyi.com/"+ this.props.hand_hold_id_img}/><div className={styles.close} onClick={this.closeIDHand}>{''}</div></div>
     ) : (
       <ImagePicker
         className={styles.hand_img}
-        files={id_hand}
+        files={this.props.id_hand}
         multiple={false}
         length={1}
-        selectable={id_hand.length < 1}
+        selectable={this.props.id_hand.length < 1}
         onChange={this.changeIdHand}
       />
     )
     const bankFront = this.state.is_bank_front == true ? (
-      <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/"+ this.state.bank_card_front_img}/><div className={styles.close} onClick={this.closeBankFront}>{''}</div></div>
+      <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/"+ this.props.bank_card_front_img}/><div className={styles.close} onClick={this.closeBankFront}>{''}</div></div>
     ) : (
       <ImagePicker
         className={styles.bank_front}
-        files={bank_front}
+        files={this.props.bank_front}
         multiple={false}
         length={1}
-        selectable={bank_front.length < 1}
+        selectable={this.props.bank_front.length < 1}
         onChange={this.changeBankFront}
       />
     )
     const bankBack = this.state.is_bank_back == true ? (
-      <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/"+ this.state.bank_card_back_img}/><div className={styles.close} onClick={this.closeBankBack}>{''}</div></div>
+      <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/"+ this.props.bank_card_back_img}/><div className={styles.close} onClick={this.closeBankBack}>{''}</div></div>
     ) : (
       <ImagePicker
         className={styles.bank_back}
-        files={bank_back}
+        files={this.props.bank_back}
         multiple={false}
         length={1}
-        selectable={bank_back.length < 1}
+        selectable={this.props.bank_back.length < 1}
         onChange={this.changeBankBack}
       />
     )
     const License = this.state.is_license == true ? (
-      <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/"+ this.state.three_certs_in_one_img}/><div className={styles.close} onClick={this.closeLicense}>{''}</div></div>
+      <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/"+ this.props.three_certs_in_one_img}/><div className={styles.close} onClick={this.closeLicense}>{''}</div></div>
     ) : (
       <ImagePicker
         className={styles.license}
-        files={license_img}
+        files={this.props.license_img}
         multiple={false}
         length={1}
-        selectable={license_img.length < 1}
+        selectable={this.props.license_img.length < 1}
         onChange={this.changeLicense}
       />
     )
 
-    const chooseTime = this.state.is_show == true ? (<ChooseDate type={this.state.type} choose_date={this.state.choose_date} onChange={this.timeChange}/>) : ('');
+    // const chooseTime = this.state.is_show == true ? (<ChooseDate type={this.state.type} choose_date={this.state.choose_date} onChange={this.timeChange}/>) : ('');
 
 
 
 
     return (
       <div style={{ width: '100%', height: 'auto', background: '#fff' }} className={styles.submitQua}>
-        <div style={{display}}>
+        <div>
           <WingBlank>
             <Flex className={styles.sfz_title}>
               <div className={styles.sfz_left}>身份证</div>
@@ -691,13 +835,13 @@ export default class submitQua extends Component {
               {idHand}
             </Flex>
             <List>
-              <InputItem placeholder='请输入姓名' value={this.state.contact_name} onChange={this.handleName}>姓名</InputItem>
-              <InputItem placeholder='请输入身份证号' onChange={this.handleID} value={this.state.legal_id_no}>身份证号</InputItem>
+              <InputItem placeholder='请输入姓名' value={this.props.contact_name} onChange={this.handleName}>姓名</InputItem>
+              <InputItem placeholder='请输入身份证号' onChange={this.handleID} value={this.props.legal_id_no}>身份证号</InputItem>
               <InputItem
                 placeholder='请选择身份证有效期'
                 editable={false}
-                value={this.state.date}
-                onClick={this.chooseDate(1,date)}
+                value={this.props.date}
+                onClick={this.chooseDate(1)}
               >
                   有效期
                   <Icon
@@ -716,10 +860,10 @@ export default class submitQua extends Component {
 
             </Flex>
             <List>
-              <InputItem placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.state.settle_bank_account_name}>开户人</InputItem>
-              <InputItem placeholder='经营者银行卡（仅限储蓄卡）' value={this.state.settle_bank_account_no} onChange={this.handleBankNum}>银行卡号</InputItem>
-              <InputItem placeholder='选择开户银行' value={this.state.settle_bank} onChange={this.handleSettleBank}>开户行<Icon type='right' className={styles.youxiao}/></InputItem>
-              <InputItem placeholder='请输入支行' value={this.state.bank_name} onChange={this.handleBankName}>支行</InputItem>
+              <InputItem placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name}>开户人</InputItem>
+              <InputItem placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum}>银行卡号</InputItem>
+              <InputItem placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank}>开户行</InputItem>
+              <InputItem placeholder='请输入支行' value={this.props.bank_name} onChange={this.handleBankName}>支行</InputItem>
             </List>
             <Flex className={styles.bank_title}>
               <div className={styles.sfz_left}>营业执照</div>
@@ -728,21 +872,19 @@ export default class submitQua extends Component {
             <Flex className={styles.license_img}>
               {License}
             </Flex>
-            <InputItem placeholder='同统一社会信用代码' value={this.state.three_certs_in_one_no} onChange={this.handleLicenseNUm}>注册号</InputItem>
-            <InputItem placeholder='无执照名称可填写经营者名称' value={this.state.corn_bus_name} onChange={this.handleLicenseName}>执照名称</InputItem>
-            <InputItem placeholder='请输入法人姓名' value={this.state.legal_name} onChange={this.handleLegalName}>法人姓名</InputItem>
-            <InputItem placeholder='有效期' editable={false} value={this.state.three_certs_in_one_valid_date} onClick={this.chooseDate(2,three_certs_in_one_valid_date)}>有效期<Icon type='right' className={styles.youxiao}/></InputItem>
+            <InputItem placeholder='同统一社会信用代码' value={this.props.three_certs_in_one_no} onChange={this.handleLicenseNUm}>注册号</InputItem>
+            <InputItem placeholder='无执照名称可填写经营者名称' value={this.props.corn_bus_name} onChange={this.handleLicenseName}>执照名称</InputItem>
+            <InputItem placeholder='请输入法人姓名' value={this.props.legal_name} onChange={this.handleLegalName}>法人姓名</InputItem>
+            <InputItem placeholder='有效期' editable={false} value={this.props.three_certs_in_one_valid_date} onClick={this.chooseDate(2)}>有效期<Icon type='right' className={styles.youxiao}/></InputItem>
           </WingBlank>
           <Flex className={styles.buttons}>
             <div className={styles.save} onClick={this.submit(1)}>保存</div>
             <div className={styles.submit} onClick={this.submit(2)}>提交审核</div>
           </Flex>
         </div>
-        {chooseTime}
-        {idExample}
-        {bankExample}
-        {licenseExample}
       </div>
     )
   }
 }
+
+)

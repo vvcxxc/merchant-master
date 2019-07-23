@@ -7,20 +7,23 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import Cookies from 'js-cookie';
 import router from 'umi/router';
-
+import Axios from 'axios';
 declare global {
-	interface Window { open_id: string; url: string; from: string }
+	interface Window {
+		open_id: string;
+		url: string;
+		from: string;
+	}
 }
 const Url = window.url ? window.url : 'http://test.api.tdianyi.com/';
 const open_id = window.open_id ? window.open_id : 'test_open_id';
 const from = window.from ? window.from : 'v3_supplier';
 
-
 export default connect()(
 	class Login extends Component<any> {
 		state = {
 			/**0 验证码登录 1 账号密码登录 */
-			tab: 1,
+			tab: 0,
 			/**手机号 */
 			mobile: '',
 			/**验证码 */
@@ -34,25 +37,37 @@ export default connect()(
 		};
 		componentDidMount() {
 			/**获取oss */
-			request({
-				url: 'api/v2/up',
-				method: 'get'
-			}).then(res => {
-				let { data } = res;
-				let oss_data = {
-					policy: data.policy,
-					OSSAccessKeyId: data.accessid,
-					success_action_status: 200, //让服务端返回200,不然，默认会返回204
-					signature: data.signature,
-					callback: data.callback,
-					host: data.host,
-					key: data.dir
-				};
+			// request({
+			// 	url: 'api/v2/up',
+			// 	method: 'get'
+			// }).then(res => {
+			// 	let { data } = res;
+			// 	let oss_data = {
+			// 		policy: data.policy,
+			// 		OSSAccessKeyId: data.accessid,
+			// 		success_action_status: 200, //让服务端返回200,不然，默认会返回204
+			// 		signature: data.signature,
+			// 		callback: data.callback,
+			// 		host: data.host,
+			// 		key: data.dir
+			// 	};
 
-				window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
-			});
+			// 	window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
+      // });
+      Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
+        let { data } = res.data;
+          let oss_data = {
+            policy: data.policy,
+            OSSAccessKeyId: data.accessid,
+            success_action_status: 200, //让服务端返回200,不然，默认会返回204
+            signature: data.signature,
+            callback: data.callback,
+            host: data.host,
+            key: data.dir
+          };
 
-
+          window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
+      })
 		}
 		/**设置手机号 */
 		handleSetMobile = (value: any) => {
@@ -108,7 +123,7 @@ export default connect()(
 							localStorage.setItem('token', 'Bearer ' + res.data.token);
 							this.props.dispatch(routerRedux.push({ pathname: '/' }));
 							if (Cookies.get(open_id)) {
-								router.push('/')
+								router.push('/');
 							} else {
 								// 授权（暂未完善）
 								let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
@@ -189,33 +204,33 @@ export default connect()(
 						</Flex>
 					</div>
 				) : (
-						<div>
-							<Flex className={styles.inputWrap}>
-								<div className="phone-prefix">+86</div>
-								<Flex.Item>
-									<InputItem
-										type="phone"
-										style={{ width: '100%' }}
-										placeholder="请填写手机号"
-										onChange={this.handleSetMobile}
-									/>
-								</Flex.Item>
-							</Flex>
-							<Flex className={styles.inputWrap}>
-								<Flex.Item>
-									<input
-										value={this.state.code}
-										style={{ width: '100%' }}
-										placeholder="请填写短信验证码"
-										onChange={this.handleSetCode}
-									/>
-								</Flex.Item>
-								<div className="send-code" onClick={this.sendCode}>
-									{this.state.remainingTime === 0 ? '发送验证码' : this.state.remainingTime + 's'}
-								</div>
-							</Flex>
-						</div>
-					);
+					<div>
+						<Flex className={styles.inputWrap}>
+							<div className="phone-prefix">+86</div>
+							<Flex.Item>
+								<InputItem
+									type="phone"
+									style={{ width: '100%' }}
+									placeholder="请填写手机号"
+									onChange={this.handleSetMobile}
+								/>
+							</Flex.Item>
+						</Flex>
+						<Flex className={styles.inputWrap}>
+							<Flex.Item>
+								<input
+									value={this.state.code}
+									style={{ width: '100%' }}
+									placeholder="请填写短信验证码"
+									onChange={this.handleSetCode}
+								/>
+							</Flex.Item>
+							<div className="send-code" onClick={this.sendCode}>
+								{this.state.remainingTime === 0 ? '发送验证码' : this.state.remainingTime + 's'}
+							</div>
+						</Flex>
+					</div>
+				);
 			return (
 				<div className={styles.page}>
 					<WingBlank>

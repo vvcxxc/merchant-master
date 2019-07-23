@@ -25,7 +25,7 @@ export default class SelectAdType extends Component<Props> {
 	render() {
 		const labels = this.list.map((_, index) => (
 			<div
-				className={index === this.state.value ? styles.activeLabel : styles.label}
+				className={index === this.state.value ? styles.label + ' ' + styles.activeLabel : styles.label}
 				key={_}
 				onClick={this.handleClick(index)}
 			>
