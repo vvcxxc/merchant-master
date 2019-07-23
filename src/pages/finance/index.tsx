@@ -15,46 +15,70 @@ interface Props {
   data: FinanceItem[];
   dispatch: (arg0: any) => any;
   hasMore: {},
-  page : null
+  // page: null
 }
 
 export default connect(({ finance }: any) => finance)(
   class FinancePage extends Component<Props> {
     state = {
+      page : 1,
+
       min: undefined,
       max: undefined,
+
+      finance_type: '',
+      date: undefined
     };
 
     componentDidMount() {
+      // 清除数据流里的数据
+      this.props.dispatch({
+        type: 'finance/clearData'
+      })
       this.props.dispatch({
         type: 'finance/getData', query: {
-          page: this.props.page
+          page: this.state.page
         }
       });
     }
 
 
     handleChange = (query: any) => {
-      this.props.dispatch({
-        type: 'finance/getData',
-        query: {
-          finance_type: query.hot,
-          date: query.time ? moment(query.time).unix() : undefined,
-          moneyscope_micro: this.state.min,
-          moneyscope_maximum: this.state.max
-        }
-      });
+      this.setState({
+        page : 1,
+        finance_type: query.hot,
+        date: query.time ? moment(query.time).unix() : undefined,
+      }, () => {
+        // 清除数据流里的数据
+        this.props.dispatch({
+          type: 'finance/clearData'
+        })
+        this.props.dispatch({
+          type: 'finance/getData',
+          query: {
+            page : this.state.page,
+            finance_type: query.hot,
+            date: query.time ? moment(query.time).unix() : undefined,
+            moneyscope_micro: this.state.min,
+            moneyscope_maximum: this.state.max
+          }
+        });
+      })
     };
 
     handleChangePrice = (type: string) => (e: any) => this.setState({ [type]: e.target.value });
 
     handleLoadMore = () => {
       this.setState({
-        page: this.props.page
-      },() => {
+        page: this.state.page + 1
+      }, () => {
         this.props.dispatch({
           type: 'finance/getData', query: {
-            page: this.props.page
+            page: this.state.page,
+            finance_type: this.state.finance_type,
+            date: this.state.date,
+            moneyscope_micro: this.state.min,
+            moneyscope_maximum: this.state.max
           }
         })
       })
@@ -108,7 +132,7 @@ export default connect(({ finance }: any) => finance)(
       return (
         <FiltrateLayout after={layoutAfter} undetermined={undetermined} onChange={this.handleChange}>
           {financeList}
-          <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.props.hasMore.hasMore? "点击加载更多" : "已经到达底线了"}</p>
+          <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.props.hasMore.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
         </FiltrateLayout>
       );
     }
