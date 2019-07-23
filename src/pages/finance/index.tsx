@@ -10,6 +10,7 @@ import styles from './index.less';
 import { FinanceItem } from './model';
 import { connect } from 'dva';
 import moment from 'moment';
+import { routerRedux } from 'dva/router';
 
 interface Props {
   data: FinanceItem[];
@@ -83,7 +84,9 @@ export default connect(({ finance }: any) => finance)(
         })
       })
     }
-
+    pushPage = (pathname: string) => {
+      this.props.dispatch(routerRedux.push({ pathname }))
+    };
     render() {
 
       /**单选条件 */
