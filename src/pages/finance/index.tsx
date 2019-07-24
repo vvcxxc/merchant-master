@@ -21,7 +21,7 @@ interface Props {
 export default connect(({ finance }: any) => finance)(
   class FinancePage extends Component<Props> {
     state = {
-      page : 1,
+      page: 1,
 
       min: undefined,
       max: undefined,
@@ -45,7 +45,7 @@ export default connect(({ finance }: any) => finance)(
 
     handleChange = (query: any) => {
       this.setState({
-        page : 1,
+        page: 1,
         finance_type: query.hot,
         date: query.time ? moment(query.time).unix() : undefined,
       }, () => {
@@ -56,7 +56,7 @@ export default connect(({ finance }: any) => finance)(
         this.props.dispatch({
           type: 'finance/getData',
           query: {
-            page : this.state.page,
+            page: this.state.page,
             finance_type: query.hot,
             date: query.time ? moment(query.time).unix() : undefined,
             moneyscope_micro: this.state.min,
@@ -69,19 +69,21 @@ export default connect(({ finance }: any) => finance)(
     handleChangePrice = (type: string) => (e: any) => this.setState({ [type]: e.target.value });
 
     handleLoadMore = () => {
-      this.setState({
-        page: this.state.page + 1
-      }, () => {
-        this.props.dispatch({
-          type: 'finance/getData', query: {
-            page: this.state.page,
-            finance_type: this.state.finance_type,
-            date: this.state.date,
-            moneyscope_micro: this.state.min,
-            moneyscope_maximum: this.state.max
-          }
+      if (this.props.hasMore.hasMore) {
+        this.setState({
+          page: this.state.page + 1
+        }, () => {
+          this.props.dispatch({
+            type: 'finance/getData', query: {
+              page: this.state.page,
+              finance_type: this.state.finance_type,
+              date: this.state.date,
+              moneyscope_micro: this.state.min,
+              moneyscope_maximum: this.state.max
+            }
+          })
         })
-      })
+      }
     }
 
     render() {

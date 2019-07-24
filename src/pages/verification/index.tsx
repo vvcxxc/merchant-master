@@ -7,21 +7,44 @@ import VerificationItem, { Item } from './item';
 import request from '@/services/request';
 
 export default class Verification extends Component {
-	state = { data: [] };
+	state = { 
+		data: [],
+		hasMore : true,
+		page : 1
+	};
 	componentDidMount = () => this.getData();
 	getData = async () => {
 		Toast.loading('');
-		const res = await request({ url: 'api/merchant/youhui/getuUerConsumeList' });
+		const res = await request({ 
+			url: 'api/merchant/youhui/getuUerConsumeList',
+			params : {
+				page : this.state.page
+			}
+		});
 		Toast.hide();
-		if (res.code === 200) {
-			this.setState({ data: res.data });
+		if (res.code === 200 && res.data.length != 0) {
+			this.setState({ data: this.state.data.concat(res.data) });
+		}else if(res.code == 200 && res.data.length == 0) {
+			this.setState({ hasMore : false })
 		}
 	};
+	handleLoadMore() {
+		if(this.state.hasMore) {
+			this.setState({
+				page : this.state.page + 1
+			},() => {
+				this.getData()
+			})
+		}
+	}
 	render() {
 		const list = this.state.data.map((_: Item) => <VerificationItem key={_.youhui_log_id} {..._} />);
 		return (
 			<div className={styles.page}>
-				<WingBlank>{list}</WingBlank>
+				<WingBlank>
+					{list}
+				</WingBlank>
+				<p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
 			</div>
 		);
 	}
