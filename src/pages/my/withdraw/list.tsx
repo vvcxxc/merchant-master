@@ -14,7 +14,7 @@ export default class WithDrawList extends Component {
     withdraw_sum: ''
   };
 
-  componentDidMount (){
+  componentDidMount() {
     this.getData()
   }
 
@@ -25,13 +25,13 @@ export default class WithDrawList extends Component {
       params: {
         page: this.state.page
       }
-    }).then(res =>{
+    }).then(res => {
       let { data, total, withdraw_sum } = res;
       this.setState({
         list: this.state.list.concat(data),
         total,
         withdraw_sum,
-        hasMore : res.data.length != 0 ? true : false
+        hasMore: res.data.length != 0 ? true : false
       });
     });
   }
@@ -62,18 +62,20 @@ export default class WithDrawList extends Component {
   // }
 
   handleLoadMore = () => {
-    this.setState({
-      page : this.state.page + 1
-    },() => {
-      this.getData()
-    })
+    if (this.state.hasMore) {
+      this.setState({
+        page: this.state.page + 1
+      }, () => {
+        this.getData()
+      })
+    }
   }
 
 
 
-  render (){
-    const item = this.state.list.map((data,idx)=>{
-      return(
+  render() {
+    const item = this.state.list.map((data, idx) => {
+      return (
         <div className={styles.item} key={data.id}>
           <Flex className={styles.item_li}>
             <div >余额提现</div>

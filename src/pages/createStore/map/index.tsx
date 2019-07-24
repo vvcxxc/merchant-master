@@ -11,7 +11,6 @@ import wx from "weixin-js-sdk";
 import { connect } from 'dva';
 import router from 'umi/router';
 
-
 export default connect(({createStore}: any) => createStore)(
   class MapPage extends Component<any> {
     state = {
@@ -45,7 +44,7 @@ export default connect(({createStore}: any) => createStore)(
       district: '',
       search: '',
       search_words: '',
-      is_search: true
+      is_search: true,
     };
 
     componentDidMount (){
@@ -72,7 +71,7 @@ export default connect(({createStore}: any) => createStore)(
           url
         }
       }).then(res => {
-        let _this = this;
+        let _this:any = this;
         wx.config({
           debug: false,
           appId: res.appId,
@@ -96,7 +95,7 @@ export default connect(({createStore}: any) => createStore)(
               };
               _this.setState({location});
               const lnglat = [longitude, latitude]
-              _this.geocoder && _this.geocoder.getAddress(lnglat, (status, result) => {
+              _this.geocoder && _this.geocoder.getAddress(lnglat, (status:string, result:any) => {
                 if (status === 'complete'){
                   if (result.regeocode){
                     _this.createSearch(result);

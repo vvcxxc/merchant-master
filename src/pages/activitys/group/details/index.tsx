@@ -151,7 +151,6 @@ export default class GroupDetails extends Component {
             </div>
             {/* <img src={require('./share.png')}/> */}
           </Flex>
-
           {/* 图片 */}
           <Flex className={styles.activity_img}>
             <img src={info.activity_image}/>

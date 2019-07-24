@@ -6,7 +6,7 @@ import request from '@/services/request';
 // 下面的代码会被作为 cdn script 注入 注释勿删
 // CDN START
 const data = [
-	{ date: '2010-01-10', type: '能源', value: 99.9 },
+	{ date: '2010-01-10', type: '能源', value: 200 },
 	{ date: '2010-01-10', type: '金属', value: 96.6 },
 	{ date: '2010-01-10', type: '农产品', value: 96.2 },
 	{ date: '2010-02-10', type: '能源', value: 96.7 },

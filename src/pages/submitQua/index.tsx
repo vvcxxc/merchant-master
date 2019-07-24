@@ -115,52 +115,53 @@ export default connect(({submitQua}: any) => submitQua)(
         three_certs_in_one_valid_date = '长期'
       }
       // console.log(this.props)
+      let arr = (this.props.contact_name || this.props.legal_id_no || this.props.date || this.props.settle_bank_account_name || this.props.settle_bank_account_no || this.props.settle_bank || this.props.three_certs_in_one_no || this.props.corn_bus_name || this.props.legal_name || this.props.three_certs_in_one_valid_date || this.props.bank_name || this.props.legal_id_front_img || this.props.legal_id_back_img || this.props.hand_hold_id_img || this.props.bank_card_front_img || this.props.bank_card_back_img || this.props.three_certs_in_one_img)
       if(
-        (this.props.contact_name || this.props.legal_id_no || this.props.date || this.props.settle_bank_account_name || this.props.settle_bank_account_no || this.props.settle_bank || this.props.three_certs_in_one_no || this.props.corn_bus_name || this.props.legal_name || this.props.three_certs_in_one_valid_date || this.props.bank_name || this.props.legal_id_front_img || this.props.legal_id_back_img || this.props.hand_hold_id_img || this.props.bank_card_front_img || this.props.bank_card_back_img || this.props.three_certs_in_one_img) != []
+        Array.isArray(arr)
         ){
-          // console.log( [] != [])
-        return
-      }else{
-        this.props.dispatch({
-          type: 'submitQua/setQua',
-          payload: {
-            contact_name,
-            legal_id_no,
-            date: legal_id_valid_date,
-            settle_bank_account_name,
-            settle_bank_account_no,
-            settle_bank,
-            three_certs_in_one_no,
-            corn_bus_name,
-            legal_name,
-            three_certs_in_one_valid_date,
-            bank_name,
-            legal_id_front_img: getCaption(legal_id_front_img),
-            legal_id_back_img: getCaption(legal_id_back_img),
-            hand_hold_id_img: getCaption(hand_hold_id_img),
-            bank_card_front_img: getCaption(bank_card_front_img),
-            bank_card_back_img: getCaption(bank_card_back_img),
-            three_certs_in_one_img: getCaption(three_certs_in_one_img)
+          this.props.dispatch({
+            type: 'submitQua/setQua',
+            payload: {
+              contact_name,
+              legal_id_no,
+              date: legal_id_valid_date,
+              settle_bank_account_name,
+              settle_bank_account_no,
+              settle_bank,
+              three_certs_in_one_no,
+              corn_bus_name,
+              legal_name,
+              three_certs_in_one_valid_date,
+              bank_name,
+              legal_id_front_img: getCaption(legal_id_front_img),
+              legal_id_back_img: getCaption(legal_id_back_img),
+              hand_hold_id_img: getCaption(hand_hold_id_img),
+              bank_card_front_img: getCaption(bank_card_front_img),
+              bank_card_back_img: getCaption(bank_card_back_img),
+              three_certs_in_one_img: getCaption(three_certs_in_one_img)
+            }
+          })
+          if(legal_id_front_img){
+            this.setState({is_id_front: true})
           }
-        })
-        if(legal_id_front_img){
-          this.setState({is_id_front: true})
-        }
-        if(legal_id_back_img){
-          this.setState({is_id_back: true})
-        }
-        if(hand_hold_id_img){
-          this.setState({is_id_hand: true})
-        }
-        if(bank_card_front_img){
-          this.setState({is_bank_front: true})
-        }
-        if(bank_card_back_img){
-          this.setState({is_bank_back: true})
-        }
-        if(three_certs_in_one_img){
-          this.setState({is_license: true})
-        }
+          if(legal_id_back_img){
+            this.setState({is_id_back: true})
+          }
+          if(hand_hold_id_img){
+            this.setState({is_id_hand: true})
+          }
+          if(bank_card_front_img){
+            this.setState({is_bank_front: true})
+          }
+          if(bank_card_back_img){
+            this.setState({is_bank_back: true})
+          }
+          if(three_certs_in_one_img){
+            this.setState({is_license: true})
+          }
+
+      }else{
+        return
       }
     })
 
@@ -659,40 +660,58 @@ export default connect(({submitQua}: any) => submitQua)(
   }
   /**初始化渲染图片的时候取消选择图片 */
   closeIDFront = () => {
-    this.setState({
-      is_id_front: false,
-      legal_id_front_img: ''
-    });
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        legal_id_front_img: '',
+        is_id_front: false,
+      }
+    })
   }
   closeIDBack = () => {
-    this.setState({
-      is_id_back: false,
-      legal_id_back_img: ''
-    });
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        is_id_back: false,
+        legal_id_back_img: ''
+      }
+    })
   }
   closeIDHand = () => {
-    this.setState({
-      is_id_hand: false,
-      hand_hold_id_img: ''
-    });
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        is_id_hand: false,
+        hand_hold_id_img: ''
+      }
+    })
   }
   closeBankFront = () => {
-    this.setState({
-      is_bank_front: false,
-      bank_card_front_img: ''
-    });
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        is_bank_front: false,
+        bank_card_front_img: ''
+      }
+    })
   }
   closeBankBack = () => {
-    this.setState({
-      is_bank_back: false,
-      bank_card_back_img: ''
-    });
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        is_bank_back: false,
+        bank_card_back_img: ''
+      }
+    })
   }
   closeLicense = () => {
-    this.setState({
-      is_license: false,
-      three_certs_in_one_img: ''
-    });
+    this.props.dispatch({
+      type: 'submitQua/setQua',
+      payload: {
+        is_license: false,
+        three_certs_in_one_img: ''
+      }
+    })
   }
 
   /**保存或者提交 */

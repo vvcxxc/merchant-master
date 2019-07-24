@@ -11,12 +11,12 @@ import { Toast } from 'antd-mobile';
 export default class BusinessArea extends Component<any> {
 	state = {
 		data: {},
-		log: {},
-		position: 0
+		// log: {},
+		position: 0,
+		adId : null // 广告ID
 	};
 	componentDidMount() {
 		this.getDetail();
-		this.setLog();
 	}
 	getDetail = async () => {
 		Toast.loading('');
@@ -37,23 +37,28 @@ export default class BusinessArea extends Component<any> {
 		const res = await request({ url: 'v3/ads/by_type', params: { ad_type: 1, position_id: position } });
 		Toast.hide();
 		if (res.code === 200 && res.data.length) {
-			this.setState({ data: res.data[0] });
+			this.setState({ 
+				data: res.data[0],
+			    adId: res.data[0].id
+			});
+			// this.setLog();
 		}
 	};
 
-	setLog = async () => {
-		const res = await request({ url: 'v3/ad_logs' });
-		if (res.code === 200) {
-			this.setState({ log: res.data });
-		}
-	};
+	// setLog = async () => {
+	// 	const res = await request({ url: 'v3/ad_logs', params: { ad_id: this.state.adId } });
+	// 	if (res.code === 200) {
+	// 		this.setState({ log: res.data });
+	// 	}
+	// };
 
 	handleSuccess = () => this.getDetail();
 
 	render() {
 		const form = <From onSuccess={this.handleSuccess} position={this.state.position} editForm={this.state.data} />;
-		const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
-		const chart = <Chart />;
+		// const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
+		const expenseCalendar = <ExpenseCalendar adId={this.state.adId} />;
+		const chart = <Chart adId={this.state.adId}/>;
 		return <AdLayout children={[form, expenseCalendar, chart]} />;
 	}
 }
