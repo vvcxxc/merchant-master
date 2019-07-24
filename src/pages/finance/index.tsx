@@ -11,6 +11,7 @@ import { FinanceItem } from './model';
 import { connect } from 'dva';
 import moment from 'moment';
 import { routerRedux } from 'dva/router';
+import router from 'umi/router';
 
 interface Props {
   data: FinanceItem[];
@@ -22,7 +23,7 @@ interface Props {
 export default connect(({ finance }: any) => finance)(
   class FinancePage extends Component<Props> {
     state = {
-      page : 1,
+      page: 1,
 
       min: undefined,
       max: undefined,
@@ -46,7 +47,7 @@ export default connect(({ finance }: any) => finance)(
 
     handleChange = (query: any) => {
       this.setState({
-        page : 1,
+        page: 1,
         finance_type: query.hot,
         date: query.time ? moment(query.time).unix() : undefined,
       }, () => {
@@ -57,7 +58,7 @@ export default connect(({ finance }: any) => finance)(
         this.props.dispatch({
           type: 'finance/getData',
           query: {
-            page : this.state.page,
+            page: this.state.page,
             finance_type: query.hot,
             date: query.time ? moment(query.time).unix() : undefined,
             moneyscope_micro: this.state.min,
@@ -84,8 +85,8 @@ export default connect(({ finance }: any) => finance)(
         })
       })
     }
-    pushPage = (pathname: string) => {
-      this.props.dispatch(routerRedux.push({ pathname }))
+    pushPage = (pathname: string, query: object) => {
+      router.push({ pathname, query })
     };
     render() {
 
@@ -119,12 +120,16 @@ export default connect(({ finance }: any) => finance)(
           <Flex key={_.id} className={styles.financeItem} onClick={
 
             () => {
-              console.log(_);
+              console.log(_)
+              //貌似不是传递_id，先放着
               switch (_.type) {
-                case 3: this.pushPage('/finance/financeDetail/offlineDeal'); break;
-                case 5: this.pushPage('/finance/financeDetail/tariffRebates'); break;
-                case 6: this.pushPage('/finance/financeDetail/advertisingRevenue'); break;
-                case 13: this.pushPage('/finance/financeDetail/tariffRebates'); break;
+                case 3: this.pushPage('/finance/financeDetail/offlineDeal',{_id:_.id}); break;  //线下交易（线下收银）
+                case 13: this.pushPage('/finance/financeDetail/tariffRebates',{_id:_.id}); break; //费率返点（商家返点）
+                case 6: this.pushPage('/finance/financeDetail/advertisingRevenue',{_id:_.id}); break;  //广告收益
+                case 9: this.pushPage('/finance/financeDetail/advertisingSpending',{_id:_.id}); break; //广告购买
+                case 8: this.pushPage('/finance/financeDetail/couponRevenue',{_id:_.id}); break;   //优惠券收益，存疑（优惠券分润）
+                // case : this.pushPage('/finance/financeDetail/onlineSelling',{_id:_.id}); break;   //线上卖券，重大存疑   （商家返点）
+
                 default: return
               }
             }

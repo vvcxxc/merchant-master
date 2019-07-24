@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Flex, List, WingBlank, InputItem, Button, Toast } from 'antd-mobile';
+import { routerRedux, withRouter } from 'dva/router';
 
 import styles from '../index.less';
 import router from 'umi/router';
@@ -133,12 +134,13 @@ export default connect(({ businessArea }: any) => businessArea)(
 		};
 
 		handleShowStopAd = () => this.setState({ stopModalShow: true });
+	
 
 		render() {
 			const time = this.state.startTime
 				? moment.unix(this.state.startTime || 0).format('YYYY.MM.DD') +
-				  '-' +
-				  moment.unix(this.state.endTime || 0).format('YYYY.MM.DD')
+				'-' +
+				moment.unix(this.state.endTime || 0).format('YYYY.MM.DD')
 				: '广告投放时长';
 			return (
 				<WingBlank className={styles.maxheight}>
@@ -168,6 +170,11 @@ export default connect(({ businessArea }: any) => businessArea)(
 								若余额不足将暂停广告,
 								<span className={styles.link} onClick={this.handleToRechange}>
 									点击充值
+								</span>
+							</Flex>
+							<Flex justify="start">
+								<span className={styles.link} onClick={() => { router.push('/ad/business-area/mustRead') }}>
+									创建必读
 								</span>
 							</Flex>
 						</Flex.Item>
