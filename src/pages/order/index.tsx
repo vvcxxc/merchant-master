@@ -13,8 +13,14 @@ import NoData from '@/components/no-data';
 
 export default class OrderPage extends Component {
 	state = {
-		list: [1, 2, 3, 4],
-		insignificant: 0
+		list: [],
+		insignificant: 0,
+
+		page : 1,
+		hasMore : true,
+
+		pay_status : '' ,   // 模糊查询筛选
+		date : undefined           // 模糊查询月份
 	};
 
 	undetermined = [
@@ -34,23 +40,50 @@ export default class OrderPage extends Component {
 
 	getData = async (query?: any) => {
 		Toast.loading('');
-		const res = await request({ url: 'v3/coupons/order_list', params: query });
+		const res = await request({ url: 'v3/coupons/order_list', params: {
+			query,
+			page : this.state.page
+		} });
 		Toast.hide();
-		if (res.code === 200) {
-			this.setState({ list: res.data, insignificant: res.total });
+		if (res.code === 200 && res.data.length != 0) {
+			this.setState({ list: this.state.list.concat(res.data), insignificant: res.total });
+		}else if (res.code === 200 && res.data.length == 0) {
+			this.setState({ hasMore : false})
 		}
 	};
 
 	handleLayoutChange = (query: any) => {
-		this.getData({
+		this.setState({
+			page : 1,
+			hasMore : true,
+			list : [],
 			pay_status: query.hot,
-			date: query.time ? moment(query.time).unix() : undefined
-		});
+			date : query.time ? moment(query.time).unix() : undefined
+		},() => {
+			this.getData({
+				pay_status: query.hot,
+				date: query.time ? moment(query.time).unix() : undefined
+			});
+		})
+		
 	};
 
 	handleClickOrder = (id: any) => () => {
 		router.push({ pathname: '/order/detail', query: { id } });
 	};
+
+
+	handleLoadMore = () => {
+		this.setState({
+			page : this.state.page + 1
+		},() => {
+			this.getData({
+				pay_status : this.state.pay_status,
+				date : this.state.date
+			})
+		})
+		
+	}
 
 	render() {
 		const orderList = this.state.list.length ? (
@@ -75,6 +108,7 @@ export default class OrderPage extends Component {
 				onChange={this.handleLayoutChange}
 			>
 				{orderList}
+				<p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
 			</FiltrateLayout>
 		);
 	}

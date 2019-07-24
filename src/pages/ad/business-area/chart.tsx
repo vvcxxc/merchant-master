@@ -3,6 +3,12 @@ import AdChart from '../components/ad-chart';
 
 export default class Chart extends Component {
 	render() {
-		return <AdChart />;
+		return (
+			<div>
+				<p>{this.props.adId}</p>
+				<AdChart adId={this.props.adId} />
+			</div>
+			
+		);
 	}
 }
