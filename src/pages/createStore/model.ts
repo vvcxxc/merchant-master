@@ -31,42 +31,44 @@ interface CreateStore {
 const model: Model = {
   namespace: 'createStore',
   state: {
-     /**店铺名 */
-     name: '',
-     /**店铺地址 */
-     address: '',
-     /**门牌号 */
-     house_num: '',
-     /**门店电话 */
-     phone: '',
-     /**经营范围 */
-     manage_type: '',
-     /**邮箱 */
-     email: '',
-     value: [],
-     /**门头照 */
-     files: [],
-     /**个人照 */
-     my_files: [],
-     /**个人照 */
-     my_files2: [],
-     /**门头照图片 */
-     store_door_header_img: '',
-     /**个人照1 */
-     store_img_one: '',
-     /**个人照2 */
-     store_img_two: '',
-     /**经纬度 */
-     location: {
+    /**店铺名 */
+    name: '',
+    /**店铺地址 */
+    address: '',
+    /**门牌号 */
+    house_num: '',
+    /**门店电话 */
+    phone: '',
+    /**经营范围 */
+    manage_type: '',
+    /**邮箱 */
+    email: '',
+    /**二维码 */
+    _code: '',
+    value: [],
+    /**门头照 */
+    files: [],
+    /**个人照 */
+    my_files: [],
+    /**个人照 */
+    my_files2: [],
+    /**门头照图片 */
+    store_door_header_img: '',
+    /**个人照1 */
+    store_img_one: '',
+    /**个人照2 */
+    store_img_two: '',
+    /**经纬度 */
+    location: {
       longitude: 113.3348617553711,
       latitude: 23.18288803100586
-     },
-     map: {
+    },
+    map: {
       value: [],
       city: [],
       city_name: '',
       province: ''
-     }
+    }
   },
   reducers: {
     setStore(state, { payload }) {

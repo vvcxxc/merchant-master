@@ -10,6 +10,8 @@ import styles from './index.less';
 import { FinanceItem } from './model';
 import { connect } from 'dva';
 import moment from 'moment';
+import { routerRedux } from 'dva/router';
+import router from 'umi/router';
 
 interface Props {
   data: FinanceItem[];
@@ -85,7 +87,9 @@ export default connect(({ finance }: any) => finance)(
         })
       }
     }
-
+    pushPage = (pathname: string, query: object) => {
+      router.push({ pathname, query })
+    };
     render() {
 
       /**单选条件 */
@@ -115,7 +119,23 @@ export default connect(({ finance }: any) => finance)(
       /**页面数据列表 */
       const financeList = this.props.data.length ? (
         this.props.data.map(_ => (
-          <Flex key={_.id} className={styles.financeItem}>
+          <Flex key={_.id} className={styles.financeItem} onClick={
+
+            () => {
+              console.log(_)
+              //貌似不是传递_id，先放着
+              switch (_.type) {
+                case 3: this.pushPage('/finance/financeDetail/offlineDeal',{_id:_.id}); break;  //线下交易（线下收银）
+                case 13: this.pushPage('/finance/financeDetail/tariffRebates',{_id:_.id}); break; //费率返点（商家返点）
+                case 6: this.pushPage('/finance/financeDetail/advertisingRevenue',{_id:_.id}); break;  //广告收益
+                case 9: this.pushPage('/finance/financeDetail/advertisingSpending',{_id:_.id}); break; //广告购买
+                case 8: this.pushPage('/finance/financeDetail/couponRevenue',{_id:_.id}); break;   //优惠券收益，存疑（优惠券分润）
+                // case : this.pushPage('/finance/financeDetail/onlineSelling',{_id:_.id}); break;   //线上卖券，重大存疑   （商家返点）
+
+                default: return
+              }
+            }
+          }>
             <img src={_.small_icon} alt="" />
             <Flex.Item className="content">
               <div className="ordernum">{_.msg}</div>
