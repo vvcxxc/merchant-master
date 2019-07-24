@@ -247,7 +247,7 @@ export default connect(({ createStore }: any) => createStore)(
 
     createStore = () => {
       let { name, address, house_num, phone, manage_type, email, _code, store_door_header_img, store_img_one, store_img_two, location } = this.props;
-      if (name && address && house_num && phone && manage_type && email && _code && store_door_header_img && store_img_one && store_img_two) {
+      if (name && address && house_num && phone && manage_type && email && store_door_header_img && store_img_one && store_img_two) {
 
         request({
           url: 'v3/stores',
