@@ -20,7 +20,7 @@ export default class createGroup extends Component {
     is_gift: false,
     is_show: false,
     is_notice: false,
-    is_pay:false,
+    is_pay: false,
     /**支付方式 */
     mail_mode: '1',
     /**活动名字 */
@@ -53,92 +53,92 @@ export default class createGroup extends Component {
     /**使用须知列表 */
     description: [],
     /**跳转支付 */
-    pay_list:[],
+    pay_list: [],
     display: 'block'
   };
   startChange = (value: any) => {
-    this.setState({start_date: value})
+    this.setState({ start_date: value })
   }
   endChange = (value: any) => {
-    this.setState({end_date: value})
+    this.setState({ end_date: value })
   }
   /**选择支付方式 */
-  chooseMailMode = (type: string) =>{
-  this.setState({mail_mode: type})
+  chooseMailMode = (type: string) => {
+    this.setState({ mail_mode: type })
   }
   /**改变值 */
   handleName = (e: any) => {
-    this.setState({activity_name: e})
+    this.setState({ activity_name: e })
   }
   handleOldPrice = (e: any) => {
-    this.setState({old_price: e})
+    this.setState({ old_price: e })
   }
   handleNewPrice = (e: any) => {
-    this.setState({participation_money: e, gift_id: '', gift_pic: ''})
+    this.setState({ participation_money: e, gift_id: '', gift_pic: '' })
   }
   handleNum = (e: any) => {
-    this.setState({group_number: e})
+    this.setState({ group_number: e })
   }
   handleSum = (e: any) => {
-    this.setState({group_sum: e})
+    this.setState({ group_sum: e })
   }
   handleValidity = (e: any) => {
-    if(e.length > 3){
-      this.setState({validity: this.state.validity})
-    }else {
-      this.setState({validity: e})
+    if (e.length > 3) {
+      this.setState({ validity: this.state.validity })
+    } else {
+      this.setState({ validity: e })
     }
   }
   /**选择图片 */
-  changeCover = ( files: any ) => {
+  changeCover = (files: any) => {
     this.setState({
       cover_img: files
     });
-    if(files[0]){
+    if (files[0]) {
       let img = files[0].url;
       upload(img).then(res => {
         let { data } = res;
-        this.setState({image: data.path})
+        this.setState({ image: data.path })
       });
-    }else {
-      this.setState({image: ''})
+    } else {
+      this.setState({ image: '' })
     }
   }
-  changeDescribe1 = ( files: any ) => {
+  changeDescribe1 = (files: any) => {
     this.setState({
       describe_img1: files
     });
-    if(files[0]){
+    if (files[0]) {
       let img = files[0].url;
       upload(img).then(res => {
         let { data } = res;
-        this.setState({image_url1: data.path});
+        this.setState({ image_url1: data.path });
       });
-    }else {
-      this.setState({image_url1: ''})
+    } else {
+      this.setState({ image_url1: '' })
     }
   }
-  changeDescribe2 = ( files: any ) => {
+  changeDescribe2 = (files: any) => {
     this.setState({
       describe_img2: files
     });
-    if(files[0]){
+    if (files[0]) {
       let img = files[0].url;
       upload(img).then(res => {
         let { data } = res;
-        this.setState({image_url2: data.path});
+        this.setState({ image_url2: data.path });
       });
-    }else {
-      this.setState({image_url2: ''})
+    } else {
+      this.setState({ image_url2: '' })
     }
   }
 
   /**选择礼品的回调 */
-  changeGift = (id: string, is_show: boolean, gift_pic: string, gift_name:string) =>{
-    if(id){
-      this.setState({is_gift: true})
-    }else{
-      this.setState({is_gift: false})
+  changeGift = (id: string, is_show: boolean, gift_pic: string, gift_name: string) => {
+    if (id) {
+      this.setState({ is_gift: true })
+    } else {
+      this.setState({ is_gift: false })
     }
     this.setState({
       gift_id: id,
@@ -172,14 +172,14 @@ export default class createGroup extends Component {
 
 
   /**确认发布 */
-  confirm = async() => {
+  confirm = async () => {
     let { activity_name, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, description, mail_mode, gift_name } = this.state;
     let activity_begin_time = moment(start_date).format('X');
     let activity_end_tine = moment(end_date).format('X');
     let image_url = [];
     image_url.push(image_url1);
     image_url.push(image_url2);
-    if(activity_name&&activity_begin_time&&activity_end_tine&&validity&&participation_money&&image_url&&image&&group_number&&group_sum&&old_price&&mail_mode){
+    if (activity_name && activity_begin_time && activity_end_tine && validity && participation_money && image_url && image && group_number && group_sum && old_price && mail_mode) {
       Toast.loading('');
       let res = await request({
         url: 'api/merchant/youhui/addYouhuiGroup',
@@ -202,44 +202,44 @@ export default class createGroup extends Component {
           gift_name
         }
       });
-      let {data, message, code} = res;
-      if (code == 200){
-        if (data.order_sn){
-          this.setState ({
+      let { data, message, code } = res;
+      if (code == 200) {
+        if (data.order_sn) {
+          this.setState({
             pay_list: data,
             is_pay: true
           })
           Toast.hide();
-        }else{
-          Toast.success(message,2,()=>{
+        } else {
+          Toast.success(message, 2, () => {
             router.push('/activitys/group');
             Toast.hide();
           })
         }
       }
-    }else{
-      Toast.fail('请将信息填写完整',2);
+    } else {
+      Toast.fail('请将信息填写完整', 2);
     }
 
   }
-  render (){
+  render() {
     const { cover_img, describe_img1, describe_img2, display } = this.state;
     const chooseGift = this.state.is_show == true ? (
-      <ChooseGift onChange={this.changeGift} id={this.state.gift_id} money={this.state.participation_money}/>
+      <ChooseGift onChange={this.changeGift} id={this.state.gift_id} money={this.state.participation_money} />
     ) : (
-      ''
-    )
+        ''
+      )
     const chooseMail = this.state.mail_mode == '1' ? (
       <Flex className={styles.choose}>
-        <div style={{marginRight: 17}} onClick={this.chooseMailMode.bind(this,'1')}><img src={require('./image/choose.png')}/>联盟店支付</div>
-        <div onClick={this.chooseMailMode.bind(this,'2')}><img src={require('./image/no_choose.png')}/>用户支付</div>
+        <div style={{ marginRight: 17 }} onClick={this.chooseMailMode.bind(this, '1')}><img src={require('./image/choose.png')} />联盟店支付</div>
+        <div onClick={this.chooseMailMode.bind(this, '2')}><img src={require('./image/no_choose.png')} />用户支付</div>
       </Flex>
     ) : (
-      <Flex className={styles.choose}>
-        <div style={{marginRight: 17}} onClick={this.chooseMailMode.bind(this,'1')}><img src={require('./image/no_choose.png')}/>联盟店支付</div>
-        <div onClick={this.chooseMailMode.bind(this,'2')}><img src={require('./image/choose.png')}/>用户支付</div>
-      </Flex>
-    )
+        <Flex className={styles.choose}>
+          <div style={{ marginRight: 17 }} onClick={this.chooseMailMode.bind(this, '1')}><img src={require('./image/no_choose.png')} />联盟店支付</div>
+          <div onClick={this.chooseMailMode.bind(this, '2')}><img src={require('./image/choose.png')} />用户支付</div>
+        </Flex>
+      )
 
     const Gift = this.state.is_gift == true ? (
       <div>
@@ -247,7 +247,7 @@ export default class createGroup extends Component {
           <div>配送方式</div>
           <Flex className={styles.choose}>
             {/* <div style={{marginRight: 17}}><img src={require('./image/choose.png')}/>到店自取</div> */}
-            <div><img src={require('./image/choose.png')}/>邮寄</div>
+            <div><img src={require('./image/choose.png')} />邮寄</div>
           </Flex>
         </Flex>
         {/* <Flex className={styles.giftBox}><div>自选地址</div><Flex className={styles.choose}><div style={{marginRight: 17}}><img src={require('./image/choose.png')}/>使用店铺地址</div><div className={styles.address}>自定义</div></Flex></Flex> */}
@@ -257,22 +257,22 @@ export default class createGroup extends Component {
         </Flex>
       </div>
     ) : (
-      ''
-    );
+        ''
+      );
     const notice = this.state.is_notice == true ? (
-      <Notice onChange={this.changeNotice} keys={this.state.keys} notice_list={this.state.description}/>
+      <Notice onChange={this.changeNotice} keys={this.state.keys} notice_list={this.state.description} />
     ) : (
-      ''
-    )
+        ''
+      )
     const payment = this.state.is_pay == true ? (
-      <PayMent  list={this.state.pay_list} type={'group'}/>
+      <PayMent list={this.state.pay_list} type={'group'} />
     ) : (
-      ''
-    )
+        ''
+      )
 
     return (
-      <div style={{width: '100%', height: 'auto', minHeight: '100%', background: '#fff', overflow: 'hidden',}}>
-        <div style={{display}}>
+      <div style={{ width: '100%', height: 'auto', minHeight: '100%', background: '#fff', overflow: 'hidden', }}>
+        <div style={{ display }}>
           <WingBlank>
             <Flex className={styles.title}><div>活动设置</div></Flex>
             <List className={styles.input_Box}>
@@ -332,7 +332,7 @@ export default class createGroup extends Component {
                 有效期<span className={styles.left_text}>领券日起</span>
               </InputItem>
             </List>
-            <Flex className={styles.notice} onClick={this.toNotice}><div>使用须知</div><div><Icon type="right"  color='#999' className={styles.icon_right}/></div>
+            <Flex className={styles.notice} onClick={this.toNotice}><div>使用须知</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
             </Flex>
             <Flex className={styles.img_title}>
               <div>图片详情</div>
@@ -349,7 +349,7 @@ export default class createGroup extends Component {
                     selectable={describe_img1.length < 1}
                     onChange={this.changeDescribe1}
                   />
-                  </div>
+                </div>
                 <div className={styles.describe}>图片描述</div>
               </div>
               <div className={styles.image}>
@@ -370,7 +370,7 @@ export default class createGroup extends Component {
             <div className={styles.gift}>
               <Flex className={styles.title}><div>礼品设置</div></Flex>
               <div className={styles.gift_Box}>
-                <Flex className={styles.giftBox}  onClick={this.toGift}><div>选择礼品</div><div><Icon type="right"  color='#999' className={styles.icon_right}/></div>
+                <Flex className={styles.giftBox} onClick={this.toGift}><div>选择礼品</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
                 </Flex>
                 {Gift}
               </div>
