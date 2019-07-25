@@ -285,7 +285,7 @@ export default connect(({ activity }: any) => activity)(
 
     /**确认发布 */
     confirm = async () => {
-      let { activity_name, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, description, mail_mode, gift_name } = this.state;
+      let { activity_name, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, description, mail_mode, gift_name } = this.props.Group;
       let activity_begin_time = moment(start_date).format('X');
       let activity_end_tine = moment(end_date).format('X');
       let image_url = [];
