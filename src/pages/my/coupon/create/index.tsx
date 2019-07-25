@@ -99,7 +99,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 						</WingBlank>
 					</Flex.Item>
 					<Flex className={styles.btns}>
-						{/* <Flex.Item>预览</Flex.Item> */}
+						<Flex.Item>预览</Flex.Item>
 						<Flex.Item onClick={this.handleSubmit}>确认发布</Flex.Item>
 					</Flex>
 				</Flex>

@@ -71,19 +71,21 @@ export default connect(({ finance }: any) => finance)(
     handleChangePrice = (type: string) => (e: any) => this.setState({ [type]: e.target.value });
 
     handleLoadMore = () => {
-      this.setState({
-        page: this.state.page + 1
-      }, () => {
-        this.props.dispatch({
-          type: 'finance/getData', query: {
-            page: this.state.page,
-            finance_type: this.state.finance_type,
-            date: this.state.date,
-            moneyscope_micro: this.state.min,
-            moneyscope_maximum: this.state.max
-          }
+      if (this.props.hasMore.hasMore) {
+        this.setState({
+          page: this.state.page + 1
+        }, () => {
+          this.props.dispatch({
+            type: 'finance/getData', query: {
+              page: this.state.page,
+              finance_type: this.state.finance_type,
+              date: this.state.date,
+              moneyscope_micro: this.state.min,
+              moneyscope_maximum: this.state.max
+            }
+          })
         })
-      })
+      }
     }
     pushPage = (pathname: string, query: object) => {
       router.push({ pathname, query })

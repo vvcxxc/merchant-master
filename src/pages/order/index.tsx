@@ -74,14 +74,16 @@ export default class OrderPage extends Component {
 
 
 	handleLoadMore = () => {
-		this.setState({
-			page : this.state.page + 1
-		},() => {
-			this.getData({
-				pay_status : this.state.pay_status,
-				date : this.state.date
+		if(this.state.hasMore) {
+			this.setState({
+				page : this.state.page + 1
+			},() => {
+				this.getData({
+					pay_status : this.state.pay_status,
+					date : this.state.date
+				})
 			})
-		})
+		}
 		
 	}
 
