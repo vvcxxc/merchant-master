@@ -13,6 +13,8 @@ import router from 'umi/router';
 
 export default connect(({createStore}: any) => createStore)(
   class MapPage extends Component<any> {
+    geocoder: any;
+    msearch: any;
     state = {
       city_list: [],
       // 城市选择页
@@ -394,7 +396,7 @@ export default connect(({createStore}: any) => createStore)(
             }
           })
           const lnglat = e.lnglat;
-          _this.geocoder && _this.geocoder.getAddress(lnglat, (status, result) => {
+          _this.geocoder && _this.geocoder.getAddress(lnglat, (status: any, result: any) => {
             if (status === 'complete'){
               if (result.regeocode){
                 _this.createSearch(result);

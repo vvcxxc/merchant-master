@@ -264,7 +264,7 @@ export default connect(({ createStore }: any) => createStore)(
             xpoint: location.longitude,
             ypoint: location.latitude,
             email,
-            _code
+            code_id: _code
             //接口好了后把_code替换为正式的字段名
           }
         }).then(res => {
