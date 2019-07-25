@@ -44,7 +44,8 @@ export default class CreateStore extends Component {
     location: {
       longitude: 0,
       latitude: 0
-    }
+    },
+    code_id: ''
   };
 
   componentDidMount (){
@@ -105,6 +106,10 @@ export default class CreateStore extends Component {
   /**门牌号 */
   handleHouseNum = (e: any) => {
     this.setState({house_num: e.target.value})
+  }
+  /**二维码序号 */
+  handleCode = (e: any) => {
+    this.setState({code_id: e.target.value})
   }
 
   /**查看示例 */
@@ -179,7 +184,7 @@ export default class CreateStore extends Component {
 
 
   createStore = () => {
-    let { name, address, house_num, phone, manage_type, email, store_door_header_img, store_img_one, store_img_two, location } = this.state;
+    let { name, address, house_num, phone, manage_type, email, store_door_header_img, store_img_one, store_img_two, location, code_id } = this.state;
     if (name&&address&&house_num&&phone&&manage_type&&email&&store_door_header_img&&store_img_one&&store_img_two){
 
       request({
@@ -196,7 +201,8 @@ export default class CreateStore extends Component {
           store_img_two,
           xpoint: location.longitude,
           ypoint: location.latitude,
-          email
+          email,
+          code_id
         }
       }).then(res => {
         let { code, data } = res;
@@ -283,6 +289,15 @@ export default class CreateStore extends Component {
                 placeholder='请输入邮箱'
                 value={this.state.email}
                 onChange={this.handleEmail}
+              />
+            </Flex>
+            <Flex className={styles.inputWrap}>
+              <span>二维码序号</span>
+              <input
+                type="text"
+                placeholder='请输入二维码序号（非必填）'
+                value={this.state.code_id}
+                onChange={this.handleCode}
               />
             </Flex>
             <Flex className={styles.imgWrap}>
