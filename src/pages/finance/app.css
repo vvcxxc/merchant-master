@@ -1,0 +1,20 @@
+.App {
+    width: 100%;
+  }
+  
+  .li-item {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .loadMore {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    border: 1px; 
+    border-style: solid;
+    border-color: red;
+  }

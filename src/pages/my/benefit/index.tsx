@@ -27,7 +27,10 @@ export default class Benefit extends Component {
 		showNoData: false,
 		sum: 0,
 		platform: 0,
-		count: 0
+		count: 0,
+
+		hasMore: true,
+		page: 1
 	};
 	componentDidMount = () => this.getData();
 	getData = async () => {
@@ -37,18 +40,50 @@ export default class Benefit extends Component {
 			params: {
 				type: this.state.type,
 				pay_type: this.state.payType,
-				date: this.state.date
+				date: this.state.date,
+				page: this.state.page
 			}
 		});
 		Toast.hide();
-		if (res.code === 200) {
-			this.setState({ data: res.data, sum: res.sum, platform: res.platform, count: res.count });
-			if (!res.data.length) {
-				this.setState({ showNoData: true });
-			}
+		// if (res.code === 200) {
+		// 	this.setState({ data: this.state.data.concat(res.data), sum: res.sum, platform: res.platform, count: res.count });
+		// 	if (!res.data.length) {
+		// 		this.setState({ showNoData: true });
+		// 	}
+		// }
+		if (res.code === 200 && res.data.length != 0) {
+			this.setState({ data: this.state.data.concat(res.data), sum: res.sum, platform: res.platform, count: res.count });
+		} else if (res.code === 200 && res.data.length == 0) {
+			this.setState({ hasMore: false });
+			// this.setState({ hasMore: false , showNoData : true });
 		}
 	};
-	handleChange = (query: any) => this.setState({ date: query.time || undefined, payType: query.hot }, this.getData);
+
+	handleLoadMore = () => {
+		this.setState({
+			type: this.state.type,
+			pay_type: this.state.payType,
+			date: this.state.date,
+			page: this.state.page + 1
+		}, () => {
+			this.getData()
+		})
+	}
+
+
+	handleChange = (query: any) => {
+		this.setState({ date: query.time || undefined, payType: query.hot }, this.getData)
+		// 每次change时重置
+		this.setState({ 
+			showNoData: false, 
+			data: [],
+			count : 0,
+			sum: 0,
+			platform: 0,
+			page : 1,
+			hasMore : true
+		});
+	};
 	render() {
 		const list = this.state.data.map((_: Item) => <BenefitItem key={_.id} {..._} />);
 		const noData = (
@@ -72,6 +107,7 @@ export default class Benefit extends Component {
 					onChange={this.handleChange}
 				>
 					{this.state.showNoData ? noData : list}
+					<p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
 				</FiltrateLayout>
 			</div>
 		);
