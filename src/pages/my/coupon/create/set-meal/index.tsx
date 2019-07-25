@@ -111,20 +111,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
           <View className="setMeal_ticket">
             <View className="setMeal_ticket_more">更多本店宝贝</View>
 
-            <View className="coupon1">
-              <View className="imgbox">
-                <View className="coupon_left">
-                  <img src={this.props.image} alt="" />
-                </View>
-                <View className="coupon_right">
-                  <View className="coupon_right_title">洛溪路店</View>
-                  <View className="coupon_right_info" >试用套装</View>
-                  <View className="coupon_right_days" >购买后6日内有效</View>
-                  <View className="coupon_right_money" >￥30</View>
-                </View>
-              </View>
-            </View>
-
 
             <View className="coupon2">
               <View className="imgbox">
@@ -145,6 +131,28 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
                 </View>
               </View>
             </View>
+
+            <View className="coupon1">
+              <View className="imgbox">
+                <View className="coupon_left">
+                  <img src={this.props.image} alt="" />
+                </View>
+                <View className="coupon_right">
+                  <View className="coupon_right_title">洛溪路店</View>
+                  <View className="coupon_right_info" >试用套装</View>
+                  <View className="coupon_right_days" >购买后6日内有效</View>
+                  <View className="coupon_right_money" >￥30</View>
+                </View>
+              </View>
+            </View>
+
+
+           
+
+
+
+
+
           </View>
 
 
