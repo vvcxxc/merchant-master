@@ -21,13 +21,31 @@ export interface Group {
   description: Array<any>;
   pay_list: Array<any>;
 }
-
+export interface Appreciation {
+  start_date: string | number;
+  end_date: string | number;
+  gift_id: string;
+  gift_pic: string;
+  gift_name: string;
+  start_price: string;
+  end_price: string;
+  appreciation_number_sum: string;
+  validity: string;
+  pay_money: string;
+  total_num: string;
+  total_fee: string;
+  mail_mode: string;
+  pay_list: object;
+}
 const model: Model = {
   namespace: 'activity',
   state: {
     Group: {
-
-    }
+      cover_img: [],
+      describe_img1: [],
+      describe_img2: []
+    },
+    Appreciation: {}
   },
   reducers: {
     setGroup(state, { payload }) {
@@ -35,7 +53,16 @@ const model: Model = {
         ...state,
         Group: {
           ...state.Group,
-          payload
+          ...payload
+        },
+      }
+    },
+    setAppreciation(state, { payload }) {
+      return {
+        ...state,
+        Appreciation: {
+          ...state.Appreciation,
+          ...payload
         }
       }
     }
