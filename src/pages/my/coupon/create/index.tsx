@@ -74,14 +74,22 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					pay_money: this.state.showPrice ? this.props.moneyForm.pay_money : 0
 				}
 			});
-
+		pushPage = (_type: any) => {
+			console.log(_type);
+			if(_type==1){
+				router.push('/my/coupon/preview/ticket-buy');
+			}else if(_type==0){
+				router.push('/my/coupon/preview/set-meal');
+			}
+			
+		};
 		render() {
 			const form =
 				this.state.type === 0 ? (
 					<CouponForm showPrice={this.state.showPrice} />
 				) : (
-					<MoneyForm showPrice={this.state.showPrice} />
-				);
+						<MoneyForm showPrice={this.state.showPrice} />
+					);
 			return (
 				<Flex direction="column" className={styles.page}>
 					<Flex.Item>
@@ -99,7 +107,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 						</WingBlank>
 					</Flex.Item>
 					<Flex className={styles.btns}>
-						<Flex.Item>预览</Flex.Item>
+						<Flex.Item onClick={this.pushPage.bind(this, this.state.type)}>预览</Flex.Item>
 						<Flex.Item onClick={this.handleSubmit}>确认发布</Flex.Item>
 					</Flex>
 				</Flex>
