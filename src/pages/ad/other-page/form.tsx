@@ -201,8 +201,8 @@ export default class From extends Component<Props, any> {
 	render() {
 		const time = this.state.startTime
 			? moment.unix(this.state.startTime || 0).format('YYYY.MM.DD') +
-			  '-' +
-			  moment.unix(this.state.endTime || 0).format('YYYY.MM.DD')
+			'-' +
+			moment.unix(this.state.endTime || 0).format('YYYY.MM.DD')
 			: '广告投放时长';
 
 		let typeFormInput;
@@ -279,6 +279,11 @@ export default class From extends Component<Props, any> {
 							{imagePicker}
 							{this.state.edit && <img className={styles.banner} src={this.state.banner} />}
 						</Flex.Item>
+						<Flex justify="start">
+							<span className={styles.link} onClick={() => { router.push('/ad/other-page/readme') }}>
+								创建必读
+								</span>
+						</Flex>
 						<Button
 							type="primary"
 							className={!this.state.edit ? styles.submitBtn : styles.stopBtn}
