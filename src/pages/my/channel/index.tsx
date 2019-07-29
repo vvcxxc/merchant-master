@@ -97,7 +97,7 @@ export default class Benefit extends Component {
 
 
 	handleChange = (query: any) => {
-		console.log(query)
+		// console.log(query)
 		let type0;
 		switch(query.hot._id){
 			case 3:type0='today';break;

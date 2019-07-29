@@ -56,9 +56,11 @@ export default class FiltrateLayout extends Component<Props> {
 		this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id } } }, this.handleQueryChange);
 	};
 	hotHide = () => this.setState({ hotShow: false });
-	timeChange = (value: string): any =>
+	timeHide = () => this.setState({ timeShow: false });
+	timeChange = (value: string): any => {
+		console.log('aa');
 		this.setState({ query: { ...this.state.query, time: value }, timeShow: false }, this.handleQueryChange);
-
+	}
 	// hotReset = () => this.props.onChange && this.props.onChange({hot: {}, time: this.state.query.time});
 	// timeReset = () => this.props.timeReset && this.props.timeReset();
 
@@ -141,6 +143,7 @@ export default class FiltrateLayout extends Component<Props> {
 					show={this.state.timeShow}
 					// reset={this.timeReset}
 					value={this.state.query.time}
+					onHide={this.timeHide}
 					onChange={this.timeChange}
 				/>
 			</Flex>
