@@ -4,7 +4,8 @@ import { WingBlank, Flex } from 'antd-mobile';
 
 interface Props {
 	undetermined: Undetermined;
-	onChange: (id: number | string) => any;
+	undetermined2?: any;
+	onChange: (id: number | string, _id: number | string) => any;
 	onHide: () => any;
 	show: boolean /**后备条件 */;
 	after?: After;
@@ -23,14 +24,17 @@ export type Undetermined = Array<Item>;
 /**待选择的项目 */
 interface Item {
 	id: string | number;
+	_id: string | number;//条件2id
 	label: any;
 	checked?: boolean;
+	_checked?: boolean;//条件2选中
 }
 
 /**条件模态框口 */
-export default function UndeterminedModal({ undetermined, onChange, show, after, onHide }: Props) {
+export default function UndeterminedModal({ undetermined, undetermined2, onChange, show, after, onHide }: Props) {
 	// const [selfUndetermined, setSelfUndetermined] = useState([...undetermined]);
 	const [checked, setChecked] = useState();
+	const [_checked, set_Checked] = useState();
 	/**点击某个条件时 */
 	const handleClickUndetermined = (index: number, item: Item): any => () => {
 		// const _undetermined = [...selfUndetermined];
@@ -38,10 +42,15 @@ export default function UndeterminedModal({ undetermined, onChange, show, after,
 		// setSelfUndetermined(_undetermined);
 		setChecked(item.id);
 	};
-	const submit = () => onChange(checked);
+	/**点击某个条件时2*/
+	const handleClickUndetermined2 = (index: number, item: Item): any => () => {
+		set_Checked(item._id);
+	};
+	const submit = () => onChange(checked, _checked);
 	const _reset = () => {
 		setChecked(undefined);
-		onChange('');
+		set_Checked(undefined);
+		onChange('', '');
 	};
 	/**渲染条件列表 */
 	const undeterminedList = undetermined.map((_, index) => (
@@ -55,6 +64,20 @@ export default function UndeterminedModal({ undetermined, onChange, show, after,
 			{_.label}
 		</Flex>
 	));
+
+	/**渲染条件列表2 */
+	const undeterminedList2 = undetermined2 ? undetermined2.map((_: any, index: any) => (
+		<Flex
+			key={_._id}
+			align="center"
+			justify="center"
+			onClick={handleClickUndetermined2(index, _)}
+			className={_._id === _checked ? 'checked undetermined' : 'undetermined'}
+		>
+			{_.label}
+		</Flex>
+	)) : null;
+
 	/**备用条件 */
 	const afterContext = after && (
 		<div>
@@ -66,6 +89,7 @@ export default function UndeterminedModal({ undetermined, onChange, show, after,
 	const maskClick = (e: any) => {
 		if (e.target.id === 'layoutModal') {
 			setChecked(-1);
+			set_Checked(-1)
 			onHide();
 		}
 	};
@@ -77,11 +101,21 @@ export default function UndeterminedModal({ undetermined, onChange, show, after,
 			onClick={maskClick}
 		>
 			<div className="content">
+
 				<WingBlank>
 					<div className="title">快速筛选</div>
 					<div className="undetermined-list">{undeterminedList}</div>
 					{afterContext}
 				</WingBlank>
+				{
+					undetermined2 ? <WingBlank>
+						<div className="title">交易时间</div>
+						<div className="undetermined-list">{undeterminedList2}</div>
+						{/* {afterContext} */}
+					</WingBlank> : null
+				}
+
+
 			</div>
 			<Flex style={{ backgroundColor: '#fff' }}>
 				<Flex.Item className="btn" onClick={_reset}>

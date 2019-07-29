@@ -13,6 +13,7 @@ interface Props {
 	insignificant?: any;
 	/**快速筛选条件列表 */
 	undetermined: Undetermined;
+	undetermined2?: any;
 	/**备用筛选条件 */
 	after?: After;
 	tabs?: string[];
@@ -51,8 +52,8 @@ export default class FiltrateLayout extends Component<Props> {
 
 	handleTimeClick = () => this.setState({ timeShow: !this.state.timeShow, hotShow: false });
 
-	hotChange = (id: any) => {
-		this.setState({ hotShow: false, query: { ...this.state.query, hot: id } }, this.handleQueryChange);
+	hotChange = (id: any, _id: any) => {
+		this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id } } }, this.handleQueryChange);
 	};
 	hotHide = () => this.setState({ hotShow: false });
 	timeChange = (value: string): any =>
@@ -131,6 +132,7 @@ export default class FiltrateLayout extends Component<Props> {
 					show={this.state.hotShow}
 					onChange={this.hotChange}
 					undetermined={this.props.undetermined}
+					undetermined2={this.props.undetermined2}
 					after={this.props.after}
 					// reset={this.hotReset}
 					onHide={this.hotHide}
