@@ -19,7 +19,7 @@ export interface After {
 }
 
 /**待选择条件列表 */
-export type Undetermined = Array<Item>;
+export type Undetermined = Array<object>;
 
 /**待选择的项目 */
 interface Item {
