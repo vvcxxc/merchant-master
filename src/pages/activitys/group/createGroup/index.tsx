@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast, ImagePicker } from 'antd-mobile';
 import upload from '@/services/oss';
-import ChooseGift from '../../components/choosegift/';
 import Notice from '../../components/notice/';
 import PayMent from '../../components/payment'
 import moment from 'moment'
@@ -18,48 +17,12 @@ const now = new Date(nowTimeStamp);
 export default connect(({ activity }: any) => activity)(
   class createGroup extends Component<any> {
     state = {
-      start_date: now,
-      end_date: now,
-      is_gift: false,
-      is_show: false,
-      is_notice: false,
-      is_pay: false,
-      /**支付方式 */
-      mail_mode: '1',
-      /**活动名字 */
-      activity_name: '',
-      /**原价 */
-      old_price: '',
-      /**拼团价 */
-      participation_money: '',
-      /**拼团人数 */
-      group_number: '',
-      /**团数 */
-      group_sum: '',
-      /**有效期 */
-      validity: '',
-      /**图片base64 */
-      cover_img: [],
-      describe_img1: [],
-      describe_img2: [],
-      /**图片路径 */
-      image: '',
-      image_url1: '',
-      image_url2: '',
-      /**礼品id */
-      gift_id: '',
-      /**礼品图片 */
-      gift_pic: '',
-      gift_name: '',
-      /**使用须知组件计数用 */
-      keys: '100',
-      /**使用须知列表 */
-      description: [],
-      /**跳转支付 */
-      pay_list: [],
-      display: 'block'
+      is_gift: false
     };
     componentDidMount (){
+      if(this.props.Group.gift_id){
+        this.setState({is_gift: true})
+      }
       if(!this.props.Group.start_date){
         this.props.dispatch({
           type: 'activity/setGroup',
@@ -244,48 +207,16 @@ export default connect(({ activity }: any) => activity)(
         });
       }
     }
-
-    /**选择礼品的回调 */
-    changeGift = (id: string, is_show: boolean, gift_pic: string, gift_name: string) => {
-      if (id) {
-        this.setState({ is_gift: true })
-      } else {
-        this.setState({ is_gift: false })
-      }
-      this.setState({
-        gift_id: id,
-        is_show,
-        gift_pic,
-        gift_name,
-        display: 'block'
-      })
-    }
     toGift = () => {
-      this.setState({
-        is_show: true,
-        display: 'none'
-      })
+      router.push({pathname:'/activitys/choosegift',query:{type: 1}})
     }
     toNotice = () => {
-      this.setState({
-        is_notice: true,
-
-      });
+      router.push({pathname:'/activitys/notice',query:{type: 1}})
     }
-
-    /**使用须知的回调 */
-    changeNotice = (notice_list: any, keys: string) => {
-      this.setState({
-        description: notice_list,
-        keys,
-        is_notice: false
-      })
-    }
-
 
     /**确认发布 */
     confirm = async () => {
-      let { activity_name, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, description, mail_mode, gift_name } = this.props.Group;
+      let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name } = this.props.Group;
       let activity_begin_time = moment(start_date).format('X');
       let activity_end_tine = moment(end_date).format('X');
       let image_url = [];
@@ -317,12 +248,11 @@ export default connect(({ activity }: any) => activity)(
         let { data, message, code } = res;
         if (code == 200) {
           if (data.order_sn) {
-            this.setState({
-              pay_list: data,
-              is_pay: true
-            })
             Toast.hide();
           } else {
+            this.props.dispatch({
+              type: 'activity/Clean',
+            })
             Toast.success(message, 2, () => {
               router.push('/activitys/group');
               Toast.hide();
@@ -335,14 +265,8 @@ export default connect(({ activity }: any) => activity)(
 
     }
     render() {
-      // const { cover_img, describe_img1, describe_img2, display } = this.state;
       const { start_date, end_date, activity_name, cover_img, describe_img1, describe_img2, old_price, participation_money, group_number, group_sum, validity } = this.props.Group;
-      const chooseGift = this.state.is_show == true ? (
-        <ChooseGift onChange={this.changeGift} id={this.state.gift_id} money={this.state.participation_money} />
-      ) : (
-          ''
-        )
-      const chooseMail = this.state.mail_mode == '1' ? (
+      const chooseMail = this.props.Group.mail_mode == '1' ? (
         <Flex className={styles.choose}>
           <div style={{ marginRight: 17 }} onClick={this.chooseMailMode.bind(this, '1')}><img src={require('./image/choose.png')} />联盟店支付</div>
           <div onClick={this.chooseMailMode.bind(this, '2')}><img src={require('./image/no_choose.png')} />用户支付</div>
@@ -372,16 +296,6 @@ export default connect(({ activity }: any) => activity)(
       ) : (
           ''
         );
-      const notice = this.state.is_notice == true ? (
-        <Notice onChange={this.changeNotice} keys={this.state.keys} notice_list={this.state.description} />
-      ) : (
-          ''
-        )
-      const payment = this.state.is_pay == true ? (
-        <PayMent list={this.state.pay_list} type={'group'} />
-      ) : (
-          ''
-        )
 
       return (
         <div style={{ width: '100%', height: 'auto', minHeight: '100%', background: '#fff', overflow: 'hidden', }}>
@@ -498,7 +412,7 @@ export default connect(({ activity }: any) => activity)(
           </div>
 
           // {chooseGift}
-          // {notice}
+
           // {payment}
         // </div>
       )
