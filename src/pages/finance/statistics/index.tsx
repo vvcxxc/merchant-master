@@ -141,7 +141,7 @@ export default class FinanceStatistis extends Component {
 							</Flex.Item>
 						</Flex>
 					</Box>
-					<Box title="支付渠道" lookMore={true} onClickMore={this.hanldeLookMore('/my/benefit')}>
+					<Box title="支付渠道" lookMore={true} onClickMore={this.hanldeLookMore('/my/channel')}>
 						<Flex align="end" style={{ padding: 50 }}>
 							<Flex.Item>
 								<div className="pie-chart">

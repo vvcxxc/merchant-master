@@ -44,7 +44,6 @@ export default class createAppreciation extends Component {
     is_pay: false,
     /**提交后返回的信息 */
     pay_list: {},
-    animating: false,
     display: 'block'
   };
 

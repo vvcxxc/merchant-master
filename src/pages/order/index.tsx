@@ -57,11 +57,11 @@ export default class OrderPage extends Component {
 			page : 1,
 			hasMore : true,
 			list : [],
-			pay_status: query.hot,
+			pay_status: query.hot.id,
 			date : query.time ? moment(query.time).unix() : undefined
 		},() => {
 			this.getData({
-				pay_status: query.hot,
+				pay_status: query.hot.id,
 				date: query.time ? moment(query.time).unix() : undefined
 			});
 		})
