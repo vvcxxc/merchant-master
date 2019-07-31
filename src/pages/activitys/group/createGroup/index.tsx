@@ -248,6 +248,13 @@ export default connect(({ activity }: any) => activity)(
         let { data, message, code } = res;
         if (code == 200) {
           if (data.order_sn) {
+            this.props.dispatch({
+              type: 'activity/setGroup',
+              payload: {
+                list: data
+              }
+            });
+            router.push({pathname:'/activitys/pay',query:{type: 1}})
             Toast.hide();
           } else {
             this.props.dispatch({
