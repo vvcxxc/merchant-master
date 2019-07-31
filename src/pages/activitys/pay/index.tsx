@@ -41,6 +41,7 @@ export default connect(({ activity }: any) => activity)(
   submit = async() => {
     let { list } = this.state;
     let openId = Cookies.get(open_id)
+    alert(openId)
     const res = await axios({
       url: pay_url,
       method: 'post',
