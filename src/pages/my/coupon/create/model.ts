@@ -13,12 +13,12 @@ export interface CouponForm {
 }
 
 export interface MoneyForm {
-  return_money: number;
-  coupons_type: number;
-  pay_money: number;
-  total_fee: number;
-  validity: number;
-  total_num: number;
+  return_money: string;
+  coupons_type: string;
+  pay_money: string;
+  total_fee: string;
+  validity: string;
+  total_num: string;
 }
 
 const model: Model = {

@@ -15,7 +15,9 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 			this.props.dispatch({
 				type: 'createCoupon/setMoney',
 				payload: {
-					[type]: parseInt(value)
+          // [type]: parseInt(value)
+					[type]: value
+
 				}
 			});
 		};
@@ -45,7 +47,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 					<InputItem
 						type="money"
 						extra="元"
-						value={String(this.props.total_fee || '')}
+						value={this.props.total_fee}
 						onChange={this.handleInput('total_fee')}
 					>
 						使用门槛
