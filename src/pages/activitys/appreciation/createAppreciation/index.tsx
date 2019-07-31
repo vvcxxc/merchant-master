@@ -204,6 +204,17 @@ export default connect(({ activity }: any) => activity)(
 
   }
 
+  handleCheckAppreciationNumber(v:any) {
+    console.log(this.refs.appreciationNumber) 
+    v = Number(v);
+    if(v < 2 || v > 18) {
+      Toast.fail('助力人数应在2至18之间', 2 , () => {
+        this.refs.appreciationNumber.focus();
+      });
+      this.refs.appreciationNumber.clearInput();
+    }
+  }
+
   render (){
     const chooseMail = this.props.Appreciation.mail_mode == '1' ? (
       <Flex className={styles.choose}>
@@ -274,7 +285,7 @@ export default connect(({ activity }: any) => activity)(
               <InputItem type={'money'} className={styles.textShort} onChange={this.handleEndPri} value={end_price} placeholder='请输入 ' extra='元'>
                 封顶值
               </InputItem>
-              <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人'>
+              <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人' ref="appreciationNumber" onVirtualKeyboardConfirm={this.handleCheckAppreciationNumber.bind(this)}>
                 助力人数
               </InputItem>
               <InputItem type={'money'} className={styles.textShort} onChange={this.handlePayMoney} value={pay_money} placeholder='请输入 ' extra='元'>

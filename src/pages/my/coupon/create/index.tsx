@@ -77,9 +77,9 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 		pushPage = (_type: any) => {
 			console.log(_type);
 			if(_type==1){
-				router.push('/my/coupon/preview/ticket-buy');
+				router.push('/my/coupon/create/ticket-buy');
 			}else if(_type==0){
-				router.push('/my/coupon/preview/set-meal');
+				router.push('/my/coupon/create/set-meal');
 			}
 			
 		};

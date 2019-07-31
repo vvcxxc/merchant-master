@@ -188,12 +188,17 @@
   color: #aeaeae;
   margin-bottom: 24px;
 }
+:global .setMeal .setMeal_rule .setMeal_rule_days_info {
+  width: 100%;
+  font-size: 30px;
+  color: #000;
+  margin-bottom: 24px;
+}
 :global .setMeal .setMeal_rule .setMeal_rule_brief {
   height: 40px;
   width: 100%;
-  font-size: 40px;
-  font-weight: bold;
-  text-align: left;
+  font-size: 30px;
+  color: #aeaeae;
   margin-bottom: 40px;
 }
 :global .setMeal .setMeal_rule .setMeal_rule_list_box {

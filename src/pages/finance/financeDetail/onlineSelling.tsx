@@ -43,7 +43,7 @@ export default connect(({ finance }: any) => finance)(
              params: {
                  type: 5, //账单类型1=线下收银详情 2=费率返点详情 3=广告收益 4=优惠券收益 5=线上卖券 6=广告支出
                  log_id: _id,
-                 field_help: ""
+                //  field_help: ""
              }
          }).then(res => {
              console.log(res)

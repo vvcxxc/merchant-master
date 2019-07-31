@@ -50,9 +50,10 @@ export default class MoneyOffDetail extends Component<any> {
 		Toast.loading('');
 		const res = await request({ url: 'v3/activity/more_decrease/' + this.state.id, method: 'delete' });
 		Toast.hide();
+
 		if (res.code === 200) {
 			Toast.success('删除成功');
-			router.goBack();
+			setTimeout(router.goBack, 1000);
 		} else {
 			Toast.show(res.data);
 		}
@@ -70,7 +71,7 @@ export default class MoneyOffDetail extends Component<any> {
 			Toast.hide();
 			if (res.code === 200) {
 				Toast.success('删除成功');
-				this.getDetail();
+				setTimeout(()=>{this.getDetail() }, 2000);
 			} else {
 				Toast.fail(res.data);
 			}

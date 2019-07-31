@@ -17,7 +17,31 @@ export default class Benefit extends Component {
 			id: 1,
 			label: '微信'
 		},
-		{ id: 2, label: '支付宝' }
+		{
+			id: 2, label: '支付宝'
+		}
+	];
+	undetermined2 = [
+		{
+			_id: 3,
+			type: 'today',
+			label: '今日'
+		},
+		{
+			_id: 4,
+			type: 'yestoday',
+			label: '昨日'
+		},
+		{
+			_id: 5,
+			type: 'thisweek',
+			label: '本周'
+		},
+		{
+			_id: 6,
+			type: 'thismonth',
+			label: '本月'
+		}
 	];
 	state = {
 		data: [],
@@ -28,7 +52,6 @@ export default class Benefit extends Component {
 		sum: 0,
 		platform: 0,
 		count: 0,
-
 		hasMore: true,
 		page: 1
 	};
@@ -74,7 +97,15 @@ export default class Benefit extends Component {
 
 
 	handleChange = (query: any) => {
-		this.setState({ date: query.time || undefined, payType: query.hot.id }, this.getData)
+		// console.log(query)
+		let type0;
+		switch(query.hot._id){
+			case 3:type0='today';break;
+			case 4:type0='yestoday';break;//yestoday……没看错
+			case 5:type0='thisweek';break;
+			case 6:type0='thismonth';break;
+		}
+		this.setState({ date: query.time || undefined, payType: query.hot.id, type: type0}, this.getData)
 		// 每次change时重置
 		this.setState({
 			showNoData: false,
@@ -104,6 +135,7 @@ export default class Benefit extends Component {
 			<div className={styles.page}>
 				<FiltrateLayout
 					undetermined={this.undetermined}
+					undetermined2={this.undetermined2}
 					insignificant={insignificant}
 					hasInsignificant={true}
 					onChange={this.handleChange}
