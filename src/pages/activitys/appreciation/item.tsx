@@ -13,8 +13,7 @@ export interface Item {
 	user_count: number;
 	activity_begin_time: string;
 	activity_end_time: string;
-	type: string,
-	appreciation_number_sum:string
+	type: string
 }
 
 
@@ -32,7 +31,7 @@ export default function GroupItem(props: Item) {
 					{props.activity_begin_time}-{props.activity_end_time}
 				</div>
 				<div className="detail">
-					<span>已参与{props.appreciation_number_sum}</span>
+					<span>已参与{props.user_count}</span>
 					<span>最高可增值{props.return_money}</span>
 				</div>
 			</Flex.Item>
