@@ -56,6 +56,8 @@ export default class CreatePaymentReturn extends Component {
 			Toast.success('发布成功', 2, () => {
 				router.push('/activitys/payment');
 			});
+		}else {
+			Toast.fail(res.data , 2)
 		}
 	};
 
