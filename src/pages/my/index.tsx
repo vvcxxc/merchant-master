@@ -67,33 +67,37 @@ export default connect()(
 				}).then(res => {
 					let { data, message } = res;
 					if (data[0]) {
+						let resetData = Object.assign({}, this.state.info, { money: Number(0.0000).toFixed(4) })
+						this.setState({
+							info: resetData
+						})
 						Toast.success(message, 1);
 					} else {
-						Toast.fail(message, 1);
+						Toast.fail('暂无平台收益', 1);
 					}
 				});
 			} else {
 				Toast.fail('暂无平台收益', 1);
 			}
-    };
+		};
 
-    /**我的签约码 */
-    goSignCode = () => {
-      router.push({
-        pathname: '/my/signCode',
-        query: {
-          url: this.state.info.wx_sign_url
-        }
-      })
-    }
+		/**我的签约码 */
+		goSignCode = () => {
+			router.push({
+				pathname: '/my/signCode',
+				query: {
+					url: this.state.info.wx_sign_url
+				}
+			})
+		}
 
 		render() {
-      const signCode = this.state.info.wx_sign_status == 3 ? null : (
-        <Flex onClick={this.goSignCode}>
-          <img src={require('./signed.png')} alt="" />
-          <span>我的签约码</span>
-        </Flex>
-      )
+			const signCode = this.state.info.wx_sign_status == 3 ? null : (
+				<Flex onClick={this.goSignCode}>
+					<img src={require('./signed.png')} alt="" />
+					<span>我的签约码</span>
+				</Flex>
+			)
 			return (
 				<div className={styles.page}>
 					<div className={styles.headInfo}>
@@ -157,7 +161,7 @@ export default connect()(
 							<img src={require('./benefit.png')} alt="" />
 							<span>店铺邀请码</span>
 						</Flex>
-            {signCode}
+						{signCode}
 					</WingBlank>
 				</div>
 			);
