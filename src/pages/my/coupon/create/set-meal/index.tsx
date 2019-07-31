@@ -86,11 +86,10 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
             <View className="setMeal_rule_brief">使用规则：</View>
             <View className="setMeal_rule_list_box">
               {
-                this.props.description.map((item) => {
+                this.props.description && this.props.description.length != 0 ? this.props.description.map((item) => {
                   return <View className="setMeal_rule_list" key={item} >{item}</View>
-                })
+                }) : null
               }
-
             </View>
           </View>
 
@@ -98,13 +97,13 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
             <View className="setMeal_brief_title">图文详情</View>
             <View className="setMeal_brief_list_box">
               {
-                this.props.image_url.map((item) => {
-                 return <View className="setMeal_brief_list" key={item}>
+                this.props.image_url && this.props.image_url.length != 0 ? this.props.image_url.map((item) => {
+                  return <View className="setMeal_brief_list" key={item}>
                     <img src={item} />
                   </View>
-                })
-              }
+                }) : null
 
+              }
 
             </View>
           </View>
@@ -147,7 +146,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
             </View>
 
 
-           
+
 
 
 
