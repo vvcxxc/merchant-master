@@ -16,7 +16,7 @@ export default connect()(
     pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
     render() {
       return (
-        <div className={styles.page}>
+        <div className={styles.page} style={{height:"auto",minHeight:"100%",paddingBottom:"20px"}}>
           <WingBlank>
             <Flex className="activity-item" onClick={this.pushPage('/activitys/payment')}>
               <img className="item-icon" src={require('./images/1.png')} alt="" />
