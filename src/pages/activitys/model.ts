@@ -43,9 +43,12 @@ const model: Model = {
     Group: {
       cover_img: [],
       describe_img1: [],
-      describe_img2: []
+      describe_img2: [],
+      mail_mode: '1'
     },
-    Appreciation: {}
+    Appreciation: {
+      mail_mode: '1'
+    }
   },
   reducers: {
     setGroup(state, { payload }) {
@@ -63,6 +66,20 @@ const model: Model = {
         Appreciation: {
           ...state.Appreciation,
           ...payload
+        }
+      }
+    },
+    Clean(state) {
+      return {
+        ...state,
+        Group: {
+          cover_img: [],
+          describe_img1: [],
+          describe_img2: [],
+          mail_mode: '1'
+        },
+        Appreciation: {
+          mail_mode: '1'
         }
       }
     }

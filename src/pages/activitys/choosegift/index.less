@@ -1,0 +1,97 @@
+.page {
+
+  width: 100%;
+  // height: 100vh;
+  min-height: 100%;
+  height: auto;
+  // position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 10000;
+  background: #fff;
+}
+.lists {
+  -webkit-overflow-scrolling:touch;
+  height: auto;
+}
+.giftBox {
+  padding-bottom: 31px;
+  border-bottom:1px solid rgba(229,229,229,1);
+  .image{
+    width: 171px;
+    height: 95px;
+    overflow: hidden;
+    background: #ddd;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .text {
+    margin-left: 17px;
+    // flex: 1;
+    width: 500px;
+    position: relative;
+    .name {
+      margin-top: 8px;
+      margin-bottom: 30px;
+      font-size: 26px;
+      color: #333;
+      width: 100%;
+      display: -webkit-box;
+      div {
+        width: 100%;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+      }
+
+    }
+    .prices {
+      font-size: 23px;
+    }
+    .icon {
+      position: absolute;
+      width: 31px;
+      height: 31px;
+      right: 10px;
+      top: 40px;
+      background: url('../appreciation/createAppreciation/image/no_choose.png') no-repeat;
+      background-size: 100%;
+    }
+  }
+
+}
+
+.buttons {
+  width: 100%;
+  height: 87px;
+  position: fixed;
+  bottom: 0;
+  div {
+    text-align: center;
+    line-height: 87px;
+    width: 50%;
+  }
+  .cancel {
+    background: #fff;
+    color: #333;
+    border-top: 1px solid #333;
+    box-sizing: border-box;
+  }
+  .submit {
+    background: #21418A;
+    color: #fff;
+  }
+}
+.icon :global {
+  .am-radio-inner::after {
+    border-style: none;
+    width: 30px;
+    height: 30px;
+    background: url('../appreciation/createAppreciation/image/choose.png') no-repeat;
+    background-size: 100%;
+    top: 0;
+    right: 0;
+  }
+}
