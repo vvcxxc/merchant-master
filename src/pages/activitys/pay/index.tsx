@@ -56,7 +56,6 @@ export default connect(({ activity }: any) => activity)(
         xcx: '0'
       }
     });
-    console.log(res)
     let {data, code, message} = res.data;
     if(code == 200){
       let _this = this;
