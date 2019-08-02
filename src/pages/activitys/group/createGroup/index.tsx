@@ -217,6 +217,15 @@ export default connect(({ activity }: any) => activity)(
     /**确认发布 */
     confirm = async () => {
       let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name } = this.props.Group;
+
+      // 日期验证
+      let startDate = new Date(start_date).getTime();
+      let endDate = new Date(end_date).getTime();
+      if(startDate > endDate) {
+        Toast.fail('起始日期应大于结束日期',2);
+        return;
+      }
+
       let activity_begin_time = moment(start_date).format('X');
       let activity_end_tine = moment(end_date).format('X');
       let image_url = [];
