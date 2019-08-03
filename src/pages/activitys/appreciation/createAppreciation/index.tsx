@@ -257,25 +257,6 @@ export default connect(({ activity }: any) => activity)(
           ''
         );
 
-      const Gift = this.state.is_gift == true ? (
-        <div>
-          <Flex className={styles.giftBox}>
-            <div>配送方式</div>
-            <Flex className={styles.choose}>
-              {/* <div style={{marginRight: 17}}><img src={require('./image/choose.png')}/>到店自取</div> */}
-              <div><img src={require('./image/choose.png')} />邮寄</div>
-            </Flex>
-          </Flex>
-          {/* <Flex className={styles.giftBox}><div>自选地址</div><Flex className={styles.choose}><div style={{marginRight: 17}}><img src={require('./image/choose.png')}/>使用店铺地址</div><div className={styles.address}>自定义</div></Flex></Flex> */}
-          <Flex className={styles.giftBox}>
-            <div>选择邮费</div>
-            {chooseMail}
-          </Flex>
-          <div style={{ width: '100%', height: '90px' }}>{''}</div>
-        </div>
-      ) : (
-          ''
-        );
 
 
       const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, display, start_date, end_date } = this.props.Appreciation
