@@ -1,0 +1,442 @@
+:global .d_appre {
+  width: 100%;
+  height: auto;
+  padding-bottom: 120px;
+}
+:global .d_appre .appre_hd {
+  padding: 24px 24px 0 24px;
+  width: 100%;
+  box-sizing: border-box;
+  background: #fff;
+  margin-bottom: 20px;
+}
+:global .d_appre .appre_hd .appre_head {
+  width: 100%;
+  height: auto;
+  padding: 40px 0 0 0;
+  box-sizing: border-box;
+  position: relative;
+}
+:global .d_appre .appre_hd .appre_head .appre_head_ticket {
+  width: 100%;
+  height: 220px;
+  background: #fffaf4;
+  border: 2px solid #fff0d9;
+  padding: 50px 30px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  position: relative;
+}
+:global .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_circle1 {
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  border-radius: 15px;
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  margin-top: -15px;
+}
+:global .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_circle2 {
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  border-radius: 15px;
+  position: absolute;
+  right: -15px;
+  top: 50%;
+  margin-top: -15px;
+}
+:global .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_left {
+  width: 50%;
+  height: 100%;
+  text-align: left;
+  float: left;
+}
+:global .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_left .appre_head_left_pricebox {
+  height: 70px;
+}
+:global .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_left .appre_head_left_pricebox .appre_head_left_pricebox_price {
+  height: 50px;
+  font-size: 50px;
+  float: left;
+  font-weight: bold;
+}
+:global .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_left .appre_head_left_pricebox .appre_head_left_pricebox_msg {
+  height: 50px;
+  font-size: 30px;
+  width: 95px;
+  display: flex;
+  align-items: flex-end;
+  float: left;
+}
+:global .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_left .appre_head_left_pricebox_info {
+  font-size: 30px;
+  padding: 5px 20px;
+  background: #fa5d49;
+  color: #fff;
+  display: inline-block;
+  border-radius: 8px;
+}
+:global .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_right {
+  width: 50%;
+  height: 100%;
+  text-align: right;
+  float: left;
+}
+:global .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_right .appre_head_right_total {
+  height: 75px;
+  text-align: right;
+  color: #666666;
+  font-size: 30px;
+}
+:global .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_right .appre_head_right_days {
+  text-align: right;
+  color: #999999;
+  font-size: 30px;
+}
+:global .d_appre .appre_hd .appre_head_bottom {
+  height: 90px;
+  padding: 20px 40px 0 0;
+  box-sizing: border-box;
+}
+:global .d_appre .appre_hd .appre_head_bottom .appre_head_bottom_gift {
+  float: left;
+  border: #fc4833 1px solid;
+  color: #fb7968;
+  background: #fde8e5;
+  border-radius: 8px;
+  font-size: 25px;
+  padding: 8px 15px;
+  box-sizing: border-box;
+  margin-right: 18px;
+}
+:global .d_appre .appre_hd .appre_head_bottom .appre_head_bottom_list {
+  float: left;
+  color: #fb7968;
+  background: #fde8e5;
+  border-radius: 8px;
+  font-size: 25px;
+  padding: 8px 15px;
+  box-sizing: border-box;
+  margin-right: 18px;
+}
+:global .d_appre .appre_hd .appre_head_bottom .appre_head_bottom_share {
+  float: right;
+  color: #613f04;
+  background: #ffbf13;
+  border-radius: 8px;
+  font-size: 30px;
+  padding: 10px 25px;
+  box-sizing: border-box;
+}
+:global .d_appre .appre_hd .appre_head_bottom .appre_head_bottom_share img {
+  height: 35px;
+  width: 35px;
+  margin-right: 10px;
+  vertical-align: bottom;
+}
+:global .d_appre .appre_gift {
+  padding: 30px 24px;
+  background: #fff;
+}
+:global .d_appre .appre_gift .appre_gift_titlebox {
+  height: 40px;
+  width: 100%;
+}
+:global .d_appre .appre_gift .appre_gift_titlebox .appre_gift_title {
+  height: 100%;
+  vertical-align: bottom;
+  font-weight: bold;
+  font-size: 40px;
+  float: left;
+  text-align: left;
+  color: #000;
+}
+:global .d_appre .appre_gift .appre_gift_titlebox .appre_gift_imglist {
+  height: 100%;
+  vertical-align: bottom;
+  font-size: 25px;
+  float: right;
+  text-align: right;
+  color: #ff7a6b;
+}
+:global .d_appre .appre_gift .appre_gift_giftinfo {
+  height: 75px;
+  font-size: 25px;
+  text-align: left;
+  line-height: 75px;
+}
+:global .d_appre .appre_gift .appre_gift_giftmsgbox {
+  height: 40px;
+  margin-bottom: 20px;
+}
+:global .d_appre .appre_gift .appre_gift_giftmsgbox .appre_gift_giftmsg {
+  padding: 5px 15px;
+  color: #fa5d49;
+  font-size: 25px;
+  float: left;
+  background: #fde8e5;
+  border-radius: 8px;
+}
+:global .d_appre .appre_gift .appre_gift_giftlist {
+  width: 100%;
+  height: auto;
+}
+:global .d_appre .appre_gift .appre_gift_giftlist .appre_gift_giftlistImg {
+  width: 100%;
+  border-radius: 8px;
+}
+:global .d_appre .appre_process {
+  height: 85px;
+  margin: 7px 0;
+  display: flex;
+  background: #fff;
+  justify-content: center;
+}
+:global .d_appre .appre_process .appre_process_list {
+  box-sizing: border-box;
+  width: 130px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+:global .d_appre .appre_process .appre_process_list .appre_process_list_img {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  float: left;
+  background: #fa5d49;
+  border-radius: 20px;
+}
+:global .d_appre .appre_process .appre_process_list .appre_process_list_msg {
+  vertical-align: middle;
+  width: 50px;
+  height: 100%;
+  text-align: center;
+  float: left;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #7a7a7a;
+}
+:global .d_appre .appre_process .appre_process_list .appre_process_list_icon {
+  vertical-align: middle;
+  text-align: center;
+  width: 35px;
+  height: 35px;
+  float: left;
+}
+:global .d_appre .appre_rule {
+  background: #fff;
+  padding: 24px;
+}
+:global .d_appre .appre_rule .appre_rule_title {
+  height: 70px;
+  text-align: left;
+  font-size: 40px;
+  font-weight: bold;
+  columns: #000;
+}
+:global .d_appre .appre_rule .appre_rule_time {
+  height: 70px;
+  width: 100%;
+}
+:global .d_appre .appre_rule .appre_rule_time .appre_rule_time_key {
+  height: 30px;
+  float: left;
+  width: 165px;
+  text-align: left;
+  color: #adadad;
+}
+:global .d_appre .appre_rule .appre_rule_time .appre_rule_time_data {
+  float: left;
+  height: 30px;
+  font-size: 25px;
+}
+:global .d_appre .appre_rule .appre_rule_list {
+  width: 100%;
+}
+:global .d_appre .appre_rule .appre_rule_list .appre_rule_list_key {
+  height: 30px;
+  width: 165px;
+  text-align: left;
+  color: #adadad;
+  float: left;
+}
+:global .d_appre .appre_rule .appre_rule_list .appre_rule_list_data {
+  height: auto;
+  margin-left: 165px;
+}
+:global .d_appre .appre_rule .appre_rule_list .appre_rule_list_data .appre_rule_list_msg {
+  line-height: 40px;
+  font-size: 25px;
+}
+:global .d_appre .setMeal_store {
+  height: 315px;
+  padding: 15px 7px 15px 0;
+  background: #ededed;
+  border: none;
+}
+:global .d_appre .setMeal_store .setMeal_store_box {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  padding: 23px 40px 28px 30px;
+  box-sizing: border-box;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_title {
+  height: 60px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 38px;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_storebox {
+  height: 115px;
+  width: 100%;
+  box-sizing: border-box;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_storebox .setMeal_store_img {
+  height: 115px;
+  width: 115px;
+  overflow: hidden;
+  border-radius: 5px;
+  float: left;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_storebox .setMeal_store_img img {
+  width: 100%;
+  height: 100%;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_storebox .setMeal_store_msg {
+  width: 400px;
+  padding: 25px 0 15px 25px;
+  box-sizing: border-box;
+  float: left;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_storebox .setMeal_store_msg .setMeal_store_name {
+  height: 50px;
+  font-size: 35px;
+  font-weight: bold;
+  text-align: left;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_storebox .setMeal_store_msg .setMeal_store_price {
+  font-size: 24px;
+  text-align: left;
+  color: #666666;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_storebox .setMeal_store_icon {
+  height: 100%;
+  width: 40px;
+  box-sizing: border-box;
+  color: #666666;
+  padding-top: 50px;
+  float: right;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_addressbox {
+  width: 100%;
+  height: 80px;
+  padding-top: 35px;
+  box-sizing: border-box;
+  display: flex;
+  line-height: 40px;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_addressbox .setMeal_store_distance {
+  width: 115px;
+  position: relative;
+  float: left;
+  border-right: 1px #666666 solid;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_addressbox .setMeal_store_distance .setMeal_store_distance_img {
+  width: 30px;
+  height: 40px;
+  position: absolute;
+  left: 0;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_addressbox .setMeal_store_distance .setMeal_store_distance_img img {
+  width: 30px;
+  height: 40px;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_addressbox .setMeal_store_distance .setMeal_store_distance_info {
+  height: 40px;
+  position: absolute;
+  left: 30px;
+  padding: 0 10px;
+  font-size: 26px;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_addressbox .setMeal_store_address {
+  flex: 1;
+  padding: 0 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 26px;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_addressbox .setMeal_store_mobile {
+  width: 60px;
+  height: 40px;
+  padding-left: 30px;
+  float: right;
+  border-left: 1px #666666 solid;
+}
+:global .d_appre .setMeal_store .setMeal_store_box .setMeal_store_addressbox .setMeal_store_mobile img {
+  width: 30px;
+  height: 40px;
+  float: right;
+}
+:global .d_appre .paymoney_box {
+  height: 115px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #ccc;
+  box-sizing: border-box;
+  padding: 20px 28px;
+}
+:global .d_appre .paymoney_box .paymoney_price {
+  width: 305px;
+  height: 55px;
+  float: left;
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+:global .d_appre .paymoney_box .paymoney_price .paymoney_price_icon {
+  font-size: 30px;
+  float: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: #ee3131;
+}
+:global .d_appre .paymoney_box .paymoney_price .paymoney_price_num {
+  font-size: 50px;
+  color: #ee3131;
+  float: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+:global .d_appre .paymoney_box .paymoney_price .paymoney_price_info {
+  font-size: 30px;
+  color: #d6d6d6;
+  float: left;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+:global .d_appre .paymoney_box .paymoney_buynow {
+  width: 225px;
+  height: 75px;
+  line-height: 75px;
+  float: right;
+  border-radius: 37.5px;
+  background: linear-gradient(90deg, #FE7450, #FF2614);
+  color: #fff;
+  text-align: center;
+  font-size: 30px;
+}

@@ -319,11 +319,12 @@ export default connect(({ activity }: any) => activity)(
                 <div style={{ width: '100%', height: '.88rem' }}>{''}</div>
               </div>
             </WingBlank>
+      
             <Flex>
-              <div className={styles.button} onClick={this.submit}>确认发布</div>
+              <div className={styles.button1} onClick={()=>{router.push('/activitys/appreciation/createAppreciation/appreciation')}}>预览</div>
+              <div className={styles.button2} onClick={this.submit}>确认发布</div>
             </Flex>
           </div>
-
         </div>
 
       )

@@ -1,0 +1,135 @@
+.title {
+  padding-top: 38px;
+}
+.title div {
+  width: 132px;
+  height: 42px;
+  background: #C5D7FF;
+  border-radius: 10px;
+  font-size: 28px;
+  line-height: 42px;
+  color: #21418A;
+  text-align: center;
+}
+.input_Box {
+  width: 100%;
+}
+.input_Box .pickerDate {
+  width: 100%;
+  height: 94px;
+}
+.input_Box .pickerDate > div {
+  width: 100%;
+}
+.input_Box .right_text {
+  position: absolute;
+  right: 0;
+  color: #999;
+  font-size: 26px;
+  top: 30px;
+}
+.input_Box .left_text {
+  position: absolute;
+  top: 30px;
+  font-size: 26px;
+  color: #999;
+  right: 170px;
+}
+.input_Box .left_text_door {
+  position: absolute;
+  top: 30px;
+  font-size: 26px;
+  color: #999;
+  right: 170px;
+}
+.input_Box :global .am-list-body {
+  border-top: 0;
+}
+.textShort :global .am-input-control input {
+  text-align: right;
+  font-size: 26px;
+}
+.textShort :global .am-list-item .am-list-line .am-list-extra {
+  font-size: 26px !important;
+}
+.textLong :global .am-list-body {
+  border-top: 0;
+}
+.textLong :global .am-input-control input {
+  text-align: right;
+  font-size: 26px;
+}
+.textLong :global .am-list-item .am-list-line .am-list-extra {
+  font-size: 26px !important;
+}
+.textLong :global input::-webkit-input-placeholder {
+  font-size: 20px;
+}
+.textLong_door :global .am-list-body {
+  border-top: 0;
+}
+.textLong_door :global .am-input-control input {
+  text-align: right;
+  font-size: 26px;
+  padding-right: 85px;
+}
+.textLong_door :global .am-list-item .am-list-line .am-list-extra {
+  font-size: 26px !important;
+}
+.textLong_door :global input::-webkit-input-placeholder {
+  font-size: 20px;
+}
+.gift_Box {
+  width: 100%;
+}
+.gift_Box .giftBox {
+  width: 100%;
+  height: 94px;
+  border-bottom: 1px solid #ddd;
+  justify-content: space-between;
+}
+.gift_Box .giftBox .icon_right {
+  height: 30px;
+}
+.gift_Box .giftBox .choose {
+  width: auto;
+}
+.gift_Box .giftBox .choose img {
+  width: 26px;
+  margin-right: 11px;
+}
+.gift_Box .giftBox .choose .address {
+  width: 107px;
+  height: 42px;
+  border: 1px solid #999999;
+  border-radius: 10px;
+  text-align: center;
+  line-height: 42px;
+  font-size: 24px;
+}
+.button1 {
+  width: 50%;
+  height: 88px;
+  background: #fff;
+  color: #000;
+  line-height: 88px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  border-top: #000 1px solid;
+  box-sizing: border-box;
+}
+.button2 {
+  width: 50%;
+  height: 88px;
+  background: #21418A;
+  color: #fff;
+  line-height: 88px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+}
+.button2:active {
+  background: #999;
+}
