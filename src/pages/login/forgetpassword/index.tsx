@@ -36,12 +36,6 @@ export default class ForgetPassword extends Component {
   /**设置确认密码 */
   handleConfPass = (e: any) => {
     this.setState({confirm_password: e.target.value});
-    const { password } = this.state;
-    if ( password == e.target.value ){
-      this.setState({ is_true: true })
-    }else{
-      this.setState({ is_true: false })
-    }
   };
   /**
    * 获取验证码
@@ -75,11 +69,19 @@ export default class ForgetPassword extends Component {
       Toast.fail('请输入手机号',1)
     }
   }
+
   /**
    * 点击确认提交
    */
   confirm = () => {
     const { code, password, phone, is_true, confirm_password} = this.state;
+    // 提交前先验证密码是否一致
+    // if ( password == confirm_password ){
+    //   this.setState({ is_true: true })
+    // }else{
+    //   this.setState({ is_true: false });
+    //   return;
+    // }
     if ( code&&password&&phone&&is_true ){
        request({
         url: 'v3/passwords/forget',
@@ -114,11 +116,11 @@ export default class ForgetPassword extends Component {
       <div className={styles.doneSend}>{this.state.wait}秒</div>
     );
     // 提示确认密码不相同
-    const prompt = this.state.is_true === true ? (
-      ''
-    ) : (
-      <span style={{ color:'red' }}>确认密码与新密码不同</span>
-    );
+    // const prompt = this.state.is_true === true || this.state.confirm_password === "" ? (
+    //   ''
+    // ) : ( 
+    //   <span style={{ color:'red' }}>确认密码与新密码不同</span>
+    // );
     return (
       <div style={{ height: '100%', width: '100%', background:' #fff' }}>
       <WingBlank className={styles.wrap}>
@@ -158,7 +160,7 @@ export default class ForgetPassword extends Component {
             onChange={this.handleConfPass}
           />
         </Flex>
-        {prompt}
+        {/* {prompt} */}
         <WingBlank size="sm">
           <Button type="primary" style={{ marginTop: 60 }} onClick={this.confirm}>
             确定

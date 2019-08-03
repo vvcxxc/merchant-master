@@ -280,7 +280,10 @@ export default class From extends Component<Props, any> {
 							</Flex>
 							<div className={styles.adTitle}>广告图</div>
 							{imagePicker}
-							{this.state.edit && <img className={styles.banner} src={this.state.banner} />}
+							{this.state.edit && <img className={styles.banner} src={this.state.banner} /> 
+								//this.state.formType == 0 ? <img className={styles.banner} src={this.state.banner} /> 
+								  //  : this.state.formType == 1?  <img className={styles.banner} src={this.state.banner} /> : null
+							}
 						</Flex.Item>
 						<Flex justify="start">
 							<span className={styles.link} onClick={() => { router.push('/ad/other-page/readme') }}>
