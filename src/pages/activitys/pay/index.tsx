@@ -41,6 +41,7 @@ export default connect(({ activity }: any) => activity)(
   submit = async() => {
     let { list } = this.state;
     let openId = Cookies.get(open_id)
+    alert(openId)
     const res = await axios({
       url: pay_url,
       method: 'post',
@@ -51,11 +52,11 @@ export default connect(({ activity }: any) => activity)(
         type: '10',
         public_type_id: list.order_sn,
         number: '1',
-        open_id: openId,
+        open_id: openId || '',
         xcx: '0'
       }
     });
-    let {data, code} = res.data;
+    let {data, code, message} = res.data;
     if(code == 200){
       let _this = this;
       window.WeixinJSBridge.invoke('getBrandWCPayRequest', data, function(res: { err_msg: string }) {
@@ -73,6 +74,9 @@ export default connect(({ activity }: any) => activity)(
           }
 				}
 			});
+    }else{
+      console.log('123:'+message)
+      Toast.fail(message)
     }
 
   }

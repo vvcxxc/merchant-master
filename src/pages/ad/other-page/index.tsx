@@ -55,7 +55,7 @@ export default class BusinessArea extends Component<any> {
 	handleSuccess = () => this.getDetail();
 
 	render() {
-		const form = <From onSuccess={this.handleSuccess} position={this.state.position} editForm={this.state.data} />;
+		const form = <From onSuccess={this.handleSuccess} position={this.state.position} editForm={this.state.data} type={this.props.location.query.type}/>;
 		// const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
 		const expenseCalendar = <ExpenseCalendar adId={this.state.adId} />;
 		const chart = <Chart adId={this.state.adId}/>;

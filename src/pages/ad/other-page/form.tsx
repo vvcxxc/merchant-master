@@ -251,7 +251,10 @@ export default class From extends Component<Props, any> {
 		);
 		return (
 			<div>
-				<SelectAdType value={this.state.formType} onChange={this.handleChangeType} />
+				{
+					// 钻石展位不展示推广
+					this.props.type != "钻石展位" ? (<SelectAdType value={this.state.formType} onChange={this.handleChangeType} />) : null
+				}
 				<WingBlank className={styles.maxheight}>
 					<Flex direction="column" className={styles.maxheight}>
 						<Flex.Item>

@@ -154,6 +154,15 @@ export default connect(({ activity }: any) => activity)(
     /**提交 */
     submit = async () => {
       const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name } = this.props.Appreciation
+
+      // 日期验证
+      let startDate = new Date(start_date).getTime();
+      let endDate = new Date(end_date).getTime();
+      if (startDate > endDate) {
+        Toast.fail('起始日期应大于结束日期', 2);
+        return;
+      }
+
       let activity_begin_time = moment(start_date).format('X');
       let activity_end_tine = moment(end_date).format('X');
       if (start_price && end_price && appreciation_number_sum && validity && pay_money && total_num && total_fee && start_date && end_date && mail_mode) {
@@ -248,6 +257,25 @@ export default connect(({ activity }: any) => activity)(
           ''
         );
 
+      const Gift = this.state.is_gift == true ? (
+        <div>
+          <Flex className={styles.giftBox}>
+            <div>配送方式</div>
+            <Flex className={styles.choose}>
+              {/* <div style={{marginRight: 17}}><img src={require('./image/choose.png')}/>到店自取</div> */}
+              <div><img src={require('./image/choose.png')} />邮寄</div>
+            </Flex>
+          </Flex>
+          {/* <Flex className={styles.giftBox}><div>自选地址</div><Flex className={styles.choose}><div style={{marginRight: 17}}><img src={require('./image/choose.png')}/>使用店铺地址</div><div className={styles.address}>自定义</div></Flex></Flex> */}
+          <Flex className={styles.giftBox}>
+            <div>选择邮费</div>
+            {chooseMail}
+          </Flex>
+          <div style={{ width: '100%', height: '90px' }}>{''}</div>
+        </div>
+      ) : (
+          ''
+        );
 
 
       const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, display, start_date, end_date } = this.props.Appreciation
