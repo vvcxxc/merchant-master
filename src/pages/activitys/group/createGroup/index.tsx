@@ -19,11 +19,11 @@ export default connect(({ activity }: any) => activity)(
     state = {
       is_gift: false
     };
-    componentDidMount (){
-      if(this.props.Group.gift_id){
-        this.setState({is_gift: true})
+    componentDidMount() {
+      if (this.props.Group.gift_id) {
+        this.setState({ is_gift: true })
       }
-      if(!this.props.Group.start_date){
+      if (!this.props.Group.start_date) {
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {
@@ -31,7 +31,7 @@ export default connect(({ activity }: any) => activity)(
           }
         })
       }
-      if(!this.props.Group.end_date){
+      if (!this.props.Group.end_date) {
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {
@@ -208,10 +208,10 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     toGift = () => {
-      router.push({pathname:'/activitys/choosegift',query:{type: 1}})
+      router.push({ pathname: '/activitys/choosegift', query: { type: 1 } })
     }
     toNotice = () => {
-      router.push({pathname:'/activitys/notice',query:{type: 1}})
+      router.push({ pathname: '/activitys/notice', query: { type: 1 } })
     }
 
     /**确认发布 */
@@ -254,7 +254,7 @@ export default connect(({ activity }: any) => activity)(
                 list: data
               }
             });
-            router.push({pathname:'/activitys/pay',query:{type: 1}})
+            router.push({ pathname: '/activitys/pay', query: { type: 1 } })
             Toast.hide();
           } else {
             this.props.dispatch({
@@ -307,120 +307,121 @@ export default connect(({ activity }: any) => activity)(
       return (
         <div style={{ width: '100%', height: 'auto', minHeight: '100%', background: '#fff', overflow: 'hidden', }}>
           {/* <div style={{ display }}> */}
-            <WingBlank>
-              <Flex className={styles.title}><div>活动设置</div></Flex>
-              <List className={styles.input_Box}>
-                <Flex className={styles.pickerDate}>
-                  <DatePicker
-                    mode="date"
-                    title="起始日期"
-                    extra="Optional"
-                    value={start_date}
-                    onChange={this.startChange}
-                  >
-                    <List.Item arrow="horizontal">起始日期</List.Item>
-                  </DatePicker>
-                </Flex>
-                <Flex className={styles.pickerDate}>
-                  <DatePicker
-                    mode="date"
-                    title="结束日期"
-                    extra="Optional"
-                    value={end_date}
-                    onChange={this.endChange}
-                  >
-                    <List.Item arrow="horizontal">结束日期</List.Item>
-                  </DatePicker>
-                </Flex>
-                <InputItem className={styles.activity_name} placeholder="请输入活动名称" value={activity_name} onChange={this.handleName}>
-                  活动名称
-              </InputItem>
-
-                <div className={styles.cover_box}>
-                  <div>活动封面图</div>
-                  <div className={styles.cover_img}>
-                    <ImagePicker
-                      className={styles.upload_img}
-                      files={cover_img}
-                      multiple={false}
-                      length={1}
-                      selectable={cover_img.length < 1}
-                      onChange={this.changeCover}
-                    />
-                  </div>
-                </div>
-
-                <InputItem type={'money'} className={styles.textShort} value={old_price} onChange={this.handleOldPrice} extra='元'>
-                  原价
-              </InputItem>
-                <InputItem type={'money'} className={styles.textShort} value={participation_money} onChange={this.handleNewPrice} extra='元'>
-                  拼团价
-              </InputItem>
-                <InputItem type={'money'} className={styles.textShort} value={group_number} onChange={this.handleNum} extra='人'>
-                  拼团人数
-              </InputItem>
-                <InputItem className={styles.activity_name} placeholder="请输入团数" value={group_sum} onChange={this.handleSum} type={'money'}>
-                  团数
-              </InputItem>
-                <InputItem type={'money'} className={styles.textLong} value={validity} onChange={this.handleValidity} extra='天内可用'>
-                  有效期<span className={styles.left_text}>领券日起</span>
-                </InputItem>
-              </List>
-              <Flex className={styles.notice} onClick={this.toNotice}><div>使用须知</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
+          <WingBlank>
+            <Flex className={styles.title}><div>活动设置</div></Flex>
+            <List className={styles.input_Box}>
+              <Flex className={styles.pickerDate}>
+                <DatePicker
+                  mode="date"
+                  title="起始日期"
+                  extra="Optional"
+                  value={start_date}
+                  onChange={this.startChange}
+                >
+                  <List.Item arrow="horizontal">起始日期</List.Item>
+                </DatePicker>
               </Flex>
-              <Flex className={styles.img_title}>
-                <div>图片详情</div>
+              <Flex className={styles.pickerDate}>
+                <DatePicker
+                  mode="date"
+                  title="结束日期"
+                  extra="Optional"
+                  value={end_date}
+                  onChange={this.endChange}
+                >
+                  <List.Item arrow="horizontal">结束日期</List.Item>
+                </DatePicker>
               </Flex>
+              <InputItem className={styles.activity_name} placeholder="请输入活动名称" value={activity_name} onChange={this.handleName}>
+                活动名称
+              </InputItem>
 
-              <Flex className={styles.img_box}>
-                <div className={styles.image}>
-                  <div>
-                    <ImagePicker
-                      className={styles.upload_img}
-                      files={describe_img1}
-                      multiple={false}
-                      length={1}
-                      selectable={describe_img1.length < 1}
-                      onChange={this.changeDescribe1}
-                    />
-                  </div>
-                  <div className={styles.describe}>图片描述</div>
-                </div>
-                <div className={styles.image}>
-                  <div>
-                    <ImagePicker
-                      className={styles.upload_img}
-                      files={describe_img2}
-                      multiple={false}
-                      length={1}
-                      selectable={describe_img2.length < 1}
-                      onChange={this.changeDescribe2}
-                    />
-                  </div>
-                  <div className={styles.describe}>图片描述</div>
-                </div>
-              </Flex>
-
-              <div className={styles.gift}>
-                <Flex className={styles.title}><div>礼品设置</div></Flex>
-                <div className={styles.gift_Box}>
-                  <Flex className={styles.giftBox} onClick={this.toGift}><div>选择礼品</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
-                  </Flex>
-                  {Gift}
+              <div className={styles.cover_box}>
+                <div>活动封面图</div>
+                <div className={styles.cover_img}>
+                  <ImagePicker
+                    className={styles.upload_img}
+                    files={cover_img}
+                    multiple={false}
+                    length={1}
+                    selectable={cover_img.length < 1}
+                    onChange={this.changeCover}
+                  />
                 </div>
               </div>
-              <Flex className={styles.read}>
-                {/* <img src={require('./image/tip.png')}/>创建必读 */}
-              </Flex>
-            </WingBlank>
-            <Flex>
-              <div className={styles.button} onClick={this.confirm}>确认发布</div>
+
+              <InputItem type={'money'} className={styles.textShort} value={old_price} onChange={this.handleOldPrice} extra='元'>
+                原价
+              </InputItem>
+              <InputItem type={'money'} className={styles.textShort} value={participation_money} onChange={this.handleNewPrice} extra='元'>
+                拼团价
+              </InputItem>
+              <InputItem type={'money'} className={styles.textShort} value={group_number} onChange={this.handleNum} extra='人'>
+                拼团人数
+              </InputItem>
+              <InputItem className={styles.activity_name} placeholder="请输入团数" value={group_sum} onChange={this.handleSum} type={'money'}>
+                团数
+              </InputItem>
+              <InputItem type={'money'} className={styles.textLong} value={validity} onChange={this.handleValidity} extra='天内可用'>
+                有效期<span className={styles.left_text}>领券日起</span>
+              </InputItem>
+            </List>
+            <Flex className={styles.notice} onClick={this.toNotice}><div>使用须知</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
             </Flex>
-          </div>
+            <Flex className={styles.img_title}>
+              <div>图片详情</div>
+            </Flex>
 
-          // {chooseGift}
+            <Flex className={styles.img_box}>
+              <div className={styles.image}>
+                <div>
+                  <ImagePicker
+                    className={styles.upload_img}
+                    files={describe_img1}
+                    multiple={false}
+                    length={1}
+                    selectable={describe_img1.length < 1}
+                    onChange={this.changeDescribe1}
+                  />
+                </div>
+                <div className={styles.describe}>图片描述</div>
+              </div>
+              <div className={styles.image}>
+                <div>
+                  <ImagePicker
+                    className={styles.upload_img}
+                    files={describe_img2}
+                    multiple={false}
+                    length={1}
+                    selectable={describe_img2.length < 1}
+                    onChange={this.changeDescribe2}
+                  />
+                </div>
+                <div className={styles.describe}>图片描述</div>
+              </div>
+            </Flex>
 
-          // {payment}
+            <div className={styles.gift}>
+              <Flex className={styles.title}><div>礼品设置</div></Flex>
+              <div className={styles.gift_Box}>
+                <Flex className={styles.giftBox} onClick={this.toGift}><div>选择礼品</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
+                </Flex>
+                {Gift}
+              </div>
+            </div>
+            <Flex className={styles.read}>
+              {/* <img src={require('./image/tip.png')}/>创建必读 */}
+            </Flex>
+          </WingBlank>
+          <Flex>
+            <div className={styles.button1} onClick={() => { router.push('/activitys/group/createGroup/activitygroup') }}>预览</div>
+            <div className={styles.button2} onClick={this.confirm}>确认发布</div>
+          </Flex>
+        </div>
+
+        // {chooseGift}
+
+        // {payment}
         // </div>
       )
     }

@@ -1,0 +1,185 @@
+.title {
+  padding-top: 38px;
+}
+.title div {
+  width: 132px;
+  height: 42px;
+  background: #C5D7FF;
+  border-radius: 10px;
+  font-size: 28px;
+  line-height: 42px;
+  color: #21418A;
+  text-align: center;
+}
+.input_Box {
+  width: 100%;
+}
+.input_Box .pickerDate {
+  width: 100%;
+  height: 94px;
+}
+.input_Box .pickerDate > div {
+  width: 100%;
+}
+.input_Box .right_text {
+  position: absolute;
+  right: 0;
+  color: #999;
+  font-size: 26px;
+  top: 30px;
+}
+.input_Box :global .am-list-body {
+  border-top: 0;
+}
+.activity_name :global .am-input-control input {
+  text-align: right;
+  font-size: 26px;
+  padding-right: 0;
+}
+.activity_name :global .am-list-item .am-list-line .am-list-extra {
+  font-size: 26px !important;
+}
+.textShort :global .am-input-control input {
+  text-align: right;
+  font-size: 26px;
+  padding-right: 30px;
+}
+.textShort :global .am-list-item .am-list-line .am-list-extra {
+  font-size: 26px !important;
+}
+.textLong :global .am-list-body {
+  border-top: 0;
+}
+.textLong :global .am-input-control input {
+  text-align: right;
+  font-size: 26px;
+  padding-right: 110px;
+}
+.textLong :global .am-list-item .am-list-line .am-list-extra {
+  font-size: 26px !important;
+}
+.textLong :global input::-webkit-input-placeholder {
+  font-size: 20px;
+}
+.left_text {
+  position: absolute;
+  top: 30px;
+  font-size: 26px;
+  color: #999;
+  right: 170px;
+}
+.notice {
+  width: 100%;
+  height: 90px;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+}
+.notice .icon_right {
+  height: 30px;
+}
+.cover_box {
+  width: 100%;
+  height: auto;
+  padding-top: 33px;
+}
+.cover_box .cover_img {
+  margin-top: 18px;
+  width: 176px;
+  height: 97px;
+  background: #E5E5E5;
+}
+.img_title {
+  width: 100%;
+  height: 90px;
+}
+.img_box .image {
+  width: 176px;
+  margin-right: 40px;
+  font-size: 23px;
+  color: #999;
+  text-align: center;
+}
+.img_box .image .describe {
+  margin-top: 16px;
+}
+.gift_Box {
+  width: 100%;
+}
+.gift_Box .giftBox {
+  width: 100%;
+  height: 94px;
+  border-bottom: 1px solid #ddd;
+  justify-content: space-between;
+}
+.gift_Box .giftBox .icon_right {
+  height: 30px;
+}
+.gift_Box .giftBox .choose {
+  width: auto;
+}
+.gift_Box .giftBox .choose img {
+  width: 26px;
+  margin-right: 11px;
+}
+.gift_Box .giftBox .choose .address {
+  width: 107px;
+  height: 42px;
+  border: 1px solid #999999;
+  border-radius: 10px;
+  text-align: center;
+  line-height: 42px;
+  font-size: 24px;
+}
+.button1 {
+  width: 50%;
+  height: 88px;
+  background: #fff;
+  color: #000;
+  line-height: 88px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  border-top: #000 1px solid;
+  box-sizing: border-box;
+}
+.button2 {
+  width: 50%;
+  height: 88px;
+  background: #21418A;
+  color: #fff;
+  line-height: 88px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+}
+.button2:active {
+  background: #999;
+}
+.upload_img :global .am-image-picker-list {
+  padding: 0;
+  margin-bottom: 0;
+}
+.upload_img :global .am-flexbox-item {
+  width: 176px !important;
+  height: 97px;
+}
+.upload_img :global .am-image-picker-list .am-flexbox .am-flexbox-item {
+  margin-right: 0;
+}
+.upload_img :global .am-image-picker-list .am-image-picker-upload-btn {
+  background: #E5E5E5;
+}
+.upload_img :global .am-image-picker-list .am-flexbox .am-flexbox-item {
+  overflow-y: visible;
+}
+.read {
+  height: 88px;
+  padding-bottom: 88px;
+  color: #21418A;
+  line-height: 88px;
+}
+.read img {
+  margin-right: 8px;
+  margin-top: 4px;
+}
