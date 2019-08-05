@@ -39,7 +39,8 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			this.props.dispatch({
 				type: 'createCoupon/setCoupon',
 				payload: {
-					[type]: type === 'coupons_name' ? value : parseInt(value)
+					// [type]: type === 'coupons_name' ? value : parseInt(value)
+					[type]: value 
 				}
 			});
 		};
