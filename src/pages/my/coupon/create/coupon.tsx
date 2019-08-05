@@ -40,7 +40,18 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 				type: 'createCoupon/setCoupon',
 				payload: {
 					// [type]: type === 'coupons_name' ? value : parseInt(value)
+					//handleInput可以小数
 					[type]: value 
+				}
+			});
+		};
+		handleInput2 = (type: string) => (value: any) => {
+			this.props.dispatch({
+				type: 'createCoupon/setCoupon',
+				payload: {
+					//handleInput2只可以整数
+					[type]: type === 'coupons_name' ? value : parseInt(value)
+					
 				}
 			});
 		};
@@ -116,7 +127,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						type="money"
 						extra="张"
 						value={String(this.props.total_num || '')}
-						onChange={this.handleInput('total_num')}
+						onChange={this.handleInput2('total_num')}
 					>
 						发放数量
 					</InputItem>
@@ -125,7 +136,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						extra="天可用"
 						type="money"
 						value={String(this.props.validity || '')}
-						onChange={this.handleInput('validity')}
+						onChange={this.handleInput2('validity')}
 					>
 						优惠券有效期
 					</InputItem>
