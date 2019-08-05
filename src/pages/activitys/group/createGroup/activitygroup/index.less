@@ -264,7 +264,7 @@
 
         .group_process {
             height: 85px;
-            margin: 20px 0;
+            margin: 7px 0;
             display: flex;
             background: #fff;
             justify-content: center;
@@ -279,11 +279,11 @@
 
                 .group_process_list_img {
                     vertical-align: middle;
-                    width: 40px;
-                    height: 40px;
+                    width: 45px;
+                    height: 45px;
                     float: left;
                     background: #fa5d49;
-                    border-radius: 20px;
+                    border-radius: 22.5px;
                 }
 
                 .group_process_list_msg {
@@ -303,10 +303,21 @@
                 .group_process_list_icon {
                     vertical-align: middle;
                     text-align: center;
-                    width: 35px;
-                    height: 35px;
+                    height: 100%;
+                    width: 45px;
                     float: left;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+                    justify-content: center;
 
+                    .group_process_list_icon_tri {
+                        height: 0;
+                        width: 0;
+                        box-sizing: border-box;
+                        border: 15px solid;
+                        border-color: transparent transparent transparent #c4c4c4;
+                    }
                 }
             }
         }
@@ -437,6 +448,16 @@
 
             }
 
+        }
+
+        .group_process2 {
+            width: 100%;
+            height: auto;
+            margin: 7px 0;
+
+            .group_process2_img {
+                width: 100%;
+            }
         }
 
         .appre_rule {
@@ -666,6 +687,7 @@
                 flex: 43;
                 text-align: left;
                 padding-left: 24px;
+
                 .paymoney_price_icon {
                     font-size: 25px;
                     float: left;
@@ -693,7 +715,7 @@
                     flex-direction: column;
                     justify-content: flex-end;
                     margin-right: 5px;
-                    text-decoration:line-through;
+                    text-decoration: line-through;
                 }
 
                 .paymoney_price_info {

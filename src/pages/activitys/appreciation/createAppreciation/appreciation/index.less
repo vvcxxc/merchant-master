@@ -27,6 +27,7 @@
                     box-sizing: border-box;
                     border-radius: 8px;
                     position: relative;
+
                     .appre_head_circle1 {
                         width: 30px;
                         height: 30px;
@@ -239,11 +240,11 @@
 
                 .appre_process_list_img {
                     vertical-align: middle;
-                    width: 40px;
-                    height: 40px;
+                    width: 45px;
+                    height: 45px;
                     float: left;
                     background: #fa5d49;
-                    border-radius: 20px;
+                    border-radius: 22.5px;
                 }
 
                 .appre_process_list_msg {
@@ -263,11 +264,32 @@
                 .appre_process_list_icon {
                     vertical-align: middle;
                     text-align: center;
-                    width: 35px;
-                    height: 35px;
+                    height: 100%;
+                    width: 45px;
                     float: left;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+                    justify-content: center;
 
+                    .appre_process_list_icon_tri {
+                        height: 0;
+                        width: 0;
+                        box-sizing: border-box;
+                        border: 15px solid;
+                        border-color: transparent transparent transparent #c4c4c4;
+                    }
                 }
+            }
+        }
+
+        .appre_process2 {
+            width: 100%;
+            height: auto;
+            margin: 7px 0;
+
+            .appre_process2_img {
+                width: 100%;
             }
         }
 
@@ -478,7 +500,7 @@
                 display: flex;
                 justify-content: center;
                 margin-top: 15px;
-      
+
 
                 .paymoney_price_icon {
                     font-size: 30px;
