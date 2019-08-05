@@ -1,12 +1,17 @@
 /**title: 拼团活动预览 */
 import React, { Component } from 'react';
 import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast, View } from 'antd-mobile';
+import { Group } from '../../../model';
 import { connect } from 'dva';
 import share from '../image/share.png'
 import AddressImg from '../image/address.png'
 import MobileImg from '../image/dianhua.png'
 import './index.less';
 
+
+interface Props extends Group {
+  dispatch: (arg0: any) => any;
+}
 
 export default connect(({ activity }: any) => activity)(
   class activityGroup extends Component<any>  {

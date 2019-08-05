@@ -1,6 +1,5 @@
 /**title: 优惠信息 */
 import React, { Component } from 'react';
-import { WingBlank, Flex, List, InputItem, ActionSheet, Toast } from 'antd-mobile';
 import { CouponForm } from '../model';
 import { connect } from 'dva';
 import { View, Text, Button } from 'antd-mobile';
