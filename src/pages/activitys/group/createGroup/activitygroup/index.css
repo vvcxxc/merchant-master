@@ -560,6 +560,7 @@
   justify-content: center;
   flex: 43;
   text-align: left;
+  padding-left: 24px;
 }
 :global .d_group .paymoney_box .paymoney_price .paymoney_price_icon {
   font-size: 25px;
@@ -576,7 +577,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 :global .d_group .paymoney_box .paymoney_price .paymoney_price_oldprice {
   font-size: 25px;
@@ -585,7 +586,8 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  margin-right: 20px;
+  margin-right: 5px;
+  text-decoration: line-through;
 }
 :global .d_group .paymoney_box .paymoney_price .paymoney_price_info {
   font-size: 25px;
