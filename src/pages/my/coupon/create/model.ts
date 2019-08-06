@@ -28,7 +28,9 @@ const model: Model = {
   state: {
     couponForm: {
       coupons_type: 0,
-      description: []
+      description: [],
+      temp_url1: [],
+      temp_url2: [],
     },
     moneyForm: {
       coupons_type: 1

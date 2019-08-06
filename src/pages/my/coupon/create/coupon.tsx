@@ -59,11 +59,11 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 		};
 
 		uploadImage = (type: any) => (files: any[], operationType: string, index?: number): void => {
-			console.log(this.props)
+			console.log(Boolean(this.props.temp_url2))
 			this.setState({ [type]: files });
-			if(type === 'files'){
+			if (type === 'files') {
 				this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { temp_url1: files } });
-			}else{
+			} else {
 				this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { temp_url2: files } });
 			}
 			if (operationType === 'add') {
@@ -157,17 +157,18 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					</List.Item>
 					<List.Item arrow="horizontal">封面图片</List.Item>
 					<ImagePicker
-						files={this.props.temp_url1 }
+						files={this.props.temp_url1}
 						// files={this.state.files}
 						onChange={this.uploadImage('files')}
-						selectable={!this.state.files.length && !this.props.temp_url1}
+						selectable={!Boolean(this.props.temp_url1) || this.props.temp_url1.length < 1}
 					/>
 					<List.Item arrow="horizontal">图片详情</List.Item>
 					<ImagePicker
 						// files={this.state.detailFiles}
 						files={this.props.temp_url2}
 						onChange={this.uploadImage('detailFiles')}
-						selectable={!(this.state.detailFiles.length === 2)&& !this.props.temp_url2}
+						selectable={!Boolean(this.props.temp_url2) || this.props.temp_url2.length < 2}
+
 					/>
 					{notice}
 				</div>
