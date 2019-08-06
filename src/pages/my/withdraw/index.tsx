@@ -49,7 +49,17 @@ export default class WithDraw extends Component {
 				money: 0
 			});
 		} else {
-			this.setState({ money: value });
+			// value 取小数点后面的数据  长度限制为2个   超过， 就不赋值
+
+
+			if (this.state.money.indexOf('.') !== -1) {
+				// console.log( this.state.money.split('.')[1].length+1  )
+				if (this.state.money.split('.')[1].length + 1 <= 2) {
+					this.setState({ money: value })
+				}
+			} else {
+				this.setState({ money: value })
+			}
 		}
 	};
 
