@@ -49,7 +49,7 @@ export default class WithDraw extends Component {
 				money: 0
 			});
 		} else {
-			this.setState({ money: parseFloat(value) });
+			this.setState({ money: value });
 		}
 	};
 
