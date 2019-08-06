@@ -21,6 +21,7 @@
   background: #fff;
   padding: 0 25px;
   box-sizing: border-box;
+  position: relative;
 }
 :global .setMeal .coupon_box .coupon_box_msg .coupon_box_msg_title {
   box-sizing: border-box;
@@ -46,6 +47,8 @@
 }
 :global .setMeal .coupon_box .coupon_box_msg .setMeal_head_listbox {
   height: 45px;
+  position: absolute;
+  bottom: 48px;
 }
 :global .setMeal .coupon_box .coupon_box_msg .setMeal_head_listbox .setMeal_head_list {
   float: left;

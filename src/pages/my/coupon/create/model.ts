@@ -10,6 +10,8 @@ export interface CouponForm {
   description: any[];
   image: string;
   image_url: any[];
+  temp_url1: any[];
+  temp_url2: any[];
 }
 
 export interface MoneyForm {

@@ -22,7 +22,9 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			// notice的key值
 			keys: '100'
 		};
-
+		componentDidMount() {
+			console.log(this.props)
+		}
 		handleNoticeChange = (notice: any[], keys: string) => {
 			this.setState({ keys });
 			this.props.dispatch({
@@ -41,7 +43,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 				payload: {
 					// [type]: type === 'coupons_name' ? value : parseInt(value)
 					//handleInput可以小数
-					[type]: value 
+					[type]: value
 				}
 			});
 		};
@@ -51,13 +53,19 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 				payload: {
 					//handleInput2只可以整数
 					[type]: type === 'coupons_name' ? value : parseInt(value)
-					
+
 				}
 			});
 		};
 
 		uploadImage = (type: any) => (files: any[], operationType: string, index?: number): void => {
+			console.log(this.props)
 			this.setState({ [type]: files });
+			if(type === 'files'){
+				this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { temp_url1: files } });
+			}else{
+				this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { temp_url2: files } });
+			}
 			if (operationType === 'add') {
 				Toast.loading('上传图片中');
 				upload(files[files.length - 1].url).then(res => {
@@ -149,15 +157,17 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					</List.Item>
 					<List.Item arrow="horizontal">封面图片</List.Item>
 					<ImagePicker
-						files={this.state.files}
+						files={this.props.temp_url1 }
+						// files={this.state.files}
 						onChange={this.uploadImage('files')}
-						selectable={!this.state.files.length}
+						selectable={!this.state.files.length && !this.props.temp_url1}
 					/>
 					<List.Item arrow="horizontal">图片详情</List.Item>
 					<ImagePicker
-						files={this.state.detailFiles}
+						// files={this.state.detailFiles}
+						files={this.props.temp_url2}
 						onChange={this.uploadImage('detailFiles')}
-						selectable={!(this.state.detailFiles.length === 2)}
+						selectable={!(this.state.detailFiles.length === 2)&& !this.props.temp_url2}
 					/>
 					{notice}
 				</div>

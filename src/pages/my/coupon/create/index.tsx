@@ -75,7 +75,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				}
 			});
 		pushPage = (_type: any) => {
-			console.log(_type);
+			console.log(this.props);
 			if(_type==1){
 				router.push('/my/coupon/create/ticket-buy');
 			}else if(_type==0){
