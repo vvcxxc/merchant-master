@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Flex } from 'antd-mobile';
+import { Flex , InputItem } from 'antd-mobile';
 
 import styles from './index.less';
 

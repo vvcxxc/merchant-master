@@ -8,13 +8,26 @@ import MobileImg from '../image/dianhua.png'
 import briefimg from '../image/brief2.png'
 import './index.less';
 
+import { Appreciation } from '../../../model';
 
-export default connect(({ activity }: any) => activity)(
+import moment from 'moment';
+
+
+interface Props extends Appreciation {
+  dispatch: (arg0: any) => any;
+  showPrice: boolean;
+}
+
+
+export default connect(({ activity }: any) => activity.Appreciation)(
   class Appre extends Component<any>  {
 
     state = {
     };
     componentDidMount = () => {
+      console.log('this.props',this.props)
+      console.log(this.props.start_date)
+      console.log(moment(this.props.start_date).format('YYYY-MM-DD'))
       document.title = "五金店"
     };
     render() {
@@ -27,14 +40,14 @@ export default connect(({ activity }: any) => activity)(
                 <View className="appre_head_circle2"></View>
                 <View className="appre_head_left">
                   <View className="appre_head_left_pricebox">
-                    <View className="appre_head_left_pricebox_price">￥50</View>
+                    <View className="appre_head_left_pricebox_price">￥{this.props.start_price}</View>
                     <View className="appre_head_left_pricebox_msg">起始值</View>
                   </View>
-                  <View className="appre_head_left_pricebox_info">最高可抵100元 </View>
+                  <View className="appre_head_left_pricebox_info">最高可抵{this.props.end_price}元 </View>
                 </View>
                 <View className="appre_head_right">
-                  <View className="appre_head_right_total">满199元可用</View>
-                  <View className="appre_head_right_days">领取后6日内有效</View>
+                  <View className="appre_head_right_total">满{this.props.total_fee}元可用</View>
+                  <View className="appre_head_right_days">领取后{this.props.validity}日内有效</View>
                 </View>
               </View>
               <View className="appre_head_bottom">
@@ -107,7 +120,7 @@ export default connect(({ activity }: any) => activity)(
             <View className="appre_rule_title" >温馨提示</View>
             <View className="appre_rule_time" >
               <View className="appre_rule_time_key" >活动时间:</View>
-              <View className="appre_rule_time_data" >2019.08.03-2019.08.04</View>
+              <View className="appre_rule_time_data" >{moment(this.props.start_date).format('YYYY-MM-DD')} - {moment(this.props.end_date).format('YYYY-MM-DD')}</View>
             </View>
             <View className="appre_rule_list" >
               <View className="appre_rule_list_key" >使用规则:</View>
@@ -153,7 +166,7 @@ export default connect(({ activity }: any) => activity)(
           <View className="paymoney_box">
             <View className="paymoney_price">
               <View className="paymoney_price_icon">￥</View>
-              <View className="paymoney_price_num">100</View>
+              <View className="paymoney_price_num">{this.props.pay_money}</View>
               <View className="paymoney_price_info">(含8元运费)</View>
             </View>
             <View className="paymoney_buynow">立即购买</View>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import styles from './index.less';
-import { Flex, WingBlank, Button, Toast  } from 'antd-mobile';
+import { Flex, WingBlank, Button, Toast , InputItem  } from 'antd-mobile';
 import request from '@/services/request';
 import router from 'umi/router'
 
@@ -26,13 +26,13 @@ export default class ChangePhone extends Component {
     })
   }
   handleCode1 = (e : any) => {
-    this.setState({code1: e.target.value})
+    this.setState({code1: e})
   }
   handleNew = (e : any) => {
-    this.setState({new_phone: e.target.value})
+    this.setState({new_phone: e})
   }
   handleCode2 = (e : any) => {
-    this.setState({code2: e.target.value})
+    this.setState({code2: e})
   }
   /**下一步 */
   confirm1 = () => {
@@ -141,7 +141,7 @@ export default class ChangePhone extends Component {
           当前手机号：{this.state.old_phone}
         </Flex>
         <Flex className={styles.inputRow}>
-          <input type="text" placeholder="请输入验证码" value={this.state.code1} onChange={this.handleCode1}/>
+          <InputItem type="text" placeholder="请输入验证码" value={this.state.code1} onChange={this.handleCode1} clear/>
           {code}
         </Flex>
         <WingBlank className={styles.buttons}>
@@ -161,10 +161,10 @@ export default class ChangePhone extends Component {
             </Flex>
           </Flex>
           <Flex className={styles.inputRow}>
-           <input type="text" placeholder="请输入新手机号" value={this.state.new_phone} onChange={this.handleNew}/>
+           <InputItem type="text" placeholder="请输入新手机号" value={this.state.new_phone} onChange={this.handleNew}/>
           </Flex>
           <Flex className={styles.inputRow}>
-            <input type="text" placeholder="请输入验证码" value={this.state.code2} onChange={this.handleCode2}/>
+            <InputItem type="text" placeholder="请输入验证码" value={this.state.code2} onChange={this.handleCode2}/>
             {codes}
           </Flex>
           <WingBlank className={styles.buttons}>

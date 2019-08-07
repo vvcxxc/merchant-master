@@ -2,7 +2,7 @@
  * title：忘记密码
  */
 import React, { Component } from 'react';
-import { Flex, WingBlank, Button, Toast } from 'antd-mobile';
+import { Flex, WingBlank, Button, Toast , InputItem } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router';
@@ -23,19 +23,19 @@ export default class ForgetPassword extends Component {
   };
   /**设置验证码 */
   handleCode = (e: any) => {
-    this.setState({code: e.target.value});
+    this.setState({code: e});
   };
   /**设置手机号 */
   handlePhone = (e: any) => {
-    this.setState({phone: e.target.value});
+    this.setState({phone: e});
   };
   /**设置密码 */
   handlePassword = (e: any) => {
-    this.setState({password: e.target.value});
+    this.setState({password: e});
   };
   /**设置确认密码 */
   handleConfPass = (e: any) => {
-    this.setState({confirm_password: e.target.value});
+    this.setState({confirm_password: e});
   };
   /**
    * 获取验证码
@@ -125,39 +125,43 @@ export default class ForgetPassword extends Component {
       <div style={{ height: '100%', width: '100%', background:' #fff' }}>
       <WingBlank className={styles.wrap}>
         <Flex className={styles.inputWrap}>
-          <input
+          <InputItem
             style={{ width: '100%' }}
             placeholder="请输入手机号"
-            type='number'
+            type={'number'}
             onChange={this.handlePhone}
             value={this.state.phone}
+            clear
           />
         </Flex>
         <Flex className={styles.inputWrap}>
-          <input
+          <InputItem
             style={{ width: '100%' }}
             placeholder="请输入验证码"
             onChange={this.handleCode}
             value={this.state.code}
+            clear
           />
           {button}
         </Flex>
         <Flex className={styles.inputWrap}>
-          <input
+          <InputItem
             style={{ width: '100%' }}
             placeholder="请输入新密码"
-            type='password'
+            type={'password'}
             onChange={this.handlePassword}
             value={this.state.password}
+            clear
           />
         </Flex>
         <Flex className={styles.inputWrap}>
-          <input
+          <InputItem
             style={{ width: '100%' }}
             placeholder="确认密码"
-            type='password'
+            type={'password'}
             value={this.state.confirm_password}
             onChange={this.handleConfPass}
+            clear
           />
         </Flex>
         {/* {prompt} */}
