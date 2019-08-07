@@ -341,7 +341,7 @@ export default connect(({ activity }: any) => activity)(
                   <List.Item arrow="horizontal">结束日期</List.Item>
                 </DatePicker>
               </Flex>
-              <InputItem className={styles.activity_name} placeholder="请输入活动名称" value={activity_name} onChange={this.handleName}>
+              <InputItem className={styles.activity_name} placeholder="请输入活动名称" value={activity_name} onChange={this.handleName} clear>
                 活动名称
               </InputItem>
 
@@ -359,19 +359,19 @@ export default connect(({ activity }: any) => activity)(
                 </div>
               </div>
 
-              <InputItem type={'money'} className={styles.textShort} value={old_price} onChange={this.handleOldPrice} extra='元'>
+              <InputItem type={'money'} className={styles.textShort} value={old_price} onChange={this.handleOldPrice} extra='元' clear>
                 原价
               </InputItem>
-              <InputItem type={'money'} className={styles.textShort} value={participation_money} onChange={this.handleNewPrice} extra='元'>
+              <InputItem type={'money'} className={styles.textShort} value={participation_money} onChange={this.handleNewPrice} extra='元' clear>
                 拼团价
               </InputItem>
-              <InputItem type={'money'} className={styles.textShort} value={group_number} onChange={this.handleNum} extra='人'>
+              <InputItem type={'money'} className={styles.textShort} value={group_number} onChange={this.handleNum} extra='人' clear>
                 拼团人数
               </InputItem>
-              <InputItem className={styles.activity_name} placeholder="请输入团数" value={group_sum} onChange={this.handleSum} type={'money'}>
+              <InputItem className={styles.activity_name} placeholder="请输入团数" value={group_sum} onChange={this.handleSum} type={'money'} clear>
                 团数
               </InputItem>
-              <InputItem type={'money'} className={styles.textLong} value={validity} onChange={this.handleValidity} extra='天内可用'>
+              <InputItem type={'money'} className={styles.textLong} value={validity} onChange={this.handleValidity} extra='天内可用' clear>
                 有效期<span className={styles.left_text}>领券日起</span>
               </InputItem>
             </List>

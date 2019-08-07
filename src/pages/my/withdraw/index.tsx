@@ -112,6 +112,7 @@ export default class WithDraw extends Component {
 								placeholder=""
 								onChange={this.handleInputChange}
 								value={this.state.money}
+								clear
 							/>
 						</Flex.Item>
 					</Flex>

@@ -47,7 +47,7 @@ export default class Rechange extends Component {
 					<Flex className="input-wrap">
 						<span className="symbol">￥</span>
 						<Flex.Item>
-							<InputItem type="money" placeholder="" onChange={this.handleInputChange} />
+							<InputItem type="money" placeholder="" onChange={this.handleInputChange} clear/>
 						</Flex.Item>
 					</Flex>
 					<Button type="primary" onClick={this.submit}>
