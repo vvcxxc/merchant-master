@@ -135,7 +135,6 @@ class WithDraw extends Component {
 								placeholder=""
 								onChange={this.handleInputChange}
 								value={this.state.money}
-<<<<<<< HEAD
 							/> */}
               <InputItem
                 {...getFieldProps('money2', {
@@ -168,16 +167,6 @@ class WithDraw extends Component {
             可提现金额{info.money}
             <span className={styles.withdraw_all} onClick={this.allWithDraw}>
               全部提现
-=======
-								clear
-							/>
-						</Flex.Item>
-					</Flex>
-					<Flex className={styles.withdraw_sum}>
-						可提现金额{info.money}
-						<span className={styles.withdraw_all} onClick={this.allWithDraw}>
-							全部提现
->>>>>>> 6658f9a71712cc18caae8e0ac0f71b07033acb91
 						</span>
           </Flex>
           <Button type="primary" style={{ marginTop: 60 }} onClick={this.WithDraw}>
