@@ -223,7 +223,7 @@
 }
 :global .d_group .group_process {
   height: 85px;
-  margin: 20px 0;
+  margin: 7px 0;
   display: flex;
   background: #fff;
   justify-content: center;
@@ -238,11 +238,11 @@
 }
 :global .d_group .group_process .group_process_list .group_process_list_img {
   vertical-align: middle;
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   float: left;
   background: #fa5d49;
-  border-radius: 20px;
+  border-radius: 22.5px;
 }
 :global .d_group .group_process .group_process_list .group_process_list_msg {
   vertical-align: middle;
@@ -260,9 +260,20 @@
 :global .d_group .group_process .group_process_list .group_process_list_icon {
   vertical-align: middle;
   text-align: center;
-  width: 35px;
-  height: 35px;
+  height: 100%;
+  width: 45px;
   float: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
+:global .d_group .group_process .group_process_list .group_process_list_icon .group_process_list_icon_tri {
+  height: 0;
+  width: 0;
+  box-sizing: border-box;
+  border: 15px solid;
+  border-color: transparent transparent transparent #c4c4c4;
 }
 :global .d_group .group_num {
   padding: 20px 24px 0 24px;
@@ -369,6 +380,14 @@
   height: 40px;
   color: #666666;
   text-align: right;
+}
+:global .d_group .group_process2 {
+  width: 100%;
+  height: auto;
+  margin: 7px 0;
+}
+:global .d_group .group_process2 .group_process2_img {
+  width: 100%;
 }
 :global .d_group .appre_rule {
   background: #fff;

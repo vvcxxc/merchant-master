@@ -1,12 +1,18 @@
 /**title: 拼团活动预览 */
 import React, { Component } from 'react';
 import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast, View } from 'antd-mobile';
+import { Group } from '../../../model';
 import { connect } from 'dva';
 import share from '../image/share.png'
 import AddressImg from '../image/address.png'
 import MobileImg from '../image/dianhua.png'
+import briefimg from '../image/brief.png'
 import './index.less';
 
+
+interface Props extends Group {
+  dispatch: (arg0: any) => any;
+}
 
 export default connect(({ activity }: any) => activity)(
   class activityGroup extends Component<any>  {
@@ -66,14 +72,16 @@ export default connect(({ activity }: any) => activity)(
               <img className="group_gift_giftlistImg" src="http://n.sinaimg.cn/photo/transform/700/w1000h500/20190731/5d60-iaqfzyv3096478.jpg" />
             </View>
           </View>
-          <View className="group_process" >
+          {/* <View className="group_process" >
             <View className="group_process_list" >
               <View className="group_process_list_img" ></View>
               <View className="group_process_list_msg" >
                 <View>开始</View>
                 <View>拼团</View>
               </View>
-              <View className="group_process_list_icon" >></View>
+              <View className="group_process_list_icon" >
+                <View className="group_process_list_icon_tri" ></View>
+              </View>
             </View>
             <View className="group_process_list" >
               <View className="group_process_list_img" ></View>
@@ -81,7 +89,9 @@ export default connect(({ activity }: any) => activity)(
                 <View> 邀请</View>
                 <View>好友</View>
               </View>
-              <View className="group_process_list_icon" >></View>
+              <View className="group_process_list_icon" >
+                <View className="group_process_list_icon_tri" ></View>
+              </View>
             </View>
             <View className="group_process_list" >
               <View className="group_process_list_img" ></View>
@@ -91,8 +101,10 @@ export default connect(({ activity }: any) => activity)(
               </View>
               <View className="group_process_list_icon" ></View>
             </View>
+          </View> */}
+          <View className="group_process2" >
+            <img className="group_process2_img" src={briefimg} />
           </View>
-
 
 
 
@@ -197,8 +209,8 @@ export default connect(({ activity }: any) => activity)(
             </View>
             <View className="paymoney_buynow">立即购买</View>
             <View className="paymoney_groupnow">发起拼团</View>
-            
-            
+
+
           </View>
 
         </View >

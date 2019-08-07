@@ -5,6 +5,7 @@ import { connect } from 'dva';
 import share from '../image/share.png'
 import AddressImg from '../image/address.png'
 import MobileImg from '../image/dianhua.png'
+import briefimg from '../image/brief2.png'
 import './index.less';
 
 import { Appreciation } from '../../../model';
@@ -71,14 +72,16 @@ export default connect(({ activity }: any) => activity.Appreciation)(
               <img className="appre_gift_giftlistImg" src="http://n.sinaimg.cn/photo/transform/700/w1000h500/20190731/5d60-iaqfzyv3096478.jpg" />
             </View>
           </View>
-          <View className="appre_process" >
+          {/* <View className="appre_process" >
             <View className="appre_process_list" >
               <View className="appre_process_list_img" ></View>
               <View className="appre_process_list_msg" >
                 <View> 增值</View>
                 <View>购买</View>
               </View>
-              <View className="appre_process_list_icon" >></View>
+              <View className="appre_process_list_icon" >
+                <View className="appre_process_list_icon_tri" ></View>
+              </View>
             </View>
             <View className="appre_process_list" >
               <View className="appre_process_list_img" ></View>
@@ -86,7 +89,9 @@ export default connect(({ activity }: any) => activity.Appreciation)(
                 <View> 邀请</View>
                 <View>好友</View>
               </View>
-              <View className="appre_process_list_icon" >></View>
+              <View className="appre_process_list_icon" >
+                <View className="appre_process_list_icon_tri" ></View>
+              </View>
             </View>
             <View className="appre_process_list" >
               <View className="appre_process_list_img" ></View>
@@ -94,7 +99,9 @@ export default connect(({ activity }: any) => activity.Appreciation)(
                 <View> 帮助</View>
                 <View>增值</View>
               </View>
-              <View className="appre_process_list_icon" >></View>
+              <View className="appre_process_list_icon" >
+                <View className="appre_process_list_icon_tri" ></View>
+              </View>
             </View>
             <View className="appre_process_list" >
               <View className="appre_process_list_img" ></View>
@@ -102,8 +109,12 @@ export default connect(({ activity }: any) => activity.Appreciation)(
                 <View> 随时</View>
                 <View>可用</View>
               </View>
-              <View className="appre_process_list_icon" ></View>
+              <View className="appre_process_list_icon" >
+              </View>
             </View>
+          </View> */}
+          <View className="appre_process2" >
+            <img className="appre_process2_img" src={briefimg} />
           </View>
           <View className="appre_rule" >
             <View className="appre_rule_title" >温馨提示</View>
