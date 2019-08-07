@@ -107,9 +107,9 @@ export default connect()(
 						if (res.code === 200) {
 							localStorage.setItem('token', 'Bearer ' + res.data.token);
 							this.props.dispatch(routerRedux.push({ pathname: '/' }));
-							if (Cookies.get(open_id)) {
-								router.push('/')
-							} else {
+							// if (Cookies.get(open_id)) {
+							// 	router.push('/')
+							// } else {
 								// 授权（暂未完善）
 								let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
 								url = encodeURIComponent(url);
@@ -118,7 +118,7 @@ export default connect()(
 									url +
 									'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
 								return (window.location.href = urls);
-							}
+							// }
 						} else {
 							Toast.fail(res.data, 1.5);
 						}
