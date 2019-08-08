@@ -74,6 +74,7 @@ export default class Benefit extends Component {
 
 
 	handleChange = (query: any) => {
+		console.log(query)
 		this.setState({ date: query.time || undefined, payType: query.hot.id }, this.getData)
 		// 每次change时重置
 		this.setState({
