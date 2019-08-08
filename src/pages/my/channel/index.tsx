@@ -160,7 +160,7 @@ export default class Benefit extends Component {
 	//只选择月份
 	handleChange3 = (query: any) => {
 		//搞掉 
-		this.setState({ date: query.time || undefined, payType: undefined, type: undefined }, async () => {
+		this.setState({ date: query.time , payType: undefined, type: undefined }, async () => {
 			Toast.loading('');
 			const res = await request({
 				url: 'v3/finance/offline_order',
