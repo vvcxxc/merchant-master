@@ -208,7 +208,7 @@ export default class Benefit extends Component {
 					undetermined2={this.undetermined2}
 					insignificant={insignificant}
 					hasInsignificant={true}
-					onChange={this.handleChange}
+					// onChange={this.handleChange}
 					onChange2={this.handleChange2}
 					onChange3={this.handleChange3}
 				>
