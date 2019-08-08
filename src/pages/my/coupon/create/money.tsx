@@ -29,6 +29,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 					type="money"
 					value={String(this.props.pay_money || '')}
 					onChange={this.handleInput('pay_money')}
+					clear
 				>
 					购买价格
 				</InputItem>
@@ -40,6 +41,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						type="money"
 						onChange={this.handleInput('return_money')}
 						extra="元"
+						clear
 					>
 						面额
 					</InputItem>
@@ -49,6 +51,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						extra="元"
 						value={this.props.total_fee}
 						onChange={this.handleInput('total_fee')}
+						clear
 					>
 						使用门槛
 					</InputItem>
@@ -57,6 +60,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						type="money"
 						value={String(this.props.validity || '')}
 						onChange={this.handleInput('validity')}
+						clear
 					>
 						优惠券有效期
 					</InputItem>
@@ -65,6 +69,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						extra="张"
 						value={String(this.props.total_num || '')}
 						onChange={this.handleInput('total_num')}
+						clear
 					>
 						发放数量
 					</InputItem>

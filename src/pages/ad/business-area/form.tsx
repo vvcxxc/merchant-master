@@ -162,6 +162,7 @@ export default connect(({ businessArea }: any) => businessArea)(
 									value={this.state.price}
 									type="money"
 									onChange={this.handleChangePrice}
+									clear
 								>
 									每日预算
 								</InputItem>

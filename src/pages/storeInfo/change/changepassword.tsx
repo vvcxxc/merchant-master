@@ -2,7 +2,7 @@
  * 修改密码
  */
 import React, { Component } from 'react';
-import { Flex, Button, WingBlank, Toast } from 'antd-mobile';
+import { Flex, Button, WingBlank, Toast, InputItem } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router'
@@ -14,13 +14,13 @@ export default class ChangePassword extends Component {
     confirm_password: '',
   };
   handleOld = (e : any) => {
-    this.setState({old_password : e.target.value});
+    this.setState({old_password : e});
   }
   handleNew = (e : any) => {
-    this.setState({new_password : e.target.value});
+    this.setState({new_password : e});
   }
   handleConfirm = (e : any) => {
-    this.setState({confirm_password : e.target.value});
+    this.setState({confirm_password : e});
   }
 
   /**确认修改 */
@@ -50,13 +50,13 @@ export default class ChangePassword extends Component {
     return (
       <div style={{ width: '100%', height: '100%', background: '#fff' }} className={styles.phonePages}>
         <Flex className={styles.inputBox}>
-          <input type="password" placeholder='请输入原密码' value={this.state.old_password} onChange={this.handleOld}/>
+          <InputItem type={'password'} placeholder='请输入原密码' value={this.state.old_password} onChange={this.handleOld} clear />
         </Flex>
         <Flex className={styles.inputBox}>
-           <input type="password" placeholder='请输入不少于6位的密码' value={this.state.new_password} onChange={this.handleNew}/>
+           <InputItem type={'password'} placeholder='请输入不少于6位的密码' value={this.state.new_password} onChange={this.handleNew} clear />
         </Flex>
         <Flex className={styles.inputBox}>
-          <input type="password" placeholder='请再次输入新密码' value={this.state.confirm_password} onChange={this.handleConfirm}/>
+          <InputItem type={'password'} placeholder='请再次输入新密码' value={this.state.confirm_password} onChange={this.handleConfirm} clear />
         </Flex>
         <WingBlank className={styles.buttons}>
             <Button type="primary" style={{ marginTop: 86 }} onClick={this.confirm}>

@@ -270,11 +270,11 @@ export default class StoreInfo extends Component {
       <div style={{ width: '100%', height: '100%', background: '#fff' }}>
         <WingBlank className={styles.inputBox}>
           <List>
-            <InputItem placeholder='门店名称' value={store_name} onChange={this.handleStoreName}>门店名称</InputItem>
+            <InputItem placeholder='门店名称' value={store_name} onChange={this.handleStoreName} clear>门店名称</InputItem>
             <InputItem placeholder='门店地址' onClick={this.openMap} value={address}>门店地址</InputItem>
-            <InputItem placeholder='请输入详细门牌号，如：5栋2楼401' value={house_num} onChange={this.handleHouseNum}>门牌号</InputItem>
-            <InputItem placeholder='门店电话' value={phone} onChange={this.handlePhone}>门店电话</InputItem>
-            <InputItem placeholder='邮箱' value={email} onChange={this.handleEmail}>邮箱</InputItem>
+            <InputItem placeholder='请输入详细门牌号，如：5栋2楼401' value={house_num} onChange={this.handleHouseNum} clear>门牌号</InputItem>
+            <InputItem placeholder='门店电话' value={phone} onChange={this.handlePhone} clear>门店电话</InputItem>
+            <InputItem placeholder='邮箱' value={email} onChange={this.handleEmail} clear>邮箱</InputItem>
             <Flex className={styles.pickers}>
               <Picker
                 style={{width : '100%', fontSize: '28px'}}

@@ -399,12 +399,12 @@ import request from '@/services/request';
 // 下面的代码会被作为 cdn script 注入 注释勿删
 // CDN START
 const data = [
-	{date: "2019-07-19", type: "曝光数", value: 10},
-	{date: "2019-07-19", type: "点击数", value: 8},
-	{date: "2019-07-20", type: "曝光数", value: 20},
-	{date: "2019-07-20", type: "点击数", value: 17},
-	{date: "2019-07-21", type: "曝光数", value: 7},
-	{date: "2019-07-21", type: "点击数", value: 7}
+	{ date: "2019-07-19", type: "曝光数", value: 10 },
+	{ date: "2019-07-19", type: "点击数", value: 8 },
+	{ date: "2019-07-20", type: "曝光数", value: 20 },
+	{ date: "2019-07-20", type: "点击数", value: 17 },
+	{ date: "2019-07-21", type: "曝光数", value: 7 },
+	{ date: "2019-07-21", type: "点击数", value: 7 }
 ];
 
 export default class AdChart extends React.Component {
@@ -446,14 +446,14 @@ export default class AdChart extends React.Component {
 	render() {
 		return (
 			// 判断数据是否存在
-			<Chart data={data} >
-				<Axis dataKey="date" label={{ fontSize: 24 }} />
-				<Axis dataKey="value" label={{ fontSize: 24 }} />
+			this.state.data.length != 0 ? (<Chart data={this.state.data} >
+				<Axis dataKey="date" label={{ fontSize: 30 }} />
+				<Axis dataKey="value" label={{ fontSize: 30 }} />
 				<Tooltip showCrosshairs />
-				<Legend nameStyle={{ fontSize: 24 }} valueStyle={{ fontSize: 24 }} />
+				<Legend nameStyle={{ fontSize: 30 }} valueStyle={{ fontSize: 30 }} />
 				<Geom geom="line" position="date*value" color="type" />
 				<Geom geom="point" position="date*value" color="type" />
-			</Chart>
+			</Chart>) : null
 		);
 	}
 }

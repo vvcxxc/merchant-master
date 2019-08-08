@@ -1,0 +1,33 @@
+.page {
+  height: 100%;
+  background-color: #fff;
+}
+.addImg {
+  width: 78px;
+  height: 78px;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+}
+.coverTitle {
+  margin-right: 20px;
+}
+.upload {
+  display: none;
+}
+.btns {
+  width: 100%;
+}
+.btns div {
+  height: 88px;
+  border: 1px solid #666666;
+  text-align: center;
+  line-height: 88px;
+  font-size: 32px;
+}
+.btns div:last-child {
+  background-color: #21418a;
+  color: #fff;
+}
+.coupons_name :global .am-input-control input {
+  text-align: right;
+}

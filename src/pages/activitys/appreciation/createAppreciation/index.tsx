@@ -288,26 +288,26 @@ export default connect(({ activity }: any) => activity)(
                     <List.Item arrow="horizontal">结束日期</List.Item>
                   </DatePicker>
                 </Flex>
-                <InputItem type={'money'} className={styles.textShort} onChange={this.handleStartPri} value={start_price} placeholder='请输入 ' extra='元'>
+                <InputItem type={'money'} className={styles.textShort} onChange={this.handleStartPri} value={start_price} placeholder='请输入 ' extra='元' clear>
                   起始值
               </InputItem>
-                <InputItem type={'money'} className={styles.textShort} onChange={this.handleEndPri} value={end_price} placeholder='请输入 ' extra='元'>
+                <InputItem type={'money'} className={styles.textShort} onChange={this.handleEndPri} value={end_price} placeholder='请输入 ' extra='元' clear>
                   封顶值
               </InputItem>
-                <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人' ref="appreciationNumber" onVirtualKeyboardConfirm={this.handleCheckAppreciationNumber.bind(this)}>
+                <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人' ref="appreciationNumber" onVirtualKeyboardConfirm={this.handleCheckAppreciationNumber.bind(this)} clear>
                   助力人数
               </InputItem>
-                <InputItem type={'money'} className={styles.textShort} onChange={this.handlePayMoney} value={pay_money} placeholder='请输入 ' extra='元'>
+                <InputItem type={'money'} className={styles.textShort} onChange={this.handlePayMoney} value={pay_money} placeholder='请输入 ' extra='元' clear>
                   购买价格
               </InputItem>
-                <InputItem type={'money'} className={styles.textLong_door} onChange={this.handleTotalFee} value={total_fee} extra='元可用'>
+                <InputItem type={'money'} className={styles.textLong_door} onChange={this.handleTotalFee} value={total_fee} extra='元可用' clear>
                   使用门槛<span className={styles.left_text_door}>满</span>
                 </InputItem>
-                <InputItem type={'money'} className={styles.textLong} onChange={this.handleValidity} value={validity} extra='天内可用'>
+                <InputItem type={'money'} className={styles.textLong} onChange={this.handleValidity} value={validity} extra='天内可用' clear>
                   有效期
                   <span className={styles.left_text}>领券日起</span>
                 </InputItem>
-                <InputItem type={'money'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num} extra='张'>
+                <InputItem type={'money'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num} extra='张' clear>
                   发放数量
               </InputItem>
               </List>
@@ -321,8 +321,8 @@ export default connect(({ activity }: any) => activity)(
             </WingBlank>
       
             <Flex>
-              <div className={styles.button1} onClick={()=>{router.push('/activitys/appreciation/createAppreciation/appreciation')}}>预览</div>
-              <div className={styles.button2} onClick={this.submit}>确认发布</div>
+              {/* <div className={styles.button1} onClick={()=>{router.push('/activitys/appreciation/createAppreciation/appreciation')}}>预览</div> */}
+              <div className={styles.button2} onClick={this.submit}  style={{width:"100%",left:"0"}}>确认发布</div>
             </Flex>
           </div>
         </div>

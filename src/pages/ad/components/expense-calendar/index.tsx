@@ -3,6 +3,8 @@ import { WingBlank, Flex } from 'antd-mobile';
 import styles from '../../index.less';
 import request from '@/services/request';
 
+import moment from 'moment';
+
 interface Props {
 	// log: {};
 	adId: null,
@@ -55,7 +57,7 @@ export default class ExpenseCalendar extends Component<Props> {
 		console.log(this.state.data)
 		const tableItems = this.state.data ? this.state.data.map(_ => (
 			<Flex className={styles.tableItem} key={_.create_time}>
-				<Flex.Item>{_.create_time}</Flex.Item>
+				<Flex.Item>{moment(_.create_time).format('YYYY-MM-DD')}</Flex.Item>
 				<span>{_.info}</span>
 				<Flex.Item>{_.money}</Flex.Item>
 			</Flex>
