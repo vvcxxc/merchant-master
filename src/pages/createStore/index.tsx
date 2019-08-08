@@ -6,6 +6,8 @@ import router from 'umi/router';
 import upload from '@/services/oss';
 import { connect } from 'dva';
 
+let timer = null;
+
 export default connect(({ createStore }: any) => createStore)(
   class CreateStore extends Component<any> {
     state = {
@@ -81,6 +83,9 @@ export default connect(({ createStore }: any) => createStore)(
         this.setState({ oss_data });
       });
 
+      timer = setInterval(()=>{
+
+      }, 10000)
 
 
 
