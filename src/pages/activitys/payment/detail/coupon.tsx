@@ -12,6 +12,7 @@ interface Props {
 	use_sum: number;
 	user_count: number;
 	total_num: number;
+	total_fee: number;
 }
 
 export default class CouponCard extends Component<Props> {
@@ -20,12 +21,16 @@ export default class CouponCard extends Component<Props> {
 			<div className={styles.couponCard}>
 				<div className="price">¥ {this.props.return_money}</div>
 				<div className="info">
-					<span>满{30}可用</span>
+					<span>满{this.props.total_fee}可用</span>
 					<span>有效期{this.props.expire_day}天</span>
 				</div>
-				<ProgressBar title="库存" value={60} label={this.props.total_num + '张'} />
+				{/* 这几个字段是否正确？s*/}
+				{/* <ProgressBar title="库存" value={60} label={this.props.total_num + '张'} />
 				<ProgressBar title="已领" value={70} label={this.props.user_count - this.props.total_num + '张'} />
-				<ProgressBar title="已使用" value={80} label={this.props.use_sum + '张'} />
+				<ProgressBar title="已使用" value={this.props. use_sum/this.props.user_count*100} label={this.props.use_sum + '张'} /> */}
+				<ProgressBar title="库存" value={(this.props.user_count - this.props.use_sum - this.props.total_num)/ this.props.user_count * 100} label={this.props.user_count - this.props.use_sum - this.props.total_num + '张'} />
+				<ProgressBar title="已领" value={this.props.total_num / this.props.user_count * 100} label={this.props.total_num + '张'} />
+				<ProgressBar title="已使用" value={this.props.use_sum / this.props.user_count * 100} label={this.props.use_sum + '张'} />
 			</div>
 		);
 	}

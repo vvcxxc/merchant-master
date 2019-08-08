@@ -59,18 +59,7 @@ class WithDraw extends Component {
         money: 0
       });
     } else {
-      // value 取小数点后面的数据   长度限制2 ，大于2的，截掉最后一位
       this.setState({ money: value })
-      // if (this.state.money.indexOf('.') !== -1) {
-      // 	// console.log( this.state.money.split('.')[1].length+1  )
-      // 	if (value.split('.')[1].length + 1 <= 3) {
-      // 		console.log(value.split('.')[1]);
-      // 		console.log(value.split('.')[1].slice(0,value.split('.')[1].length-1));
-      // 		this.setState({ money: value })
-      // 	}
-      // } else {
-      // 	this.setState({ money: value })
-      // }
     }
   };
 
