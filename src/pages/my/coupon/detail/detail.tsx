@@ -74,7 +74,7 @@ export default class ContentDetail extends Component<Props, any> {
 			this.setState({ modalType: type });
 			this.modal.show &&
 				this.modal.show({
-					text: type === 'stop' ? '暂停投放优惠券 将会怎么样怎么样' : '删除优惠券 将会怎么样怎么样'
+					text: type === 'stop' ? '是否暂停优惠券发放？' : '是否删除优惠券？'
 				});
 		} else {
 			this.handleStopCoupon();
