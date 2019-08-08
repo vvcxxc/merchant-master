@@ -171,7 +171,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						files={this.props.temp_url2}
 						onChange={this.uploadImage('detailFiles')}
 						selectable={!Boolean(this.props.temp_url2) || this.props.temp_url2.length < 2}
-
 					/>
 					{notice}
 				</div>

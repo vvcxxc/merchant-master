@@ -423,8 +423,8 @@ export default connect(({ activity }: any) => activity)(
             </Flex>
           </WingBlank>
           <Flex>
-            <div className={styles.button1} onClick={() => { router.push('/activitys/group/createGroup/activitygroup') }}>预览</div>
-            <div className={styles.button2} onClick={this.confirm}>确认发布</div>
+            {/* <div className={styles.button1} onClick={() => { router.push('/activitys/group/createGroup/activitygroup') }}>预览</div> */}
+            <div className={styles.button2} onClick={this.confirm} style={{width:"100%",left:"0"}}>确认发布</div>
           </Flex>
         </div>
 
