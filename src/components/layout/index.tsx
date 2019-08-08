@@ -57,8 +57,8 @@ export default class FiltrateLayout extends Component<Props> {
 	hotChange = (id: any, _id: any) => {
 		//handleQueryChange所有该组件都有用，handleQueryChange2，3只有支付渠道详情使用，因此保证大部分组件可以改变状态，再让支付渠道详情改变
 		this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id } } }, () => {
-			this.handleQueryChange;
-			this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id } } }, this.handleQueryChange2);
+			this.handleQueryChange();
+			this.handleQueryChange2();
 		});
 
 
@@ -67,8 +67,8 @@ export default class FiltrateLayout extends Component<Props> {
 	timeHide = () => this.setState({ timeShow: false });
 	timeChange = (value: string): any => {
 		this.setState({ timeShow: false, query: { ...this.state.query, time: value } }, () => {
-			this.handleQueryChange;
-			this.setState({ query: { ...this.state.query, time: value }, timeShow: false }, this.handleQueryChange3);
+			this.handleQueryChange();
+			this.handleQueryChange3();
 		});
 
 
@@ -77,7 +77,9 @@ export default class FiltrateLayout extends Component<Props> {
 	// timeReset = () => this.props.timeReset && this.props.timeReset();
 
 	/**条件变更时触发onChange事件 */
-	handleQueryChange = () => this.props.onChange && this.props.onChange(this.state.query);
+	handleQueryChange = () => {
+		console.log(222222)
+		this.props.onChange && this.props.onChange(this.state.query)};
 	handleQueryChange2 = () => this.props.onChange2 && this.props.onChange2(this.state.query);
 	handleQueryChange3 = () => this.props.onChange3 && this.props.onChange3(this.state.query);
 
