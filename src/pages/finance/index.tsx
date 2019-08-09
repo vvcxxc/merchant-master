@@ -71,7 +71,7 @@ export default connect(({ finance }: any) => finance)(
     handleChangePrice = (type: string) => (e: any) => this.setState({ [type]: e.target.value });
 
     handleLoadMore = () => {
-      if (this.props.hasMore.hasMore) {
+      if (this.props.hasMore) {
         this.setState({
           page: this.state.page + 1
         }, () => {
@@ -123,14 +123,15 @@ export default connect(({ finance }: any) => finance)(
 
             () => {
               console.log(_)
-              //貌似不是传递_id，先放着
+              //_id=>log_id?
               switch (_.type) {
-                case 3: this.pushPage('/finance/financeDetail/offlineDeal',{_id:_.id}); break;  //线下交易（线下收银）
-                case 13: this.pushPage('/finance/financeDetail/tariffRebates',{_id:_.id}); break; //费率返点（商家返点）
-                case 6: this.pushPage('/finance/financeDetail/advertisingRevenue',{_id:_.id}); break;  //广告收益
-                case 9: this.pushPage('/finance/financeDetail/advertisingSpending',{_id:_.id}); break; //广告购买
-                case 8: this.pushPage('/finance/financeDetail/couponRevenue',{_id:_.id}); break;   //优惠券收益，存疑（优惠券分润）
-                // case : this.pushPage('/finance/financeDetail/onlineSelling',{_id:_.id}); break;   //线上卖券，重大存疑   （商家返点）
+                case 3: this.pushPage('/finance/financeDetail/offlineDeal', { _id: _.id }); break;  //线下交易（线下收银）
+                case 13: this.pushPage('/finance/financeDetail/tariffRebates', { _id: _.id }); break; //费率返点（商家返点）
+                case 6: this.pushPage('/finance/financeDetail/advertisingRevenue', { _id: _.id }); break;  //广告收益
+                case 9: this.pushPage('/finance/financeDetail/advertisingSpending', { _id: _.id }); break; //广告购买
+
+                case 8: this.pushPage('/finance/financeDetail/couponRevenue', { _id: _.id }); break;   //优惠券收益，存疑（优惠券分润）
+                //case 5: this.pushPage('/finance/financeDetail/onlineSelling',{_id:_.id}); break;   //线上卖券，重大存疑   （ 余额提现）
 
                 default: return
               }
