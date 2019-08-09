@@ -10,7 +10,12 @@ import { Data } from '@/models/app';
 import { routerRedux } from 'dva/router';
 import request from '@/services/request';
 import wx from 'weixin-js-sdk';
-
+import Cookies from 'js-cookie';
+declare global {
+  interface Window { open_id: string; pay_url: string; Url: string }
+}
+const Url = window.url ? window.url : 'http://test.api.tdianyi.com/';
+const open_id = window.open_id ? window.open_id : 'test_open_id';
 interface Props {
 	data: Data;
 	dispatch: (arg0: any) => any;
@@ -87,10 +92,30 @@ export default connect(({ app }: any) => app)(
 		}
 
 		componentDidMount() {
+      let openId = Cookies.get(open_id);
+      if(process.env.NODE_ENV != 'development'){
+        if(!openId){
+          this.auth()
+        }
+      }
+
 			this.props.dispatch({
 				type: 'app/getData'
 			});
-		}
+    }
+
+    // 授权
+  auth = () => {
+    let from = window.location.href;
+    let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
+    url = encodeURIComponent(url);
+    let urls =
+      'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
+      url +
+      '&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+    return (window.location.href = urls);
+  }
+
 		/**跳转到页面 */
 		pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
 
