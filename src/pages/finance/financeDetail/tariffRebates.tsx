@@ -20,16 +20,12 @@ export default connect(({ finance }: any) => finance)(
     class TariffRebates extends Component {
         state = {
             info: {
-                "money": 0,
-                "source": "",
-                "order_money": 0,
-                "activity_deduction_money": 0,
-                "cash_deduction_money": 0,
-                "deduction_coupon_money": 0,
-                "service_charge": 0,
-                "rate": "",
-                "create_time": "",
-                "order_sn": ""
+                create_time: "",
+                custom_money: 0,
+                money: 0,
+                order_money: 0,
+                order_sn: "",
+                source: "",
             }
         };
 
@@ -37,7 +33,7 @@ export default connect(({ finance }: any) => finance)(
             // console.log(this.props.location.query)
             let { _id } = this.props.location.query;
             request({
-                url: 'api/merchant/youhui/getAppreciationInfo',
+                url: 'v3/finance/finance_info',
                 method: 'get',
                 params: {
                     type: 2, //账单类型1=线下收银详情 2=费率返点详情 3=广告收益 4=优惠券收益 5=线上卖券 6=广告支出
@@ -45,7 +41,8 @@ export default connect(({ finance }: any) => finance)(
                     // field_help: ""
                 }
             }).then(res => {
-                console.log(res)
+                console.log(res);
+                this.setState({ info: res.data });
             })
         }
 
@@ -64,12 +61,12 @@ export default connect(({ finance }: any) => finance)(
                         </View>
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">订单金额</View>
-                            <View className="D_offlineDeal_list_box_msg">301元</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.order_money}元</View>
                         </View>
 
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">返点</View>
-                            <View className="D_offlineDeal_list_box_msg">0.20元</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.custom_money}元</View>
                         </View>
                     </View>
                     <View className="D_offlineDeal_creat" >

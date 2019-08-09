@@ -37,7 +37,7 @@ export default connect(({ finance }: any) => finance)(
             // console.log(this.props.location.query)
             let { _id } = this.props.location.query;
             request({
-                url: 'api/merchant/youhui/getAppreciationInfo',
+                url: 'v3/finance/finance_info',
                 method: 'get',
                 params: {
                     type: 3, //账单类型1=线下收银详情 2=费率返点详情 3=广告收益 4=优惠券收益 5=线上卖券 6=广告支出
@@ -45,7 +45,8 @@ export default connect(({ finance }: any) => finance)(
                     // field_help: ""
                 }
             }).then(res => {
-                console.log(res)
+                console.log(res);
+                this.setState({ info: res.data });
             })
         }
 
