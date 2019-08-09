@@ -80,7 +80,7 @@ export default connect(({ finance }: any) => finance)(
 
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">手续费</View>
-                            <View className="D_offlineDeal_list_box_msg">{this.state.info.service_charge}</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.service_charge}元</View>
                         </View>
                     </View>
                     <View className="D_offlineDeal_creat" >

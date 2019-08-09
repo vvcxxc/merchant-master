@@ -70,28 +70,28 @@ export default connect(({ finance }: any) => finance)(
 
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">订单金额</View>
-                            <View className="D_offlineDeal_list_box_msg">{this.state.info.order_money}</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.order_money}元</View>
                         </View>
 
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">活动抵扣</View>
-                            <View className="D_offlineDeal_list_box_msg">{this.state.info.activity_deduction_money}</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.activity_deduction_money}元</View>
                         </View>
 
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">现金券抵扣</View>
-                            <View className="D_offlineDeal_list_box_msg">{this.state.info.cash_deduction_money}</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.cash_deduction_money}元</View>
                         </View>
 
 
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">现金券</View>
-                            <View className="D_offlineDeal_list_box_msg">{this.state.info.deduction_coupon_money}</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.deduction_coupon_money}元</View>
 
                         </View>
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">手续费</View>
-                            <View className="D_offlineDeal_list_box_msg">{this.state.info.service_charge}</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.service_charge}元</View>
                         </View>
                     </View>
                     <View className="D_offlineDeal_creat" >
