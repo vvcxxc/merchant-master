@@ -20,16 +20,12 @@ export default connect(({ finance }: any) => finance)(
     class CouponRevenue extends Component {
         state = {
             info: {
-                "money": 0,
-                "source": "",
-                "order_money": 0,
-                "activity_deduction_money": 0,
-                "cash_deduction_money": 0,
-                "deduction_coupon_money": 0,
-                "service_charge": 0,
-                "rate": "",
-                "create_time": "",
-                "order_sn": ""
+                coupon_name: "优惠券名称",
+coupon_store_name: 222,
+create_time: "2019-08-08 17:49:10",
+earnings: 111,
+money: 111,
+order_sn: "B39324245434523452532",
             }
         };
 
@@ -37,7 +33,7 @@ export default connect(({ finance }: any) => finance)(
             // console.log(this.props.location.query)
             let { _id } = this.props.location.query;
             request({
-                url: 'api/merchant/youhui/getAppreciationInfo',
+                url: 'v3/finance/finance_info',
                 method: 'get',
                 params: {
                     type: 4, //账单类型1=线下收银详情 2=费率返点详情 3=广告收益 4=优惠券收益 5=线上卖券 6=广告支出
@@ -45,7 +41,8 @@ export default connect(({ finance }: any) => finance)(
                     // field_help: ""
                 }
             }).then(res => {
-                console.log(res)
+                console.log(res);
+                this.setState({ info: res.data });
             })
         }
 
@@ -53,17 +50,17 @@ export default connect(({ finance }: any) => finance)(
             return (
                 <View className="D_offlineDeal" >
                     <View className="D_offlineDeal_title" >
-                        <View className="D_offlineDeal_title_money">优惠券</View>
-                        <View className="D_offlineDeal_title_msg">券的名称</View>
+                        <View className="D_offlineDeal_title_money">￥{this.state.info.money}</View>
+                        <View className="D_offlineDeal_title_msg">交易成功</View>
                     </View>
                     <View className="D_offlineDeal_list" >
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">券发布者</View>
-                            <View className="D_offlineDeal_list_box_msg">空空店铺</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.coupon_store_name}</View>
                         </View>
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">收益</View>
-                            <View className="D_offlineDeal_list_box_msg">0.20元</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.earnings}元</View>
                         </View>
                     </View>
                     <View className="D_offlineDeal_creat" >

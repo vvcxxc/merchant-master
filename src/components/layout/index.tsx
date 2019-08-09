@@ -78,7 +78,6 @@ export default class FiltrateLayout extends Component<Props> {
 
 	/**条件变更时触发onChange事件 */
 	handleQueryChange = () => {
-		console.log(222222)
 		this.props.onChange && this.props.onChange(this.state.query)};
 	handleQueryChange2 = () => this.props.onChange2 && this.props.onChange2(this.state.query);
 	handleQueryChange3 = () => this.props.onChange3 && this.props.onChange3(this.state.query);

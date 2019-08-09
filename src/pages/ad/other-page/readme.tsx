@@ -25,9 +25,9 @@ export default class BusinessArea extends Component {
             <View className="readme_content">
                 <img className="readme_background" src={img0} />
                 <View className="readme_box"  >
-                    <View className="readme_titel"  >
+                    {/* <View className="readme_titel"  >
                         <View className="readme_titel_name" >
-                            <span  className="lineimg" >
+                            <span className="lineimg" >
                                 <img src={leftimg} />
                             </span>
                             <View className="readme_titel_contentbox">
@@ -38,7 +38,7 @@ export default class BusinessArea extends Component {
                                 <View className="readme_titel_brief2" >人参与投放</View>
                             </View>
                             <span className="lineimg" >
-                                <img src={rightimg}  />
+                                <img src={rightimg} />
                             </span>
                         </View>
                         <View className="readme_titel_list" >
@@ -56,10 +56,8 @@ export default class BusinessArea extends Component {
                                     <div className="v-item">carousel 3</div>
                                 </Carousel>
                             </WingBlank>
-
-
                         </View>
-                    </View>
+                    </View> */}
                     <View className="readme_box1" >
                         <View className="readme_box1_name" >钻石展位</View>
                         <View className="readme_box1_go" onClick={this.goBack.bind(this, '钻石展位')}>我要去投放广告 >></View>
