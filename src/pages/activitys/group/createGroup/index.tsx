@@ -3,23 +3,32 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast, ImagePicker } from 'antd-mobile';
 import upload from '@/services/oss';
-import Notice from '../../components/notice/';
-import PayMent from '../../components/payment'
 import moment from 'moment'
 import request from '@/services/request'
 import router from 'umi/router';
 import { connect } from 'dva';
-
+import Cookies from 'js-cookie';
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
-
+declare global {
+  interface Window { open_id: string; Url: string }
+}
+const Url = window.url ? window.url : 'http://test.api.tdianyi.com/';
+const open_id = window.open_id ? window.open_id : 'test_open_id';
 export default connect(({ activity }: any) => activity)(
   class createGroup extends Component<any> {
     state = {
       is_gift: false
     };
     componentDidMount() {
+
+      // 验证是否授权
+      let openId = Cookies.get(open_id)
+      if(!openId){
+        this.auth()
+      }
+
       if (this.props.Group.gift_id) {
         this.setState({ is_gift: true })
       }
@@ -40,6 +49,17 @@ export default connect(({ activity }: any) => activity)(
         })
       }
     }
+    // 授权
+  auth = () => {
+    let from = window.location.href;
+    let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
+    url = encodeURIComponent(url);
+    let urls =
+      'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
+      url +
+      '&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+    return (window.location.href = urls);
+  }
     startChange = (value: any) => {
       this.props.dispatch({
         type: 'activity/setGroup',
