@@ -41,7 +41,7 @@ export default class OrderPage extends Component {
 	getData = async (query?: any) => {
 		Toast.loading('');
 		const res = await request({ url: 'v3/coupons/order_list', params: {
-			query,
+			...query,
 			page : this.state.page
 		} });
 		Toast.hide();
@@ -65,7 +65,7 @@ export default class OrderPage extends Component {
 				date: query.time ? moment(query.time).unix() : undefined
 			});
 		})
-		
+
 	};
 
 	handleClickOrder = (id: any) => () => {
@@ -84,7 +84,7 @@ export default class OrderPage extends Component {
 				})
 			})
 		}
-		
+
 	}
 
 	render() {
