@@ -20,6 +20,7 @@ export default class Rechange extends Component {
     let openId = Cookies.get(open_id)
     // 判断是否授权
     if (openId) {
+      console.log('调起充值')
       Toast.loading('充值中');
       const res = await request({
         url: 'v3/pay/recharge',
@@ -42,7 +43,9 @@ export default class Rechange extends Component {
         });
       }
     }else {
-      this.auth()
+      console.log('跳到授权')
+      console.log('open_id'+openId)
+      // this.auth()
     }
 
   };
