@@ -46,7 +46,7 @@ export default class Rechange extends Component {
     }else {
       console.log('跳到授权')
       console.log('open_id'+openId)
-      // this.auth()
+      this.auth()
     }
 
   };
