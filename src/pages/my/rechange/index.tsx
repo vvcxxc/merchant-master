@@ -17,6 +17,7 @@ export default class Rechange extends Component {
   handleInputChange = (value: any) => this.setState({ money: parseFloat(value) });
   /** recahnge submit value */
   submit = async () => {
+    console.log(open_id)
     let openId = Cookies.get(open_id)
     // 判断是否授权
     if (openId) {
