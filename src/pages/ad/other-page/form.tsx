@@ -203,7 +203,7 @@ export default connect(({ ad }: any) => ad)(
 			this.props.dispatch({
 				type: 'ad/setType',
 				payload: {
-					popType : type
+					popType: type
 				}
 			})
 			this.props.getIndex(type + 1)
@@ -321,7 +321,10 @@ export default connect(({ ad }: any) => ad)(
 								</Flex>
 								<div className={styles.adTitle}>广告图</div>
 								{imagePicker}
-								{this.state.edit && <img className={styles.banner} src={this.state.banner} />
+								{this.state.edit &&
+									<div className={styles.bannerBox}>
+										<img className={styles.banner} src={this.state.banner} />
+									</div>
 									//this.state.formType == 0 ? <img className={styles.banner} src={this.state.banner} /> 
 									//  : this.state.formType == 1?  <img className={styles.banner} src={this.state.banner} /> : null
 								}

@@ -40,12 +40,17 @@ export default class Rechange extends Component {
           ``;
           if (res.err_msg == 'get_brand_wcpay_request:ok') {
             // '支付成功'
+            Toast.success('充值成功',1.5);
+          } else {
+            Toast.fail('充值失败', 1.5);
           }
         });
+      } else {
+        Toast.fail('充值失败', 1.5);
       }
-    }else {
+    } else {
       console.log('跳到授权')
-      console.log('open_id'+openId)
+      console.log('open_id' + openId)
       this.auth()
     }
 
