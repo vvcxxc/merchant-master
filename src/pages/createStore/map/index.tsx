@@ -14,6 +14,9 @@ import router from 'umi/router';
 
 export default connect(({createStore}: any) => createStore)(
   class MapPage extends Component<any> {
+    msearch: any
+    geocoder: any
+    AMap:any
     state = {
       city_list: [],
       // 城市选择页
@@ -96,7 +99,7 @@ export default connect(({createStore}: any) => createStore)(
               };
               _this.setState({location});
               const lnglat = [longitude, latitude]
-              _this.geocoder && _this.geocoder.getAddress(lnglat, (status, result) => {
+              _this.geocoder && _this.geocoder.getAddress(lnglat, (status:any, result:any) => {
                 if (status === 'complete'){
                   if (result.regeocode){
                     _this.createSearch(result);
@@ -154,7 +157,7 @@ export default connect(({createStore}: any) => createStore)(
         // city: '广州'
         city:city_name //城市
       });
-      this.msearch.search(keywords, function(status: any, result: object){
+      this.msearch.search(keywords, function(status: any, result: any){
         let one = result.poiList.pois[0]
         let location = {
           longitude: one.location.lng,
@@ -192,7 +195,7 @@ export default connect(({createStore}: any) => createStore)(
         });
         let keywords = city + district + street;
 
-        this.msearch.search(keywords, function(status: any, result: object){
+        this.msearch.search(keywords, function(status: any, result: any){
           _this.setState({
             searchList: result.poiList.pois
           })
@@ -395,7 +398,7 @@ export default connect(({createStore}: any) => createStore)(
             }
           })
           const lnglat = e.lnglat;
-          _this.geocoder && _this.geocoder.getAddress(lnglat, (status, result) => {
+          _this.geocoder && _this.geocoder.getAddress(lnglat, (status:any, result:any) => {
             if (status === 'complete'){
               if (result.regeocode){
                 _this.createSearch(result);

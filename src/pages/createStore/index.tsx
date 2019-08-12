@@ -374,7 +374,7 @@ export default connect(({createStore}: any) => createStore)(
                 </Button>
 
             </WingBlank>
-            {/* {map} */}
+          {/* {map} */}
         </div>
       )
     }
