@@ -115,7 +115,12 @@ export default connect(({ ad }: any) => ad)(
 				this.setState({ activity: coupon }, this.closeModal);
 			}
 		};
-		handleChangePrice = (price: any) => this.setState({ price });
+		handleChangePrice = (price: any) => {
+			console.log(price);
+			if (price.split(".")[1] == undefined || (price.split(".")[1].length <= 2 && price.split(".")[2] == undefined)) {
+				this.setState({ price })
+			}
+		};
 		handleShowSelectTime = () => this.setState({ showSelectTime: true });
 		handleSelectTime = (time: any) => this.setState({ ...time }, this.closeModal);
 		/**
