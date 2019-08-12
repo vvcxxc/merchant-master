@@ -28,7 +28,6 @@ export default class StoreInfo extends Component {
     store_door_header_img: '',
     store_img_one: '',
     store_img_two: '',
-    shop_door_header_img: '',
     is_map: false,
     account_mobile: '',
 
@@ -66,13 +65,13 @@ export default class StoreInfo extends Component {
         phone: data.tel,
         address: data.address,
         value: [data.manage_type],
-        shop_door_header_img: data.shop_door_header_img,
+        store_door_header_img: data.store_door_header_img,
         store_img_two: data.store_img_two,
         store_img_one: data.store_img_one,
         account_mobile: data.account_mobile,
         manage_type: data.manage_type,
         house_num: data.house_num
-      });
+      },()=>{console.log(this.state)});
     })
   }
 
@@ -160,7 +159,7 @@ export default class StoreInfo extends Component {
   closeHeaderImg = () => {
     this.setState({
       is_header: false,
-      shop_door_header_img: ''
+      store_door_header_img: ''
     })
   }
   closeImgOne = () => {
@@ -208,7 +207,7 @@ export default class StoreInfo extends Component {
   }
 
   render (){
-    const { store_head, store_img1, store_img2, store_name, address, house_num, phone, email, store_img_one, store_img_two, shop_door_header_img} = this.state;
+    const { store_head, store_img1, store_img2, store_name, address, house_num, phone, email, store_img_one, store_img_two, store_door_header_img} = this.state;
     const map = this.state.is_map == true ? (
       <MapPage onChange={this.mapChange}/>
     ) : (
@@ -217,7 +216,7 @@ export default class StoreInfo extends Component {
 
     const header_img = this.state.is_header == true ? (
       <div className={styles.header_img}>
-        <img src={'http://oss.tdianyi.com/' + shop_door_header_img} />
+        <img src={'http://oss.tdianyi.com/' + store_door_header_img} />
         <div className={styles.close} onClick={this.closeHeaderImg}>{''}</div>
       </div>
     ) : (
