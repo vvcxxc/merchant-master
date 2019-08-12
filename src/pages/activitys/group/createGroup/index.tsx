@@ -75,48 +75,49 @@ export default connect(({ activity }: any) => activity)(
       });
     }
     handleOldPrice = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setGroup',
-        payload: {
-          old_price: e
-        }
-      });
-    }
-    handleNewPrice = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setGroup',
-        payload: {
-          participation_money: e,
-          gift_id: '',
-          gift_pic: ''
-        }
-      });
-    }
-    handleNum = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setGroup',
-        payload: {
-          group_number: e
-        }
-      });
-    }
-    handleSum = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setGroup',
-        payload: {
-          group_sum: e
-        }
-      });
-    }
-    handleValidity = (e: any) => {
-      if (e.length > 3) {
+      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {
-            validity: this.props.Group.validity
+            old_price: e
           }
         });
-      } else {
+      }
+    }
+    handleNewPrice = (e: any) => {
+      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+        this.props.dispatch({
+          type: 'activity/setGroup',
+          payload: {
+            participation_money: e,
+            gift_id: '',
+            gift_pic: ''
+          }
+        });
+      }
+    }
+    handleNum = (e: any) => {
+      if (e.indexOf(".") == -1  && e.length <= 2) {
+        this.props.dispatch({
+          type: 'activity/setGroup',
+          payload: {
+            group_number: e
+          }
+        });
+      }
+    }
+    handleSum = (e: any) => {
+      if (e.indexOf(".") == -1) {
+        this.props.dispatch({
+          type: 'activity/setGroup',
+          payload: {
+            group_sum: e
+          }
+        });
+      }
+    }
+    handleValidity = (e: any) => {
+      if (e.indexOf(".") == -1 && e.length <= 3) {
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {
@@ -221,8 +222,8 @@ export default connect(({ activity }: any) => activity)(
       // 日期验证
       let startDate = new Date(start_date).getTime();
       let endDate = new Date(end_date).getTime();
-      if(startDate > endDate) {
-        Toast.fail('起始日期应大于结束日期',2);
+      if (startDate > endDate) {
+        Toast.fail('起始日期应大于结束日期', 2);
         return;
       }
 
@@ -424,7 +425,7 @@ export default connect(({ activity }: any) => activity)(
           </WingBlank>
           <Flex>
             {/* <div className={styles.button1} onClick={() => { router.push('/activitys/group/createGroup/activitygroup') }}>预览</div> */}
-            <div className={styles.button2} onClick={this.confirm} style={{width:"100%",left:"0"}}>确认发布</div>
+            <div className={styles.button2} onClick={this.confirm} style={{ width: "100%", left: "0" }}>确认发布</div>
           </Flex>
         </div>
 

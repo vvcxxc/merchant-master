@@ -43,38 +43,38 @@ export default connect(({ activity }: any) => activity)(
 
     /**改变值 */
     handleStartPri = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setAppreciation',
-        payload: {
-          start_price: e
-        }
-      });
-    }
-    handleEndPri = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setAppreciation',
-        payload: {
-          end_price: e
-        }
-      });
-    }
-    handlePeopleNum = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setAppreciation',
-        payload: {
-          appreciation_number_sum: e
-        }
-      });
-    }
-    handleValidity = (e: any) => {
-      if (e.length > 3) {
+      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
-            validity: this.props.Appreciation.validity
+            start_price: e
           }
         });
-      } else {
+      }
+    }
+    handleEndPri = (e: any) => {
+      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            end_price: e
+          }
+        });
+      }
+    }
+    handlePeopleNum = (e: any) => {
+      if (e.indexOf(".") == -1  && e.length <= 2) {
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            appreciation_number_sum: e
+          }
+        });
+      }
+    }
+    handleValidity = (e: any) => {
+      console.log(e)
+      if (e.indexOf(".") == -1 && e.length <= 3) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
@@ -82,43 +82,38 @@ export default connect(({ activity }: any) => activity)(
           }
         });
       }
-
     }
     handlePayMoney = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setAppreciation',
-        payload: {
-          pay_money: e,
-          gift_id: '',
-          gift_pic: ''
-        }
-      });
+      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            pay_money: e,
+            gift_id: '',
+            gift_pic: ''
+          }
+        });
+      }
     }
     handleTotalNum = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setAppreciation',
-        payload: {
-          total_num: e
-        }
-      });
+      console.log(e)
+      if (e.indexOf(".") == -1) {
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            total_num: e
+          }
+        });
+      }
     }
     handleTotalFee = (e: any) => {
-      if (e.split('.')[1] == undefined || (e.split('.')[1] != undefined && e.split('.')[1].length <= 2 && e.split('.')[2] == undefined)) {
-        if (e.length > 4) {
-          this.props.dispatch({
-            type: 'activity/setAppreciation',
-            payload: {
-              total_fee: this.props.Appreciation.total_fee
-            }
-          });
-        } else {
-          this.props.dispatch({
-            type: 'activity/setAppreciation',
-            payload: {
-              total_fee: e
-            }
-          });
-        }
+      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            total_fee: e
+          }
+        });
       }
     }
     startChange = (value: any) => {

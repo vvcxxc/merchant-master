@@ -41,21 +41,20 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			// console.log(value)
 			// console.log(type)
 			if (type == 'coupons_name') {
+				//商家名
 				this.props.dispatch({
 					type: 'createCoupon/setCoupon',
 					payload: {
-						// [type]: type === 'coupons_name' ? value : parseInt(value)
-						//handleInput可以小数
+
 						[type]: value
 					}
 				});
 			} else {
-				if (value.split(".")[1] == undefined || (value.split(".")[1].length < 2 && value.split(".")[2] == undefined)) {
+				if (value.split(".")[1] == undefined || (value.split(".")[1].length < 3 && value.split(".")[2] == undefined)) {
+					//涉及到金额的都用一位小数
 					this.props.dispatch({
 						type: 'createCoupon/setCoupon',
 						payload: {
-							// [type]: type === 'coupons_name' ? value : parseInt(value)
-							//handleInput可以小数(限一位)
 							[type]: value
 						}
 					});
