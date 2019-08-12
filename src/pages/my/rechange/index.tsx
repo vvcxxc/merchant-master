@@ -17,43 +17,48 @@ export default class Rechange extends Component {
   handleInputChange = (value: any) => this.setState({ money: parseFloat(value) });
   /** recahnge submit value */
   submit = async () => {
+    console.log(this.state.money)
     console.log(open_id)
     let openId = Cookies.get(open_id)
-    // 判断是否授权
-    if (openId) {
-      console.log('调起充值')
-      Toast.loading('充值中');
-      const res = await request({
-        url: 'v3/pay/recharge',
-        method: 'post',
-        data: {
-          xcx: 0,
-          rechargeMoney: this.state.money,
-          open_id: openId
-        }
-      });
-
-      Toast.hide();
-
-      if (res.code === 200) {
-        window.WeixinJSBridge.invoke('getBrandWCPayRequest', res.data, function (res: { err_msg: string }) {
-          ``;
-          if (res.err_msg == 'get_brand_wcpay_request:ok') {
-            // '支付成功'
-            Toast.success('充值成功',1.5);
-          } else {
-            Toast.fail('充值失败', 1.5);
+    //判断是否为零
+    if (this.state.money == 0) {
+      Toast.fail('请输入充值金额', 1.5);
+    } else {
+      // 判断是否授权
+      if (openId) {
+        console.log('调起充值')
+        Toast.loading('充值中');
+        const res = await request({
+          url: 'v3/pay/recharge',
+          method: 'post',
+          data: {
+            xcx: 0,
+            rechargeMoney: this.state.money,
+            open_id: openId
           }
         });
-      } else {
-        Toast.fail('充值失败', 1.5);
-      }
-    } else {
-      console.log('跳到授权')
-      console.log('open_id' + openId)
-      this.auth()
-    }
 
+        Toast.hide();
+
+        if (res.code === 200) {
+          window.WeixinJSBridge.invoke('getBrandWCPayRequest', res.data, function (res: { err_msg: string }) {
+            ``;
+            if (res.err_msg == 'get_brand_wcpay_request:ok') {
+              // '支付成功'
+              Toast.success('充值成功', 1.5);
+            } else {
+              Toast.fail('充值失败', 1.5);
+            }
+          });
+        } else {
+          Toast.fail('充值失败', 1.5);
+        }
+      } else {
+        console.log('跳到授权')
+        console.log('open_id' + openId)
+        this.auth()
+      }
+    }
   };
 
   // 授权
