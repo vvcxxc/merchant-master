@@ -21,7 +21,7 @@ export default class Rechange extends Component {
     console.log(open_id)
     let openId = Cookies.get(open_id)
     //判断是否为零
-    if (this.state.money == 0) {
+    if (this.state.money == 0 || this.state.money == null || this.state.money == undefined || isNaN(this.state.money)) {
       Toast.fail('请输入充值金额', 1.5);
     } else {
       // 判断是否授权
