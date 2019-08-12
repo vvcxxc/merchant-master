@@ -22,7 +22,7 @@ export default class OrderDetail extends Component<any, State> {
 	render() {
 		const data = this.state.data;
 		return (
-			<div className={styles.page}>
+			<div className={styles.page} style={{height:"auto",minHeight:"100%",paddingBottom:"20px"}}>
 				<WingBlank>
 					<div className="price">+{data.return_money}</div>
 					<div className="trade">交易成功</div>

@@ -67,9 +67,9 @@ export default class MyCouponItem extends Component<Props & Item> {
 								</div>
 							</Flex>
 						</Flex.Item>
-						{this.props.publish_wait === 1 && <div className="createBannerBtn">生成海报</div>}
-						{this.props.publish_wait === 2 && <div className="stopBtn">已暂停发放</div>}
-						{this.props.publish_wait === 3 && <div className="stopBtn">已删除</div>}
+						{/* {this.props.publish_wait === 1 && <div className="createBannerBtn">生成海报</div>} */}
+						{/* {this.props.publish_wait === 2 && <div className="stopBtn">已暂停发放</div>} */}
+						{/* {this.props.publish_wait === 3 && <div className="stopBtn">已删除</div>} */}
 					</Flex>
 				</Flex.Item>
 			</Flex>

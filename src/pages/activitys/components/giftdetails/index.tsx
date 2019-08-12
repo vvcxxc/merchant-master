@@ -16,6 +16,7 @@ export default class GiftDetails extends Component<Props> {
       postage: '',
       sales: '',
       image_details: [],
+      price: '',
       distribution: {
         delivery_type: '',
         delivery_price: '',
@@ -51,7 +52,7 @@ export default class GiftDetails extends Component<Props> {
         <WingBlank>
           <div>
             <p className={styles.gift_name}>{data.title}</p>
-            <p className={styles.gift_price}>2018元</p>
+            <p className={styles.gift_price}>{data.price}元</p>
             <Flex justify='between' className={styles.sales}>
               <div>快递：{data.postage}元</div>
               <div>半年销量 {data.sales}</div>

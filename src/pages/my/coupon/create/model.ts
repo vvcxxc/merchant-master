@@ -10,15 +10,17 @@ export interface CouponForm {
   description: any[];
   image: string;
   image_url: any[];
+  temp_url1: any[];
+  temp_url2: any[];
 }
 
 export interface MoneyForm {
-  return_money: number;
-  coupons_type: number;
-  pay_money: number;
-  total_fee: number;
-  validity: number;
-  total_num: number;
+  return_money: string;
+  coupons_type: string;
+  pay_money: string;
+  total_fee: string;
+  validity: string;
+  total_num: string;
 }
 
 const model: Model = {
@@ -26,7 +28,9 @@ const model: Model = {
   state: {
     couponForm: {
       coupons_type: 0,
-      description: []
+      description: [],
+      temp_url1: [],
+      temp_url2: [],
     },
     moneyForm: {
       coupons_type: 1

@@ -1,4 +1,4 @@
-/**title: 团卖物联 */
+/**title: 小熊敬礼 */
 import React, { Component } from 'react';
 import { Flex, WingBlank, Button, Toast, InputItem } from 'antd-mobile';
 import styles from './index.less';
@@ -75,15 +75,15 @@ export default connect()(
 		};
 		/**设置验证码 */
 		handleSetCode = (e: any) => {
-			this.setState({ code: e.target.value });
+			this.setState({ code: e });
 		};
 		/**设置账号 */
 		handleSetAccount = (e: any) => {
-			this.setState({ account_name: e.target.value });
+			this.setState({ account_name: e });
 		};
 		/**设置密码 */
 		handleSetPassword = (e: any) => {
-			this.setState({ password: e.target.value });
+			this.setState({ password: e });
 		};
 		/**判断当前是否可以登录 */
 		fixLogin = (): boolean => {
@@ -122,9 +122,6 @@ export default connect()(
 						if (res.code === 200) {
 							localStorage.setItem('token', 'Bearer ' + res.data.token);
 							this.props.dispatch(routerRedux.push({ pathname: '/' }));
-							if (Cookies.get(open_id)) {
-								router.push('/');
-							} else {
 								// 授权（暂未完善）
 								let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
 								url = encodeURIComponent(url);
@@ -133,7 +130,6 @@ export default connect()(
 									url +
 									'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
 								return (window.location.href = urls);
-							}
 						} else {
 							Toast.fail(res.data, 1.5);
 						}
@@ -181,20 +177,22 @@ export default connect()(
 				this.state.tab === 1 ? (
 					<div>
 						<Flex className={styles.inputWrap}>
-							<input
+							<InputItem
 								value={this.state.account_name}
 								style={{ width: '100%' }}
 								placeholder="请填写账号"
 								onChange={this.handleSetAccount}
+								clear
 							/>
 						</Flex>
 						<Flex className={styles.inputWrap}>
-							<input
+							<InputItem
 								value={this.state.password}
 								style={{ width: '100%' }}
 								placeholder="请填写密码"
 								onChange={this.handleSetPassword}
-								type="password"
+								type={'password'}
+								clear
 							/>
 						</Flex>
 						<Flex justify="end">
@@ -213,16 +211,18 @@ export default connect()(
 									style={{ width: '100%' }}
 									placeholder="请填写手机号"
 									onChange={this.handleSetMobile}
+									clear
 								/>
 							</Flex.Item>
 						</Flex>
 						<Flex className={styles.inputWrap}>
 							<Flex.Item>
-								<input
+								<InputItem
 									value={this.state.code}
 									style={{ width: '100%' }}
 									placeholder="请填写短信验证码"
 									onChange={this.handleSetCode}
+									clear
 								/>
 							</Flex.Item>
 							<div className="send-code" onClick={this.sendCode}>

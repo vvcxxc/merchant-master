@@ -11,12 +11,13 @@ import { Toast } from 'antd-mobile';
 export default class BusinessArea extends Component<any> {
 	state = {
 		data: {},
-		log: [],
-		position: 0
+		// log: {},
+		position: 0,
+		adId: null, // 广告ID
+		romotionType: 1 // 推广ID
 	};
 	componentDidMount() {
 		this.getDetail();
-		this.setLog();
 	}
 	getDetail = async () => {
 		Toast.loading('');
@@ -34,26 +35,48 @@ export default class BusinessArea extends Component<any> {
 				break;
 		}
 		this.setState({ position });
-		const res = await request({ url: 'v3/ads/by_type', params: { ad_type: 1, position_id: position } });
+		const res = await request({ url: 'v3/ads/by_type', params: { ad_type: 1, position_id: position, romotion_type: this.state.romotionType } });
 		Toast.hide();
-		if (res.code === 200 && res.data.length) {
-			this.setState({ data: res.data[0] });
+		if (res.code === 200) {
+			if (res.data.length != 0) {
+				this.setState({
+					data: res.data[0],
+					adId: res.data[0].id
+				});
+			} 
+			else {
+				// 为了防止美数据的情况下还把原本的数据带过去子组件
+				this.setState({
+					data : {}
+				})
+			}	
+			// this.setLog();
 		}
 	};
 
-	setLog = async () => {
-		const res = await request({ url: 'v3/ad_logs' });
-		if (res.code === 200) {
-			this.setState({ log: res.data.data });
-		}
-	};
+	// setLog = async () => {
+	// 	const res = await request({ url: 'v3/ad_logs', params: { ad_id: this.state.adId } });
+	// 	if (res.code === 200) {
+	// 		this.setState({ log: res.data });
+	// 	}
+	// };
 
 	handleSuccess = () => this.getDetail();
 
+	handleIndexFromChild = (v: any) => {
+		this.setState({
+			romotionType: v
+		}, () => {
+			this.getDetail()
+		})
+
+	}
+
 	render() {
-		const form = <From onSuccess={this.handleSuccess} position={this.state.position} editForm={this.state.data} />;
-		const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
-		const chart = <Chart />;
+		const form = <From onSuccess={this.handleSuccess} position={this.state.position} getIndex={this.handleIndexFromChild}  editForm={this.state.data} type={this.props.location.query.type} />;
+		// const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
+		const expenseCalendar = <ExpenseCalendar adId={this.state.adId} />;
+		const chart = <Chart adId={this.state.adId} />;
 		return <AdLayout children={[form, expenseCalendar, chart]} />;
 	}
 }

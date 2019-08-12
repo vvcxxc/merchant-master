@@ -1,0 +1,44 @@
+.page {
+	height: 100%;
+	:global {
+		.noData {
+			height: 100%;
+			min-height: 1000px;
+			img {
+				width: 180px;
+			}
+			span {
+				color: #999;
+				margin-top: 64px;
+			}
+		}
+	}
+}
+
+.item {
+	height: 120px;
+	border-bottom: 1px solid #eee;
+	:global {
+		.img {
+			width: 64px;
+			height: 64px;
+			border-radius: 32px;
+			margin-right: 20px;
+		}
+		.title {
+			line-height: 1;
+		}
+		.price {
+			color: #ff6654;
+			text-align: right;
+			font-size: 32px;
+			font-weight: bold;
+		}
+		.info {
+			font-size: 24px;
+			color: #999;
+			line-height: 1;
+			margin-top: 20px;
+		}
+	}
+}

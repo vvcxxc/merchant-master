@@ -20,7 +20,9 @@ export default class SelectAdType extends Component<Props> {
 		}
 	}
 
-	handleClick = (index: number) => () => this.props.onChange(index);
+	handleClick = (index: number) => () => {
+		this.props.onChange(index)
+	};
 
 	render() {
 		const labels = this.list.map((_, index) => (

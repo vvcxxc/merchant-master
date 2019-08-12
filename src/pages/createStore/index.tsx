@@ -6,7 +6,8 @@ import router from 'umi/router';
 import upload from '@/services/oss';
 import { connect } from 'dva';
 
-export default connect(({createStore}: any) => createStore)(
+
+export default connect(({ createStore }: any) => createStore)(
   class CreateStore extends Component<any> {
     state = {
       /**店铺名 */
@@ -21,6 +22,8 @@ export default connect(({createStore}: any) => createStore)(
       manage_type: '',
       /**邮箱 */
       email: '',
+      /**二维码 */
+      _code: '',
       /**经营品类范围 */
       manage_list: [],
       value: [],
@@ -48,14 +51,15 @@ export default connect(({createStore}: any) => createStore)(
       }
     };
 
-    componentDidMount (){
+    componentDidMount() {
+
       /**获取经营品类 */
       request({
         url: 'v3/manage_type',
         method: 'get',
-      }).then( res => {
+      }).then(res => {
         let { data } = res;
-        this.setState({ manage_list : data });
+        this.setState({ manage_list: data });
       });
 
 
@@ -63,9 +67,9 @@ export default connect(({createStore}: any) => createStore)(
       request({
         url: 'api/v2/up',
         method: 'get'
-      }).then( res => {
+      }).then(res => {
         let { data } = res;
-
+        console.log(data);
         let oss_data = {
           policy: data.policy,
           OSSAccessKeyId: data.accessid,
@@ -80,13 +84,12 @@ export default connect(({createStore}: any) => createStore)(
 
 
 
-
     }
 
     /**设置门店名 */
-    handleName = (e : any) => {
+    handleName = (e: any) => {
       // this.setState({name : e.target.value})
-       this.props.dispatch({
+      this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
           name: e.target.value
@@ -94,7 +97,7 @@ export default connect(({createStore}: any) => createStore)(
       })
     };
     /**设置门店电话 */
-    handlePhone = (e : any) => {
+    handlePhone = (e: any) => {
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -103,8 +106,8 @@ export default connect(({createStore}: any) => createStore)(
       })
     };
     /**设置邮箱 */
-    handleEmail = (e : any) => {
-      this.setState({email : e.target.value})
+    handleEmail = (e: any) => {
+      this.setState({ email: e.target.value })
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -112,23 +115,31 @@ export default connect(({createStore}: any) => createStore)(
         }
       })
     };
-
+    handleCode = (e: any) => {
+      this.setState({ _code: e.target.value })
+      this.props.dispatch({
+        type: 'createStore/setStore',
+        payload: {
+          _code: e.target.value
+        }
+      })
+    };
     /**经营类型的选择 */
-    Checkout = (v : any) => {
+    Checkout = (v: any) => {
       // this.setState({ manage_type : v[0] });
       // this.setState({ value : v });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
-          manage_type : v[0],
-          value : v
+          manage_type: v[0],
+          value: v
         }
       })
     }
 
     /**门牌号 */
     handleHouseNum = (e: any) => {
-      this.setState({house_num: e.target.value})
+      this.setState({ house_num: e.target.value })
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -150,7 +161,7 @@ export default connect(({createStore}: any) => createStore)(
           files
         }
       })
-      if(files[0]){
+      if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
           let store_door_header_img = res.data.path || '';
@@ -161,7 +172,7 @@ export default connect(({createStore}: any) => createStore)(
             }
           })
         })
-      }else {
+      } else {
         this.props.dispatch({
           type: 'createStore/setStore',
           payload: {
@@ -178,7 +189,7 @@ export default connect(({createStore}: any) => createStore)(
           my_files: files
         }
       })
-      if(files[0]){
+      if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
           let store_img_one = res.data.path || '';
@@ -189,7 +200,7 @@ export default connect(({createStore}: any) => createStore)(
             }
           })
         })
-      }else {
+      } else {
         this.props.dispatch({
           type: 'createStore/setStore',
           payload: {
@@ -206,7 +217,7 @@ export default connect(({createStore}: any) => createStore)(
           my_files2: files
         }
       })
-      if(files[0]){
+      if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
           let store_img_two = res.data.path || '';
@@ -217,7 +228,7 @@ export default connect(({createStore}: any) => createStore)(
             }
           })
         })
-      }else {
+      } else {
         this.props.dispatch({
           type: 'createStore/setStore',
           payload: {
@@ -235,8 +246,8 @@ export default connect(({createStore}: any) => createStore)(
 
 
     createStore = () => {
-      let { name, address, house_num, phone, manage_type, email, store_door_header_img, store_img_one, store_img_two, location } = this.props;
-      if (name&&address&&house_num&&phone&&manage_type&&email&&store_door_header_img&&store_img_one&&store_img_two){
+      let { name, address, house_num, phone, manage_type, email, _code, store_door_header_img, store_img_one, store_img_two, location } = this.props;
+      if (name && address && house_num && phone && manage_type && email && store_door_header_img && store_img_one && store_img_two) {
 
         request({
           url: 'v3/stores',
@@ -252,19 +263,21 @@ export default connect(({createStore}: any) => createStore)(
             store_img_two,
             xpoint: location.longitude,
             ypoint: location.latitude,
-            email
+            email,
+            code_id: _code
+            //接口好了后把_code替换为正式的字段名
           }
         }).then(res => {
           let { code, data } = res;
-          if(code == 200){
-            Toast.success(data,2,()=> {
+          if (code == 200) {
+            Toast.success(data, 2, () => {
               router.push('/submitQua');
             })
-          }else{
+          } else {
             Toast.fail(data)
           }
         })
-      }else{
+      } else {
         Toast.fail('请将信息填写完整')
       }
     }
@@ -276,49 +289,49 @@ export default connect(({createStore}: any) => createStore)(
       //   ''
       // );
       return (
-        <div style={{ height: 'auto', width: '100%', background:' #fff', paddingBottom: 60 }}>
-            <WingBlank className={styles.wrap}>
-              <Flex className={styles.inputWrap}>
-                <span>门店名称</span>
-                <input
-                  type="text"
-                  placeholder='请输入门店名称'
-                  value={this.props.name}
-                  onChange={this.handleName}
-                />
-              </Flex>
-              <Flex className={styles.inputWrap} onClick={this.openMap}>
-                <span>门店地址</span>
-                <input
-                  type="text"
-                  placeholder='请输入门店地址'
-                  readOnly={true}
-                  value={this.props.address}
-                />
-                <Icon type='right' />
-              </Flex>
-              <Flex className={styles.inputWrap}>
-                <span>门牌号</span>
-                <input
-                  type="text"
-                  placeholder='请输入详细门牌号，如：5栋2楼401'
-                  value={this.props.house_num}
-                  onChange={this.handleHouseNum}
-                />
-              </Flex>
-              <Flex className={styles.inputWrap}>
-                <span>门店电话</span>
-                <input
-                  type="text"
-                  placeholder='请输入手机号、座机（需加区号）'
-                  value={this.props.phone}
-                  onChange={this.handlePhone}
-                />
-              </Flex>
-              <Flex className={styles.inputWrap}>
+        <div style={{ height: 'auto', width: '100%', background: ' #fff', paddingBottom: 60 }}>
+          <WingBlank className={styles.wrap}>
+            <Flex className={styles.inputWrap}>
+              <span>门店名称</span>
+              <input
+                type="text"
+                placeholder='请输入门店名称'
+                value={this.props.name}
+                onChange={this.handleName}
+              />
+            </Flex>
+            <Flex className={styles.inputWrap} onClick={this.openMap}>
+              <span>门店地址</span>
+              <input
+                type="text"
+                placeholder='请输入门店地址'
+                readOnly={true}
+                value={this.props.address}
+              />
+              <Icon type='right' />
+            </Flex>
+            <Flex className={styles.inputWrap}>
+              <span>门牌号</span>
+              <input
+                type="text"
+                placeholder='请输入详细门牌号，如：5栋2楼401'
+                value={this.props.house_num}
+                onChange={this.handleHouseNum}
+              />
+            </Flex>
+            <Flex className={styles.inputWrap}>
+              <span>门店电话</span>
+              <input
+                type="text"
+                placeholder='请输入手机号、座机（需加区号）'
+                value={this.props.phone}
+                onChange={this.handlePhone}
+              />
+            </Flex>
+            <Flex className={styles.inputWrap}>
               <Picker
                 className={styles.picker}
-                style={{width : '100%', fontSize: '28px'}}
+                style={{ width: '100%', fontSize: '28px' }}
                 data={this.state.manage_list}
                 cols={1}
                 onOk={this.Checkout}
@@ -326,54 +339,63 @@ export default connect(({createStore}: any) => createStore)(
               >
                 <List.Item arrow="horizontal">经营品类</List.Item>
               </Picker>
-              </Flex>
-              <Flex className={styles.inputWrap}>
-                <span>邮箱</span>
-                <input
-                  type="text"
-                  placeholder='请输入邮箱'
-                  value={this.props.email}
-                  onChange={this.handleEmail}
-                />
-              </Flex>
-              <Flex className={styles.imgWrap}>
-                <div className={styles.imgTitle}>上传门头照</div>
-                <div className={styles.example} onClick={this.toExample}>查看示例</div>
-              </Flex>
-              <Flex className={styles.pushStore}>
-                <ImagePicker
-                  style={{ width: '100%'}}
-                  files={files}
-                  multiple={false}
-                  length={1}
-                  selectable={files.length < 1}
-                  onChange={this.Storechange}
-                />
-              </Flex>
-              <Flex className={styles.imgWrap}>
-                <div className={styles.imgTitle}>上传环境照</div>
-              </Flex>
-              <Flex className={styles.imgSmall}>
-                <ImagePicker
-                  files={my_files}
-                  multiple={false}
-                  length={1}
-                  selectable={my_files.length < 1}
-                  onChange={this.Mychange}
-                />
-                <ImagePicker
-                  files={my_files2}
-                  multiple={false}
-                  length={1}
-                  selectable={my_files2.length < 1}
-                  onChange={this.Mychange2}
-                />
-              </Flex>
-                <Button type="primary" style={{ marginTop: 60, paddingBottom: 60 }} onClick={this.createStore}>
-                  确认创建
+            </Flex>
+            <Flex className={styles.inputWrap}>
+              <span>邮箱</span>
+              <input
+                type="text"
+                placeholder='请输入邮箱'
+                value={this.props.email}
+                onChange={this.handleEmail}
+              />
+            </Flex>
+            <Flex className={styles.inputWrap}>
+              <span>二维码序号</span>
+              <input
+                type="text"
+                placeholder='请输入二维码序号（非必填）'
+                value={this.props._code}
+                onChange={this.handleCode}
+              />
+            </Flex>
+            <Flex className={styles.imgWrap}>
+              <div className={styles.imgTitle}>上传门头照</div>
+              <div className={styles.example} onClick={this.toExample}>查看示例</div>
+            </Flex>
+            <Flex className={styles.pushStore}>
+              <ImagePicker
+                style={{ width: '100%' }}
+                files={files}
+                multiple={false}
+                length={1}
+                selectable={files.length < 1}
+                onChange={this.Storechange}
+              />
+            </Flex>
+            <Flex className={styles.imgWrap}>
+              <div className={styles.imgTitle}>上传环境照</div>
+            </Flex>
+            <Flex className={styles.imgSmall}>
+              <ImagePicker
+                files={my_files}
+                multiple={false}
+                length={1}
+                selectable={my_files.length < 1}
+                onChange={this.Mychange}
+              />
+              <ImagePicker
+                files={my_files2}
+                multiple={false}
+                length={1}
+                selectable={my_files2.length < 1}
+                onChange={this.Mychange2}
+              />
+            </Flex>
+            <Button type="primary" style={{ marginTop: 60, paddingBottom: 60 }} onClick={this.createStore}>
+              确认创建
                 </Button>
 
-            </WingBlank>
+          </WingBlank>
           {/* {map} */}
         </div>
       )

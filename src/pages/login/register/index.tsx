@@ -2,7 +2,7 @@
  * title：注册账号
  */
 import React, { Component } from 'react';
-import { Flex, WingBlank, Button, Toast } from 'antd-mobile';
+import { Flex, WingBlank, Button, Toast, InputItem } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router';
@@ -65,23 +65,23 @@ export default class Register extends Component {
  }
   /**设置账号 */
   handleSetUser = (e: any) => {
-    this.setState({username: e.target.value});
+    this.setState({username: e});
   };
   /**设置手机号 */
   handlePhone = (e: any) => {
-    this.setState({phone: e.target.value});
+    this.setState({phone: e});
   };
   /**设置密码 */
   handlePassword = (e: any) => {
-    this.setState({password: e.target.value});
+    this.setState({password: e});
   };
   /**设置验证码 */
   handleCode = (e: any) => {
-    this.setState({code: e.target.value});
+    this.setState({code: e});
   };
   /**设置邀请人手机号 */
   handleInviter = (e: any) => {
-    this.setState({inviter_phone: e.target.value});
+    this.setState({inviter_phone: e});
   };
   /**
    * 获取验证码
@@ -161,11 +161,12 @@ export default class Register extends Component {
       );
     const inviter = this.state.is_show == true ? (
       <Flex className={styles.inputWrap}>
-          <input
+          <InputItem
             style={{ width: '100%' }}
             placeholder="请输入邀请人手机号（非必填）"
             value={this.state.inviter_phone}
             onChange={this.handleInviter}
+            clear
           />
         </Flex>
     ) : (
@@ -175,37 +176,41 @@ export default class Register extends Component {
       <div style={{ height: '100%', width: '100%', background:' #fff' }}>
       <WingBlank className={styles.wrap}>
         <Flex className={styles.inputWrap}>
-          <input
+          <InputItem
            style={{ width: '100%' }}
            placeholder="请输入账号名"
            value={this.state.username}
            onChange={this.handleSetUser}
+           clear
           />
         </Flex>
         <Flex className={styles.inputWrap}>
-          <input
+          <InputItem
             style={{ width: '100%' }}
             placeholder="请输入手机号"
-            type='number'
+            type={'number'}
             value={this.state.phone}
             onChange={this.handlePhone}
+            clear
           />
         </Flex>
         <Flex className={styles.inputWrap}>
-          <input
+          <InputItem
             style={{ width: '100%' }}
             placeholder="请输入不少于6位的密码"
             value={this.state.password}
             onChange={this.handlePassword}
-            type='password'
+            type={'password'}
+            clear
           />
         </Flex>
         <Flex className={styles.inputWrap}>
-          <input
+          <InputItem
             style={{ width: '100%' }}
             placeholder="请输入验证码"
             value={this.state.code}
             onChange={this.handleCode}
+            clear
           />
           {button}
         </Flex>
@@ -216,7 +221,7 @@ export default class Register extends Component {
           </Button>
         </WingBlank>
         <Flex.Item className={styles.footer}>
-        点击“注册”即同意<span style={{ color: '#21418A' }}>《团卖物联服务及隐私条款》</span>
+        点击“注册”即同意<span style={{ color: '#21418A' }}>《小熊敬礼服务及隐私条款》</span>
         </Flex.Item>
       </WingBlank>
       </div>

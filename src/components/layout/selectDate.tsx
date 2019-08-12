@@ -6,10 +6,11 @@ import { WingBlank, Flex, DatePickerView } from 'antd-mobile';
 interface Props {
 	show: boolean;
 	value: string;
+	onHide: () => any;
 	onChange: (arg0: string) => string;
 }
 
-export default function SelectDate({ show, value, onChange }: Props) {
+export default function SelectDate({ show, value, onChange , onHide }: Props) {
 	const [date, setDate] = useState(moment(value || undefined).toDate());
 	const submit = () => onChange(moment(date).format('YYYY-MM'));
 	const reset = () => {
@@ -24,7 +25,8 @@ export default function SelectDate({ show, value, onChange }: Props) {
 	const maskClick = (e: any) => {
 		if (e.target.id === 'layoutModal') {
 			setDate(moment(value || undefined).toDate());
-			onChange(value);
+			onHide();
+			// onChange(value);
 		}
 	};
 	return show ? (

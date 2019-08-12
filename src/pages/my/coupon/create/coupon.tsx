@@ -22,7 +22,9 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			// notice的key值
 			keys: '100'
 		};
-
+		componentDidMount() {
+			console.log(this.props)
+		}
 		handleNoticeChange = (notice: any[], keys: string) => {
 			this.setState({ keys });
 			this.props.dispatch({
@@ -39,13 +41,31 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			this.props.dispatch({
 				type: 'createCoupon/setCoupon',
 				payload: {
+					// [type]: type === 'coupons_name' ? value : parseInt(value)
+					//handleInput可以小数
+					[type]: value
+				}
+			});
+		};
+		handleInput2 = (type: string) => (value: any) => {
+			this.props.dispatch({
+				type: 'createCoupon/setCoupon',
+				payload: {
+					//handleInput2只可以整数
 					[type]: type === 'coupons_name' ? value : parseInt(value)
+
 				}
 			});
 		};
 
 		uploadImage = (type: any) => (files: any[], operationType: string, index?: number): void => {
+			console.log(Boolean(this.props.temp_url2))
 			this.setState({ [type]: files });
+			if (type === 'files') {
+				this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { temp_url1: files } });
+			} else {
+				this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { temp_url2: files } });
+			}
 			if (operationType === 'add') {
 				Toast.loading('上传图片中');
 				upload(files[files.length - 1].url).then(res => {
@@ -89,6 +109,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					extra="元"
 					value={String(this.props.pay_money || '')}
 					onChange={this.handleInput('pay_money')}
+					clear
 				>
 					购买价格
 				</InputItem>
@@ -100,6 +121,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						value={this.props.coupons_name}
 						placeholder="请输入券的名称"
 						onChange={this.handleInput('coupons_name')}
+						clear
 					>
 						优惠券名称
 					</InputItem>
@@ -108,6 +130,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						type="money"
 						value={String(this.props.return_money || '')}
 						onChange={this.handleInput('return_money')}
+						clear
 					>
 						市场价
 					</InputItem>
@@ -115,7 +138,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						type="money"
 						extra="张"
 						value={String(this.props.total_num || '')}
-						onChange={this.handleInput('total_num')}
+						onChange={this.handleInput2('total_num')}
 					>
 						发放数量
 					</InputItem>
@@ -124,7 +147,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						extra="天可用"
 						type="money"
 						value={String(this.props.validity || '')}
-						onChange={this.handleInput('validity')}
+						onChange={this.handleInput2('validity')}
 					>
 						优惠券有效期
 					</InputItem>
@@ -137,15 +160,17 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					</List.Item>
 					<List.Item arrow="horizontal">封面图片</List.Item>
 					<ImagePicker
-						files={this.state.files}
+						files={this.props.temp_url1}
+						// files={this.state.files}
 						onChange={this.uploadImage('files')}
-						selectable={!this.state.files.length}
+						selectable={!Boolean(this.props.temp_url1) || this.props.temp_url1.length < 1}
 					/>
 					<List.Item arrow="horizontal">图片详情</List.Item>
 					<ImagePicker
-						files={this.state.detailFiles}
+						// files={this.state.detailFiles}
+						files={this.props.temp_url2}
 						onChange={this.uploadImage('detailFiles')}
-						selectable={!(this.state.detailFiles.length === 2)}
+						selectable={!Boolean(this.props.temp_url2) || this.props.temp_url2.length < 2}
 					/>
 					{notice}
 				</div>

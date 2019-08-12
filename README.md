@@ -1,4 +1,4 @@
-# 团卖物联商家管理
+# 小熊敬礼商家管理
 
 该项目主要以 [UMI](https://umijs.org/zh/) + [DVA](https://dvajs.com/) 为底层框架，以[Ant Design Mobile](https://mobile.ant.design/)为 UI 组件库，开发时尽量查阅相关文档。
 
