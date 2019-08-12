@@ -38,14 +38,29 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 		handleShowNotice = () => this.setState({ showNotice: true });
 
 		handleInput = (type: string) => (value: any) => {
-			this.props.dispatch({
-				type: 'createCoupon/setCoupon',
-				payload: {
-					// [type]: type === 'coupons_name' ? value : parseInt(value)
-					//handleInput可以小数
-					[type]: value
+			// console.log(value)
+			// console.log(type)
+			if (type == 'coupons_name') {
+				this.props.dispatch({
+					type: 'createCoupon/setCoupon',
+					payload: {
+						// [type]: type === 'coupons_name' ? value : parseInt(value)
+						//handleInput可以小数
+						[type]: value
+					}
+				});
+			} else {
+				if (value.split(".")[1] == undefined || (value.split(".")[1].length < 2 && value.split(".")[2] == undefined)) {
+					this.props.dispatch({
+						type: 'createCoupon/setCoupon',
+						payload: {
+							// [type]: type === 'coupons_name' ? value : parseInt(value)
+							//handleInput可以小数(限一位)
+							[type]: value
+						}
+					});
 				}
-			});
+			}
 		};
 		handleInput2 = (type: string) => (value: any) => {
 			this.props.dispatch({
