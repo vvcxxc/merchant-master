@@ -43,15 +43,6 @@ export default connect(({ finance }: any) => finance)(
         componentDidMount() {
             Toast.loading('加载数据');
             let { _id, _type } = this.props.location.query;
-            switch (_type) {
-                case 1: document.title = "线下收银"; break;
-                case 2: document.title = "商家返点"; break;
-                case 3: document.title = "广告收益"; break;
-                case 4: document.title = "优惠券分润"; break;
-                case 5: document.title = "线上卖券"; break;
-                case 6: document.title = "广告购买"; break;
-                default: return
-            }
             request({
                 url: 'v3/finance/finance_info',
                 method: 'get',
