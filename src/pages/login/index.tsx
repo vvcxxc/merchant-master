@@ -151,11 +151,18 @@ export default connect()(
 			if (this.state.remainingTime === 0) {
 				if (this.state.mobile) {
 					Toast.loading('');
+
+					if(!window.navigator.onLine) {
+						Toast.fail('短信发送失败，请稍后重试')
+						return;
+					}
+
 					const res = await request({
 						url: 'v3/verify_code',
 						params: { phone: this.state.mobile }
 					});
 					Toast.hide();
+
 					if (res.code === 200) {
 						Toast.success('发送验证码成功');
 						this.setState({ remainingTime: 60 });
@@ -166,6 +173,8 @@ export default connect()(
 								clearInterval(time);
 							}
 						}, 1000);
+					} else {
+						Toast.fail('短信发送失败，请稍后重试')
 					}
 				} else {
 					Toast.fail('请输入手机号');
