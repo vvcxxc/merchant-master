@@ -23,7 +23,6 @@ function closest(el, selector) {
   return null;
 }
 
-
 export default connect(({ submitQua }: any) => submitQua)(
 
   class submitQua extends Component<any> {
@@ -631,7 +630,6 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
     /**营业执照选择 */
     changeLicense = (files: any) => {
-
       this.props.dispatch({
         type: 'submitQua/setQua',
         payload: {
