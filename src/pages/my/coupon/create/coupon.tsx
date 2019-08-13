@@ -38,14 +38,28 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 		handleShowNotice = () => this.setState({ showNotice: true });
 
 		handleInput = (type: string) => (value: any) => {
-			this.props.dispatch({
-				type: 'createCoupon/setCoupon',
-				payload: {
-					// [type]: type === 'coupons_name' ? value : parseInt(value)
-					//handleInput可以小数
-					[type]: value
+			// console.log(value)
+			// console.log(type)
+			if (type == 'coupons_name') {
+				//商家名
+				this.props.dispatch({
+					type: 'createCoupon/setCoupon',
+					payload: {
+
+						[type]: value
+					}
+				});
+			} else {
+				if (value.split(".")[1] == undefined || (value.split(".")[1].length < 3 && value.split(".")[2] == undefined)) {
+					//涉及到金额的都用一位小数
+					this.props.dispatch({
+						type: 'createCoupon/setCoupon',
+						payload: {
+							[type]: value
+						}
+					});
 				}
-			});
+			}
 		};
 		handleInput2 = (type: string) => (value: any) => {
 			this.props.dispatch({
@@ -171,7 +185,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						files={this.props.temp_url2}
 						onChange={this.uploadImage('detailFiles')}
 						selectable={!Boolean(this.props.temp_url2) || this.props.temp_url2.length < 2}
-
 					/>
 					{notice}
 				</div>

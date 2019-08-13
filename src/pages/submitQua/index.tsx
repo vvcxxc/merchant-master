@@ -1,8 +1,7 @@
-/**
- * 提交资质
- */
+// /**
+//  * 提交资质
+//  */
 import React, { Component } from 'react';
-import styles from './index.less';
 import { WingBlank, Flex, ImagePicker, List, InputItem, Icon, Toast, Modal } from 'antd-mobile';
 import router from 'umi/router';
 import upload from '@/services/oss';
@@ -10,8 +9,10 @@ import request from '@/services/request';
 import moment from 'moment';
 import { connect } from 'dva';
 import Axios from 'axios';
+import styles from './index.less';
 
-function closest(el:any, selector:any) {
+
+function closest(el, selector) {
   const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
   while (el) {
     if (matchesSelector.call(el, selector)) {
@@ -93,6 +94,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
       flag: true, // 条件判断是否阻止默认行为
       modal1: false,
+      modal1img: []
     };
 
     componentDidMount() {
@@ -418,46 +420,33 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
 
     handlePress = () => {
-      // this.refs.picker.fileSelectorInput.removeAttribute('disabled');
       this.setState({
-        modal1 : false
-      },() => {
-        // this.handleClick(false)
+        modal1: false
+      }, () => {
         this.refs.picker.fileSelectorInput.removeAttribute('disabled')
-        console.log(this.refs.picker.fileSelectorInput)
       })
     }
 
-    handleClick = (v:boolean) => {
-      // console.log(this.refs.picker)
-      // this.refs.picker.fileSelectorInput.disabled = "false";
-      // console.log(v)
-      if(v) {
-        // console.log(this.refs.picker)
-        this.refs.picker.fileSelectorInput.setAttribute('disabled',true);
-        
-        console.log(this.refs.picker.fileSelectorInput)
-        this.setState({
-          modal1 : true,
-        })
-      }else {
-        // this.refs.picker.fileSelectorInput.setAttribute('disabled',false);
-        // this.refs.picker.fileSelectorInput.removeAttribute('disabled');
-        // console.log(this.refs.picker.fileSelectorInput)
-        // this.setState({
-        //   modal1 : false,
-        // })
-        // this.handleClick(false);
-        // return;
-        // console.log(document.getElementById('picker'))
-        // this.handleClick(false)
+    handleClick = (v: boolean, a, b, c) => {
+      console.log(a, b, c)
+      if (b == "remove") {
+        this.setState({ modal1: false,modal1img:[] })
+      } else {
+        this.refs.picker.fileSelectorInput.setAttribute('disabled', true);
+        this.setState({ modal1: true })
       }
-      // this.refs.picker.fileSelectorInput.setAttribute('disabled',true);
+
+    }
+
+    onClose = key => () => {
+      this.refs.picker.fileSelectorInput.removeAttribute('disabled')
+      this.setState({
+        [key]: false,
+      });
     }
 
     /**手持身份证照选择 */
     changeIdHand = (files: any) => {
-      console.log('aaa')
       this.props.dispatch({
         type: 'submitQua/setQua',
         payload: {
@@ -814,9 +803,25 @@ export default connect(({ submitQua }: any) => submitQua)(
       })
 
     }
-    
+    selectImg = (files: any) => {
+      console.log(files)
+      this.setState({
+        modal1: false,
+        modal1img: files
+      }, () => {
+        this.refs.picker.fileSelectorInput.removeAttribute('disabled');
+        console.log(this.state.modal1img)
+      })
 
-    onWrapTouchStart = (e:any) => {
+    }
+
+    // handleAddImageClick = () => {
+    //   this.setState({
+    //     modal1 : false
+    //   })
+    // }
+
+    onWrapTouchStart = (e) => {
       // fix touch to scroll background page on iOS
       if (!/iPhone|iPod|iPad/i.test(navigator.userAgent)) {
         return;
@@ -855,15 +860,19 @@ export default connect(({ submitQua }: any) => submitQua)(
       const idHand = this.state.is_id_hand == true ? (
         <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.hand_hold_id_img} /><div className={styles.close} onClick={this.closeIDHand}>{''}</div></div>
       ) : (
+          //809
+          // <div style={{background:"yellow",width:"200px",height:"150px"}}></div>
           <ImagePicker
-            className={styles.hand_img}
-            files={this.props.id_hand}
+            // className={styles.hand_img}
+            // files={this.state.modal1img == [] ? this.props.id_hand : this.state.modal1img}
+            files={this.state.modal1img}
             multiple={false}
             length={1}
-            selectable={this.props.id_hand.length < 1}
-            onChange={this.changeIdHand}
-            onAddImageClick={this.handleClick.bind(this,true)}
+            selectable={this.state.modal1img.length < 1}
+            onChange={this.handleClick.bind(this, true)}
+            onAddImageClick={this.handleClick.bind(this, true)}
             ref="picker"
+          // disable
           />
         )
       const bankFront = this.state.is_bank_front == true ? (
@@ -923,22 +932,31 @@ export default connect(({ submitQua }: any) => submitQua)(
                 {idHand}
               </Flex>
               <Modal
+                className={styles.id_modal}
                 visible={this.state.modal1}
                 transparent
                 maskClosable={true}
-                closable={true}
-                title="Title"
+                onClose={this.onClose('modal1')}
                 wrapProps={{ onTouchStart: this.onWrapTouchStart }}
-                footer={[{ text: '知道了', onPress: this.handlePress }]}
+              // footer={[{ text: '知道了', onPress: this.handlePress }]}
               >
-                <div style={{ height: 300, overflow: 'scroll' }}>
-                  scoll content...<br />
-                  scoll content...<br />
-                  scoll content...<br />
-                  scoll content...<br />
-                  scoll content...<br />
-                  scoll content...<br />
+                <div style={{ height: "5.625rem" }}>
+                  <div style={{ width: "100%", paddingBottom: "0", height: "auto" }}>
+                    <img style={{ height: "100%", width: "100%" }} src={require('./model.png')} />
+                  </div>
+                  <div style={{ width: "100%", position: "relative" }}>
+                    <div style={{ width: "100%", lineHeight: "1", paddingTop: "0.3rem", color: "#21418a", fontSize: "0.3rem", textAlign: "center" }}>知道了</div>
+                    <div className={styles.imgpickerBox} >
+                      <ImagePicker
+                        multiple={false}
+                        length={1}
+                        onChange={this.selectImg}
+                      // onAddImageClick={this.handleAddImageClick}
+                      />
+                    </div>
+                  </div>
                 </div>
+
               </Modal>
               <List>
                 <InputItem placeholder='请输入姓名' value={this.props.contact_name} onChange={this.handleName}>姓名</InputItem>

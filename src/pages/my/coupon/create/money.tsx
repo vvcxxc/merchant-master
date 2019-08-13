@@ -15,12 +15,26 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 			this.props.dispatch({
 				type: 'createCoupon/setMoney',
 				payload: {
-          // [type]: parseInt(value)
-					[type]: value
+					[type]: parseInt(value)
+					// [type]: value
 
 				}
 			});
 		};
+
+		handleInput2 = (type: string) => (value: any) => {
+			if (value.split(".")[1] == undefined || (value.split(".")[1].length < 3 && value.split(".")[2] == undefined)) {
+				this.props.dispatch({
+					type: 'createCoupon/setMoney',
+					payload: {
+						// [type]: parseInt(value)
+						[type]: value
+
+					}
+				});
+			}
+		};
+
 
 		render() {
 			const priceInput = this.props.showPrice && (
@@ -28,7 +42,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 					extra="元"
 					type="money"
 					value={String(this.props.pay_money || '')}
-					onChange={this.handleInput('pay_money')}
+					onChange={this.handleInput2('pay_money')}
 					clear
 				>
 					购买价格
@@ -39,7 +53,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 					<InputItem
 						value={String(this.props.return_money || '')}
 						type="money"
-						onChange={this.handleInput('return_money')}
+						onChange={this.handleInput2('return_money')}
 						extra="元"
 						clear
 					>
@@ -50,7 +64,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						type="money"
 						extra="元"
 						value={this.props.total_fee}
-						onChange={this.handleInput('total_fee')}
+						onChange={this.handleInput2('total_fee')}
 						clear
 					>
 						使用门槛

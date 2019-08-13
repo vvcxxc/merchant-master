@@ -1,0 +1,76 @@
+.detail {
+  height: 100%;
+  padding: 40px 0 0;
+  box-sizing: border-box;
+}
+.detail :global .couponDetail {
+  margin-top: 20px;
+}
+.detail :global .couponDetail .head {
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+.detail :global .couponDetail .head img {
+  width: 28px;
+  height: 33px;
+  margin-right: 20px;
+}
+.detail :global .couponDetail .head .title {
+  padding: 20px 0;
+  border-bottom: 1px dashed #e5e5e5;
+}
+.detail :global .couponDetail .ruleList {
+  padding-left: 110px;
+}
+.detail :global .footerBtns .deleteBtn {
+  width: 375px;
+  height: 96px;
+  border: 2px solid #999999;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 92px;
+}
+.detail :global .footerBtns .stopBtn {
+  width: 375px;
+  height: 96px;
+  background: #21418a;
+  color: #fff;
+  text-align: center;
+  line-height: 96px;
+}
+.receiceList {
+  height: 100%;
+}
+.receiceList :global .item {
+  padding: 28px 28px;
+  border-bottom: 1px solid #eee;
+  box-sizing: border-box;
+}
+.receiceList :global .headImg {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+.receiceList :global .title {
+  line-height: 1;
+}
+.receiceList :global .time {
+  font-size: 24px;
+  color: #999;
+  margin-top: 20px;
+  line-height: 1;
+}
+.receiceList :global .yellow {
+  color: #ff6654;
+}
+.receiceList :global .noData {
+  height: 100%;
+}
+.receiceList :global .noData img {
+  width: 180px;
+}
+.receiceList :global .noData span {
+  color: #999999;
+  margin-top: 66px;
+}

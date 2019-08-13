@@ -107,7 +107,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 						</WingBlank>
 					</Flex.Item>
 					<Flex className={styles.btns}>
-						<Flex.Item onClick={this.pushPage.bind(this, this.state.type)}>预览</Flex.Item>
+						{/* <Flex.Item onClick={this.pushPage.bind(this, this.state.type)}>预览</Flex.Item> */}
 						<Flex.Item onClick={this.handleSubmit}>确认发布</Flex.Item>
 					</Flex>
 				</Flex>

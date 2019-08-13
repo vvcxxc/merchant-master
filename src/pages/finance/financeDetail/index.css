@@ -26,7 +26,6 @@
   color: #FF6654;
 }
 :global .D_offlineDeal .D_offlineDeal_list {
-  padding-bottom: 45px;
   border-bottom: #999999 1px solid;
 }
 :global .D_offlineDeal .D_offlineDeal_list .D_offlineDeal_list_box {

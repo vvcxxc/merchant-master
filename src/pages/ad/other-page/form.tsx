@@ -115,7 +115,12 @@ export default connect(({ ad }: any) => ad)(
 				this.setState({ activity: coupon }, this.closeModal);
 			}
 		};
-		handleChangePrice = (price: any) => this.setState({ price });
+		handleChangePrice = (price: any) => {
+			console.log(price);
+			if (price.split(".")[1] == undefined || (price.split(".")[1].length <= 2 && price.split(".")[2] == undefined)) {
+				this.setState({ price })
+			}
+		};
 		handleShowSelectTime = () => this.setState({ showSelectTime: true });
 		handleSelectTime = (time: any) => this.setState({ ...time }, this.closeModal);
 		/**
@@ -203,7 +208,7 @@ export default connect(({ ad }: any) => ad)(
 			this.props.dispatch({
 				type: 'ad/setType',
 				payload: {
-					popType : type
+					popType: type
 				}
 			})
 			this.props.getIndex(type + 1)
@@ -321,7 +326,10 @@ export default connect(({ ad }: any) => ad)(
 								</Flex>
 								<div className={styles.adTitle}>广告图</div>
 								{imagePicker}
-								{this.state.edit && <img className={styles.banner} src={this.state.banner} />
+								{this.state.edit &&
+									<div className={styles.bannerBox}>
+										<img className={styles.banner} src={this.state.banner} />
+									</div>
 									//this.state.formType == 0 ? <img className={styles.banner} src={this.state.banner} /> 
 									//  : this.state.formType == 1?  <img className={styles.banner} src={this.state.banner} /> : null
 								}
