@@ -5,7 +5,7 @@ import styles from './index.less';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import request from '@/services/request';
-
+import router from 'umi/router';
 interface State {
 	info: Info;
 }
@@ -54,7 +54,16 @@ export default connect()(
 			if (res.code === 200) {
 				this.setState({ info: res.data });
 			}
-		};
+    };
+    /**我的签约码 */
+		goSignCode = () => {
+			router.push({
+				pathname: '/my/signCode',
+				query: {
+					url: this.state.info.wx_sign_url
+				}
+			})
+		}
 
 		/**转到余额 */
 		transferredBalance = () => {
@@ -77,6 +86,12 @@ export default connect()(
 		};
 
 		render() {
+      const signCode = this.state.info.wx_sign_status == 3 ? null : (
+				<Flex onClick={this.goSignCode}>
+					<img src={require('./signed.png')} alt="" />
+					<span>我的签约码</span>
+				</Flex>
+			)
 			return (
 				<div className={styles.page}>
 					<div className={styles.headInfo}>
@@ -140,10 +155,7 @@ export default connect()(
 							<img src={require('./benefit.png')} alt="" />
 							<span>店铺邀请码</span>
 						</Flex>
-						<Flex>
-							<img src={require('./signed.png')} alt="" />
-							<span>我的签约码</span>
-						</Flex>
+						{signCode}
 					</WingBlank>
 				</div>
 			);
