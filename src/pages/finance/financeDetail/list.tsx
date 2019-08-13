@@ -31,6 +31,8 @@ export default connect(({ finance }: any) => finance)(
                 coupon_store_name: 0,
                 earnings: 0,
                 custom_money: 0,
+                ad_issue:"",
+                pay_type:""
 
             },
             id: 0,
@@ -39,7 +41,6 @@ export default connect(({ finance }: any) => finance)(
         };
 
         componentDidMount() {
-            console.log(this.props.location.query)
             Toast.loading('加载数据');
             let { _id, _type } = this.props.location.query;
             switch (_type) {
@@ -79,7 +80,7 @@ export default connect(({ finance }: any) => finance)(
                             <View className="D_offlineDeal_list" >
                                 <View className="D_offlineDeal_list_box" >
                                     <View className="D_offlineDeal_list_box_name">付款方式</View>
-                                    <View className="D_offlineDeal_list_box_msg">微信/支付宝/团卖</View>
+                                    <View className="D_offlineDeal_list_box_msg">{this.state.info.pay_type}</View>
                                 </View>
                                 <View className="D_offlineDeal_list_box" >
                                     <View className="D_offlineDeal_list_box_name">钱的去向</View>
@@ -164,7 +165,7 @@ export default connect(({ finance }: any) => finance)(
                             <View className="D_offlineDeal_list" >
                                 <View className="D_offlineDeal_list_box" >
                                     <View className="D_offlineDeal_list_box_name">广告发布者</View>
-                                    <View className="D_offlineDeal_list_box_msg">空空店铺</View>
+                                    <View className="D_offlineDeal_list_box_msg">{this.state.info.ad_issue}</View>
                                 </View>
                                 <View className="D_offlineDeal_list_box" >
                                     <View className="D_offlineDeal_list_box_name">收益</View>
@@ -214,7 +215,7 @@ export default connect(({ finance }: any) => finance)(
                             <View className="D_offlineDeal_list" >
                                 <View className="D_offlineDeal_list_box" >
                                     <View className="D_offlineDeal_list_box_name">付款方式</View>
-                                    <View className="D_offlineDeal_list_box_msg">微信/支付宝/团卖</View>
+                                    <View className="D_offlineDeal_list_box_msg">{this.state.info.pay_type}</View>
                                 </View>
                                 <View className="D_offlineDeal_list_box" >
                                     <View className="D_offlineDeal_list_box_name">钱的去向</View>
@@ -223,7 +224,7 @@ export default connect(({ finance }: any) => finance)(
 
                                 <View className="D_offlineDeal_list_box" >
                                     <View className="D_offlineDeal_list_box_name">优惠券</View>
-                                    <View className="D_offlineDeal_list_box_msg">20元</View>
+                                    <View className="D_offlineDeal_list_box_msg">{this.state.info.coupon_name}</View>
 
                                 </View>
                                 <View className="D_offlineDeal_list_box" >
