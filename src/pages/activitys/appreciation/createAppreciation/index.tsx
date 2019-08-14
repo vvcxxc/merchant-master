@@ -8,6 +8,8 @@ import moment from 'moment'
 import request from '@/services/request'
 import router from 'umi/router';
 import { connect } from 'dva';
+import ReactDOM from 'react-dom';
+
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
 
@@ -63,7 +65,7 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handlePeopleNum = (e: any) => {
-      if (e.indexOf(".") == -1  && e.length <= 2) {
+      if (e.indexOf(".") == -1 && e.length <= 2) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
@@ -211,13 +213,19 @@ export default connect(({ activity }: any) => activity)(
     }
 
     handleCheckAppreciationNumber(v: any) {
-      console.log(this.refs.appreciationNumber)
+      //console.log(this.refs.appreciationNumber)
+      //console.log(ReactDOM.findDOMNode(this.refs.appreciationNumber))
+      // console.log(document.getElementsByClassName('fake-input'))
+      let DomArr = document.getElementsByClassName('fake-input');
       v = Number(v);
       if (v < 2 || v > 18) {
+        for (var i = 0; i < DomArr.length; i++) {
+          DomArr[i].classList.remove('focus')
+        }
         Toast.fail('助力人数应在2至18之间', 2, () => {
+          // this.refs.appreciationNumber.clearInput();
           this.refs.appreciationNumber.focus();
         });
-        this.refs.appreciationNumber.clearInput();
       }
     }
 
@@ -291,7 +299,7 @@ export default connect(({ activity }: any) => activity)(
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handleEndPri} value={end_price} placeholder='请输入 ' extra='元' clear>
                   封顶值
               </InputItem>
-                <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人' ref="appreciationNumber" onVirtualKeyboardConfirm={this.handleCheckAppreciationNumber.bind(this)} clear>
+                <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人' ref="appreciationNumber" onVirtualKeyboardConfirm={this.handleCheckAppreciationNumber.bind(this)} onBlur={this.handleCheckAppreciationNumber.bind(this)} clear>
                   助力人数
               </InputItem>
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handlePayMoney} value={pay_money} placeholder='请输入 ' extra='元' clear>
