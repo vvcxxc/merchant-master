@@ -8,6 +8,8 @@ import moment from 'moment'
 import request from '@/services/request'
 import router from 'umi/router';
 import { connect } from 'dva';
+import ReactDOM from 'react-dom';
+
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
 
@@ -43,38 +45,38 @@ export default connect(({ activity }: any) => activity)(
 
     /**改变值 */
     handleStartPri = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setAppreciation',
-        payload: {
-          start_price: e
-        }
-      });
-    }
-    handleEndPri = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setAppreciation',
-        payload: {
-          end_price: e
-        }
-      });
-    }
-    handlePeopleNum = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setAppreciation',
-        payload: {
-          appreciation_number_sum: e
-        }
-      });
-    }
-    handleValidity = (e: any) => {
-      if (e.length > 3) {
+      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
-            validity: this.props.Appreciation.validity
+            start_price: e
           }
         });
-      } else {
+      }
+    }
+    handleEndPri = (e: any) => {
+      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            end_price: e
+          }
+        });
+      }
+    }
+    handlePeopleNum = (e: any) => {
+      if (e.indexOf(".") == -1 && e.length <= 2) {
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            appreciation_number_sum: e
+          }
+        });
+      }
+    }
+    handleValidity = (e: any) => {
+      console.log(e)
+      if (e.indexOf(".") == -1 && e.length <= 3) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
@@ -82,35 +84,32 @@ export default connect(({ activity }: any) => activity)(
           }
         });
       }
-
     }
     handlePayMoney = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setAppreciation',
-        payload: {
-          pay_money: e,
-          gift_id: '',
-          gift_pic: ''
-        }
-      });
-    }
-    handleTotalNum = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setAppreciation',
-        payload: {
-          total_num: e
-        }
-      });
-    }
-    handleTotalFee = (e: any) => {
-      if (e.length > 4) {
+      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
-            total_fee: this.props.Appreciation.total_fee
+            pay_money: e,
+            gift_id: '',
+            gift_pic: ''
           }
         });
-      } else {
+      }
+    }
+    handleTotalNum = (e: any) => {
+      console.log(e)
+      if (e.indexOf(".") == -1) {
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            total_num: e
+          }
+        });
+      }
+    }
+    handleTotalFee = (e: any) => {
+      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
@@ -214,13 +213,19 @@ export default connect(({ activity }: any) => activity)(
     }
 
     handleCheckAppreciationNumber(v: any) {
-      console.log(this.refs.appreciationNumber)
+      //console.log(this.refs.appreciationNumber)
+      //console.log(ReactDOM.findDOMNode(this.refs.appreciationNumber))
+      // console.log(document.getElementsByClassName('fake-input'))
+      let DomArr = document.getElementsByClassName('fake-input');
       v = Number(v);
       if (v < 2 || v > 18) {
+        for (var i = 0; i < DomArr.length; i++) {
+          DomArr[i].classList.remove('focus')
+        }
         Toast.fail('助力人数应在2至18之间', 2, () => {
+          // this.refs.appreciationNumber.clearInput();
           this.refs.appreciationNumber.focus();
         });
-        this.refs.appreciationNumber.clearInput();
       }
     }
 
@@ -294,7 +299,7 @@ export default connect(({ activity }: any) => activity)(
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handleEndPri} value={end_price} placeholder='请输入 ' extra='元' clear>
                   封顶值
               </InputItem>
-                <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人' ref="appreciationNumber" onVirtualKeyboardConfirm={this.handleCheckAppreciationNumber.bind(this)} clear>
+                <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人' ref="appreciationNumber" onVirtualKeyboardConfirm={this.handleCheckAppreciationNumber.bind(this)} onBlur={this.handleCheckAppreciationNumber.bind(this)} clear>
                   助力人数
               </InputItem>
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handlePayMoney} value={pay_money} placeholder='请输入 ' extra='元' clear>
@@ -319,10 +324,10 @@ export default connect(({ activity }: any) => activity)(
                 <div style={{ width: '100%', height: '.88rem' }}>{''}</div>
               </div>
             </WingBlank>
-      
+
             <Flex>
               {/* <div className={styles.button1} onClick={()=>{router.push('/activitys/appreciation/createAppreciation/appreciation')}}>预览</div> */}
-              <div className={styles.button2} onClick={this.submit}  style={{width:"100%",left:"0"}}>确认发布</div>
+              <div className={styles.button2} onClick={this.submit} style={{ width: "100%", left: "0" }}>确认发布</div>
             </Flex>
           </div>
         </div>

@@ -21,16 +21,17 @@ export default connect(({ finance }: any) => finance)(
         state = {
             info: {
                 coupon_name: "优惠券名称",
-coupon_store_name: 222,
-create_time: "2019-08-08 17:49:10",
-earnings: 111,
-money: 111,
-order_sn: "B39324245434523452532",
+                coupon_store_name: 222,
+                create_time: "2019-08-08 17:49:10",
+                earnings: 111,
+                money: 111,
+                order_sn: "B39324245434523452532",
             }
         };
 
         componentDidMount() {
             // console.log(this.props.location.query)
+            Toast.loading('加载数据');
             let { _id } = this.props.location.query;
             request({
                 url: 'v3/finance/finance_info',
@@ -43,6 +44,7 @@ order_sn: "B39324245434523452532",
             }).then(res => {
                 console.log(res);
                 this.setState({ info: res.data });
+                Toast.hide();
             })
         }
 

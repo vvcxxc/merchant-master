@@ -107,7 +107,15 @@ export default connect(({ createStore }: any) => createStore)(
     };
     /**设置邮箱 */
     handleEmail = (e: any) => {
-      this.setState({ email: e.target.value })
+      if (e.target.value.includes(" ")) {
+        e.target.value = e.target.value.replace(/ /g, "")
+      }
+      if(e.target.value.includes("＠")) {
+        e.target.value = e.target.value.replace(/＠/g, "@")
+      }
+      this.setState({ email: e.target.value },() => {
+        console.log(this.state.email)
+      })
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -115,6 +123,7 @@ export default connect(({ createStore }: any) => createStore)(
         }
       })
     };
+
     handleCode = (e: any) => {
       this.setState({ _code: e.target.value })
       this.props.dispatch({

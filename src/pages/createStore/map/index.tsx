@@ -155,7 +155,7 @@ export default connect(({createStore}: any) => createStore)(
         // city: '广州'
         city:city_name //城市
       });
-      this.msearch.search(keywords, function(status: any, result: object){
+      this.msearch.search(keywords, function(status: any, result: any){
         let one = result.poiList.pois[0]
         let location = {
           longitude: one.location.lng,
@@ -193,7 +193,7 @@ export default connect(({createStore}: any) => createStore)(
         });
         let keywords = city + district + street;
 
-        this.msearch.search(keywords, function(status: any, result: object){
+        this.msearch.search(keywords, function(status: any, result: any){
           _this.setState({
             searchList: result.poiList.pois
           })

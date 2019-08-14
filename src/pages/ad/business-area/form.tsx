@@ -67,7 +67,12 @@ export default connect(({ businessArea }: any) => businessArea)(
 		closeModal = () => this.setState({ showSelectCoupon: false, showSelectTime: false });
 		showModal = () => this.setState({ showSelectCoupon: true });
 		handleSelectCoupon = (coupon: any) => this.setState({ coupon }, this.closeModal);
-		handleChangePrice = (price: any) => this.setState({ price });
+		handleChangePrice = (price: any) => {
+			console.log(price);
+			if (price.split(".")[1] == undefined || (price.split(".")[1].length <= 2 && price.split(".")[2] == undefined)) {
+				this.setState({ price })
+			}
+		};
 		handleChangeTime = (time: any) => this.setState({ time });
 		handleShowSelectTime = () => this.setState({ showSelectTime: true });
 		handleSelectTime = (time: any) => this.setState({ ...time }, this.closeModal);
@@ -134,7 +139,7 @@ export default connect(({ businessArea }: any) => businessArea)(
 		};
 
 		handleShowStopAd = () => this.setState({ stopModalShow: true });
-	
+
 
 		render() {
 			const time = this.state.startTime

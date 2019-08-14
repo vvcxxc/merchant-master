@@ -20,22 +20,30 @@ export default connect(({ finance }: any) => finance)(
     class OfflineDeal extends Component {
         state = {
             info: {
-                "money": 0,
-                "source": "",
-                "order_money": 0,
-                "activity_deduction_money": 0,
-                "cash_deduction_money": 0,
-                "deduction_coupon_money": 0,
-                "service_charge": 0,
-                "rate": "",
-                "create_time": "",
-                "order_sn": ""
+                money: 0,
+                source: "",
+                order_money: 0,
+                activity_deduction_money: 0,
+                cash_deduction_money: 0,
+                deduction_coupon_money: 0,
+                service_charge: 0,
+                rate: "",
+                create_time: "",
+                order_sn: "",
+                ad: "",
+                type: 9,
+                coupon_name: "",
+                coupon_store_name: 0,
+                earnings: 0,
+                custom_money: 0,
+                pay_type:""
             }
-         
+
         };
 
         componentDidMount() {
             // console.log(this.props.location.query)
+            Toast.loading('加载数据');
             let { _id } = this.props.location.query;
             request({
                 url: 'v3/finance/finance_info',
@@ -47,7 +55,8 @@ export default connect(({ finance }: any) => finance)(
                 }
             }).then(res => {
                 console.log(res);
-                this.setState({info:res.data});
+                this.setState({ info: res.data });
+                Toast.hide();
             })
         }
 
@@ -61,7 +70,7 @@ export default connect(({ finance }: any) => finance)(
                     <View className="D_offlineDeal_list" >
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">付款方式</View>
-                            <View className="D_offlineDeal_list_box_msg">微信/支付宝/团卖</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.pay_type}</View>
                         </View>
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">钱的去向</View>
@@ -70,28 +79,28 @@ export default connect(({ finance }: any) => finance)(
 
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">订单金额</View>
-                            <View className="D_offlineDeal_list_box_msg">{this.state.info.order_money}</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.order_money}元</View>
                         </View>
 
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">活动抵扣</View>
-                            <View className="D_offlineDeal_list_box_msg">{this.state.info.activity_deduction_money}</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.activity_deduction_money}元</View>
                         </View>
 
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">现金券抵扣</View>
-                            <View className="D_offlineDeal_list_box_msg">{this.state.info.cash_deduction_money}</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.cash_deduction_money}元</View>
                         </View>
 
 
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">现金券</View>
-                            <View className="D_offlineDeal_list_box_msg">{this.state.info.deduction_coupon_money}</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.deduction_coupon_money}元</View>
 
                         </View>
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">手续费</View>
-                            <View className="D_offlineDeal_list_box_msg">{this.state.info.service_charge}</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.service_charge}元</View>
                         </View>
                     </View>
                     <View className="D_offlineDeal_creat" >

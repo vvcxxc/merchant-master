@@ -5,9 +5,14 @@ import request from '@/services/request';
 import router from 'umi/router';
 import wx from "weixin-js-sdk";
 import Success from '@/pages/verification/success';
+import BottomShare from '@/pages/activitys/appreciation/componts/bottom_share'
+import Posters from '../componts/posters/index'
+import EchartsSan from '../../../../components/echart_shan/index'
 const alert = Modal.alert;
 export default class GroupDetails extends Component {
+
   state = {
+    echart_Data: [],
     info: {
       activity_image: '',
       appreciation_count: {
@@ -38,18 +43,21 @@ export default class GroupDetails extends Component {
     id: '',
     is_gift: true,
     type: '',
-    types: ''
+    types: '',
+    showShare: false,
+    showPoster: false
   }
-  componentDidMount (){
-    let {id, type} = this.props.location.query;
-    if(type == '1'){
-      this.setState({types: '进行中'})
-    }else if(type == '2'){
-      this.setState({types: '待生效'})
-    }else{
-      this.setState({types: '已结束'})
+  componentDidMount() {
+
+    let { id, type } = this.props.location.query;
+    if (type == '1') {
+      this.setState({ types: '进行中' })
+    } else if (type == '2') {
+      this.setState({ types: '待生效' })
+    } else {
+      this.setState({ types: '已结束' })
     }
-    this.setState({id, type})
+    this.setState({ id, type })
     request({
       url: 'api/merchant/youhui/getAppreciationInfo',
       method: 'get',
@@ -57,12 +65,18 @@ export default class GroupDetails extends Component {
         coupons_activity_log_id: id
       }
     }).then(res => {
-      let {data} = res;
-      // console.log(res)
-      if(data.appreciation_gif_info.gift_id == 0){
-        this.setState({is_gift: false})
+      let { data } = res;
+      this.setState({
+        echart_Data: [
+          data.appreciation_count.participate_number,
+          data.appreciation_count.participation_number,
+          data.appreciation_count.coupons_number
+        ]
+      })
+      if (data.appreciation_gif_info.gift_id == 0) {
+        this.setState({ is_gift: false })
       }
-      this.setState({info: data})
+      this.setState({ info: data })
     })
   }
 
@@ -71,108 +85,136 @@ export default class GroupDetails extends Component {
   // 撤销
   stop = () => {
     request({
-      url: 'api/merchant/youhui/appreciation/activity/stop/'+this.state.id,
+      url: 'api/merchant/youhui/appreciation/activity/stop/' + this.state.id,
       method: 'put',
       data: {
         type: 1
       }
-    }).then (res => {
-      let {code, message} = res;
-      if(code == 200){
-        Toast.success(message,2,()=>router.goBack())
+    }).then(res => {
+      let { code, message } = res;
+      if (code == 200) {
+        Toast.success(message, 2, () => router.goBack())
       }
     })
   }
 
   shareClick = () => {
+    // let userAgent = navigator.userAgent;
+    // let isIos = userAgent.indexOf('iPhone') > -1;
+    // let url: any;
+    // if (isIos) {
+    //   url = sessionStorage.getItem('url');
+    // } else {
+    //   url = location.href;
+    // }
+    // request({
+    //   url: 'wechat/getShareSign',
+    //   method: 'get',
+    //   params: {
+    //     url
+    //   }
+    // }).then(res => {
+    //   let _this = this;
+    //   wx.config({
+    //     debug: false,
+    //     appId: res.appId,
+    //     timestamp: res.timestamp,
+    //     nonceStr: res.nonceStr,
+    //     signature: res.signature,
+    //     jsApiList: [
+    //       "updateAppMessageShareData"
+    //     ]
+    //   });
 
-    let userAgent = navigator.userAgent;
-    let isIos = userAgent.indexOf('iPhone') > -1;
-    let url: any;
-    if (isIos) {
-      url = sessionStorage.getItem('url');
-    } else {
-      url = location.href;
-    }
-    request({
-      url: 'wechat/getShareSign',
-      method: 'get',
-      params: {
-        url
-      }
-    }).then(res => {
-
-      let _this = this;
-      wx.config({
-        debug: false,
-        appId: res.appId,
-        timestamp: res.timestamp,
-        nonceStr: res.nonceStr,
-        signature: res.signature,
-        jsApiList: [
-          "updateAppMessageShareData"
-        ]
-      });
-     
-      wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
-        wx.updateAppMessageShareData({
-          title: '34343', // 分享标题
-          desc: '4343434', // 分享描述
-          link: 'http://test.supplierv2.tdianyi.com',//分享链接该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-          imgUrl: '', // 分享图标
-          success: function () {
-            // 设置成功
-
-          }
-        })
-      });
+    //   wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+    //     wx.updateAppMessageShareData({
+    //       title: '34343', // 分享标题
+    //       desc: '4343434', // 分享描述
+    //       link: 'http://test.supplierv2.tdianyi.com',//分享链接该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+    //       imgUrl: '', // 分享图标
+    //       success: function () {
+    //         // 设置成功
+    //         console.log('3434')
+    //       }
+    //     })
+    //   });
 
 
-    })
+    // })
+    this.setState({ showShare: true })
+  }
+
+  closeShare = (close: boolean) => {
+    this.setState({ showShare: false })
+  }
+
+  showPoster = (show: any) => {
+    this.setState({ showPoster: true })
+    this.setState({ showShare: false })
+  }
+  closePoster = (close: any) => {
+    this.setState({ showPoster: false })
   }
 
 
-  render (){
+  render() {
     const { info, is_gift, types } = this.state;
-    const description = info.appreciation_coupons_info.description.map((item,idx) => <p key={idx}>· {item}</p>);
+    const description = info.appreciation_coupons_info.description.map((item, idx) => <p key={idx}>· {item}</p>);
     const button = this.state.type == '3' ? null : (
       <Button
         className={styles.buttons}
         type='primary'
         onClick={this.stop}
       >
-      撤销活动
+        撤销活动
       </Button>
     );
     const isGift = is_gift == true ? (
       <div>
         <Flex className={styles.title}>
-            <div className={styles.gang}>{null}</div>
-            礼品信息
+          <div className={styles.gang}>{null}</div>
+          礼品信息
           </Flex>
-          <Flex className={styles.item} align='start'>
-            <div className={styles.item_name}>礼品名称：</div>
-            <div className={styles.item_detail}>{info.appreciation_gif_info.gif_name}</div>
-          </Flex>
-          <Flex className={styles.item_height} align='start'>
-            <div className={styles.item_name}>礼品图片：</div>
-            <div className={styles.item_img}>
-              <img src={info.appreciation_gif_info.gif_pic}/>
-            </div>
-          </Flex>
-          <Flex className={styles.item} align='start'>
-            <div className={styles.item_name}>所需积分：</div>
-            <div className={styles.item_detail}>{info.appreciation_gif_info.delivery}积分</div>
-          </Flex>
-          <Flex className={styles.item_height} align='start'>
-            <div className={styles.item_name}>配送方式：</div>
-            <div className={styles.item_long}>
-              <p>{info.appreciation_gif_info.gif_integral}</p>
-              {/* <p>邮寄 邮费谁出</p> */}
-            </div>
-          </Flex>
+        <Flex className={styles.item} align='start'>
+          <div className={styles.item_name}>礼品名称：</div>
+          <div className={styles.item_detail}>{info.appreciation_gif_info.gif_name}</div>
+        </Flex>
+        <Flex className={styles.item_height} align='start'>
+          <div className={styles.item_name}>礼品图片：</div>
+          <div className={styles.item_img}>
+            <img src={info.appreciation_gif_info.gif_pic} />
+          </div>
+        </Flex>
+        <Flex className={styles.item} align='start'>
+          <div className={styles.item_name}>所需积分：</div>
+          <div className={styles.item_detail}>{info.appreciation_gif_info.delivery}积分</div>
+        </Flex>
+        <Flex className={styles.item_height} align='start'>
+          <div className={styles.item_name}>配送方式：</div>
+          <div className={styles.item_long}>
+            <p>{info.appreciation_gif_info.gif_integral}</p>
+            {/* <p>邮寄 邮费谁出</p> */}
+          </div>
+        </Flex>
       </div>
     ) : null;
+
+    const echart = this.state.echart_Data.length > 1 ?
+      (
+        <EchartsSan
+          list={[222, 444, 444]}
+          name={["参与人数", "增值人数", "券使用人数"]}
+          colors={['#5476C4', '#7156C6', '#45BDBD']}
+        />) : null
+
+    const poster = <Posters closePoster={this.closePoster} showPoster={this.state.showPoster} >{null}</Posters>
+    const bottom_share = (
+      <BottomShare
+        closeShare={this.closeShare}
+        showShare={this.state.showShare}
+        showPoster={this.showPoster}
+      >{null}
+      </BottomShare>)
     return (
       <div className={styles.detailsPage}>
         <WingBlank>
@@ -182,10 +224,18 @@ export default class GroupDetails extends Component {
               活动名称
               <span>{types}</span>
             </div>
-              <img src={require('./share.png')}  onClick={this.shareClick}/>
+            <img src={require('./share.png')} onClick={this.shareClick} />
           </Flex>
 
           {/* 基本信息 */}
+          <Flex className={styles.title}>
+            <div className={styles.gang}>{null}</div>
+            活动统计数据
+          </Flex>
+          <div>
+            {echart}
+          </div>
+
           <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
             活动基本信息
@@ -242,6 +292,9 @@ export default class GroupDetails extends Component {
           {/* <Button type='primary' style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button> */}
           {button}
         </WingBlank>
+        {poster}
+
+        {bottom_share}
       </div>
     )
   }

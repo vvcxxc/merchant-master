@@ -30,8 +30,8 @@ export default connect(({ finance }: any) => finance)(
 
         componentDidMount() {
             console.log(this.props.location.query)
+            Toast.loading('加载数据');
             let { _id } = this.props.location.query;
-
             request({
                 url: 'v3/finance/finance_info',
                 method: 'get',
@@ -43,6 +43,7 @@ export default connect(({ finance }: any) => finance)(
             }).then(res => {
                 console.log(res);
                 this.setState({ info: res.data });
+                Toast.hide();
             })
         }
 

@@ -20,21 +20,30 @@ export default connect(({ finance }: any) => finance)(
     class AdvertisingRevenue extends Component {
         state = {
             info: {
-                "money": 0,
-                "source": "",
-                "order_money": 0,
-                "activity_deduction_money": 0,
-                "cash_deduction_money": 0,
-                "deduction_coupon_money": 0,
-                "service_charge": 0,
-                "rate": "",
-                "create_time": "",
-                "order_sn": ""
+                money: 0,
+                source: "",
+                order_money: 0,
+                activity_deduction_money: 0,
+                cash_deduction_money: 0,
+                deduction_coupon_money: 0,
+                service_charge: 0,
+                rate: "",
+                create_time: "",
+                order_sn: "",
+                ad: "",
+                type: 9,
+                coupon_name: "",
+                coupon_store_name: 0,
+                earnings: 0,
+                custom_money: 0,
+                ad_issue:""
             }
         };
 
         componentDidMount() {
             // console.log(this.props.location.query)
+            Toast.loading('加载数据');
+
             let { _id } = this.props.location.query;
             request({
                 url: 'v3/finance/finance_info',
@@ -47,6 +56,7 @@ export default connect(({ finance }: any) => finance)(
             }).then(res => {
                 console.log(res);
                 this.setState({ info: res.data });
+                Toast.hide();
             })
         }
 
@@ -55,16 +65,16 @@ export default connect(({ finance }: any) => finance)(
                 <View className="D_offlineDeal" >
                     <View className="D_offlineDeal_title" >
                         <View className="D_offlineDeal_title_money">广告</View>
-                        <View className="D_offlineDeal_title_msg">15645431646131313131</View>
+                        <View className="D_offlineDeal_title_msg">{this.state.info.ad}</View>
                     </View>
                     <View className="D_offlineDeal_list" >
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">广告发布者</View>
-                            <View className="D_offlineDeal_list_box_msg">空空店铺</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.ad_issue}</View>
                         </View>
                         <View className="D_offlineDeal_list_box" >
                             <View className="D_offlineDeal_list_box_name">收益</View>
-                            <View className="D_offlineDeal_list_box_msg">0.20元</View>
+                            <View className="D_offlineDeal_list_box_msg">{this.state.info.earnings}元</View>
                         </View>
                     </View>
                     <View className="D_offlineDeal_creat" >
