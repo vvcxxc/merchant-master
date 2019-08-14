@@ -94,7 +94,13 @@ export default class CreateStore extends Component {
   };
   /**设置邮箱 */
   handleEmail = (e : any) => {
-    this.setState({email : e.target.value})
+    if (e.target.value.includes(" ")) {
+      e.target.value = e.target.value.replace(/ /g, "")
+    }
+    if(e.target.value.includes("＠")) {
+      e.target.value = e.target.value.replace(/＠/g, "@")
+    }
+    this.setState({ email: e.target.value })
   };
 
   /**经营类型的选择 */
