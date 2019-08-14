@@ -68,7 +68,12 @@ export default connect(({ finance }: any) => finance)(
       })
     };
 
-    handleChangePrice = (type: string) => (e: any) => this.setState({ [type]: e.target.value });
+    handleChangePrice = (type: string) => (e: any) => {
+      console.log(type, e.target.value)
+      if (/^[0-9]+\.+[0-9]\d{0,1}$/.test(e.target.value) || /^[0-9]+\.?$/.test(e.target.value) || e.target.value == "") {
+        this.setState({ [type]: e.target.value });
+      }
+    }
 
     handleLoadMore = () => {
       if (this.props.hasMore) {
@@ -106,11 +111,11 @@ export default connect(({ finance }: any) => finance)(
         context: (
           <Flex className={styles.layoutAfter}>
             <Flex className="input-wrap">
-              ￥<input placeholder="最低金额" type="number" onChange={this.handleChangePrice('min')} />
+              ￥<input placeholder="最低金额"  onChange={this.handleChangePrice('min')} value={this.state.min} />
             </Flex>
             <div className="line" />
             <Flex className="input-wrap">
-              ￥<input placeholder="最高金额" type="number" onChange={this.handleChangePrice('max')} />
+              ￥<input placeholder="最高金额"  onChange={this.handleChangePrice('max')} value={this.state.max} />
             </Flex>
           </Flex>
         )
