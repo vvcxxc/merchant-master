@@ -30,7 +30,8 @@ export default class payReturnDetail extends Component<any> {
 			Toast.success('删除成功');
 			setTimeout(router.goBack, 1000);
 		}
-	};
+  };
+
 	render() {
 		const data: any = this.state.data;
 
