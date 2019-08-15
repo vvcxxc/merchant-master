@@ -17,7 +17,6 @@ export default class Rechange extends Component {
   handleInputChange = (value: any) => this.setState({ money: parseFloat(value) });
   /** recahnge submit value */
   submit = async () => {
-<<<<<<< HEAD
     let openId = Cookies.get(open_id)
     // 判断是否授权
     if (openId) {
@@ -39,26 +38,6 @@ export default class Rechange extends Component {
           ``;
           if (res.err_msg == 'get_brand_wcpay_request:ok') {
             // '支付成功'
-=======
-    console.log(this.state.money)
-    console.log(open_id)
-    let openId = Cookies.get(open_id)
-    //判断是否为零
-    if (this.state.money == 0 || this.state.money == null || this.state.money == undefined || isNaN(this.state.money)) {
-      Toast.fail('请输入充值金额', 1.5);
-    } else {
-      // 判断是否授权
-      if (openId) {
-        console.log('调起充值')
-        Toast.loading('充值中');
-        const res = await request({
-          url: 'v3/pay/recharge',
-          method: 'post',
-          data: {
-            xcx: 0,
-            rechargeMoney: this.state.money,
-            open_id: openId
->>>>>>> 01589b783c1254fe250f2a95c607d940144c8b93
           }
         });
 
@@ -82,11 +61,8 @@ export default class Rechange extends Component {
         console.log('open_id' + openId)
         this.auth()
       }
-<<<<<<< HEAD
     }else {
       this.auth()
-=======
->>>>>>> 01589b783c1254fe250f2a95c607d940144c8b93
     }
   };
 
