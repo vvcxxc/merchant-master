@@ -139,6 +139,12 @@ export default class StoreInfo extends Component {
     this.setState({phone: e})
   }
   handleEmail = (e: any) => {
+    if (e.includes(" ")) {
+      e = e.replace(/ /g, "")
+    }
+    if(e.includes("＠")) {
+      e = e.replace(/＠/g, "@")
+    }
     this.setState({email: e});
   }
 
