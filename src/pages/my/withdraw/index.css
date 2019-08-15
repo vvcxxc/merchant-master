@@ -6,6 +6,57 @@
   font-size: 26px;
   font-weight: bold;
 }
+.msg_box {
+  width: 600px;
+  height: 300px;
+  background: #fff;
+  border-radius: 40px;
+  border: 2px solid #797979;
+  box-sizing: border-box;
+  position: fixed;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  margin-top: -150px;
+  margin-left: -300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.msg_box .msg_box_icon {
+  flex: 84;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+.msg_box .msg_box_icon .msg_box_icon_img {
+  width: 140px;
+}
+.msg_box .msg_box_toast {
+  flex: 50;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+}
+.msg_box .msg_box_button_box {
+  flex: 42;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.msg_box .msg_box_button_box .msg_box_button {
+  padding: 8px 50px;
+  border-radius: 8px;
+  line-height: 1;
+  color: #fff;
+  background: #21418a;
+}
 .header {
   height: 114px;
   border-bottom: 1px solid #eee;
@@ -40,6 +91,22 @@
 .withdraw_sum .withdraw_all {
   color: #21418A;
   margin-left: 16px;
+}
+.toast {
+  width: 100%;
+  height: 250px;
+  padding: 24px;
+  box-sizing: border-box;
+  text-align: left;
+}
+.toast .toast_title {
+  height: 55px;
+  font-size: 25px;
+  font-weight: bold;
+}
+.toast .toast_content {
+  height: 40px;
+  font-size: 20px;
 }
 .succeed_page {
   width: 100%;

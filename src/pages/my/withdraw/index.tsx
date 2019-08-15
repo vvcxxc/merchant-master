@@ -7,7 +7,7 @@ import request from '@/services/request';
 import Succeed from './succeed';
 import router from 'umi/router';
 import { createForm } from 'rc-form';
-
+import iconImg from './money_icon.png';
 const isIPhone = new RegExp('\\biPhone\\b|\\biPod\\b', 'i').test(window.navigator.userAgent);
 let moneyKeyboardWrapProps;
 if (isIPhone) {
@@ -32,6 +32,7 @@ class WithDraw extends Component {
     num: '',
     is_ok: false,
     data: {},
+    msg_show: false
   };
 
   componentWillMount() {
@@ -77,7 +78,7 @@ class WithDraw extends Component {
   /**提现 */
   WithDraw = () => {
     let { money } = this.state;
-    if (money) {
+    if (money && Number(money) >= 100) {
       request({
         url: 'api/merchant/supplier/withdraw',
         method: 'post',
@@ -98,6 +99,8 @@ class WithDraw extends Component {
           this.setState({ is_ok: true, data });
         } else Toast.fail(message, 2);
       });
+    }else{
+      this.setState({msg_show:true})
     }
   };
 
@@ -108,8 +111,26 @@ class WithDraw extends Component {
     const top = this.state.info.withdraw_info ? <Flex className={styles.top}>{info.withdraw_info}</Flex> : '';
     return (
       <div style={{ width: '100%', height: '100%', background: '#fff' }}>
+        {
+          this.state.msg_show ? <div className={styles.msg_mask} style={{ width: "100vw", height: "100vh", position: "fixed", zIndex: 2, background: "rgb(0,0,0,.7)", top: "0" }}></div>
+            : null
+        }
         {top}
         <WingBlank>
+          {
+            this.state.msg_show ? <div className={styles.msg_box}>
+              <div className={styles.msg_box_icon}>
+                <img className={styles.msg_box_icon_img} src={iconImg} />
+              </div>
+              <div className={styles.msg_box_toast}>最低提现金额为100元，请重新输入</div>
+              <div className={styles.msg_box_button_box}>
+                <div className={styles.msg_box_button} onClick={() => { this.setState({ msg_show: false }) }}>关闭</div>
+
+              </div>
+            </div> : null
+          }
+
+
           <Flex className={styles.header}>
             <img src={this.state.info.bank_img} />
             {info.bank_name}
@@ -168,6 +189,12 @@ class WithDraw extends Component {
           >
             提现记录
 					</Button>
+          <div className={styles.toast} >
+            <div className={styles.toast_title}>温馨提示 :</div>
+            <div className={styles.toast_content}>1、金额限制: 最低提现金额为100元。</div>
+            <div className={styles.toast_content}>2、银行卡到账时间: T+1日。</div>
+            <div className={styles.toast_content}>3、提现进度查询位置: “首页-资产管理-提现进度”</div>
+          </div>
         </WingBlank>
         {succeed}
       </div>
