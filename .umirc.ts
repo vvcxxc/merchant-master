@@ -18,6 +18,11 @@ const config: IConfig = {
         dynamicImport: { webpackChunkName: true },
         title: '小熊敬礼',
         dll: false,
+        devServer: {
+          host: '192.168.2.187',
+          inline: true,
+          port: 8090,
+        },
         routes: {
           exclude: [
             /models\//,

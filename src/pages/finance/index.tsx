@@ -46,9 +46,10 @@ export default connect(({ finance }: any) => finance)(
 
 
     handleChange = (query: any) => {
+      console.log(query)
       this.setState({
         page: 1,
-        finance_type: query.hot.id,
+        finance_type: query.hot,
         date: query.time ? moment(query.time).unix() : undefined,
       }, () => {
         // 清除数据流里的数据
@@ -59,7 +60,7 @@ export default connect(({ finance }: any) => finance)(
           type: 'finance/getData',
           query: {
             page: this.state.page,
-            finance_type: query.hot.id,
+            finance_type: query.hot,
             date: query.time ? moment(query.time).unix() : undefined,
             moneyscope_micro: this.state.min,
             moneyscope_maximum: this.state.max
@@ -102,7 +103,9 @@ export default connect(({ finance }: any) => finance)(
         { id: 3, label: '线下收银' },
         { id: 5, label: '余额提现' },
         { id: 6, label: '广告收益' },
-        { id: 13, label: '费率返点' }
+        { id: 13, label: '费率返点' },
+        { id: 9, label: '广告购买' },
+        { id: 16, label: '充值' },
       ];
 
       /**搜索金额 */
@@ -143,7 +146,7 @@ export default connect(({ finance }: any) => finance)(
               //   case 6: this.pushPage('/finance/financeDetail/advertisingRevenue', { _id: _.id }); break;  //广告收益
               //   case 9: this.pushPage('/finance/financeDetail/advertisingSpending', { _id: _.id }); break; //广告购买
               //   case 8: this.pushPage('/finance/financeDetail/couponRevenue', { _id: _.id }); break;   //优惠券收益（优惠券分润）
-              //   case 15: this.pushPage('/finance/financeDetail/onlineSelling',{_id:_.id}); break;   //线上卖券，存疑   
+              //   case 15: this.pushPage('/finance/financeDetail/onlineSelling',{_id:_.id}); break;   //线上卖券，存疑
               //   default: return
               // }
             }
