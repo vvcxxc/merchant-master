@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './index.less'
 import request from '@/services/request';
+import wx from "weixin-js-sdk";
 
 interface Props {
   showPoster: (show: boolean) => any;
@@ -44,7 +45,7 @@ export default class BottomShare extends Component<Props>{
     }).then(res => {
       let _this = this;
       wx.config({
-        debug: false,
+        debug: true,
         appId: res.appId,
         timestamp: res.timestamp,
         nonceStr: res.nonceStr,
