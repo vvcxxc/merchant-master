@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styles from './index.less'
+import request from '@/services/request';
 
 interface Props {
   showPoster: (show: boolean) => any;
@@ -25,11 +26,51 @@ export default class BottomShare extends Component<Props>{
       this.props.closeShare(false)
       this.setState({ shareButton: false }) //取消按钮变色
     }, 100);
+
+    let userAgent = navigator.userAgent;
+    let isIos = userAgent.indexOf('iPhone') > -1;
+    let url: any;
+    if (isIos) {
+      url = sessionStorage.getItem('url');
+    } else {
+      url = location.href;
+    }
+    request({
+      url: 'wechat/getShareSign',
+      method: 'get',
+      params: {
+        url
+      }
+    }).then(res => {
+      let _this = this;
+      wx.config({
+        debug: false,
+        appId: res.appId,
+        timestamp: res.timestamp,
+        nonceStr: res.nonceStr,
+        signature: res.signature,
+        jsApiList: ['updateAppMessageShareData','updateTimelineShareData']
+      });
+      wx.ready(()=>{ 
+        wx.updateAppMessageShareData({
+          title: '伊哲大逗逼',
+          link: '没有链接',
+          imgUrl: '../../icon.png',
+          success:function () {
+            alert('成功了')
+          }
+        })
+      })
+    });
+
+  // }
   }
 
   showPosterData = () => {
     this.props.showPoster(true)
   }
+
+  
 
   render() {
     return (
