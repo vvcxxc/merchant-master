@@ -158,22 +158,52 @@ export default connect(({ submitQua }: any) => submitQua)(
             }
           })
           if (legal_id_front_img) {
-            this.setState({ is_id_front: true })
+            this.props.dispatch({
+              type: 'submitQua/setQua',
+              payload: {
+                is_id_front: true
+              }
+            })
           }
           if (legal_id_back_img) {
-            this.setState({ is_id_back: true })
+            this.props.dispatch({
+              type: 'submitQua/setQua',
+              payload: {
+                is_id_back: true
+              }
+            })
           }
           if (hand_hold_id_img) {
-            this.setState({ is_id_hand: true })
+            this.props.dispatch({
+              type: 'submitQua/setQua',
+              payload: {
+                is_id_hand: true
+              }
+            })
           }
           if (bank_card_front_img) {
-            this.setState({ is_bank_front: true })
+            this.props.dispatch({
+              type: 'submitQua/setQua',
+              payload: {
+                is_bank_front: true
+              }
+            })
           }
           if (bank_card_back_img) {
-            this.setState({ is_bank_back: true })
+            this.props.dispatch({
+              type: 'submitQua/setQua',
+              payload: {
+                is_bank_back: true
+              }
+            })
           }
           if (three_certs_in_one_img) {
-            this.setState({ is_license: true })
+            this.props.dispatch({
+              type: 'submitQua/setQua',
+              payload: {
+                is_license: true
+              }
+            })
           }
 
         } else {
@@ -833,7 +863,7 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
 
     render() {
-      const idFront = this.state.is_id_front == true ? (
+      const idFront = this.props.is_id_front == true ? (
         <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_front_img} /><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
       ) : (
           <ImagePicker
@@ -845,7 +875,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             onChange={this.changeIdFront}
           />
         );
-      const idBack = this.state.is_id_back == true ? (
+      const idBack = this.props.is_id_back == true ? (
         <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_back_img} /><div className={styles.close} onClick={this.closeIDBack}>{''}</div></div>
       ) : (
           <ImagePicker
@@ -857,7 +887,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             onChange={this.changeIdBack}
           />
         )
-      const idHand = this.state.is_id_hand == true ? (
+      const idHand = this.props.is_id_hand == true ? (
         <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.hand_hold_id_img} /><div className={styles.close} onClick={this.closeIDHand}>{''}</div></div>
       ) : (
           //809
@@ -875,7 +905,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           // disable
           />
         )
-      const bankFront = this.state.is_bank_front == true ? (
+      const bankFront = this.props.is_bank_front == true ? (
         <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/" + this.props.bank_card_front_img} /><div className={styles.close} onClick={this.closeBankFront}>{''}</div></div>
       ) : (
           <ImagePicker
@@ -887,7 +917,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             onChange={this.changeBankFront}
           />
         )
-      const bankBack = this.state.is_bank_back == true ? (
+      const bankBack = this.props.is_bank_back == true ? (
         <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/" + this.props.bank_card_back_img} /><div className={styles.close} onClick={this.closeBankBack}>{''}</div></div>
       ) : (
           <ImagePicker
@@ -899,7 +929,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             onChange={this.changeBankBack}
           />
         )
-      const License = this.state.is_license == true ? (
+      const License = this.props.is_license == true ? (
         <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/" + this.props.three_certs_in_one_img} /><div className={styles.close} onClick={this.closeLicense}>{''}</div></div>
       ) : (
           <ImagePicker

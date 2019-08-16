@@ -5,7 +5,7 @@ import request from '@/services/request';
 import router from 'umi/router';
 import upload from '@/services/oss';
 import { connect } from 'dva';
-
+import Cookies from 'js-cookie';
 
 export default connect(({ createStore }: any) => createStore)(
   class CreateStore extends Component<any> {
@@ -52,6 +52,24 @@ export default connect(({ createStore }: any) => createStore)(
     };
 
     componentDidMount() {
+      if (Cookies.get("handleName")) {
+        this.props.dispatch({
+          type: 'createStore/setStore',
+          payload: {
+            name: Cookies.get("handleName") ? JSON.parse(Cookies.get("handleName")) : "",
+            address: Cookies.get("handleAddress") ? JSON.parse(Cookies.get("handleAddress")) : "",
+            house_num: Cookies.get("handleHouseNum") ? JSON.parse(Cookies.get("handleHouseNum")) : "",
+            phone: Cookies.get("handlePhone") ? JSON.parse(Cookies.get("handlePhone")) : "",
+            manage_type: Cookies.get("handleCheckout") ? JSON.parse(Cookies.get("handleCheckout"))[0] : "",
+            value: Cookies.get("handleCheckout") ? JSON.parse(Cookies.get("handleCheckout")) : [],
+            email: Cookies.get("handleEmail") ? JSON.parse(Cookies.get("handleEmail")) : "",
+            _code: Cookies.get("handleCode") ? JSON.parse(Cookies.get("handleCode")) : "",
+            files: localStorage.getItem("Storechange") ? JSON.parse(localStorage.getItem("Storechange")) : [],
+            my_files: localStorage.getItem("Mychange") ? JSON.parse(localStorage.getItem("Mychange")) : [],
+            my_files2: localStorage.getItem("Mychange2") ? JSON.parse(localStorage.getItem("Mychange2")) : []
+          }
+        })
+      }
 
       /**获取经营品类 */
       request({
@@ -88,7 +106,8 @@ export default connect(({ createStore }: any) => createStore)(
 
     /**设置门店名 */
     handleName = (e: any) => {
-      // this.setState({name : e.target.value})
+      Cookies.set("handleName", JSON.stringify(e.target.value), { expires: 1 });
+      // console.log(Cookies.get("storeinfo"));
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -98,6 +117,7 @@ export default connect(({ createStore }: any) => createStore)(
     };
     /**设置门店电话 */
     handlePhone = (e: any) => {
+      Cookies.set("handlePhone", JSON.stringify(e.target.value), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -110,12 +130,13 @@ export default connect(({ createStore }: any) => createStore)(
       if (e.target.value.includes(" ")) {
         e.target.value = e.target.value.replace(/ /g, "")
       }
-      if(e.target.value.includes("＠")) {
+      if (e.target.value.includes("＠")) {
         e.target.value = e.target.value.replace(/＠/g, "@")
       }
-      this.setState({ email: e.target.value },() => {
+      this.setState({ email: e.target.value }, () => {
         console.log(this.state.email)
       })
+      Cookies.set("handleEmail", JSON.stringify(e.target.value), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -125,6 +146,7 @@ export default connect(({ createStore }: any) => createStore)(
     };
 
     handleCode = (e: any) => {
+      Cookies.set("handleCode", JSON.stringify(e.target.value), { expires: 1 });
       this.setState({ _code: e.target.value })
       this.props.dispatch({
         type: 'createStore/setStore',
@@ -137,6 +159,7 @@ export default connect(({ createStore }: any) => createStore)(
     Checkout = (v: any) => {
       // this.setState({ manage_type : v[0] });
       // this.setState({ value : v });
+      Cookies.set("handleCheckout", JSON.stringify(v), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -148,6 +171,7 @@ export default connect(({ createStore }: any) => createStore)(
 
     /**门牌号 */
     handleHouseNum = (e: any) => {
+      Cookies.set("handleHouseNum", JSON.stringify(e.target.value), { expires: 1 });
       this.setState({ house_num: e.target.value })
       this.props.dispatch({
         type: 'createStore/setStore',
@@ -164,6 +188,8 @@ export default connect(({ createStore }: any) => createStore)(
 
     /**门店图片选择后 */
     Storechange = (files: any) => {
+      localStorage.setItem("Storechange", JSON.stringify(files));
+      // Cookies.set("Storechange", JSON.stringify(files), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -192,6 +218,7 @@ export default connect(({ createStore }: any) => createStore)(
     }
     /**个人照1 */
     Mychange = (files: any) => {
+      localStorage.setItem("Mychange", JSON.stringify(files));
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -220,6 +247,7 @@ export default connect(({ createStore }: any) => createStore)(
     }
     /**个人照2 */
     Mychange2 = (files: any) => {
+      localStorage.setItem("Mychange2", JSON.stringify(files));
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -287,6 +315,7 @@ export default connect(({ createStore }: any) => createStore)(
           }
         })
       } else {
+        console.log(name + "," + address + "," + house_num + "," + phone + "," + manage_type + "," + email + "," + store_door_header_img + "," + store_img_one + "," + store_img_two)
         Toast.fail('请将信息填写完整')
       }
     }
@@ -305,7 +334,9 @@ export default connect(({ createStore }: any) => createStore)(
               <input
                 type="text"
                 placeholder='请输入门店名称'
-                value={this.props.name}
+                value={
+                  Cookies.get("handleName") ? JSON.parse(Cookies.get("handleName")) : this.props.name
+                }
                 onChange={this.handleName}
               />
             </Flex>
@@ -315,7 +346,7 @@ export default connect(({ createStore }: any) => createStore)(
                 type="text"
                 placeholder='请输入门店地址'
                 readOnly={true}
-                value={this.props.address}
+                value={Cookies.get("handleAddress") ? JSON.parse(Cookies.get("handleAddress")) : this.props.address}
               />
               <Icon type='right' />
             </Flex>
@@ -324,7 +355,7 @@ export default connect(({ createStore }: any) => createStore)(
               <input
                 type="text"
                 placeholder='请输入详细门牌号，如：5栋2楼401'
-                value={this.props.house_num}
+                value={Cookies.get("handleHouseNum") ? JSON.parse(Cookies.get("handleHouseNum")) : this.props.house_num}
                 onChange={this.handleHouseNum}
               />
             </Flex>
@@ -333,7 +364,7 @@ export default connect(({ createStore }: any) => createStore)(
               <input
                 type="text"
                 placeholder='请输入手机号、座机（需加区号）'
-                value={this.props.phone}
+                value={Cookies.get("handlePhone") ? JSON.parse(Cookies.get("handlePhone")) : this.props.phone}
                 onChange={this.handlePhone}
               />
             </Flex>
@@ -344,7 +375,7 @@ export default connect(({ createStore }: any) => createStore)(
                 data={this.state.manage_list}
                 cols={1}
                 onOk={this.Checkout}
-                value={this.props.value}
+                value={Cookies.get("handleCheckout") ? JSON.parse(Cookies.get("handleCheckout")) : this.props.value}
               >
                 <List.Item arrow="horizontal">经营品类</List.Item>
               </Picker>
@@ -354,7 +385,7 @@ export default connect(({ createStore }: any) => createStore)(
               <input
                 type="text"
                 placeholder='请输入邮箱'
-                value={this.props.email}
+                value={Cookies.get("handleEmail") ? JSON.parse(Cookies.get("handleEmail")) : this.props.email}
                 onChange={this.handleEmail}
               />
             </Flex>
@@ -363,7 +394,7 @@ export default connect(({ createStore }: any) => createStore)(
               <input
                 type="text"
                 placeholder='请输入二维码序号（非必填）'
-                value={this.props._code}
+                value={Cookies.get("handleCode") ? JSON.parse(Cookies.get("handleCode")) : this.props._code}
                 onChange={this.handleCode}
               />
             </Flex>
@@ -374,7 +405,7 @@ export default connect(({ createStore }: any) => createStore)(
             <Flex className={styles.pushStore}>
               <ImagePicker
                 style={{ width: '100%' }}
-                files={files}
+                files={localStorage.getItem("Storechange") ? JSON.parse(localStorage.getItem("Storechange")) : files}
                 multiple={false}
                 length={1}
                 selectable={files.length < 1}
@@ -386,14 +417,14 @@ export default connect(({ createStore }: any) => createStore)(
             </Flex>
             <Flex className={styles.imgSmall}>
               <ImagePicker
-                files={my_files}
+                files={localStorage.getItem("Mychange") ? JSON.parse(localStorage.getItem("Mychange")) : my_files}
                 multiple={false}
                 length={1}
                 selectable={my_files.length < 1}
                 onChange={this.Mychange}
               />
               <ImagePicker
-                files={my_files2}
+                files={localStorage.getItem("Mychange2") ? JSON.parse(localStorage.getItem("Mychange2")) : my_files2}
                 multiple={false}
                 length={1}
                 selectable={my_files2.length < 1}
