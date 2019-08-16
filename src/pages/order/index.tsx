@@ -23,6 +23,7 @@ export default class OrderPage extends Component {
 		date : undefined           // 模糊查询月份
 	};
 
+
 	undetermined = [
 		{
 			id: 0,
@@ -33,6 +34,16 @@ export default class OrderPage extends Component {
 		{ id: 3, label: '已退款' },
 		{ id: 4, label: '已过期' }
 	];
+	undetermined2 = [
+		{
+			id: 'today',
+			label: '今日',
+			time:'today'
+		},
+		{ id: 'yestoday', label: '昨日', time:'yestoday' },
+		{ id: 'thisweek', label: '本周', time: 'thisweek'},
+		{ id: 'thismonth', label: '本月', time: 'thismonth' }
+	]
 
 	componentDidMount() {
 		this.getData();
@@ -58,10 +69,12 @@ export default class OrderPage extends Component {
 			hasMore : true,
 			list : [],
 			pay_status: query.hot.id,
+			type: query.hot._id,
 			date : query.time ? moment(query.time).unix() : undefined
 		},() => {
 			this.getData({
 				pay_status: query.hot.id,
+				type: query.hot._id,
 				date: query.time ? moment(query.time).unix() : undefined
 			});
 		})
@@ -105,6 +118,7 @@ export default class OrderPage extends Component {
 		return (
 			<FiltrateLayout
 				undetermined={this.undetermined}
+				undetermined2={this.undetermined2}
 				hasInsignificant={true}
 				insignificant={`${this.state.insignificant}笔交易`}
 				onChange={this.handleLayoutChange}

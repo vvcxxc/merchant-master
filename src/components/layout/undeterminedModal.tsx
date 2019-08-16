@@ -33,8 +33,9 @@ interface Item {
 /**条件模态框口 */
 export default function UndeterminedModal({ undetermined, undetermined2, onChange, show, after, onHide }: Props) {
 	// const [selfUndetermined, setSelfUndetermined] = useState([...undetermined]);
-	const [checked, setChecked] = useState();
+	const [checked, setChecked,] = useState();
 	const [_checked, set_Checked] = useState();
+	const { small_box2, small_box } = styles
 	/**点击某个条件时 */
 	const handleClickUndetermined = (index: number, item: Item): any => () => {
 		// const _undetermined = [...selfUndetermined];
@@ -44,7 +45,9 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 	};
 	/**点击某个条件时2*/
 	const handleClickUndetermined2 = (index: number, item: Item): any => () => {
-		set_Checked(item._id);
+		// console.log(item)
+		set_Checked(item.id);
+		// _checkedName = item.
 	};
 	const submit = () => onChange(checked, _checked);
 	const _reset = () => {
@@ -68,15 +71,17 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 	/**渲染条件列表2 */
 	const undeterminedList2 = undetermined2 ? undetermined2.map((_: any, index: any) => (
 		<Flex
-			key={_._id}
+			key={_.id}
 			align="center"
 			justify="center"
 			onClick={handleClickUndetermined2(index, _)}
-			className={_._id === _checked ? 'checked undetermined' : 'undetermined'}
+			className={_.id === _checked ? small_box2 : small_box}
 		>
 			{_.label}
 		</Flex>
 	)) : null;
+
+
 
 	/**备用条件 */
 	const afterContext = after && (
@@ -110,7 +115,8 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 				{
 					undetermined2 ? <WingBlank>
 						<div className="title">交易时间</div>
-						<div className="undetermined-list">{undeterminedList2}</div>
+						{/* <div className="undetermined-list">{undeterminedList2}</div> */}
+						<div style={{ display: 'Flex', justifyContent: 'space-around' }}>{undeterminedList2}</div>
 						{/* {afterContext} */}
 					</WingBlank> : null
 				}
