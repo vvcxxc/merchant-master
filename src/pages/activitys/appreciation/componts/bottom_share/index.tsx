@@ -20,13 +20,13 @@ export default class BottomShare extends Component<Props>{
   }
 
   closeShareData = () => {
-    this.setState({ showShare: true }) // 控制关闭分享组件
-    this.setState({ shareButton: true }) //取消按钮变色
-    setTimeout(() => {
-      this.props.closeShare(false)
-      this.setState({ shareButton: false }) //取消按钮变色
-    }, 100);
-
+    // this.setState({ showShare: true }) // 控制关闭分享组件
+    // this.setState({ shareButton: true }) //取消按钮变色
+    // setTimeout(() => {
+    //   this.props.closeShare(false)
+    //   this.setState({ shareButton: false }) //取消按钮变色
+    // }, 100);
+    alert('操作')
     let userAgent = navigator.userAgent;
     let isIos = userAgent.indexOf('iPhone') > -1;
     let url: any;
@@ -51,6 +51,7 @@ export default class BottomShare extends Component<Props>{
         signature: res.signature,
         jsApiList: ['updateAppMessageShareData','updateTimelineShareData']
       });
+      this.setState({ showShare: true }) // 控制关闭分享组件
       wx.ready(()=>{ 
         wx.updateAppMessageShareData({
           title: '伊哲大逗逼',
