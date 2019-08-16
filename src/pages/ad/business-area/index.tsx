@@ -38,7 +38,7 @@ export default class BusinessArea extends Component {
 	// };
 	handleFormChange = () => this.getDetail();
 	render() {
-		const form = <From editForm={this.state.data} onChange={this.handleFormChange} />;
+		const form = <From editForm={this.state.data} onChange={this.handleFormChange}/>;
 		// const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
 		const expenseCalendar = <ExpenseCalendar adId={this.state.adId} />;
 		const chart = <Chart adId={this.state.adId} />;

@@ -8,16 +8,28 @@ import Chart from './chart';
 import request from '@/services/request';
 import { Toast } from 'antd-mobile';
 
-export default class BusinessArea extends Component<any> {
+import { connect } from 'dva';
+
+export default connect(({ ad }: any) => ad)(
+class BusinessArea extends Component<any> {
 	state = {
 		data: {},
 		// log: {},
 		position: 0,
 		adId: null, // 广告ID
-		romotionType: 1 // 推广ID
+		// romotionType: 1 // 推广ID
 	};
 	componentDidMount() {
+		console.log(this.props)
 		this.getDetail();
+	}
+	componentWillUnmount() {
+		// this.props.dispatch({
+		// 	type : 'ad/resetRomotionType',
+		// 	payload : {
+		// 		romotionType : 1
+		// 	}
+		// })
 	}
 	getDetail = async () => {
 		Toast.loading('');
@@ -35,7 +47,7 @@ export default class BusinessArea extends Component<any> {
 				break;
 		}
 		this.setState({ position });
-		const res = await request({ url: 'v3/ads/by_type', params: { ad_type: 1, position_id: position, romotion_type: this.state.romotionType } });
+		const res = await request({ url: 'v3/ads/by_type', params: { ad_type: 1, position_id: position, romotion_type: this.props.romotionType } });
 		Toast.hide();
 		if (res.code === 200) {
 			if (res.data.length != 0) {
@@ -63,13 +75,21 @@ export default class BusinessArea extends Component<any> {
 
 	handleSuccess = () => this.getDetail();
 
-	handleIndexFromChild = (v: any) => {
-		this.setState({
-			romotionType: v
-		}, () => {
-			this.getDetail()
-		})
+	handleIndexFromChild = async (v: any) => {
+		// this.setState({
+		// 	romotionType: v
+		// }, () => {
+		// 	this.getDetail()
+		// })
 
+		// 异步函数 要执行完 dispatch 请求后再获取详情
+		await this.props.dispatch({
+			type: 'ad/setRomotionType',
+			payload : {
+				romotionType: v
+			}
+		})
+		this.getDetail()
 	}
 
 	render() {
@@ -80,3 +100,4 @@ export default class BusinessArea extends Component<any> {
 		return <AdLayout children={[form, expenseCalendar, chart]} />;
 	}
 }
+)
