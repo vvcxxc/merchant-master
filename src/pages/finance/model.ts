@@ -22,7 +22,7 @@ const model: Model = {
   state: {
     data,
     hasMore : true,
-    page : 1
+    // page : 1
   },
   reducers: {
     setData(state, { payload : data, payload : hasMore }) {
@@ -31,8 +31,16 @@ const model: Model = {
         ...state,
         data : state.data.concat(data.data),
         hasMore : hasMore,
-        page : state.page + 1
+        // page : state.page + 1
       };
+    },
+    removeData(state) {
+      return {
+        ...state,
+        data : [],
+        hasMore : true,
+        // page : 1
+      }
     }
   },
   effects: {
@@ -41,7 +49,10 @@ const model: Model = {
       const res = yield call(request, { url: 'v3/finance/merchant_bill', params: query });
       yield put({ type: 'setData', payload: { data: res.data , hasMore : res.data.length > 0 ? true : false } });
       Toast.hide();
-    }
+    },
+    *clearData({}, { put }) : any {
+      yield put({type : 'removeData'})
+    } 
   }
 };
 

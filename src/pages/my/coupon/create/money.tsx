@@ -12,10 +12,20 @@ interface Props extends MoneyForm {
 export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 	class MoneyForm extends Component<Props> {
 		handleInput = (type: string) => (value: any) => {
+      console.log(value)
 			this.props.dispatch({
 				type: 'createCoupon/setMoney',
 				payload: {
 					[type]: parseInt(value)
+				}
+			});
+    };
+    handleInput2 = (type: string) => (value: any) => {
+      console.log(value)
+			this.props.dispatch({
+				type: 'createCoupon/setMoney',
+				payload: {
+					[type]: value
 				}
 			});
 		};
@@ -46,7 +56,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						type="money"
 						extra="元"
 						value={String(this.props.total_fee || '')}
-						onChange={this.handleInput('total_fee')}
+						onChange={this.handleInput2('total_fee')}
 					>
 						使用门槛
 					</InputItem>
