@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Flex, List, WingBlank, InputItem, Button, Toast, ImagePicker } from 'antd-mobile';
+import { Flex, List, WingBlank, InputItem, Button, Toast, ImagePicker, WhiteSpace, Modal } from 'antd-mobile';
 
 import styles from '../index.less';
 import router from 'umi/router';
@@ -54,7 +54,12 @@ export default connect(({ ad }: any) => ad)(
 			maked: false,
 			id: 0,
 			banner: '',
-			files: [{ path: '' }]
+			files: [{ path: '' }],
+			// 审批意见
+			check_desc: null,
+			// 审批状态 默认为初始化状态
+			ad_status: 0,
+			modal1 : false
 		};
 		UNSAFE_componentWillReceiveProps(nextProps: any) {
 			// 为了防止切换时没数据而保持渲染所以每次切换时先清除数据
@@ -72,7 +77,9 @@ export default connect(({ ad }: any) => ad)(
 				banner: "",
 				startTime: undefined,
 				endTime: undefined,
-				link: ""
+				link: "",
+				check_desc: null,
+				ad_status: 0
 			}, () => {
 				if (nextProps.editForm.id) {
 					this.setState({
@@ -91,7 +98,9 @@ export default connect(({ ad }: any) => ad)(
 						banner: nextProps.editForm.original,
 						startTime: nextProps.editForm.begin_time,
 						endTime: nextProps.editForm.end_time,
-						link: nextProps.editForm.link
+						link: nextProps.editForm.link,
+						check_desc: nextProps.editForm.check_desc,
+						ad_status: nextProps.editForm.ad_status
 					});
 				} else {
 					this.setState({
@@ -102,7 +111,6 @@ export default connect(({ ad }: any) => ad)(
 
 		}
 		componentDidMount = () => {
-			console.log(this.props)
 			this.UNSAFE_componentWillReceiveProps(this.props);
 		}
 		handleToRechange = () => router.push('/my/rechange');
@@ -128,6 +136,7 @@ export default connect(({ ad }: any) => ad)(
 		 * @param isStop 是否是暂停提交操作
 		 */
 		handleSubmit = async (e: any, isStop?: boolean) => {
+			console.log(isStop)
 			if (!this.state.edit || isStop) {
 				if (this.state.formType === 1 && !this.state.coupon.value) {
 					return Toast.info('请选择优惠券');
@@ -242,6 +251,24 @@ export default connect(({ ad }: any) => ad)(
 			}
 		};
 
+		onClose = key => () => {
+			this.setState({
+			  [key]: false,
+			});
+		  }
+
+		handleClick = () => {
+			if (this.state.ad_status == 4) {
+				this.handleCheckDesc()
+			}
+		}
+
+		handleCheckDesc = () => {
+			this.setState({
+				modal1 : true
+			})
+		}
+
 		render() {
 			const time = this.state.startTime
 				? moment.unix(this.state.startTime || 0).format('YYYY.MM.DD') +
@@ -300,6 +327,20 @@ export default connect(({ ad }: any) => ad)(
 						// 钻石展位不展示推广
 						this.props.type != "钻石展位" ? (<SelectAdType value={this.state.formType} onChange={this.handleChangeType} />) : null
 					}
+					{/* 模态框 */}
+					<Modal
+						visible={this.state.modal1}
+						transparent
+						maskClosable={false}
+						onClose={this.onClose('modal1')}
+						title="审核失败原因"
+						footer={[{ text: 'Ok', onPress: () => { console.log('ok');this.onClose('modal1')();  } }]}
+					>
+						<div style={{ height: 200, overflow: 'scroll' }}>
+							{this.state.check_desc}
+						</div>
+					</Modal>
+
 					<WingBlank className={styles.maxheight}>
 						<Flex direction="column" className={styles.maxheight}>
 							<Flex.Item>
@@ -318,12 +359,12 @@ export default connect(({ ad }: any) => ad)(
 										每日预算
 								</InputItem>
 								</List>
-								<Flex justify="end" className={styles.tip}>
+								{/* <Flex justify="end" className={styles.tip}>
 									若余额不足将暂停广告,
 								<span className={styles.link} onClick={this.handleToRechange}>
 										点击充值
 								</span>
-								</Flex>
+								</Flex> */}
 								<div className={styles.adTitle}>广告图</div>
 								{imagePicker}
 								{this.state.edit &&
@@ -334,18 +375,83 @@ export default connect(({ ad }: any) => ad)(
 									//  : this.state.formType == 1?  <img className={styles.banner} src={this.state.banner} /> : null
 								}
 							</Flex.Item>
-							<Flex justify="start">
+							{/* <Flex justify="start">
 								<span className={styles.link} onClick={() => { router.push('/ad/other-page/readme') }}>
 									创建必读
 								</span>
+							</Flex> */}
+							<Flex justify="start">
+								<span className={styles.ad_desc}>
+									广告位介绍
+								</span>
 							</Flex>
-							<Button
-								type="primary"
-								className={!this.state.edit ? styles.submitBtn : styles.stopBtn}
-								onClick={this.handleSubmit}
-							>
-								{!this.state.edit ? '投放' : '暂停'}
-							</Button>
+							<WhiteSpace size="lg" />
+							<Flex justify="center" className={styles.ad_title}>
+								<Button type="warning" inline className={styles.ad_rechange} onClick={this.handleToRechange}>广告充值</Button>
+								<WingBlank />
+								{/* {
+									this.state.ad_status != 1 ? (<Button
+										type="primary"
+										inline
+										// className={!this.state.edit ? styles.submitBtn : styles.stopBtn}
+										className={styles.ad_submit}
+										onClick={this.handleSubmit}
+									>
+										{
+											this.state.ad_status == 0 ? '广告投放'
+												: this.state.ad_status == 1 ? '暂停投放'
+													: this.state.ad_status == 2 ? '暂停投放'
+														: this.state.ad_status == 3 ? '继续投放'
+															: this.state.ad_status == 4 ? '重新提交' : ''
+										}
+									</Button>) : null
+								} */}
+								{
+									this.state.ad_status != 1 ? (<Button
+										type="primary"
+										inline
+										// className={!this.state.edit ? styles.submitBtn : styles.stopBtn}
+										className={styles.ad_submit}
+										onClick={this.handleSubmit}
+									>
+										{
+											this.state.ad_status == 0 ? '广告投放'
+												: this.state.ad_status == 1 ? '暂停投放'
+													: this.state.ad_status == 2 ? '暂停投放'
+														: this.state.ad_status == 3 ? '继续投放'
+															: this.state.ad_status == 4 ? '重新提交' : ''
+										}
+									</Button>) : (<Button
+										type="primary"
+										inline
+										disabled
+										// className={!this.state.edit ? styles.submitBtn : styles.stopBtn}
+										className={styles.ad_submit}
+										onClick={this.handleSubmit}
+									>
+										{
+											this.state.ad_status == 0 ? '广告投放'
+												: this.state.ad_status == 1 ? '暂停投放'
+													: this.state.ad_status == 2 ? '暂停投放'
+														: this.state.ad_status == 3 ? '继续投放'
+															: this.state.ad_status == 4 ? '重新提交' : ''
+										}
+									</Button>)
+								}
+							</Flex>
+							<WhiteSpace size="lg" />
+							<Flex justify="start">
+								<span className={styles.ad_status} onClick={this.handleClick.bind(this)}>
+									广告状态 :
+									{
+										this.state.ad_status == 0 ? ' 暂未投放'
+											: this.state.ad_status == 1 ? ' 审核中'
+												: this.state.ad_status == 2 ? ' 已投放'
+													: this.state.ad_status == 3 ? ' 已暂停'
+														: this.state.ad_status == 4 ? ' 审核失败，查看失败原因' : ''
+									}
+								</span>
+							</Flex>
 						</Flex>
 						<SelectCoupon
 							show={this.state.showSelectCoupon}

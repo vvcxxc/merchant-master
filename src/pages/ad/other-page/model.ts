@@ -5,9 +5,22 @@ const model: Model = {
     namespace: 'ad',
     state : {
         popType : null,
+        romotionType: 1 // 推广ID
     },
     reducers: {
         setType(state,{payload}) {
+            return {
+                ...state,
+                ...payload
+            }
+        },
+        setRomotionType(state,{payload}) {
+            return {
+                ...state,
+                ...payload
+            }
+        },
+        resetRomotionType(state,{payload}) {
             return {
                 ...state,
                 ...payload
