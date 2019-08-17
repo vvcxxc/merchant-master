@@ -18,6 +18,9 @@ interface CreateStore {
     longitude: number,
     latitude: number
   };
+  imgshow1: boolean,
+  imgshow2: boolean,
+  imgshow3: boolean
   map: {
     value: any[];
     city: any[];
@@ -63,6 +66,9 @@ const model: Model = {
       longitude: 113.3348617553711,
       latitude: 23.18288803100586
     },
+    imgshow1: false,
+    imgshow2: false,
+    imgshow3: false,
     map: {
       value: [],
       city: [],
