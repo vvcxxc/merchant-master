@@ -69,9 +69,9 @@ export default connect(({ createStore }: any) => createStore)(
           store_door_header_img: Cookies.get("Storechange") ? JSON.parse(Cookies.get("Storechange")) : "",
           store_img_one: Cookies.get("Mychange") ? JSON.parse(Cookies.get("Mychange")) : "",
           store_img_two: Cookies.get("Mychange2") ? JSON.parse(Cookies.get("Mychange2")) : "",
-          imgshow1: JSON.parse(Cookies.get("Storechange")) != "" ? true : false,
-          imgshow2: JSON.parse(Cookies.get("Mychange")) != "" ? true : false,
-          imgshow3: JSON.parse(Cookies.get("Mychange2")) != "" ? true : false,
+          imgshow1: !Cookies.get("Storechange") ? false : (JSON.parse(Cookies.get("Storechange")) != "" ? true : false),
+          imgshow2: !Cookies.get("Mychange") ? false : (JSON.parse(Cookies.get("Mychange")) != "" ? true : false),
+          imgshow3: !Cookies.get("Mychange2") ? false : (JSON.parse(Cookies.get("Mychange2")) != "" ? true : false),
         }
       })
 
