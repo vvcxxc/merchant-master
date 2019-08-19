@@ -59,7 +59,7 @@ export default connect(({ ad }: any) => ad)(
 			check_desc: null,
 			// 审批状态 默认为初始化状态
 			ad_status: 0,
-			modal1 : false
+			modal1: false
 		};
 		UNSAFE_componentWillReceiveProps(nextProps: any) {
 			// 为了防止切换时没数据而保持渲染所以每次切换时先清除数据
@@ -102,7 +102,7 @@ export default connect(({ ad }: any) => ad)(
 						link: nextProps.editForm.link,
 						check_desc: nextProps.editForm.check_desc,
 						ad_status: nextProps.editForm.ad_status
-					},() => {
+					}, () => {
 						console.log(this.state)
 					});
 				} else {
@@ -226,6 +226,15 @@ export default connect(({ ad }: any) => ad)(
 			this.props.getIndex(type + 1)
 		};
 
+		// componentWillUnmount() {
+		// 	this.props.dispatch({
+		// 		type : 'ad/resetRomotionType',
+		// 		payload : {
+		// 			romotionType : 1
+		// 		}
+		// 	})
+		// }
+
 		handleCloseModal = () => this.setState({ stopModalShow: false });
 
 		handleConfirmModal = async () => {
@@ -256,9 +265,9 @@ export default connect(({ ad }: any) => ad)(
 
 		onClose = key => () => {
 			this.setState({
-			  [key]: false,
+				[key]: false,
 			});
-		  }
+		}
 
 		handleClick = () => {
 			if (this.state.ad_status == 4) {
@@ -268,7 +277,7 @@ export default connect(({ ad }: any) => ad)(
 
 		handleCheckDesc = () => {
 			this.setState({
-				modal1 : true
+				modal1: true
 			})
 		}
 
@@ -337,7 +346,7 @@ export default connect(({ ad }: any) => ad)(
 						maskClosable={false}
 						onClose={this.onClose('modal1')}
 						title="审核失败原因"
-						footer={[{ text: 'Ok', onPress: () => { console.log('ok');this.onClose('modal1')();  } }]}
+						footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose('modal1')(); } }]}
 					>
 						<div style={{ height: 200, overflow: 'scroll' }}>
 							{this.state.check_desc}
@@ -384,7 +393,7 @@ export default connect(({ ad }: any) => ad)(
 								</span>
 							</Flex> */}
 							<Flex justify="start">
-								<span className={styles.ad_desc}>
+								<span className={styles.ad_desc} onClick={() => { router.push('/ad/other-page/readme') }}>
 									广告位介绍
 								</span>
 							</Flex>
