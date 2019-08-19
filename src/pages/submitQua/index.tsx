@@ -334,7 +334,6 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     /**身份证正面照选择 */
     changeIdFront = (files: any) => {
-      localStorage.setItem("_changeIdFront", JSON.stringify(files));
       this.props.dispatch({
         type: 'submitQua/setQua',
         payload: {
@@ -406,7 +405,6 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
     /**身份证反面选择 */
     changeIdBack = (files: any) => {
-      localStorage.setItem("_changeIdBack", JSON.stringify(files));
       this.props.dispatch({
         type: 'submitQua/setQua',
         payload: {
@@ -488,6 +486,7 @@ export default connect(({ submitQua }: any) => submitQua)(
     handleClick = (v: boolean, a, b, c) => {
       if (b == "remove") {
         this.setState({ modal1: false, modal1img: [] })
+        this.refs.picker.fileSelectorInput.removeAttribute('disabled');
       } else {
         this.refs.picker.fileSelectorInput.setAttribute('disabled', true);
         this.setState({ modal1: true })
@@ -502,79 +501,8 @@ export default connect(({ submitQua }: any) => submitQua)(
       });
     }
 
-    /**手持身份证照选择 */
-    changeIdHand = (files: any) => {
-      localStorage.setItem("_changeIdHand", JSON.stringify(files));
-      this.props.dispatch({
-        type: 'submitQua/setQua',
-        payload: {
-          id_hand: files
-        }
-      })
-      if (files[0]) {
-        let img = files[0].url;
-        upload(img).then(res => {
-          let hand_hold_id_img = res.data.path;
-          Cookies.set("_changeIdHand", JSON.stringify(res.data.path), { expires: 1 });
-          this.props.dispatch({
-            type: 'submitQua/setQua',
-            payload: {
-              hand_hold_id_img
-            }
-          })
-          const { legal_id_front_img, legal_id_back_img } = this.state;
-          if (legal_id_back_img && legal_id_front_img && hand_hold_id_img) {
-            Toast.loading('识别中', 0)
-            request({
-              url: 'v3/idcard',
-              method: 'get',
-              params: {
-                idcard_back_img: legal_id_back_img,
-                idcard_front_img: legal_id_front_img
-              }
-            }).then(res => {
-              let { data } = res;
-              let id = data.front.words_result['公民身份号码'].words
-              let name = data.front.words_result['姓名'].words;
-              let date = data.back.words_result['失效日期'].words;
-              if (date != '长期') {
-                date = moment(date).format("YYYY-MM-DD")
-              }
-              if (id && name) {
-                Cookies.set("_handleName", JSON.stringify(name), { expires: 1 });
-                Cookies.set("_legal_id_no", JSON.stringify(id), { expires: 1 });
-                Cookies.set("_date", JSON.stringify(date), { expires: 1 });
-                Toast.hide();
-                this.props.dispatch({
-                  type: 'submitQua/setQua',
-                  payload: {
-                    contact_name: name,
-                    legal_id_no: id,
-                    date
-                  }
-                })
-
-              } else {
-                Toast.fail('识别失败', 1);
-              }
-            }).catch(err => {
-              Toast.fail('识别失败', 1)
-            })
-          }
-        });
-      } else {
-        Cookies.set("_changeIdHand", JSON.stringify(""), { expires: 1 });
-        this.props.dispatch({
-          type: 'submitQua/setQua',
-          payload: {
-            hand_hold_id_img: '',
-          }
-        })
-      }
-    }
     /**银行卡正面选择 */
     changeBankFront = (files: any) => {
-      localStorage.setItem("_changeBankFront", JSON.stringify(files));
       this.props.dispatch({
         type: 'submitQua/setQua',
         payload: {
@@ -639,7 +567,6 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
     /**银行卡反面选择 */
     changeBankBack = (files: any) => {
-      localStorage.setItem("_changeBankBack", JSON.stringify(files));
       this.props.dispatch({
         type: 'submitQua/setQua',
         payload: {
@@ -703,7 +630,6 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
     /**营业执照选择 */
     changeLicense = (files: any) => {
-      localStorage.setItem("_changeLicense", JSON.stringify(files));
       this.props.dispatch({
         type: 'submitQua/setQua',
         payload: {
@@ -891,8 +817,6 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
     selectImg = (files: any) => {
       console.log(files[0]);
-      // console.log(JSON.stringify(files));
-      // Cookies.set("_changeIdHand", JSON.stringify(files[0].url), { expires: 1 });
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -953,10 +877,17 @@ export default connect(({ submitQua }: any) => submitQua)(
           }
         })
       }
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          modal1img: files
+        }
+      })
       this.setState({
         modal1: false,
         modal1img: files
       }, () => {
+        console.log(432)
         this.refs.picker.fileSelectorInput.removeAttribute('disabled');
       })
 
@@ -1009,10 +940,10 @@ export default connect(({ submitQua }: any) => submitQua)(
       ) : (
           //809
           <ImagePicker
-            files={this.state.modal1img}
+            files={this.props.modal1img}
             multiple={false}
             length={1}
-            selectable={this.state.modal1img.length < 1}
+            selectable={this.props.modal1img.length < 1}
             onChange={this.handleClick.bind(this, true)}
             onAddImageClick={this.handleClick.bind(this, true)}
             ref="picker"

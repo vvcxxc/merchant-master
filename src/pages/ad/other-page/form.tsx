@@ -88,7 +88,8 @@ export default connect(({ ad }: any) => ad)(
 							value: nextProps.editForm.coupon_id
 						},
 						price: nextProps.editForm.daily_budget,
-						edit: nextProps.editForm.is_pause === 0,
+						// edit: nextProps.editForm.is_pause === 0,
+						edit: nextProps.editForm.ad_status == 1 || nextProps.editForm.ad_status == 2,
 						formType: nextProps.editForm.romotion_type - 1,
 						maked: true,
 						id: nextProps.editForm.id,
@@ -101,6 +102,8 @@ export default connect(({ ad }: any) => ad)(
 						link: nextProps.editForm.link,
 						check_desc: nextProps.editForm.check_desc,
 						ad_status: nextProps.editForm.ad_status
+					},() => {
+						console.log(this.state)
 					});
 				} else {
 					this.setState({
