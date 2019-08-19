@@ -18,10 +18,11 @@
 	text-align: center;
 	line-height: 42px;
 	margin-right: 20px;
-}
-
-.activeLabel {
-	&:extend(.label);
-	background-color: #e8efff;
-	color: #21418a;
+	&:last-child {
+		margin-right: 0;
+	}
+	&.activeLabel {
+		background-color: #e8efff;
+		color: #21418a;
+	}
 }

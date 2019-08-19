@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Flex, List, WingBlank, InputItem, Button, Toast } from 'antd-mobile';
+import { Flex, List, WingBlank, InputItem, Button, Toast, WhiteSpace, Modal } from 'antd-mobile';
+import { routerRedux, withRouter } from 'dva/router';
 
 import styles from '../index.less';
 import router from 'umi/router';
@@ -38,8 +39,15 @@ export default connect(({ businessArea }: any) => businessArea)(
 			/**是否是修改状态，修改状态下，只能暂停 */
 			edit: false,
 			isOld: false,
-			stopModalShow: false
+			stopModalShow: false,
+			check_desc: null,
+			ad_status: 0,
+			modal1 : false
 		};
+
+		componentDidMount = () => {
+			this.UNSAFE_componentWillReceiveProps(this.props)
+		}
 
 		UNSAFE_componentWillReceiveProps(nextProps: Props) {
 			if (nextProps.editForm.id) {
@@ -52,8 +60,11 @@ export default connect(({ businessArea }: any) => businessArea)(
 					price: nextProps.editForm.daily_budget,
 					startTime: nextProps.editForm.begin_time,
 					endTime: nextProps.editForm.end_time,
-					edit: !nextProps.editForm.is_pause,
-					isOld: true
+					// edit: !nextProps.editForm.is_pause,
+					edit: nextProps.editForm.ad_status == 1 || nextProps.editForm.ad_status == 2,
+					isOld: true,
+					check_desc: nextProps.editForm.check_desc,
+					ad_status: nextProps.editForm.ad_status
 				});
 			}
 			if (nextProps.hasCoupon) {
@@ -66,7 +77,12 @@ export default connect(({ businessArea }: any) => businessArea)(
 		closeModal = () => this.setState({ showSelectCoupon: false, showSelectTime: false });
 		showModal = () => this.setState({ showSelectCoupon: true });
 		handleSelectCoupon = (coupon: any) => this.setState({ coupon }, this.closeModal);
-		handleChangePrice = (price: any) => this.setState({ price });
+		handleChangePrice = (price: any) => {
+			console.log(price);
+			if (price.split(".")[1] == undefined || (price.split(".")[1].length <= 2 && price.split(".")[2] == undefined)) {
+				this.setState({ price })
+			}
+		};
 		handleChangeTime = (time: any) => this.setState({ time });
 		handleShowSelectTime = () => this.setState({ showSelectTime: true });
 		handleSelectTime = (time: any) => this.setState({ ...time }, this.closeModal);
@@ -134,14 +150,45 @@ export default connect(({ businessArea }: any) => businessArea)(
 
 		handleShowStopAd = () => this.setState({ stopModalShow: true });
 
+		onClose = key => () => {
+			this.setState({
+			  [key]: false,
+			});
+		  }
+
+		handleClick = () => {
+			if (this.state.ad_status == 4) {
+				this.handleCheckDesc()
+			}
+		}
+
+		handleCheckDesc = () => {
+			this.setState({
+				modal1: true
+			})
+		}
+
+
 		render() {
 			const time = this.state.startTime
 				? moment.unix(this.state.startTime || 0).format('YYYY.MM.DD') +
-				  '-' +
-				  moment.unix(this.state.endTime || 0).format('YYYY.MM.DD')
+				'-' +
+				moment.unix(this.state.endTime || 0).format('YYYY.MM.DD')
 				: '广告投放时长';
 			return (
 				<WingBlank className={styles.maxheight}>
+					<Modal
+						visible={this.state.modal1}
+						transparent
+						maskClosable={false}
+						onClose={this.onClose('modal1')}
+						title="审核失败原因"
+						footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose('modal1')(); } }]}
+					>
+						<div style={{ height: 200, overflow: 'scroll' }}>
+							{this.state.check_desc}
+						</div>
+					</Modal>
 					<Flex direction="column" className={styles.maxheight}>
 						<Flex.Item>
 							<List>
@@ -160,24 +207,78 @@ export default connect(({ businessArea }: any) => businessArea)(
 									value={this.state.price}
 									type="money"
 									onChange={this.handleChangePrice}
+									clear
 								>
 									每日预算
 								</InputItem>
 							</List>
-							<Flex justify="end" className={styles.tip}>
+							{/* <Flex justify="end" className={styles.tip}>
 								若余额不足将暂停广告,
 								<span className={styles.link} onClick={this.handleToRechange}>
 									点击充值
 								</span>
+							</Flex> */}
+							{/* <Flex justify="start">
+								<span className={styles.link} onClick={() => { router.push('/ad/business-area/mustRead') }}>
+									创建必读
+								</span>
+							</Flex> */}
+							<WhiteSpace size="lg" />
+							<Flex justify="start">
+								<span className={styles.ad_desc} onClick={() => { router.push('/ad/business-area/mustRead') }}>
+									广告位介绍
+								</span>
+							</Flex>
+							<WhiteSpace size="lg" />
+							<Flex justify="center" className={styles.ad_title}>
+								<Button type="warning" inline className={styles.ad_rechange} onClick={this.handleToRechange}>广告充值</Button>
+								<WingBlank />
+								{
+									this.state.ad_status != 1 ? (<Button
+										type="primary"
+										inline
+										className={styles.ad_submit}
+										onClick={this.handleSubmit}
+									>
+										{
+											this.state.ad_status == 0 ? '广告投放'
+												: this.state.ad_status == 1 ? '暂停投放'
+													: this.state.ad_status == 2 ? '暂停投放'
+														: this.state.ad_status == 3 ? '继续投放'
+															: this.state.ad_status == 4 ? '重新提交' : ''
+										}
+									</Button>) : (<Button
+										type="primary"
+										inline
+										disabled
+										className={styles.ad_submit}
+										onClick={this.handleSubmit}
+									>
+										{
+											this.state.ad_status == 0 ? '广告投放'
+												: this.state.ad_status == 1 ? '暂停投放'
+													: this.state.ad_status == 2 ? '暂停投放'
+														: this.state.ad_status == 3 ? '继续投放'
+															: this.state.ad_status == 4 ? '重新提交' : ''
+										}
+									</Button>)
+								}
+							</Flex>
+							<WhiteSpace size="lg" />
+							<Flex justify="start">
+								<span className={styles.ad_status} onClick={this.handleClick.bind(this)}>
+									广告状态 :
+									{
+										this.state.ad_status == 0 ? ' 暂未投放'
+											: this.state.ad_status == 1 ? ' 审核中'
+												: this.state.ad_status == 2 ? ' 已投放'
+													: this.state.ad_status == 3 ? ' 已暂停'
+														: this.state.ad_status == 4 ? ' 审核失败，查看失败原因' : ''
+									}
+								</span>
 							</Flex>
 						</Flex.Item>
-						<Button
-							type="primary"
-							className={!this.state.edit ? styles.submitBtn : styles.stopBtn}
-							onClick={this.handleSubmit}
-						>
-							{!this.state.edit ? '投放' : '暂停'}
-						</Button>
+
 					</Flex>
 					<SelectCoupon
 						show={this.state.showSelectCoupon}
