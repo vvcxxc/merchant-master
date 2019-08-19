@@ -10,6 +10,7 @@ import axios from 'axios';
 import wx from "weixin-js-sdk";
 import { connect } from 'dva';
 import router from 'umi/router';
+import Cookies from 'js-cookie';
 
 export default connect(({createStore}: any) => createStore)(
   class MapPage extends Component<any> {
@@ -238,6 +239,7 @@ export default connect(({createStore}: any) => createStore)(
       let city = this.state.city_name;
       let Address = province + city + address + name;
       // this.props.onChange(location,Address);
+      Cookies.set("handleAddress", JSON.stringify(Address), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {

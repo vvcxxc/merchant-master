@@ -13,7 +13,7 @@ interface Props {
 	insignificant?: any;
 	/**快速筛选条件列表 */
 	undetermined: Undetermined;
-	undetermined2?: any;
+	undetermined2: any;
 	/**备用筛选条件 */
 	after?: After;
 	tabs?: string[];
@@ -55,6 +55,7 @@ export default class FiltrateLayout extends Component<Props> {
 	handleTimeClick = () => this.setState({ timeShow: !this.state.timeShow, hotShow: false });
 
 	hotChange = (id: any, _id: any) => {
+		// console.log(id,_id,'值')
 		//handleQueryChange所有该组件都有用，handleQueryChange2，3只有支付渠道详情使用，因此保证大部分组件可以改变状态，再让支付渠道详情改变
 		this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id } } }, () => {
 			this.handleQueryChange();

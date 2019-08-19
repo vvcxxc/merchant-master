@@ -7,12 +7,12 @@ import styles from './index.less'
 import moment from 'moment';
 import { connect } from 'dva';
 import router from 'umi/router';
-
+import Cookies from 'js-cookie';
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
 
-export default connect(({submitQua}: any) => submitQua)(
+export default connect(({ submitQua }: any) => submitQua)(
   class chooseDate extends Component<any> {
     state = {
       value: now,
@@ -25,21 +25,21 @@ export default connect(({submitQua}: any) => submitQua)(
       type: 1,
     }
 
-    componentDidMount(){
-      let {type, choose_date} = this.props;
-      if(choose_date && choose_date != '无'){
+    componentDidMount() {
+      let { type, choose_date } = this.props;
+      if (choose_date && choose_date != '无') {
         let is_have = choose_date.includes('长')
-        if(is_have){
-          this.setState({is_type1: false, is_type2: true})
-        }else{
+        if (is_have) {
+          this.setState({ is_type1: false, is_type2: true })
+        } else {
           let value = moment(choose_date).toDate();
-          this.setState({value, date: choose_date})
+          this.setState({ value, date: choose_date })
         }
         this.setState({
           type,
           date: choose_date
         });
-      }else{
+      } else {
         this.setState({
           value: now,
           type,
@@ -71,15 +71,17 @@ export default connect(({submitQua}: any) => submitQua)(
     }
     /**点击完成 */
     submit = () => {
-      const {type, date} = this.state;
-      if(type == 1){
+      const { type, date } = this.state;
+      if (type == 1) {
+        Cookies.set("_date", JSON.stringify(date), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
           payload: {
             date
           }
         })
-      }else{
+      } else {
+        Cookies.set("_three_certs_in_one_valid_date", JSON.stringify(date), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
           payload: {
@@ -91,33 +93,33 @@ export default connect(({submitQua}: any) => submitQua)(
     }
 
 
-    render (){
+    render() {
       const { is_type1, is_type2 } = this.state;
       const type1 = is_type1 == true ? (
-        <div><img src={require('./choose.png')}/></div>
+        <div><img src={require('./choose.png')} /></div>
       ) : (
-        <div><img src={require('./no_choose.png')}/></div>
-      );
+          <div><img src={require('./no_choose.png')} /></div>
+        );
       const type2 = is_type2 == true ? (
-        <div><img src={require('./choose.png')}/></div>
+        <div><img src={require('./choose.png')} /></div>
       ) : (
-        <div><img src={require('./no_choose.png')}/></div>
-      );
+          <div><img src={require('./no_choose.png')} /></div>
+        );
       const picker = is_type1 == true ? (
         <div>
-        <Flex className={styles.showtime}>
+          <Flex className={styles.showtime}>
             <div>{this.state.date}</div>
           </Flex>
-        <div className={styles.choose}>
-          <DatePickerView mode='date' onChange={this.changeTime} value={this.state.value} maxDate={new Date(2050,1,1)}/>
-        </div>
+          <div className={styles.choose}>
+            <DatePickerView mode='date' onChange={this.changeTime} value={this.state.value} maxDate={new Date(2050, 1, 1)} />
+          </div>
         </div>
       ) : (
-        ''
-      )
+          ''
+        )
 
       return (
-        <div style={{ width: '100%', height: '100%', background: '#fff',}}>
+        <div style={{ width: '100%', height: '100%', background: '#fff', }}>
           <WingBlank>
             <Flex className={styles.title}>有效期</Flex>
             <Flex className={styles.type}>

@@ -24,7 +24,12 @@ interface SubmitQua {
   corn_bus_name: string;
   legal_name: string;
   three_certs_in_one_valid_date: string;
-
+  is_id_front: boolean,
+  is_id_back: boolean,
+  is_id_hand: boolean,
+  is_bank_front: boolean,
+  is_bank_back: boolean,
+  is_license: boolean,
 }
 
 const model: Model = {
@@ -52,7 +57,13 @@ const model: Model = {
     three_certs_in_one_no: '',
     corn_bus_name: '',
     legal_name: '',
-    three_certs_in_one_valid_date: ''
+    three_certs_in_one_valid_date: '',
+    is_id_front: false,
+    is_id_back: false,
+    is_id_hand: false,
+    is_bank_front: false,
+    is_bank_back: false,
+    is_license: false,
   },
   reducers: {
     setQua(state, { payload }) {
