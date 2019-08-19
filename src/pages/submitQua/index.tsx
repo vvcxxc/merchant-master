@@ -130,91 +130,98 @@ export default connect(({ submitQua }: any) => submitQua)(
           three_certs_in_one_valid_date = '长期'
         }
         let arr = (this.props.contact_name || this.props.legal_id_no || this.props.date || this.props.settle_bank_account_name || this.props.settle_bank_account_no || this.props.settle_bank || this.props.three_certs_in_one_no || this.props.corn_bus_name || this.props.legal_name || this.props.three_certs_in_one_valid_date || this.props.bank_name || this.props.legal_id_front_img || this.props.legal_id_back_img || this.props.hand_hold_id_img || this.props.bank_card_front_img || this.props.bank_card_back_img || this.props.three_certs_in_one_img)
-        if (
-          Array.isArray(arr)
-        ) {
-          this.props.dispatch({
-            type: 'submitQua/setQua',
-            payload: {
-              contact_name: contact_name != "" ? contact_name : (Cookies.get("_handleName") ? JSON.parse(Cookies.get("_handleName")) : ""),
-              legal_id_no: legal_id_no != "" ? legal_id_no : (Cookies.get("_legal_id_no") ? JSON.parse(Cookies.get("_legal_id_no")) : ""),
-              date: legal_id_valid_date != "" ? legal_id_valid_date : (Cookies.get("_date") ? JSON.parse(Cookies.get("_date")) : ""),
-              settle_bank_account_name: settle_bank_account_name != "" ? settle_bank_account_name : (Cookies.get("_handleBankAccountName") ? JSON.parse(Cookies.get("_handleBankAccountName")) : ""),
-              settle_bank_account_no: settle_bank_account_no != "" ? settle_bank_account_no : (Cookies.get("_handleBankNum") ? JSON.parse(Cookies.get("_handleBankNum")) : ""),
-              settle_bank: settle_bank != "" ? settle_bank : (Cookies.get("_handleSettleBank") ? JSON.parse(Cookies.get("_handleSettleBank")) : ""),
-              three_certs_in_one_no: three_certs_in_one_no != "" ? three_certs_in_one_no : (Cookies.get("_handleLicenseNUm") ? JSON.parse(Cookies.get("_handleLicenseNUm")) : ""),
-              corn_bus_name: corn_bus_name != "" ? corn_bus_name : (Cookies.get("_handleLicenseName") ? JSON.parse(Cookies.get("_handleLicenseName")) : ""),
-              legal_name: legal_name != "" ? legal_name : (Cookies.get("_handleLegalName") ? JSON.parse(Cookies.get("_handleLegalName")) : ""),
-              three_certs_in_one_valid_date: three_certs_in_one_valid_date != "" ? three_certs_in_one_valid_date : (Cookies.get("_three_certs_in_one_valid_date") ? JSON.parse(Cookies.get("_three_certs_in_one_valid_date")) : ""),
-              bank_name: bank_name != "" ? bank_name : (Cookies.get("_handleBankName") ? JSON.parse(Cookies.get("_handleBankName")) : ""),
+        // if (
+        //   Array.isArray(arr)
+        // ) {
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            contact_name: contact_name != "" ? contact_name : (Cookies.get("_handleName") ? JSON.parse(Cookies.get("_handleName")) : ""),
+            legal_id_no: legal_id_no != "" ? legal_id_no : (Cookies.get("_legal_id_no") ? JSON.parse(Cookies.get("_legal_id_no")) : ""),
+            date: legal_id_valid_date != "" ? legal_id_valid_date : (Cookies.get("_date") ? JSON.parse(Cookies.get("_date")) : ""),
+            settle_bank_account_name: settle_bank_account_name != "" ? settle_bank_account_name : (Cookies.get("_handleBankAccountName") ? JSON.parse(Cookies.get("_handleBankAccountName")) : ""),
+            settle_bank_account_no: settle_bank_account_no != "" ? settle_bank_account_no : (Cookies.get("_handleBankNum") ? JSON.parse(Cookies.get("_handleBankNum")) : ""),
+            settle_bank: settle_bank != "" ? settle_bank : (Cookies.get("_handleSettleBank") ? JSON.parse(Cookies.get("_handleSettleBank")) : ""),
+            three_certs_in_one_no: three_certs_in_one_no != "" ? three_certs_in_one_no : (Cookies.get("_handleLicenseNUm") ? JSON.parse(Cookies.get("_handleLicenseNUm")) : ""),
+            corn_bus_name: corn_bus_name != "" ? corn_bus_name : (Cookies.get("_handleLicenseName") ? JSON.parse(Cookies.get("_handleLicenseName")) : ""),
+            legal_name: legal_name != "" ? legal_name : (Cookies.get("_handleLegalName") ? JSON.parse(Cookies.get("_handleLegalName")) : ""),
+            three_certs_in_one_valid_date: three_certs_in_one_valid_date != "" ? three_certs_in_one_valid_date : (Cookies.get("_three_certs_in_one_valid_date") ? JSON.parse(Cookies.get("_three_certs_in_one_valid_date")) : ""),
+            bank_name: bank_name != "" ? bank_name : (Cookies.get("_handleBankName") ? JSON.parse(Cookies.get("_handleBankName")) : ""),
 
-              legal_id_front_img: legal_id_front_img != "" ? getCaption(legal_id_front_img) : (Cookies.get("_changeIdFront") ? JSON.parse(Cookies.get("_changeIdFront")) : ""),
-              legal_id_back_img: legal_id_back_img != "" ? getCaption(legal_id_back_img) : (Cookies.get("_changeIdBack") ? JSON.parse(Cookies.get("_changeIdBack")) : ""),
-              hand_hold_id_img: hand_hold_id_img != "" ? getCaption(hand_hold_id_img) : (Cookies.get("_changeIdHand") ? JSON.parse(Cookies.get("_changeIdHand")) : ""),
-              bank_card_front_img: bank_card_front_img != "" ? getCaption(bank_card_front_img) : (Cookies.get("_changeBankFront") ? JSON.parse(Cookies.get("_changeBankFront")) : ""),
-              bank_card_back_img: bank_card_back_img != "" ? getCaption(bank_card_back_img) : (Cookies.get("_changeBankBack") ? JSON.parse(Cookies.get("_changeBankBack")) : ""),
-              three_certs_in_one_img: three_certs_in_one_img != "" ? getCaption(three_certs_in_one_img) : (Cookies.get("_changeLicense") ? JSON.parse(Cookies.get("_changeLicense")) : ""),
+            legal_id_front_img: legal_id_front_img != "" ? getCaption(legal_id_front_img) : (Cookies.get("_changeIdFront") ? JSON.parse(Cookies.get("_changeIdFront")) : ""),
+            legal_id_back_img: legal_id_back_img != "" ? getCaption(legal_id_back_img) : (Cookies.get("_changeIdBack") ? JSON.parse(Cookies.get("_changeIdBack")) : ""),
+            hand_hold_id_img: hand_hold_id_img != "" ? getCaption(hand_hold_id_img) : (Cookies.get("_changeIdHand") ? JSON.parse(Cookies.get("_changeIdHand")) : ""),
+            bank_card_front_img: bank_card_front_img != "" ? getCaption(bank_card_front_img) : (Cookies.get("_changeBankFront") ? JSON.parse(Cookies.get("_changeBankFront")) : ""),
+            bank_card_back_img: bank_card_back_img != "" ? getCaption(bank_card_back_img) : (Cookies.get("_changeBankBack") ? JSON.parse(Cookies.get("_changeBankBack")) : ""),
+            three_certs_in_one_img: three_certs_in_one_img != "" ? getCaption(three_certs_in_one_img) : (Cookies.get("_changeLicense") ? JSON.parse(Cookies.get("_changeLicense")) : ""),
 
-              is_id_front: (legal_id_front_img != "" || Cookies.get("_changeIdFront")) ? true : false,
-              is_id_back: (legal_id_back_img != "" || Cookies.get("_changeIdBack")) ? true : false,
-              is_id_hand: (hand_hold_id_img != "" || Cookies.get("_changeIdHand")) ? true : false,
-              is_bank_front: (bank_card_front_img != "" || Cookies.get("_changeBankFront")) ? true : false,
-              is_bank_back: (legal_id_back_img != "" || Cookies.get("_changeIdBack")) ? true : false,
-              is_license: (three_certs_in_one_img != "" || Cookies.get("_changeLicense")) ? true : false,
-            }
-          })
-          // if (legal_id_front_img) {
-          //   this.props.dispatch({
-          //     type: 'submitQua/setQua',
-          //     payload: {
-          //       is_id_front: true
-          //     }
-          //   })
-          // }
-          // if (legal_id_back_img) {
-          //   this.props.dispatch({
-          //     type: 'submitQua/setQua',
-          //     payload: {
-          //       is_id_back: true
-          //     }
-          //   })
-          // }
-          // if (hand_hold_id_img) {
-          //   this.props.dispatch({
-          //     type: 'submitQua/setQua',
-          //     payload: {
-          //       is_id_hand: true
-          //     }
-          //   })
-          // }
-          // if (bank_card_front_img) {
-          //   this.props.dispatch({
-          //     type: 'submitQua/setQua',
-          //     payload: {
-          //       is_bank_front: true
-          //     }
-          //   })
-          // }
-          // if (bank_card_back_img) {
-          //   this.props.dispatch({
-          //     type: 'submitQua/setQua',
-          //     payload: {
-          //       is_bank_back: true
-          //     }
-          //   })
-          // }
-          // if (three_certs_in_one_img) {
-          //   this.props.dispatch({
-          //     type: 'submitQua/setQua',
-          //     payload: {
-          //       is_license: true
-          //     }
-          //   })
-          // }
-        } else {
-          return
+            is_id_front: (legal_id_front_img != "" || Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) != "") ? true : false,
+            is_id_back: (legal_id_back_img != "" || Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) != "") ? true : false,
+            is_id_hand: (hand_hold_id_img != "" || Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) != "") ? true : false,
+            is_bank_front: (bank_card_front_img != "" || Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) != "") ? true : false,
+            is_bank_back: (legal_id_back_img != "" || Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) != "") ? true : false,
+            is_license: (three_certs_in_one_img != "" || Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) != "") ? true : false,
+            modal1img: [],
+            id_back: [],
+            id_front: [],
+            id_hand: [],
+            bank_front: [],
+            bank_back: [],
+            license_img: []
+          }
+        })
+        // if (legal_id_front_img) {
+        //   this.props.dispatch({
+        //     type: 'submitQua/setQua',
+        //     payload: {
+        //       is_id_front: true
+        //     }
+        //   })
+        // }
+        // if (legal_id_back_img) {
+        //   this.props.dispatch({
+        //     type: 'submitQua/setQua',
+        //     payload: {
+        //       is_id_back: true
+        //     }
+        //   })
+        // }
+        // if (hand_hold_id_img) {
+        //   this.props.dispatch({
+        //     type: 'submitQua/setQua',
+        //     payload: {
+        //       is_id_hand: true
+        //     }
+        //   })
+        // }
+        // if (bank_card_front_img) {
+        //   this.props.dispatch({
+        //     type: 'submitQua/setQua',
+        //     payload: {
+        //       is_bank_front: true
+        //     }
+        //   })
+        // }
+        // if (bank_card_back_img) {
+        //   this.props.dispatch({
+        //     type: 'submitQua/setQua',
+        //     payload: {
+        //       is_bank_back: true
+        //     }
+        //   })
+        // }
+        // if (three_certs_in_one_img) {
+        //   this.props.dispatch({
+        //     type: 'submitQua/setQua',
+        //     payload: {
+        //       is_license: true
+        //     }
+        //   })
+        // }
+        // } else {
+        //   return
 
-        }
+        // }
       })
 
 
@@ -484,7 +491,13 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     handleClick = (v: boolean, a, b, c) => {
       if (b == "remove") {
-        this.setState({ modal1: false, modal1img: [] })
+        this.setState({ modal1: false, modal1img: [] });
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            modal1img: []
+          }
+        })
         this.refs.picker.fileSelectorInput.removeAttribute('disabled');
       } else {
         this.refs.picker.fileSelectorInput.setAttribute('disabled', true);
