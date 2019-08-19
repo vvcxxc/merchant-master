@@ -170,58 +170,6 @@ export default connect(({ submitQua }: any) => submitQua)(
             license_img: []
           }
         })
-        // if (legal_id_front_img) {
-        //   this.props.dispatch({
-        //     type: 'submitQua/setQua',
-        //     payload: {
-        //       is_id_front: true
-        //     }
-        //   })
-        // }
-        // if (legal_id_back_img) {
-        //   this.props.dispatch({
-        //     type: 'submitQua/setQua',
-        //     payload: {
-        //       is_id_back: true
-        //     }
-        //   })
-        // }
-        // if (hand_hold_id_img) {
-        //   this.props.dispatch({
-        //     type: 'submitQua/setQua',
-        //     payload: {
-        //       is_id_hand: true
-        //     }
-        //   })
-        // }
-        // if (bank_card_front_img) {
-        //   this.props.dispatch({
-        //     type: 'submitQua/setQua',
-        //     payload: {
-        //       is_bank_front: true
-        //     }
-        //   })
-        // }
-        // if (bank_card_back_img) {
-        //   this.props.dispatch({
-        //     type: 'submitQua/setQua',
-        //     payload: {
-        //       is_bank_back: true
-        //     }
-        //   })
-        // }
-        // if (three_certs_in_one_img) {
-        //   this.props.dispatch({
-        //     type: 'submitQua/setQua',
-        //     payload: {
-        //       is_license: true
-        //     }
-        //   })
-        // }
-        // } else {
-        //   return
-
-        // }
       })
 
 
