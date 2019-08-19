@@ -8,6 +8,7 @@ interface SubmitQua {
   bank_front: any[];
   bank_back: any[];
   license_img: any[];
+  modal1img: any[];
   legal_id_front_img: string;
   legal_id_back_img: string;
   three_certs_in_one_img: string;
@@ -42,6 +43,7 @@ const model: Model = {
     bank_front: [],
     bank_back: [],
     license_img: [],
+    modal1img: [],
     legal_id_front_img: '',
     legal_id_back_img: '',
     three_certs_in_one_img: '',
