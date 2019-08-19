@@ -225,7 +225,7 @@ export default connect(({ businessArea }: any) => businessArea)(
 							</Flex> */}
 							<WhiteSpace size="lg" />
 							<Flex justify="start">
-								<span className={styles.ad_desc}>
+								<span className={styles.ad_desc} onClick={() => { router.push('/ad/business-area/mustRead') }}>
 									广告位介绍
 								</span>
 							</Flex>
