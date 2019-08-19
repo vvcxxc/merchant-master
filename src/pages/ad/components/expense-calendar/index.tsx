@@ -57,7 +57,7 @@ export default class ExpenseCalendar extends Component<Props> {
 		console.log(this.state.data)
 		const tableItems = this.state.data ? this.state.data.map(_ => (
 			<Flex className={styles.tableItem} key={_.create_time}>
-				<Flex.Item>{moment(_.create_time).format('YYYY-MM-DD')}</Flex.Item>
+				<Flex.Item>{moment.unix(_.create_time).format('YYYY-MM-DD')}</Flex.Item>
 				<span>{_.info}</span>
 				<Flex.Item>{_.money}</Flex.Item>
 			</Flex>
