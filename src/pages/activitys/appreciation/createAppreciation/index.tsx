@@ -2,8 +2,6 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast } from 'antd-mobile';
-import ChooseGift from '../../components/choosegift/';
-import PayMent from '../../components/payment';
 import moment from 'moment'
 import request from '@/services/request'
 import router from 'umi/router';
@@ -12,7 +10,6 @@ import ReactDOM from 'react-dom';
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
-
 export default connect(({ activity }: any) => activity)(
   class createAppreciation extends Component<any> {
     state = {
@@ -22,6 +19,7 @@ export default connect(({ activity }: any) => activity)(
       is_pay: false,
     };
     componentDidMount() {
+
       if (this.props.Appreciation.gift_id) {
         this.setState({ is_gift: true })
       }
@@ -42,6 +40,8 @@ export default connect(({ activity }: any) => activity)(
         })
       }
     }
+
+
 
     /**改变值 */
     handleStartPri = (e: any) => {

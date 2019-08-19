@@ -3,13 +3,10 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast, ImagePicker } from 'antd-mobile';
 import upload from '@/services/oss';
-import Notice from '../../components/notice/';
-import PayMent from '../../components/payment'
 import moment from 'moment'
 import request from '@/services/request'
 import router from 'umi/router';
 import { connect } from 'dva';
-
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
@@ -20,6 +17,7 @@ export default connect(({ activity }: any) => activity)(
       is_gift: false
     };
     componentDidMount() {
+
       if (this.props.Group.gift_id) {
         this.setState({ is_gift: true })
       }
@@ -40,6 +38,7 @@ export default connect(({ activity }: any) => activity)(
         })
       }
     }
+
     startChange = (value: any) => {
       this.props.dispatch({
         type: 'activity/setGroup',
