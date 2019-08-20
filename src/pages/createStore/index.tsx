@@ -278,7 +278,7 @@ export default connect(({ createStore }: any) => createStore)(
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
-          Toast.hide();
+          Toast.hide(); Toast.hide();
           if (res&&res.status == "ok") {
             Toast.success("图片上传成功", 2);
             let store_img_two = res.data.path || '';
