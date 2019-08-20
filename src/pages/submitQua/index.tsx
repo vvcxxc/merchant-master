@@ -340,12 +340,12 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     /**身份证正面照选择 */
     changeIdFront = (files: any) => {
-      this.props.dispatch({
-        type: 'submitQua/setQua',
-        payload: {
-          id_front: files
-        }
-      })
+      // this.props.dispatch({
+      //   type: 'submitQua/setQua',
+      //   payload: {
+      //     id_front: files
+      //   }
+      // })
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -354,6 +354,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
+              id_front: files,
               legal_id_front_img: res.data.path
             }
           })
@@ -411,12 +412,12 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
     /**身份证反面选择 */
     changeIdBack = (files: any) => {
-      this.props.dispatch({
-        type: 'submitQua/setQua',
-        payload: {
-          id_back: files
-        }
-      })
+      // this.props.dispatch({
+      //   type: 'submitQua/setQua',
+      //   payload: {
+      //     id_back: files
+      //   }
+      // })
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -425,6 +426,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
+              id_back: files,
               legal_id_back_img
             }
           })
@@ -515,12 +517,12 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     /**银行卡正面选择 */
     changeBankFront = (files: any) => {
-      this.props.dispatch({
-        type: 'submitQua/setQua',
-        payload: {
-          bank_front: files
-        }
-      })
+      // this.props.dispatch({
+      //   type: 'submitQua/setQua',
+      //   payload: {
+      //     bank_front: files
+      //   }
+      // })
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -529,6 +531,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
+              bank_front: files,
               bank_card_front_img
             }
           })
@@ -579,12 +582,12 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
     /**银行卡反面选择 */
     changeBankBack = (files: any) => {
-      this.props.dispatch({
-        type: 'submitQua/setQua',
-        payload: {
-          bank_back: files
-        }
-      })
+      // this.props.dispatch({
+      //   type: 'submitQua/setQua',
+      //   payload: {
+      //     bank_back: files
+      //   }
+      // })
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -593,6 +596,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
+              bank_back: files,
               bank_card_back_img
             }
           })
@@ -642,12 +646,12 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
     /**营业执照选择 */
     changeLicense = (files: any) => {
-      this.props.dispatch({
-        type: 'submitQua/setQua',
-        payload: {
-          license_img: files
-        }
-      })
+      // this.props.dispatch({
+      //   type: 'submitQua/setQua',
+      //   payload: {
+      //     license_img: files
+      //   }
+      // })
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -656,6 +660,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
+              license_img: files,
               three_certs_in_one_img
             }
           })

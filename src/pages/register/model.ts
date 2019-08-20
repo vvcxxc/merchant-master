@@ -23,15 +23,15 @@ const model: Model = {
     namespace: 'register',
     state: {
         /**账号 */
-        username: '666',
+        username: '',
         /**手机号 */
-        phone: '666',
+        phone: '',
         /**密码 */
-        password: '666',
+        password: '',
         /**验证码 */
-        code: '666',
+        code: '',
         /**邀请人手机号 */
-        inviter_phone: '666',
+        inviter_phone: '',
         /**限制发验证码的次数，每分钟可发一次 */
         is_ok: true,
         wait: '',

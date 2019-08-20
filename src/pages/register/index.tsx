@@ -65,33 +65,70 @@ export default connect(({ register }: any) => register)(
           is_show: false,
           inviter_phone: this.props.location.query.invite_phone
         })
+        this.props.dispatch({
+          type: 'register/registered',
+          payload: {
+            is_show: false,
+            inviter_phone: this.props.location.query.invite_phone
+          }
+        })
       }
     }
     /**设置账号 */
     handleSetUser = (e: any) => {
       this.setState({ username: e.target.value });
+      this.props.dispatch({
+        type: 'register/registered',
+        payload: {
+          username: e.target.value
+        }
+      })
     };
     /**设置手机号 */
     handlePhone = (e: any) => {
       this.setState({ phone: e.target.value });
+      this.props.dispatch({
+        type: 'register/registered',
+        payload: {
+          phone: e.target.value
+        }
+      })
     };
     /**设置密码 */
     handlePassword = (e: any) => {
       this.setState({ password: e.target.value });
+      this.props.dispatch({
+        type: 'register/registered',
+        payload: {
+          password: e.target.value
+        }
+      })
     };
     /**设置验证码 */
     handleCode = (e: any) => {
       this.setState({ code: e.target.value });
+      this.props.dispatch({
+        type: 'register/registered',
+        payload: {
+          code: e.target.value
+        }
+      })
     };
     /**设置邀请人手机号 */
     handleInviter = (e: any) => {
       this.setState({ inviter_phone: e.target.value });
+      this.props.dispatch({
+        type: 'register/registered',
+        payload: {
+          inviter_phone: e.target.value
+        }
+      })
     };
     /**
      * 获取验证码
      */
     getCode = () => {
-      const { phone } = this.state;
+      const { phone } = this.props;
       let wait = 60;
       if (phone) {
         request({
@@ -106,10 +143,23 @@ export default connect(({ register }: any) => register)(
             let timer = setInterval(() => {
               if (wait == 0) {
                 this.setState({ is_ok: true });
+                this.props.dispatch({
+                  type: 'register/registered',
+                  payload: {
+                    is_ok: true
+                  }
+                })
                 clearInterval(timer)
               } else {
                 wait--;
                 this.setState({ is_ok: false, wait });
+                this.props.dispatch({
+                  type: 'register/registered',
+                  payload: {
+                    is_ok: false,
+                    wait
+                  }
+                })
                 clearInterval();
               }
             }, 1000);
@@ -123,7 +173,7 @@ export default connect(({ register }: any) => register)(
      * 注册
      */
     register = () => {
-      const { username, phone, password, code, inviter_phone } = this.state;
+      const { username, phone, password, code, inviter_phone } = this.props;
       if (username && phone && password && code) {
         request({
           url: 'v3/register',
@@ -158,17 +208,17 @@ export default connect(({ register }: any) => register)(
 
     render() {
       const button =
-        this.state.is_ok === true ? (
+        this.props.is_ok === true ? (
           <div className={styles.sendCode} onClick={this.getCode}>发送验证码</div>
         ) : (
-            <div className={styles.doneSend}>{this.state.wait}秒</div>
+            <div className={styles.doneSend}>{this.props.wait}秒</div>
           );
-      const inviter = this.state.is_show == true ? (
+      const inviter = this.props.is_show == true ? (
         <Flex className={styles.inputWrap}>
           <input
             style={{ width: '100%' }}
             placeholder="请输入邀请人手机号（非必填）"
-            value={this.state.inviter_phone}
+            value={this.props.inviter_phone}
             onChange={this.handleInviter}
           />
         </Flex>
@@ -182,7 +232,7 @@ export default connect(({ register }: any) => register)(
               <input
                 style={{ width: '100%' }}
                 placeholder="请输入账号名"
-                value={this.state.username}
+                value={this.props.username}
                 onChange={this.handleSetUser}
               />
             </Flex>
@@ -191,7 +241,7 @@ export default connect(({ register }: any) => register)(
                 style={{ width: '100%' }}
                 placeholder="请输入手机号"
                 type='number'
-                value={this.state.phone}
+                value={this.props.phone}
                 onChange={this.handlePhone}
               />
             </Flex>
@@ -199,7 +249,7 @@ export default connect(({ register }: any) => register)(
               <input
                 style={{ width: '100%' }}
                 placeholder="请输入不少于6位的密码"
-                value={this.state.password}
+                value={this.props.password}
                 onChange={this.handlePassword}
                 type='password'
               />
@@ -208,7 +258,7 @@ export default connect(({ register }: any) => register)(
               <input
                 style={{ width: '100%' }}
                 placeholder="请输入验证码"
-                value={this.state.code}
+                value={this.props.code}
                 onChange={this.handleCode}
               />
               {button}
@@ -220,7 +270,7 @@ export default connect(({ register }: any) => register)(
           </Button>
             </WingBlank>
             <Flex.Item className={styles.footer}>
-              点击“注册”即同意<span style={{ color: '#21418A' }}>《小熊敬礼服务及隐私条款》</span>
+              点击“注册”即同意<span style={{ color: '#21418A' }}  onClick={()=>{router.push('/login/register/agreement')}}>《小熊敬礼服务及隐私条款》</span>
             </Flex.Item>
           </WingBlank>
         </div>
