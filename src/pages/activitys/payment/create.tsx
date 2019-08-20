@@ -78,11 +78,11 @@ export default class CreatePaymentReturn extends Component {
 		let rules: any = {};
 		/**http://ci.tdianyi.com/eolinker/#/home/project/inside/api/detail?groupID=62&childGroupID=77&apiID=354&projectName=v3%E5%95%86%E6%88%B7%E5%90%8E%E5%8F%B0&projectID=33 */
 		this.state.rules.forEach((_: any, index) => {
-			rules['return_coupon_need_amount' + (index + 1)] = _.money;
-			rules['available_day' + (index + 1)] = _.day;
-			rules['coupon_money' + (index + 1)] = _.returnMoney;
-			rules['total_num' + (index + 1)] = _.num;
-			rules['total_fee' + (index + 1)] = _.limit;
+			rules['return_coupon_need_amount' + (index + 1)] = _.money*1;
+			rules['available_day' + (index + 1)] = _.day*1;
+			rules['coupon_money' + (index + 1)] = _.returnMoney*1;
+			rules['total_num' + (index + 1)] = _.num*1;
+			rules['total_fee' + (index + 1)] = _.limit*1;
 		});
 		const res = await request({
 			url: 'v3/return_coupons',

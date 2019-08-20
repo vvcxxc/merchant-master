@@ -5,7 +5,7 @@ import request from '@/services/request';
 import router from 'umi/router';
 import upload from '@/services/oss';
 import { connect } from 'dva';
-
+import Cookies from 'js-cookie';
 
 export default connect(({ createStore }: any) => createStore)(
   class CreateStore extends Component<any> {
@@ -48,10 +48,33 @@ export default connect(({ createStore }: any) => createStore)(
       location: {
         longitude: 0,
         latitude: 0
-      }
+      },
+      imgshow1: false,
+      imgshow2: false,
+      imgshow3: false
     };
 
     componentDidMount() {
+      this.props.dispatch({
+        type: 'createStore/setStore',
+        payload: {
+          name: Cookies.get("handleName") ? JSON.parse(Cookies.get("handleName")) : "",
+          address: Cookies.get("handleAddress") ? JSON.parse(Cookies.get("handleAddress")) : "",
+          house_num: Cookies.get("handleHouseNum") ? JSON.parse(Cookies.get("handleHouseNum")) : "",
+          phone: Cookies.get("handlePhone") ? JSON.parse(Cookies.get("handlePhone")) : "",
+          manage_type: Cookies.get("handleCheckout") ? JSON.parse(Cookies.get("handleCheckout"))[0] : "",
+          value: Cookies.get("handleCheckout") ? JSON.parse(Cookies.get("handleCheckout")) : [],
+          email: Cookies.get("handleEmail") ? JSON.parse(Cookies.get("handleEmail")) : "",
+          _code: Cookies.get("handleCode") ? JSON.parse(Cookies.get("handleCode")) : "",
+          store_door_header_img: Cookies.get("Storechange") ? JSON.parse(Cookies.get("Storechange")) : "",
+          store_img_one: Cookies.get("Mychange") ? JSON.parse(Cookies.get("Mychange")) : "",
+          store_img_two: Cookies.get("Mychange2") ? JSON.parse(Cookies.get("Mychange2")) : "",
+          imgshow1: !Cookies.get("Storechange") ? false : (JSON.parse(Cookies.get("Storechange")) != "" ? true : false),
+          imgshow2: !Cookies.get("Mychange") ? false : (JSON.parse(Cookies.get("Mychange")) != "" ? true : false),
+          imgshow3: !Cookies.get("Mychange2") ? false : (JSON.parse(Cookies.get("Mychange2")) != "" ? true : false),
+        }
+      })
+
 
       /**获取经营品类 */
       request({
@@ -88,7 +111,8 @@ export default connect(({ createStore }: any) => createStore)(
 
     /**设置门店名 */
     handleName = (e: any) => {
-      // this.setState({name : e.target.value})
+      Cookies.set("handleName", JSON.stringify(e.target.value), { expires: 1 });
+      // console.log(Cookies.get("storeinfo"));
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -98,6 +122,7 @@ export default connect(({ createStore }: any) => createStore)(
     };
     /**设置门店电话 */
     handlePhone = (e: any) => {
+      Cookies.set("handlePhone", JSON.stringify(e.target.value), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -110,12 +135,13 @@ export default connect(({ createStore }: any) => createStore)(
       if (e.target.value.includes(" ")) {
         e.target.value = e.target.value.replace(/ /g, "")
       }
-      if(e.target.value.includes("＠")) {
+      if (e.target.value.includes("＠")) {
         e.target.value = e.target.value.replace(/＠/g, "@")
       }
-      this.setState({ email: e.target.value },() => {
+      this.setState({ email: e.target.value }, () => {
         console.log(this.state.email)
       })
+      Cookies.set("handleEmail", JSON.stringify(e.target.value), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -125,6 +151,7 @@ export default connect(({ createStore }: any) => createStore)(
     };
 
     handleCode = (e: any) => {
+      Cookies.set("handleCode", JSON.stringify(e.target.value), { expires: 1 });
       this.setState({ _code: e.target.value })
       this.props.dispatch({
         type: 'createStore/setStore',
@@ -137,6 +164,7 @@ export default connect(({ createStore }: any) => createStore)(
     Checkout = (v: any) => {
       // this.setState({ manage_type : v[0] });
       // this.setState({ value : v });
+      Cookies.set("handleCheckout", JSON.stringify(v), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -148,6 +176,7 @@ export default connect(({ createStore }: any) => createStore)(
 
     /**门牌号 */
     handleHouseNum = (e: any) => {
+      Cookies.set("handleHouseNum", JSON.stringify(e.target.value), { expires: 1 });
       this.setState({ house_num: e.target.value })
       this.props.dispatch({
         type: 'createStore/setStore',
@@ -164,88 +193,155 @@ export default connect(({ createStore }: any) => createStore)(
 
     /**门店图片选择后 */
     Storechange = (files: any) => {
-      this.props.dispatch({
-        type: 'createStore/setStore',
-        payload: {
-          files
-        }
-      })
+      Toast.loading('');
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
-          let store_door_header_img = res.data.path || '';
-          this.props.dispatch({
-            type: 'createStore/setStore',
-            payload: {
-              store_door_header_img
-            }
-          })
+          Toast.hide();
+          console.log(res);
+          if (res&&res.status == "ok") {
+            Toast.success("图片上传成功", 2);
+            let store_door_header_img = res.data.path || '';
+            Cookies.set("Storechange", JSON.stringify(store_door_header_img), { expires: 1 });
+            this.props.dispatch({
+              type: 'createStore/setStore',
+              payload: {
+                store_door_header_img,
+                files
+              }
+            })
+          } else {
+            Toast.fail('图片上传失败', 2);
+          }
         })
       } else {
+        Toast.hide();
+        Cookies.set("Storechange", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'createStore/setStore',
           payload: {
-            store_door_header_img: ''
+            store_door_header_img: '',
+            files
           }
-        })
+        });
       }
     }
     /**个人照1 */
     Mychange = (files: any) => {
-      this.props.dispatch({
-        type: 'createStore/setStore',
-        payload: {
-          my_files: files
-        }
-      })
+      // this.props.dispatch({
+      //   type: 'createStore/setStore',
+      //   payload: {
+      //     my_files: files
+      //   }
+      // })
+      Toast.loading('');
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
-          let store_img_one = res.data.path || '';
-          this.props.dispatch({
-            type: 'createStore/setStore',
-            payload: {
-              store_img_one
-            }
-          })
+          Toast.hide();
+          if (res&&res.status == "ok") {
+            Toast.success("图片上传成功", 2);
+            let store_img_one = res.data.path || '';
+            Cookies.set("Mychange", JSON.stringify(store_img_one), { expires: 1 });
+            this.props.dispatch({
+              type: 'createStore/setStore',
+              payload: {
+                store_img_one,
+                my_files: files
+              }
+            })
+          } else {
+            Toast.fail('图片上传失败', 2);
+          }
         })
       } else {
+        Toast.hide();
+        Cookies.set("Mychange", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'createStore/setStore',
           payload: {
-            store_img_one: ''
+            store_img_one: '',
+            my_files: files
           }
-        })
+        });
       }
     }
     /**个人照2 */
     Mychange2 = (files: any) => {
-      this.props.dispatch({
-        type: 'createStore/setStore',
-        payload: {
-          my_files2: files
-        }
-      })
+      // this.props.dispatch({
+      //   type: 'createStore/setStore',
+      //   payload: {
+      //     my_files2: files
+      //   }
+      // })
+      Toast.loading('');
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
-          let store_img_two = res.data.path || '';
-          this.props.dispatch({
-            type: 'createStore/setStore',
-            payload: {
-              store_img_two
-            }
-          })
+          Toast.hide(); Toast.hide();
+          if (res&&res.status == "ok") {
+            Toast.success("图片上传成功", 2);
+            let store_img_two = res.data.path || '';
+            Cookies.set("Mychange2", JSON.stringify(store_img_two), { expires: 1 });
+            this.props.dispatch({
+              type: 'createStore/setStore',
+              payload: {
+                store_img_two,
+                my_files2: files
+              }
+            })
+          } else {
+            Toast.fail('图片上传失败', 2);
+          }
         })
       } else {
+        Toast.hide();
+        Cookies.set("Mychange2", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'createStore/setStore',
           payload: {
-            store_img_two: ''
+            store_img_two: '',
+            my_files2: files
           }
-        })
+        });
       }
     }
+
+    closeStoreimgk = () => {
+      Cookies.set("Storechange", JSON.stringify(""), { expires: 1 });
+      this.props.dispatch({
+        type: 'createStore/setStore',
+        payload: {
+          imgshow1: false,
+          store_door_header_img: ''
+        }
+      })
+    }
+    closePerimg1 = () => {
+      Cookies.set("Mychange", JSON.stringify(""), { expires: 1 });
+      this.props.dispatch({
+        type: 'createStore/setStore',
+        payload: {
+          imgshow2: false,
+          store_img_one: ''
+        }
+      })
+    }
+    closePerimg2 = () => {
+      Cookies.set("Mychange2", JSON.stringify(""), { expires: 1 });
+      this.props.dispatch({
+        type: 'createStore/setStore',
+        payload: {
+          imgshow3: false,
+          store_img_two: ''
+        }
+      })
+    }
+
+
+
+
+
 
 
     /**打开地图 */
@@ -274,7 +370,6 @@ export default connect(({ createStore }: any) => createStore)(
             ypoint: location.latitude,
             email,
             code_id: _code
-            //接口好了后把_code替换为正式的字段名
           }
         }).then(res => {
           let { code, data } = res;
@@ -287,6 +382,7 @@ export default connect(({ createStore }: any) => createStore)(
           }
         })
       } else {
+        console.log(name + "," + address + "," + house_num + "," + phone + "," + manage_type + "," + email + "," + store_door_header_img + "," + store_img_one + "," + store_img_two)
         Toast.fail('请将信息填写完整')
       }
     }
@@ -372,33 +468,53 @@ export default connect(({ createStore }: any) => createStore)(
               <div className={styles.example} onClick={this.toExample}>查看示例</div>
             </Flex>
             <Flex className={styles.pushStore}>
-              <ImagePicker
-                style={{ width: '100%' }}
-                files={files}
-                multiple={false}
-                length={1}
-                selectable={files.length < 1}
-                onChange={this.Storechange}
-              />
+              {
+                this.props.imgshow1 == true ? (
+                  <div className={styles.doorimg}><img src={"http://oss.tdianyi.com/" + this.props.store_door_header_img} /><div className={styles.close} onClick={this.closeStoreimgk}>{''}</div></div>
+                ) : (
+                    <ImagePicker
+                      style={{ width: '100%' }}
+                      files={files}
+                      multiple={false}
+                      length={1}
+                      selectable={files.length < 1}
+                      onChange={this.Storechange}
+                    />
+
+                  )
+              }
             </Flex>
             <Flex className={styles.imgWrap}>
               <div className={styles.imgTitle}>上传环境照</div>
             </Flex>
             <Flex className={styles.imgSmall}>
-              <ImagePicker
-                files={my_files}
-                multiple={false}
-                length={1}
-                selectable={my_files.length < 1}
-                onChange={this.Mychange}
-              />
-              <ImagePicker
-                files={my_files2}
-                multiple={false}
-                length={1}
-                selectable={my_files2.length < 1}
-                onChange={this.Mychange2}
-              />
+              {
+                this.props.imgshow2 == true ? (
+                  <div className={styles.warpimg1} ><img src={"http://oss.tdianyi.com/" + this.props.store_img_one} /><div className={styles.close} onClick={this.closePerimg1}>{''}</div></div>
+                ) : (
+                    <ImagePicker
+                      files={my_files}
+                      multiple={false}
+                      length={1}
+                      selectable={my_files.length < 1}
+                      onChange={this.Mychange}
+                    />
+                  )
+              }
+              {
+                this.props.imgshow3 == true ? (
+                  <div className={styles.warpimg1} onClick={() => { }}><img src={"http://oss.tdianyi.com/" + this.props.store_img_two} /><div className={styles.close} onClick={this.closePerimg2}>{''}</div></div>
+                ) : (
+                    <ImagePicker
+                      files={my_files2}
+                      multiple={false}
+                      length={1}
+                      selectable={my_files2.length < 1}
+                      onChange={this.Mychange2}
+                    />
+                  )
+              }
+
             </Flex>
             <Button type="primary" style={{ marginTop: 60, paddingBottom: 60 }} onClick={this.createStore}>
               确认创建

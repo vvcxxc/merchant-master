@@ -3,7 +3,7 @@ import styles from './index.less';
 import { Flex, WingBlank, Steps, Toast, Button } from 'antd-mobile';
 import request from '@/services/request';
 import router from 'umi/router';
-
+import Cookie from 'js-cookie'
 const Step = Steps.Step;
 export default class Review extends Component {
   state = {
@@ -128,6 +128,13 @@ export default class Review extends Component {
     }
   }
 
+  // 退出登录
+  out = () => {
+    router.push('login');
+    Cookie.remove;
+    localStorage.clear()
+  }
+
 
   render (){
     const {qua_status, store_status, status, reason, store_reason, qua_reason } = this.state;
@@ -155,6 +162,9 @@ export default class Review extends Component {
             </Steps>
           </Flex>
           {button}
+          <p className={styles.out} onClick={this.out}>
+            退出登录，切换店铺>
+          </p>
         </WingBlank>
       </div>
     )

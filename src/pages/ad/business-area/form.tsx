@@ -60,7 +60,8 @@ export default connect(({ businessArea }: any) => businessArea)(
 					price: nextProps.editForm.daily_budget,
 					startTime: nextProps.editForm.begin_time,
 					endTime: nextProps.editForm.end_time,
-					edit: !nextProps.editForm.is_pause,
+					// edit: !nextProps.editForm.is_pause,
+					edit: nextProps.editForm.ad_status == 1 || nextProps.editForm.ad_status == 2,
 					isOld: true,
 					check_desc: nextProps.editForm.check_desc,
 					ad_status: nextProps.editForm.ad_status
@@ -224,7 +225,7 @@ export default connect(({ businessArea }: any) => businessArea)(
 							</Flex> */}
 							<WhiteSpace size="lg" />
 							<Flex justify="start">
-								<span className={styles.ad_desc}>
+								<span className={styles.ad_desc} onClick={() => { router.push('/ad/business-area/mustRead') }}>
 									广告位介绍
 								</span>
 							</Flex>

@@ -191,19 +191,19 @@ export default connect(({ activity }: any) => activity)(
           url: 'api/merchant/youhui/addYouhuiAppreciation',
           method: 'post',
           data: {
-            total_num,
-            pay_money,
-            validity,
-            init_money: start_price,
-            return_money: end_price,
-            activity_begin_time,
-            activity_end_tine,
-            total_fee,
+            total_num:total_num*1,
+            pay_money:pay_money*1,
+            validity:validity*1,
+            init_money: start_price*1,
+            return_money: end_price*1,
+            activity_begin_time:Number(activity_begin_time),
+            activity_end_tine:Number(activity_end_tine),
+            total_fee:total_fee*1,
             gift_id,
             mail_mode,
             gift_pic,
             gift_name,
-            appreciation_number_sum
+            appreciation_number_sum:appreciation_number_sum*1
           }
         });
         let { data, message } = res;
