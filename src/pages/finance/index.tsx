@@ -60,7 +60,7 @@ export default connect(({ finance }: any) => finance)(
           type: 'finance/getData',
           query: {
             page: this.state.page,
-            finance_type: query.hot,
+            finance_type: query.hot.id,
             date: query.time ? moment(query.time).unix() : undefined,
             moneyscope_micro: this.state.min,
             moneyscope_maximum: this.state.max
