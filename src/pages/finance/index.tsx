@@ -49,7 +49,7 @@ export default connect(({ finance }: any) => finance)(
       console.log(query)
       this.setState({
         page: 1,
-        finance_type: query.hot.id,
+        finance_type: query.hot,
         date: query.time ? moment(query.time).unix() : undefined,
       }, () => {
         // 清除数据流里的数据
