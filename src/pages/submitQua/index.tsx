@@ -404,6 +404,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           }
         });
       } else {
+        Toast.hide();
         Cookies.set("_changeIdFront", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
@@ -436,7 +437,7 @@ export default connect(({ submitQua }: any) => submitQua)(
               legal_id_back_img
             }
           })
-          const { legal_id_front_img, hand_hold_id_img } = this.state;
+          const { legal_id_front_img, hand_hold_id_img } = this.props;
           if (legal_id_back_img && legal_id_front_img && hand_hold_id_img) {
             Toast.loading('识别中', 0)
             request({
@@ -479,6 +480,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           }
         });
       } else {
+        Toast.hide();
         Cookies.set("_changeIdBack", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
@@ -530,9 +532,12 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     bank_front: files
       //   }
       // })
+      Toast.loading('');
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
+          Toast.hide();
+          console.log("1111")
           let bank_card_front_img = res.data.path;
           Cookies.set("_changeBankFront", JSON.stringify(res.data.path), { expires: 1 });
           this.props.dispatch({
@@ -542,8 +547,9 @@ export default connect(({ submitQua }: any) => submitQua)(
               bank_card_front_img
             }
           })
-          const { bank_card_back_img } = this.state;
+          const { bank_card_back_img } = this.props;
           if (bank_card_back_img && bank_card_front_img) {
+            console.log("2222")
             Toast.loading('识别中', 0)
             request({
               url: 'v3/bankcard',
@@ -552,10 +558,10 @@ export default connect(({ submitQua }: any) => submitQua)(
                 bank_card_front_img
               }
             }).then(res => {
-
+              console.log("3333")
+              console.log(res);
               let { data, code } = res;
               if (code == 200) {
-
                 let str = data.bank_card_number;
                 str = str.replace(/\s*/g, "");
                 Toast.hide();
@@ -578,6 +584,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
         });
       } else {
+        Toast.hide();
         Cookies.set("_changeBankFront", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
@@ -596,9 +603,11 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     bank_back: files
       //   }
       // })
+      Toast.loading('');
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
+          Toast.hide();
           let bank_card_back_img = res.data.path;
           Cookies.set("_changeBankBack", JSON.stringify(res.data.path), { expires: 1 });
           this.props.dispatch({
@@ -608,7 +617,7 @@ export default connect(({ submitQua }: any) => submitQua)(
               bank_card_back_img
             }
           })
-          const { bank_card_front_img } = this.state;
+          const { bank_card_front_img } = this.props;
           if (bank_card_back_img && bank_card_front_img) {
             Toast.loading('识别中', 0)
             request({
@@ -643,6 +652,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           }
         });
       } else {
+        Toast.hide();
         Cookies.set("_changeBankBack", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
@@ -859,7 +869,7 @@ export default connect(({ submitQua }: any) => submitQua)(
               modal1img: files
             }
           })
-          const { legal_id_front_img, legal_id_back_img } = this.state;
+          const { legal_id_front_img, legal_id_back_img } = this.props;
           if (legal_id_back_img && legal_id_front_img && hand_hold_id_img) {
             Toast.loading('识别中', 0)
             request({
@@ -1095,6 +1105,11 @@ export default connect(({ submitQua }: any) => submitQua)(
                 <InputItem placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum}>银行卡号</InputItem>
                 <InputItem placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank}>开户行</InputItem>
                 <InputItem placeholder='请输入支行' value={this.props.bank_name} onChange={this.handleBankName}>支行</InputItem>
+                {/* <div style={{width:"100%",height:"1px",position:"relative"}}>
+                  <div style={{width:"100%",height:"400px",background:"rgb(0,0,0,.5)",position:"absolute",zIndex:4,top:"0px"}}>
+
+                  </div>
+                </div> */}
               </List>
               <Flex className={styles.bank_title}>
                 <div className={styles.sfz_left}>营业执照</div>
