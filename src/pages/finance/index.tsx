@@ -49,7 +49,7 @@ export default connect(({ finance }: any) => finance)(
       console.log(query)
       this.setState({
         page: 1,
-        finance_type: query.hot,
+        finance_type: query.hot.id,
         date: query.time ? moment(query.time).unix() : undefined,
       }, () => {
         // 清除数据流里的数据
@@ -84,7 +84,7 @@ export default connect(({ finance }: any) => finance)(
           this.props.dispatch({
             type: 'finance/getData', query: {
               page: this.state.page,
-              finance_type: this.state.finance_type,
+              finance_type: this.state.finance_type.id,
               date: this.state.date,
               moneyscope_micro: this.state.min,
               moneyscope_maximum: this.state.max
