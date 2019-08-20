@@ -157,9 +157,29 @@ export default connect(({ activity }: any) => activity)(
       // 日期验证
       let startDate = new Date(start_date).getTime();
       let endDate = new Date(end_date).getTime();
+
+      //起始结束日期效验
       if (startDate > endDate) {
-        Toast.fail('起始日期应大于结束日期', 2);
+        Toast.fail('结束日期应大于起始日期');
         return;
+      }
+      if (startDate === endDate) {
+        Toast.fail('活动时间不能同一天');
+        return;
+      }
+
+      //起始封顶值效验
+      if (end_price <= start_price) {
+        Toast.fail('封顶值应大于起始值');
+        return;
+      }
+
+      // 对数量的效验
+      if (total_num) {
+        if (total_num.substr(0, 1) < 1) {
+          Toast.fail('数量首位不能为0');
+          return 
+        }
       }
 
       let activity_begin_time = moment(start_date).format('X');
@@ -213,6 +233,7 @@ export default connect(({ activity }: any) => activity)(
     }
 
     handleCheckAppreciationNumber(v: any) {
+      // console.log(v,'v')
       //console.log(this.refs.appreciationNumber)
       //console.log(ReactDOM.findDOMNode(this.refs.appreciationNumber))
       // console.log(document.getElementsByClassName('fake-input'))
@@ -262,9 +283,8 @@ export default connect(({ activity }: any) => activity)(
           ''
         );
 
-
-
       const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, display, start_date, end_date } = this.props.Appreciation
+      
       return (
         <div style={{ width: '100%', height: 'auto', minHeight: '100%', background: '#fff' }}>
           <div style={{ display }}>

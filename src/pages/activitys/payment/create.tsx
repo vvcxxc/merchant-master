@@ -1,7 +1,7 @@
 /**title: 支付返券 */
 import React, { Component } from 'react';
 import styles from './create.less';
-import { WingBlank, List, Flex, Button, DatePicker, Toast } from 'antd-mobile';
+import { WingBlank, List, Flex, Button, DatePicker, Toast, InputItem, } from 'antd-mobile';
 import PaymentReturnRules from './rules';
 import moment from 'moment';
 import request from '@/services/request';
@@ -30,7 +30,50 @@ export default class CreatePaymentReturn extends Component {
 		this.setState({ [type]: moment(value).format('YYYY-MM-DD') });
 	};
 
+	//用来对数据做限制
+	limitData=(v:any)=>{
+		if(v){
+			if(v.substr(0,1) === '.' || Number(v)<=0) return false
+			return true
+		}
+	}
+
 	handleSubmit = async () => {
+		const { startDate, endDate } = this.state
+		let rulesData :any = this.state.rules[0]
+		let start_date = new Date(startDate).getTime();
+		let end_date = new Date(endDate).getTime();
+
+		if (end_date <= start_date ) { //效验结束时间必须大于开始时间
+			Toast.fail('结束日期应大于起始日期');
+			return;
+		}
+
+		if(!this.limitData(rulesData.money)){
+				Toast.fail('返券需大于0元');
+			return;
+		}
+
+		if(!this.limitData(rulesData.returnMoney)){
+				Toast.fail('面额需大于0元');
+			return;
+		}
+		
+		if(rulesData.limit){
+			if(rulesData.limit.substr(0,1) === '.' || Number(rulesData.limit)<0){
+				Toast.fail('使用门槛不能低于0元');
+				return
+			}
+		}else {
+			Toast.fail('使用门槛不能低于0元');
+				return
+		}
+		
+		if(!this.limitData(rulesData.num)){
+			Toast.fail('库存数量需大于0');
+			return;
+		}
+
 		Toast.loading('');
 		let rules: any = {};
 		/**http://ci.tdianyi.com/eolinker/#/home/project/inside/api/detail?groupID=62&childGroupID=77&apiID=354&projectName=v3%E5%95%86%E6%88%B7%E5%90%8E%E5%8F%B0&projectID=33 */
@@ -68,7 +111,7 @@ export default class CreatePaymentReturn extends Component {
 	};
 	render() {
 		const rules = this.state.rules.map((_, index) => (
-			<div>
+			<div key={' '}>
 				<PaymentReturnRules item={_} index={index} key={index} onChange={this.handleRuleChange} />
 				{index !== this.state.rules.length - 1 && <div className="line" />}
 			</div>

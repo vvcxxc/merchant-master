@@ -27,7 +27,7 @@ export default class BottomShare extends Component<Props>{
     //   this.props.closeShare(false)
     //   this.setState({ shareButton: false }) //取消按钮变色
     // }, 100);
-    alert('操作')
+    // alert('操作')
     let userAgent = navigator.userAgent;
     let isIos = userAgent.indexOf('iPhone') > -1;
     let url: any;
@@ -45,7 +45,7 @@ export default class BottomShare extends Component<Props>{
     }).then(res => {
       let _this = this;
       wx.config({
-        debug: true,
+        debug: false,
         appId: res.appId,
         timestamp: res.timestamp,
         nonceStr: res.nonceStr,
