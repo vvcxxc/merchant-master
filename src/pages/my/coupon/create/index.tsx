@@ -30,23 +30,17 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 		handleSubmit = async () => {
 			console.log(this.state.type)
 			if (this.state.type === 0) {
-				if (!this.props.couponForm.coupons_name || !this.props.couponForm.return_money || !this.props.couponForm.total_num || !this.props.couponForm.validity || !this.props.couponForm.description||
-					!this.props.couponForm.image || !this.props.couponForm.image_url||!this.props.couponForm.temp_url1||!this.props.couponForm.temp_url2){
-						Toast.loading('');
-					}
+				if (!this.props.couponForm.coupons_name || !this.props.couponForm.return_money || !this.props.couponForm.total_num || !this.props.couponForm.validity || !this.props.couponForm.description ||
+					!this.props.couponForm.image || !this.props.couponForm.image_url || !this.props.couponForm.temp_url1 || !this.props.couponForm.temp_url2) {
+						Toast.fail('信息未填完整', 2);
+						return;
+				}
 			} else {
-				"return_money:" + this.props.moneyForm.return_money + "  " +
-					"coupons_type:" + this.props.moneyForm.coupons_type + "  " +
-					"total_fee: " + this.props.moneyForm.total_fee + "  " +
-					"validity:" + this.props.moneyForm.validity + "  " +
-					"total_num:" + this.props.moneyForm.total_num + "  " +
-					"is_ad:" + this.props.location.query.isAd + "  " +
-					"pay_money:" + this.props.moneyForm.pay_money
+				if (!this.props.couponForm.total_fee || !this.props.couponForm.return_money || !this.props.couponForm.total_num || !this.props.couponForm.validity  ) {
+					Toast.fail('信息未填完整', 2);
+					return;
+				}
 			}
-
-
-
-
 			Toast.loading('');
 			const res = this.state.type === 0 ? await this.postCoupon() : await this.postMoney();
 			Toast.hide();
