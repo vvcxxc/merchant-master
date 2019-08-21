@@ -82,6 +82,13 @@ export default class BottomShare extends Component<Props>{
           success: function () {
             alert('成功了')
             //点击分享后 出现遮挡层 然后把
+            //有个问题  怎么知道用户已经操作转化了
+          },
+          complete:function () {//接口调用完后执行
+            alert('接口吊完了')
+          },
+          trigger:function () {
+            alert('接口触发了')
           }
         })
       })
