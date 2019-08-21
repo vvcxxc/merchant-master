@@ -2,7 +2,7 @@
 //  * 提交资质
 //  */
 import React, { Component } from 'react';
-import { WingBlank, Flex, ImagePicker, List, InputItem, Icon, Toast, Modal } from 'antd-mobile';
+import { WingBlank, Flex, ImagePicker, List, InputItem, Icon, Toast, Modal, ListView } from 'antd-mobile';
 import router from 'umi/router';
 import upload from '@/services/oss';
 import request from '@/services/request';
@@ -22,6 +22,13 @@ function closest(el, selector) {
     el = el.parentElement;
   }
   return null;
+}
+
+// window.addEventListener('touchmove',function () {
+//   console.log(document.body.scrollHeight)
+// })
+window.onscroll = function () {
+  console.log('aa')
 }
 
 export default connect(({ submitQua }: any) => submitQua)(
@@ -95,8 +102,16 @@ export default connect(({ submitQua }: any) => submitQua)(
 
       flag: true, // 条件判断是否阻止默认行为
       modal1: false,
-      modal1img: []
+      modal1img: [],
+      bankList: [
+        "广东省广州市花都区新华街道商业大道24号建设银行",
+        "广东省广州市越秀区广卫路15-1号中国建设银行",
+        "广东省广州市白云区鹤龙一路983号广东通信科技大厦南塔1层"
+      ],
+      bankShow: false
     };
+
+
 
     componentDidMount() {
       //console.log("")
@@ -224,14 +239,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
         // }
       })
-
-
-
-
     }
-
-
-
     /**查看身份证示例 */
     toIdCardExample = () => {
       router.push('/submitQua/example/idcard')
@@ -244,8 +252,6 @@ export default connect(({ submitQua }: any) => submitQua)(
     toLicenseExample = () => {
       router.push('/submitQua/example/license')
     }
-
-
     /**姓名输入 */
     handleName = (e: any) => {
       Cookies.set("_handleName", JSON.stringify(e), { expires: 1 });
@@ -298,6 +304,8 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
     /**支行 */
     handleBankName = (e: any) => {
+      //这里发起请求setstate({bankList})，不用嵌套
+      this.setState({ bankShow: true });
       Cookies.set("_handleBankName", JSON.stringify(e), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
@@ -336,9 +344,6 @@ export default connect(({ submitQua }: any) => submitQua)(
         }
       })
     }
-
-
-
     /**身份证正面照选择 */
     changeIdFront = (files: any) => {
       // this.props.dispatch({
@@ -372,7 +377,6 @@ export default connect(({ submitQua }: any) => submitQua)(
                 idcard_front_img: legal_id_front_img
               }
             }).then(res => {
-
               let { data } = res;
               let id = data.front.words_result['公民身份号码'].words
               let name = data.front.words_result['姓名'].words;
@@ -448,7 +452,6 @@ export default connect(({ submitQua }: any) => submitQua)(
                 idcard_front_img: legal_id_front_img
               }
             }).then(res => {
-
               let { data } = res;
               let id = data.front.words_result['公民身份号码'].words
               let name = data.front.words_result['姓名'].words;
@@ -469,8 +472,6 @@ export default connect(({ submitQua }: any) => submitQua)(
                     date
                   }
                 })
-
-
               } else {
                 Toast.fail('识别失败', 1);
               }
@@ -491,7 +492,6 @@ export default connect(({ submitQua }: any) => submitQua)(
         })
       }
     }
-
     handlePress = () => {
       this.setState({
         modal1: false
@@ -537,7 +537,6 @@ export default connect(({ submitQua }: any) => submitQua)(
         let img = files[0].url;
         upload(img).then(res => {
           Toast.hide();
-          console.log("1111")
           let bank_card_front_img = res.data.path;
           Cookies.set("_changeBankFront", JSON.stringify(res.data.path), { expires: 1 });
           this.props.dispatch({
@@ -549,7 +548,6 @@ export default connect(({ submitQua }: any) => submitQua)(
           })
           const { bank_card_back_img } = this.props;
           if (bank_card_back_img && bank_card_front_img) {
-            console.log("2222")
             Toast.loading('识别中', 0)
             request({
               url: 'v3/bankcard',
@@ -558,7 +556,6 @@ export default connect(({ submitQua }: any) => submitQua)(
                 bank_card_front_img
               }
             }).then(res => {
-              console.log("3333")
               console.log(res);
               let { data, code } = res;
               if (code == 200) {
@@ -574,17 +571,33 @@ export default connect(({ submitQua }: any) => submitQua)(
                     settle_bank: data.bank_name
                   }
                 })
+                this.refs.bank1.inputRef.inputRef.removeAttribute('disabled');
+                this.refs.bank2.inputRef.inputRef.removeAttribute('disabled');
+                this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+                this.refs.bank4.inputRef.inputRef.removeAttribute('disabled');
               } else {
-                Toast.fail('识别失败', 1);
+                Toast.fail('银行卡识别失败，请重新上传。', 2);
+                this.refs.bank1.inputRef.inputRef.setAttribute('disabled', true);
+                this.refs.bank2.inputRef.inputRef.setAttribute('disabled', true);
+                this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                this.refs.bank4.inputRef.inputRef.setAttribute('disabled', true);
               }
             }).catch(err => {
-              Toast.fail('识别失败', 1)
+              Toast.fail('银行卡识别失败，请重新上传。', 2);
+              this.refs.bank1.inputRef.inputRef.setAttribute('disabled', true);
+              this.refs.bank2.inputRef.inputRef.setAttribute('disabled', true);
+              this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+              this.refs.bank4.inputRef.inputRef.setAttribute('disabled', true);
             })
           }
 
         });
       } else {
         Toast.hide();
+        this.refs.bank1.inputRef.inputRef.removeAttribute('disabled');
+        this.refs.bank2.inputRef.inputRef.removeAttribute('disabled');
+        this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+        this.refs.bank4.inputRef.inputRef.removeAttribute('disabled');
         Cookies.set("_changeBankFront", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
@@ -642,17 +655,32 @@ export default connect(({ submitQua }: any) => submitQua)(
                     settle_bank: data.bank_name
                   }
                 })
-
+                this.refs.bank1.inputRef.inputRef.removeAttribute('disabled');
+                this.refs.bank2.inputRef.inputRef.removeAttribute('disabled');
+                this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+                this.refs.bank4.inputRef.inputRef.removeAttribute('disabled');
               } else {
-                Toast.fail('识别失败', 1);
+                Toast.fail('银行卡识别失败，请重新上传。', 1);
+                this.refs.bank1.inputRef.inputRef.setAttribute('disabled', true);
+                this.refs.bank2.inputRef.inputRef.setAttribute('disabled', true);
+                this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                this.refs.bank4.inputRef.inputRef.setAttribute('disabled', true);
               }
             }).catch(err => {
-              Toast.fail('识别失败', 1)
+              Toast.fail('银行卡识别失败，请重新上传。', 1);
+              this.refs.bank1.inputRef.inputRef.setAttribute('disabled', true);
+              this.refs.bank2.inputRef.inputRef.setAttribute('disabled', true);
+              this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+              this.refs.bank4.inputRef.inputRef.setAttribute('disabled', true);
             })
           }
         });
       } else {
         Toast.hide();
+        // this.refs.bank1.inputRef.inputRef.removeAttribute('disabled');
+        // this.refs.bank2.inputRef.inputRef.removeAttribute('disabled');
+        // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+        // this.refs.bank4.inputRef.inputRef.removeAttribute('disabled');
         Cookies.set("_changeBankBack", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
@@ -810,6 +838,10 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     /**保存或者提交 */
     submit = (type: number) => () => {
+      if (this.state.bankShow) {
+        Toast.fail('未选择支行', 1);
+        return
+      }
       const { legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.props;
       let data = {
         legal_id_back_img,
@@ -1035,7 +1067,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
       return (
-        <div style={{ width: '100%', height: 'auto', background: '#fff' }} className={styles.submitQua}>
+        <div style={{ width: '100%', height: 'auto', background: '#fff' }} id="box0" className={styles.submitQua}>
           <div>
             <WingBlank>
               <Flex className={styles.sfz_title}>
@@ -1098,16 +1130,33 @@ export default connect(({ submitQua }: any) => submitQua)(
               <Flex className={styles.bank_img}>
                 {bankFront}
                 {bankBack}
-
               </Flex>
+              <div className={styles.bank_toast}>温馨提示：1.请上传清晰的图片，银行卡号不可遮蔽。2.暂不支持部分银行卡。</div>
               <List>
-                <InputItem placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name}>开户人</InputItem>
-                <InputItem placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum}>银行卡号</InputItem>
-                <InputItem placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank}>开户行</InputItem>
-                <InputItem placeholder='请输入支行' value={this.props.bank_name} onChange={this.handleBankName}>支行</InputItem>
-                {/* <div style={{width:"100%",height:"1px",position:"relative"}}>
-                  <div style={{width:"100%",height:"400px",background:"rgb(0,0,0,.5)",position:"absolute",zIndex:4,top:"0px"}}>
-
+                <InputItem ref="bank1" placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name}>开户人</InputItem>
+                <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum}>银行卡号</InputItem>
+                <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank}>开户行</InputItem>
+                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName}>支行</InputItem>
+                {/* <div style={{ width: "100%", height: "1px", position: "relative", display: this.state.bankShow ? "block" : "none" }}>
+                  <div style={{ width: "100%", height: "auto", background: "#fff", border: "1px solid #000", position: "absolute", zIndex: 4, top: "0px", padding: "48px", boxSizing: "border-box", color: "#000" }}>
+                    <ul style={{ display: "flex", flexDirection: "column", padding: "0", margin: "0", listStyle: "none" }}>
+                      {
+                        this.state.bankList.map((item, index) => {
+                          return (
+                            <li key={item}  style={{ borderBottom: "1px #000 solid", width: "100%", height: "auto", lineHeight: "60px",padding:"20px 0" }} onClick={(e) => {
+                              this.setState({ bankShow: false })
+                              Cookies.set("_handleBankName", JSON.stringify(e.target.innerText), { expires: 1 });
+                              this.props.dispatch({
+                                type: 'submitQua/setQua',
+                                payload: {
+                                  bank_name: e.target.innerText
+                                }
+                              })
+                            }} style={{ borderBottom: "1px #000 solid", width: "100%", height: "auto", lineHeight: "80px" }}>{item}</li>
+                          )
+                        })
+                      }
+                    </ul>
                   </div>
                 </div> */}
               </List>
