@@ -42,7 +42,7 @@ export default connect(({ businessArea }: any) => businessArea)(
 			stopModalShow: false,
 			check_desc: null,
 			ad_status: 0,
-			modal1 : false
+			modal1: false
 		};
 
 		componentDidMount = () => {
@@ -152,9 +152,9 @@ export default connect(({ businessArea }: any) => businessArea)(
 
 		onClose = key => () => {
 			this.setState({
-			  [key]: false,
+				[key]: false,
 			});
-		  }
+		}
 
 		handleClick = () => {
 			if (this.state.ad_status == 4) {
@@ -225,6 +225,7 @@ export default connect(({ businessArea }: any) => businessArea)(
 							</Flex> */}
 							<WhiteSpace size="lg" />
 							<Flex justify="start">
+								<img src={require('@/assets/ad/ad_intro.png')} alt="" style={{ marginRight: '15px' }} className={styles.ad_intro} />
 								<span className={styles.ad_desc} onClick={() => { router.push('/ad/business-area/mustRead') }}>
 									广告位介绍
 								</span>

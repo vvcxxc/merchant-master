@@ -6,7 +6,7 @@ import router from 'umi/router';
 import SelectCoupon from '../components/select-coupon';
 import request from '@/services/request';
 import SelectTime from '../components/select-time';
-import moment from 'moment';
+import moment, { localeData } from 'moment';
 import SelectAdType from '../components/selectType';
 import StopAd from '../components/stop';
 import SelectActivity from '../components/select-activity';
@@ -226,14 +226,14 @@ export default connect(({ ad }: any) => ad)(
 			this.props.getIndex(type + 1)
 		};
 
-		// componentWillUnmount() {
-		// 	this.props.dispatch({
-		// 		type : 'ad/resetRomotionType',
-		// 		payload : {
-		// 			romotionType : 1
-		// 		}
-		// 	})
-		// }
+		componentWillUnmount() {
+			// this.props.dispatch({
+			// 	type: 'ad/resetRomotionType',
+			// 	payload: {
+			// 		romotionType: 1
+			// 	}
+			// })
+		}
 
 		handleCloseModal = () => this.setState({ stopModalShow: false });
 
@@ -393,6 +393,7 @@ export default connect(({ ad }: any) => ad)(
 								</span>
 							</Flex> */}
 							<Flex justify="start">
+								<img src={require('@/assets/ad/ad_intro.png')} alt="" style={{marginRight: '15px'}} className={styles.ad_intro}/>
 								<span className={styles.ad_desc} onClick={() => { router.push('/ad/other-page/readme') }}>
 									广告位介绍
 								</span>

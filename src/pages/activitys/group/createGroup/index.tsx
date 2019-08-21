@@ -1,4 +1,4 @@
-/**title: 添加拼团活动 */
+/**title: 添加社区拼团 */
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast, ImagePicker } from 'antd-mobile';

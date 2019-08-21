@@ -59,7 +59,8 @@ class BusinessArea extends Component<any> {
 			else {
 				// 为了防止美数据的情况下还把原本的数据带过去子组件
 				this.setState({
-					data : {}
+					data : {},
+					adId: null
 				})
 			}	
 			// this.setLog();

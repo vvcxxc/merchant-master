@@ -1,4 +1,4 @@
-/**title: 添加增值活动 */
+/**title: 添加好友增值 */
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast } from 'antd-mobile';
@@ -162,6 +162,12 @@ export default connect(({ activity }: any) => activity)(
         return;
       }
 
+      if(appreciation_number_sum < 2 || appreciation_number_sum > 18) {
+        Toast.fail('助力人数应在2至18之间', 2);
+        return;
+      }
+
+
       let activity_begin_time = moment(start_date).format('X');
       let activity_end_tine = moment(end_date).format('X');
       if (start_price && end_price && appreciation_number_sum && validity && pay_money && total_num && total_fee && start_date && end_date && mail_mode) {
@@ -212,22 +218,15 @@ export default connect(({ activity }: any) => activity)(
 
     }
 
-    handleCheckAppreciationNumber(v: any) {
-      //console.log(this.refs.appreciationNumber)
-      //console.log(ReactDOM.findDOMNode(this.refs.appreciationNumber))
-      // console.log(document.getElementsByClassName('fake-input'))
-      let DomArr = document.getElementsByClassName('fake-input');
-      v = Number(v);
-      if (v < 2 || v > 18) {
-        for (var i = 0; i < DomArr.length; i++) {
-          DomArr[i].classList.remove('focus')
-        }
-        Toast.fail('助力人数应在2至18之间', 2, () => {
-          // this.refs.appreciationNumber.clearInput();
-          this.refs.appreciationNumber.focus();
-        });
-      }
-    }
+    // handleCheckAppreciationNumber(v: any) {
+    //   v = Number(v);
+    //   if (v < 2 || v > 18) {
+    //     Toast.fail('助力人数应在2至18之间', 2, () => {
+    //       this.refs.appreciationNumber.clearInput();
+    //       this.refs.appreciationNumber.focus(); 
+    //     });
+    //   }
+    // }
 
     render() {
       const chooseMail = this.props.Appreciation.mail_mode == '1' ? (
@@ -299,7 +298,7 @@ export default connect(({ activity }: any) => activity)(
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handleEndPri} value={end_price} placeholder='请输入 ' extra='元' clear>
                   封顶值
               </InputItem>
-                <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人' ref="appreciationNumber" onVirtualKeyboardConfirm={this.handleCheckAppreciationNumber.bind(this)} onBlur={this.handleCheckAppreciationNumber.bind(this)} clear>
+                <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人' ref="appreciationNumber" clear>
                   助力人数
               </InputItem>
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handlePayMoney} value={pay_money} placeholder='请输入 ' extra='元' clear>
