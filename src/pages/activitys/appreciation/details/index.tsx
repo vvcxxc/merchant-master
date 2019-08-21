@@ -213,6 +213,7 @@ export default class GroupDetails extends Component {
         closeShare={this.closeShare}
         showShare={this.state.showShare}
         showPoster={this.showPoster}
+        type={{id: this.props.location.query.id,name:'增值'}}
       >{null}
       </BottomShare>)
     return (
