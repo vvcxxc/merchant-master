@@ -4,9 +4,10 @@ import request from '@/services/request';
 import wx from "weixin-js-sdk";
 
 interface Props {
-  showPoster: (show: boolean) => any;
-  closeShare: (close: boolean) => any;
+  showPoster: (show: boolean) => void;
+  closeShare: (close: boolean) => void;
   showShare: boolean;
+  type?:Object
  }
 
 export default class BottomShare extends Component<Props>{
@@ -20,14 +21,31 @@ export default class BottomShare extends Component<Props>{
     
   }
 
+  // 点击取消
   closeShareData = () => {
-    // this.setState({ showShare: true }) // 控制关闭分享组件
-    // this.setState({ shareButton: true }) //取消按钮变色
-    // setTimeout(() => {
-    //   this.props.closeShare(false)
-    //   this.setState({ shareButton: false }) //取消按钮变色
-    // }, 100);
-    // alert('操作')
+    this.setState({ showShare: true }) // 控制关闭分享组件
+    this.setState({ shareButton: true }) //取消按钮变色
+    setTimeout(() => {
+      this.props.closeShare(false)
+      this.setState({ shareButton: false }) //取消按钮变色
+    }, 100);
+  }
+
+  // 点击生成海报
+  showPosterData = () => {
+    this.props.showPoster(true)
+  }
+
+  //点击分享
+  shareData = () => {
+    let code :any = this.props.type
+    let meta: any = {
+      ['增值']: code.id
+    }
+
+    this.setState({ showShare: true }) // 控制关闭分享组件
+    this.props.closeShare(false)
+
     let userAgent = navigator.userAgent;
     let isIos = userAgent.indexOf('iPhone') > -1;
     let url: any;
@@ -50,28 +68,21 @@ export default class BottomShare extends Component<Props>{
         timestamp: res.timestamp,
         nonceStr: res.nonceStr,
         signature: res.signature,
-        jsApiList: ['updateAppMessageShareData','updateTimelineShareData']
+        jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData']
       });
       this.setState({ showShare: true }) // 控制关闭分享组件
-      wx.ready(()=>{ 
+      wx.ready(() => {
         wx.updateAppMessageShareData({
           title: '伊哲大逗逼',
-          link: '没有链接',
+          link: 'http://test.mall.tdianyi.com/#/pages/business/index?id='+meta[code.name],//这个id从哪里来
           imgUrl: '../../icon.png',
-          success:function () {
+          success: function () {
             alert('成功了')
           }
         })
       })
-    });
-
-  // }
+    })
   }
-
-  showPosterData = () => {
-    this.props.showPoster(true)
-  }
-
   
 
   render() {
@@ -79,7 +90,7 @@ export default class BottomShare extends Component<Props>{
       <div style={{ display: this.props.showShare ? '':'none'}} className={styles.keep_out}>
         <div className={styles.share_box}>
           <div className={styles.box}>
-            <div className={styles.all_center} onClick={this.closeShareData}>
+            <div className={styles.all_center} onClick={this.shareData}>
               <img src={require('../../../../../assets/share.png')} alt="" />
               <div className={styles.text_center}>分享</div>
             </div>
