@@ -31,8 +31,8 @@ export default class CouponCard extends Component<Props> {
 				{/* <ProgressBar title="库存" value={0} label={this.props.total_num + '张'} />
 				<ProgressBar title="已领" value={0} label={this.props.user_count - this.props.total_num + '张'} />
 				<ProgressBar title="已使用" value={0} label={this.props.use_sum + '张'} /> */}
-				<ProgressBar title="库存" value={(this.props.user_count - this.props.use_sum - this.props.total_num)/ this.props.user_count * 100} label={this.props.user_count - this.props.use_sum - this.props.total_num + '张'} />
-				<ProgressBar title="已领" value={this.props.total_num / this.props.user_count * 100} label={this.props.total_num + '张'} />
+			<ProgressBar title="库存" value={this.props.total_num / this.props.user_count * 100} label={this.props.total_num + '张'} />
+				<ProgressBar title="已领" value={(this.props.user_count - this.props.total_num) / this.props.user_count * 100} label={(this.props.user_count - this.props.total_num) + '张'} />
 				<ProgressBar title="已使用" value={this.props.use_sum / this.props.user_count * 100} label={this.props.use_sum + '张'} />
 			</div>
 		);
