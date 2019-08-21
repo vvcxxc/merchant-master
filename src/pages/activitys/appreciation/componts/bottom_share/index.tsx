@@ -41,14 +41,11 @@ export default class BottomShare extends Component<Props>{
   shareData = () => {
     // 点击分享的时候 遮挡层不能消失 只消失分享 海报 取消部分
     this.setState({ showBottom: false })
-    
     let code :any = this.props.type
     let meta: any = {
       ['增值']: code.id
     }
-
-    // this.setState({ showShare: true }) // 控制关闭分享组件
-    // this.props.closeShare(false)
+    
     let userAgent = navigator.userAgent;
     let isIos = userAgent.indexOf('iPhone') > -1;
     let url: any;
@@ -73,34 +70,34 @@ export default class BottomShare extends Component<Props>{
         signature: res.signature,
         jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData']
       });
-      // this.setState({ showShare: true }) // 控制关闭分享组件
-      wx.ready(() => {
+      wx.ready(() => {//需要后台提供文字，多个id 图片
         wx.updateAppMessageShareData({
           title: '伊哲要上天',
-          link: 'http://test.mall.tdianyi.com/#/pages/business/index?id='+meta[code.name],//这个id从哪里来
+          link: 'http://test.mall.tdianyi.com/#/pages/activity/pages/detail/detail?id=3561&type=1&activity_id=1521&gift_id=0',
           imgUrl: '../../icon.png',
           success: function () {
-            alert('成功了')
-            //点击分享后 出现遮挡层 然后把
-            //有个问题  怎么知道用户已经操作转化了
-          },
-          complete:function () {//接口调用完后执行
-            alert('接口吊完了')
-          },
-          trigger:function () {
-            alert('接口触发了')
+           //成功后触发
           }
         })
       })
     })
+  }
+
+  //给一个全局点击的事件
+  keep_outOnclick = () => {
+    //如果是分享的遮挡层 用户点击遮挡层的时候，遮挡层消失
+    if (!this.state.showBottom) {
+      this.props.closeShare(false)
+      this.setState({ showBottom:true})
+    }
   }
   
   
 
   render() {
     return (
-      <div style={{ display: this.props.showShare ? '' : 'none' }} className={styles.keep_out}>
-        <img className={styles.keep_out_img} src={require('../../../../../assets/jiantou.png')}></img>
+      <div style={{ display: this.props.showShare ? '' : 'none' }} className={styles.keep_out} onClick={this.keep_outOnclick.bind(this)}>
+        <img style={{display:!this.state.showBottom? '':'none'}} className={styles.keep_out_img} src={require('../../../../../assets/jiantou.png')}></img>
         <div className={styles.share_box} style={{ display: this.state.showBottom ? '' : 'none' }}>
           <div className={styles.box}>
             <div className={styles.all_center} onClick={this.shareData}>
