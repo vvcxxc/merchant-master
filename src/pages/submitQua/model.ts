@@ -66,6 +66,8 @@ const model: Model = {
     is_bank_front: false,
     is_bank_back: false,
     is_license: false,
+    date_back:false,
+    bank_disable:false
   },
   reducers: {
     setQua(state, { payload }) {

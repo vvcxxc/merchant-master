@@ -28,7 +28,7 @@ export default connect(({ finance }: any) => finance)(
       min: undefined,
       max: undefined,
 
-      finance_type: '',
+      finance_type: undefined,
       date: undefined
     };
 
@@ -46,7 +46,12 @@ export default connect(({ finance }: any) => finance)(
 
 
     handleChange = (query: any) => {
-      console.log(query)
+      //金额范围通过attr整段代码传到组件，因此组件里after.context.props.children[0].props.children[1].props.value（after.context.props.children[2].props.children[1].props.value）不能直接修改min和max
+      //一开始hot.id和hot._id为underfind，重置后为""，以此判断重置
+      if(query.hot.id==""&&query.hot._id==""&&query.time==""){
+        console.log("重置")
+        this.setState({ min: "",max:"",finance_type:undefined,date:undefined})
+      }
       this.setState({
         page: 1,
         finance_type: query.hot,
@@ -66,6 +71,7 @@ export default connect(({ finance }: any) => finance)(
             moneyscope_maximum: this.state.max
           }
         });
+
       })
     };
 
@@ -123,7 +129,6 @@ export default connect(({ finance }: any) => finance)(
           </Flex>
         )
       };
-
       /**页面数据列表 */
       const financeList = this.props.data.length ? (
         this.props.data.map(_ => (
