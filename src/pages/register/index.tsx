@@ -107,6 +107,8 @@ export default class Register extends Component {
               clearInterval();
             }
           }, 1000);
+        }else{
+          Toast.fail(res.data)
         }
       });
     }else{
