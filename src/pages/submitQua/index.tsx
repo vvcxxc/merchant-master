@@ -305,7 +305,12 @@ export default connect(({ submitQua }: any) => submitQua)(
     /**支行 */
     handleBankName = (e: any) => {
       //这里发起请求setstate({bankList})，不用嵌套
-      this.setState({ bankShow: true });
+      if (e == '' || e == undefined) {
+        this.setState({ bankShow: false });
+      } else {
+        this.setState({ bankShow: true });
+      }
+
       Cookies.set("_handleBankName", JSON.stringify(e), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
@@ -570,34 +575,22 @@ export default connect(({ submitQua }: any) => submitQua)(
                     settle_bank_account_no: str,
                     settle_bank: data.bank_name
                   }
-                })
-                this.refs.bank1.inputRef.inputRef.removeAttribute('disabled');
-                this.refs.bank2.inputRef.inputRef.removeAttribute('disabled');
-                this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
-                this.refs.bank4.inputRef.inputRef.removeAttribute('disabled');
+                });
+                this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
-                this.refs.bank1.inputRef.inputRef.setAttribute('disabled', true);
-                this.refs.bank2.inputRef.inputRef.setAttribute('disabled', true);
-                this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-                this.refs.bank4.inputRef.inputRef.setAttribute('disabled', true);
+                this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
               }
             }).catch(err => {
               Toast.fail('银行卡识别失败，请重新上传。', 2);
-              this.refs.bank1.inputRef.inputRef.setAttribute('disabled', true);
-              this.refs.bank2.inputRef.inputRef.setAttribute('disabled', true);
-              this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-              this.refs.bank4.inputRef.inputRef.setAttribute('disabled', true);
+              this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
             })
           }
 
         });
       } else {
         Toast.hide();
-        this.refs.bank1.inputRef.inputRef.removeAttribute('disabled');
-        this.refs.bank2.inputRef.inputRef.removeAttribute('disabled');
         this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
-        this.refs.bank4.inputRef.inputRef.removeAttribute('disabled');
         Cookies.set("_changeBankFront", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
@@ -654,33 +647,21 @@ export default connect(({ submitQua }: any) => submitQua)(
                     settle_bank_account_no: str,
                     settle_bank: data.bank_name
                   }
-                })
-                this.refs.bank1.inputRef.inputRef.removeAttribute('disabled');
-                this.refs.bank2.inputRef.inputRef.removeAttribute('disabled');
-                this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
-                this.refs.bank4.inputRef.inputRef.removeAttribute('disabled');
+                });
+                this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 1);
-                this.refs.bank1.inputRef.inputRef.setAttribute('disabled', true);
-                this.refs.bank2.inputRef.inputRef.setAttribute('disabled', true);
-                this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-                this.refs.bank4.inputRef.inputRef.setAttribute('disabled', true);
+                this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
               }
             }).catch(err => {
+              this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
               Toast.fail('银行卡识别失败，请重新上传。', 1);
-              this.refs.bank1.inputRef.inputRef.setAttribute('disabled', true);
-              this.refs.bank2.inputRef.inputRef.setAttribute('disabled', true);
-              this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-              this.refs.bank4.inputRef.inputRef.setAttribute('disabled', true);
             })
           }
         });
       } else {
         Toast.hide();
-        // this.refs.bank1.inputRef.inputRef.removeAttribute('disabled');
-        // this.refs.bank2.inputRef.inputRef.removeAttribute('disabled');
-        // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
-        // this.refs.bank4.inputRef.inputRef.removeAttribute('disabled');
+        this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
         Cookies.set("_changeBankBack", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
@@ -1137,13 +1118,14 @@ export default connect(({ submitQua }: any) => submitQua)(
                 <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum}>银行卡号</InputItem>
                 <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank}>开户行</InputItem>
                 <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName}>支行</InputItem>
+
                 {/* <div style={{ width: "100%", height: "1px", position: "relative", display: this.state.bankShow ? "block" : "none" }}>
                   <div style={{ width: "100%", height: "auto", background: "#fff", border: "1px solid #000", position: "absolute", zIndex: 4, top: "0px", padding: "48px", boxSizing: "border-box", color: "#000" }}>
                     <ul style={{ display: "flex", flexDirection: "column", padding: "0", margin: "0", listStyle: "none" }}>
                       {
                         this.state.bankList.map((item, index) => {
                           return (
-                            <li key={item}  style={{ borderBottom: "1px #000 solid", width: "100%", height: "auto", lineHeight: "60px",padding:"20px 0" }} onClick={(e) => {
+                            <li key={item} style={{ borderBottom: "1px #000 solid", width: "100%", height: "auto", lineHeight: "60px", padding: "20px 0" }} onClick={(e) => {
                               this.setState({ bankShow: false })
                               Cookies.set("_handleBankName", JSON.stringify(e.target.innerText), { expires: 1 });
                               this.props.dispatch({
@@ -1152,7 +1134,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                                   bank_name: e.target.innerText
                                 }
                               })
-                            }} style={{ borderBottom: "1px #000 solid", width: "100%", height: "auto", lineHeight: "80px" }}>{item}</li>
+                            }} >{item}</li>
                           )
                         })
                       }
