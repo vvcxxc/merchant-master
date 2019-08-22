@@ -5,7 +5,8 @@ import styles from './index.less'
 
 interface Props {
   show: boolean,
-  onclick:(close:boolean)=>void
+  onclick: (close: boolean) => void,
+  name:string | null
 }
 export default class ShareThree extends Component<Props> {
   state = {
@@ -42,9 +43,10 @@ export default class ShareThree extends Component<Props> {
       });
       wx.ready(() => {//需要后台提供文字，多个id 图片
         wx.updateAppMessageShareData({
-          title: '伊哲要上天',
-          link: 'http://test.mall.tdianyi.com/#/pages/activity/pages/detail/detail?id=3561&type=1&activity_id=1521&gift_id=0',
-          imgUrl: '../../icon.png',
+          title: '发现一家你喜欢的店铺('+this.props.name+')，速来围观！',
+          desc: '刚刚发现了这家店铺(' + this.props.name +')，活动多多，优惠空前，你绝对喜欢，快点进来看看！',
+          link: 'http://test.mall.tdianyi.com/#/pages/business/index?id=4652',
+          imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
           success: function () {
             //成功后触发
           }
@@ -82,9 +84,10 @@ export default class ShareThree extends Component<Props> {
       });
       wx.ready(() => {//需要后台提供文字，多个id 图片
         wx.updateTimelineShareData({
-          title: '朋友圈', // 分享标题
-          link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-          imgUrl: '', // 分享图标
+          title: '发现一家你喜欢的店铺(' + this.props.name + ')，速来围观！',
+          desc: '刚刚发现了这家店铺(' + this.props.name + ')，活动多多，优惠空前，你绝对喜欢，快点进来看看！',
+          link: 'http://test.mall.tdianyi.com/#/pages/business/index?id=4652',
+          imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png', // 分享图标
           success: function () {
             // 设置成功
           }
@@ -95,7 +98,6 @@ export default class ShareThree extends Component<Props> {
 
   //点击取消，然后隐藏
   cancelData = () => {
-    // console.log('重复啊')
     this.props.onclick(false)
   }
 
