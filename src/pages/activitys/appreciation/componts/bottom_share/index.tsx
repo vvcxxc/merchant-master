@@ -66,7 +66,7 @@ export default class BottomShare extends Component<Props>{
     }).then(res => {
       let _this = this;
       wx.config({
-        debug: false,
+        debug: true,
         appId: res.appId,
         timestamp: res.timestamp,
         nonceStr: res.nonceStr,
@@ -80,6 +80,7 @@ export default class BottomShare extends Component<Props>{
           imgUrl: require('../../../../../assets/Little_bear.png'),
           success: function () {
            //成功后触发
+            alert('成功过了')
           }
         })
       })
