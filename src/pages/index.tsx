@@ -15,7 +15,6 @@ interface Props {
 	data: Data;
 	dispatch: (arg0: any) => any;
 }
-
 export default connect(({ app }: any) => app)(
 	class IndexPage extends Component<Props> {
 		/**是否显示核销的界面 */
