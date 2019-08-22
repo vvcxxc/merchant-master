@@ -48,7 +48,6 @@ export default class GroupDetails extends Component {
     showPoster: false
   }
   componentDidMount() {
-
     let { id, type } = this.props.location.query;
     if (type == '1') {
       this.setState({ types: '进行中' })
@@ -99,48 +98,7 @@ export default class GroupDetails extends Component {
   }
 
   shareClick = () => {
-    // let userAgent = navigator.userAgent;
-    // let isIos = userAgent.indexOf('iPhone') > -1;
-    // let url: any;
-    // if (isIos) {
-    //   url = sessionStorage.getItem('url');
-    // } else {
-    //   url = location.href;
-    // }
-    // request({
-    //   url: 'wechat/getShareSign',
-    //   method: 'get',
-    //   params: {
-    //     url
-    //   }
-    // }).then(res => {
-    //   let _this = this;
-    //   wx.config({
-    //     debug: false,
-    //     appId: res.appId,
-    //     timestamp: res.timestamp,
-    //     nonceStr: res.nonceStr,
-    //     signature: res.signature,
-    //     jsApiList: [
-    //       "updateAppMessageShareData"
-    //     ]
-    //   });
 
-    //   wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
-    //     wx.updateAppMessageShareData({
-    //       title: '34343', // 分享标题
-    //       desc: '4343434', // 分享描述
-    //       link: 'http://test.supplierv2.tdianyi.com',//分享链接该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-    //       imgUrl: '', // 分享图标
-    //       success: function () {
-    //         // 设置成功
-    //         console.log('3434')
-    //       }
-    //     })
-    //   });
-
-
-    // })
     this.setState({ showShare: true })
   }
 
@@ -159,6 +117,7 @@ export default class GroupDetails extends Component {
 
   render() {
     const { info, is_gift, types } = this.state;
+    let infoData: any = info.appreciation_gif_info
     const description = info.appreciation_coupons_info.description.map((item, idx) => <p key={idx}>· {item}</p>);
     const button = this.state.type == '3' ? null : (
       <Button
@@ -213,7 +172,12 @@ export default class GroupDetails extends Component {
         closeShare={this.closeShare}
         showShare={this.state.showShare}
         showPoster={this.showPoster}
-        type={{id: this.props.location.query.id,name:'增值'}}
+        type={{
+          activity_id: infoData.activity_id,
+          id: this.props.location.query.id,
+          name: '增值',
+          gift_id: infoData.gift_id
+        }}
       >{null}
       </BottomShare>)
     return (

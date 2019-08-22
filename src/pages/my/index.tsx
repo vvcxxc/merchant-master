@@ -6,6 +6,7 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import request from '@/services/request';
 import router from 'umi/router';
+import ShareThree from './components/share_three/index'
 
 interface State {
 	info: Info;
@@ -93,7 +94,7 @@ export default connect()(
 
 		//点击转发
 		forwarding = () => {
-			// console.log('点击转发')
+			console.log('点击转发')
 		}
 
 		render() {
@@ -105,13 +106,14 @@ export default connect()(
 			)
 			return (
 				<div className={styles.page}>
+					
+					<ShareThree />
+					
 					<div className={styles.headInfo}>
 						<WingBlank>
 							<Flex className={styles.headInfoContent}>
 								<img src={this.state.info.preview} alt="" className="userImg" />
-								<Flex.Item className="name" onClick={this.forwarding.bind(this)}>{this.state.info.name}
-									{/* {'转发'} */}
-								</Flex.Item>
+								<Flex.Item className="name" onClick={this.forwarding.bind(this)}>{this.state.info.name}  {'转发'}</Flex.Item>
 								<img
 									src={require('./setting.png')}
 									alt=""
