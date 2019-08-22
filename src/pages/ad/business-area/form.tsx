@@ -266,7 +266,7 @@ export default connect(({ businessArea }: any) => businessArea)(
 								}
 							</Flex>
 							<WhiteSpace size="lg" />
-							<Flex justify="start">
+							<Flex justify="start" style={{marginTop : '20px'}}>
 								<span className={styles.ad_status} onClick={this.handleClick.bind(this)}>
 									广告状态 :
 									{
