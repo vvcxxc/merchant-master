@@ -10,6 +10,7 @@ import ShareThree from './components/share_three/index'
 
 interface State {
 	info: Info;
+	showSharethree: boolean;
 }
 
 interface Info {
@@ -37,7 +38,8 @@ export default connect()(
 				integral: 0,
 				canInvite: 0,
 				bank_count: 1
-			}
+			},
+			showSharethree: false
 		};
 
 		/**跳转到页面 */
@@ -94,7 +96,15 @@ export default connect()(
 
 		//点击转发
 		forwarding = () => {
-			console.log('点击转发')
+			// this.setState({ show_share_three : true})
+			this.setState({ showSharethree:true})
+			// console.log('点击转发')
+		}
+
+		//遮挡层组件 用户点击选择后触发
+		closeShareThree = (close:boolean) => {
+			// console.log('关闭')
+			this.setState({ showSharethree:false})
 		}
 
 		render() {
@@ -106,14 +116,14 @@ export default connect()(
 			)
 			return (
 				<div className={styles.page}>
-					
-					<ShareThree />
-					
+					<ShareThree show={this.state.showSharethree} onclick={this.closeShareThree.bind(this)}/>
 					<div className={styles.headInfo}>
 						<WingBlank>
 							<Flex className={styles.headInfoContent}>
 								<img src={this.state.info.preview} alt="" className="userImg" />
-								<Flex.Item className="name" onClick={this.forwarding.bind(this)}>{this.state.info.name}  {'转发'}</Flex.Item>
+								<Flex.Item className="name" >{this.state.info.name}
+									<img src={require('../../assets/share_button.png')} alt="" onClick={this.forwarding.bind(this)}/>
+								</Flex.Item>
 								<img
 									src={require('./setting.png')}
 									alt=""

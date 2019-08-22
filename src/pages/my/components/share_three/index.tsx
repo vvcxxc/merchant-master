@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import request from '@/services/request';
 import wx from "weixin-js-sdk";
-import styles from  './index.less'
-export default class ShareThree extends Component<any> {
+import styles from './index.less'
+
+interface Props {
+  show: boolean,
+  onclick:(close:boolean)=>void
+}
+export default class ShareThree extends Component<Props> {
   state = {
-    show:false
+    showBottom:true
   }
 
    //点击微信好友，转发好友
   friendsData = () => {
+    this.setState({ showBottom: false })
 
     let userAgent = navigator.userAgent;
     let isIos = userAgent.indexOf('iPhone') > -1;
@@ -49,6 +55,7 @@ export default class ShareThree extends Component<any> {
   }
   //点击 转发朋友圈
   circleData = () => {
+    this.setState({ showBottom:false})
     let userAgent = navigator.userAgent;
     let isIos = userAgent.indexOf('iPhone') > -1;
     let url: any;
@@ -88,16 +95,34 @@ export default class ShareThree extends Component<any> {
 
   //点击取消，然后隐藏
   cancelData = () => {
+    // console.log('重复啊')
+    this.props.onclick(false)
+  }
 
+  //给一个全局点击的事件
+  keep_outOnclick = () => {
+    //如果是分享的遮挡层 用户点击遮挡层的时候，遮挡层消失
+    if (!this.state.showBottom) {
+      this.props.onclick(false)
+      this.setState({ showBottom: true })
+    }
   }
 
   render() {
     return (
-      <div className={styles.share_} style={{display:'none'}}>
-        <div className={styles.share_child}>
-          <div>微信好友</div>
-          <div>朋友圈</div>
-          <div style={{border:'none'}}>取消</div>
+      <div className={styles.share_} style={{ display: this.props.show ? '' : 'none' }} onClick={this.keep_outOnclick}>
+        
+        <div className={styles.keep_shareBox} style={{ display: !this.state.showBottom ? '' : 'none' }}>
+          <img className={styles.share_arrow} src={require('../../../../assets/jiantou.png')} />
+          <div
+            className={styles.share_prompt}
+          >点击并分享给朋友</div>
+        </div>
+
+        <div className={styles.share_child} style={{display:this.state.showBottom?'':'none'}}>
+          <div onClick={this.friendsData}>微信好友</div>
+          <div onClick={this.circleData}>朋友圈</div>
+          <div style={{ border: 'none' }} onClick={this.cancelData}>取消</div>
         </div>
       </div>
     )
