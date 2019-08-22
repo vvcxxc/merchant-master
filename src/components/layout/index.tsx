@@ -37,7 +37,8 @@ export default class FiltrateLayout extends Component<Props> {
 			/**热门条件选择 */
 			hot: {},
 			/**时间月份选择 */
-			time: ''
+			time: '',
+			resetBool:false //重置相干
 		},
 		/**显示条件的下拉列表 */
 		hotShow: false,
@@ -55,31 +56,50 @@ export default class FiltrateLayout extends Component<Props> {
 	handleTimeClick = () => this.setState({ timeShow: !this.state.timeShow, hotShow: false });
 
 	hotChange = (id: any, _id: any) => {
-		// console.log(id,_id,'值')
 		//handleQueryChange所有该组件都有用，handleQueryChange2，3只有支付渠道详情使用，因此保证大部分组件可以改变状态，再让支付渠道详情改变
-		this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id } } }, () => {
-			this.handleQueryChange();
-			this.handleQueryChange2();
-		});
-
-
-	};
+		//重置:underfind=>""
+		console.log("reset: "+(id == ""));
+		if (id == "") {
+			this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id }, resetBool:true } }, () => {
+				this.handleQueryChange();
+				this.handleQueryChange2();
+			});
+		} else {
+			this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id } ,resetBool:false} }, () => {
+				this.handleQueryChange();
+				this.handleQueryChange2();
+			});
+		}
+	}
 	hotHide = () => this.setState({ hotShow: false });
 	timeHide = () => this.setState({ timeShow: false });
+	//重置不相干
 	timeChange = (value: string): any => {
 		this.setState({ timeShow: false, query: { ...this.state.query, time: value } }, () => {
 			this.handleQueryChange();
 			this.handleQueryChange3();
 		});
-
-
 	}
-	// hotReset = () => this.props.onChange && this.props.onChange({hot: {}, time: this.state.query.time});
-	// timeReset = () => this.props.timeReset && this.props.timeReset();
+	//重置相干
+	// timeChange = (value: string): any => {
+	// 	console.log("reset: "+(value == ""));
+	// 	if (value == "") {
+	// 		this.setState({ timeShow: false, query: { ...this.state.query, hot: { id: "", _id: "" }, time: value,resetBool:true  } }, () => {
+	// 			this.handleQueryChange();
+	// 			this.handleQueryChange3();
+	// 		});
+	// 	} else {
+	// 		this.setState({ timeShow: false, query: { ...this.state.query, time: value ,resetBool:false} }, () => {
+	// 			this.handleQueryChange();
+	// 			this.handleQueryChange3();
+	// 		});
+	// 	}
+	// }
 
 	/**条件变更时触发onChange事件 */
 	handleQueryChange = () => {
-		this.props.onChange && this.props.onChange(this.state.query)};
+		this.props.onChange && this.props.onChange(this.state.query)
+	};
 	handleQueryChange2 = () => this.props.onChange2 && this.props.onChange2(this.state.query);
 	handleQueryChange3 = () => this.props.onChange3 && this.props.onChange3(this.state.query);
 
