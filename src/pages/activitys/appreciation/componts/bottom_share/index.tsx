@@ -41,7 +41,7 @@ export default class BottomShare extends Component<Props>{
   //点击分享
   shareData = () => {
     let meta:any = this.props.type
-    // console.log(this.props,'props')
+    console.log(this.props,'props')
     // 点击分享的时候 遮挡层不能消失 只消失分享 海报 取消部分
     this.setState({ showBottom: false })
     // let code :any = this.props.type
@@ -66,7 +66,7 @@ export default class BottomShare extends Component<Props>{
     }).then(res => {
       let _this = this;
       wx.config({
-        debug: false,
+        debug: true,
         appId: res.appId,
         timestamp: res.timestamp,
         nonceStr: res.nonceStr,
@@ -77,9 +77,10 @@ export default class BottomShare extends Component<Props>{
         wx.updateAppMessageShareData({
           title: '伊哲要上天',
           link: 'http://test.mall.tdianyi.com/#/pages/activity/pages/detail/detail?id=' + meta.id+'&type=1&activity_id=' + meta.activity_id +'&gift_id=' + meta.gift_id,
-          imgUrl: '../../../../../assets/Little_bear.png',
+          imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
           success: function () {
            //成功后触发
+            alert('成功过了')
           }
         })
       })
