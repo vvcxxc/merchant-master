@@ -277,6 +277,11 @@ export default connect(({ businessArea }: any) => businessArea)(
 														: this.state.ad_status == 4 ? ' 审核失败，查看失败原因' : ''
 									}
 								</span>
+								{
+									this.state.ad_status == 4 ? (
+										<img src={require('@/assets/ad/ad_fail.png')} alt="" className={styles.ad_fail}/>
+									) : ''
+								}
 							</Flex>
 						</Flex.Item>
 

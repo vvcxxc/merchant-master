@@ -141,13 +141,13 @@ export default connect(({ ad }: any) => ad)(
 		handleSubmit = async (e: any, isStop?: boolean) => {
 			console.log(isStop)
 			if (!this.state.edit || isStop) {
-				if (this.state.formType === 1 && !this.state.coupon.value) {
+				if (this.state.formType === 1 && !this.state.coupon.value && this.props.type != "钻石展位") {
 					return Toast.info('请选择优惠券');
 				}
-				if (this.state.formType === 2 && !this.state.activity.value) {
+				if (this.state.formType === 2 && !this.state.activity.value && this.props.type != "钻石展位") {
 					return Toast.info('请选择活动');
 				}
-				if (this.state.formType === 3 && !this.state.link) {
+				if (this.state.formType === 3 && !this.state.link && this.props.type != "钻石展位") {
 					return Toast.info('请填写链接');
 				}
 				if (!this.state.startTime) {
@@ -164,16 +164,19 @@ export default connect(({ ad }: any) => ad)(
 					daily_budget: this.state.price,
 					begin_time: this.state.startTime,
 					end_time: this.state.endTime,
-					type: this.state.formType + 1,
+					type: this.props.type == "钻石展位" ? 1 : this.state.formType + 1,
 					position_id: this.props.position,
 					ad_pic: this.state.files[0].path
 				};
-				if (this.state.formType === 1) {
+				if (this.state.formType === 1 && this.props.type != "钻石展位") {
 					data.coupon_id = this.state.coupon.value;
-				} else if (this.state.formType === 2) {
+					// data.type = this.state.formType + 1;
+				} else if (this.state.formType === 2 && this.props.type != "钻石展位") {
 					data.activity_id = this.state.activity.value;
-				} else if (this.state.formType === 3) {
+					// data.type = this.state.formType + 1;
+				} else if (this.state.formType === 3 && this.props.type != "钻石展位") {
 					data.link = this.state.link;
+					// data.type = this.state.formType + 1;
 				}
 				let res;
 				if (isStop) {
@@ -289,9 +292,9 @@ export default connect(({ ad }: any) => ad)(
 				: '广告投放时长';
 
 			let typeFormInput;
-			if (this.state.formType === 0) {
+			if (this.state.formType === 0 && this.props.type != "钻石展位") {
 				typeFormInput = '';
-			} else if (this.state.formType === 1) {
+			} else if (this.state.formType === 1 && this.props.type != "钻石展位") {
 				typeFormInput = (
 					<List.Item
 						extra={this.state.coupon.label ? this.state.coupon.label : '请选择优惠券'}
@@ -301,7 +304,7 @@ export default connect(({ ad }: any) => ad)(
 						优惠券
 				</List.Item>
 				);
-			} else if (this.state.formType === 2) {
+			} else if (this.state.formType === 2 && this.props.type != "钻石展位") {
 				typeFormInput = (
 					<List.Item
 						extra={this.state.activity.label ? this.state.activity.label : '请选择活动'}
@@ -311,7 +314,7 @@ export default connect(({ ad }: any) => ad)(
 						活动
 				</List.Item>
 				);
-			} else if (this.state.formType === 3) {
+			} else if (this.state.formType === 3 && this.props.type != "钻石展位") {
 				typeFormInput = (
 					<InputItem
 						style={{ textAlign: 'right' }}
@@ -464,6 +467,11 @@ export default connect(({ ad }: any) => ad)(
 														: this.state.ad_status == 4 ? ' 审核失败，查看失败原因' : ''
 									}
 								</span>
+								{
+									this.state.ad_status == 4 ? (
+										<img src={require('@/assets/ad/ad_fail.png')} alt="" className={styles.ad_fail}/>
+									) : ''
+								}
 							</Flex>
 						</Flex>
 						<SelectCoupon
