@@ -39,7 +39,8 @@ export default class StoreInfo extends Component {
       longitude: 0,
       latitude: 0
     },
-    email: ''
+    email: '',
+    preview: ''
   };
   componentDidMount (){
     /**获取经营品类 */
@@ -71,7 +72,8 @@ export default class StoreInfo extends Component {
         store_img_one: data.store_img_one,
         account_mobile: data.account_mobile,
         manage_type: data.manage_type,
-        house_num: data.house_num
+        house_num: data.house_num,
+        preview: data.preview
       });
     })
   }
@@ -84,48 +86,57 @@ export default class StoreInfo extends Component {
   }
   /**设置门头照 */
   Storechange = (files: any) => {
-    this.setState({
-      store_head: files,
-    });
+    // this.setState({
+    //   store_head: files,
+    // });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
         let store_door_header_img = res.data.path;
-        this.setState({store_door_header_img})
+        this.setState({ store_head: files ,store_door_header_img})
       })
     }else {
-      this.setState({store_door_header_img: ''})
+      Toast.hide()
+      this.setState({store_head: files, store_door_header_img: ''})
     }
 
   }
   /**设置环境照 */
   StoreImg1 = (files: any) => {
-    this.setState({
-      store_img1: files,
-    });
+    // this.setState({
+    //   store_img1: files,
+    // });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
         let store_img_one = res.data.path;
-        this.setState({store_img_one})
+        this.setState({store_img1: files, store_img_one})
       })
     }else {
-      this.setState({store_img_one: ''})
+      Toast.hide()
+      this.setState({store_img1: files, store_img_one: ''})
     }
 
   }
   StoreImg2 = (files: any) => {
-    this.setState({
-      store_img2: files,
-    });
+    // this.setState({
+    //   store_img2: files,
+    // });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
         let store_img_two = res.data.path;
-        this.setState({store_img_two})
+        this.setState({ store_img2: files, store_img_two})
       })
     }else {
-      this.setState({store_img_two: ''})
+      Toast.hide()
+      this.setState({store_img2: files, store_img_two: ''})
     }
   }
 
@@ -208,7 +219,7 @@ export default class StoreInfo extends Component {
   }
 
   render (){
-    const { store_head, store_img1, store_img2, store_name, address, house_num, phone, email, store_img_one, store_img_two, shop_door_header_img} = this.state;
+    const { store_head, store_img1, store_img2, store_name, address, house_num, phone, email, store_img_one, store_img_two, shop_door_header_img, preview} = this.state;
     const map = this.state.is_map == true ? (
       <MapPage onChange={this.mapChange}/>
     ) : (
@@ -217,7 +228,7 @@ export default class StoreInfo extends Component {
 
     const header_img = this.state.is_header == true ? (
       <div className={styles.header_img}>
-        <img src={'http://oss.tdianyi.com/' + shop_door_header_img} />
+        <img src={'http://oss.tdianyi.com/' + preview} />
         <div className={styles.close} onClick={this.closeHeaderImg}>{''}</div>
       </div>
     ) : (

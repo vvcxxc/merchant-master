@@ -91,45 +91,45 @@ export default class createGroup extends Component {
   }
   /**选择图片 */
   changeCover = ( files: any ) => {
-    this.setState({
-      cover_img: files
-    });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
         let { data } = res;
-        this.setState({image: data.path})
+        this.setState({ cover_img: files, image: data.path})
       });
     }else {
-      this.setState({image: ''})
+      Toast.hide()
+      this.setState({ cover_img: files, image: ''})
     }
   }
   changeDescribe1 = ( files: any ) => {
-    this.setState({
-      describe_img1: files
-    });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
         let { data } = res;
-        this.setState({image_url1: data.path});
+        this.setState({ describe_img1: files, image_url1: data.path});
       });
     }else {
-      this.setState({image_url1: ''})
+      Toast.hide()
+      this.setState({ describe_img1: files, image_url1: ''})
     }
   }
   changeDescribe2 = ( files: any ) => {
-    this.setState({
-      describe_img2: files
-    });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
         let { data } = res;
-        this.setState({image_url2: data.path});
+        this.setState({ describe_img2: files ,image_url2: data.path});
       });
     }else {
-      this.setState({image_url2: ''})
+      Toast.hide()
+      this.setState({ describe_img2: files, image_url2: ''})
     }
   }
 

@@ -45,10 +45,11 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 		};
 
 		uploadImage = (type: any) => (files: any[], operationType: string, index?: number): void => {
-			this.setState({ [type]: files });
+
 			if (operationType === 'add') {
 				Toast.loading('上传图片中');
 				upload(files[files.length - 1].url).then(res => {
+          this.setState({ [type]: files });
 					Toast.hide();
 					if (res.status === 'ok') {
 						if (type === 'files') {
@@ -62,6 +63,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					}
 				});
 			} else if (operationType === 'remove') {
+        this.setState({ [type]: files });
 				if (type === 'files') {
 					this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { image: '' } });
 				} else {

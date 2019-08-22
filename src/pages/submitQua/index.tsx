@@ -207,12 +207,11 @@ export default class submitQua extends Component {
 
   /**身份证正面照选择 */
   changeIdFront = ( files: any ) => {
-    this.setState({
-      id_front: files,
-    });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
         let legal_id_front_img = res.data.path;
         this.setState({legal_id_front_img});
         const {legal_id_back_img, hand_hold_id_img} = this.state;
@@ -226,7 +225,9 @@ export default class submitQua extends Component {
               idcard_front_img: legal_id_front_img
             }
           }).then(res => {
-
+            this.setState({
+              id_front: files,
+            });
             let {data} = res;
             let id = data.front.words_result['公民身份号码'].words
             let name = data.front.words_result['姓名'].words;
@@ -251,17 +252,20 @@ export default class submitQua extends Component {
         }
       });
     }else {
-      this.setState({legal_id_front_img: ''})
+      Toast.hide()
+      this.setState({id_front: files, legal_id_front_img: ''})
     }
   }
   /**身份证反面选择 */
   changeIdBack = ( files: any ) => {
-    this.setState({
-      id_back: files,
-    });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
+        this.setState({
+          id_back: files,
+        });
         let legal_id_back_img = res.data.path;
         this.setState({legal_id_back_img});
         const {legal_id_front_img, hand_hold_id_img} = this.state;
@@ -299,17 +303,20 @@ export default class submitQua extends Component {
         }
       });
     }else {
-      this.setState({legal_id_back_img: ''})
+      Toast.hide()
+      this.setState({  id_back: files, legal_id_back_img: ''})
     }
   }
   /**手持身份证照选择 */
   changeIdHand = ( files: any ) => {
-    this.setState({
-      id_hand: files,
-    });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
+        this.setState({
+          id_hand: files,
+        });
         let hand_hold_id_img = res.data.path;
         this.setState({hand_hold_id_img});
         const {legal_id_front_img, legal_id_back_img} = this.state;
@@ -346,17 +353,20 @@ export default class submitQua extends Component {
         }
       });
     }else {
-      this.setState({hand_hold_id_img: ''})
+      Toast.hide()
+      this.setState({  id_hand: files, hand_hold_id_img: ''})
     }
   }
   /**银行卡正面选择 */
   changeBankFront = ( files: any ) => {
-    this.setState({
-      bank_front: files,
-    });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
+        this.setState({
+          bank_front: files,
+        });
         let bank_card_front_img = res.data.path;
         this.setState({bank_card_front_img});
         const { bank_card_back_img } = this.state;
@@ -390,17 +400,20 @@ export default class submitQua extends Component {
 
       });
     }else {
-      this.setState({bank_card_front_img: ''})
+      Toast.hide()
+      this.setState({bank_front: files,bank_card_front_img: ''})
     }
   }
   /**银行卡反面选择 */
   changeBankBack = ( files: any ) => {
-    this.setState({
-      bank_back: files,
-    });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
+        this.setState({
+          bank_back: files,
+        });
         let bank_card_back_img = res.data.path;
         this.setState({bank_card_back_img});
         const { bank_card_front_img } = this.state;
@@ -432,17 +445,20 @@ export default class submitQua extends Component {
         }
       });
     }else {
-      this.setState({bank_card_back_img: ''})
+      Toast.hide()
+      this.setState({  bank_back: files, bank_card_back_img: ''})
     }
   }
   /**营业执照选择 */
   changeLicense = ( files: any ) => {
-    this.setState({
-      license_img: files,
-    });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
+        this.setState({
+          license_img: files,
+        });
         let three_certs_in_one_img = res.data.path;
         this.setState({three_certs_in_one_img});
         Toast.loading('识别中',0)
@@ -471,7 +487,8 @@ export default class submitQua extends Component {
         })
       });
     }else {
-      this.setState({three_certs_in_one_img: ''})
+      Toast.hide()
+      this.setState({ license_img: files, three_certs_in_one_img: ''})
     }
   }
 

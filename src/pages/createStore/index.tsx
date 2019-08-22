@@ -6,6 +6,7 @@ import router from 'umi/router';
 import Example from './example/index'
 import MapPage from './map/index'
 import upload from '@/services/oss';
+import Axios from 'axios';
 export default class CreateStore extends Component {
   state = {
     /**店铺名 */
@@ -58,29 +59,6 @@ export default class CreateStore extends Component {
       this.setState({ manage_list : data });
     });
 
-
-    /**获取oss */
-    request({
-      url: 'api/v2/up',
-      method: 'get'
-    }).then( res => {
-      let { data } = res;
-
-      let oss_data = {
-        policy: data.policy,
-        OSSAccessKeyId: data.accessid,
-        success_action_status: 200, //让服务端返回200,不然，默认会返回204
-        signature: data.signature,
-        callback: data.callback,
-        host: data.host,
-        key: data.dir
-      }
-      this.setState({ oss_data });
-    });
-
-
-
-
   }
 
 
@@ -130,47 +108,56 @@ export default class CreateStore extends Component {
 
   /**门店图片选择后 */
   Storechange = (files: any) => {
-    this.setState({
-      files,
-    });
+    // this.setState({
+    //   files,
+    // });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
         let store_door_header_img = res.data.path;
-        this.setState({store_door_header_img})
+        this.setState({ files,store_door_header_img})
       })
     }else {
-      this.setState({store_door_header_img: ''})
+      Toast.hide()
+      this.setState({ files, store_door_header_img: ''})
     }
   }
   /**个人照1 */
   Mychange = (files: any) => {
-    this.setState({
-      my_files: files,
-    });
+    // this.setState({
+    //   my_files: files,
+    // });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
         let store_img_one = res.data.path;
-        this.setState({store_img_one})
+        this.setState({my_files: files,store_img_one})
       })
     }else {
-      this.setState({store_img_one: ''})
+      Toast.hide()
+      this.setState({my_files: files,store_img_one: ''})
     }
   }
   /**个人照2 */
   Mychange2 = (files: any) => {
-    this.setState({
-      my_files2: files,
-    });
+    // this.setState({
+    //   my_files2: files,
+    // });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
         let store_img_two = res.data.path;
-        this.setState({store_img_two})
+        this.setState({ my_files2: files, store_img_two})
       })
     }else {
-      this.setState({store_img_two: ''})
+      Toast.hide()
+      this.setState({ my_files2: files, store_img_two: ''})
     }
   }
 
