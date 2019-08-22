@@ -77,7 +77,7 @@ export default class BottomShare extends Component<Props>{
         wx.updateAppMessageShareData({
           title: '伊哲要上天',
           link: 'http://test.mall.tdianyi.com/#/pages/activity/pages/detail/detail?id=' + meta.id+'&type=1&activity_id=' + meta.activity_id +'&gift_id=' + meta.gift_id,
-          imgUrl: require('../../../../../assets/Little_bear.png'),
+          imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
           success: function () {
            //成功后触发
             alert('成功过了')

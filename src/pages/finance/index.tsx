@@ -46,7 +46,11 @@ export default connect(({ finance }: any) => finance)(
 
 
     handleChange = (query: any) => {
-      console.log(query)
+      if (query.hot.id == "" && query.hot._id == "" && query.time == "") {
+        // console.log("重置")
+        this.setState({ min: "", max: "" })
+      }
+      // console.log(query)
       this.setState({
         page: 1,
         finance_type: query.hot,
