@@ -650,12 +650,12 @@ export default connect(({ submitQua }: any) => submitQua)(
                 });
                 this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
               } else {
-                Toast.fail('银行卡识别失败，请重新上传。', 1);
+                Toast.fail('银行卡识别失败，请重新上传。', 2);
                 this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
               }
             }).catch(err => {
               this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
-              Toast.fail('银行卡识别失败，请重新上传。', 1);
+              Toast.fail('银行卡识别失败，请重新上传。', 2);
             })
           }
         });
