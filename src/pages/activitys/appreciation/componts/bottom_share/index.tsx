@@ -41,7 +41,7 @@ export default class BottomShare extends Component<Props>{
   //点击分享
   shareData = () => {
     let meta:any = this.props.type
-    // console.log(this.props,'props')
+    console.log(this.props,'props')
     // 点击分享的时候 遮挡层不能消失 只消失分享 海报 取消部分
     this.setState({ showBottom: false })
     // let code :any = this.props.type
