@@ -695,9 +695,6 @@ export default connect(({ submitQua }: any) => submitQua)(
               }
             }).catch(err => {
               this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
-<<<<<<< HEAD
-              Toast.fail('银行卡识别失败，请重新上传。', 2);
-=======
               Toast.fail('银行卡识别失败，请重新上传。', 1);
               this.props.dispatch({
                 type: 'submitQua/setQua',
@@ -705,7 +702,6 @@ export default connect(({ submitQua }: any) => submitQua)(
                   bank_disable: false
                 }
               })
->>>>>>> 3b1944c5f2a79c964d6f8280122474f6d9d4f6fd
             })
           }
         });
