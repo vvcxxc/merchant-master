@@ -97,7 +97,10 @@ export default connect()(
 					<img src={require('./signed.png')} alt="" />
 					<span>我的签约码</span>
 				</Flex>
-			)
+      )
+      const qianyue = this.state.info.wx_sign_status == 0 ? (
+        <Flex className={styles.qianyue}><img src={require('@/assets/qianyue.png')}/></Flex>
+      ) : null;
 			return (
 				<div className={styles.page}>
 					<div className={styles.headInfo}>
@@ -111,6 +114,7 @@ export default connect()(
 									className="setting"
 									onClick={this.pushPage('/myInfo')}
 								/>
+                {qianyue}
 							</Flex>
 						</WingBlank>
 					</div>
