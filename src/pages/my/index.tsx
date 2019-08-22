@@ -91,6 +91,11 @@ export default connect()(
 			})
 		}
 
+		//点击转发
+		forwarding = () => {
+			// console.log('点击转发')
+		}
+
 		render() {
 			const signCode = this.state.info.wx_sign_status == 3 ? null : (
 				<Flex onClick={this.goSignCode}>
@@ -104,7 +109,9 @@ export default connect()(
 						<WingBlank>
 							<Flex className={styles.headInfoContent}>
 								<img src={this.state.info.preview} alt="" className="userImg" />
-								<Flex.Item className="name">{this.state.info.name}</Flex.Item>
+								<Flex.Item className="name" onClick={this.forwarding.bind(this)}>{this.state.info.name}
+									{/* {'转发'} */}
+								</Flex.Item>
 								<img
 									src={require('./setting.png')}
 									alt=""
