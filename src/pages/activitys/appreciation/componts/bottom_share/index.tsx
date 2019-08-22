@@ -36,15 +36,18 @@ export default class BottomShare extends Component<Props>{
   showPosterData = () => {
     this.props.showPoster(true)
   }
+  // 如果礼品为 0 ，没礼品
 
   //点击分享
   shareData = () => {
+    let meta:any = this.props.type
+    // console.log(this.props,'props')
     // 点击分享的时候 遮挡层不能消失 只消失分享 海报 取消部分
     this.setState({ showBottom: false })
-    let code :any = this.props.type
-    let meta: any = {
-      ['增值']: code.id
-    }
+    // let code :any = this.props.type
+    // let meta: any = {
+    //   ['增值']: code.id
+    // }
     
     let userAgent = navigator.userAgent;
     let isIos = userAgent.indexOf('iPhone') > -1;
@@ -73,8 +76,8 @@ export default class BottomShare extends Component<Props>{
       wx.ready(() => {//需要后台提供文字，多个id 图片
         wx.updateAppMessageShareData({
           title: '伊哲要上天',
-          link: 'http://test.mall.tdianyi.com/#/pages/activity/pages/detail/detail?id=3561&type=1&activity_id=1521&gift_id=0',
-          imgUrl: '../../icon.png',
+          link: 'http://test.mall.tdianyi.com/#/pages/activity/pages/detail/detail?id=' + meta.id+'&type=1&activity_id=' + meta.activity_id +'&gift_id=' + meta.gift_id,
+          imgUrl: '../../../../../assets/Little_bear.png',
           success: function () {
            //成功后触发
           }
@@ -97,7 +100,16 @@ export default class BottomShare extends Component<Props>{
   render() {
     return (
       <div style={{ display: this.props.showShare ? '' : 'none' }} className={styles.keep_out} onClick={this.keep_outOnclick.bind(this)}>
-        <img style={{display:!this.state.showBottom? '':'none'}} className={styles.keep_out_img} src={require('../../../../../assets/jiantou.png')}></img>
+        
+        <div className={styles.keep_shareBox} style={{ display: !this.state.showBottom ? '' : 'none' }} >
+          <img
+            className={styles.share_arrow}
+            src={require('../../../../../assets/jiantou.png')} />
+          <div
+            className={styles.share_prompt}
+          >点击并分享给朋友</div>
+        </div>
+
         <div className={styles.share_box} style={{ display: this.state.showBottom ? '' : 'none' }}>
           <div className={styles.box}>
             <div className={styles.all_center} onClick={this.shareData}>
