@@ -4,11 +4,14 @@ import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router';
 import EchartsSan from '../../../../components/echart_shan'
+import BottomShare from '@/pages/activitys/appreciation/componts/bottom_share'
+import Posters from '@/pages/activitys/appreciation/componts/posters'
 const alert = Modal.alert;
 export default class GroupDetails extends Component {
   state = {
     dataEchart:[],
     info: {
+      share:{},
       activity_image: '',
       group_count: {
         group_defeated: '',
@@ -39,7 +42,9 @@ export default class GroupDetails extends Component {
     id: '',
     type: '',
     is_gift: true,
-    types: ''
+    types: '',
+    showShare: false,
+    showPoster: false
   }
   componentWillMount() {
     
@@ -112,8 +117,27 @@ export default class GroupDetails extends Component {
 
   }
 
+  shareClick = () => {
+    this.setState({ showShare: true })
+  }
+
+  closeShare = (close: boolean) => {
+    this.setState({ showShare: false })
+  }
+
+  showPoster = (show: any) => {
+    this.setState({ showPoster: true })
+    this.setState({ showShare: false })
+  }
+  closePoster = (close: any) => {
+    this.setState({ showPoster: false })
+  }
+
   render() {
     const { info, is_gift, types, dataEchart } = this.state;
+
+    let infoData: any = info.group_gif_info;
+    let share: any = info.share
     let echartData:any = this.state.dataEchart
     const description = info.group_coupons_info.description.map((item,idx) => <p key={idx}>· {item}</p>)
     const button = this.state.type == '3' ? null : (
@@ -164,6 +188,22 @@ export default class GroupDetails extends Component {
         </EchartsSan> 
       </div>
     ) : null
+
+    const bottom_share = (
+      <BottomShare
+        closeShare={this.closeShare}
+        showShare={this.state.showShare}
+        showPoster={this.showPoster}
+        type={{
+          activity_id: infoData.activity_id,
+          id: this.props.location.query.id,
+          name: '拼团',
+          gift_id: infoData.gift_id,
+          ...share
+        }}
+      >{null}
+      </BottomShare>)
+    const poster = <Posters closePoster={this.closePoster} showPoster={this.state.showPoster} >{null}</Posters>
     return (
       <div className={styles.detailsPage}>
         <WingBlank>
@@ -173,7 +213,7 @@ export default class GroupDetails extends Component {
               活动名称
               <span>{types}</span>
             </div>
-            {/* <img src={require('./share.png')}/> */}
+            <img src={require('./share.png')} onClick={this.shareClick}/>
           </Flex>
           {/* 图片 */}
           <Flex className={styles.activity_img}>
@@ -242,6 +282,9 @@ export default class GroupDetails extends Component {
           {/* <Button  style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button> */}
           {button}
         </WingBlank>
+         {poster}
+
+        {bottom_share} 
       </div>
     )
   }

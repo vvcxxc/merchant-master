@@ -6,7 +6,7 @@ import router from 'umi/router';
 import wx from "weixin-js-sdk";
 import Success from '@/pages/verification/success';
 import BottomShare from '@/pages/activitys/appreciation/componts/bottom_share'
-import Posters from '../componts/posters/index'
+import Posters from '@/pages/activitys/appreciation/componts/posters'
 import EchartsSan from '../../../../components/echart_shan/index'
 const alert = Modal.alert;
 export default class GroupDetails extends Component {
@@ -14,6 +14,7 @@ export default class GroupDetails extends Component {
   state = {
     echart_Data: [],
     info: {
+      share: {},
       activity_image: '',
       appreciation_count: {
         participate_number: '',
@@ -98,7 +99,6 @@ export default class GroupDetails extends Component {
   }
 
   shareClick = () => {
-
     this.setState({ showShare: true })
   }
 
@@ -118,6 +118,9 @@ export default class GroupDetails extends Component {
   render() {
     const { info, is_gift, types } = this.state;
     let infoData: any = info.appreciation_gif_info
+    let share: any = info.share
+    // console.log(share,'info')
+    // let share: any = info.share
     const description = info.appreciation_coupons_info.description.map((item, idx) => <p key={idx}>· {item}</p>);
     const button = this.state.type == '3' ? null : (
       <Button
@@ -176,7 +179,8 @@ export default class GroupDetails extends Component {
           activity_id: infoData.activity_id,
           id: this.props.location.query.id,
           name: '增值',
-          gift_id: infoData.gift_id
+          gift_id: infoData.gift_id,
+          ...share
         }}
       >{null}
       </BottomShare>)

@@ -116,7 +116,7 @@ export default connect()(
 			)
 			return (
 				<div className={styles.page}>
-					<ShareThree show={this.state.showSharethree} onclick={this.closeShareThree.bind(this)} name={this.state.info.name}/>
+					<ShareThree show={this.state.showSharethree} onclick={this.closeShareThree.bind(this)} info={this.state.info}/>
 					<div className={styles.headInfo}>
 						<WingBlank>
 							<Flex className={styles.headInfoContent}>
