@@ -47,10 +47,9 @@ export default connect(({ finance }: any) => finance)(
 
     handleChange = (query: any) => {
       //金额范围通过attr整段代码传到组件，因此组件里after.context.props.children[0].props.children[1].props.value（after.context.props.children[2].props.children[1].props.value）不能直接修改min和max
-      //一开始hot.id和hot._id为underfind，重置后为""，以此判断重置
-      if(query.hot.id==""&&query.hot._id==""&&query.time==""){
-        console.log("重置")
-        this.setState({ min: "",max:"",finance_type:undefined,date:undefined})
+      if (query.resetBool == true) {
+        console.log('重置区间',query)
+        this.setState({ min: "", max: "", finance_type: undefined, date: undefined })
       }
       this.setState({
         page: 1,
@@ -76,7 +75,6 @@ export default connect(({ finance }: any) => finance)(
     };
 
     handleChangePrice = (type: string) => (e: any) => {
-      console.log(type, e.target.value)
       if (/^[0-9]+\.+[0-9]\d{0,1}$/.test(e.target.value) || /^[0-9]+\.?$/.test(e.target.value) || e.target.value == "") {
         this.setState({ [type]: e.target.value });
       }
@@ -120,11 +118,11 @@ export default connect(({ finance }: any) => finance)(
         context: (
           <Flex className={styles.layoutAfter}>
             <Flex className="input-wrap">
-              ￥<input placeholder="最低金额"  onChange={this.handleChangePrice('min')} value={this.state.min} />
+              ￥<input placeholder="最低金额" onChange={this.handleChangePrice('min')} value={this.state.min} />
             </Flex>
             <div className="line" />
             <Flex className="input-wrap">
-              ￥<input placeholder="最高金额"  onChange={this.handleChangePrice('max')} value={this.state.max} />
+              ￥<input placeholder="最高金额" onChange={this.handleChangePrice('max')} value={this.state.max} />
             </Flex>
           </Flex>
         )
@@ -144,16 +142,6 @@ export default connect(({ finance }: any) => finance)(
                 case 9: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 6 }); break; //广告购买
                 default: return
               }
-
-              // switch (_.type) {
-              //   case 3: this.pushPage('/finance/financeDetail/offlineDeal', { _id: _.id }); break;  //线下交易（线下收银）
-              //   case 13: this.pushPage('/finance/financeDetail/tariffRebates', { _id: _.id }); break; //费率返点（商家返点）
-              //   case 6: this.pushPage('/finance/financeDetail/advertisingRevenue', { _id: _.id }); break;  //广告收益
-              //   case 9: this.pushPage('/finance/financeDetail/advertisingSpending', { _id: _.id }); break; //广告购买
-              //   case 8: this.pushPage('/finance/financeDetail/couponRevenue', { _id: _.id }); break;   //优惠券收益（优惠券分润）
-              //   case 15: this.pushPage('/finance/financeDetail/onlineSelling',{_id:_.id}); break;   //线上卖券，存疑
-              //   default: return
-              // }
             }
           }>
             <img src={_.small_icon} alt="" />
