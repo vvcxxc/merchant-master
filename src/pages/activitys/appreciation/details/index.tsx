@@ -161,7 +161,7 @@ export default class GroupDetails extends Component {
     const echart = this.state.echart_Data.length > 1 ?
       (
         <EchartsSan
-          list={[222, 444, 444]}
+          list={this.state.echart_Data}
           name={["参与人数", "增值人数", "券使用人数"]}
           colors={['#5476C4', '#7156C6', '#45BDBD']}
         />) : null
