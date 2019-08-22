@@ -60,7 +60,7 @@ export default class BottomShare extends Component<Props>{
     }).then(res => {
       let _this = this;
       wx.config({
-        debug: true,
+        debug: false,
         appId: res.appId,
         timestamp: res.timestamp,
         nonceStr: res.nonceStr,
