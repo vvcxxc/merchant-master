@@ -40,14 +40,14 @@ export default class BottomShare extends Component<Props>{
 
   //点击分享
   shareData = () => {
-    let meta:any = this.props.type
-    // console.log(this.props,'props')
-    // 点击分享的时候 遮挡层不能消失 只消失分享 海报 取消部分
-    this.setState({ showBottom: false })
-    // let code :any = this.props.type
-    // let meta: any = {
-    //   ['增值']: code.id
-    // }
+    let meta: any = this.props.type
+    
+    // 什么？（购买价）还可以当（峰顶值) 花，走过路过不要错过！  标题
+    // 你有一张（峰顶值）增值券待领取，邀请好友助力还有免费好礼拿！
+
+    // 两个描述
+    
+    this.setState({ showBottom: false })// 点击分享 遮挡层不消失 消失白色区域部分
     
     let userAgent = navigator.userAgent;
     let isIos = userAgent.indexOf('iPhone') > -1;
@@ -66,7 +66,7 @@ export default class BottomShare extends Component<Props>{
     }).then(res => {
       let _this = this;
       wx.config({
-        debug: false,
+        debug: true,
         appId: res.appId,
         timestamp: res.timestamp,
         nonceStr: res.nonceStr,
@@ -76,10 +76,12 @@ export default class BottomShare extends Component<Props>{
       wx.ready(() => {//需要后台提供文字，多个id 图片
         wx.updateAppMessageShareData({
           title: '伊哲要上天',
+          desc:'',
           link: 'http://test.mall.tdianyi.com/#/pages/activity/pages/detail/detail?id=' + meta.id+'&type=1&activity_id=' + meta.activity_id +'&gift_id=' + meta.gift_id,
-          imgUrl: require('../../../../../assets/Little_bear.png'),
+          imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
           success: function () {
            //成功后触发
+            // alert('成功过了')
           }
         })
       })

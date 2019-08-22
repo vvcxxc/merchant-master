@@ -24,12 +24,7 @@ function closest(el, selector) {
   return null;
 }
 
-// window.addEventListener('touchmove',function () {
-//   console.log(document.body.scrollHeight)
-// })
-window.onscroll = function () {
-  console.log('aa')
-}
+
 
 export default connect(({ submitQua }: any) => submitQua)(
 
@@ -114,7 +109,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
     componentDidMount() {
-      //console.log("")
+      console.log(this.props.date_back)
       function getCaption(str: string) {
         return str.split('http://oss.tdianyi.com/')[1]
       }
@@ -146,110 +141,135 @@ export default connect(({ submitQua }: any) => submitQua)(
           three_certs_in_one_valid_date = '长期'
         }
         let arr = (this.props.contact_name || this.props.legal_id_no || this.props.date || this.props.settle_bank_account_name || this.props.settle_bank_account_no || this.props.settle_bank || this.props.three_certs_in_one_no || this.props.corn_bus_name || this.props.legal_name || this.props.three_certs_in_one_valid_date || this.props.bank_name || this.props.legal_id_front_img || this.props.legal_id_back_img || this.props.hand_hold_id_img || this.props.bank_card_front_img || this.props.bank_card_back_img || this.props.three_certs_in_one_img)
-        // if (
-        //   Array.isArray(arr)
-        // ) {
-        this.props.dispatch({
-          type: 'submitQua/setQua',
-          payload: {
-            contact_name: contact_name != "" ? contact_name : (Cookies.get("_handleName") ? JSON.parse(Cookies.get("_handleName")) : ""),
-            legal_id_no: legal_id_no != "" ? legal_id_no : (Cookies.get("_legal_id_no") ? JSON.parse(Cookies.get("_legal_id_no")) : ""),
-            date: legal_id_valid_date != "" ? legal_id_valid_date : (Cookies.get("_date") ? JSON.parse(Cookies.get("_date")) : ""),
-            settle_bank_account_name: settle_bank_account_name != "" ? settle_bank_account_name : (Cookies.get("_handleBankAccountName") ? JSON.parse(Cookies.get("_handleBankAccountName")) : ""),
-            settle_bank_account_no: settle_bank_account_no != "" ? settle_bank_account_no : (Cookies.get("_handleBankNum") ? JSON.parse(Cookies.get("_handleBankNum")) : ""),
-            settle_bank: settle_bank != "" ? settle_bank : (Cookies.get("_handleSettleBank") ? JSON.parse(Cookies.get("_handleSettleBank")) : ""),
-            three_certs_in_one_no: three_certs_in_one_no != "" ? three_certs_in_one_no : (Cookies.get("_handleLicenseNUm") ? JSON.parse(Cookies.get("_handleLicenseNUm")) : ""),
-            corn_bus_name: corn_bus_name != "" ? corn_bus_name : (Cookies.get("_handleLicenseName") ? JSON.parse(Cookies.get("_handleLicenseName")) : ""),
-            legal_name: legal_name != "" ? legal_name : (Cookies.get("_handleLegalName") ? JSON.parse(Cookies.get("_handleLegalName")) : ""),
-            three_certs_in_one_valid_date: three_certs_in_one_valid_date != "" ? three_certs_in_one_valid_date : (Cookies.get("_three_certs_in_one_valid_date") ? JSON.parse(Cookies.get("_three_certs_in_one_valid_date")) : ""),
-            bank_name: bank_name != "" ? bank_name : (Cookies.get("_handleBankName") ? JSON.parse(Cookies.get("_handleBankName")) : ""),
+        if (this.props.date_back == false) {
+          this.props.dispatch({
+            type: 'submitQua/setQua',
+            payload: {
+              contact_name: contact_name != "" ? contact_name : (Cookies.get("_handleName") ? JSON.parse(Cookies.get("_handleName")) : ""),
+              legal_id_no: legal_id_no != "" ? legal_id_no : (Cookies.get("_legal_id_no") ? JSON.parse(Cookies.get("_legal_id_no")) : ""),
+              date: legal_id_valid_date != "" ? legal_id_valid_date : (Cookies.get("_date") ? JSON.parse(Cookies.get("_date")) : ""),
+              settle_bank_account_name: settle_bank_account_name != "" ? settle_bank_account_name : (Cookies.get("_handleBankAccountName") ? JSON.parse(Cookies.get("_handleBankAccountName")) : ""),
+              settle_bank_account_no: settle_bank_account_no != "" ? settle_bank_account_no : (Cookies.get("_handleBankNum") ? JSON.parse(Cookies.get("_handleBankNum")) : ""),
+              settle_bank: settle_bank != "" ? settle_bank : (Cookies.get("_handleSettleBank") ? JSON.parse(Cookies.get("_handleSettleBank")) : ""),
+              three_certs_in_one_no: three_certs_in_one_no != "" ? three_certs_in_one_no : (Cookies.get("_handleLicenseNUm") ? JSON.parse(Cookies.get("_handleLicenseNUm")) : ""),
+              corn_bus_name: corn_bus_name != "" ? corn_bus_name : (Cookies.get("_handleLicenseName") ? JSON.parse(Cookies.get("_handleLicenseName")) : ""),
+              legal_name: legal_name != "" ? legal_name : (Cookies.get("_handleLegalName") ? JSON.parse(Cookies.get("_handleLegalName")) : ""),
+              three_certs_in_one_valid_date: three_certs_in_one_valid_date != "" ? three_certs_in_one_valid_date : (Cookies.get("_three_certs_in_one_valid_date") ? JSON.parse(Cookies.get("_three_certs_in_one_valid_date")) : ""),
+              bank_name: bank_name != "" ? bank_name : (Cookies.get("_handleBankName") ? JSON.parse(Cookies.get("_handleBankName")) : ""),
 
-            legal_id_front_img: legal_id_front_img != "" ? getCaption(legal_id_front_img) : (Cookies.get("_changeIdFront") ? JSON.parse(Cookies.get("_changeIdFront")) : ""),
-            legal_id_back_img: legal_id_back_img != "" ? getCaption(legal_id_back_img) : (Cookies.get("_changeIdBack") ? JSON.parse(Cookies.get("_changeIdBack")) : ""),
-            hand_hold_id_img: hand_hold_id_img != "" ? getCaption(hand_hold_id_img) : (Cookies.get("_changeIdHand") ? JSON.parse(Cookies.get("_changeIdHand")) : ""),
-            bank_card_front_img: bank_card_front_img != "" ? getCaption(bank_card_front_img) : (Cookies.get("_changeBankFront") ? JSON.parse(Cookies.get("_changeBankFront")) : ""),
-            bank_card_back_img: bank_card_back_img != "" ? getCaption(bank_card_back_img) : (Cookies.get("_changeBankBack") ? JSON.parse(Cookies.get("_changeBankBack")) : ""),
-            three_certs_in_one_img: three_certs_in_one_img != "" ? getCaption(three_certs_in_one_img) : (Cookies.get("_changeLicense") ? JSON.parse(Cookies.get("_changeLicense")) : ""),
+              legal_id_front_img: legal_id_front_img != "" ? getCaption(legal_id_front_img) : (Cookies.get("_changeIdFront") ? JSON.parse(Cookies.get("_changeIdFront")) : ""),
+              legal_id_back_img: legal_id_back_img != "" ? getCaption(legal_id_back_img) : (Cookies.get("_changeIdBack") ? JSON.parse(Cookies.get("_changeIdBack")) : ""),
+              hand_hold_id_img: hand_hold_id_img != "" ? getCaption(hand_hold_id_img) : (Cookies.get("_changeIdHand") ? JSON.parse(Cookies.get("_changeIdHand")) : ""),
+              bank_card_front_img: bank_card_front_img != "" ? getCaption(bank_card_front_img) : (Cookies.get("_changeBankFront") ? JSON.parse(Cookies.get("_changeBankFront")) : ""),
+              bank_card_back_img: bank_card_back_img != "" ? getCaption(bank_card_back_img) : (Cookies.get("_changeBankBack") ? JSON.parse(Cookies.get("_changeBankBack")) : ""),
+              three_certs_in_one_img: three_certs_in_one_img != "" ? getCaption(three_certs_in_one_img) : (Cookies.get("_changeLicense") ? JSON.parse(Cookies.get("_changeLicense")) : ""),
 
-            is_id_front: (legal_id_front_img != "" || Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) != "") ? true : false,
-            is_id_back: (legal_id_back_img != "" || Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) != "") ? true : false,
-            is_id_hand: (hand_hold_id_img != "" || Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) != "") ? true : false,
-            is_bank_front: (bank_card_front_img != "" || Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) != "") ? true : false,
-            is_bank_back: (legal_id_back_img != "" || Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) != "") ? true : false,
-            is_license: (three_certs_in_one_img != "" || Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) != "") ? true : false,
-            modal1img: [],
-            id_back: [],
-            id_front: [],
-            id_hand: [],
-            bank_front: [],
-            bank_back: [],
-            license_img: []
+              is_id_front: (legal_id_front_img != "" || Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) != "") ? true : false,
+              is_id_back: (legal_id_back_img != "" || Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) != "") ? true : false,
+              is_id_hand: (hand_hold_id_img != "" || Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) != "") ? true : false,
+              is_bank_front: (bank_card_front_img != "" || Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) != "") ? true : false,
+              is_bank_back: (legal_id_back_img != "" || Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) != "") ? true : false,
+              is_license: (three_certs_in_one_img != "" || Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) != "") ? true : false,
+              modal1img: [],
+              id_back: [],
+              id_front: [],
+              id_hand: [],
+              bank_front: [],
+              bank_back: [],
+              license_img: []
+            }
+          })
+          // if (legal_id_front_img) {
+          //   this.props.dispatch({
+          //     type: 'submitQua/setQua',
+          //     payload: {
+          //       is_id_front: true
+          //     }
+          //   })
+          // }
+          // if (legal_id_back_img) {
+          //   this.props.dispatch({
+          //     type: 'submitQua/setQua',
+          //     payload: {
+          //       is_id_back: true
+          //     }
+          //   })
+          // }
+          // if (hand_hold_id_img) {
+          //   this.props.dispatch({
+          //     type: 'submitQua/setQua',
+          //     payload: {
+          //       is_id_hand: true
+          //     }
+          //   })
+          // }
+          // if (bank_card_front_img) {
+          //   this.props.dispatch({
+          //     type: 'submitQua/setQua',
+          //     payload: {
+          //       is_bank_front: true
+          //     }
+          //   })
+          // }
+          // if (bank_card_back_img) {
+          //   this.props.dispatch({
+          //     type: 'submitQua/setQua',
+          //     payload: {
+          //       is_bank_back: true
+          //     }
+          //   })
+          // }
+          // if (three_certs_in_one_img) {
+          //   this.props.dispatch({
+          //     type: 'submitQua/setQua',
+          //     payload: {
+          //       is_license: true
+          //     }
+          //   })
+          // }
+        } else {
+          if (this.props.bank_disable == true) {
+            this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
           }
-        })
-        // if (legal_id_front_img) {
-        //   this.props.dispatch({
-        //     type: 'submitQua/setQua',
-        //     payload: {
-        //       is_id_front: true
-        //     }
-        //   })
-        // }
-        // if (legal_id_back_img) {
-        //   this.props.dispatch({
-        //     type: 'submitQua/setQua',
-        //     payload: {
-        //       is_id_back: true
-        //     }
-        //   })
-        // }
-        // if (hand_hold_id_img) {
-        //   this.props.dispatch({
-        //     type: 'submitQua/setQua',
-        //     payload: {
-        //       is_id_hand: true
-        //     }
-        //   })
-        // }
-        // if (bank_card_front_img) {
-        //   this.props.dispatch({
-        //     type: 'submitQua/setQua',
-        //     payload: {
-        //       is_bank_front: true
-        //     }
-        //   })
-        // }
-        // if (bank_card_back_img) {
-        //   this.props.dispatch({
-        //     type: 'submitQua/setQua',
-        //     payload: {
-        //       is_bank_back: true
-        //     }
-        //   })
-        // }
-        // if (three_certs_in_one_img) {
-        //   this.props.dispatch({
-        //     type: 'submitQua/setQua',
-        //     payload: {
-        //       is_license: true
-        //     }
-        //   })
-        // }
-        // } else {
-        //   return
+          this.props.dispatch({
+            type: 'submitQua/setQua',
+            payload: {
+              date_back: false
+            }
+          })
+          return
 
-        // }
+        }
       })
     }
     /**查看身份证示例 */
     toIdCardExample = () => {
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          date_back: true
+        }
+      });
       router.push('/submitQua/example/idcard')
     }
     /**查看银行卡示例 */
     toBankExample = () => {
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          date_back: true
+        }
+      });
       router.push('/submitQua/example/bank')
     }
     /**查看营业执照示例 */
     toLicenseExample = () => {
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          date_back: true
+        }
+      });
       router.push('/submitQua/example/license')
     }
     /**姓名输入 */
@@ -514,7 +534,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             modal1img: []
           }
         })
-        this.refs.picker.fileSelectorInput.removeAttribute('disabled');
+        // this.refs.picker.fileSelectorInput.removeAttribute('disabled');
       } else {
         this.refs.picker.fileSelectorInput.setAttribute('disabled', true);
         this.setState({ modal1: true })
@@ -561,7 +581,6 @@ export default connect(({ submitQua }: any) => submitQua)(
                 bank_card_front_img
               }
             }).then(res => {
-              console.log(res);
               let { data, code } = res;
               if (code == 200) {
                 let str = data.bank_card_number;
@@ -573,17 +592,30 @@ export default connect(({ submitQua }: any) => submitQua)(
                   type: 'submitQua/setQua',
                   payload: {
                     settle_bank_account_no: str,
-                    settle_bank: data.bank_name
+                    settle_bank: data.bank_name,
+                    bank_disable: true
                   }
                 });
                 this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
                 this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+                this.props.dispatch({
+                  type: 'submitQua/setQua',
+                  payload: {
+                    bank_disable: false
+                  }
+                })
               }
             }).catch(err => {
               Toast.fail('银行卡识别失败，请重新上传。', 2);
               this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+              this.props.dispatch({
+                type: 'submitQua/setQua',
+                payload: {
+                  bank_disable: false
+                }
+              })
             })
           }
 
@@ -596,7 +628,8 @@ export default connect(({ submitQua }: any) => submitQua)(
           type: 'submitQua/setQua',
           payload: {
             bank_front: files,
-            bank_card_front_img: ''
+            bank_card_front_img: '',
+            bank_disable: false
           }
         })
       }
@@ -645,17 +678,34 @@ export default connect(({ submitQua }: any) => submitQua)(
                   type: 'submitQua/setQua',
                   payload: {
                     settle_bank_account_no: str,
-                    settle_bank: data.bank_name
+                    settle_bank: data.bank_name,
+                    bank_disable: true
                   }
                 });
                 this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
                 this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+                this.props.dispatch({
+                  type: 'submitQua/setQua',
+                  payload: {
+                    bank_disable: false
+                  }
+                })
               }
             }).catch(err => {
               this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+<<<<<<< HEAD
               Toast.fail('银行卡识别失败，请重新上传。', 2);
+=======
+              Toast.fail('银行卡识别失败，请重新上传。', 1);
+              this.props.dispatch({
+                type: 'submitQua/setQua',
+                payload: {
+                  bank_disable: false
+                }
+              })
+>>>>>>> 3b1944c5f2a79c964d6f8280122474f6d9d4f6fd
             })
           }
         });
@@ -667,7 +717,8 @@ export default connect(({ submitQua }: any) => submitQua)(
           type: 'submitQua/setQua',
           payload: {
             bank_back: files,
-            bank_card_back_img: ''
+            bank_card_back_img: '',
+            bank_disable: false
           }
         })
       }
@@ -750,7 +801,8 @@ export default connect(({ submitQua }: any) => submitQua)(
       this.props.dispatch({
         type: 'submitQua/setQua',
         payload: {
-          type
+          type,
+          date_back: true
         }
       })
       router.push('/submitQua/chooseDate')
@@ -943,7 +995,6 @@ export default connect(({ submitQua }: any) => submitQua)(
         modal1: false,
         modal1img: files
       }, () => {
-        console.log(432)
         this.refs.picker.fileSelectorInput.removeAttribute('disabled');
       })
 
@@ -1068,14 +1119,13 @@ export default connect(({ submitQua }: any) => submitQua)(
                 maskClosable={true}
                 onClose={this.onClose('modal1')}
                 wrapProps={{ onTouchStart: this.onWrapTouchStart }}
-              // footer={[{ text: '知道了', onPress: this.handlePress }]}
               >
                 <div style={{ height: "5.625rem" }}>
                   <div style={{ width: "100%", paddingBottom: "0", height: "auto" }}>
                     <img style={{ height: "100%", width: "100%" }} src={require('./model.png')} />
                   </div>
                   <div style={{ width: "100%", position: "relative" }}>
-                    <div style={{ width: "100%", lineHeight: "1", paddingTop: "0.3rem", color: "#21418a", fontSize: "0.3rem", textAlign: "center" }}>知道了</div>
+                    <div style={{ width: "100%", lineHeight: "1", paddingTop: "0.12rem", color: "#21418a", fontSize: "0.3rem", textAlign: "center" }}>知道了</div>
                     <div className={styles.imgpickerBox} >
                       <ImagePicker
                         multiple={false}
