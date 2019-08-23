@@ -170,7 +170,7 @@ export default connect()(
 							}
 						}, 1000);
 					} else {
-						Toast.fail('短信发送失败，请稍后重试')
+						Toast.fail(res.data)
 					}
 				} else {
 					Toast.fail('请输入手机号');

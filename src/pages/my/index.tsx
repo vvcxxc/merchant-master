@@ -92,12 +92,16 @@ export default connect()(
 		}
 
 		render() {
-			const signCode = this.state.info.wx_sign_status == 3 ? null : (
+      console.log(this.state.info.wx_sign_status)
+			const signCode = this.state.info.wx_sign_status == 2 ? (
 				<Flex onClick={this.goSignCode}>
 					<img src={require('./signed.png')} alt="" />
 					<span>我的签约码</span>
 				</Flex>
-			)
+      ) : null;
+      const qianyue = this.state.info.wx_sign_status == 3 ? (
+        <Flex className={styles.qianyue}><img src={require('@/assets/qianyue.png')}/></Flex>
+      ) : null;
 			return (
 				<div className={styles.page}>
 					<div className={styles.headInfo}>
@@ -111,6 +115,7 @@ export default connect()(
 									className="setting"
 									onClick={this.pushPage('/myInfo')}
 								/>
+                {qianyue}
 							</Flex>
 						</WingBlank>
 					</div>

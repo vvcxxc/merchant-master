@@ -187,12 +187,12 @@ export default class GroupDetails extends Component {
         </Flex>
         <Flex className={styles.item} align='start'>
           <div className={styles.item_name}>所需积分：</div>
-          <div className={styles.item_detail}>{info.appreciation_gif_info.delivery}积分</div>
+          <div className={styles.item_detail}>{info.appreciation_gif_info.gif_integral}积分</div>
         </Flex>
         <Flex className={styles.item_height} align='start'>
           <div className={styles.item_name}>配送方式：</div>
           <div className={styles.item_long}>
-            <p>{info.appreciation_gif_info.gif_integral}</p>
+            <p>{info.appreciation_gif_info.delivery}</p>
             {/* <p>邮寄 邮费谁出</p> */}
           </div>
         </Flex>
@@ -228,13 +228,13 @@ export default class GroupDetails extends Component {
           </Flex>
 
           {/* 基本信息 */}
-          <Flex className={styles.title}>
+          {/* <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
             活动统计数据
           </Flex>
           <div>
             {echart}
-          </div>
+          </div> */}
 
           <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
