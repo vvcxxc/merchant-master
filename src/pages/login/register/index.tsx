@@ -115,7 +115,7 @@ export default class Register extends Component {
             }
           }, 1000);
         } else {
-          Toast.fail('短信发送失败，请稍后重试')
+          Toast.fail(res.data)
         }
       });
     } else {
