@@ -109,7 +109,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
     componentDidMount() {
-      console.log(this.props.date_back)
+      console.log(this.props)
       function getCaption(str: string) {
         return str.split('http://oss.tdianyi.com/')[1]
       }
@@ -421,14 +421,14 @@ export default connect(({ submitQua }: any) => submitQua)(
                     legal_id_no: id,
                     date
                   }
-                })
-
+                });
+                Toast.success('识别成功', 2);
               } else {
-                Toast.fail('识别失败', 1);
+                Toast.fail('识别失败，请手动填写信息', 2);
               }
 
             }).catch(err => {
-              Toast.fail('识别失败', 1)
+              Toast.fail('识别失败，请手动填写信息', 2)
             })
           }
         });
@@ -496,12 +496,13 @@ export default connect(({ submitQua }: any) => submitQua)(
                     legal_id_no: id,
                     date
                   }
-                })
+                });
+                Toast.success('识别成功', 2);
               } else {
-                Toast.fail('识别失败', 1);
+                Toast.fail('识别失败，请手动填写信息', 2);
               }
             }).catch(err => {
-              Toast.fail('识别失败', 1)
+              Toast.fail('识别失败，请手动填写信息', 2)
             })
           }
         });
@@ -597,6 +598,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                   }
                 });
                 this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                Toast.success('识别成功', 2);
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
                 this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
@@ -683,6 +685,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                   }
                 });
                 this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                Toast.success('识别成功', 2);
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
                 this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
@@ -749,13 +752,14 @@ export default connect(({ submitQua }: any) => submitQua)(
               business_license_img: three_certs_in_one_img
             }
           }).then(res => {
-
             let { data } = res;
             let corn_bus_name = data['单位名称'].words;
             let three_certs_in_one_no = data['社会信用代码'].words;
             let legal_name = data['法人'].words;
             let three_certs_in_one_valid_date = data['有效期'].words;
             Toast.hide();
+            // Toast.success('识别成功', 2);
+            //这个api识别啥都能成功code200……
             Cookies.set("_handleLicenseName", JSON.stringify(corn_bus_name), { expires: 1 });
             Cookies.set("_handleLicenseNUm", JSON.stringify(three_certs_in_one_no), { expires: 1 });
             Cookies.set("_handleLegalName", JSON.stringify(legal_name), { expires: 1 });
@@ -770,7 +774,7 @@ export default connect(({ submitQua }: any) => submitQua)(
               }
             })
           }).catch(err => {
-            Toast.fail('识别失败', 1)
+            Toast.fail('识别失败，请手动填写信息', 2)
           })
         });
       } else {
@@ -963,10 +967,10 @@ export default connect(({ submitQua }: any) => submitQua)(
                 })
 
               } else {
-                Toast.fail('识别失败', 1);
+                Toast.fail('识别失败，请手动填写信息', 2);
               }
             }).catch(err => {
-              Toast.fail('识别失败', 1)
+              Toast.fail('识别失败，请手动填写信息', 2)
             })
           }
         });

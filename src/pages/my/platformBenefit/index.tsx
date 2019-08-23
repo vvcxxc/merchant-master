@@ -5,6 +5,7 @@ import FiltrateLayout from '@/components/layout';
 import request from '@/services/request';
 import { Toast, Flex, WingBlank } from 'antd-mobile';
 import moment from 'moment';
+import noneImg from './none.png';
 
 interface RateItem {
 	order_sn: string;
@@ -34,11 +35,22 @@ export default class PlatformBenefit extends Component {
 		type: 0,
 		total: 0,
 		invoice: 0,
-		time: ''
+		time: '',
+		//是否重置
+		plat_type: 1,
+		listnone: false
 	};
 	componentDidMount = () => this.getData();
-	handleTabChange = (index: number) => this.setState({ type: index, data: [] }, this.getData);
-	handleChange = (query: any) => this.setState({ time: query.time }, this.getData);
+	changePlatType = () => {
+		this.setState({ plat_type: 1 })
+	}
+	handleTabChange = (index: number) => {
+		this.setState({ plat_type: 2 })
+		this.setState({ type: index, data: [] }, this.getData)
+	};
+	handleChange = (query: any) => {
+		this.setState({ time: query.time }, this.getData);
+	}
 	getData = async () => {
 		let url = '';
 		if (this.state.type === 0) {
@@ -48,17 +60,23 @@ export default class PlatformBenefit extends Component {
 		} else {
 			url = 'v3/finance/ad_earnings';
 		}
-    Toast.loading('');
+		Toast.loading('');
 		const res = await request({
 			url,
 			params: { date: this.state.time ? moment(this.state.time).unix() : undefined }
-    });
+		});
 		Toast.hide();
 		if (res.code === 200) {
 			this.setState({
 				data: res.data,
 				total: res.rate_sum || res.coupons_sum || res.ad_sum,
 				invoice: res.invoice
+			}, () => {
+				if (res.data.length == 0) {
+					this.setState({ listnone: true })
+				} else {
+					this.setState({ listnone: false })
+				}
 			});
 		}
 	};
@@ -75,6 +93,7 @@ export default class PlatformBenefit extends Component {
 				</Flex>
 			));
 		} else if (this.state.type === 1) {
+			console.log(this.state.data)
 			list = this.state.data.map((_: CouponItem) => (
 				<Flex direction="column" className={styles.item}>
 					<Flex>
@@ -105,7 +124,7 @@ export default class PlatformBenefit extends Component {
 		}
 		const insignificant = (
 			<Flex>
-				总计￥{this.state.total} {this.state.type === 0 && `，已结算￥${this.state.invoice || 0}`}
+				总计￥{this.state.total}
 			</Flex>
 		);
 		return (
@@ -116,8 +135,16 @@ export default class PlatformBenefit extends Component {
 				hasInsignificant={true}
 				insignificant={insignificant}
 				onChange={this.handleChange}
+				plat_type={this.state.plat_type}
+				changePlatType={this.changePlatType}
 			>
-				<WingBlank>{list}</WingBlank>
+				<WingBlank>
+					{list}
+					<div style={{ height: "450px", width: "300px", position: "fixed", left: "50%", top: "40%", marginLeft: "-150px", display: "flex", flexDirection: "column", justifyContent: "space-between	", alignItems: "center", opacity: this.state.listnone ? 1 : 0 }}>
+						<img src={noneImg} style={{ width: "100%" }} />
+						<div style={{ width: "100%", color: "#999999", fontSize: "50px", textAlign: "center" }}>暂无交易信息</div>
+					</div>
+				</WingBlank>
 			</FiltrateLayout>
 		);
 	}

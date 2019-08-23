@@ -17,13 +17,15 @@ interface Props {
 	/**备用筛选条件 */
 	after?: After;
 	tabs?: string[];
-	/**条件重置时 */
-	// hotreset?: () => any;
-	// timeReset?: () => any;
+	/**条件改变时 */
 	onChange?: (query: any) => any;
+	onTabChange?: (index: number) => any;
+	/**财务列表页条件改变时 */
 	onChange2?: (query: any) => any;
 	onChange3?: (query: any) => any;
-	onTabChange?: (index: number) => any;
+	/**我的收益页条件变动重置 */
+	plat_type?: number;
+	changePlatType?: () => any;
 }
 
 /**筛选列表页组件
@@ -37,7 +39,8 @@ export default class FiltrateLayout extends Component<Props> {
 			/**热门条件选择 */
 			hot: {},
 			/**时间月份选择 */
-			time: ''
+			time: '',
+			resetBool: false //重置相干
 		},
 		/**显示条件的下拉列表 */
 		hotShow: false,
@@ -47,39 +50,56 @@ export default class FiltrateLayout extends Component<Props> {
 		hotCheck: false,
 		/**是否选择了时间筛选 */
 		timeCheck: false,
-		tabActive: 0
+		tabActive: 0,
+		title2: "月份"
 	};
+	componentDidMount() {
+		console.log(this.props)
+	}
+	componentDidUpdate() {
+		console.log("我的收益页面", this.props.plat_type)
+		if (this.props.plat_type == 2) {
+			//2为该重置了
+			this.timeChange("");
+			//改回1
+			this.props.changePlatType && this.props.changePlatType();
+		}
+	}
+
 
 	handleHotClick = () => this.setState({ hotShow: !this.state.hotShow, timeShow: false });
 
 	handleTimeClick = () => this.setState({ timeShow: !this.state.timeShow, hotShow: false });
 
 	hotChange = (id: any, _id: any) => {
-		// console.log(id,_id,'值')
 		//handleQueryChange所有该组件都有用，handleQueryChange2，3只有支付渠道详情使用，因此保证大部分组件可以改变状态，再让支付渠道详情改变
-		this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id } } }, () => {
-			this.handleQueryChange();
-			this.handleQueryChange2();
-		});
-
-
-	};
+		//重置:underfind=>""
+		console.log("reset: " + (id == ""));
+		if (id == "") {
+			this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id }, resetBool: true } }, () => {
+				this.handleQueryChange();
+				this.handleQueryChange2();
+			});
+		} else {
+			this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id }, resetBool: false } }, () => {
+				this.handleQueryChange();
+				this.handleQueryChange2();
+			});
+		}
+	}
 	hotHide = () => this.setState({ hotShow: false });
 	timeHide = () => this.setState({ timeShow: false });
 	timeChange = (value: string): any => {
+		this.setState({ title2: value == "" ? "月份" : value })
 		this.setState({ timeShow: false, query: { ...this.state.query, time: value } }, () => {
 			this.handleQueryChange();
 			this.handleQueryChange3();
 		});
-
-
 	}
-	// hotReset = () => this.props.onChange && this.props.onChange({hot: {}, time: this.state.query.time});
-	// timeReset = () => this.props.timeReset && this.props.timeReset();
-
 	/**条件变更时触发onChange事件 */
 	handleQueryChange = () => {
-		this.props.onChange && this.props.onChange(this.state.query)};
+		this.props.onChange && this.props.onChange(this.state.query)
+	};
 	handleQueryChange2 = () => this.props.onChange2 && this.props.onChange2(this.state.query);
 	handleQueryChange3 = () => this.props.onChange3 && this.props.onChange3(this.state.query);
 
@@ -135,7 +155,7 @@ export default class FiltrateLayout extends Component<Props> {
 								onClick={this.handleTimeClick}
 								className={this.state.timeCheck || this.state.timeShow ? 'checked' : ''}
 							>
-								<span>月份</span>
+								<span>{this.state.title2}</span>
 								<img src={datepng} />
 							</Flex>
 							{tab}

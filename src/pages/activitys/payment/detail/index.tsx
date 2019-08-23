@@ -42,7 +42,7 @@ export default class payReturnDetail extends Component<any> {
 				<CouponCard key={index} {..._} />
 			</div>
 		));
-
+  
 		return (
 			<Flex className={styles.page} align="start" direction="column">
 				<Flex.Item>
@@ -51,8 +51,8 @@ export default class payReturnDetail extends Component<any> {
 							<div className="label">返</div>
 							<Flex.Item className="name">{data.activity.name}</Flex.Item>
 							<div className="time">
-								{moment.unix(data.activity.begin_time).format('YYYY/MM/DD')}-
-								{moment.unix(data.activity.end_time).format('YYYY/MM/DD')}
+								{moment.unix(data.activity.begin_time).format('YYYY-MM-DD')}-
+								{moment.unix(data.activity.end_time).format('YYYY-MM-DD')}
 							</div>
 						</Flex>
 						{coupons}

@@ -44,11 +44,15 @@ export default class Posters extends Component<Props> {
     can_object.fillStyle = "#999999"
     can_object.font = '21px PingFang-SC-Medium';
     can_object.fillText('长按识别小程序码', 360, 695, 490, 900);
+    // convertCanvasToImage(canvas) {
+    // var image = new Image();
+    imgs.src = canvas.toDataURL("image/png");
+    return imgs;
+    // }
   }
 
   saveMyImg = () => {
     // function exportCanvasAsPNG(id, fileName) {
-
     var canvasElement: any = document.getElementById('canvas');
 
     var MIME_TYPE = "image/png/jpg";
@@ -67,43 +71,44 @@ export default class Posters extends Component<Props> {
     link.click();
     document.body.removeChild(link);
 
-    let userAgent = navigator.userAgent;
-    let isIos = userAgent.indexOf('iPhone') > -1;
-    let url: any;
-    if (isIos) {
-      url = sessionStorage.getItem('url');
-    } else {
-      url = location.href;
-    }
-    request({
-      url: 'wechat/getShareSign',
-      method: 'get',
-      params: {
-        url
-      }
-    }).then(res => {
-      let _this = this;
-      wx.config({
-        debug: false,
-        appId: res.appId,
-        timestamp: res.timestamp,
-        nonceStr: res.nonceStr,
-        signature: res.signature,
-        jsApiList: [
-          "updateAppMessageShareData"
-        ]
-      });
 
-      wx.ready(function () {
-        wx.getLocalImgData({
-          localId: '1', // 图片的localID
-          success: function (res: any) {
-            var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-          }
-        });
-      })
-    }
-    )
+    // let userAgent = navigator.userAgent;
+    // let isIos = userAgent.indexOf('iPhone') > -1;
+    // let url: any;
+    // if (isIos) {
+    //   url = sessionStorage.getItem('url');
+    // } else {
+    //   url = location.href;
+    // }
+    // request({
+    //   url: 'wechat/getShareSign',
+    //   method: 'get',
+    //   params: {
+    //     url
+    //   }
+    // }).then(res => {
+    //   let _this = this;
+    //   wx.config({
+    //     debug: false,
+    //     appId: res.appId,
+    //     timestamp: res.timestamp,
+    //     nonceStr: res.nonceStr,
+    //     signature: res.signature,
+    //     jsApiList: [
+    //       "updateAppMessageShareData"
+    //     ]
+    //   });
+
+    //   wx.ready(function () {
+    //     wx.getLocalImgData({
+    //       localId: '1', // 图片的localID
+    //       success: function (res: any) {
+    //         var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+    //       }
+    //     });
+    //   })
+    // }
+    // )
   }
   closeData = () => {
     this.props.closePoster(false)
