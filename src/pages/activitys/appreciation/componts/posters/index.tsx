@@ -47,9 +47,16 @@ export default class Posters extends Component<Props> {
     // convertCanvasToImage(canvas) {
     // var image = new Image();
     imgs.src = canvas.toDataURL("image/png");
-    return imgs;
+    // return imgs;
     // }
+    let img = this.convertCanvasToImage(imgs);
+    console.log(img)
   }
+  convertCanvasToImage(canvas) {
+    var image = new Image();
+    image.src = canvas.toDataURL("image/png");
+    return image;
+   }
 
   saveMyImg = () => {
     // function exportCanvasAsPNG(id, fileName) {
@@ -116,7 +123,7 @@ export default class Posters extends Component<Props> {
 
 
 
-  
+
   render() {
     return (
       <div className={styles.posterBox} style={{ display: this.props.showPoster ? '' : 'none' }}>
