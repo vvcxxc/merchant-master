@@ -48,7 +48,6 @@ export default class Posters extends Component<Props> {
 
   saveMyImg = () => {
     // function exportCanvasAsPNG(id, fileName) {
-
     var canvasElement: any = document.getElementById('canvas');
 
     var MIME_TYPE = "image/png/jpg";

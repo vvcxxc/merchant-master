@@ -42,6 +42,7 @@ export default class BottomShare extends Component<Props>{
   //关闭海报
   closePoster = (close: any) => {
     this.setState({ showPoster: false })
+    console.log(this.props,'prop')
   }
   
   //点击分享 // 如果礼品为 0 ，没礼品
@@ -105,7 +106,7 @@ export default class BottomShare extends Component<Props>{
         
         wx.ready(() => {
           wx.updateAppMessageShareData({
-            title: '（' + meta.store_name + '）正在派发（' + meta.return_money+'元）兑换券，手慢无，速抢！',
+            title:  meta.storeName + '正在派发' + meta.return_money+'元兑换券，手慢无，速抢！',
             desc: '拼手速的时候来了，超值兑换券限量抢购，手慢就没了！速速戳进来一起领取！',
             link: 'http://test.mall.tdianyi.com/#/pages/business/index?id='+meta.id,
             imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
@@ -118,8 +119,8 @@ export default class BottomShare extends Component<Props>{
 
           wx.ready(() => {
             wx.updateAppMessageShareData({
-              title: '嘘，这里有一张（' + meta.return_money+'元）现金券，悄悄领了，别声张！',
-              desc: '（' + meta.store_name+'）又搞活动啦，是好友我才偷偷告诉你，现金券数量有限，领券要快姿势要帅！',
+              title: '嘘，这里有一张' + meta.return_money+'元现金券，悄悄领了，别声张！',
+              desc:  meta.storeName+'又搞活动啦，是好友我才偷偷告诉你，现金券数量有限，领券要快姿势要帅！',
               link: 'http://test.mall.tdianyi.com/#/pages/business/index?id=' + meta.id,
               imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
               success: function () {
