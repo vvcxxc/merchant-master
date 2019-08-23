@@ -424,11 +424,11 @@ export default connect(({ submitQua }: any) => submitQua)(
                 })
 
               } else {
-                Toast.fail('识别失败', 1);
+                Toast.fail('识别失败，请手动填写信息', 2);
               }
 
             }).catch(err => {
-              Toast.fail('识别失败', 1)
+              Toast.fail('识别失败，请手动填写信息', 2)
             })
           }
         });
@@ -498,10 +498,10 @@ export default connect(({ submitQua }: any) => submitQua)(
                   }
                 })
               } else {
-                Toast.fail('识别失败', 1);
+                Toast.fail('识别失败，请手动填写信息', 2);
               }
             }).catch(err => {
-              Toast.fail('识别失败', 1)
+              Toast.fail('识别失败，请手动填写信息', 2)
             })
           }
         });
@@ -770,7 +770,7 @@ export default connect(({ submitQua }: any) => submitQua)(
               }
             })
           }).catch(err => {
-            Toast.fail('识别失败', 1)
+            Toast.fail('识别失败，请手动填写信息', 2)
           })
         });
       } else {
@@ -963,10 +963,10 @@ export default connect(({ submitQua }: any) => submitQua)(
                 })
 
               } else {
-                Toast.fail('识别失败', 1);
+                Toast.fail('识别失败，请手动填写信息', 2);
               }
             }).catch(err => {
-              Toast.fail('识别失败', 1)
+              Toast.fail('识别失败，请手动填写信息', 2)
             })
           }
         });
