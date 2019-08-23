@@ -213,7 +213,7 @@ export default class submitQua extends Component {
       upload(img).then(res => {
         Toast.hide()
         let legal_id_front_img = res.data.path;
-        this.setState({legal_id_front_img});
+        this.setState({id_front: files, legal_id_front_img});
         const {legal_id_back_img, hand_hold_id_img} = this.state;
         if(legal_id_back_img&&legal_id_front_img&&hand_hold_id_img){
           Toast.loading('识别中',0)
