@@ -42,7 +42,7 @@ export default class payReturnDetail extends Component<any> {
 				<CouponCard key={index} {..._} />
 			</div>
 		));
-
+  
 		return (
 			<Flex className={styles.page} align="start" direction="column">
 				<Flex.Item>
