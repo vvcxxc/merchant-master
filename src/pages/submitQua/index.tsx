@@ -109,7 +109,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
     componentDidMount() {
-      console.log(this.props.date_back)
+      console.log(this.props)
       function getCaption(str: string) {
         return str.split('http://oss.tdianyi.com/')[1]
       }
