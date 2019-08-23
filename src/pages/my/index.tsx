@@ -43,7 +43,10 @@ export default connect()(
 		};
 
 		/**跳转到页面 */
-		pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
+		pushPage = (pathname: string) => () => {
+			// console.log(routerRedux)
+			this.props.dispatch(routerRedux.push({ pathname }))
+		};
 
 		componentDidMount() {
 			this.getMyInfo();
@@ -96,14 +99,11 @@ export default connect()(
 
 		//点击转发
 		forwarding = () => {
-			// this.setState({ show_share_three : true})
 			this.setState({ showSharethree:true})
-			// console.log('点击转发')
 		}
 
 		//遮挡层组件 用户点击选择后触发
 		closeShareThree = (close:boolean) => {
-			// console.log('关闭')
 			this.setState({ showSharethree:false})
 		}
 

@@ -46,7 +46,6 @@ export default class GroupDetails extends Component {
     type: '',
     types: '',
     showShare: false,
-    showPoster: false
   }
   componentDidMount() {
     let { id, type } = this.props.location.query;
@@ -106,21 +105,11 @@ export default class GroupDetails extends Component {
     this.setState({ showShare: false })
   }
 
-  showPoster = (show: any) => {
-    this.setState({ showPoster: true })
-    this.setState({ showShare: false })
-  }
-  closePoster = (close: any) => {
-    this.setState({ showPoster: false })
-  }
-
 
   render() {
     const { info, is_gift, types } = this.state;
     let infoData: any = info.appreciation_gif_info
     let share: any = info.share
-    // console.log(share,'info')
-    // let share: any = info.share
     const description = info.appreciation_coupons_info.description.map((item, idx) => <p key={idx}>· {item}</p>);
     const button = this.state.type == '3' ? null : (
       <Button
@@ -168,13 +157,10 @@ export default class GroupDetails extends Component {
           name={["参与人数", "增值人数", "券使用人数"]}
           colors={['#5476C4', '#7156C6', '#45BDBD']}
         />) : null
-
-    const poster = <Posters closePoster={this.closePoster} showPoster={this.state.showPoster} >{null}</Posters>
     const bottom_share = (
       <BottomShare
         closeShare={this.closeShare}
         showShare={this.state.showShare}
-        showPoster={this.showPoster}
         type={{
           activity_id: infoData.activity_id,
           id: this.props.location.query.id,
@@ -261,8 +247,6 @@ export default class GroupDetails extends Component {
           {/* <Button type='primary' style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button> */}
           {button}
         </WingBlank>
-        {poster}
-
         {bottom_share}
       </div>
     )

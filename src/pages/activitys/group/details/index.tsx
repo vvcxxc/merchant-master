@@ -43,8 +43,7 @@ export default class GroupDetails extends Component {
     type: '',
     is_gift: true,
     types: '',
-    showShare: false,
-    showPoster: false
+    showShare: false
   }
   componentWillMount() {
     
@@ -125,17 +124,8 @@ export default class GroupDetails extends Component {
     this.setState({ showShare: false })
   }
 
-  showPoster = (show: any) => {
-    this.setState({ showPoster: true })
-    this.setState({ showShare: false })
-  }
-  closePoster = (close: any) => {
-    this.setState({ showPoster: false })
-  }
-
   render() {
     const { info, is_gift, types, dataEchart } = this.state;
-
     let infoData: any = info.group_gif_info;
     let share: any = info.share
     let echartData:any = this.state.dataEchart
@@ -193,7 +183,6 @@ export default class GroupDetails extends Component {
       <BottomShare
         closeShare={this.closeShare}
         showShare={this.state.showShare}
-        showPoster={this.showPoster}
         type={{
           activity_id: infoData.activity_id,
           id: this.props.location.query.id,
@@ -282,8 +271,6 @@ export default class GroupDetails extends Component {
           {/* <Button  style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button> */}
           {button}
         </WingBlank>
-         {poster}
-
         {bottom_share} 
       </div>
     )

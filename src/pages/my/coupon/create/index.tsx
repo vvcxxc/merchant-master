@@ -28,7 +28,6 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			);
 
 		handleSubmit = async () => {
-			console.log(this.state.type)
 			if (this.state.type === 0) {
 				if (!this.props.couponForm.coupons_name || !this.props.couponForm.return_money || !this.props.couponForm.total_num || !this.props.couponForm.validity || !this.props.couponForm.description ||
 					!this.props.couponForm.image || !this.props.couponForm.image_url || !this.props.couponForm.temp_url1 || !this.props.couponForm.temp_url2) {
@@ -36,10 +35,14 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 						return;
 				}
 			} else {
-				if (!this.props.couponForm.total_fee || !this.props.couponForm.return_money || !this.props.couponForm.total_num || !this.props.couponForm.validity  ) {
+				if (!this.props.moneyForm.total_fee || !this.props.moneyForm.return_money || !this.props.moneyForm.total_num || !this.props.moneyForm.validity  ) {
 					Toast.fail('信息未填完整', 2);
 					return;
 				}
+				// if (!this.props.couponForm.total_fee || !this.props.couponForm.return_money || !this.props.couponForm.total_num || !this.props.couponForm.validity  ) {
+				// 	Toast.fail('信息未填完整', 2);
+				// 	return;
+				// }
 			}
 			Toast.loading('');
 			const res = this.state.type === 0 ? await this.postCoupon() : await this.postMoney();
