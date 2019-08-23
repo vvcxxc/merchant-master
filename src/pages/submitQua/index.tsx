@@ -113,6 +113,16 @@ export default connect(({ submitQua }: any) => submitQua)(
       function getCaption(str: string) {
         return str.split('http://oss.tdianyi.com/')[1]
       }
+
+
+
+      if (Cookies.get("_bank3disable")&&JSON.parse(Cookies.get("_bank3disable"))==true) {
+        console.log("禁用")
+        this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+      }
+
+
+
       // 暂时
       Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
         let { data } = res.data;
@@ -140,8 +150,10 @@ export default connect(({ submitQua }: any) => submitQua)(
         if (three_certs_in_one_valid_date[0] == 0) {
           three_certs_in_one_valid_date = '长期'
         }
+
         let arr = (this.props.contact_name || this.props.legal_id_no || this.props.date || this.props.settle_bank_account_name || this.props.settle_bank_account_no || this.props.settle_bank || this.props.three_certs_in_one_no || this.props.corn_bus_name || this.props.legal_name || this.props.three_certs_in_one_valid_date || this.props.bank_name || this.props.legal_id_front_img || this.props.legal_id_back_img || this.props.hand_hold_id_img || this.props.bank_card_front_img || this.props.bank_card_back_img || this.props.three_certs_in_one_img)
         if (this.props.date_back == false) {
+
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
@@ -206,6 +218,7 @@ export default connect(({ submitQua }: any) => submitQua)(
               license_img: []
             }
           })
+
           // if (legal_id_front_img) {
           //   this.props.dispatch({
           //     type: 'submitQua/setQua',
@@ -254,6 +267,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           //     }
           //   })
           // }
+
         } else {
           if (this.props.bank_disable == true) {
             this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
@@ -265,9 +279,9 @@ export default connect(({ submitQua }: any) => submitQua)(
             }
           })
           return
-
         }
       })
+
     }
     /**查看身份证示例 */
     toIdCardExample = () => {
@@ -586,6 +600,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     bank_front: files
       //   }
       // })
+      console.time()
       Toast.loading('');
       if (files[0]) {
         let img = files[0].url;
@@ -627,6 +642,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                 });
                 this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
                 Toast.success('识别成功', 2);
+                Cookies.set("_bank3disable", true, { expires: 1 });
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
                 this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
@@ -652,6 +668,7 @@ export default connect(({ submitQua }: any) => submitQua)(
         });
       } else {
         Toast.hide();
+        Cookies.remove("_bank3disable");
         this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
         Cookies.set("_changeBankFront", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
@@ -663,6 +680,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           }
         })
       }
+      console.timeEnd()
     }
     /**银行卡反面选择 */
     changeBankBack = (files: any) => {
@@ -714,6 +732,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                 });
                 this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
                 Toast.success('识别成功', 2);
+                Cookies.set("_bank3disable", true, { expires: 1 });
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 1);
                 this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
@@ -738,6 +757,7 @@ export default connect(({ submitQua }: any) => submitQua)(
         });
       } else {
         Toast.hide();
+        Cookies.remove("_bank3disable");
         this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
         Cookies.set("_changeBankBack", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
@@ -867,6 +887,8 @@ export default connect(({ submitQua }: any) => submitQua)(
       })
     }
     closeBankFront = () => {
+      Cookies.remove("_bank3disable");
+      this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
       Cookies.set("_changeBankFront", JSON.stringify(""), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
@@ -877,6 +899,8 @@ export default connect(({ submitQua }: any) => submitQua)(
       })
     }
     closeBankBack = () => {
+      Cookies.remove("_bank3disable");
+      this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
       Cookies.set("_changeBankBack", JSON.stringify(""), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
