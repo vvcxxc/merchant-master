@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Flex } from 'antd-mobile';
 import styles from './index.less';
+import BottomShare from '@/pages/activitys/appreciation/componts/bottom_share'
 
 interface Props {
 	onClick: (id: number) => any;
@@ -27,8 +28,23 @@ export interface Item {
 }
 
 export default class MyCouponItem extends Component<Props & Item> {
+	state = {
+		showShare:false
+	}
+
 	handleClick = () => this.props.id && this.props.onClick(this.props.id);
+
+	shareClick = (e:any) => {//开启分享
+		this.setState({ showShare: true })
+		e.stopPropagation();//需要一个穿透事件
+	}
+
+	closeShare = (close: boolean) => {//关闭分享
+		this.setState({ showShare: false })
+	}
+
 	render() {
+		
 		const useScale =
 			this.props.total_num && this.props.user_count && (this.props.total_num / this.props.user_count) * 100;
 		const leftMain =
@@ -43,7 +59,21 @@ export default class MyCouponItem extends Component<Props & Item> {
 				<Flex className="price-wrap">
 					<img src={this.props.image} />
 				</Flex>
-			);
+				);
+		
+		const bottom_share = (
+			<BottomShare
+				closeShare={this.closeShare}
+				showShare={this.state.showShare}
+				type={{
+					id: this.props.id,
+					name:'优惠券',
+					storeName: this.props.store_name,
+					youhui_type: this.props.youhui_type,//0是兑换券 1是现金券
+					return_money: this.props.return_money
+				}}
+			>{null}
+			</BottomShare>)
 		return (
 			<Flex className={styles.coupon} onClick={this.handleClick}>
 				{leftMain}
@@ -67,11 +97,12 @@ export default class MyCouponItem extends Component<Props & Item> {
 								</div>
 							</Flex>
 						</Flex.Item>
-						{/* {this.props.publish_wait === 1 && <div className="createBannerBtn">生成海报</div>} */}
+						{this.props.publish_wait === 1 && <div className="createBannerBtn" onClick={this.shareClick.bind(this)}>分享</div>}
 						{/* {this.props.publish_wait === 2 && <div className="stopBtn">已暂停发放</div>} */}
 						{/* {this.props.publish_wait === 3 && <div className="stopBtn">已删除</div>} */}
 					</Flex>
 				</Flex.Item>
+				{bottom_share}
 			</Flex>
 		);
 	}
