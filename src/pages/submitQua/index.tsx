@@ -109,7 +109,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
     componentDidMount() {
-      console.log(this.props.date_back)
+      console.log(this.props)
       function getCaption(str: string) {
         return str.split('http://oss.tdianyi.com/')[1]
       }
@@ -145,31 +145,58 @@ export default connect(({ submitQua }: any) => submitQua)(
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
-              contact_name: contact_name != "" ? contact_name : (Cookies.get("_handleName") ? JSON.parse(Cookies.get("_handleName")) : ""),
-              legal_id_no: legal_id_no != "" ? legal_id_no : (Cookies.get("_legal_id_no") ? JSON.parse(Cookies.get("_legal_id_no")) : ""),
-              date: legal_id_valid_date != "" ? legal_id_valid_date : (Cookies.get("_date") ? JSON.parse(Cookies.get("_date")) : ""),
-              settle_bank_account_name: settle_bank_account_name != "" ? settle_bank_account_name : (Cookies.get("_handleBankAccountName") ? JSON.parse(Cookies.get("_handleBankAccountName")) : ""),
-              settle_bank_account_no: settle_bank_account_no != "" ? settle_bank_account_no : (Cookies.get("_handleBankNum") ? JSON.parse(Cookies.get("_handleBankNum")) : ""),
-              settle_bank: settle_bank != "" ? settle_bank : (Cookies.get("_handleSettleBank") ? JSON.parse(Cookies.get("_handleSettleBank")) : ""),
-              three_certs_in_one_no: three_certs_in_one_no != "" ? three_certs_in_one_no : (Cookies.get("_handleLicenseNUm") ? JSON.parse(Cookies.get("_handleLicenseNUm")) : ""),
-              corn_bus_name: corn_bus_name != "" ? corn_bus_name : (Cookies.get("_handleLicenseName") ? JSON.parse(Cookies.get("_handleLicenseName")) : ""),
-              legal_name: legal_name != "" ? legal_name : (Cookies.get("_handleLegalName") ? JSON.parse(Cookies.get("_handleLegalName")) : ""),
-              three_certs_in_one_valid_date: three_certs_in_one_valid_date != "" ? three_certs_in_one_valid_date : (Cookies.get("_three_certs_in_one_valid_date") ? JSON.parse(Cookies.get("_three_certs_in_one_valid_date")) : ""),
-              bank_name: bank_name != "" ? bank_name : (Cookies.get("_handleBankName") ? JSON.parse(Cookies.get("_handleBankName")) : ""),
+              // contact_name: contact_name != "" ? contact_name : (Cookies.get("_handleName") ? JSON.parse(Cookies.get("_handleName")) : ""),
+              // legal_id_no: legal_id_no != "" ? legal_id_no : (Cookies.get("_legal_id_no") ? JSON.parse(Cookies.get("_legal_id_no")) : ""),
+              // date: legal_id_valid_date != "" ? legal_id_valid_date : (Cookies.get("_date") ? JSON.parse(Cookies.get("_date")) : ""),
+              // settle_bank_account_name: settle_bank_account_name != "" ? settle_bank_account_name : (Cookies.get("_handleBankAccountName") ? JSON.parse(Cookies.get("_handleBankAccountName")) : ""),
+              // settle_bank_account_no: settle_bank_account_no != "" ? settle_bank_account_no : (Cookies.get("_handleBankNum") ? JSON.parse(Cookies.get("_handleBankNum")) : ""),
+              // settle_bank: settle_bank != "" ? settle_bank : (Cookies.get("_handleSettleBank") ? JSON.parse(Cookies.get("_handleSettleBank")) : ""),
+              // three_certs_in_one_no: three_certs_in_one_no != "" ? three_certs_in_one_no : (Cookies.get("_handleLicenseNUm") ? JSON.parse(Cookies.get("_handleLicenseNUm")) : ""),
+              // corn_bus_name: corn_bus_name != "" ? corn_bus_name : (Cookies.get("_handleLicenseName") ? JSON.parse(Cookies.get("_handleLicenseName")) : ""),
+              // legal_name: legal_name != "" ? legal_name : (Cookies.get("_handleLegalName") ? JSON.parse(Cookies.get("_handleLegalName")) : ""),
+              // three_certs_in_one_valid_date: three_certs_in_one_valid_date != "" ? three_certs_in_one_valid_date : (Cookies.get("_three_certs_in_one_valid_date") ? JSON.parse(Cookies.get("_three_certs_in_one_valid_date")) : ""),
+              // bank_name: bank_name != "" ? bank_name : (Cookies.get("_handleBankName") ? JSON.parse(Cookies.get("_handleBankName")) : ""),
 
-              legal_id_front_img: legal_id_front_img != "" ? getCaption(legal_id_front_img) : (Cookies.get("_changeIdFront") ? JSON.parse(Cookies.get("_changeIdFront")) : ""),
-              legal_id_back_img: legal_id_back_img != "" ? getCaption(legal_id_back_img) : (Cookies.get("_changeIdBack") ? JSON.parse(Cookies.get("_changeIdBack")) : ""),
-              hand_hold_id_img: hand_hold_id_img != "" ? getCaption(hand_hold_id_img) : (Cookies.get("_changeIdHand") ? JSON.parse(Cookies.get("_changeIdHand")) : ""),
-              bank_card_front_img: bank_card_front_img != "" ? getCaption(bank_card_front_img) : (Cookies.get("_changeBankFront") ? JSON.parse(Cookies.get("_changeBankFront")) : ""),
-              bank_card_back_img: bank_card_back_img != "" ? getCaption(bank_card_back_img) : (Cookies.get("_changeBankBack") ? JSON.parse(Cookies.get("_changeBankBack")) : ""),
-              three_certs_in_one_img: three_certs_in_one_img != "" ? getCaption(three_certs_in_one_img) : (Cookies.get("_changeLicense") ? JSON.parse(Cookies.get("_changeLicense")) : ""),
+              // legal_id_front_img: legal_id_front_img != "" ? getCaption(legal_id_front_img) : (Cookies.get("_changeIdFront") ? JSON.parse(Cookies.get("_changeIdFront")) : ""),
+              // legal_id_back_img: legal_id_back_img != "" ? getCaption(legal_id_back_img) : (Cookies.get("_changeIdBack") ? JSON.parse(Cookies.get("_changeIdBack")) : ""),
+              // hand_hold_id_img: hand_hold_id_img != "" ? getCaption(hand_hold_id_img) : (Cookies.get("_changeIdHand") ? JSON.parse(Cookies.get("_changeIdHand")) : ""),
+              // bank_card_front_img: bank_card_front_img != "" ? getCaption(bank_card_front_img) : (Cookies.get("_changeBankFront") ? JSON.parse(Cookies.get("_changeBankFront")) : ""),
+              // bank_card_back_img: bank_card_back_img != "" ? getCaption(bank_card_back_img) : (Cookies.get("_changeBankBack") ? JSON.parse(Cookies.get("_changeBankBack")) : ""),
+              // three_certs_in_one_img: three_certs_in_one_img != "" ? getCaption(three_certs_in_one_img) : (Cookies.get("_changeLicense") ? JSON.parse(Cookies.get("_changeLicense")) : ""),
 
-              is_id_front: (legal_id_front_img != "" || Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) != "") ? true : false,
-              is_id_back: (legal_id_back_img != "" || Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) != "") ? true : false,
-              is_id_hand: (hand_hold_id_img != "" || Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) != "") ? true : false,
-              is_bank_front: (bank_card_front_img != "" || Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) != "") ? true : false,
-              is_bank_back: (legal_id_back_img != "" || Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) != "") ? true : false,
-              is_license: (three_certs_in_one_img != "" || Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) != "") ? true : false,
+              contact_name: Cookies.get("_handleName") ? JSON.parse(Cookies.get("_handleName")) : contact_name,
+              legal_id_no: Cookies.get("_legal_id_no") ? JSON.parse(Cookies.get("_legal_id_no")) : legal_id_no,
+              date: Cookies.get("_date") ? JSON.parse(Cookies.get("_date")) : legal_id_valid_date,
+              settle_bank_account_name: Cookies.get("_handleBankAccountName") ? JSON.parse(Cookies.get("_handleBankAccountName")) : settle_bank_account_name,
+              settle_bank_account_no: Cookies.get("_handleBankNum") ? JSON.parse(Cookies.get("_handleBankNum")) : settle_bank_account_no,
+              settle_bank: Cookies.get("_handleSettleBank") ? JSON.parse(Cookies.get("_handleSettleBank")) : settle_bank,
+              three_certs_in_one_no: Cookies.get("_handleLicenseNUm") ? JSON.parse(Cookies.get("_handleLicenseNUm")) : three_certs_in_one_no,
+              corn_bus_name: Cookies.get("_handleLicenseName") ? JSON.parse(Cookies.get("_handleLicenseName")) : corn_bus_name,
+              legal_name: Cookies.get("_handleLegalName") ? JSON.parse(Cookies.get("_handleLegalName")) : legal_name,
+              three_certs_in_one_valid_date: Cookies.get("_three_certs_in_one_valid_date") ? JSON.parse(Cookies.get("_three_certs_in_one_valid_date")) : three_certs_in_one_valid_date,
+              bank_name: Cookies.get("_handleBankName") ? JSON.parse(Cookies.get("_handleBankName")) : bank_name,
+
+              legal_id_front_img: Cookies.get("_changeIdFront") ? JSON.parse(Cookies.get("_changeIdFront")) : getCaption(legal_id_front_img),
+              legal_id_back_img: Cookies.get("_changeIdBack") ? JSON.parse(Cookies.get("_changeIdBack")) : getCaption(legal_id_back_img),
+              hand_hold_id_img: Cookies.get("_changeIdHand") ? JSON.parse(Cookies.get("_changeIdHand")) : getCaption(hand_hold_id_img),
+              bank_card_front_img: Cookies.get("_changeBankFront") ? JSON.parse(Cookies.get("_changeBankFront")) : getCaption(bank_card_front_img),
+              bank_card_back_img: Cookies.get("_changeBankBack") ? JSON.parse(Cookies.get("_changeBankBack")) : getCaption(bank_card_back_img),
+              three_certs_in_one_img: Cookies.get("_changeLicense") ? JSON.parse(Cookies.get("_changeLicense")) : getCaption(three_certs_in_one_img),
+
+
+              is_id_front: (Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) != "") ? true : ((Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) == "") ? false : (legal_id_front_img != "" ? true : false)),
+              is_id_back: (Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) != "") ? true : ((Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) == "") ? false : (legal_id_back_img != "" ? true : false)),
+              is_id_hand: (Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) != "") ? true : ((Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) == "") ? false : (hand_hold_id_img != "" ? true : false)),
+              is_bank_front: (Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) != "") ? true : ((Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) == "") ? false : (bank_card_front_img != "" ? true : false)),
+              is_bank_back: (Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) != "") ? true : ((Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) == "") ? false : (bank_card_back_img != "" ? true : false)),
+              is_license: (Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) != "") ? true : ((Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) == "") ? false : (three_certs_in_one_img != "" ? true : false)),
+
+              // is_id_front: (legal_id_front_img != "" || Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) != "") ? true : false,
+              // is_id_back: (legal_id_back_img != "" || Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) != "") ? true : false,
+              // is_id_hand: (hand_hold_id_img != "" || Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) != "") ? true : false,
+              // is_bank_front: (bank_card_front_img != "" || Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) != "") ? true : false,
+              // is_bank_back: (bank_card_back_img != "" || Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) != "") ? true : false,
+              // is_license: (three_certs_in_one_img != "" || Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) != "") ? true : false,
               modal1img: [],
               id_back: [],
               id_front: [],
@@ -434,7 +461,8 @@ export default connect(({ submitQua }: any) => submitQua)(
         });
       } else {
         Toast.hide();
-        Cookies.set("_changeIdFront", JSON.stringify(""), { expires: 1 });
+        // Cookies.set("_changeIdFront", JSON.stringify(""), { expires: 1 });
+        Cookies.remove("_changeIdFront");
         this.props.dispatch({
           type: 'submitQua/setQua',
           payload: {
