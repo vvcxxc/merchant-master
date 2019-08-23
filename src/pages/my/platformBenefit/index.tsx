@@ -67,9 +67,17 @@ export default class PlatformBenefit extends Component {
 		});
 		Toast.hide();
 		if (res.code === 200) {
+			let temp;
+			if(res.rate_sum||res.rate_sum==0){
+				temp=res.rate_sum;
+			}else if(res.coupons_sum||res.coupons_sum==0){
+				temp=res.coupons_sum;
+			}else if(res.ad_sum||res.ad_sum==0){
+				temp=res.ad_sum;
+			}
 			this.setState({
 				data: res.data,
-				total: res.rate_sum || res.coupons_sum || res.ad_sum,
+				total: temp,
 				invoice: res.invoice
 			}, () => {
 				if (res.data.length == 0) {
@@ -93,7 +101,6 @@ export default class PlatformBenefit extends Component {
 				</Flex>
 			));
 		} else if (this.state.type === 1) {
-			console.log(this.state.data)
 			list = this.state.data.map((_: CouponItem) => (
 				<Flex direction="column" className={styles.item}>
 					<Flex>
