@@ -78,12 +78,12 @@ export default class FiltrateLayout extends Component<Props> {
 		if (id == "") {
 			this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id }, resetBool: true } }, () => {
 				this.handleQueryChange();
-				this.handleQueryChange2();
+				// this.handleQueryChange2();
 			});
 		} else {
 			this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id }, resetBool: false } }, () => {
 				this.handleQueryChange();
-				this.handleQueryChange2();
+				// this.handleQueryChange2();
 			});
 		}
 	}
@@ -93,7 +93,7 @@ export default class FiltrateLayout extends Component<Props> {
 		this.setState({ title2: value == "" ? "月份" : value })
 		this.setState({ timeShow: false, query: { ...this.state.query, time: value } }, () => {
 			this.handleQueryChange();
-			this.handleQueryChange3();
+			// this.handleQueryChange3();
 		});
 	}
 	/**条件变更时触发onChange事件 */
