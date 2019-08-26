@@ -46,7 +46,7 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 	/**点击某个条件时2*/
 	const handleClickUndetermined2 = (index: number, item: Item): any => () => {
 		// console.log(item)
-		set_Checked(item.id);
+		set_Checked(item._id);
 		// _checkedName = item.
 	};
 	const submit = () => onChange(checked, _checked);
@@ -75,13 +75,11 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 			align="center"
 			justify="center"
 			onClick={handleClickUndetermined2(index, _)}
-			className={_.id === _checked ? small_box2 : small_box}
+			className={_._id === _checked ? small_box2 : small_box}
 		>
 			{_.label}
 		</Flex>
 	)) : null;
-
-
 
 	/**备用条件 */
 	const afterContext = after && (
@@ -117,7 +115,6 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 						<div className="title">交易时间</div>
 						{/* <div className="undetermined-list">{undeterminedList2}</div> */}
 						<div style={{ display: 'Flex', justifyContent: 'space-around' }}>{undeterminedList2}</div>
-						{/* {afterContext} */}
 					</WingBlank> : null
 				}
 

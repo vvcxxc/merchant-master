@@ -45,7 +45,7 @@ export default class Benefit extends Component {
 	];
 	state = {
 		data: [],
-		type: 'today',
+		type: undefined,
 		payType: undefined,
 		// date: new Date().getFullYear() + '-' + Number(new Date().getMonth() + 1),
 		date:undefined,
