@@ -36,13 +36,13 @@ export default class OrderPage extends Component {
 	];
 	undetermined2 = [
 		{
-			id: 'today',
+			_id: 'today',
 			label: '今日',
 			time:'today'
 		},
-		{ id: 'yestoday', label: '昨日', time:'yestoday' },
-		{ id: 'thisweek', label: '本周', time: 'thisweek'},
-		{ id: 'thismonth', label: '本月', time: 'thismonth' }
+		{ _id: 'yestoday', label: '昨日', time:'yestoday' },
+		{ _id: 'thisweek', label: '本周', time: 'thisweek'},
+		{ _id: 'thismonth', label: '本月', time: 'thismonth' }
 	]
 
 	componentDidMount() {
