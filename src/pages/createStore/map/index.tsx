@@ -252,7 +252,6 @@ export default connect(({createStore}: any) => createStore)(
       })
       router.push('/createStore')
     }
-
     chooseBest = () => {
       let location = this.state.location;
       let address = this.state.address;
