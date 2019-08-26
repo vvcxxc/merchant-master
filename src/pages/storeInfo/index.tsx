@@ -7,7 +7,7 @@ import styles from './index.less';
 import { WingBlank, Flex, InputItem, List, Picker, ImagePicker, Button, Toast} from 'antd-mobile';
 import router from 'umi/router';
 import request from '@/services/request';
-import MapPage from '@/pages/createStore/map/index';
+import MapPage from '@/components/map';
 import upload from '@/services/oss';
 
 const Item = List.Item;
