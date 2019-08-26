@@ -734,7 +734,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                 Toast.success('识别成功', 2);
                 Cookies.set("_bank3disable", true, { expires: 1 });
               } else {
-                Toast.fail('银行卡识别失败，请重新上传。', 1);
+                Toast.fail('银行卡识别失败，请重新上传。', 2);
                 this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
                 this.props.dispatch({
                   type: 'submitQua/setQua',

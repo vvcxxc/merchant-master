@@ -23,10 +23,10 @@ export default class Posters extends Component<Props> {
 
     canvas.style.borderRadius = '15px'
     const can_object = canvas.getContext('2d') //html5对象
-    
+
     can_object.fillStyle = "#fff";
-    can_object.fillRect(0, 0, canvas.width, canvas.height);   
-    
+    can_object.fillRect(0, 0, canvas.width, canvas.height);
+
     let imgs = new Image // 图片
     imgs.style.borderRadius = '15px'
     imgs.src = require('./pisha.png')
@@ -54,7 +54,7 @@ export default class Posters extends Component<Props> {
     can_object.fillStyle = "#999999"
     can_object.font = '21px PingFang-SC-Medium';
     can_object.fillText('长按识别小程序码', 360, 695, 490, 900);
-    
+
     can_object.mozImageSmoothingEnabled = false;
     can_object.webkitImageSmoothingEnabled = false;
     can_object.msImageSmoothingEnabled = false;
@@ -70,7 +70,7 @@ export default class Posters extends Component<Props> {
     this.props.closePoster(false)
   }
 
-  
+
   render() {
     return (
       <div className={styles.posterBox} style={{ display: this.props.showPoster ? '' : 'none' }}>

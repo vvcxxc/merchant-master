@@ -106,13 +106,13 @@ export default connect(({ app }: any) => app)(
 				case '钻石展位':
 					router.push({ pathname: '/ad/other-page', query: { type: item.name } });
 					break;
-				case '增值':
+				case '好友增值':
 					router.push('/activitys/appreciation/createAppreciation');
 					break;
-				case '拼团':
+				case '社区拼团':
 					router.push('/activitys/group/createGroup');
 					break;
-				case '满减':
+				case '满减活动':
 					router.push('/activitys/money-off/create');
 					break;
 				case '提现记录':

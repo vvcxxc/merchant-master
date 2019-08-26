@@ -57,7 +57,6 @@ export default class FiltrateLayout extends Component<Props> {
 		console.log(this.props)
 	}
 	componentDidUpdate() {
-		console.log("我的收益页面", this.props.plat_type)
 		if (this.props.plat_type == 2) {
 			//2为该重置了
 			this.timeChange("");
