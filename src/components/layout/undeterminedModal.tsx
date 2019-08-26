@@ -38,23 +38,18 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 	const { small_box2, small_box } = styles
 	/**点击某个条件时 */
 	const handleClickUndetermined = (index: number, item: Item): any => () => {
-		// const _undetermined = [...selfUndetermined];
-		// _undetermined.splice(index, 1, { ...item, checked: !item.checked });
-		// setSelfUndetermined(_undetermined);
 		setChecked(item.id);
 	};
 	/**点击某个条件时2*/
 	const handleClickUndetermined2 = (index: number, item: Item): any => () => {
-		// console.log(item)
 		set_Checked(item._id);
-		// _checkedName = item.
 	};
 	const submit = () => {
 		onChange(checked, _checked)};
 	const _reset = () => {
 		setChecked(undefined);
 		set_Checked(undefined);
-		onChange('', undefined);//_id自给自足，id有点变化照顾一下财务详情的重置
+		onChange('', undefined);//_id重置自给自足，财务列表id重置要通知一下金额框清空，所以留点变化
 	};
 	/**渲染条件列表 */
 	const undeterminedList = undetermined.map((_: any, index: any) => (
