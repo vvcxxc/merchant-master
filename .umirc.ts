@@ -35,5 +35,6 @@ const config: IConfig = {
       },
     ],
   ],
+  hash: true
 };
 export default config;
