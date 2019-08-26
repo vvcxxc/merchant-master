@@ -40,7 +40,7 @@ export default class FiltrateLayout extends Component<Props> {
 			hot: {},
 			/**时间月份选择 */
 			time: '',
-			resetBool: false //重置相干
+			resetBool: false //判断点了重置
 		},
 		/**显示条件的下拉列表 */
 		hotShow: false,
@@ -73,13 +73,11 @@ export default class FiltrateLayout extends Component<Props> {
 	hotChange = (id: any, _id: any) => {
 		//handleQueryChange2，3在支付渠道详情，	
 		if (id ==="") {//重置:underfind=>""=>underfind
-		console.log(id+"1");
 			this.setState({ hotShow: false, query: { ...this.state.query, hot: { id:undefined, _id }, resetBool: true } }, () => {
 				this.handleQueryChange();
 				// this.handleQueryChange2();
 			});
 		} else {
-			console.log(id+"2");
 			this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id }, resetBool: false } }, () => {
 				this.handleQueryChange();
 				// this.handleQueryChange2();

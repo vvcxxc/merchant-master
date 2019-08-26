@@ -66,8 +66,8 @@ export default connect(({ finance }: any) => finance)(
             page: this.state.page,
             finance_type: query.hot.id,
             date: query.time ? moment(query.time).unix() : undefined,
-            moneyscope_micro: this.state.min,
-            moneyscope_maximum: this.state.max
+            moneyscope_micro: this.state.min==""?undefined:this.state.min,
+            moneyscope_maximum: this.state.max==""?undefined:this.state.max
           }
         });
 
