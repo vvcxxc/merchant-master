@@ -215,7 +215,7 @@ export default connect(({ ad }: any) => ad)(
 		};
 
 		handleChangeType = (type: number) => {
-			// this.setState({ 
+			// this.setState({
 			// 	type: type
 			// }, () => {
 			// 	this.props.getIndex(type + 1);
@@ -386,7 +386,7 @@ export default connect(({ ad }: any) => ad)(
 									<div className={styles.bannerBox}>
 										<img className={styles.banner} src={this.state.banner} />
 									</div>
-									//this.state.formType == 0 ? <img className={styles.banner} src={this.state.banner} /> 
+									//this.state.formType == 0 ? <img className={styles.banner} src={this.state.banner} />
 									//  : this.state.formType == 1?  <img className={styles.banner} src={this.state.banner} /> : null
 								}
 							</Flex.Item>
