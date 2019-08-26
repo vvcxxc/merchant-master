@@ -123,7 +123,7 @@ export default connect()(
 									className="setting"
 									onClick={this.pushPage('/myInfo')}
 								/>
-                {qianyue}
+                {/* {qianyue} */}
 							</Flex>
 						</WingBlank>
 					</div>
