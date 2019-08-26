@@ -280,6 +280,7 @@ export default connect(({createStore}: any) => createStore)(
       let address = this.state.city[0] + this.state.city[1] + item.address + item.name;
       // console.log(address)
       // this.props.onChange(location,address);
+      Cookies.set("handleAddress", JSON.stringify(address), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
