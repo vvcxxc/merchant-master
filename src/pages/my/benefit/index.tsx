@@ -21,9 +21,9 @@ export default class Benefit extends Component {
 	];
 	state = {
 		data: [],
-		type: 'today',
-		payType: 0,
-		date: new Date().getFullYear()+'-'+Number(new Date().getMonth()+1),
+		type: undefined,
+		payType: undefined,
+		date: undefined,
 		showNoData: false,
 		sum: 0,
 		platform: 0,
@@ -75,7 +75,9 @@ export default class Benefit extends Component {
 
 	handleChange = (query: any) => {
 		console.log(query)
-		this.setState({ date: query.time || undefined, payType: query.hot.id }, this.getData)
+		this.setState({ date: query.time || undefined, payType: query.hot.id }, ()=>{
+			console.log(this.state.payType,query.hot.id )
+			this.getData()})
 		// 每次change时重置
 		this.setState({
 			showNoData: false,

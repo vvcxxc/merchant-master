@@ -71,15 +71,15 @@ export default class FiltrateLayout extends Component<Props> {
 	handleTimeClick = () => this.setState({ timeShow: !this.state.timeShow, hotShow: false });
 
 	hotChange = (id: any, _id: any) => {
-		//handleQueryChange所有该组件都有用，handleQueryChange2，3只有支付渠道详情使用，因此保证大部分组件可以改变状态，再让支付渠道详情改变
-		//重置:underfind=>""
-		console.log("reset: " + (id == ""));
-		if (id == "") {
-			this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id }, resetBool: true } }, () => {
+		//handleQueryChange2，3在支付渠道详情，	
+		if (id ==="") {//重置:underfind=>""=>underfind
+		console.log(id+"1");
+			this.setState({ hotShow: false, query: { ...this.state.query, hot: { id:undefined, _id }, resetBool: true } }, () => {
 				this.handleQueryChange();
 				// this.handleQueryChange2();
 			});
 		} else {
+			console.log(id+"2");
 			this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id }, resetBool: false } }, () => {
 				this.handleQueryChange();
 				// this.handleQueryChange2();
@@ -88,8 +88,8 @@ export default class FiltrateLayout extends Component<Props> {
 	}
 	hotHide = () => this.setState({ hotShow: false });
 	timeHide = () => this.setState({ timeShow: false });
-	timeChange = (value: string): any => {
-		this.setState({ title2: value == "" ? "月份" : value })
+	timeChange = (value: string|undefined): any => {
+		this.setState({ title2: value == undefined ? "月份" : value })
 		this.setState({ timeShow: false, query: { ...this.state.query, time: value } }, () => {
 			this.handleQueryChange();
 			// this.handleQueryChange3();
