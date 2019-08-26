@@ -6,6 +6,16 @@ import SelectDate from './selectDate';
 import checkIcon from './icon-check.png';
 import icon from './icon.png';
 
+//改前须知
+//传入参数
+// undetermined为条件1，格式{id,label},
+// undetermined2为可选条件2，格式{_id:"条件1的id",label:"条件2的_id"},
+// after追加代码结构，如财务列表页金额范围，筛选组件操作（如重置）并不能控制这个，但可以重置时通知使用页面自己重置state，一般没这个啥事没啥卵用
+//触发方法：onChange()接收query:{hot:{id,_id},date:""}后更改状态
+// hotHide()条件选择，格式hot：{id,_id},_id类型为数字或underfine，id类型为数字或underfind(/index)或""(/undeterminedModal)，区别是id为""时发请求会带上id字段，underfind则不会
+//   《组件不能充值财务列表的金额追加条件，所以id重置为""(/undeterminedModal)=》通知金额重置resetBool:true =》把id改回underfind(/index)，以此更改》
+// timeChange()月份选择，字符串类型，空时为""
+
 interface Props {
 	/**无关紧要的信息 */
 	hasInsignificant?: boolean;
@@ -20,7 +30,7 @@ interface Props {
 	/**条件改变时 */
 	onChange?: (query: any) => any;
 	onTabChange?: (index: number) => any;
-	/**财务列表页条件改变时 */
+	/**财务列表页条件改变时，暂时废置*/
 	onChange2?: (query: any) => any;
 	onChange3?: (query: any) => any;
 	/**我的收益页条件变动重置 */
@@ -51,6 +61,7 @@ export default class FiltrateLayout extends Component<Props> {
 		/**是否选择了时间筛选 */
 		timeCheck: false,
 		tabActive: 0,
+		/**时间筛选标题 */
 		title2: "月份"
 	};
 	componentDidMount() {
@@ -58,9 +69,9 @@ export default class FiltrateLayout extends Component<Props> {
 	}
 	componentDidUpdate() {
 		if (this.props.plat_type == 2) {
-			//2为该重置了
+			//我的收益页用，是2则应该重置页面了
 			this.timeChange("");
-			//改回1
+			//重置完成改回1
 			this.props.changePlatType && this.props.changePlatType();
 		}
 	}
@@ -170,12 +181,10 @@ export default class FiltrateLayout extends Component<Props> {
 					undetermined={this.props.undetermined}
 					undetermined2={this.props.undetermined2}
 					after={this.props.after}
-					// reset={this.hotReset}
 					onHide={this.hotHide}
 				/>
 				<SelectDate
 					show={this.state.timeShow}
-					// reset={this.timeReset}
 					value={this.state.query.time}
 					onHide={this.timeHide}
 					onChange={this.timeChange}
