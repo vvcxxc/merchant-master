@@ -101,7 +101,20 @@ export default connect(({ app }: any) => app)(
 			this.props.dispatch({
 				type: 'app/getData'
 			});
-		}
+    }
+
+    // 授权
+  auth = () => {
+    let from = window.location.href;
+    let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
+    url = encodeURIComponent(url);
+    let urls =
+      'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
+      url +
+      '&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+    return (window.location.href = urls);
+  }
+
 		/**跳转到页面 */
 		pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
 
@@ -118,13 +131,13 @@ export default connect(({ app }: any) => app)(
 				case '钻石展位':
 					router.push({ pathname: '/ad/other-page', query: { type: item.name } });
 					break;
-				case '增值':
+				case '好友增值':
 					router.push('/activitys/appreciation/createAppreciation');
 					break;
-				case '拼团':
+				case '社区拼团':
 					router.push('/activitys/group/createGroup');
 					break;
-				case '满减':
+				case '满减活动':
 					router.push('/activitys/money-off/create');
 					break;
 				case '提现记录':

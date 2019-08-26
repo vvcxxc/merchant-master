@@ -60,7 +60,7 @@ export default connect(({ finance }: any) => finance)(
           type: 'finance/getData',
           query: {
             page: this.state.page,
-            finance_type: query.hot,
+            finance_type: query.hot.id,
             date: query.time ? moment(query.time).unix() : undefined,
             moneyscope_micro: this.state.min,
             moneyscope_maximum: this.state.max
@@ -84,7 +84,7 @@ export default connect(({ finance }: any) => finance)(
           this.props.dispatch({
             type: 'finance/getData', query: {
               page: this.state.page,
-              finance_type: this.state.finance_type,
+              finance_type: this.state.finance_type.id,
               date: this.state.date,
               moneyscope_micro: this.state.min,
               moneyscope_maximum: this.state.max
@@ -129,16 +129,16 @@ export default connect(({ finance }: any) => finance)(
         this.props.data.map(_ => (
           <Flex key={_.id} className={styles.financeItem} onClick={
             () => {
-              switch (_.type) {
-                //账单类型1=线下收银详情 2=费率返点详情 3=广告收益 4=优惠券收益 5=线上卖券 6=广告支出
-                case 3: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 1 }); break;  //线下交易（线下收银）
-                case 13: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 2 }); break; //费率返点（商家返点）
-                case 6: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 3 }); break;  //广告收益
-                case 8: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 4 }); break;   //优惠券收益（优惠券分润）
-                case 15: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 5 }); break;   //线上卖券，存疑(平台收益)
-                case 9: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 6 }); break; //广告购买
-                default: return
-              }
+              // switch (_.type) {
+              //   //账单类型1=线下收银详情 2=费率返点详情 3=广告收益 4=优惠券收益 5=线上卖券 6=广告支出
+              //   case 3: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 1 }); break;  //线下交易（线下收银）
+              //   case 13: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 2 }); break; //费率返点（商家返点）
+              //   case 6: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 3 }); break;  //广告收益
+              //   case 8: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 4 }); break;   //优惠券收益（优惠券分润）
+              //   case 15: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 5 }); break;   //线上卖券，存疑(平台收益)
+              //   case 9: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 6 }); break; //广告购买
+              //   default: return
+              // }
 
               // switch (_.type) {
               //   case 3: this.pushPage('/finance/financeDetail/offlineDeal', { _id: _.id }); break;  //线下交易（线下收银）

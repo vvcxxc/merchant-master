@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 declare global {
   interface Window { open_id: string; pay_url: string; Url: string }
 }
+const Url = window.url ? window.url : 'http://test.api.tdianyi.com/';
 const open_id = window.open_id ? window.open_id : 'test_open_id';
 export default class Rechange extends Component {
 
@@ -39,10 +40,43 @@ export default class Rechange extends Component {
             // '支付成功'
           }
         });
-      }
-    }
 
+        Toast.hide();
+
+        if (res.code === 200) {
+          window.WeixinJSBridge.invoke('getBrandWCPayRequest', res.data, function (res: { err_msg: string }) {
+            ``;
+            if (res.err_msg == 'get_brand_wcpay_request:ok') {
+              // '支付成功'
+              Toast.success('充值成功', 1.5);
+            } else {
+              Toast.fail('充值失败', 1.5);
+            }
+          });
+        } else {
+          Toast.fail('充值失败', 1.5);
+        }
+      } else {
+        console.log('跳到授权')
+        console.log('open_id' + openId)
+        this.auth()
+      }
+    } else {
+      this.auth()
+    }
   };
+
+  // 授权
+  auth = () => {
+    let from = window.location.href;
+    let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
+    url = encodeURIComponent(url);
+    let urls =
+      'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
+      url +
+      '&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+    return (window.location.href = urls);
+  }
   render() {
     return (
       <div className={styles.page}>

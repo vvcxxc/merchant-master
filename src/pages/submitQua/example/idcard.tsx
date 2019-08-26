@@ -1,28 +1,27 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, Button } from 'antd-mobile';
-interface Props {
-  onChange: () => any
-}
+import router from 'umi/router';
 
-export default class IdCardExample extends Component<Props> {
+
+export default class IdCardExample extends Component {
   /**返回 */
   goBack = () => {
-    this.props.onChange()
+    router.push('/submitQua')
   }
   render (){
     return (
       <div style={{ width: '100%', background: '#fff', overflow: 'auto' }} className={styles.examplePage}>
         <WingBlank>
-          <Flex className={styles.title}>拍照示例：身份证正面照，反面照，营业执照</Flex>
+          <Flex className={styles.title}>拍照示例：身份证正面照，反面照，手持身份证照</Flex>
           <Flex justify='around'>
-            <img src='http://oss.tdianyi.com/front/KphePm5PFat5Bxw6QTKnpZTzwzhjtndH.png'/>
+            <img src='http://oss.tdianyi.com/front/4SAHTGFApSScrsHQ8TFbzeKweAZ3c3zb.png'/>
           </Flex>
           <Flex justify='around'>
-            <img src='http://oss.tdianyi.com/front/ZQZXhz7Pn6hDiXHhezpXSinXXYifzS8e.png'/>
+            <img src='http://oss.tdianyi.com/front/HBwmNamwMpXNiHEAnxnwhDx5PMR7DS2Z.png'/>
           </Flex>
           <Flex justify='around'>
-            <img src='http://oss.tdianyi.com/front/B7jjHxm6XXD6CGbfr6aNCPnYeHW8fTbF.png'/>
+            <img src='http://oss.tdianyi.com/front/8rCmTiRQdxNKKfEmjKCNcS3ZQGAdNz46.png'/>
           </Flex>
           <Flex className={styles.footer} style={{marginTop: 36}}>请保证身份证各项信息清晰可见，无遮挡</Flex>
           <Button type="primary" style={{ marginTop: 60, marginBottom: 40 }} className={styles.button} onClick={this.goBack}>

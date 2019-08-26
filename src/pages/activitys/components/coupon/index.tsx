@@ -32,7 +32,8 @@ export default function Coupon(props: Props) {
 		));
 	}
 	const handleClick = () => props.onClick(props.activity_id);
-	const statusMsg = props.pageStatus === 0 ? '即将结束' : props.begin_time + '-' + props.end_time;
+	// const statusMsg = props.pageStatus === 0 ? '即将结束' : props.begin_time + '-' + props.end_time;
+	const statusMsg = props.pageStatus === 0 ? props.begin_time + '-' + props.end_time : props.begin_time + '-' + props.end_time;
 	const bottom = (
 		<Flex className="bottom" justify="end">
 			<Flex className="btn" justify="center">
@@ -48,7 +49,8 @@ export default function Coupon(props: Props) {
 				<Flex.Item className="info">
 					<Flex className="title">
 						{props.name}
-						<Flex.Item className={props.pageStatus === 0 ? 'status' : 'status small'}>
+						{/* <Flex.Item className={props.pageStatus === 0 ? 'status' : 'status small'}> */}
+						<Flex.Item className={props.pageStatus === 0 ? 'status small' : 'status small'}>
 							{statusMsg}
 						</Flex.Item>
 					</Flex>

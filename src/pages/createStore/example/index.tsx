@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import { Flex, WingBlank, Button, Toast } from 'antd-mobile';
 import styles from './index.less';
+import router from 'umi/router';
 
 interface Props {
   onChange: () => any
@@ -12,7 +13,7 @@ interface Props {
 export default class Example extends Component<Props> {
 
   goBack = () => {
-    this.props.onChange()
+    router.push('/createStore')
   }
   render (){
     return (

@@ -13,6 +13,7 @@ interface Props {
 	insignificant?: any;
 	/**快速筛选条件列表 */
 	undetermined: Undetermined;
+	undetermined2: any;
 	/**备用筛选条件 */
 	after?: After;
 	tabs?: string[];
@@ -20,6 +21,8 @@ interface Props {
 	// hotreset?: () => any;
 	// timeReset?: () => any;
 	onChange?: (query: any) => any;
+	onChange2?: (query: any) => any;
+	onChange3?: (query: any) => any;
 	onTabChange?: (index: number) => any;
 }
 
@@ -51,18 +54,35 @@ export default class FiltrateLayout extends Component<Props> {
 
 	handleTimeClick = () => this.setState({ timeShow: !this.state.timeShow, hotShow: false });
 
-	hotChange = (id: any) => {
-		this.setState({ hotShow: false, query: { ...this.state.query, hot: id } }, this.handleQueryChange);
+	hotChange = (id: any, _id: any) => {
+		// console.log(id,_id,'值')
+		//handleQueryChange所有该组件都有用，handleQueryChange2，3只有支付渠道详情使用，因此保证大部分组件可以改变状态，再让支付渠道详情改变
+		this.setState({ hotShow: false, query: { ...this.state.query, hot: { id, _id } } }, () => {
+			this.handleQueryChange();
+			this.handleQueryChange2();
+		});
+
+
 	};
 	hotHide = () => this.setState({ hotShow: false });
-	timeChange = (value: string): any =>
-		this.setState({ query: { ...this.state.query, time: value }, timeShow: false }, this.handleQueryChange);
+	timeHide = () => this.setState({ timeShow: false });
+	timeChange = (value: string): any => {
+		this.setState({ timeShow: false, query: { ...this.state.query, time: value } }, () => {
+			this.handleQueryChange();
+			this.handleQueryChange3();
+		});
 
+
+	}
 	// hotReset = () => this.props.onChange && this.props.onChange({hot: {}, time: this.state.query.time});
 	// timeReset = () => this.props.timeReset && this.props.timeReset();
 
 	/**条件变更时触发onChange事件 */
-	handleQueryChange = () => this.props.onChange && this.props.onChange(this.state.query);
+	handleQueryChange = () => {
+		this.props.onChange && this.props.onChange(this.state.query)};
+	handleQueryChange2 = () => this.props.onChange2 && this.props.onChange2(this.state.query);
+	handleQueryChange3 = () => this.props.onChange3 && this.props.onChange3(this.state.query);
+
 
 	handleChangeTab = (index: number) => () => {
 		this.setState({ tabActive: index });
@@ -131,6 +151,7 @@ export default class FiltrateLayout extends Component<Props> {
 					show={this.state.hotShow}
 					onChange={this.hotChange}
 					undetermined={this.props.undetermined}
+					undetermined2={this.props.undetermined2}
 					after={this.props.after}
 					// reset={this.hotReset}
 					onHide={this.hotHide}
@@ -139,6 +160,7 @@ export default class FiltrateLayout extends Component<Props> {
 					show={this.state.timeShow}
 					// reset={this.timeReset}
 					value={this.state.query.time}
+					onHide={this.timeHide}
 					onChange={this.timeChange}
 				/>
 			</Flex>

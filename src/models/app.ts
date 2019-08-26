@@ -21,6 +21,7 @@ interface PropertyManagementItem {
   small_icon: string;
 }
 
+
 const data: Data = {
   activity_management: [],
   ad_management: [],
@@ -32,7 +33,7 @@ const model: Model = {
   namespace: 'app',
   state: {
     data: { ...data },
-    showOperationTip: false
+    showOperationTip: false,
   },
   reducers: {
     saveData(state, { payload }) {

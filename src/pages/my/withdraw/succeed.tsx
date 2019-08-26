@@ -22,8 +22,8 @@ export default class Succeed extends Component<Prop> {
           <div className={styles.show_box}>
             <Flex className={styles.list}>
               <div className={styles.name}>提现账户</div>
-              <div>
-                <img src={info.img}/>
+              <div className={styles.msg}>
+                <img src={info.img} />
                 {info.bank_name}
                 ({info.num})
               </div>

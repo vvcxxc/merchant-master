@@ -3,9 +3,11 @@ import { Flex, WingBlank, Button, Toast, Modal } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router';
+import EchartsSan from '../../../../components/echart_shan'
 const alert = Modal.alert;
 export default class GroupDetails extends Component {
   state = {
+    dataEchart:[],
     info: {
       activity_image: '',
       group_count: {
@@ -39,6 +41,9 @@ export default class GroupDetails extends Component {
     is_gift: true,
     types: ''
   }
+  componentWillMount() {
+
+  }
   componentDidMount (){
     let {type,id} = this.props.location.query;
     if(type == '1'){
@@ -56,7 +61,15 @@ export default class GroupDetails extends Component {
         coupons_activity_log_id: this.props.location.query.id
       }
     }).then(res => {
-      let {data} = res;
+      let { data } = res;
+      this.setState({
+        dataEchart: [
+          res.data.group_count.coupons_number,
+          res.data.group_count.group_defeated,
+          res.data.group_count.group_success,
+          res.data.group_count.group_underway
+        ]
+      })
       if(data.group_gif_info.gift_id == 0){
         this.setState({is_gift: false})
       }
@@ -99,8 +112,9 @@ export default class GroupDetails extends Component {
 
   }
 
-  render (){
-    const { info, is_gift, types } = this.state;
+  render() {
+    const { info, is_gift, types, dataEchart } = this.state;
+    let echartData:any = this.state.dataEchart
     const description = info.group_coupons_info.description.map((item,idx) => <p key={idx}>· {item}</p>)
     const button = this.state.type == '3' ? null : (
       <Button
@@ -129,17 +143,27 @@ export default class GroupDetails extends Component {
           </Flex>
           <Flex className={styles.item} align='start'>
             <div className={styles.item_name}>所需积分：</div>
-            <div className={styles.item_detail}>{info.group_gif_info.delivery}积分</div>
+            <div className={styles.item_detail}>{info.group_gif_info.gif_integral}积分</div>
           </Flex>
           <Flex className={styles.item_height} align='start'>
             <div className={styles.item_name}>配送方式：</div>
             <div className={styles.item_long}>
-              <p>{info.group_gif_info.gif_integral}</p>
+              <p>{info.group_gif_info.delivery}</p>
               {/* <p>邮寄 邮费谁出</p> */}
             </div>
           </Flex>
       </div>
     ) : null;
+    const echart = this.state.dataEchart.length > 1 ?  (
+      <div>
+        <EchartsSan
+          list={this.state.dataEchart}
+          name={["拼团失败", "拼团中", "拼团成功", "券使用人数"]}
+          colors={['#07BC87', '#3A99FB', '#F55641', '#F7B55F']}
+        >{null}
+        </EchartsSan>
+      </div>
+    ) : null
     return (
       <div className={styles.detailsPage}>
         <WingBlank>
@@ -151,12 +175,15 @@ export default class GroupDetails extends Component {
             </div>
             {/* <img src={require('./share.png')}/> */}
           </Flex>
-
           {/* 图片 */}
           <Flex className={styles.activity_img}>
             <img src={info.activity_image}/>
           </Flex>
-
+          {/* <Flex className={styles.title}>
+            <div className={styles.gang}>{null}</div>
+            活动统计数据
+          </Flex>
+          {echart} */}
           {/* 基本信息 */}
           <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>

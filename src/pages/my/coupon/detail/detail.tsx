@@ -37,7 +37,7 @@ export default class ContentDetail extends Component<Props, any> {
 		}
 	};
 
-	handleClickItem = () => {};
+	handleClickItem = () => { };
 
 	handleDeleteCoupon = async () => {
 		Toast.loading('');
@@ -69,7 +69,19 @@ export default class ContentDetail extends Component<Props, any> {
 		}
 	};
 
-	showModal = (type: string) => () => {
+	// showModal = (type: string) => () => {
+	// 	if (this.state.data.publish_wait === 1) {
+	// 		this.setState({ modalType: type });
+	// 		this.modal.show &&
+	// 			this.modal.show({
+	// 				text: type === 'stop' ? '暂停投放优惠券 将会怎么样怎么样' : '删除优惠券 将会怎么样怎么样'
+	// 			});
+	// 	} else {
+	// 		this.handleStopCoupon();
+	// 	}
+	// };
+
+	showModalStop = (type: string) => () => {
 		if (this.state.data.publish_wait === 1) {
 			this.setState({ modalType: type });
 			this.modal.show &&
@@ -79,6 +91,14 @@ export default class ContentDetail extends Component<Props, any> {
 		} else {
 			this.handleStopCoupon();
 		}
+	};
+
+	showModalDelete = (type: string) => () => {
+		this.setState({ modalType: type });
+		this.modal.show &&
+			this.modal.show({
+				text: '确认删除该优惠券'
+			});
 	};
 
 	handleModalConfirm = (isConfirm: boolean) => {
@@ -108,10 +128,10 @@ export default class ContentDetail extends Component<Props, any> {
 					</div>
 				</Flex.Item>
 				<Flex className="footerBtns">
-					<Flex.Item className="deleteBtn" onClick={this.showModal('delete')}>
+					<Flex.Item className="deleteBtn" onClick={this.showModalDelete('delete')}>
 						删除优惠券
 					</Flex.Item>
-					<Flex.Item className="stopBtn" onClick={this.showModal('stop')} style={stopBtnStyle}>
+					<Flex.Item className="stopBtn" onClick={this.showModalStop('stop')} style={stopBtnStyle}>
 						{this.state.data.publish_wait === 1 ? '暂停' : ''}发放优惠券
 					</Flex.Item>
 				</Flex>

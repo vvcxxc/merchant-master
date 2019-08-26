@@ -22,7 +22,7 @@ export default class OrderDetail extends Component<any, State> {
 	render() {
 		const data = this.state.data;
 		return (
-			<div className={styles.page}>
+			<div className={styles.page} style={{height:"auto",minHeight:"100%",paddingBottom:"20px"}}>
 				<WingBlank>
 					<div className="price">+{data.return_money}</div>
 					<div className="trade">交易成功</div>
@@ -30,7 +30,7 @@ export default class OrderDetail extends Component<any, State> {
 						<div className="box">
 							<Flex>
 								<div className="label">订单金额</div>
-								<Flex.Item>{data.return_money}</Flex.Item>
+								<Flex.Item>{data.return_money}元</Flex.Item>
 							</Flex>
 							<Flex>
 								<div className="label">创建时间</div>

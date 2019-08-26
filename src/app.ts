@@ -22,7 +22,20 @@ export const onRouteChange = (params: { location: any, routes: any }) => {
     /**fix: 展位广告区分阶段 */
     if (router.path === '/ad/other-page') {
       window.title = decodeURI(window.location.search).split('=')[1]
-    } else {
+    }
+    else if (router.path === '/finance/financeDetail/list') {
+      let _type = decodeURI(window.location.search).split('type=')[1]
+      switch (_type) {
+        case "1": { document.title = "线下收银"; window.title = "线下收银" } break;
+        case "2": { document.title = "费率返点"; window.title = "费率返点" } break;
+        case "3": { document.title = "广告收益"; window.title = "广告收益" } break;
+        case "4": { document.title = "优惠券收益"; window.title = "优惠券收益" } break;
+        case "5": { document.title = "线上卖券"; window.title = "线上卖券" } break;
+        case "6": { document.title = "广告支出"; window.title = "广告支出" } break;
+        default: return
+      }
+    }
+    else {
       window.title = router.title || defaultTitle
     }
 

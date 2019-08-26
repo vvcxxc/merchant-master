@@ -1,0 +1,218 @@
+.popup-list .am-list-body {
+  height: 210px;
+  overflow: auto;
+}
+.imgpickerBox {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  opacity: 0;
+  overflow: hidden;
+}
+.sfz_title {
+  width: 100%;
+  justify-content: space-between;
+  padding-top: 35px;
+}
+.sfz_left {
+  font-size: 34px;
+  font-weight: bold;
+}
+.sfz_right {
+  font-size: 23px;
+  color: #FF6654;
+}
+.sfz_img {
+  justify-content: space-between;
+  margin-top: 38px;
+}
+.sfz_img :global .am-image-picker-list .am-image-picker-upload-btn {
+  background: url('images/hand_idcard.png') no-repeat;
+  background-size: 100%;
+}
+.sfz_img :global .am-image-picker-list {
+  padding: 0;
+}
+.sfz_img :global .am-flexbox-item {
+  width: 209px !important;
+  height: 149px;
+}
+.sfz_img :global .am-image-picker-list .am-image-picker-upload-btn:before,
+.sfz_img :global .am-image-picker-list .am-image-picker-upload-btn:after {
+  background-color: #2141a8;
+  top: 40%;
+  opacity: 0;
+}
+.front_img :global .am-image-picker-list .am-image-picker-upload-btn {
+  background: url('images/idcard_front.png') no-repeat;
+  background-size: 100%;
+}
+.back_img :global .am-image-picker-list .am-image-picker-upload-btn {
+  background: url('images/idcard_back.png') no-repeat;
+  background-size: 100%;
+}
+.submitQua :global .am-list-item {
+  padding-left: 0;
+}
+.submitQua :global .am-image-picker-list .am-flexbox .am-flexbox-item {
+  overflow-y: visible;
+}
+.submitQua :global .am-list-item.am-input-item {
+  padding-left: 0;
+}
+.submitQua :global .am-list-body {
+  border-top: 0;
+}
+.submitQua :global .am-list-item .am-input-label {
+  font-size: 27px;
+  font-weight: bold;
+}
+.submitQua :global .am-list-item .am-input-control input {
+  font-size: 27px;
+}
+.youxiao {
+  position: absolute;
+  right: 0;
+  color: #999;
+}
+.bank_title {
+  justify-content: space-between;
+  margin-top: 68px;
+}
+.bank_img {
+  justify-content: space-between;
+  margin-top: 38px;
+}
+.bank_toast {
+  color: #FF6654;
+  font-size: 19px;
+  text-align: left;
+}
+.bank_img :global .am-flexbox-item {
+  width: 323px !important;
+  height: 203px;
+}
+.bank_img :global .am-image-picker-list {
+  padding: 0;
+}
+.bank_img :global .am-image-picker-list .am-image-picker-upload-btn:before,
+.bank_img :global .am-image-picker-list .am-image-picker-upload-btn:after {
+  background-color: #2141a8;
+  top: 40%;
+  opacity: 0;
+}
+.bank_front :global .am-image-picker-list .am-image-picker-upload-btn {
+  background: url('images/bank_front.png') no-repeat;
+  background-size: 100%;
+}
+.bank_back :global .am-image-picker-list .am-image-picker-upload-btn {
+  background: url('images/bank_back.png') no-repeat;
+  background-size: 100%;
+}
+.license_img {
+  justify-content: space-between;
+  margin-top: 38px;
+}
+.license_img :global .am-flexbox-item {
+  width: 669px !important;
+  height: 438px;
+}
+.license_img :global .am-image-picker-list {
+  padding: 0;
+}
+.license_img :global .am-image-picker-list .am-image-picker-upload-btn:before,
+.license_img :global .am-image-picker-list .am-image-picker-upload-btn:after {
+  background-color: #2141a8;
+  top: 40%;
+  opacity: 0;
+}
+.license :global .am-image-picker-list .am-image-picker-upload-btn {
+  background: url('images/zhizhao.png') no-repeat;
+  background-size: 100%;
+}
+.buttons {
+  width: 100%;
+  height: 86px;
+  border-top: 1px solid #666;
+}
+.buttons div {
+  flex: 0.5;
+  line-height: 86px;
+  text-align: center;
+}
+.buttons .submit {
+  background: #21418A;
+  color: #fff;
+}
+.idcard {
+  width: 219px;
+  height: 148px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 33px;
+  box-sizing: border-box;
+  border-radius: 6px;
+}
+.idcard img {
+  width: 100%;
+}
+.idcard .close {
+  width: 0.3rem;
+  height: 0.3rem;
+  position: absolute;
+  right: 0.12rem;
+  top: 0.12rem;
+  text-align: right;
+  vertical-align: top;
+  z-index: 2;
+  background-size: 0.3rem auto;
+  background-image: url('images/close.svg');
+}
+.bankcard {
+  width: 323px;
+  height: 203px;
+  margin-bottom: 30px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+.bankcard img {
+  width: 100%;
+}
+.bankcard .close {
+  width: 0.3rem;
+  height: 0.3rem;
+  position: absolute;
+  right: 0.12rem;
+  top: 0.12rem;
+  text-align: right;
+  vertical-align: top;
+  z-index: 2;
+  background-size: 0.3rem auto;
+  background-image: url('images/close.svg');
+}
+.licenseImg {
+  width: 669px;
+  height: 438px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 6px;
+}
+.licenseImg img {
+  width: 100%;
+}
+.licenseImg .close {
+  width: 0.3rem;
+  height: 0.3rem;
+  position: absolute;
+  right: 0.12rem;
+  top: 0.12rem;
+  text-align: right;
+  vertical-align: top;
+  z-index: 2;
+  background-size: 0.3rem auto;
+  background-image: url('images/close.svg');
+}

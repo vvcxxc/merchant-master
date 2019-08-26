@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Flex } from 'antd-mobile';
+import { Flex, InputItem } from 'antd-mobile';
 
 import styles from './index.less';
 
@@ -10,17 +10,22 @@ interface Props {
 	onClick: (index: number) => void;
 }
 interface Params {
-	min?: number;
-	max?: number;
+	min?: any;
+	max?: any;
 }
 
 /**满多少减多少 项 额度限制组件 */
 export default class LimitItem extends Component<Props & Params> {
 	handleMinChange = (e: any) => {
-		this.props.onChange(this.props.index, { min: parseFloat(e.target.value), max: this.props.max });
+		if (/^[0-9]+\.+[0-9]\d{0,1}$/.test(e.target.value) || /^[0-9]+\.?$/.test(e.target.value) || e.target.value == "") {
+			this.props.onChange(this.props.index, { min: e.target.value, max: this.props.max });
+		}
 	};
 	handleMaxChange = (e: any) => {
-		this.props.onChange(this.props.index, { max: parseFloat(e.target.value), min: this.props.min });
+		if (/^[0-9]+\.+[0-9]\d{0,1}$/.test(e.target.value) || /^[0-9]+\.?$/.test(e.target.value) || e.target.value == "") {
+			this.props.onChange(this.props.index, { max: e.target.value, min: this.props.min });
+		}
+
 	};
 	handleIconClick = () => this.props.onClick(this.props.index);
 	render() {
@@ -37,9 +42,9 @@ export default class LimitItem extends Component<Props & Params> {
 			<Flex className={styles.limitItem}>
 				<span className={styles.sort}>{this.props.index + 1}. </span>
 				<span>满</span>
-				<input value={this.props.min} type="number" onInput={this.handleMinChange} />
+				<input value={this.props.min} onInput={this.handleMinChange} />
 				<span>减</span>
-				<input value={this.props.max} type="number" onInput={this.handleMaxChange} />
+				<input value={this.props.max} onInput={this.handleMaxChange} />
 				{icon}
 			</Flex>
 		);

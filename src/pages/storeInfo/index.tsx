@@ -7,7 +7,7 @@ import styles from './index.less';
 import { WingBlank, Flex, InputItem, List, Picker, ImagePicker, Button, Toast} from 'antd-mobile';
 import router from 'umi/router';
 import request from '@/services/request';
-import MapPage from '@/pages/createStore/map/index';
+import MapPage from '@/components/map/index';
 import upload from '@/services/oss';
 
 const Item = List.Item;
@@ -28,7 +28,6 @@ export default class StoreInfo extends Component {
     store_door_header_img: '',
     store_img_one: '',
     store_img_two: '',
-    shop_door_header_img: '',
     is_map: false,
     account_mobile: '',
 
@@ -67,14 +66,13 @@ export default class StoreInfo extends Component {
         phone: data.tel,
         address: data.address,
         value: [data.manage_type],
-        shop_door_header_img: data.shop_door_header_img,
+        store_door_header_img: data.store_door_header_img,
         store_img_two: data.store_img_two,
         store_img_one: data.store_img_one,
         account_mobile: data.account_mobile,
         manage_type: data.manage_type,
-        house_num: data.house_num,
-        preview: data.preview
-      });
+        house_num: data.house_num
+      },()=>{console.log(this.state)});
     })
   }
 
@@ -151,6 +149,12 @@ export default class StoreInfo extends Component {
     this.setState({phone: e})
   }
   handleEmail = (e: any) => {
+    if (e.includes(" ")) {
+      e = e.replace(/ /g, "")
+    }
+    if(e.includes("＠")) {
+      e = e.replace(/＠/g, "@")
+    }
     this.setState({email: e});
   }
 
@@ -171,7 +175,7 @@ export default class StoreInfo extends Component {
   closeHeaderImg = () => {
     this.setState({
       is_header: false,
-      shop_door_header_img: ''
+      store_door_header_img: ''
     })
   }
   closeImgOne = () => {
@@ -219,7 +223,7 @@ export default class StoreInfo extends Component {
   }
 
   render (){
-    const { store_head, store_img1, store_img2, store_name, address, house_num, phone, email, store_img_one, store_img_two, shop_door_header_img, preview} = this.state;
+    const { store_head, store_img1, store_img2, store_name, address, house_num, phone, email, store_img_one, store_img_two, store_door_header_img} = this.state;
     const map = this.state.is_map == true ? (
       <MapPage onChange={this.mapChange}/>
     ) : (
@@ -228,7 +232,7 @@ export default class StoreInfo extends Component {
 
     const header_img = this.state.is_header == true ? (
       <div className={styles.header_img}>
-        <img src={'http://oss.tdianyi.com/' + preview} />
+        <img src={'http://oss.tdianyi.com/' + store_door_header_img} />
         <div className={styles.close} onClick={this.closeHeaderImg}>{''}</div>
       </div>
     ) : (
@@ -281,11 +285,11 @@ export default class StoreInfo extends Component {
       <div style={{ width: '100%', height: '100%', background: '#fff' }}>
         <WingBlank className={styles.inputBox}>
           <List>
-            <InputItem placeholder='门店名称' value={store_name} onChange={this.handleStoreName}>门店名称</InputItem>
+            <InputItem placeholder='门店名称' value={store_name} onChange={this.handleStoreName} clear>门店名称</InputItem>
             <InputItem placeholder='门店地址' onClick={this.openMap} value={address}>门店地址</InputItem>
-            <InputItem placeholder='请输入详细门牌号，如：5栋2楼401' value={house_num} onChange={this.handleHouseNum}>门牌号</InputItem>
-            <InputItem placeholder='门店电话' value={phone} onChange={this.handlePhone}>门店电话</InputItem>
-            <InputItem placeholder='邮箱' value={email} onChange={this.handleEmail}>邮箱</InputItem>
+            <InputItem placeholder='请输入详细门牌号，如：5栋2楼401' value={house_num} onChange={this.handleHouseNum} clear>门牌号</InputItem>
+            <InputItem placeholder='门店电话' value={phone} onChange={this.handlePhone} clear>门店电话</InputItem>
+            <InputItem placeholder='邮箱' value={email} onChange={this.handleEmail} clear>邮箱</InputItem>
             <Flex className={styles.pickers}>
               <Picker
                 style={{width : '100%', fontSize: '28px'}}

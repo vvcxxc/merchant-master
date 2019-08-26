@@ -1,4 +1,4 @@
-/**title: 线下收银 */
+/**title: 今日收益 */
 import React, { Component } from 'react';
 import styles from './index.less';
 import FiltrateLayout from '@/components/layout';
@@ -22,8 +22,8 @@ export default class Benefit extends Component {
 	state = {
 		data: [],
 		type: 'today',
-		payType: undefined,
-		date: undefined,
+		payType: 0,
+		date: new Date().getFullYear()+'-'+Number(new Date().getMonth()+1),
 		showNoData: false,
 		sum: 0,
 		platform: 0,
@@ -60,28 +60,31 @@ export default class Benefit extends Component {
 	};
 
 	handleLoadMore = () => {
-		this.setState({
-			type: this.state.type,
-			pay_type: this.state.payType,
-			date: this.state.date,
-			page: this.state.page + 1
-		}, () => {
-			this.getData()
-		})
+		if (this.state.hasMore) {
+			this.setState({
+				type: this.state.type,
+				pay_type: this.state.payType,
+				date: this.state.date,
+				page: this.state.page + 1
+			}, () => {
+				this.getData()
+			})
+		}
 	}
 
 
 	handleChange = (query: any) => {
-		this.setState({ date: query.time || undefined, payType: query.hot }, this.getData)
+		console.log(query)
+		this.setState({ date: query.time || undefined, payType: query.hot.id }, this.getData)
 		// 每次change时重置
-		this.setState({ 
-			showNoData: false, 
+		this.setState({
+			showNoData: false,
 			data: [],
-			count : 0,
+			count: 0,
 			sum: 0,
 			platform: 0,
-			page : 1,
-			hasMore : true
+			page: 1,
+			hasMore: true
 		});
 	};
 	render() {

@@ -23,6 +23,7 @@ export default class OrderPage extends Component {
 		date : undefined           // 模糊查询月份
 	};
 
+
 	undetermined = [
 		{
 			id: 0,
@@ -33,6 +34,16 @@ export default class OrderPage extends Component {
 		{ id: 3, label: '已退款' },
 		{ id: 4, label: '已过期' }
 	];
+	undetermined2 = [
+		{
+			_id: 'today',
+			label: '今日',
+			time:'today'
+		},
+		{ _id: 'yestoday', label: '昨日', time:'yestoday' },
+		{ _id: 'thisweek', label: '本周', time: 'thisweek'},
+		{ _id: 'thismonth', label: '本月', time: 'thismonth' }
+	]
 
 	componentDidMount() {
 		this.getData();
@@ -41,7 +52,7 @@ export default class OrderPage extends Component {
 	getData = async (query?: any) => {
 		Toast.loading('');
 		const res = await request({ url: 'v3/coupons/order_list', params: {
-			query,
+			...query,
 			page : this.state.page
 		} });
 		Toast.hide();
@@ -57,15 +68,17 @@ export default class OrderPage extends Component {
 			page : 1,
 			hasMore : true,
 			list : [],
-			pay_status: query.hot,
+			pay_status: query.hot.id,
+			type: query.hot._id,
 			date : query.time ? moment(query.time).unix() : undefined
 		},() => {
 			this.getData({
-				pay_status: query.hot,
+				pay_status: query.hot.id,
+				type: query.hot._id,
 				date: query.time ? moment(query.time).unix() : undefined
 			});
 		})
-		
+
 	};
 
 	handleClickOrder = (id: any) => () => {
@@ -74,15 +87,17 @@ export default class OrderPage extends Component {
 
 
 	handleLoadMore = () => {
-		this.setState({
-			page : this.state.page + 1
-		},() => {
-			this.getData({
-				pay_status : this.state.pay_status,
-				date : this.state.date
+		if(this.state.hasMore) {
+			this.setState({
+				page : this.state.page + 1
+			},() => {
+				this.getData({
+					pay_status : this.state.pay_status,
+					date : this.state.date
+				})
 			})
-		})
-		
+		}
+
 	}
 
 	render() {
@@ -103,6 +118,7 @@ export default class OrderPage extends Component {
 		return (
 			<FiltrateLayout
 				undetermined={this.undetermined}
+				undetermined2={this.undetermined2}
 				hasInsignificant={true}
 				insignificant={`${this.state.insignificant}笔交易`}
 				onChange={this.handleLayoutChange}

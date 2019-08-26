@@ -1,0 +1,155 @@
+.wrap {
+  background: #fff;
+  font-family: 'PingFang-SC-Bold';
+}
+.wrap .inputWrap {
+  height: 108px;
+  border-bottom: 1px solid #999;
+}
+.wrap .inputWrap span {
+  font-size: 28px;
+  color: #333;
+  width: 146px;
+  font-weight: bold;
+}
+.wrap .inputWrap input {
+  width: 550px;
+}
+input::-webkit-input-placeholder {
+  color: #999999;
+}
+.imgWrap {
+  height: 108px;
+  font-weight: bold;
+  justify-content: space-between;
+}
+.imgTitle {
+  font-size: 28px;
+}
+.example {
+  color: red;
+  font-size: 24px;
+}
+.pushStore .doorimg {
+  width: 100%;
+  height: 432px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 33px;
+  box-sizing: border-box;
+  border-radius: 6px;
+}
+.pushStore .doorimg img {
+  width: 100%;
+}
+.pushStore .doorimg .close {
+  width: 0.3rem;
+  height: 0.3rem;
+  position: absolute;
+  right: 0.12rem;
+  top: 0.12rem;
+  text-align: right;
+  vertical-align: top;
+  z-index: 2;
+  background-size: 0.3rem auto;
+  background-image: url('close.svg');
+}
+.pushStore img {
+  width: 100%;
+}
+.imgSmall .warpimg1 {
+  width: 242px;
+  height: 158px;
+  margin: 0.18rem 0.16rem 0;
+  box-sizing: content-box;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 0.3rem;
+  box-sizing: border-box;
+  border-radius: 6px;
+  margin-right: 28px;
+}
+.imgSmall .warpimg1 img {
+  width: 100%;
+}
+.imgSmall .warpimg1 .close {
+  width: 0.3rem;
+  height: 0.3rem;
+  position: absolute;
+  right: 0.12rem;
+  top: 0.12rem;
+  text-align: right;
+  vertical-align: top;
+  z-index: 2;
+  background-size: 0.3rem auto;
+  background-image: url('close.svg');
+}
+.imgSmall img {
+  width: 35%;
+  padding-right: 28px;
+}
+.inputWrap > div {
+  width: 100%;
+}
+.wrap :global .am-image-picker-list .am-flexbox .am-flexbox-item {
+  overflow-y: visible;
+}
+.wrap :global .am-list-item {
+  padding-left: 0;
+}
+.wrap :global .am-list-item .am-list-line {
+  padding-right: 0;
+  flex: 1;
+}
+.wrap :global .am-list-item .am-list-line .am-list-content {
+  font-size: 28px;
+  width: 146px;
+  font-weight: bold;
+  flex: none;
+}
+.wrap :global .am-list-item .am-list-line .am-list-arrow {
+  width: 20px;
+  float: right;
+  margin-right: 0.16rem;
+  color: #999;
+}
+.wrap :global .am-list-item .am-list-line .am-list-extra {
+  font-size: 28px;
+  text-align: left;
+  flex-basis: 100%;
+  color: #333;
+}
+.picker :global .am-list-item {
+  background: #fff !important;
+  min-height: 0 !important;
+}
+.pushStore :global .am-image-picker-list .am-image-picker-upload-btn {
+  background: url('shangchuan.png') no-repeat;
+  background-size: 100%;
+}
+.pushStore :global .am-image-picker-list {
+  padding: 0;
+}
+.pushStore :global .am-image-picker-list .am-image-picker-item {
+  height: 432px;
+}
+.pushStore :global .am-flexbox-item {
+  height: 432px;
+}
+.imgSmall :global .am-image-picker-list .am-image-picker-upload-btn {
+  background: #F7F7F7;
+}
+.imgSmall :global .am-flexbox-item {
+  width: 242px !important;
+  height: 158px;
+}
+.imgSmall :global .am-image-picker-list .am-image-picker-upload-btn:before,
+.imgSmall :global .am-image-picker-list .am-image-picker-upload-btn:after {
+  background-color: #2141a8;
+}
+.imgSmall :global .am-image-picker-list .am-image-picker-upload-btn:before {
+  width: 3px;
+}
+.imgSmall :global .am-image-picker-list .am-image-picker-upload-btn:after {
+  height: 3px;
+}

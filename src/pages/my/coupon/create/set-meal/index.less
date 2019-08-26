@@ -1,0 +1,527 @@
+:global {
+    .setMeal {
+        width: 100%;
+        height: auto;
+        padding-bottom: 120px;
+
+        .coupon_box {
+            width: 100%;
+            height: auto;
+
+            .coupon_box_img {
+                width: 100%;
+                height: auto;
+
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+            }
+
+            .coupon_box_msg {
+                width: 100%;
+                height: 240px;
+                background: #fff;
+                padding: 0 25px;
+                box-sizing: border-box;
+                position: relative;
+                .coupon_box_msg_title {
+                    box-sizing: border-box;
+                    height: 90px;
+                    width: 100%;
+                    padding: 25px 0;
+                    font-size: 40px;
+                    font-weight: bold;
+                    text-align: left;
+
+                    .coupon_box_msg_collect {
+                        float: right;
+                        height: 35px;
+                        width: 35px;
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                }
+
+                .coupon_box_msg_brief {
+                    height: 90px;
+                    font-size: 28px;
+                }
+
+                .setMeal_head_listbox {
+                    height: 45px;
+                    position: absolute;
+                    bottom: 48px;
+                    .setMeal_head_list {
+                        float: left;
+                        margin-left: 15px;
+                        border-radius: 5px;
+                        border: solid 2px #fa5d49;
+                        padding: 8px;
+                        box-sizing: border-box;
+                        font-size: 20px;
+                        text-align: center;
+                        color: #fa5d49;
+                    }
+                }
+            }
+        }
+
+        .setMeal_store {
+            height: 315px;
+            padding: 15px 7px 15px 0;
+            background: #f4f4f4;
+            border: none;
+
+            .setMeal_store_box {
+                width: 100%;
+                height: 100%;
+                background: #fff;
+                padding: 23px 40px 28px 30px;
+                box-sizing: border-box;
+
+                .setMeal_store_title {
+                    height: 60px;
+                    text-align: left;
+                    font-weight: bold;
+                    font-size: 38px;
+                }
+
+                .setMeal_store_storebox {
+                    height: 115px;
+                    width: 100%;
+                    box-sizing: border-box;
+
+                    .setMeal_store_img {
+                        height: 115px;
+                        width: 115px;
+                        overflow: hidden;
+                        border-radius: 5px;
+                        float: left;
+                        img{
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+
+                    .setMeal_store_msg {
+                        width: 400px;
+                        padding: 25px 0 15px 25px;
+                        box-sizing: border-box;
+                        float: left;
+
+                        .setMeal_store_name {
+                            height: 50px;
+                            font-size: 35px;
+                            font-weight: bold;
+                            text-align: left;
+                        }
+
+                        .setMeal_store_price {
+                            font-size: 24px;
+                            text-align: left;
+                            color: #666666;
+                        }
+                    }
+
+                    .setMeal_store_icon {
+                        height: 100%;
+                        width: 40px;
+                        box-sizing: border-box;
+                        color: #666666;
+                        padding-top: 50px;
+                        float: right;
+                    }
+                }
+
+                .setMeal_store_addressbox {
+                    width: 100%;
+                    height: 80px;
+                    padding-top: 35px;
+                    box-sizing: border-box;
+                    display: flex;
+                    line-height: 40px;
+
+                    .setMeal_store_distance {
+                        width: 115px;
+                        position: relative;
+                        float: left;
+                        border-right: 1px #666666 solid;
+
+                        .setMeal_store_distance_img {
+                            width: 30px;
+                            height: 40px;
+                            position: absolute;
+                            left: 0;
+
+                            img {
+                                width: 30px;
+                                height: 40px;
+                            }
+                        }
+
+                        .setMeal_store_distance_info {
+                            height: 40px;
+                            position: absolute;
+                            left: 30px;
+                            padding: 0 10px;
+                            font-size: 26px;
+                        }
+                    }
+
+                    .setMeal_store_address {
+                        flex: 1;
+                        padding: 0 16px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        font-size: 26px;
+                    }
+
+                    .setMeal_store_mobile {
+                        width: 60px;
+                        height: 40px;
+                        padding-left: 30px;
+                        float: right;
+                        border-left: 1px #666666 solid;
+
+                        img {
+                            width: 30px;
+                            height: 40px;
+                            float: right;
+                        }
+                    }
+                }
+            }
+        }
+
+        .setMeal_rule {
+            padding: 25px 25px 25px;
+            background: #fff;
+            box-sizing: border-box;
+
+            .setMeal_rule_title {
+                height: 40px;
+                width: 100%;
+                font-size: 40px;
+                font-weight: bold;
+                text-align: left;
+                margin-bottom: 40px;
+            }
+
+            .setMeal_rule_days {
+                width: 100%;
+                font-size: 30px;
+                color: #aeaeae;
+                margin-bottom: 24px;
+            }
+            .setMeal_rule_days_info{
+                width: 100%;
+                font-size: 30px;
+                color: #000;
+                margin-bottom: 24px;
+            }
+
+            .setMeal_rule_brief {
+                height: 40px;
+                width: 100%;
+                font-size: 30px;
+                color: #aeaeae;
+                margin-bottom: 40px;
+            }
+
+            .setMeal_rule_list_box {
+                width: 100%;
+                height: auto;
+
+                .setMeal_rule_list {
+                    height: 45px;
+                    font-size: 30px;
+                }
+            }
+        }
+
+        .setMeal_brief {
+            padding: 25px 25px 25px;
+            background: #fff;
+            box-sizing: border-box;
+            margin: 24px 0;
+            .setMeal_brief_title {
+                height: 40px;
+                width: 100%;
+                font-size: 40px;
+                font-weight: bold;
+                text-align: left;
+                margin-bottom: 40px;
+            }
+
+            .setMeal_brief_list_box {
+                width: 100%;
+                height: auto;
+
+                .setMeal_brief_list {
+                    width: 100%;
+                    height: auto;
+
+                    img {
+                        width: 100%;
+                        height: auto;
+
+                    }
+                }
+            }
+        }
+
+
+        .setMeal_ticket {
+            width: 100%;
+            height: auto;
+            box-sizing: border-box;
+            padding: 22px 25px;
+            background: #fff;
+
+            .setMeal_ticket_more {
+                height: 80px;
+                font-size: 40px;
+                font-weight: bold;
+                text-align: left;
+                line-height: 80px;
+
+            }
+
+
+            .coupon1 {
+                height: 215px;
+                width: 100%;
+                margin-bottom: 20px;
+
+                .imgbox {
+                    width: 100%;
+                    height: 100%;
+                    background: url('http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/D3Ws4B7kH8PwEsDdJiDtzaNtZdtWcZBr.png') no-repeat;
+                    background-size: 100% 100%;
+                    display: flex;
+
+                    .coupon_left {
+                        flex: 27;
+                        padding-bottom: 12px;
+                        overflow: hidden;
+                        img{
+                            width: 100%;
+                            height: 100%; 
+                        }
+                    }
+
+                    .coupon_right {
+                        flex: 50;
+
+                        .coupon_right_title {
+                            height: 27px;
+                            width: 100%;
+                            margin: 38px 37px 15px;
+                            box-sizing: border-box;
+                            font-weight: bold;
+                            text-align: left;
+
+                        }
+
+                        .coupon_right_info {
+                            height: 25px;
+                            width: 100%;
+                            margin: 0 37px 15px;
+                            box-sizing: border-box;
+                            font-size: 25px;
+                            color: #626262;
+                        }
+
+                        .coupon_right_days {
+                            height: 25px;
+                            width: 100%;
+                            margin: 0 37px 0;
+                            box-sizing: border-box;
+                            font-size: 25px;
+                            color: #919191;
+                        }
+
+                        .coupon_right_money {
+                            width: 100%;
+                            height: 30px;
+                            box-sizing: border-box;
+                            text-align: right;
+                            padding-right: 45px;
+                            font-size: 30px;
+                            color: #ee3131;
+                        }
+                    }
+                }
+            }
+
+
+            .coupon2 {
+                height: 215px;
+                width: 100%;
+                margin-bottom: 20px;
+
+                .imgbox {
+                    width: 100%;
+                    height: 100%;
+                    background: url('http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/kG4tMT5SerAGN44WsKpbE5dNsYAp5dhC.png') no-repeat;
+                    background-size: 100% 100%;
+                    display: flex;
+
+                    .coupon_left {
+                        flex: 27;
+                        padding-top: 45px;
+                        box-sizing: border-box;
+
+                        .coupon_left_money {
+                            width: 100%;
+                            height: 70px;
+                            text-align: center;
+                            color: #fff;
+                            font-weight: bold;
+                            display: flex;
+                            justify-content: center;
+
+
+                            .coupon_left_money_icon {
+                                font-size: 40px;
+                                font-weight: bold;
+                                float: left;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: flex-end;
+                            }
+
+                            .coupon_left_money_num {
+                                font-size: 70px;
+                                color: #fff;
+                                font-weight: bold;
+                                float: left;
+                            }
+                        }
+
+                        .coupon_left_threshold {
+                            height: 46px;
+                            padding-top: 20px;
+                            font-size: 26px;
+                            box-sizing: border-box;
+                            text-align: center;
+                            color: #fff;
+                        }
+
+                    }
+
+                    .coupon_right {
+                        flex: 50;
+
+                        .coupon_right_titlebox {
+                            height: 27px;
+                            width: 100%;
+                            margin: 38px 37px 20px;
+                            box-sizing: border-box;
+
+                            .coupon_right_titlebox_coupon {
+                                width: 80px;
+                                height: 100%;
+                                font-size: 20px;
+                                line-height: 27px;
+                                text-align: center;
+                                background: #5d84e0;
+                                color: #becef3;
+                                border-radius: 2px;
+                                float: left;
+                            }
+
+                            .coupon_right_titlebox_name {
+                                float: left;
+                                font-weight: bold;
+                                font-size: 27px;
+                                line-height: 27px;
+                                font-weight: bold;
+                                margin-left: 7px;
+                            }
+                        }
+
+                        .coupon_right_days {
+                            height: 25px;
+                            width: 100%;
+                            margin: 0 37px 0;
+                            box-sizing: border-box;
+                            font-size: 25px;
+                            color: #919191;
+                        }
+
+                        .coupon_right_money {
+                            width: 100%;
+                            height: 75px;
+                            box-sizing: border-box;
+                            text-align: right;
+                            padding-top: 45px;
+                            padding-right: 45px;
+                            font-size: 30px;
+                            color: #ee3131;
+                        }
+                    }
+                }
+            }
+
+        }
+
+
+
+        .paymoney_box {
+            height: 115px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #fff;
+            border-top: 1px solid #ccc;
+            box-sizing: border-box;
+            padding: 20px 28px;
+
+            .paymoney_price {
+                width: 105px;
+                height: 55px;
+                float: left;
+                display: flex;
+                justify-content: center;
+                margin-top: 15px;
+
+                .paymoney_price_icon {
+                    font-size: 30px;
+                    float: left;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+                    color: #ee3131;
+                }
+
+                .paymoney_price_num {
+                    font-size: 50px;
+                    color: #ee3131;
+                    float: left;
+                }
+
+            }
+
+            .paymoney_buynow {
+                width: 225px;
+                height: 75px;
+                line-height: 75px;
+                float: right;
+                border-radius: 37.5px;
+                background: linear-gradient(90deg, #FE7450, #FF2614);
+                color: #fff;
+                text-align: center;
+                font-size: 30px;
+            }
+        }
+
+
+
+    }
+}

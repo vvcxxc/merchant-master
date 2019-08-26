@@ -48,11 +48,11 @@ export default class PlatformBenefit extends Component {
 		} else {
 			url = 'v3/finance/ad_earnings';
 		}
-		Toast.loading('');
+    Toast.loading('');
 		const res = await request({
 			url,
 			params: { date: this.state.time ? moment(this.state.time).unix() : undefined }
-		});
+    });
 		Toast.hide();
 		if (res.code === 200) {
 			this.setState({

@@ -1,0 +1,182 @@
+.top {
+  height: 58px;
+  background: #FFE7E1;
+  padding-left: 30px;
+  color: #FF6634;
+  font-size: 26px;
+  font-weight: bold;
+}
+.msg_box {
+  width: 600px;
+  height: 300px;
+  background: #fff;
+  border-radius: 40px;
+  border: 2px solid #797979;
+  box-sizing: border-box;
+  position: fixed;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  margin-top: -150px;
+  margin-left: -300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.msg_box .msg_box_icon {
+  flex: 84;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+.msg_box .msg_box_icon .msg_box_icon_img {
+  width: 140px;
+}
+.msg_box .msg_box_toast {
+  flex: 50;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+}
+.msg_box .msg_box_button_box {
+  flex: 42;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.msg_box .msg_box_button_box .msg_box_button {
+  padding: 8px 50px;
+  border-radius: 8px;
+  line-height: 1;
+  color: #fff;
+  background: #21418a;
+}
+.header {
+  height: 114px;
+  border-bottom: 1px solid #eee;
+}
+.header img {
+  width: 40px;
+  height: 40px;
+  padding-right: 18px;
+}
+.header span {
+  padding-left: 12px;
+}
+.title {
+  font-size: 24px;
+  height: 113px;
+  color: #333;
+}
+.input_wrap {
+  height: 110px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.symbol {
+  font-size: 35px;
+  font-weight: 600;
+  color: #333333;
+}
+.withdraw_sum {
+  font-size: 24px;
+  margin-top: 32px;
+  color: #999;
+}
+.withdraw_sum .withdraw_all {
+  color: #21418A;
+  margin-left: 16px;
+}
+.toast {
+  width: 100%;
+  height: 250px;
+  padding: 24px;
+  box-sizing: border-box;
+  text-align: left;
+}
+.toast .toast_title {
+  height: 55px;
+  font-size: 25px;
+  font-weight: bold;
+}
+.toast .toast_content {
+  height: 40px;
+  font-size: 20px;
+}
+.succeed_page {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  position: absolute;
+  top: 0;
+}
+.succeed_page .showBox {
+  width: 100%;
+  height: 790px;
+  background: url('succeed_bg.png') no-repeat;
+  background-size: 100%;
+  position: relative;
+  justify-content: space-around;
+}
+.succeed_page .showBox .show_box {
+  width: 590px;
+  position: absolute;
+  bottom: 91px;
+  height: 84px;
+}
+.succeed_page .showBox .show_box .list {
+  justify-content: space-between;
+  font-size: 26px;
+  color: #333;
+}
+.succeed_page .showBox .show_box .list .name {
+  color: #666;
+}
+.succeed_page .showBox .show_box .list .msg img {
+  height: 50px;
+  width: 50px;
+  padding-right: 18px;
+  margin-bottom: -15px;
+}
+.list_page {
+  width: 100%;
+  background: #fff;
+  position: absolute;
+  top: 0;
+}
+.list_page .title {
+  height: 95px;
+  font-size: 33px;
+}
+.list_page .title span {
+  color: #F55641;
+}
+.list_page .item {
+  height: 122px;
+  border-bottom: 1px solid #eee;
+  padding-top: 28px;
+  box-sizing: border-box;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.list_page .item .item_li {
+  justify-content: space-between;
+  padding-bottom: 20px;
+  font-size: 26px;
+}
+.list_page .item .item_li .money {
+  font-weight: bold;
+}
+.list_page .item .item_li .time {
+  font-size: 24px;
+  color: #999;
+}
+.list_page .item .item_li .type {
+  font-size: 24px;
+  color: #F55641;
+}

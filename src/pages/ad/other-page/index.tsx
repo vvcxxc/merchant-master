@@ -47,7 +47,7 @@ class BusinessArea extends Component<any> {
 				break;
 		}
 		this.setState({ position });
-		const res = await request({ url: 'v3/ads/by_type', params: { ad_type: 1, position_id: position, romotion_type: this.props.romotionType } });
+		const res = await request({ url: 'v3/ads/by_type', params: { ad_type: 1, position_id: position, romotion_type: this.props.location.query.type == "钻石展位" ? 1 : this.props.romotionType } });
 		Toast.hide();
 		if (res.code === 200) {
 			if (res.data.length != 0) {
@@ -55,13 +55,14 @@ class BusinessArea extends Component<any> {
 					data: res.data[0],
 					adId: res.data[0].id
 				});
-			} 
+			}
 			else {
 				// 为了防止美数据的情况下还把原本的数据带过去子组件
 				this.setState({
-					data : {}
+					data : {},
+					adId: null
 				})
-			}	
+			}
 			// this.setLog();
 		}
 	};
