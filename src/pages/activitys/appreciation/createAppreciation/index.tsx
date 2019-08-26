@@ -169,7 +169,7 @@ export default connect(({ activity }: any) => activity)(
       }
 
       //起始封顶值效验
-      if (end_price <= start_price) {
+      if (end_price*1 <= start_price*1) {
         Toast.fail('封顶值应大于起始值');
         return;
       }
@@ -178,7 +178,7 @@ export default connect(({ activity }: any) => activity)(
       if (total_num) {
         if (total_num.substr(0, 1) < 1) {
           Toast.fail('数量首位不能为0');
-          return 
+          return
         }
       }
 
@@ -284,7 +284,7 @@ export default connect(({ activity }: any) => activity)(
         );
 
       const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, display, start_date, end_date } = this.props.Appreciation
-      
+
       return (
         <div style={{ width: '100%', height: 'auto', minHeight: '100%', background: '#fff' }}>
           <div style={{ display }}>
