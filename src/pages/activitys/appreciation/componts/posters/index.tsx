@@ -11,9 +11,14 @@ interface Props {
 
 
 export default class Posters extends Component<Props> {
-
+  state = {
+    url: ''
+  }
   componentDidMount() {
     const canvas: any = document.getElementById('canvas');
+    // const canvas: any = document.getElementById('canvas');
+
+
     canvas.style.backgroundColor = '#fff';
     canvas.style.borderRadius = '15px'
 
@@ -47,16 +52,11 @@ export default class Posters extends Component<Props> {
     // convertCanvasToImage(canvas) {
     // var image = new Image();
     imgs.src = canvas.toDataURL("image/png");
-    // return imgs;
-    // }
-    let img = this.convertCanvasToImage(imgs);
-    console.log(img)
+    this.setState({
+      url: imgs.src
+    })
+
   }
-  convertCanvasToImage(canvas) {
-    var image = new Image();
-    image.src = canvas.toDataURL("image/png");
-    return image;
-   }
 
   saveMyImg = () => {
     // function exportCanvasAsPNG(id, fileName) {
@@ -133,7 +133,8 @@ export default class Posters extends Component<Props> {
             <div className={styles.close} onClick={this.closeData}><Icon type='cross' /></div>
           </div>
           <div className={styles.canvas_box}>
-            <canvas id="canvas" width="565px;" height="726px" />
+            <canvas id="canvas" width="565px;" height="726px"/>
+            <img src={this.state.url}/>
           </div>
           <div className={styles.save}>
             <Button className={styles.save_img} onClick={this.saveMyImg}>保存图片</Button>
