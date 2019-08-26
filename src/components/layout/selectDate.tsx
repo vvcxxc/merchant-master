@@ -7,7 +7,7 @@ interface Props {
 	show: boolean;
 	value: string;
 	onHide: () => any;
-	onChange: (arg0: string) => string;
+	onChange: (arg0: string|undefined) => any;
 }
 
 export default function SelectDate({ show, value, onChange , onHide }: Props) {
@@ -15,7 +15,7 @@ export default function SelectDate({ show, value, onChange , onHide }: Props) {
 	const submit = () => onChange(moment(date).format('YYYY-MM'));
 	const reset = () => {
 		setDate(new Date());
-		onChange('');
+		onChange(undefined);
 	};
 	const handleDateChange = (value: Date) => {
 		setDate(value);

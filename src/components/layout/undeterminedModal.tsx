@@ -5,7 +5,7 @@ import { WingBlank, Flex } from 'antd-mobile';
 interface Props {
 	undetermined: Undetermined;
 	undetermined2?: any;
-	onChange: (id: number | string, _id: number | string) => any;
+	onChange: (id: number | string, _id: number | string|undefined) => any;
 	onHide: () => any;
 	show: boolean /**后备条件 */;
 	after?: After;
@@ -49,14 +49,15 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 		set_Checked(item._id);
 		// _checkedName = item.
 	};
-	const submit = () => onChange(checked, _checked);
+	const submit = () => {
+		onChange(checked, _checked)};
 	const _reset = () => {
 		setChecked(undefined);
 		set_Checked(undefined);
-		onChange('', '');
+		onChange('', undefined);//_id自给自足，id有点变化照顾一下财务详情的重置
 	};
 	/**渲染条件列表 */
-	const undeterminedList = undetermined.map((_, index) => (
+	const undeterminedList = undetermined.map((_: any, index: any) => (
 		<Flex
 			key={_.id}
 			align="center"
@@ -71,7 +72,7 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 	/**渲染条件列表2 */
 	const undeterminedList2 = undetermined2 ? undetermined2.map((_: any, index: any) => (
 		<Flex
-			key={_.id}
+			key={_._id}
 			align="center"
 			justify="center"
 			onClick={handleClickUndetermined2(index, _)}
