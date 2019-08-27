@@ -596,7 +596,9 @@ export default connect(({ submitQua }: any) => submitQua)(
                     bank_disable: true
                   }
                 });
-                this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                if(data.bank_name){
+                  this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                }
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
                 this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
@@ -682,7 +684,9 @@ export default connect(({ submitQua }: any) => submitQua)(
                     bank_disable: true
                   }
                 });
-                this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                if(data.bank_name){
+                  this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                }
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
                 this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
