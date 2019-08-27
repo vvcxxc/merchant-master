@@ -30,7 +30,8 @@ export default class payReturnDetail extends Component<any> {
 			Toast.success('删除成功');
 			setTimeout(router.goBack, 1000);
 		}
-	};
+  };
+
 	render() {
 		const data: any = this.state.data;
 
@@ -51,8 +52,8 @@ export default class payReturnDetail extends Component<any> {
 							<div className="label">返</div>
 							<Flex.Item className="name">{data.activity.name}</Flex.Item>
 							<div className="time">
-								{moment.unix(data.activity.activity_begin_time).format('YYYY/MM/DD')}-
-								{moment.unix(data.activity.activity_end_time).format('YYYY/MM/DD')}
+               {moment.unix(data.activity.begin_time).format('YYYY/MM/DD')}-
+                {moment.unix(data.activity.end_time).format('YYYY/MM/DD')}
 							</div>
 						</Flex>
 						{coupons}

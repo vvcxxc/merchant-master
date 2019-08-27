@@ -45,7 +45,7 @@ export default class Benefit extends Component {
 	];
 	state = {
 		data: [],
-		type: 'today',
+		type: undefined,
 		payType: undefined,
 		// date: new Date().getFullYear() + '-' + Number(new Date().getMonth() + 1),
 		date:undefined,
@@ -159,7 +159,7 @@ export default class Benefit extends Component {
 	};
 	//只选择月份
 	handleChange3 = (query: any) => {
-		//搞掉 
+		//搞掉
 		this.setState({ date: query.time , payType: undefined, type: undefined }, async () => {
 			Toast.loading('');
 			const res = await request({

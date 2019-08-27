@@ -596,7 +596,9 @@ export default connect(({ submitQua }: any) => submitQua)(
                     bank_disable: true
                   }
                 });
-                this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                if(data.bank_name){
+                  this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                }
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
                 this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
@@ -682,7 +684,9 @@ export default connect(({ submitQua }: any) => submitQua)(
                     bank_disable: true
                   }
                 });
-                this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                if(data.bank_name){
+                  this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                }
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
                 this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
@@ -867,10 +871,10 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     /**保存或者提交 */
     submit = (type: number) => () => {
-      if (this.state.bankShow) {
-        Toast.fail('未选择支行', 1);
-        return
-      }
+      // if (this.state.bankShow) {
+      //   Toast.fail('未选择支行', 1);
+      //   return
+      // }
       const { legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.props;
       let data = {
         legal_id_back_img,
