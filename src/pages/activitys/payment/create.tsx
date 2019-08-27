@@ -40,14 +40,19 @@ export default class CreatePaymentReturn extends Component {
 			rules['coupon_money' + (index + 1)] = _.returnMoney*1;
 			rules['total_num' + (index + 1)] = _.num*1;
 			rules['total_fee' + (index + 1)] = _.limit*1;
-		});
+    });
+    let a = moment(this.state.startDate).startOf('day')
+    let activity_begin_time = moment(a._d).format('X')
+    let b = moment(this.state.endDate).endOf('day')
+    let activity_end_time = moment(b).format('X');
+    console.log(activity_begin_time, activity_end_time)
 		const res = await request({
 			url: 'v3/return_coupons',
 			method: 'post',
 			data: {
 				coupon_sum: this.state.rules.length,
-				activity_begin_time: moment(this.state.startDate).unix(),
-				activity_end_time: moment(this.state.endDate).unix(),
+				activity_begin_time,
+				activity_end_time,
 				...rules
 			}
 		});

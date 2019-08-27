@@ -166,10 +166,10 @@ export default connect(({ activity }: any) => activity)(
         Toast.fail('助力人数应在2至18之间', 2);
         return;
       }
-
-
-      let activity_begin_time = moment(start_date).format('X');
-      let activity_end_tine = moment(end_date).format('X');
+      let a = moment(start_date).startOf('day')
+      let activity_begin_time = moment(a._d).format('X')
+      let b = moment(end_date).endOf('day')
+      let activity_end_tine = moment(b).format('X');
       if (start_price && end_price && appreciation_number_sum && validity && pay_money && total_num && total_fee && start_date && end_date && mail_mode) {
         Toast.loading('');
 
@@ -223,7 +223,7 @@ export default connect(({ activity }: any) => activity)(
     //   if (v < 2 || v > 18) {
     //     Toast.fail('助力人数应在2至18之间', 2, () => {
     //       this.refs.appreciationNumber.clearInput();
-    //       this.refs.appreciationNumber.focus(); 
+    //       this.refs.appreciationNumber.focus();
     //     });
     //   }
     // }
