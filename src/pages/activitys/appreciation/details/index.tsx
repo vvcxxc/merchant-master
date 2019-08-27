@@ -221,7 +221,7 @@ export default class GroupDetails extends Component {
           {/* 活动名 */}
           <Flex justify='between' className={styles.headers}>
             <div className={styles.names}>
-              活动名称
+              {info.appreciation_info.activity_name}
               <span>{types}</span>
             </div>
             <img src={require('./share.png')} onClick={this.shareClick} />

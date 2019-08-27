@@ -127,82 +127,97 @@ export default connect(({ activity }: any) => activity)(
     }
     /**选择图片 */
     changeCover = (files: any) => {
-      this.props.dispatch({
-        type: 'activity/setGroup',
-        payload: {
-          cover_img: files
-        }
-      });
+      // this.props.dispatch({
+      //   type: 'activity/setGroup',
+      //   payload: {
+      //     cover_img: files
+      //   }
+      // });
+      Toast.loading('')
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
+          Toast.hide()
           let { data } = res;
           this.props.dispatch({
             type: 'activity/setGroup',
             payload: {
+              cover_img: files,
               image: data.path
             }
           });
         });
       } else {
+        Toast.hide()
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {
-            image: ''
+            image: '',
+            cover_img: [],
           }
         });
       }
     }
     changeDescribe1 = (files: any) => {
-      this.props.dispatch({
-        type: 'activity/setGroup',
-        payload: {
-          describe_img1: files
-        }
-      });
+      // this.props.dispatch({
+      //   type: 'activity/setGroup',
+      //   payload: {
+      //     describe_img1: files
+      //   }
+      // });
+      Toast.loading('')
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
+          Toast.hide()
           let { data } = res;
           this.props.dispatch({
             type: 'activity/setGroup',
             payload: {
-              image_url1: data.path
+              image_url1: data.path,
+              describe_img1: files
             }
           });
         });
       } else {
+        Toast.hide()
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {
-            image_url1: ''
+            image_url1: '',
+            describe_img1: []
           }
         });
       }
     }
     changeDescribe2 = (files: any) => {
-      this.props.dispatch({
-        type: 'activity/setGroup',
-        payload: {
-          describe_img2: files
-        }
-      });
+      // this.props.dispatch({
+      //   type: 'activity/setGroup',
+      //   payload: {
+      //     describe_img2: files
+      //   }
+      // });
+      Toast.loading('')
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
+          Toast.hide()
           let { data } = res;
           this.props.dispatch({
             type: 'activity/setGroup',
             payload: {
-              image_url2: data.path
+              image_url2: data.path,
+              describe_img2: files
             }
           });
         });
       } else {
+        Toast.hide()
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {
-            image_url2: ''
+            image_url2: '',
+            describe_img2: []
           }
         });
       }
@@ -226,8 +241,10 @@ export default connect(({ activity }: any) => activity)(
         return;
       }
 
-      let activity_begin_time = moment(start_date).format('X');
-      let activity_end_tine = moment(end_date).format('X');
+      let a = moment(start_date).startOf('day')
+      let activity_begin_time = moment(a._d).format('X')
+      let b = moment(end_date).endOf('day')
+      let activity_end_tine = moment(b).format('X');
       let image_url = [];
       image_url.push(image_url1);
       image_url.push(image_url2);

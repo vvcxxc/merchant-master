@@ -1,7 +1,7 @@
 /**title: 添加好友增值 */
 import React, { Component } from 'react';
 import styles from './index.less';
-import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast } from 'antd-mobile';
+import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast, Radio } from 'antd-mobile';
 import moment from 'moment'
 import request from '@/services/request'
 import router from 'umi/router';
@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
+const RadioItem = Radio.RadioItem;
 export default connect(({ activity }: any) => activity)(
   class createAppreciation extends Component<any> {
     state = {
@@ -17,6 +18,7 @@ export default connect(({ activity }: any) => activity)(
       is_gift: false,
       /**去支付？ */
       is_pay: false,
+      value: 0
     };
     componentDidMount() {
 
@@ -44,6 +46,14 @@ export default connect(({ activity }: any) => activity)(
 
 
     /**改变值 */
+    activityNameChange = (e: any) => {
+      this.props.dispatch({
+        type: 'activity/setAppreciation',
+        payload: {
+          activityName: e
+        }
+      });
+    }
     handleStartPri = (e: any) => {
       if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
         this.props.dispatch({
@@ -149,10 +159,25 @@ export default connect(({ activity }: any) => activity)(
       });
     }
 
+    onChange = (value) => {
+      console.log('checkbox');
+      this.setState({
+        value,
+      }, () => {
+        console.log(this.state.value)
+      });
+    };
+
 
     /**提交 */
     submit = async () => {
-      const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name } = this.props.Appreciation
+      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name } = this.props.Appreciation
+
+      // 自定义名称
+      if(this.state.value == 1 && !activityName) {
+        Toast.fail('请输入自定义名称', 2);
+        return;
+      }
 
       // 日期验证
       let startDate = new Date(start_date).getTime();
@@ -162,14 +187,14 @@ export default connect(({ activity }: any) => activity)(
         return;
       }
 
-      if(appreciation_number_sum < 2 || appreciation_number_sum > 18) {
+      if (appreciation_number_sum < 2 || appreciation_number_sum > 18) {
         Toast.fail('助力人数应在2至18之间', 2);
         return;
       }
-
-
-      let activity_begin_time = moment(start_date).format('X');
-      let activity_end_tine = moment(end_date).format('X');
+      let a = moment(start_date).startOf('day')
+      let activity_begin_time = moment(a._d).format('X')
+      let b = moment(end_date).endOf('day')
+      let activity_end_tine = moment(b).format('X');
       if (start_price && end_price && appreciation_number_sum && validity && pay_money && total_num && total_fee && start_date && end_date && mail_mode) {
         Toast.loading('');
 
@@ -177,19 +202,20 @@ export default connect(({ activity }: any) => activity)(
           url: 'api/merchant/youhui/addYouhuiAppreciation',
           method: 'post',
           data: {
-            total_num:total_num*1,
-            pay_money:pay_money*1,
-            validity:validity*1,
-            init_money: start_price*1,
-            return_money: end_price*1,
-            activity_begin_time:Number(activity_begin_time),
-            activity_end_tine:Number(activity_end_tine),
-            total_fee:total_fee*1,
+            total_num: total_num * 1,
+            pay_money: pay_money * 1,
+            validity: validity * 1,
+            init_money: start_price * 1,
+            return_money: end_price * 1,
+            activity_begin_time: Number(activity_begin_time),
+            activity_end_tine: Number(activity_end_tine),
+            total_fee: total_fee * 1,
             gift_id,
             mail_mode,
             gift_pic,
             gift_name,
-            appreciation_number_sum:appreciation_number_sum*1
+            appreciation_number_sum: appreciation_number_sum * 1,
+            activity_name : this.state.value == 0 ? "" : activityName
           }
         });
         let { data, message } = res;
@@ -223,7 +249,7 @@ export default connect(({ activity }: any) => activity)(
     //   if (v < 2 || v > 18) {
     //     Toast.fail('助力人数应在2至18之间', 2, () => {
     //       this.refs.appreciationNumber.clearInput();
-    //       this.refs.appreciationNumber.focus(); 
+    //       this.refs.appreciationNumber.focus();
     //     });
     //   }
     // }
@@ -263,13 +289,45 @@ export default connect(({ activity }: any) => activity)(
 
 
 
-      const { start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, display, start_date, end_date } = this.props.Appreciation
+      const {activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, display, start_date, end_date } = this.props.Appreciation
+
+      const data = [
+        { value: 0, label: '默认活动名称(推荐)' },
+        { value: 1, label: '自定义名称' },
+      ];
+
+      const { value } = this.state;
+
       return (
         <div style={{ width: '100%', height: 'auto', minHeight: '100%', background: '#fff' }}>
           <div style={{ display }}>
             <WingBlank>
               <Flex className={styles.title}><div>活动设置</div></Flex>
               <List className={styles.input_Box}>
+                <Flex className={styles.radio}>
+                  {/* <Radio className={styles.my_Radio} onChange={e => console.log('checkbox', e)}>Agree</Radio> */}
+                  {data.map(i => (
+                    <Flex.Item key={i.value}>
+                      <Radio className={styles.my_Radio} checked={value === i.value} onChange={() => this.onChange(i.value)}>
+                        {i.label}
+                      </Radio>
+                    </Flex.Item>
+                  ))}
+                </Flex>
+                <Flex className={styles.activity_space}>
+                  {
+                    this.state.value == 0 ? (
+                      <span>从{start_price ? start_price : 0}元增值至{end_price ? end_price : 0}元</span>
+                    ) : (
+                      <InputItem
+                        placeholder="请输入活动名称"
+                        value={activityName}
+                        onChange={this.activityNameChange}
+                        clear
+                      />
+                    )
+                  }
+                </Flex>
                 <Flex className={styles.pickerDate}>
                   <DatePicker
                     mode="date"
