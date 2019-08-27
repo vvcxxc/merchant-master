@@ -428,7 +428,7 @@ export default class AdChart extends React.Component {
 	}
 
 	getAdData = async () => {
-		const res = await request({ url: 'v3/ads/stat', params: { ad_id: this.props.adId, nearest: 7 } });
+		const res = await request({ url: 'v3/ads/stat', params: { ad_id: this.props.adId, nearest: 7, type : 1 } });
 		console.log(res);
 
 		if (res.code == 200) {

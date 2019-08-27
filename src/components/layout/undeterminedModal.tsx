@@ -42,7 +42,13 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 	};
 	/**点击某个条件时2*/
 	const handleClickUndetermined2 = (index: number, item: Item): any => () => {
+<<<<<<< HEAD
 		set_Checked(item._id);
+=======
+		// console.log(item)
+		set_Checked(item._id);
+		// _checkedName = item.
+>>>>>>> release
 	};
 	const submit = () => {
 		onChange(checked, _checked)};

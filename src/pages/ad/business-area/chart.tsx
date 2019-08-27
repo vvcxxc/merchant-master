@@ -5,7 +5,7 @@ export default class Chart extends Component {
 	render() {
 		return (
 			<div>
-				<p>{this.props.adId}</p>
+				{/* <p>{this.props.adId}</p> */}
 				<AdChart adId={this.props.adId} />
 			</div>
 			

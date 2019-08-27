@@ -1,9 +1,7 @@
-/**title: 添加增值活动 */
+/**title: 添加好友增值 */
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast } from 'antd-mobile';
-import ChooseGift from '../../components/choosegift/';
-import PayMent from '../../components/payment';
 import moment from 'moment'
 import request from '@/services/request'
 import router from 'umi/router';
@@ -12,7 +10,6 @@ import ReactDOM from 'react-dom';
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
-
 export default connect(({ activity }: any) => activity)(
   class createAppreciation extends Component<any> {
     state = {
@@ -22,6 +19,7 @@ export default connect(({ activity }: any) => activity)(
       is_pay: false,
     };
     componentDidMount() {
+
       if (this.props.Appreciation.gift_id) {
         this.setState({ is_gift: true })
       }
@@ -42,6 +40,8 @@ export default connect(({ activity }: any) => activity)(
         })
       }
     }
+
+
 
     /**改变值 */
     handleStartPri = (e: any) => {
@@ -174,16 +174,14 @@ export default connect(({ activity }: any) => activity)(
         return;
       }
 
-      // 对数量的效验
-      if (total_num) {
-        if (total_num.substr(0, 1) < 1) {
-          Toast.fail('数量首位不能为0');
-          return
-        }
+      if(appreciation_number_sum < 2 || appreciation_number_sum > 18) {
+        Toast.fail('助力人数应在2至18之间', 2);
+        return;
       }
-
-      let activity_begin_time = moment(start_date).format('X');
-      let activity_end_tine = moment(end_date).format('X');
+      let a = moment(start_date).startOf('day')
+      let activity_begin_time = moment(a._d).format('X')
+      let b = moment(end_date).endOf('day')
+      let activity_end_tine = moment(b).format('X');
       if (start_price && end_price && appreciation_number_sum && validity && pay_money && total_num && total_fee && start_date && end_date && mail_mode) {
         Toast.loading('');
 
@@ -319,7 +317,7 @@ export default connect(({ activity }: any) => activity)(
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handleEndPri} value={end_price} placeholder='请输入 ' extra='元' clear>
                   封顶值
               </InputItem>
-                <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人' ref="appreciationNumber" onVirtualKeyboardConfirm={this.handleCheckAppreciationNumber.bind(this)} onBlur={this.handleCheckAppreciationNumber.bind(this)} clear>
+                <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人' ref="appreciationNumber" clear>
                   助力人数
               </InputItem>
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handlePayMoney} value={pay_money} placeholder='请输入 ' extra='元' clear>

@@ -109,7 +109,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
     componentDidMount() {
-      console.log(this.props)
+      console.log(this.props.date_back)
       function getCaption(str: string) {
         return str.split('http://oss.tdianyi.com/')[1]
       }
@@ -153,7 +153,6 @@ export default connect(({ submitQua }: any) => submitQua)(
 
         let arr = (this.props.contact_name || this.props.legal_id_no || this.props.date || this.props.settle_bank_account_name || this.props.settle_bank_account_no || this.props.settle_bank || this.props.three_certs_in_one_no || this.props.corn_bus_name || this.props.legal_name || this.props.three_certs_in_one_valid_date || this.props.bank_name || this.props.legal_id_front_img || this.props.legal_id_back_img || this.props.hand_hold_id_img || this.props.bank_card_front_img || this.props.bank_card_back_img || this.props.three_certs_in_one_img)
         if (this.props.date_back == false) {
-
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
@@ -281,7 +280,6 @@ export default connect(({ submitQua }: any) => submitQua)(
           return
         }
       })
-
     }
     /**查看身份证示例 */
     toIdCardExample = () => {
@@ -640,7 +638,9 @@ export default connect(({ submitQua }: any) => submitQua)(
                     bank_disable: true
                   }
                 });
-                this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                if(data.bank_name){
+                  this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                }
                 Toast.success('识别成功', 2);
                 Cookies.set("_bank3disable", true, { expires: 1 });
               } else {
@@ -730,7 +730,9 @@ export default connect(({ submitQua }: any) => submitQua)(
                     bank_disable: true
                   }
                 });
-                this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                if(data.bank_name){
+                  this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                }
                 Toast.success('识别成功', 2);
                 Cookies.set("_bank3disable", true, { expires: 1 });
               } else {
