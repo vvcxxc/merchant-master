@@ -7,7 +7,7 @@ import styles from './index.less';
 import { WingBlank, Flex, InputItem, List, Picker, ImagePicker, Button, Toast} from 'antd-mobile';
 import router from 'umi/router';
 import request from '@/services/request';
-import MapPage from '@/components/map';
+import MapPage from '@/components/map/index';
 import upload from '@/services/oss';
 
 const Item = List.Item;
@@ -38,7 +38,8 @@ export default class StoreInfo extends Component {
       longitude: 0,
       latitude: 0
     },
-    email: ''
+    email: '',
+    preview: ''
   };
   componentDidMount (){
     /**获取经营品类 */
@@ -83,48 +84,57 @@ export default class StoreInfo extends Component {
   }
   /**设置门头照 */
   Storechange = (files: any) => {
-    this.setState({
-      store_head: files,
-    });
+    // this.setState({
+    //   store_head: files,
+    // });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
         let store_door_header_img = res.data.path;
-        this.setState({store_door_header_img})
+        this.setState({ store_head: files ,store_door_header_img})
       })
     }else {
-      this.setState({store_door_header_img: ''})
+      Toast.hide()
+      this.setState({store_head: files, store_door_header_img: ''})
     }
 
   }
   /**设置环境照 */
   StoreImg1 = (files: any) => {
-    this.setState({
-      store_img1: files,
-    });
+    // this.setState({
+    //   store_img1: files,
+    // });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
         let store_img_one = res.data.path;
-        this.setState({store_img_one})
+        this.setState({store_img1: files, store_img_one})
       })
     }else {
-      this.setState({store_img_one: ''})
+      Toast.hide()
+      this.setState({store_img1: files, store_img_one: ''})
     }
 
   }
   StoreImg2 = (files: any) => {
-    this.setState({
-      store_img2: files,
-    });
+    // this.setState({
+    //   store_img2: files,
+    // });
+    Toast.loading('')
     if(files[0]){
       let img = files[0].url;
       upload(img).then(res => {
+        Toast.hide()
         let store_img_two = res.data.path;
-        this.setState({store_img_two})
+        this.setState({ store_img2: files, store_img_two})
       })
     }else {
-      this.setState({store_img_two: ''})
+      Toast.hide()
+      this.setState({store_img2: files, store_img_two: ''})
     }
   }
 

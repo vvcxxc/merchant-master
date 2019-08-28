@@ -43,7 +43,7 @@ export default connect()(
             <Flex className="activity-item" onClick={this.pushPage('/activitys/group')}>
               <img className="item-icon" src={require('./images/3.png')} alt="" />
               <Flex.Item>
-                <ItemContent title="拼团活动" subTitle="GROUP ACTIVITIES" />
+                <ItemContent title="社区拼团" subTitle="GROUP ACTIVITIES" />
                 <div className="item-read">
                   <div className="item-read-msg" onClick={(e) => { router.push('/activitys/readme/activityGroup');e.stopPropagation(); }}>
                     创建必读
@@ -54,7 +54,7 @@ export default connect()(
             <Flex className="activity-item" onClick={this.pushPage('/activitys/appreciation')}>
               <img className="item-icon" src={require('./images/4.png')} alt="" />
               <Flex.Item>
-                <ItemContent title="增值活动" subTitle="VALUE ADDED" />
+                <ItemContent title="好友增值" subTitle="VALUE ADDED" />
                 <div className="item-read">
                   <div className="item-read-msg" onClick={(e) => { router.push('/activitys/readme/activityAppre');e.stopPropagation(); }}>
                     创建必读
