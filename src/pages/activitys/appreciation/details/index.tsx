@@ -104,9 +104,9 @@ export default class GroupDetails extends Component<Props> {
     this.setState({ showShare: true })
   }
 
-  closeShare = (close: boolean) => {
-    this.setState({ showShare: false })
-  }
+  // closeShare = (close: boolean) => {
+  //   this.setState({ showShare: false })
+  // }
 
 
   render() {

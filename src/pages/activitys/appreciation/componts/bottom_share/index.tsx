@@ -15,38 +15,44 @@ export default class BottomShare extends Component<Props>{
     showShare: false,
     shareButton: false,
     showBottom: true,//控制底部用户操作部分
-    showPoster: false//控制显示海报部分
+    showPoster: false,//控制显示海报部分
+    showArrows:false
   }
 
 
   componentDidMount() {
   }
 
+  shouldComponentUpdate(nextProps: any, nextState: any) {
+    if (nextProps.showShare != nextState.showShare) { //新旧值在不一致的情况下，更新赋值
+      if (!this.state.showShare) this.setState({ showShare: true }) 
+    }
+    return true 
+  }
+
+  //点击遮挡层
+  keep_outOnclick = (e: any) => {
+    this.setState({ showBottom: true })
+    this.setState({ showShare: false })
+    this.setState({ showArrows:false})
+    e.stopPropagation();
+  }
+
   // 点击取消
-  closeShareData = () => {
-    this.setState({ showShare: true }) // 控制关闭分享组件
+  closeShareData = (e:any) => {
     this.setState({ shareButton: true }) //取消按钮变色
     setTimeout(() => {
-      this.props.closeShare(false)
       this.setState({ shareButton: false }) //取消按钮变色
+      this.setState({ showShare: false })
     }, 100);
+    e.stopPropagation();
   }
 
-  // 点击生成海报
-  showPosterData = () => {
-    this.setState({ showPoster: true })
-    // this.setState({ showShare: false })
-  }
-
-  //关闭海报
-  closePoster = (close: any) => {
-    this.setState({ showPoster: false })
-  }
-  
-  //点击分享 // 如果礼品为 0 ，没礼品
-  shareData = () => {
+  //点击分享
+  shareData = (e:any) => {
     let meta: any = this.props.type
     this.setState({ showBottom: false })// 点击分享 遮挡层不消失 消失白色区域部分
+    this.setState({ showArrows:true})
     
     let userAgent = navigator.userAgent;
     let isIos = userAgent.indexOf('iPhone') > -1;
@@ -130,26 +136,27 @@ export default class BottomShare extends Component<Props>{
       }//else
     
     })
-  }
-
-  //给一个全局点击的事件
-  keep_outOnclick = (e:any) => {
-    //如果是分享的遮挡层 用户点击遮挡层的时候，遮挡层消失
-    if (!this.state.showBottom) {
-      this.props.closeShare(false)
-      this.setState({ showBottom:true})
-    }
-    // e.preventDefault()
     e.stopPropagation();
   }
-  
+
+  // 点击生成海报
+  showPosterData = (e:any) => {
+    this.setState({ showPoster: true })
+    this.setState({ showBottom: false })// 点击分享 遮挡层不消失 消失白色区域部分
+    e.stopPropagation();
+  }
+
+  closePoster = () => {
+    this.setState({ showPoster: false })
+    this.setState({ showShare: false })
+    this.setState({ showBottom:true })
+  }
 
   render() {
-    const poster = <Posters closePoster={this.closePoster} showPoster={this.state.showPoster} >{null}</Posters>
     return (
-      <div style={{ display: this.props.showShare ? '' : 'none' }} className={styles.keep_out} onClick={this.keep_outOnclick.bind(this)}>
-        
-        <div className={styles.keep_shareBox} style={{ display: !this.state.showBottom ? '' : 'none' }} >
+      <div style={{ display: this.state.showShare ? '' : 'none' }} className={styles.keep_out}
+        onClick={this.keep_outOnclick.bind(this)}>
+        <div className={styles.keep_shareBox} style={{ display: this.state.showArrows  ? '' : 'none' }} >
           <img
             className={styles.share_arrow}
             src={require('../../../../../assets/jiantou.png')} />
@@ -158,11 +165,11 @@ export default class BottomShare extends Component<Props>{
           >点击并分享给朋友</div>
         </div>
 
-        {poster}{/* 海报组件 */}
+        <Posters closePoster={this.closePoster} showPoster={this.state.showPoster} >{null}</Posters>{/* 海报组件 */}
         
-        <div className={styles.share_box} style={{ display: this.state.showBottom && !this.state.showPoster ? '' : 'none' }}>
+        <div className={styles.share_box} style={{ display: this.state.showBottom  ? '' : 'none' }}>
           <div className={styles.box}>
-            <div className={styles.all_center} onClick={this.shareData}>
+            <div className={styles.all_center} onClick={this.shareData.bind(this)}>
               <img src={require('../../../../../assets/share.png')} alt="" />
               <div className={styles.text_center}>分享</div>
             </div>
@@ -171,7 +178,7 @@ export default class BottomShare extends Component<Props>{
               <div className={styles.text_center}>生成海报</div>
             </div>
           </div>
-          <div className={styles.cancel} onClick={this.closeShareData} style={{ backgroundColor: this.state.shareButton ? 'rgba(0,0,0,0.05)':''}}>取消</div>
+          <div className={styles.cancel} onClick={this.closeShareData.bind(this)} style={{ backgroundColor: this.state.shareButton ? 'rgba(0,0,0,0.05)':''}}>取消</div>
         </div>
       </div>
     )
