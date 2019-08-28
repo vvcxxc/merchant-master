@@ -16,28 +16,23 @@ export default class Rechange extends Component {
   /**input change */
   handleInputChange = (value: any) => this.setState({ money: parseFloat(value) });
   /** recahnge submit value */
+  /** recahnge submit value */
   submit = async () => {
-    let openId = Cookies.get(open_id)
-    // 判断是否授权
-    if (openId) {
-      Toast.loading('充值中');
-      const res = await request({
-        url: 'v3/pay/recharge',
-        method: 'post',
-        data: {
-          xcx: 0,
-          rechargeMoney: this.state.money,
-          open_id: openId
-        }
-      });
-
-      Toast.hide();
-
-      if (res.code === 200) {
-        window.WeixinJSBridge.invoke('getBrandWCPayRequest', res.data, function (res: { err_msg: string }) {
-          ``;
-          if (res.err_msg == 'get_brand_wcpay_request:ok') {
-            // '支付成功'
+    console.log(this.state.money);
+    if (Number(this.state.money) == 0 || this.state.money == undefined || isNaN(Number(this.state.money))) {
+      Toast.fail('请输入充值金额', 1.5);
+    } else {
+      let openId = Cookies.get(open_id)
+      // 判断是否授权
+      if (openId) {
+        Toast.loading('充值中');
+        const res = await request({
+          url: 'v3/pay/recharge',
+          method: 'post',
+          data: {
+            xcx: 0,
+            rechargeMoney: this.state.money,
+            open_id: openId
           }
         });
 
@@ -48,21 +43,32 @@ export default class Rechange extends Component {
             ``;
             if (res.err_msg == 'get_brand_wcpay_request:ok') {
               // '支付成功'
-              Toast.success('充值成功', 1.5);
-            } else {
-              Toast.fail('充值失败', 1.5);
             }
           });
+
+          Toast.hide();
+
+          if (res.code === 200) {
+            window.WeixinJSBridge.invoke('getBrandWCPayRequest', res.data, function (res: { err_msg: string }) {
+              ``;
+              if (res.err_msg == 'get_brand_wcpay_request:ok') {
+                // '支付成功'
+                Toast.success('充值成功', 1.5);
+              } else {
+                Toast.fail('充值失败', 1.5);
+              }
+            });
+          } else {
+            Toast.fail('充值失败', 1.5);
+          }
         } else {
-          Toast.fail('充值失败', 1.5);
+          console.log('跳到授权')
+          console.log('open_id' + openId)
+          this.auth()
         }
       } else {
-        console.log('跳到授权')
-        console.log('open_id' + openId)
         this.auth()
       }
-    } else {
-      this.auth()
     }
   };
 
