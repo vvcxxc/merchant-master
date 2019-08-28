@@ -78,7 +78,7 @@ class WithDraw extends Component {
   /**提现 */
   WithDraw = () => {
     let { money } = this.state;
-    if (money && Number(money) >= 100) {
+    if (money && Number(money) >= 20) {
       request({
         url: 'api/merchant/supplier/withdraw',
         method: 'post',
@@ -122,7 +122,7 @@ class WithDraw extends Component {
               <div className={styles.msg_box_icon}>
                 <img className={styles.msg_box_icon_img} src={iconImg} />
               </div>
-              <div className={styles.msg_box_toast}>最低提现金额为100元，请重新输入</div>
+              <div className={styles.msg_box_toast}>最低提现金额为20元，请重新输入</div>
               <div className={styles.msg_box_button_box}>
                 <div className={styles.msg_box_button} onClick={() => { this.setState({ msg_show: false }) }}>关闭</div>
 
@@ -191,7 +191,7 @@ class WithDraw extends Component {
 					</Button>
           <div className={styles.toast} >
             <div className={styles.toast_title}>温馨提示 :</div>
-            <div className={styles.toast_content}>1、金额限制: 最低提现金额为100元。</div>
+            <div className={styles.toast_content}>1、金额限制: 最低提现金额为20元。</div>
             <div className={styles.toast_content}>2、银行卡到账时间: T+1日。</div>
             <div className={styles.toast_content}>3、提现进度查询位置: “首页-资产管理-提现进度”</div>
           </div>
