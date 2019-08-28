@@ -9,7 +9,10 @@ import BottomShare from '@/pages/activitys/appreciation/componts/bottom_share'
 import Posters from '@/pages/activitys/appreciation/componts/posters'
 import EchartsSan from '../../../../components/echart_shan/index'
 const alert = Modal.alert;
-export default class GroupDetails extends Component {
+interface Props {
+  location:any
+}
+export default class GroupDetails extends Component<Props> {
 
   state = {
     echart_Data: [],
@@ -45,7 +48,7 @@ export default class GroupDetails extends Component {
     is_gift: true,
     type: '',
     types: '',
-    showShare: false,
+    showShare: false,//是否显示分享的组件
   }
   componentDidMount() {
     let { id, type } = this.props.location.query;

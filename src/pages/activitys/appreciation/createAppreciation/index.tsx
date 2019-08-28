@@ -157,6 +157,7 @@ export default connect(({ activity }: any) => activity)(
       // 日期验证
       let startDate = new Date(start_date).getTime();
       let endDate = new Date(end_date).getTime();
+      console.log(this.props.Appreciation)
 
       //起始结束日期效验
       if (startDate > endDate) {
@@ -169,7 +170,7 @@ export default connect(({ activity }: any) => activity)(
       }
 
       //起始封顶值效验
-      if (end_price <= start_price) {
+      if (end_price*1 <= start_price*1) {
         Toast.fail('封顶值应大于起始值');
         return;
       }

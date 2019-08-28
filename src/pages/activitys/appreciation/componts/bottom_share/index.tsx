@@ -20,7 +20,6 @@ export default class BottomShare extends Component<Props>{
 
 
   componentDidMount() {
-    
   }
 
   // 点击取消
@@ -36,13 +35,12 @@ export default class BottomShare extends Component<Props>{
   // 点击生成海报
   showPosterData = () => {
     this.setState({ showPoster: true })
-    this.setState({ showShare: false })
+    // this.setState({ showShare: false })
   }
 
   //关闭海报
   closePoster = (close: any) => {
     this.setState({ showPoster: false })
-    console.log(this.props,'prop')
   }
   
   //点击分享 // 如果礼品为 0 ，没礼品
@@ -136,7 +134,6 @@ export default class BottomShare extends Component<Props>{
 
   //给一个全局点击的事件
   keep_outOnclick = (e:any) => {
-   
     //如果是分享的遮挡层 用户点击遮挡层的时候，遮挡层消失
     if (!this.state.showBottom) {
       this.props.closeShare(false)
@@ -163,7 +160,7 @@ export default class BottomShare extends Component<Props>{
 
         {poster}{/* 海报组件 */}
         
-        <div className={styles.share_box} style={{ display: this.state.showBottom ? '' : 'none' }}>
+        <div className={styles.share_box} style={{ display: this.state.showBottom && !this.state.showPoster ? '' : 'none' }}>
           <div className={styles.box}>
             <div className={styles.all_center} onClick={this.shareData}>
               <img src={require('../../../../../assets/share.png')} alt="" />

@@ -13,7 +13,7 @@ interface Props {
 	insignificant?: any;
 	/**快速筛选条件列表 */
 	undetermined: Undetermined;
-	undetermined2: any;
+	undetermined2?: any;
 	/**备用筛选条件 */
 	after?: After;
 	tabs?: string[];
