@@ -86,8 +86,6 @@ export default class Rechange extends Component {
       '&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
     return (window.location.href = urls);
   }
-
-
   render() {
     return (
       <div className={styles.page}>

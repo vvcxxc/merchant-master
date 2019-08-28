@@ -193,115 +193,102 @@ export default connect(({ createStore }: any) => createStore)(
 
     /**门店图片选择后 */
     Storechange = (files: any) => {
-      Toast.loading('');
+      Toast.loading('')
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
-          Toast.hide();
-          console.log(res);
-          if (res&&res.status == "ok") {
-            Toast.success("图片上传成功", 2);
-            let store_door_header_img = res.data.path || '';
-            Cookies.set("Storechange", JSON.stringify(store_door_header_img), { expires: 1 });
-            this.props.dispatch({
-              type: 'createStore/setStore',
-              payload: {
-                store_door_header_img,
-                files
-              }
-            })
-          } else {
-            Toast.fail('图片上传失败', 2);
-          }
+          Toast.hide()
+          this.props.dispatch({
+            type: 'createStore/setStore',
+            payload: {
+              files
+            }
+          })
+          let store_door_header_img = res.data.path || '';
+          Cookies.set("Storechange", JSON.stringify(store_door_header_img), { expires: 1 });
+          this.props.dispatch({
+            type: 'createStore/setStore',
+            payload: {
+              store_door_header_img
+            }
+          })
         })
       } else {
-        Toast.hide();
+        Toast.hide()
         Cookies.set("Storechange", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'createStore/setStore',
           payload: {
             store_door_header_img: '',
-            files
+            files: []
           }
         });
       }
     }
     /**个人照1 */
     Mychange = (files: any) => {
-      // this.props.dispatch({
-      //   type: 'createStore/setStore',
-      //   payload: {
-      //     my_files: files
-      //   }
-      // })
-      Toast.loading('');
+      Toast.loading('')
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
-          Toast.hide();
-          if (res&&res.status == "ok") {
-            Toast.success("图片上传成功", 2);
-            let store_img_one = res.data.path || '';
-            Cookies.set("Mychange", JSON.stringify(store_img_one), { expires: 1 });
-            this.props.dispatch({
-              type: 'createStore/setStore',
-              payload: {
-                store_img_one,
-                my_files: files
-              }
-            })
-          } else {
-            Toast.fail('图片上传失败', 2);
-          }
+          this.props.dispatch({
+            type: 'createStore/setStore',
+            payload: {
+              my_files: files
+            }
+          })
+          Toast.hide()
+          let store_img_one = res.data.path || '';
+          Cookies.set("Mychange", JSON.stringify(store_img_one), { expires: 1 });
+          this.props.dispatch({
+            type: 'createStore/setStore',
+            payload: {
+              store_img_one
+            }
+          })
         })
       } else {
-        Toast.hide();
+        Toast.hide()
         Cookies.set("Mychange", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'createStore/setStore',
           payload: {
             store_img_one: '',
-            my_files: files
+            my_files: []
           }
         });
       }
     }
     /**个人照2 */
     Mychange2 = (files: any) => {
-      // this.props.dispatch({
-      //   type: 'createStore/setStore',
-      //   payload: {
-      //     my_files2: files
-      //   }
-      // })
-      Toast.loading('');
+      Toast.loading('')
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
-          Toast.hide(); Toast.hide();
-          if (res&&res.status == "ok") {
-            Toast.success("图片上传成功", 2);
-            let store_img_two = res.data.path || '';
-            Cookies.set("Mychange2", JSON.stringify(store_img_two), { expires: 1 });
-            this.props.dispatch({
-              type: 'createStore/setStore',
-              payload: {
-                store_img_two,
-                my_files2: files
-              }
-            })
-          } else {
-            Toast.fail('图片上传失败', 2);
-          }
+          this.props.dispatch({
+            type: 'createStore/setStore',
+            payload: {
+              my_files2: files
+            }
+          })
+          Toast.hide()
+          let store_img_two = res.data.path || '';
+          Cookies.set("Mychange2", JSON.stringify(store_img_two), { expires: 1 });
+          this.props.dispatch({
+            type: 'createStore/setStore',
+            payload: {
+              store_img_two
+            }
+          })
         })
       } else {
-        Toast.hide();
+        Toast.hide()
         Cookies.set("Mychange2", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'createStore/setStore',
           payload: {
             store_img_two: '',
-            my_files2: files
+            my_files2: []
           }
         });
       }
@@ -351,6 +338,7 @@ export default connect(({ createStore }: any) => createStore)(
 
 
     createStore = () => {
+      console.log(this.props)
       let { name, address, house_num, phone, manage_type, email, _code, store_door_header_img, store_img_one, store_img_two, location } = this.props;
       if (name && address && house_num && phone && manage_type && email && store_door_header_img && store_img_one && store_img_two) {
 

@@ -58,13 +58,17 @@ export default class CreateMoneyOff extends Component {
 		} else if (!this.state.rules.length && this.state.rules[0].max && this.state.rules[0].min) {
 			Toast.fail('请填写满减规则');
 		} else {
-			Toast.loading('');
+      Toast.loading('');
+      let a = moment(this.state.startDate).startOf('day')
+      let activity_begin_time = moment(a._d).format('X')
+      let b = moment(this.state.endDate).endOf('day')
+      let activity_end_time = moment(b).format('X');
 			const res = await request({
 				url: 'v3/activity/more_decrease',
 				method: 'post',
 				data: {
-					activity_begin_time: moment(this.state.startDate).unix(),
-					activity_end_time: moment(this.state.endDate).unix(),
+					activity_begin_time,
+					activity_end_time,
 					grade: JSON.stringify(this.state.rules.map(_ => ({ more: _.min, decrease: _.max })))
 				}
 			});

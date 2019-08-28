@@ -27,6 +27,7 @@ export default class GroupDetails extends Component<Props> {
       appreciation_info: {
         activity_type: '',
         max_money: '',
+        activity_name : '',
         appreciation_number: '',
         participation_number: '',
         activity_time: ''
@@ -141,12 +142,12 @@ export default class GroupDetails extends Component<Props> {
         </Flex>
         <Flex className={styles.item} align='start'>
           <div className={styles.item_name}>所需积分：</div>
-          <div className={styles.item_detail}>{info.appreciation_gif_info.delivery}积分</div>
+          <div className={styles.item_detail}>{info.appreciation_gif_info.gif_integral}积分</div>
         </Flex>
         <Flex className={styles.item_height} align='start'>
           <div className={styles.item_name}>配送方式：</div>
           <div className={styles.item_long}>
-            <p>{info.appreciation_gif_info.gif_integral}</p>
+            <p>{info.appreciation_gif_info.delivery}</p>
             {/* <p>邮寄 邮费谁出</p> */}
           </div>
         </Flex>
@@ -179,20 +180,20 @@ export default class GroupDetails extends Component<Props> {
           {/* 活动名 */}
           <Flex justify='between' className={styles.headers}>
             <div className={styles.names}>
-              活动名称
+              {info.appreciation_info.activity_name}
               <span>{types}</span>
             </div>
             <img src={require('./share.png')} onClick={this.shareClick} />
           </Flex>
 
           {/* 基本信息 */}
-          <Flex className={styles.title}>
+          {/* <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
             活动统计数据
           </Flex>
           <div>
             {echart}
-          </div>
+          </div> */}
 
           <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>

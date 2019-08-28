@@ -22,6 +22,7 @@ export interface Group {
   pay_list: Array<any>;
 }
 export interface Appreciation {
+  activityName : string;
   start_date: string | number;
   end_date: string | number;
   gift_id: string;
