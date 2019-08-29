@@ -21,7 +21,6 @@ export default class Posters extends Component<Props> {
  
 
   componentWillMount() {
-    console.log(this.props)
     
   }
 
@@ -168,15 +167,17 @@ export default class Posters extends Component<Props> {
 
   render() {
     return (
-      <div className={this.props.showPoster ?styles.posterBox: styles.hiddenposterBox} onClick={this.closeData.bind(this)}
-        // style={{ height: this.state.showPoster ? '100vh' : '0px' }}
-      >{/* big box provide  */}
+      <div className={this.props.showPoster ?styles.posterBox: styles.hiddenposterBox} onClick={this.closeData.bind(this)}>{/* big box provide  */}
         <div className={styles.new_poster}>
           <div className={styles.hiddenImg}>{/* hidden canvas element */}
             <canvas id="canvas" width="700x" height="1700px" />
           </div>
-          <img src={this.state.url} alt="" onClick={this.canvasImg.bind(this)}/>{/* show Image element*/}
+          <div className={styles.img_box}>
+            <img src={this.state.url} alt="" onClick={this.canvasImg.bind(this)} />{/* show Image element*/}
+            <div className={styles.save_font}>长按保存图片</div>
+          </div>
         </div>
+        
       </div>
     )
   }
