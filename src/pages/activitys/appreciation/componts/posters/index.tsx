@@ -39,6 +39,7 @@ export default class Posters extends Component<Props> {
     let JYB_IMG = new Image() // 拼团兑换券
     let JYB_giftImg = new Image() // 拼团兑换券
     let shadowImg = new Image() //阴影图片
+    let outlineImg = new Image() //轮廓图片
 
     bigImg.src = require('../../../../../assets/new_haibao.png')
     headImg.src = require('../../../../../assets/cat.png')
@@ -48,15 +49,23 @@ export default class Posters extends Component<Props> {
     JYB_IMG.src = require('../../../../../assets/JYB.png')
     shadowImg.src = require('../../../../../assets/shadow.png')
     JYB_giftImg.src = require('../../../../../assets/3.png')
+    outlineImg.src = require('../../../../../assets/outline.png')
 
-    bigImg.onload = function () {
+    bigImg.onload = ()=> {
       contents.drawImage(bigImg, 0, 0, 1700, 2000, 0, 0, 1505, 1730)
-      // contents.save();
+      contents.save();
 
       contents.font = '23px PingFang-SC-Regular Bold';
       contents.fillStyle = "#fff"
-      contents.fillText('电话：12352647895', 225, 1600, 530)
-      contents.fillText('地址:广东省广州市南州路北晓港湾樱花街道166号', 105, 1630, 890)
+      contents.fillText('电话：12352647895', 105, 1600, 530)
+
+      let name = '地址:广东省广州市南州路北晓港湾樱花街道166号';
+      if (contents.measureText(name).width >= 506) {
+        contents.fillText(name.slice(0, 24), 105, 1635);
+        contents.fillText(name.slice(24, 48), 105, 1670);
+      } else {
+        contents.fillText(name, 105, 1635);
+      }
       contents.save();
 
       contents.arc(353, 490, 58, 0, 2 * Math.PI);
@@ -92,17 +101,49 @@ export default class Posters extends Component<Props> {
     }
     JYB_giftImg.onload = () => {
       contents.drawImage(JYB_giftImg, 0, 0, 494, 460, 115,684, 180, 170)
-      contents.save()
     }
+
+    
     
     contents.font = '32px PingFang-SC-Medium Bold';
     contents.fillStyle = "#313131"
-    contents.fillText('大富五金店', 270, 600, 400)
+
+    let define = '沥滘店铺分店78787'
+    if (contents.measureText(define).width >= 200) {
+      contents.fillText(define.slice(0,5)+'.....', 260, 600, 400)//文字超过部分定义省略号
+    } else {
+      contents.fillText(define, 260, 600, 400)//文字超过部分定义省略号
+    }
+    
     contents.fillText('正在发起拼团活动，速来！', 170, 650, 400)
     contents.save()
 
     contents.font = '25px PingFang-SC-Bold';
-    contents.fillText('洛溪路店', 410, 725, 430)
+
+    outlineImg.onload = () => {
+      contents.drawImage(outlineImg, 0, 0, 204, 160, 315, 814, 180, 170)
+      let progress = 50;//开始绘制进度条
+      contents.lineWidth = 12
+      contents.strokeStyle = '#FF6654'
+      contents.lineTo(320, 820);
+      contents.lineTo(320 + progress * 1.8, 820);
+      contents.stroke();
+      contents.closePath();
+      contents.beginPath();
+      contents.lineWidth = 1;
+      contents.fillStyle = '#4a4a4a';
+      contents.font = '18px PingFang-SC-Regular';
+      contents.fillText(progress + '/100', 504, 825);
+      contents.fill();
+      contents.closePath();
+    }
+
+
+    if (contents.measureText(define).width >= 200) {
+      contents.fillText(define.slice(0, 5) + '.....', 410, 725, 430)//文字超过部分定义省略号
+    } else {
+      contents.fillText(define, 410, 725, 430)//文字超过部分定义省略号
+    }
     contents.save()
 
     contents.font = '18px PingFang-SC-Regular';
@@ -111,22 +152,6 @@ export default class Posters extends Component<Props> {
     contents.fillStyle = "#999999"
     contents.fillText('发券日七天可用', 325, 790, 630)
     contents.save()
-
-    let progress = 100;
-    //开始绘制进度条
-    contents.lineWidth = 12
-    contents.strokeStyle = '#FF6654'
-    contents.lineTo(320, 820);
-    contents.lineTo(320 + progress*1.8, 820);
-    contents.stroke();
-    contents.closePath();
-    contents.beginPath();
-    contents.lineWidth = 1;
-    contents.fillStyle = '#4a4a4a';
-    contents.font = '18px PingFang-SC-Regular';
-    contents.fillText(progress + '/100', 504, 825);
-    contents.fill();
-    contents.closePath();
 
     contents.font = '32px PingFang-SC-Medium Bold';
     contents.fillStyle = "#FF6654"
@@ -168,6 +193,7 @@ export default class Posters extends Component<Props> {
   render() {
     return (
       <div className={this.props.showPoster ?styles.posterBox: styles.hiddenposterBox} onClick={this.closeData.bind(this)}>{/* big box provide  */}
+      {/* // <div className={ styles.posterBox} onClick={this.closeData.bind(this)}> */}
         <div className={styles.new_poster}>
           <div className={styles.hiddenImg}>{/* hidden canvas element */}
             <canvas id="canvas" width="700x" height="1700px" />

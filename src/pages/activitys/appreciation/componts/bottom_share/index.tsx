@@ -155,6 +155,7 @@ export default class BottomShare extends Component<Props>{
   render() {
     return (
       <div style={{ display: this.state.showShare ? '' : 'none' }} className={styles.keep_out}
+      // <div  className={styles.keep_out}
         onClick={this.keep_outOnclick.bind(this)}>
         <div className={styles.keep_shareBox} style={{ display: this.state.showArrows  ? '' : 'none' }} >
           <img
