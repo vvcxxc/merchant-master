@@ -36,6 +36,7 @@ export interface Appreciation {
   total_num: string;
   total_fee: string;
   mail_mode: string;
+  description: Array<any>;
   pay_list: object;
 }
 const model: Model = {
