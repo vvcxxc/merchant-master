@@ -10,7 +10,7 @@ import ReactDOM from 'react-dom';
 import SelectTime from '@/components/select-time';
 
 const nowTimeStamp = Date.now();
-const now = new Date(nowTimeStamp);
+const now = new Date(nowTimeStamp).toString();
 const RadioItem = Radio.RadioItem;
 export default connect(({ activity }: any) => activity)(
   class createAppreciation extends Component<any> {
@@ -28,26 +28,28 @@ export default connect(({ activity }: any) => activity)(
       value: 0
     };
     componentDidMount() {
-
+      console.log(this.props.Appreciation)
       if (this.props.Appreciation.gift_id) {
         this.setState({ is_gift: true })
       }
-      if (!this.props.Appreciation.start_date) {
-        this.props.dispatch({
-          type: 'activity/setAppreciation',
-          payload: {
-            start_date: now
-          }
-        })
-      }
-      if (!this.props.Appreciation.end_date) {
-        this.props.dispatch({
-          type: 'activity/setAppreciation',
-          payload: {
-            end_date: now
-          }
-        })
-      }
+      this.setState({value:this.props.Appreciation.name_mode},()=>{
+      })
+      // if (!this.props.Appreciation.start_date) {
+      //   this.props.dispatch({
+      //     type: 'activity/setAppreciation',
+      //     payload: {
+      //       start_date: now
+      //     }
+      //   })
+      // }
+      // if (!this.props.Appreciation.end_date) {
+      //   this.props.dispatch({
+      //     type: 'activity/setAppreciation',
+      //     payload: {
+      //       end_date: now
+      //     }
+      //   })
+      // }
     }
 
 
@@ -82,7 +84,6 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     clearPri1 = () => {
-      console.log("11111");
       this.props.dispatch({
         type: 'activity/setAppreciation',
         payload: {
@@ -109,7 +110,6 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleValidity = (e: any) => {
-      console.log(e)
       if (e.indexOf(".") == -1 && e.length <= 3) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
@@ -132,7 +132,6 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleTotalNum = (e: any) => {
-      console.log(e)
       if (e.indexOf(".") == -1) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
@@ -153,7 +152,6 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     startChange = (value: any) => {
-      console.log(value)
       this.props.dispatch({
         type: 'activity/setAppreciation',
         payload: {
@@ -183,13 +181,17 @@ export default connect(({ activity }: any) => activity)(
         }
       });
     }
-
+    /**选择起名方式 */
     onChange = (value: any) => {
-      console.log('checkbox');
       this.setState({
         value,
       }, () => {
-        console.log(this.state.value)
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            name_mode: value
+          }
+        });
       });
     };
 
@@ -202,8 +204,8 @@ export default connect(({ activity }: any) => activity)(
       this.props.dispatch({
         type: 'activity/setAppreciation',
         payload: {
-          start_date: new Date(time.startTime),
-          end_date: new Date(time.endTime)
+          start_date: new Date(time.startTime).toString(),
+          end_date: new Date(time.endTime).toString()
         }
       });
       this.setState({ ...time }, this.closeModal)
@@ -213,7 +215,6 @@ export default connect(({ activity }: any) => activity)(
     /**提交 */
     submit = async () => {
       const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name } = this.props.Appreciation
-
       // 自定义名称
       if (this.state.value == 1 && !activityName) {
         Toast.fail('请输入自定义名称', 2);
@@ -248,7 +249,6 @@ export default connect(({ activity }: any) => activity)(
       let activity_begin_time = moment(a._d).format('X')
       let b = moment(end_date).endOf('day')
       let activity_end_tine = moment(b).format('X');
-      console.log(activity_begin_time, activity_end_tine)
       if (start_price && end_price && appreciation_number_sum && validity && pay_money && total_num && total_fee && start_date && end_date && mail_mode) {
         Toast.loading('');
 
@@ -299,10 +299,6 @@ export default connect(({ activity }: any) => activity)(
     }
 
     handleCheckAppreciationNumber(v: any) {
-      // console.log(v,'v')
-      //console.log(this.refs.appreciationNumber)
-      //console.log(ReactDOM.findDOMNode(this.refs.appreciationNumber))
-      // console.log(document.getElementsByClassName('fake-input'))
       let DomArr = document.getElementsByClassName('fake-input');
       v = Number(v);
       if (v < 2 || v > 18) {
@@ -363,12 +359,12 @@ export default connect(({ activity }: any) => activity)(
       ];
 
       const { value } = this.state;
-      const time = this.state.startTime
-        ? this.state.startTime +
-        '至' +
-        this.state.endTime
-        : '';
-
+      // const time = this.state.startTime
+      //   ? this.state.startTime +
+      //   '至' +
+      //   this.state.endTime
+      //   : '';
+      const time = start_date ? new Date(start_date).getFullYear() + '-' + (new Date(start_date).getMonth() + 1) + '-' + new Date(start_date).getDate() + '至' + new Date(end_date).getFullYear() + '-' + (new Date(end_date).getMonth() + 1) + '-' + new Date(end_date).getDate() : '';
       return (
         <div style={{ width: '100%', height: 'auto', minHeight: '100%', background: '#fff' }}>
           <div style={{ display }}>
