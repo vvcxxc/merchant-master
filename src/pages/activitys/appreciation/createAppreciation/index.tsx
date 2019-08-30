@@ -32,7 +32,7 @@ export default connect(({ activity }: any) => activity)(
       if (this.props.Appreciation.gift_id) {
         this.setState({ is_gift: true })
       }
-      this.setState({value:this.props.Appreciation.name_mode},()=>{
+      this.setState({ value: this.props.Appreciation.name_mode }, () => {
       })
       // if (!this.props.Appreciation.start_date) {
       //   this.props.dispatch({
@@ -214,7 +214,7 @@ export default connect(({ activity }: any) => activity)(
 
     /**提交 */
     submit = async () => {
-      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name } = this.props.Appreciation
+      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name,description } = this.props.Appreciation
       // 自定义名称
       if (this.state.value == 1 && !activityName) {
         Toast.fail('请输入自定义名称', 2);
@@ -269,7 +269,8 @@ export default connect(({ activity }: any) => activity)(
             gift_pic,
             gift_name,
             appreciation_number_sum: appreciation_number_sum * 1,
-            activity_name: this.state.value == 0 ? "" : activityName
+            activity_name: this.state.value == 0 ? "" : activityName,
+            description
           }
         });
         let { data, message } = res;
@@ -462,8 +463,8 @@ export default connect(({ activity }: any) => activity)(
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num} extra='张' clear>
                   发放数量
               </InputItem>
-                {/* <Flex className={styles.notice} onClick={this.toNotice}><div>使用须知</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
-                </Flex> */}
+                <Flex className={styles.notice} onClick={this.toNotice}><div>使用须知</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
+                </Flex>
               </List>
               <Flex className={styles.title}><div>礼品设置</div></Flex>
               <div className={styles.gift_Box}>
