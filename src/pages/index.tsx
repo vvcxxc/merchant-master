@@ -55,7 +55,6 @@ export default connect(({ app }: any) => app)(
             reason = '资质审核失败，查看详情'
             this.setState({is_show: true});
           }
-
         }
         this.setState({
           reason
