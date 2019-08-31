@@ -98,11 +98,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       flag: true, // 条件判断是否阻止默认行为
       modal1: false,
       modal1img: [],
-      bankList: [
-        "广东省广州市花都区新华街道商业大道24号建设银行",
-        "广东省广州市越秀区广卫路15-1号中国建设银行",
-        "广东省广州市白云区鹤龙一路983号广东通信科技大厦南塔1层"
-      ],
+      bankList: [],
       bankShow: false
     };
 
@@ -116,7 +112,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
 
-      if (Cookies.get("_bank3disable")&&JSON.parse(Cookies.get("_bank3disable"))==true) {
+      if (Cookies.get("_bank3disable") && JSON.parse(Cookies.get("_bank3disable")) == true) {
         console.log("禁用")
         this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
       }
@@ -367,7 +363,17 @@ export default connect(({ submitQua }: any) => submitQua)(
       if (e == '' || e == undefined) {
         this.setState({ bankShow: false });
       } else {
-        this.setState({ bankShow: true });
+        request({
+          url: 'v3/bankAddress',
+          method: 'get',
+          params: {
+            k: e
+          }
+        }).then(res => {
+          this.setState({ bankList: res.date }, () => {
+            this.setState({ bankShow: true });
+          })
+        })
       }
 
       Cookies.set("_handleBankName", JSON.stringify(e), { expires: 1 });
@@ -638,7 +644,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                     bank_disable: true
                   }
                 });
-                if(data.bank_name){
+                if (data.bank_name) {
                   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
                 }
                 Toast.success('识别成功', 2);
@@ -730,7 +736,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                     bank_disable: true
                   }
                 });
-                if(data.bank_name){
+                if (data.bank_name) {
                   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
                 }
                 Toast.success('识别成功', 2);
@@ -925,10 +931,10 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     /**保存或者提交 */
     submit = (type: number) => () => {
-      // if (this.state.bankShow) {
-      //   Toast.fail('未选择支行', 1);
-      //   return
-      // }
+      if (this.state.bankShow) {
+        Toast.fail('未选择支行', 1);
+        return
+      }
       const { legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.props;
       let data = {
         legal_id_back_img,
@@ -1223,13 +1229,13 @@ export default connect(({ submitQua }: any) => submitQua)(
                 <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank}>开户行</InputItem>
                 <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName}>支行</InputItem>
 
-                {/* <div style={{ width: "100%", height: "1px", position: "relative", display: this.state.bankShow ? "block" : "none" }}>
-                  <div style={{ width: "100%", height: "auto", background: "#fff", border: "1px solid #000", position: "absolute", zIndex: 4, top: "0px", padding: "48px", boxSizing: "border-box", color: "#000" }}>
-                    <ul style={{ display: "flex", flexDirection: "column", padding: "0", margin: "0", listStyle: "none" }}>
+                <div className={styles.bankMsg} style={{  display: this.state.bankShow ? "block" : "none" }}>
+                  <div className={styles.bankMsg_box} >
+                    <ul  className={styles.bankMsg_box_ul}>
                       {
-                        this.state.bankList.map((item, index) => {
+                        this.state.bankList != [] ? this.state.bankList.map((item: any, index) => {
                           return (
-                            <li key={item} style={{ borderBottom: "1px #000 solid", width: "100%", height: "auto", lineHeight: "60px", padding: "20px 0" }} onClick={(e) => {
+                            <li key={index}  className={styles.bankMsg_box_li}  onClick={(e) => {
                               this.setState({ bankShow: false })
                               Cookies.set("_handleBankName", JSON.stringify(e.target.innerText), { expires: 1 });
                               this.props.dispatch({
@@ -1238,13 +1244,13 @@ export default connect(({ submitQua }: any) => submitQua)(
                                   bank_name: e.target.innerText
                                 }
                               })
-                            }} >{item}</li>
+                            }} >{item.name}</li>
                           )
-                        })
+                        }) : null
                       }
                     </ul>
                   </div>
-                </div> */}
+                </div>
               </List>
               <Flex className={styles.bank_title}>
                 <div className={styles.sfz_left}>营业执照</div>
