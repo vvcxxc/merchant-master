@@ -105,7 +105,6 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
     componentDidMount() {
-      console.log(this.props.date_back)
       function getCaption(str: string) {
         return str.split('http://oss.tdianyi.com/')[1]
       }
@@ -113,7 +112,6 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
       if (Cookies.get("_bank3disable") && JSON.parse(Cookies.get("_bank3disable")) == true) {
-        console.log("禁用")
         this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
       }
 
@@ -359,10 +357,12 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
     /**支行 */
     handleBankName = (e: any) => {
-      //这里发起请求setstate({bankList})，不用嵌套
       if (e == '' || e == undefined) {
-        this.setState({ bankShow: false });
+        this.setState({ bankShow: false }, () => {
+          return;
+        });
       } else {
+        this.setState({ bankShow: true });
         request({
           url: 'v3/bankAddress',
           method: 'get',
@@ -370,9 +370,8 @@ export default connect(({ submitQua }: any) => submitQua)(
             k: e
           }
         }).then(res => {
-          this.setState({ bankList: res.date }, () => {
-            this.setState({ bankShow: true });
-          })
+          // 别把bankShow拿下来setstate为true，不然清空时这一轮true没走完会覆盖下一轮false
+          this.setState({ bankList: res.date })
         })
       }
 
@@ -604,7 +603,6 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     bank_front: files
       //   }
       // })
-      console.time()
       Toast.loading('');
       if (files[0]) {
         let img = files[0].url;
@@ -686,7 +684,6 @@ export default connect(({ submitQua }: any) => submitQua)(
           }
         })
       }
-      console.timeEnd()
     }
     /**银行卡反面选择 */
     changeBankBack = (files: any) => {
@@ -1199,13 +1196,14 @@ export default connect(({ submitQua }: any) => submitQua)(
 
               </Modal>
               <List>
-                <InputItem placeholder='请输入姓名' value={this.props.contact_name} onChange={this.handleName}>姓名</InputItem>
-                <InputItem placeholder='请输入身份证号' onChange={this.handleID} value={this.props.legal_id_no}>身份证号</InputItem>
+                <InputItem placeholder='请输入姓名' value={this.props.contact_name} onChange={this.handleName} clear>姓名</InputItem>
+                <InputItem placeholder='请输入身份证号' onChange={this.handleID} value={this.props.legal_id_no} clear>身份证号</InputItem>
                 <InputItem
                   placeholder='请选择身份证有效期'
                   editable={false}
                   value={this.props.date}
                   onClick={this.chooseDate(1)}
+                  clear
                 >
                   有效期
                   <Icon
@@ -1224,18 +1222,18 @@ export default connect(({ submitQua }: any) => submitQua)(
               </Flex>
               <div className={styles.bank_toast}>温馨提示：1.请上传清晰的图片，银行卡号不可遮蔽。2.暂不支持部分银行卡。</div>
               <List>
-                <InputItem ref="bank1" placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name}>开户人</InputItem>
-                <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum}>银行卡号</InputItem>
-                <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank}>开户行</InputItem>
-                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName}>支行</InputItem>
+                <InputItem ref="bank1" placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name} clear>开户人</InputItem>
+                <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum} clear>银行卡号</InputItem>
+                <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank} clear>开户行</InputItem>
+                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} clear>支行</InputItem>
 
-                <div className={styles.bankMsg} style={{  display: this.state.bankShow ? "block" : "none" }}>
+                <div className={styles.bankMsg} style={{ display: this.state.bankShow ? "block" : "none" }}>
                   <div className={styles.bankMsg_box} >
-                    <ul  className={styles.bankMsg_box_ul}>
+                    <ul className={styles.bankMsg_box_ul}>
                       {
                         this.state.bankList != [] ? this.state.bankList.map((item: any, index) => {
                           return (
-                            <li key={index}  className={styles.bankMsg_box_li}  onClick={(e) => {
+                            <li key={index} className={styles.bankMsg_box_li} onClick={(e) => {
                               this.setState({ bankShow: false })
                               Cookies.set("_handleBankName", JSON.stringify(e.target.innerText), { expires: 1 });
                               this.props.dispatch({
@@ -1259,10 +1257,10 @@ export default connect(({ submitQua }: any) => submitQua)(
               <Flex className={styles.license_img}>
                 {License}
               </Flex>
-              <InputItem placeholder='同统一社会信用代码' value={this.props.three_certs_in_one_no} onChange={this.handleLicenseNUm}>注册号</InputItem>
-              <InputItem placeholder='无执照名称可填写经营者名称' value={this.props.corn_bus_name} onChange={this.handleLicenseName}>执照名称</InputItem>
-              <InputItem placeholder='请输入法人姓名' value={this.props.legal_name} onChange={this.handleLegalName}>法人姓名</InputItem>
-              <InputItem placeholder='有效期' editable={false} value={this.props.three_certs_in_one_valid_date} onClick={this.chooseDate(2)}>有效期<Icon type='right' className={styles.youxiao} /></InputItem>
+              <InputItem placeholder='同统一社会信用代码' value={this.props.three_certs_in_one_no} onChange={this.handleLicenseNUm} clear>注册号</InputItem>
+              <InputItem placeholder='无执照名称可填写经营者名称' value={this.props.corn_bus_name} onChange={this.handleLicenseName} clear>执照名称</InputItem>
+              <InputItem placeholder='请输入法人姓名' value={this.props.legal_name} onChange={this.handleLegalName} clear>法人姓名</InputItem>
+              <InputItem placeholder='有效期' editable={false} value={this.props.three_certs_in_one_valid_date} onClick={this.chooseDate(2)} clear>有效期<Icon type='right' className={styles.youxiao} /></InputItem>
             </WingBlank>
             <Flex className={styles.buttons}>
               <div className={styles.save} onClick={this.submit(1)}>保存</div>
