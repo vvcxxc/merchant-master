@@ -374,7 +374,8 @@ export default connect(({ submitQua }: any) => submitQua)(
           this.setState({ bankList: res.date })
         })
       }
-      Cookies.set("_handleBankName", JSON.stringify(e), { expires: 1 });
+      //不给缓存了，防止写一半刷新
+      Cookies.set("_handleBankName", JSON.stringify(''), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
         payload: {
