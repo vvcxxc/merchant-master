@@ -47,10 +47,16 @@ class WithDraw extends Component {
     });
   }
 
+  /* 舍去得到两位小数*/
+  numFloor = (num: number) => {
+    return Math.floor(100 * num) / 100
+  }
+
   /**全部提现 */
   allWithDraw = () => {
     let { info } = this.state;
-    let money = info.money;
+    // console.log(String(Number(info.money).toFixed(2)))
+    let money = this.numFloor(Number(info.money));
     this.setState({ money });
   };
 
@@ -99,8 +105,8 @@ class WithDraw extends Component {
           this.setState({ is_ok: true, data });
         } else Toast.fail(message, 2);
       });
-    }else{
-      this.setState({msg_show:true})
+    } else {
+      this.setState({ msg_show: true })
     }
   };
 
