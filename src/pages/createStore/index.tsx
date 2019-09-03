@@ -72,9 +72,11 @@ export default connect(({ createStore }: any) => createStore)(
           imgshow1: !Cookies.get("Storechange") ? false : (JSON.parse(Cookies.get("Storechange")) != "" ? true : false),
           imgshow2: !Cookies.get("Mychange") ? false : (JSON.parse(Cookies.get("Mychange")) != "" ? true : false),
           imgshow3: !Cookies.get("Mychange2") ? false : (JSON.parse(Cookies.get("Mychange2")) != "" ? true : false),
+          location: Cookies.get("handleLocation") ? JSON.parse(Cookies.get("handleLocation")) : "",
         }
       })
 
+      console.log(Cookies.get("handleLocation"))
 
       /**获取经营品类 */
       request({
@@ -340,7 +342,45 @@ export default connect(({ createStore }: any) => createStore)(
     createStore = () => {
       console.log(this.props)
       let { name, address, house_num, phone, manage_type, email, _code, store_door_header_img, store_img_one, store_img_two, location } = this.props;
-      if (name && address && house_num && phone && manage_type && email && store_door_header_img && store_img_one && store_img_two) {
+      // if (name && address && house_num && phone && manage_type && email && store_door_header_img && store_img_one && store_img_two) {
+        console.log(location)
+        if(!name){
+          Toast.fail('店铺名不能为空')
+          return
+        }
+        if(!address){
+          Toast.fail('地址不能为空')
+          return
+        }
+        if(!house_num){
+          Toast.fail('门牌号不能为空')
+          return
+        }
+        if(!phone){
+          Toast.fail('门店电话不能为空')
+          return
+        }
+        if(!email){
+          Toast.fail('邮箱不能为空')
+          return
+        }
+        if(!store_door_header_img){
+          Toast.fail('门头照不能为空')
+          return
+        }
+        if(!store_img_one){
+          Toast.fail('环境照1不能为空')
+          return
+        }
+        if(!store_img_two){
+          Toast.fail('环境照2不能为空')
+          return
+        }
+        if(!location){
+          Toast.fail('地图定位失败')
+          return
+        }
+        
 
         request({
           url: 'v3/stores',
@@ -369,10 +409,10 @@ export default connect(({ createStore }: any) => createStore)(
             Toast.fail(data)
           }
         })
-      } else {
-        console.log(name + "," + address + "," + house_num + "," + phone + "," + manage_type + "," + email + "," + store_door_header_img + "," + store_img_one + "," + store_img_two)
-        Toast.fail('请将信息填写完整')
-      }
+      // } else {
+      //   console.log(name + "," + address + "," + house_num + "," + phone + "," + manage_type + "," + email + "," + store_door_header_img + "," + store_img_one + "," + store_img_two)
+      //   Toast.fail('请将信息填写完整')
+      // }
     }
     render() {
       const { files, my_files, my_files2 } = this.props;
