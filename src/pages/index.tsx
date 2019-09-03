@@ -59,8 +59,6 @@ export default connect(({ app }: any) => app)(
         this.setState({
           reason
         })
-
-
 			});
 			let userAgent = navigator.userAgent;
 			let isIos = userAgent.indexOf('iPhone') > -1;

@@ -22,7 +22,7 @@ export interface Group {
   pay_list: Array<any>;
 }
 export interface Appreciation {
-  activityName : string;
+  activityName: string;
   start_date: string | number;
   end_date: string | number;
   gift_id: string;
@@ -36,6 +36,8 @@ export interface Appreciation {
   total_num: string;
   total_fee: string;
   mail_mode: string;
+  name_mode: number;
+  description: Array<any>;
   pay_list: object;
 }
 const model: Model = {
@@ -48,7 +50,8 @@ const model: Model = {
       mail_mode: '1'
     },
     Appreciation: {
-      mail_mode: '1'
+      mail_mode: '1',
+      name_mode: 0
     }
   },
   reducers: {

@@ -14,6 +14,22 @@
 .input_Box {
   width: 100%;
 }
+.input_Box .radio {
+  height: 94px;
+}
+.input_Box .my_Radio > span {
+  padding: 2.5px;
+  border-radius: 50%;
+  margin-right: 5px;
+  border: 1px solid #21418A;
+}
+.input_Box .activity_space {
+  height: 94px;
+  border-bottom: 1px solid #ddd;
+}
+.input_Box .activity_space > div {
+  width: 100%;
+}
 .input_Box .pickerDate {
   width: 100%;
   height: 94px;
@@ -132,4 +148,51 @@
 }
 .button2:active {
   background: #999;
+}
+.notice {
+  width: 100%;
+  height: 90px;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  color: #333333;
+  font-size: 0.28rem;
+}
+.notice .icon_right {
+  height: 30px;
+}
+.appreInterval {
+  width: 100%;
+  height: 90px;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  color: #333333;
+  font-size: 0.28rem;
+}
+.appreInterval .intervalbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.appreInterval .intervalbox .inputBox {
+  position: relative;
+}
+.appreInterval .intervalbox .inputBox .inputClose {
+  position: absolute;
+  right: 0;
+  width: 0.42rem;
+  height: 0.42rem;
+  z-index: 3;
+  background: #ccc;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20fill%3D'%23fff'%20viewBox%3D'0%200%2030%2030'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cpath%20d%3D'M19%206.41L17.59%205%2012%2010.59%206.41%205%205%206.41%2010.59%2012%205%2017.59%206.41%2019%2012%2013.41%2017.59%2019%2019%2017.59%2013.41%2012z'%2F%3E%3Cpath%20d%3D'M0%200h24v24H0z'%20fill%3D'none'%2F%3E%3C%2Fsvg%3E");
+  background-size: 0.42rem auto;
+  background-position: 0.04rem 0.04rem;
+}
+.appreInterval .intervalbox .inputBox .textInterval {
+  border: 1px #ccc solid;
+  border-radius: 5px;
+  width: 150px;
+  padding: 5px 0;
+  margin: 0 10px;
 }
