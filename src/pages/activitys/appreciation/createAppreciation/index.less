@@ -16,8 +16,96 @@
 .input_Box {
   width: 100%;
 
-  .radio {
+  .radio0 {
     height: 94px;
+
+    .radioFlex {
+      position: relative;
+      width: 100%;
+      height: auto;
+
+      .radioScope {
+        color: #666666;
+        font-size: 0.28rem;
+        display: inline-block;
+
+        .radioTitle {
+          // width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+
+          img {
+            height: 28px;
+            margin-left: 11px;
+          }
+        }
+      }
+
+      .radioBox {
+        display: inline-block;
+        float: right;
+
+        .choose {
+          width: auto;
+
+          .chooseBox {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            img {
+              width: 26px;
+              margin-right: 11px;
+            }
+          }
+
+        }
+      }
+    }
+  }
+
+  .radio {
+    height: 74px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    .radioFlex {
+      position: relative;
+      width: 100%;
+      height: auto;
+
+      .radioScope {
+        color: #666666;
+        font-size: 0.28rem;
+        display: inline-block;
+      }
+
+      .radioBox {
+        display: inline-block;
+        float: right;
+
+        .choose {
+          width: auto;
+
+          .chooseBox {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            img {
+              width: 26px;
+              margin-right: 11px;
+            }
+          }
+
+        }
+      }
+    }
   }
 
   .my_Radio>span {
@@ -29,8 +117,25 @@
     // border-radius: 50%;
   }
 
+  .radio0_space {
+    border-bottom: 1px solid #ddd;
+    color: #999;
+    font-size: 24px;
+    line-height: 30px;
+    overflow: hidden;
+
+    .radio0_msg {
+      margin-bottom: 40px;
+
+      p {
+        padding: 0;
+        margin: 0;
+      }
+    }
+  }
+
   .activity_space {
-    height: 94px;
+    height: 74px;
     border-bottom: 1px solid #ddd;
   }
 
@@ -145,6 +250,21 @@
     border-bottom: 1px solid #ddd;
     justify-content: space-between;
 
+    .giftName {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .giftName_title {
+        display: block;
+        width: 450px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-align: right;
+      }
+    }
+
     .icon_right {
       height: 30px;
     }
@@ -204,7 +324,7 @@
   height: 90px;
   justify-content: space-between;
   border-bottom: 1px solid #ddd;
-  color: #333333;
+  color: #666666;
   font-size: 0.28rem;
 
   .icon_right {
@@ -216,22 +336,23 @@
   width: 100%;
   height: 90px;
   justify-content: space-between;
-  border-bottom: 1px solid #ddd;
-  color: #333333;
+  color: #666666;
   font-size: 0.28rem;
+  border: none;
 
   .intervalbox {
     display: flex;
     flex-direction: row;
     align-items: center;
-  
+
     .inputBox {
       position: relative;
+
       .inputClose {
         position: absolute;
         right: 0;
-        width:  0.42rem;
-        height:  0.42rem;
+        width: 0.42rem;
+        height: 0.42rem;
         z-index: 3;
         background: #ccc;
         border-radius: 50%;
@@ -240,12 +361,14 @@
         background-size: 0.42rem auto;
         background-position: 0.04rem 0.04rem;
       }
-      .textInterval  {
-        border: 1px #ccc solid;
-        border-radius: 5px;
+
+      .textInterval {
+        border: none;
+        border-radius: 8px;
         width: 150px;
-        padding: 5px 0;
+        padding: 15px 0;
         margin: 0 10px;
+        background: #F4F4F4;
       }
     }
   }
