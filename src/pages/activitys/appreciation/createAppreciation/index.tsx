@@ -232,7 +232,8 @@ export default connect(({ activity }: any) => activity)(
 
     /**提交 */
     submit = async () => {
-      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description } = this.props.Appreciation
+      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description,scope_mode } = this.props.Appreciation
+      console.log("券适用范围:"+scope_mode);
       // 自定义名称
       if (this.state.value == 1 && !activityName) {
         Toast.fail('请输入自定义名称', 2);
@@ -400,12 +401,12 @@ export default connect(({ activity }: any) => activity)(
                       {
                         this.props.Appreciation.scope_mode == 0 ? (
                           <Flex className={styles.choose}>
-                            <div className={styles.chooseBox} style={{ marginRight: 17 }} onClick={this.onScope.bind(this, 0)}><img src={require('./image/choose.png')} />全场通用券</div>
+                            <div className={styles.chooseBox} style={{ marginRight: 80 }} onClick={this.onScope.bind(this, 0)}><img src={require('./image/choose.png')} />全场通用券</div>
                             <div className={styles.chooseBox} onClick={this.onScope.bind(this, 1)}><img src={require('./image/no_choose.png')} />品券类</div>
                           </Flex>
                         ) : (
                             <Flex className={styles.choose}>
-                              <div className={styles.chooseBox} style={{ marginRight: 17 }} onClick={this.onScope.bind(this, 0)}><img src={require('./image/no_choose.png')} />全场通用券</div>
+                              <div className={styles.chooseBox} style={{ marginRight: 80 }} onClick={this.onScope.bind(this, 0)}><img src={require('./image/no_choose.png')} />全场通用券</div>
                               <div className={styles.chooseBox} onClick={this.onScope.bind(this, 1)}><img src={require('./image/choose.png')} />品券类</div>
                             </Flex>
                           )
@@ -519,7 +520,7 @@ export default connect(({ activity }: any) => activity)(
                 </InputItem>
                 <InputItem type={'money'} className={styles.textLong} onChange={this.handleValidity} value={validity} extra='天内可用' clear>
                   有效期
-                  <span className={styles.left_text}>领券日起</span>
+                  <span className={styles.left_text}>发券日起</span>
                 </InputItem>
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num} extra='张' clear>
                   发放数量

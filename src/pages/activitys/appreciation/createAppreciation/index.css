@@ -276,6 +276,8 @@
 .appreInterval .intervalbox .inputBox .inputClose {
   position: absolute;
   right: 0;
+  top: 50%;
+  margin-top: -0.21rem;
   width: 0.42rem;
   height: 0.42rem;
   z-index: 3;
