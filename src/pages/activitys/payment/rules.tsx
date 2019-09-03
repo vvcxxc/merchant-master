@@ -16,7 +16,8 @@ export default class PaymentReturnRules extends Component<Props> {
 				[type]: e
 			});
 		}
-	};
+  };
+
 	handleChange2 = (type: string) => (e: any) => {
 		if (e.split(".")[1] == undefined || (e.split(".")[1].length < 3 && e.split(".")[2] == undefined)) {
 			this.props.onChange(this.props.index, {
