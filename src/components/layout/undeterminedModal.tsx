@@ -2,10 +2,11 @@ import styles from './index.less';
 import React, { useState } from 'react';
 import { WingBlank, Flex } from 'antd-mobile';
 
+
 interface Props {
 	undetermined: Undetermined;
 	undetermined2?: any;
-	onChange: (id: number | string, _id: number | string) => any;
+	onChange: (id: number | string, _id: number | string|undefined) => any;
 	onHide: () => any;
 	show: boolean /**后备条件 */;
 	after?: After;
@@ -38,25 +39,21 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 	const { small_box2, small_box } = styles
 	/**点击某个条件时 */
 	const handleClickUndetermined = (index: number, item: Item): any => () => {
-		// const _undetermined = [...selfUndetermined];
-		// _undetermined.splice(index, 1, { ...item, checked: !item.checked });
-		// setSelfUndetermined(_undetermined);
 		setChecked(item.id);
 	};
 	/**点击某个条件时2*/
 	const handleClickUndetermined2 = (index: number, item: Item): any => () => {
-		// console.log(item)
 		set_Checked(item._id);
-		// _checkedName = item.
 	};
-	const submit = () => onChange(checked, _checked);
+	const submit = () => {
+		onChange(checked, _checked)};
 	const _reset = () => {
 		setChecked(undefined);
 		set_Checked(undefined);
-		onChange('', '');
+		onChange('', undefined);//_id重置自给自足，财务列表id重置要通知一下金额框清空，所以留点变化
 	};
 	/**渲染条件列表 */
-	const undeterminedList = undetermined.map((_, index) => (
+	const undeterminedList = undetermined.map((_: any, index: any) => (
 		<Flex
 			key={_.id}
 			align="center"
@@ -80,8 +77,6 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 			{_.label}
 		</Flex>
 	)) : null;
-
-
 
 	/**备用条件 */
 	const afterContext = after && (
@@ -117,7 +112,6 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 						<div className="title">交易时间</div>
 						{/* <div className="undetermined-list">{undeterminedList2}</div> */}
 						<div style={{ display: 'Flex', justifyContent: 'space-around' }}>{undeterminedList2}</div>
-						{/* {afterContext} */}
 					</WingBlank> : null
 				}
 
