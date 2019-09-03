@@ -69,7 +69,6 @@ export default connect(({ finance }: any) => finance)(
             moneyscope_maximum: this.state.max==""?undefined:this.state.max
           }
         });
-
       })
     };
 
