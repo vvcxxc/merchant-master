@@ -18,11 +18,10 @@ export default class SelectTime extends Component<Props> {
 	};
 	handleConfirm = () => {
 		if (this.state.endTime && this.state.startTime) {
-			let a = moment(this.state.endTime).endOf('day')
-			let b = Number(moment(a._d).format('X'))
+
 			this.props.onConfirm({
-				startTime: moment(this.state.startTime).unix(),
-				endTime: b 
+				startTime: this.state.startTime,
+				endTime: this.state.endTime
 			});
 		}
 	};

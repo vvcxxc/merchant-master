@@ -216,3 +216,38 @@
   background-size: 0.3rem auto;
   background-image: url('images/close.svg');
 }
+.bankMsg {
+  width: 100%;
+  height: 1px;
+  position: relative;
+}
+.bankMsg .bankMsg_box {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #000;
+  position: absolute;
+  z-index: 4;
+  top: 0px;
+  padding: 24px;
+  box-sizing: border-box;
+  color: #000;
+  height: 400px;
+  overflow: scroll;
+}
+.bankMsg .bankMsg_box .bankMsg_box_ul {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.bankMsg .bankMsg_box .bankMsg_box_ul .bankMsg_box_li {
+  border-bottom: 1px #ccc solid;
+  width: 100%;
+  height: auto;
+  line-height: 35px;
+  padding: 20px 10px;
+  box-sizing: border-box;
+}

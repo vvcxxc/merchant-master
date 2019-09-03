@@ -12,6 +12,7 @@ export default class GroupDetails extends Component {
     dataEchart:[],
     info: {
       share:{},
+      activity_name:'',
       activity_image: '',
       group_count: {
         group_defeated: '',
@@ -199,7 +200,7 @@ export default class GroupDetails extends Component {
           {/* 活动名 */}
           <Flex justify='between' className={styles.headers}>
             <div className={styles.names}>
-              活动名称
+              {info.activity_name}
               <span>{types}</span>
             </div>
             <img src={require('./share.png')} onClick={this.shareClick}/>

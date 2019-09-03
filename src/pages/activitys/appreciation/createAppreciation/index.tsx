@@ -7,13 +7,20 @@ import request from '@/services/request'
 import router from 'umi/router';
 import { connect } from 'dva';
 import ReactDOM from 'react-dom';
+import SelectTime from '@/components/select-time';
 
 const nowTimeStamp = Date.now();
-const now = new Date(nowTimeStamp);
+const now = new Date(nowTimeStamp).toString();
 const RadioItem = Radio.RadioItem;
 export default connect(({ activity }: any) => activity)(
   class createAppreciation extends Component<any> {
     state = {
+      Close1: false,
+      Close2: false,
+      /**显示选择时间 */
+      showSelectTime: false,
+      startTime: undefined,
+      endTime: undefined,
       /**存在礼品？ */
       is_gift: false,
       /**去支付？ */
@@ -21,26 +28,28 @@ export default connect(({ activity }: any) => activity)(
       value: 0
     };
     componentDidMount() {
-
+      console.log(this.props.Appreciation)
       if (this.props.Appreciation.gift_id) {
         this.setState({ is_gift: true })
       }
-      if (!this.props.Appreciation.start_date) {
-        this.props.dispatch({
-          type: 'activity/setAppreciation',
-          payload: {
-            start_date: now
-          }
-        })
-      }
-      if (!this.props.Appreciation.end_date) {
-        this.props.dispatch({
-          type: 'activity/setAppreciation',
-          payload: {
-            end_date: now
-          }
-        })
-      }
+      this.setState({ value: this.props.Appreciation.name_mode }, () => {
+      })
+      // if (!this.props.Appreciation.start_date) {
+      //   this.props.dispatch({
+      //     type: 'activity/setAppreciation',
+      //     payload: {
+      //       start_date: now
+      //     }
+      //   })
+      // }
+      // if (!this.props.Appreciation.end_date) {
+      //   this.props.dispatch({
+      //     type: 'activity/setAppreciation',
+      //     payload: {
+      //       end_date: now
+      //     }
+      //   })
+      // }
     }
 
 
@@ -55,24 +64,40 @@ export default connect(({ activity }: any) => activity)(
       });
     }
     handleStartPri = (e: any) => {
-      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+      if (/^[0-9]+\.+[0-9]\d{0,1}$/.test(e.target.value) || /^[0-9]+\.?$/.test(e.target.value) || e.target.value == "") {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
-            start_price: e
+            start_price: e.target.value
           }
         });
       }
     }
     handleEndPri = (e: any) => {
-      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+      if (/^[0-9]+\.+[0-9]\d{0,1}$/.test(e.target.value) || /^[0-9]+\.?$/.test(e.target.value) || e.target.value == "") {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
-            end_price: e
+            end_price: e.target.value
           }
         });
       }
+    }
+    clearPri1 = () => {
+      this.props.dispatch({
+        type: 'activity/setAppreciation',
+        payload: {
+          start_price: ""
+        }
+      });
+    }
+    clearPri2 = () => {
+      this.props.dispatch({
+        type: 'activity/setAppreciation',
+        payload: {
+          end_price: ""
+        }
+      });
     }
     handlePeopleNum = (e: any) => {
       if (e.indexOf(".") == -1 && e.length <= 2) {
@@ -85,7 +110,6 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleValidity = (e: any) => {
-      console.log(e)
       if (e.indexOf(".") == -1 && e.length <= 3) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
@@ -108,7 +132,6 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleTotalNum = (e: any) => {
-      console.log(e)
       if (e.indexOf(".") == -1) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
@@ -158,23 +181,42 @@ export default connect(({ activity }: any) => activity)(
         }
       });
     }
-
-    onChange = (value) => {
-      console.log('checkbox');
+    /**选择起名方式 */
+    onChange = (value: any) => {
       this.setState({
         value,
       }, () => {
-        console.log(this.state.value)
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            name_mode: value
+          }
+        });
       });
+    };
+
+
+    //打开时间选择
+    handleShowSelectTime = () => { this.setState({ showSelectTime: true }) };
+    //关闭时间选择
+    closeModal = () => this.setState({ showSelectCoupon: false, showSelectTime: false, showSelectActivity: false });
+    handleSelectTime = (time: any) => {
+      this.props.dispatch({
+        type: 'activity/setAppreciation',
+        payload: {
+          start_date: new Date(time.startTime).toString(),
+          end_date: new Date(time.endTime).toString()
+        }
+      });
+      this.setState({ ...time }, this.closeModal)
     };
 
 
     /**提交 */
     submit = async () => {
-      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name } = this.props.Appreciation
-
+      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name,description } = this.props.Appreciation
       // 自定义名称
-      if(this.state.value == 1 && !activityName) {
+      if (this.state.value == 1 && !activityName) {
         Toast.fail('请输入自定义名称', 2);
         return;
       }
@@ -194,7 +236,7 @@ export default connect(({ activity }: any) => activity)(
       }
 
       //起始封顶值效验
-      if (end_price*1 <= start_price*1) {
+      if (end_price * 1 <= start_price * 1) {
         Toast.fail('封顶值应大于起始值');
         return;
       }
@@ -227,7 +269,8 @@ export default connect(({ activity }: any) => activity)(
             gift_pic,
             gift_name,
             appreciation_number_sum: appreciation_number_sum * 1,
-            activity_name : this.state.value == 0 ? "" : activityName
+            activity_name: this.state.value == 0 ? "" : activityName,
+            description
           }
         });
         let { data, message } = res;
@@ -257,10 +300,6 @@ export default connect(({ activity }: any) => activity)(
     }
 
     handleCheckAppreciationNumber(v: any) {
-      // console.log(v,'v')
-      //console.log(this.refs.appreciationNumber)
-      //console.log(ReactDOM.findDOMNode(this.refs.appreciationNumber))
-      // console.log(document.getElementsByClassName('fake-input'))
       let DomArr = document.getElementsByClassName('fake-input');
       v = Number(v);
       if (v < 2 || v > 18) {
@@ -273,6 +312,10 @@ export default connect(({ activity }: any) => activity)(
         });
       }
     }
+    toNotice = () => {
+      router.push({ pathname: '/activitys/notice', query: { type: 2 } })
+    }
+
 
     render() {
       const chooseMail = this.props.Appreciation.mail_mode == '1' ? (
@@ -309,7 +352,7 @@ export default connect(({ activity }: any) => activity)(
 
 
 
-      const {activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, display, start_date, end_date } = this.props.Appreciation
+      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, display, start_date, end_date } = this.props.Appreciation
 
       const data = [
         { value: 0, label: '默认活动名称(推荐)' },
@@ -317,7 +360,12 @@ export default connect(({ activity }: any) => activity)(
       ];
 
       const { value } = this.state;
-
+      // const time = this.state.startTime
+      //   ? this.state.startTime +
+      //   '至' +
+      //   this.state.endTime
+      //   : '';
+      const time = start_date ? new Date(start_date).getFullYear() + '-' + (new Date(start_date).getMonth() + 1) + '-' + new Date(start_date).getDate() + '至' + new Date(end_date).getFullYear() + '-' + (new Date(end_date).getMonth() + 1) + '-' + new Date(end_date).getDate() : '';
       return (
         <div style={{ width: '100%', height: 'auto', minHeight: '100%', background: '#fff' }}>
           <div style={{ display }}>
@@ -339,16 +387,16 @@ export default connect(({ activity }: any) => activity)(
                     this.state.value == 0 ? (
                       <span>从{start_price ? start_price : 0}元增值至{end_price ? end_price : 0}元</span>
                     ) : (
-                      <InputItem
-                        placeholder="请输入活动名称"
-                        value={activityName}
-                        onChange={this.activityNameChange}
-                        clear
-                      />
-                    )
+                        <InputItem
+                          placeholder="请输入活动名称"
+                          value={activityName}
+                          onChange={this.activityNameChange}
+                          clear
+                        />
+                      )
                   }
                 </Flex>
-                <Flex className={styles.pickerDate}>
+                {/* <Flex className={styles.pickerDate}>
                   <DatePicker
                     mode="date"
                     title="起始日期"
@@ -369,13 +417,36 @@ export default connect(({ activity }: any) => activity)(
                   >
                     <List.Item arrow="horizontal">结束日期</List.Item>
                   </DatePicker>
+                </Flex> */}
+                <Flex className={styles.notice} onClick={this.handleShowSelectTime}>
+                  <div>活动时间</div>
+                  <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                    {time}
+                    <Icon type="right" color='#999' className={styles.icon_right} />
+                  </div>
                 </Flex>
-                <InputItem type={'money'} className={styles.textShort} onChange={this.handleStartPri} value={start_price} placeholder='请输入 ' extra='元' clear>
+
+                <Flex className={styles.appreInterval}>
+                  <div>增值区间</div>
+                  <div className={styles.intervalbox} >
+                    <div className={styles.inputBox} >
+                      <div className={styles.inputClose} style={{ display: this.state.Close1 ? "block" : "none" }} onClick={this.clearPri1}></div>
+                      <input className={styles.textInterval} type="text" onChange={this.handleStartPri} value={start_price ? start_price : ""} onFocus={() => { this.setState({ Close1: true }) }} onBlur={() => { setTimeout(() => { this.setState({ Close1: false }) }, 4) }} placeholder='请输入' style={{ textAlign: this.state.Close1 ? "left" : "center" }} />
+                    </div>
+                    元 增值至
+                    <div className={styles.inputBox} >
+                      <div className={styles.inputClose} style={{ display: this.state.Close2 ? "block" : "none" }} onClick={this.clearPri2}></div>
+                      <input className={styles.textInterval} type="text" onChange={this.handleEndPri} value={end_price ? end_price : ""} onFocus={() => { this.setState({ Close2: true }) }} onBlur={() => { setTimeout(() => { this.setState({ Close2: false }) }, 4) }} placeholder='请输入' style={{ textAlign: this.state.Close2 ? "left" : "center" }} />
+                    </div>
+                    元
+                  </div>
+                </Flex>
+                {/* <InputItem type={'money'} className={styles.textShort} onChange={this.handleStartPri} value={start_price} placeholder='请输入 ' extra='元' clear>
                   起始值
               </InputItem>
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handleEndPri} value={end_price} placeholder='请输入 ' extra='元' clear>
                   封顶值
-              </InputItem>
+              </InputItem> */}
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人' ref="appreciationNumber" clear>
                   助力人数
               </InputItem>
@@ -392,10 +463,16 @@ export default connect(({ activity }: any) => activity)(
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num} extra='张' clear>
                   发放数量
               </InputItem>
+                <Flex className={styles.notice} onClick={this.toNotice}><div>使用须知</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
+                </Flex>
               </List>
               <Flex className={styles.title}><div>礼品设置</div></Flex>
               <div className={styles.gift_Box}>
-                <Flex className={styles.giftBox} onClick={this.toGift}><div>选择礼品</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
+                <Flex className={styles.giftBox} onClick={this.toGift}><div>选择礼品</div>
+                  <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                    {this.state.is_gift == true ? this.props.Appreciation.gift_name : ""}
+                    <Icon type="right" color='#999' className={styles.icon_right} />
+                  </div>
                 </Flex>
                 {Gift}
                 <div style={{ width: '100%', height: '.88rem' }}>{''}</div>
@@ -407,6 +484,11 @@ export default connect(({ activity }: any) => activity)(
               <div className={styles.button2} onClick={this.submit} style={{ width: "100%", left: "0" }}>确认发布</div>
             </Flex>
           </div>
+          <SelectTime
+            show={this.state.showSelectTime}
+            onClose={this.closeModal}
+            onConfirm={this.handleSelectTime}
+          />
         </div>
 
       )
