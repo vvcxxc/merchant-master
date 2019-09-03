@@ -20,6 +20,7 @@ export default class Rechange extends Component {
     }
   }
   /** recahnge submit value */
+  /** recahnge submit value */
   submit = async () => {
     console.log(this.state.money);
     if (Number(this.state.money) == 0 || this.state.money == undefined || isNaN(Number(this.state.money))) {

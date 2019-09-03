@@ -191,7 +191,7 @@ class WithDraw extends Component {
 					</Button>
           <div className={styles.toast} >
             <div className={styles.toast_title}>温馨提示 :</div>
-            <div className={styles.toast_content}>1、金额限制: 最低提现金额为100元。</div>
+            <div className={styles.toast_content}>1、金额限制: 最低提现金额为20元。</div>
             <div className={styles.toast_content}>2、银行卡到账时间: T+1日。</div>
             <div className={styles.toast_content}>3、提现进度查询位置: “首页-资产管理-提现进度”</div>
           </div>

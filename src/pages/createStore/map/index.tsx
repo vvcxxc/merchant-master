@@ -240,6 +240,7 @@ export default connect(({createStore}: any) => createStore)(
       let Address = province + city + address + name;
       // this.props.onChange(location,Address);
       Cookies.set("handleAddress", JSON.stringify(Address), { expires: 1 });
+      Cookies.set("handleLocation", JSON.stringify(location), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -257,6 +258,7 @@ export default connect(({createStore}: any) => createStore)(
       let address = this.state.address;
       // this.props.onChange(location,address);
       Cookies.set("handleAddress", JSON.stringify(address), { expires: 1 });
+      Cookies.set("handleLocation", JSON.stringify(location), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -281,6 +283,7 @@ export default connect(({createStore}: any) => createStore)(
       // console.log(address)
       // this.props.onChange(location,address);
       Cookies.set("handleAddress", JSON.stringify(address), { expires: 1 });
+      Cookies.set("handleLocation", JSON.stringify(location), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -383,12 +386,12 @@ export default connect(({createStore}: any) => createStore)(
             })
         },
         click: (e: any) => {
-          // this.setState({
-          //   location:{
-          //     longitude: e.lnglat.lng,
-          //     latitude: e.lnglat.lat
-          //   }
-          // });
+          this.setState({
+            location:{
+              longitude: e.lnglat.lng,
+              latitude: e.lnglat.lat
+            }
+          });
           this.props.dispatch({
             type: 'createStore/setStore',
             payload: {
