@@ -28,7 +28,7 @@ export default connect(({ finance }: any) => finance)(
       min: undefined,
       max: undefined,
 
-      finance_type: '',
+      finance_type: undefined,
       date: undefined
     };
 
@@ -46,10 +46,13 @@ export default connect(({ finance }: any) => finance)(
 
 
     handleChange = (query: any) => {
-      console.log(query)
+      if (query.resetBool == true) {
+        console.log('重置区间',query)
+        this.setState({ min: "", max: "", finance_type: undefined, date: undefined })
+      }
       this.setState({
         page: 1,
-        finance_type: query.hot,
+        finance_type: query.hot.id,
         date: query.time ? moment(query.time).unix() : undefined,
       }, () => {
         // 清除数据流里的数据
@@ -60,17 +63,16 @@ export default connect(({ finance }: any) => finance)(
           type: 'finance/getData',
           query: {
             page: this.state.page,
-            finance_type: query.hot.id,
+            finance_type: this.state.finance_type,
             date: query.time ? moment(query.time).unix() : undefined,
-            moneyscope_micro: this.state.min,
-            moneyscope_maximum: this.state.max
+            moneyscope_micro: this.state.min==""?undefined:this.state.min,
+            moneyscope_maximum: this.state.max==""?undefined:this.state.max
           }
         });
       })
     };
 
     handleChangePrice = (type: string) => (e: any) => {
-      console.log(type, e.target.value)
       if (/^[0-9]+\.+[0-9]\d{0,1}$/.test(e.target.value) || /^[0-9]+\.?$/.test(e.target.value) || e.target.value == "") {
         this.setState({ [type]: e.target.value });
       }
@@ -84,7 +86,7 @@ export default connect(({ finance }: any) => finance)(
           this.props.dispatch({
             type: 'finance/getData', query: {
               page: this.state.page,
-              finance_type: this.state.finance_type.id,
+              finance_type: this.state.finance_type,
               date: this.state.date,
               moneyscope_micro: this.state.min,
               moneyscope_maximum: this.state.max
@@ -114,41 +116,30 @@ export default connect(({ finance }: any) => finance)(
         context: (
           <Flex className={styles.layoutAfter}>
             <Flex className="input-wrap">
-              ￥<input placeholder="最低金额"  onChange={this.handleChangePrice('min')} value={this.state.min} />
+              ￥<input placeholder="最低金额" onChange={this.handleChangePrice('min')} value={this.state.min} />
             </Flex>
             <div className="line" />
             <Flex className="input-wrap">
-              ￥<input placeholder="最高金额"  onChange={this.handleChangePrice('max')} value={this.state.max} />
+              ￥<input placeholder="最高金额" onChange={this.handleChangePrice('max')} value={this.state.max} />
             </Flex>
           </Flex>
         )
       };
-
       /**页面数据列表 */
       const financeList = this.props.data.length ? (
         this.props.data.map(_ => (
           <Flex key={_.id} className={styles.financeItem} onClick={
             () => {
-              // switch (_.type) {
-              //   //账单类型1=线下收银详情 2=费率返点详情 3=广告收益 4=优惠券收益 5=线上卖券 6=广告支出
-              //   case 3: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 1 }); break;  //线下交易（线下收银）
-              //   case 13: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 2 }); break; //费率返点（商家返点）
-              //   case 6: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 3 }); break;  //广告收益
-              //   case 8: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 4 }); break;   //优惠券收益（优惠券分润）
-              //   case 15: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 5 }); break;   //线上卖券，存疑(平台收益)
-              //   case 9: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 6 }); break; //广告购买
-              //   default: return
-              // }
-
-              // switch (_.type) {
-              //   case 3: this.pushPage('/finance/financeDetail/offlineDeal', { _id: _.id }); break;  //线下交易（线下收银）
-              //   case 13: this.pushPage('/finance/financeDetail/tariffRebates', { _id: _.id }); break; //费率返点（商家返点）
-              //   case 6: this.pushPage('/finance/financeDetail/advertisingRevenue', { _id: _.id }); break;  //广告收益
-              //   case 9: this.pushPage('/finance/financeDetail/advertisingSpending', { _id: _.id }); break; //广告购买
-              //   case 8: this.pushPage('/finance/financeDetail/couponRevenue', { _id: _.id }); break;   //优惠券收益（优惠券分润）
-              //   case 15: this.pushPage('/finance/financeDetail/onlineSelling',{_id:_.id}); break;   //线上卖券，存疑
-              //   default: return
-              // }
+              switch (_.type) {
+                //账单类型1=线下收银详情 2=费率返点详情 3=广告收益 4=优惠券收益 5=线上卖券 6=广告支出
+                case 3: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 1 }); break;  //线下交易（线下收银）
+                case 13: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 2 });break; //费率返点（商家返点）
+                case 6: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 3 }); break;  //广告收益
+                case 8: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 4 }); break;   //优惠券收益（优惠券分润）
+                case 15: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 5 });break;   //线上卖券，存疑(平台收益)
+                case 9: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 6 }); break; //广告购买
+                default: return
+              }
             }
           }>
             <img src={_.small_icon} alt="" />
