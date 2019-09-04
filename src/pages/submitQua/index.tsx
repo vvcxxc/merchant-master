@@ -111,9 +111,9 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
 
-      if (Cookies.get("_bank3disable") && JSON.parse(Cookies.get("_bank3disable")) == true) {
-        this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-      }
+      // if (Cookies.get("_bank3disable") && JSON.parse(Cookies.get("_bank3disable")) == true) {
+      //   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+      // }
 
 
 
@@ -262,9 +262,9 @@ export default connect(({ submitQua }: any) => submitQua)(
           // }
 
         } else {
-          if (this.props.bank_disable == true) {
-            this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-          }
+          // if (this.props.bank_disable == true) {
+          //   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+          // }
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
@@ -642,14 +642,14 @@ export default connect(({ submitQua }: any) => submitQua)(
                     bank_disable: true
                   }
                 });
-                if (data.bank_name) {
-                  this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-                }
+                // if (data.bank_name) {
+                //   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                // }
                 Toast.success('识别成功', 2);
-                Cookies.set("_bank3disable", true, { expires: 1 });
+                // Cookies.set("_bank3disable", true, { expires: 1 });
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
-                this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+                // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
                 this.props.dispatch({
                   type: 'submitQua/setQua',
                   payload: {
@@ -659,7 +659,7 @@ export default connect(({ submitQua }: any) => submitQua)(
               }
             }).catch(err => {
               Toast.fail('银行卡识别失败，请重新上传。', 2);
-              this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+              // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
               this.props.dispatch({
                 type: 'submitQua/setQua',
                 payload: {
@@ -672,8 +672,8 @@ export default connect(({ submitQua }: any) => submitQua)(
         });
       } else {
         Toast.hide();
-        Cookies.remove("_bank3disable");
-        this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+        // Cookies.remove("_bank3disable");
+        // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
         Cookies.set("_changeBankFront", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
@@ -733,14 +733,14 @@ export default connect(({ submitQua }: any) => submitQua)(
                     bank_disable: true
                   }
                 });
-                if (data.bank_name) {
-                  this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-                }
+                // if (data.bank_name) {
+                //   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                // }
                 Toast.success('识别成功', 2);
-                Cookies.set("_bank3disable", true, { expires: 1 });
+                // Cookies.set("_bank3disable", true, { expires: 1 });
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
-                this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+                // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
                 this.props.dispatch({
                   type: 'submitQua/setQua',
                   payload: {
@@ -749,7 +749,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                 })
               }
             }).catch(err => {
-              this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+              // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
               Toast.fail('银行卡识别失败，请重新上传。', 1);
               this.props.dispatch({
                 type: 'submitQua/setQua',
@@ -762,8 +762,8 @@ export default connect(({ submitQua }: any) => submitQua)(
         });
       } else {
         Toast.hide();
-        Cookies.remove("_bank3disable");
-        this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+        // Cookies.remove("_bank3disable");
+        // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
         Cookies.set("_changeBankBack", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
@@ -892,8 +892,8 @@ export default connect(({ submitQua }: any) => submitQua)(
       })
     }
     closeBankFront = () => {
-      Cookies.remove("_bank3disable");
-      this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+      // Cookies.remove("_bank3disable");
+      // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
       Cookies.set("_changeBankFront", JSON.stringify(""), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
@@ -904,8 +904,8 @@ export default connect(({ submitQua }: any) => submitQua)(
       })
     }
     closeBankBack = () => {
-      Cookies.remove("_bank3disable");
-      this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+      // Cookies.remove("_bank3disable");
+      // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
       Cookies.set("_changeBankBack", JSON.stringify(""), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
@@ -931,6 +931,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       if (this.state.bankShow) {
         //清除，以免这次保存下次直接提交
         Cookies.set("_handleBankName", JSON.stringify(""), { expires: 1 });
+        this.setState({bankShow:false});
         this.props.dispatch({
           type: 'submitQua/setQua',
           payload: {
