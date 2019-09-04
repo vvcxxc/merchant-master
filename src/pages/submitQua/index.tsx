@@ -931,6 +931,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       if (this.state.bankShow) {
         //清除，以免这次保存下次直接提交
         Cookies.set("_handleBankName", JSON.stringify(""), { expires: 1 });
+        this.setState({bankShow:false});
         this.props.dispatch({
           type: 'submitQua/setQua',
           payload: {
