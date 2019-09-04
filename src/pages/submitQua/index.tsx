@@ -99,7 +99,6 @@ export default connect(({ submitQua }: any) => submitQua)(
       modal1: false,
       modal1img: [],
       bankList: [],
-      bankShow: false
     };
 
 
@@ -358,11 +357,19 @@ export default connect(({ submitQua }: any) => submitQua)(
     /**支行 */
     handleBankName = (e: any) => {
       if (e == '' || e == undefined) {
-        this.setState({ bankShow: false }, () => {
-          return;
-        });
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            bankShow: false,
+          }
+        })
       } else {
-        this.setState({ bankShow: true });
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            bankShow: true,
+          }
+        })
         request({
           url: 'v3/bankAddress',
           method: 'get',
@@ -370,7 +377,6 @@ export default connect(({ submitQua }: any) => submitQua)(
             k: e
           }
         }).then(res => {
-          // 别把bankShow拿下来setstate为true，不然清空时这一轮true没走完会覆盖下一轮false
           this.setState({ bankList: res.date })
         })
       }
@@ -928,13 +934,13 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     /**保存或者提交 */
     submit = (type: number) => () => {
-      if (this.state.bankShow) {
+      if (this.props.bankShow) {
         //清除，以免这次保存下次直接提交
         Cookies.set("_handleBankName", JSON.stringify(""), { expires: 1 });
-        this.setState({bankShow:false});
         this.props.dispatch({
           type: 'submitQua/setQua',
           payload: {
+            bankShow: false,
             bank_name: ""
           }
         })
@@ -1239,19 +1245,19 @@ export default connect(({ submitQua }: any) => submitQua)(
                 <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank} clear>开户行</InputItem>
                 <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} clear>支行</InputItem>
 
-                <div className={styles.bankMsg} style={{ display: this.state.bankShow ? "block" : "none" }}>
+                <div className={styles.bankMsg} style={{ display: this.props.bankShow ? "block" : "none" }}>
                   <div className={styles.bankMsg_box} >
                     <ul className={styles.bankMsg_box_ul}>
                       {
                         this.state.bankList != [] ? this.state.bankList.map((item: any, index) => {
                           return (
                             <li key={index} className={styles.bankMsg_box_li} onClick={(e) => {
-                              this.setState({ bankShow: false })
                               Cookies.set("_handleBankName", JSON.stringify(e.target.innerText), { expires: 1 });
                               this.props.dispatch({
                                 type: 'submitQua/setQua',
                                 payload: {
-                                  bank_name: e.target.innerText
+                                  bank_name: e.target.innerText,
+                                  bankShow: false
                                 }
                               })
                             }} >{item.name}</li>
