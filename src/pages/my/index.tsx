@@ -93,14 +93,14 @@ export default connect()(
 		};
 
 		/**我的签约码 */
-		goSignCode = () => {
-			router.push({
-				pathname: '/my/signCode',
-				query: {
-					url: this.state.info.wx_sign_url
-				}
-			})
-		}
+		// goSignCode = () => {
+		// 	router.push({
+		// 		pathname: '/my/signCode',
+		// 		query: {
+		// 			url: this.state.info.wx_sign_url
+		// 		}
+		// 	})
+		// }
 
 		render() {
       console.log(this.state.info.wx_sign_status)
