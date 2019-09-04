@@ -264,6 +264,8 @@ export default connect(({ submitQua }: any) => submitQua)(
           // if (this.props.bank_disable == true) {
           //   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
           // }
+          let temp = document.getElementById("box1").value;
+          this.handleBankName(temp);
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
