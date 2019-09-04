@@ -81,7 +81,7 @@ export default connect()(
 						})
 						Toast.success(message, 1);
 					} else {
-						Toast.fail('暂无平台收益', 1);
+						Toast.fail(message, 1);
 					}
 				});
 			} else {
