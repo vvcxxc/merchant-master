@@ -1,6 +1,7 @@
 import { Model } from 'dva';
 
 interface SubmitQua {
+  bankShow:boolean,
   id_back: any[];
   id_front: any[];
   id_hand: any[];
@@ -67,7 +68,8 @@ const model: Model = {
     is_bank_back: false,
     is_license: false,
     date_back:false,
-    bank_disable:false
+    bank_disable:false,
+    bankShow:false
   },
   reducers: {
     setQua(state, { payload }) {

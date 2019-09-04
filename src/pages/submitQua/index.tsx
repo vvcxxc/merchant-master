@@ -98,28 +98,21 @@ export default connect(({ submitQua }: any) => submitQua)(
       flag: true, // 条件判断是否阻止默认行为
       modal1: false,
       modal1img: [],
-      bankList: [
-        "广东省广州市花都区新华街道商业大道24号建设银行",
-        "广东省广州市越秀区广卫路15-1号中国建设银行",
-        "广东省广州市白云区鹤龙一路983号广东通信科技大厦南塔1层"
-      ],
-      bankShow: false
+      bankList: [],
     };
 
 
 
     componentDidMount() {
-      console.log(this.props.date_back)
       function getCaption(str: string) {
         return str.split('http://oss.tdianyi.com/')[1]
       }
 
 
 
-      if (Cookies.get("_bank3disable")&&JSON.parse(Cookies.get("_bank3disable"))==true) {
-        console.log("禁用")
-        this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-      }
+      // if (Cookies.get("_bank3disable") && JSON.parse(Cookies.get("_bank3disable")) == true) {
+      //   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+      // }
 
 
 
@@ -268,9 +261,9 @@ export default connect(({ submitQua }: any) => submitQua)(
           // }
 
         } else {
-          if (this.props.bank_disable == true) {
-            this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-          }
+          console.log(document.getElementById("box1").value);
+          let temp=document.getElementById("box1").value;
+          this.handleBankName(temp);
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
@@ -363,14 +356,32 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
     /**支行 */
     handleBankName = (e: any) => {
-      //这里发起请求setstate({bankList})，不用嵌套
       if (e == '' || e == undefined) {
-        this.setState({ bankShow: false });
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            bankShow: false,
+          }
+        })
       } else {
-        this.setState({ bankShow: true });
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            bankShow: true,
+          }
+        })
+        request({
+          url: 'v3/bankAddress',
+          method: 'get',
+          params: {
+            k: e
+          }
+        }).then(res => {
+          this.setState({ bankList: res.date })
+        })
       }
-
-      Cookies.set("_handleBankName", JSON.stringify(e), { expires: 1 });
+      //不给缓存了，防止写一半刷新
+      Cookies.set("_handleBankName", JSON.stringify(''), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
         payload: {
@@ -598,7 +609,6 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     bank_front: files
       //   }
       // })
-      console.time()
       Toast.loading('');
       if (files[0]) {
         let img = files[0].url;
@@ -638,14 +648,14 @@ export default connect(({ submitQua }: any) => submitQua)(
                     bank_disable: true
                   }
                 });
-                if(data.bank_name){
-                  this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-                }
+                // if (data.bank_name) {
+                //   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                // }
                 Toast.success('识别成功', 2);
-                Cookies.set("_bank3disable", true, { expires: 1 });
+                // Cookies.set("_bank3disable", true, { expires: 1 });
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
-                this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+                // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
                 this.props.dispatch({
                   type: 'submitQua/setQua',
                   payload: {
@@ -655,7 +665,7 @@ export default connect(({ submitQua }: any) => submitQua)(
               }
             }).catch(err => {
               Toast.fail('银行卡识别失败，请重新上传。', 2);
-              this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+              // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
               this.props.dispatch({
                 type: 'submitQua/setQua',
                 payload: {
@@ -668,8 +678,8 @@ export default connect(({ submitQua }: any) => submitQua)(
         });
       } else {
         Toast.hide();
-        Cookies.remove("_bank3disable");
-        this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+        // Cookies.remove("_bank3disable");
+        // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
         Cookies.set("_changeBankFront", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
@@ -680,7 +690,6 @@ export default connect(({ submitQua }: any) => submitQua)(
           }
         })
       }
-      console.timeEnd()
     }
     /**银行卡反面选择 */
     changeBankBack = (files: any) => {
@@ -730,14 +739,14 @@ export default connect(({ submitQua }: any) => submitQua)(
                     bank_disable: true
                   }
                 });
-                if(data.bank_name){
-                  this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-                }
+                // if (data.bank_name) {
+                //   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                // }
                 Toast.success('识别成功', 2);
-                Cookies.set("_bank3disable", true, { expires: 1 });
+                // Cookies.set("_bank3disable", true, { expires: 1 });
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
-                this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+                // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
                 this.props.dispatch({
                   type: 'submitQua/setQua',
                   payload: {
@@ -746,7 +755,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                 })
               }
             }).catch(err => {
-              this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+              // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
               Toast.fail('银行卡识别失败，请重新上传。', 1);
               this.props.dispatch({
                 type: 'submitQua/setQua',
@@ -759,8 +768,8 @@ export default connect(({ submitQua }: any) => submitQua)(
         });
       } else {
         Toast.hide();
-        Cookies.remove("_bank3disable");
-        this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+        // Cookies.remove("_bank3disable");
+        // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
         Cookies.set("_changeBankBack", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
@@ -889,8 +898,8 @@ export default connect(({ submitQua }: any) => submitQua)(
       })
     }
     closeBankFront = () => {
-      Cookies.remove("_bank3disable");
-      this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+      // Cookies.remove("_bank3disable");
+      // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
       Cookies.set("_changeBankFront", JSON.stringify(""), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
@@ -901,8 +910,8 @@ export default connect(({ submitQua }: any) => submitQua)(
       })
     }
     closeBankBack = () => {
-      Cookies.remove("_bank3disable");
-      this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+      // Cookies.remove("_bank3disable");
+      // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
       Cookies.set("_changeBankBack", JSON.stringify(""), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
@@ -925,10 +934,22 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     /**保存或者提交 */
     submit = (type: number) => () => {
-      // if (this.state.bankShow) {
-      //   Toast.fail('未选择支行', 1);
-      //   return
-      // }
+      if (this.props.bankShow) {
+        //清除，以免这次保存下次直接提交
+        Cookies.set("_handleBankName", JSON.stringify(""), { expires: 1 });
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            bankShow: false,
+            bank_name: ""
+          }
+        })
+        //提交的话直接打回
+        if (type == 2) {
+          Toast.fail('未选择支行', 1);
+          return
+        }
+      }
       const { legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.props;
       let data = {
         legal_id_back_img,
@@ -1193,13 +1214,14 @@ export default connect(({ submitQua }: any) => submitQua)(
 
               </Modal>
               <List>
-                <InputItem placeholder='请输入姓名' value={this.props.contact_name} onChange={this.handleName}>姓名</InputItem>
-                <InputItem placeholder='请输入身份证号' onChange={this.handleID} value={this.props.legal_id_no}>身份证号</InputItem>
+                <InputItem placeholder='请输入姓名' value={this.props.contact_name} onChange={this.handleName} clear>姓名</InputItem>
+                <InputItem placeholder='请输入身份证号' onChange={this.handleID} value={this.props.legal_id_no} clear>身份证号</InputItem>
                 <InputItem
                   placeholder='请选择身份证有效期'
                   editable={false}
                   value={this.props.date}
                   onClick={this.chooseDate(1)}
+                  clear
                 >
                   有效期
                   <Icon
@@ -1218,33 +1240,33 @@ export default connect(({ submitQua }: any) => submitQua)(
               </Flex>
               <div className={styles.bank_toast}>温馨提示：1.请上传清晰的图片，银行卡号不可遮蔽。2.暂不支持部分银行卡。</div>
               <List>
-                <InputItem ref="bank1" placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name}>开户人</InputItem>
-                <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum}>银行卡号</InputItem>
-                <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank}>开户行</InputItem>
-                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName}>支行</InputItem>
+                <InputItem ref="bank1" placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name} clear>开户人</InputItem>
+                <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum} clear>银行卡号</InputItem>
+                <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank} clear>开户行</InputItem>
+                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} clear>支行</InputItem>
 
-                {/* <div style={{ width: "100%", height: "1px", position: "relative", display: this.state.bankShow ? "block" : "none" }}>
-                  <div style={{ width: "100%", height: "auto", background: "#fff", border: "1px solid #000", position: "absolute", zIndex: 4, top: "0px", padding: "48px", boxSizing: "border-box", color: "#000" }}>
-                    <ul style={{ display: "flex", flexDirection: "column", padding: "0", margin: "0", listStyle: "none" }}>
+                <div className={styles.bankMsg} style={{ display: this.props.bankShow ? "block" : "none" }}>
+                  <div className={styles.bankMsg_box} >
+                    <ul className={styles.bankMsg_box_ul}>
                       {
-                        this.state.bankList.map((item, index) => {
+                        this.state.bankList != [] ? this.state.bankList.map((item: any, index) => {
                           return (
-                            <li key={item} style={{ borderBottom: "1px #000 solid", width: "100%", height: "auto", lineHeight: "60px", padding: "20px 0" }} onClick={(e) => {
-                              this.setState({ bankShow: false })
+                            <li key={index} className={styles.bankMsg_box_li} onClick={(e) => {
                               Cookies.set("_handleBankName", JSON.stringify(e.target.innerText), { expires: 1 });
                               this.props.dispatch({
                                 type: 'submitQua/setQua',
                                 payload: {
-                                  bank_name: e.target.innerText
+                                  bank_name: e.target.innerText,
+                                  bankShow: false
                                 }
                               })
-                            }} >{item}</li>
+                            }} >{item.name}</li>
                           )
-                        })
+                        }) : null
                       }
                     </ul>
                   </div>
-                </div> */}
+                </div>
               </List>
               <Flex className={styles.bank_title}>
                 <div className={styles.sfz_left}>营业执照</div>
@@ -1253,10 +1275,10 @@ export default connect(({ submitQua }: any) => submitQua)(
               <Flex className={styles.license_img}>
                 {License}
               </Flex>
-              <InputItem placeholder='同统一社会信用代码' value={this.props.three_certs_in_one_no} onChange={this.handleLicenseNUm}>注册号</InputItem>
-              <InputItem placeholder='无执照名称可填写经营者名称' value={this.props.corn_bus_name} onChange={this.handleLicenseName}>执照名称</InputItem>
-              <InputItem placeholder='请输入法人姓名' value={this.props.legal_name} onChange={this.handleLegalName}>法人姓名</InputItem>
-              <InputItem placeholder='有效期' editable={false} value={this.props.three_certs_in_one_valid_date} onClick={this.chooseDate(2)}>有效期<Icon type='right' className={styles.youxiao} /></InputItem>
+              <InputItem placeholder='同统一社会信用代码' value={this.props.three_certs_in_one_no} onChange={this.handleLicenseNUm} clear>注册号</InputItem>
+              <InputItem placeholder='无执照名称可填写经营者名称' value={this.props.corn_bus_name} onChange={this.handleLicenseName} clear>执照名称</InputItem>
+              <InputItem placeholder='请输入法人姓名' value={this.props.legal_name} onChange={this.handleLegalName} clear>法人姓名</InputItem>
+              <InputItem placeholder='有效期' editable={false} value={this.props.three_certs_in_one_valid_date} onClick={this.chooseDate(2)} clear>有效期<Icon type='right' className={styles.youxiao} /></InputItem>
             </WingBlank>
             <Flex className={styles.buttons}>
               <div className={styles.save} onClick={this.submit(1)}>保存</div>
