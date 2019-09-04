@@ -271,7 +271,9 @@ export default connect(({ activity }: any) => activity)(
             gift_name
           }
         });
+        // console.log('abc')
         let { data, message, code } = res;
+        // console.log(res)
         if (code == 200) {
           if (data.order_sn) {
             this.props.dispatch({
