@@ -253,9 +253,28 @@ export default class MapPage extends Component<Props> {
       longitude: item.location.lng,
       latitude: item.location.lat
     }
-    let address = this.state.city[0] + this.state.city[1] + item.address + item.name;
-    // console.log(address)
-    this.props.onChange(location,address);
+    let _this = this;
+    AMap.plugin('AMap.Geocoder',() => {
+      _this.geocoder = new AMap.Geocoder({
+          city: "010"//城市，默认：“全国”
+      })
+    })
+    let lnglat = [location.longitude, location.latitude ]
+    _this.geocoder && _this.geocoder.getAddress(lnglat, (status: any, result: any) => {
+      let res = result.regeocode.addressComponent
+      let province = res.province + res.city + res.district;
+      _this.setState({
+        province,
+        value: [res.province,res.city,res.district],
+        city: [res.province,res.city,res.district],
+        district: result.regeocode.addressComponent.district,
+        address: result.regeocode.formattedAddress || '未知地点',
+        city_name: result.regeocode.addressComponent.city
+      },()=>{
+        let address = this.state.city[0] + this.state.city[1] + item.address + item.name;
+        this.props.onChange(location,address);
+      })
+    })
   }
 
 
