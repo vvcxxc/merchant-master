@@ -99,7 +99,6 @@ export default connect(({ submitQua }: any) => submitQua)(
       modal1: false,
       modal1img: [],
       bankList: [],
-      bankShow: false
     };
 
 
@@ -111,9 +110,9 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
 
-      if (Cookies.get("_bank3disable") && JSON.parse(Cookies.get("_bank3disable")) == true) {
-        this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-      }
+      // if (Cookies.get("_bank3disable") && JSON.parse(Cookies.get("_bank3disable")) == true) {
+      //   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+      // }
 
 
 
@@ -262,13 +261,14 @@ export default connect(({ submitQua }: any) => submitQua)(
           // }
 
         } else {
-          if (this.props.bank_disable == true) {
-            this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-          }
+          // console.log(document.getElementById("box1").value);
+          // let temp=document.getElementById("box1").value;
+          // this.handleBankName(temp);
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
-              date_back: false
+              date_back: false,
+              bankShow: false
             }
           })
           return
@@ -358,11 +358,19 @@ export default connect(({ submitQua }: any) => submitQua)(
     /**支行 */
     handleBankName = (e: any) => {
       if (e == '' || e == undefined) {
-        this.setState({ bankShow: false }, () => {
-          return;
-        });
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            bankShow: false,
+          }
+        })
       } else {
-        this.setState({ bankShow: true });
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            bankShow: true,
+          }
+        })
         request({
           url: 'v3/bankAddress',
           method: 'get',
@@ -370,12 +378,12 @@ export default connect(({ submitQua }: any) => submitQua)(
             k: e
           }
         }).then(res => {
-          // 别把bankShow拿下来setstate为true，不然清空时这一轮true没走完会覆盖下一轮false
           this.setState({ bankList: res.date })
         })
       }
       //不给缓存了，防止写一半刷新
-      Cookies.set("_handleBankName", JSON.stringify(''), { expires: 1 });
+      //又说要给了
+      Cookies.set("_handleBankName", JSON.stringify(e), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
         payload: {
@@ -642,14 +650,14 @@ export default connect(({ submitQua }: any) => submitQua)(
                     bank_disable: true
                   }
                 });
-                if (data.bank_name) {
-                  this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-                }
+                // if (data.bank_name) {
+                //   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                // }
                 Toast.success('识别成功', 2);
-                Cookies.set("_bank3disable", true, { expires: 1 });
+                // Cookies.set("_bank3disable", true, { expires: 1 });
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
-                this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+                // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
                 this.props.dispatch({
                   type: 'submitQua/setQua',
                   payload: {
@@ -659,7 +667,7 @@ export default connect(({ submitQua }: any) => submitQua)(
               }
             }).catch(err => {
               Toast.fail('银行卡识别失败，请重新上传。', 2);
-              this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+              // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
               this.props.dispatch({
                 type: 'submitQua/setQua',
                 payload: {
@@ -672,8 +680,8 @@ export default connect(({ submitQua }: any) => submitQua)(
         });
       } else {
         Toast.hide();
-        Cookies.remove("_bank3disable");
-        this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+        // Cookies.remove("_bank3disable");
+        // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
         Cookies.set("_changeBankFront", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
@@ -733,14 +741,14 @@ export default connect(({ submitQua }: any) => submitQua)(
                     bank_disable: true
                   }
                 });
-                if (data.bank_name) {
-                  this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-                }
+                // if (data.bank_name) {
+                //   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
+                // }
                 Toast.success('识别成功', 2);
-                Cookies.set("_bank3disable", true, { expires: 1 });
+                // Cookies.set("_bank3disable", true, { expires: 1 });
               } else {
                 Toast.fail('银行卡识别失败，请重新上传。', 2);
-                this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+                // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
                 this.props.dispatch({
                   type: 'submitQua/setQua',
                   payload: {
@@ -749,7 +757,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                 })
               }
             }).catch(err => {
-              this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+              // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
               Toast.fail('银行卡识别失败，请重新上传。', 1);
               this.props.dispatch({
                 type: 'submitQua/setQua',
@@ -762,8 +770,8 @@ export default connect(({ submitQua }: any) => submitQua)(
         });
       } else {
         Toast.hide();
-        Cookies.remove("_bank3disable");
-        this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+        // Cookies.remove("_bank3disable");
+        // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
         Cookies.set("_changeBankBack", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
           type: 'submitQua/setQua',
@@ -892,8 +900,8 @@ export default connect(({ submitQua }: any) => submitQua)(
       })
     }
     closeBankFront = () => {
-      Cookies.remove("_bank3disable");
-      this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+      // Cookies.remove("_bank3disable");
+      // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
       Cookies.set("_changeBankFront", JSON.stringify(""), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
@@ -904,8 +912,8 @@ export default connect(({ submitQua }: any) => submitQua)(
       })
     }
     closeBankBack = () => {
-      Cookies.remove("_bank3disable");
-      this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
+      // Cookies.remove("_bank3disable");
+      // this.refs.bank3.inputRef.inputRef.removeAttribute('disabled');
       Cookies.set("_changeBankBack", JSON.stringify(""), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
@@ -928,20 +936,25 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     /**保存或者提交 */
     submit = (type: number) => () => {
-      if (this.state.bankShow) {
-        //清除，以免这次保存下次直接提交
-        Cookies.set("_handleBankName", JSON.stringify(""), { expires: 1 });
-        this.props.dispatch({
-          type: 'submitQua/setQua',
-          payload: {
-            bank_name: ""
-          }
-        })
-        //提交的话直接打回
-        if (type == 2) {
-          Toast.fail('未选择支行', 1);
-          return
-        }
+      // if (this.props.bankShow) {
+      //   //清除，以免这次保存下次直接提交
+      //   Cookies.set("_handleBankName", JSON.stringify(""), { expires: 1 });
+      //   this.props.dispatch({
+      //     type: 'submitQua/setQua',
+      //     payload: {
+      //       bankShow: false,
+      //       bank_name: ""
+      //     }
+      //   })
+      //   //提交的话直接打回
+      //   if (type == 2) {
+      //     Toast.fail('未选择支行', 1);
+      //     return
+      //   }
+      // }
+      if (this.props.bankShow) {
+        Toast.fail('未选择支行', 1);
+        return
       }
       const { legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.props;
       let data = {
@@ -1236,21 +1249,23 @@ export default connect(({ submitQua }: any) => submitQua)(
                 <InputItem ref="bank1" placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name} clear>开户人</InputItem>
                 <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum} clear>银行卡号</InputItem>
                 <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank} clear>开户行</InputItem>
-                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} clear>支行</InputItem>
+                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} onBlur={() => {
+                  this.props.dispatch({ type: 'submitQua/setQua', payload: { bankShow: false } })
+                }} clear>支行</InputItem>
 
-                <div className={styles.bankMsg} style={{ display: this.state.bankShow ? "block" : "none" }}>
+                <div className={styles.bankMsg} style={{ display: this.props.bankShow ? "block" : "none" }}>
                   <div className={styles.bankMsg_box} >
                     <ul className={styles.bankMsg_box_ul}>
                       {
                         this.state.bankList != [] ? this.state.bankList.map((item: any, index) => {
                           return (
                             <li key={index} className={styles.bankMsg_box_li} onClick={(e) => {
-                              this.setState({ bankShow: false })
                               Cookies.set("_handleBankName", JSON.stringify(e.target.innerText), { expires: 1 });
                               this.props.dispatch({
                                 type: 'submitQua/setQua',
                                 payload: {
-                                  bank_name: e.target.innerText
+                                  bank_name: e.target.innerText,
+                                  bankShow: false
                                 }
                               })
                             }} >{item.name}</li>

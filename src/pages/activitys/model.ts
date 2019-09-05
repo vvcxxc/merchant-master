@@ -28,6 +28,7 @@ export interface Appreciation {
   gift_id: string;
   gift_pic: string;
   gift_name: string;
+  postage:string;
   start_price: string;
   end_price: string;
   appreciation_number_sum: string;
@@ -37,6 +38,7 @@ export interface Appreciation {
   total_fee: string;
   mail_mode: string;
   name_mode: number;
+  scope_mode: number;
   description: Array<any>;
   pay_list: object;
 }
@@ -51,7 +53,8 @@ const model: Model = {
     },
     Appreciation: {
       mail_mode: '1',
-      name_mode: 0
+      name_mode: 0,
+      scope_mode:0
     }
   },
   reducers: {

@@ -8,6 +8,7 @@ import router from 'umi/router';
 import { connect } from 'dva';
 import ReactDOM from 'react-dom';
 import SelectTime from '@/components/select-time';
+import ad_intro2 from '@/assets/ad/ad_intro2.png'
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp).toString();
@@ -25,7 +26,12 @@ export default connect(({ activity }: any) => activity)(
       is_gift: false,
       /**去支付？ */
       is_pay: false,
-      value: 0
+      /**起名方式*/
+      value: 0,
+      /**券范围*/
+      scope: 0,
+      /**显示温馨提示 */
+      prompt: false
     };
     componentDidMount() {
       console.log(this.props.Appreciation)
@@ -194,7 +200,19 @@ export default connect(({ activity }: any) => activity)(
         });
       });
     };
-
+    /**选择券范围 */
+    onScope = (value: any) => {
+      this.setState({
+        scope: value,
+      }, () => {
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            scope_mode: value
+          }
+        });
+      });
+    };
 
     //打开时间选择
     handleShowSelectTime = () => { this.setState({ showSelectTime: true }) };
@@ -214,7 +232,8 @@ export default connect(({ activity }: any) => activity)(
 
     /**提交 */
     submit = async () => {
-      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name,description } = this.props.Appreciation
+      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description,scope_mode } = this.props.Appreciation
+      console.log("券适用范围:"+scope_mode);
       // 自定义名称
       if (this.state.value == 1 && !activityName) {
         Toast.fail('请输入自定义名称', 2);
@@ -334,15 +353,17 @@ export default connect(({ activity }: any) => activity)(
       const Gift = this.state.is_gift == true ? (
         <div>
           <Flex className={styles.giftBox}>
-            <div>配送方式</div>
+            <div style={{ color: "#666666" }}>配送方式</div>
             <Flex className={styles.choose}>
               {/* <div style={{marginRight: 17}}><img src={require('./image/choose.png')}/>到店自取</div> */}
-              <div><img src={require('./image/choose.png')} />邮寄</div>
+              <div>
+                {/* <img src={require('./image/choose.png')} /> */}
+                邮寄</div>
             </Flex>
           </Flex>
           {/* <Flex className={styles.giftBox}><div>自选地址</div><Flex className={styles.choose}><div style={{marginRight: 17}}><img src={require('./image/choose.png')}/>使用店铺地址</div><div className={styles.address}>自定义</div></Flex></Flex> */}
           <Flex className={styles.giftBox}>
-            <div>选择邮费</div>
+            <div style={{ color: "#666666" }}> 选择邮费({this.props.Appreciation.postage ? this.props.Appreciation.postage : ""}元/件)</div>
             {chooseMail}
           </Flex>
           <div style={{ width: '100%', height: '90px' }}>{''}</div>
@@ -355,11 +376,6 @@ export default connect(({ activity }: any) => activity)(
 
       const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, display, start_date, end_date } = this.props.Appreciation
 
-      const data = [
-        { value: 0, label: '默认活动名称(推荐)' },
-        { value: 1, label: '自定义名称' },
-      ];
-
       const { value } = this.state;
       // const time = this.state.startTime
       //   ? this.state.startTime +
@@ -369,19 +385,65 @@ export default connect(({ activity }: any) => activity)(
       const time = start_date ? new Date(start_date).getFullYear() + '-' + (new Date(start_date).getMonth() + 1) + '-' + new Date(start_date).getDate() + '至' + new Date(end_date).getFullYear() + '-' + (new Date(end_date).getMonth() + 1) + '-' + new Date(end_date).getDate() : '';
       return (
         <div style={{ width: '100%', height: 'auto', minHeight: '100%', background: '#fff' }}>
-          <div style={{ display }}>
+          <div>
             <WingBlank>
               <Flex className={styles.title}><div>活动设置</div></Flex>
               <List className={styles.input_Box}>
+
+                <Flex className={styles.radio0}>
+                  <div className={styles.radioFlex}>
+                    <div className={styles.radioScope}>
+                      <div className={styles.radioTitle}>
+                        活动范围
+                        <img src={ad_intro2} onClick={() => { this.setState({ prompt: !this.state.prompt }) }} />
+                      </div>
+                    </div>
+                    <div className={styles.radioBox}>
+                      {
+                        this.props.Appreciation.scope_mode == 0 ? (
+                          <Flex className={styles.choose}>
+                            <div className={styles.chooseBox} style={{ marginRight: 80 }} onClick={this.onScope.bind(this, 0)}><img src={require('./image/choose.png')} />全场通用券</div>
+                            <div className={styles.chooseBox} onClick={this.onScope.bind(this, 1)}><img src={require('./image/no_choose.png')} />品类券</div>
+                          </Flex>
+                        ) : (
+                            <Flex className={styles.choose}>
+                              <div className={styles.chooseBox} style={{ marginRight: 80 }} onClick={this.onScope.bind(this, 0)}><img src={require('./image/no_choose.png')} />全场通用券</div>
+                              <div className={styles.chooseBox} onClick={this.onScope.bind(this, 1)}><img src={require('./image/choose.png')} />品类券</div>
+                            </Flex>
+                          )
+                      }
+                    </div>
+                  </div>
+                </Flex>
+                <div className={styles.radio0_space} style={{ height: this.state.prompt ? "auto" : 0 }}>
+                  <div className={styles.radio0_msg}>
+                    <p>
+                      温馨提示：1.全场通用券可应用于店铺所有商品，在顾客扫码支付时选择该卡券进行使用；可设置使用门槛，但不受时间等因素限制。
+                  </p>
+                    <p>
+                      2.品类券可指定店铺某类或某件商品使用，顾客使用时，需要店铺进行扫码核销；发券时可设置相应的使用规则。
+                 </p>
+                  </div>
+                </div>
                 <Flex className={styles.radio}>
-                  {/* <Radio className={styles.my_Radio} onChange={e => console.log('checkbox', e)}>Agree</Radio> */}
-                  {data.map(i => (
-                    <Flex.Item key={i.value}>
-                      <Radio className={styles.my_Radio} checked={value === i.value} onChange={() => this.onChange(i.value)}>
-                        {i.label}
-                      </Radio>
-                    </Flex.Item>
-                  ))}
+                  <div className={styles.radioFlex}>
+                    <div className={styles.radioScope}>活动名称</div>
+                    <div className={styles.radioBox}>
+                      {
+                        this.props.Appreciation.name_mode == 0 ? (
+                          <Flex className={styles.choose}>
+                            <div className={styles.chooseBox} style={{ marginRight: 17 }} onClick={this.onChange.bind(this, 0)}><img src={require('./image/choose.png')} />默认活动名称（推荐）</div>
+                            <div className={styles.chooseBox} onClick={this.onChange.bind(this, 1)}><img src={require('./image/no_choose.png')} />自定义名称</div>
+                          </Flex>
+                        ) : (
+                            <Flex className={styles.choose}>
+                              <div className={styles.chooseBox} style={{ marginRight: 17 }} onClick={this.onChange.bind(this, 0)}><img src={require('./image/no_choose.png')} />默认活动名称（推荐）</div>
+                              <div className={styles.chooseBox} onClick={this.onChange.bind(this, 1)}><img src={require('./image/choose.png')} />自定义名称</div>
+                            </Flex>
+                          )
+                      }
+                    </div>
+                  </div>
                 </Flex>
                 <Flex className={styles.activity_space}>
                   {
@@ -459,7 +521,7 @@ export default connect(({ activity }: any) => activity)(
                 </InputItem>
                 <InputItem type={'money'} className={styles.textLong} onChange={this.handleValidity} value={validity} extra='天内可用' clear>
                   有效期
-                  <span className={styles.left_text}>领券日起</span>
+                  <span className={styles.left_text}>发券日起</span>
                 </InputItem>
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num} extra='张' clear>
                   发放数量
@@ -469,9 +531,10 @@ export default connect(({ activity }: any) => activity)(
               </List>
               <Flex className={styles.title}><div>礼品设置</div></Flex>
               <div className={styles.gift_Box}>
-                <Flex className={styles.giftBox} onClick={this.toGift}><div>选择礼品</div>
-                  <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                    {this.state.is_gift == true ? this.props.Appreciation.gift_name : ""}
+                <Flex className={styles.giftBox} onClick={this.toGift}><div style={{ color: "#666666" }}>选择礼品</div>
+                  <div className={styles.giftName} >
+                    <div className={styles.giftName_title} >
+                      {this.state.is_gift == true ? this.props.Appreciation.gift_name : ""}</div>
                     <Icon type="right" color='#999' className={styles.icon_right} />
                   </div>
                 </Flex>

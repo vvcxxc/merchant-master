@@ -213,6 +213,7 @@ export default connect(({createStore}: any) => createStore)(
       });
       this.setState({search_words: e});
       this.msearch.search(keywords, function(status: any, result: object){
+        console.log(result)
         if(result.poiList){
           that.setState({
             is_search: true,
@@ -240,6 +241,7 @@ export default connect(({createStore}: any) => createStore)(
       let Address = province + city + address + name;
       // this.props.onChange(location,Address);
       Cookies.set("handleAddress", JSON.stringify(Address), { expires: 1 });
+      Cookies.set("handleLocation", JSON.stringify(location), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -257,6 +259,7 @@ export default connect(({createStore}: any) => createStore)(
       let address = this.state.address;
       // this.props.onChange(location,address);
       Cookies.set("handleAddress", JSON.stringify(address), { expires: 1 });
+      Cookies.set("handleLocation", JSON.stringify(location), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -273,25 +276,46 @@ export default connect(({createStore}: any) => createStore)(
 
     chooseSearch = (item: any) => {
       // console.log(item)
+      let _this = this;
       let location = {
         longitude: item.location.lng,
         latitude: item.location.lat
       }
-      let address = this.state.city[0] + this.state.city[1] + item.address + item.name;
-      // console.log(address)
-      // this.props.onChange(location,address);
-      Cookies.set("handleAddress", JSON.stringify(address), { expires: 1 });
-      this.props.dispatch({
-        type: 'createStore/setStore',
-        payload: {
-          location,
-          address,
-          map: {
-            address
-          }
-        }
+      AMap.plugin('AMap.Geocoder',() => {
+        _this.geocoder = new AMap.Geocoder({
+            city: "010"//城市，默认：“全国”
+        })
       })
-      router.push('/createStore')
+      let lnglat = [location.longitude, location.latitude ]
+      _this.geocoder && _this.geocoder.getAddress(lnglat, (status: any, result: any) => {
+        let res = result.regeocode.addressComponent
+        let province = res.province + res.city + res.district;
+        _this.setState({
+          province,
+          value: [res.province,res.city,res.district],
+          city: [res.province,res.city,res.district],
+          district: result.regeocode.addressComponent.district,
+          address: result.regeocode.formattedAddress || '未知地点',
+          city_name: result.regeocode.addressComponent.city
+        },() =>{
+          let address = this.state.city[0] + this.state.city[1] + item.address + item.name;
+          // this.props.onChange(location,address);
+          Cookies.set("handleAddress", JSON.stringify(address), { expires: 1 });
+          Cookies.set("handleLocation", JSON.stringify(location), { expires: 1 });
+          this.props.dispatch({
+            type: 'createStore/setStore',
+            payload: {
+              location,
+              address,
+              map: {
+                address
+              }
+            }
+          })
+          router.push('/createStore')
+        });
+      })
+
     }
 
 
@@ -383,12 +407,12 @@ export default connect(({createStore}: any) => createStore)(
             })
         },
         click: (e: any) => {
-          // this.setState({
-          //   location:{
-          //     longitude: e.lnglat.lng,
-          //     latitude: e.lnglat.lat
-          //   }
-          // });
+          this.setState({
+            location:{
+              longitude: e.lnglat.lng,
+              latitude: e.lnglat.lat
+            }
+          });
           this.props.dispatch({
             type: 'createStore/setStore',
             payload: {

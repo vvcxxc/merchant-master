@@ -16,7 +16,8 @@ export default class PaymentReturnRules extends Component<Props> {
 				[type]: e
 			});
 		}
-	};
+  };
+
 	handleChange2 = (type: string) => (e: any) => {
 		if (e.split(".")[1] == undefined || (e.split(".")[1].length < 3 && e.split(".")[2] == undefined)) {
 			this.props.onChange(this.props.index, {
@@ -29,13 +30,13 @@ export default class PaymentReturnRules extends Component<Props> {
 	 limitCoupons(v: any) {
 		 if(v.substr(0,1) === '.'){//过滤用户第一位输入为'.'
 			  Toast.fail('返券需大于0元');
-			 return 
+			 return
 		 }
 
 			let data =Number(v)
 			if(Number(v)<=0){//过滤用户输入金额小于或者等于0
 			 Toast.fail('返券需大于0元');
-			 return 
+			 return
 		 }
 
 	 }
@@ -44,13 +45,13 @@ export default class PaymentReturnRules extends Component<Props> {
 	 limitDenomination(v: any) {
 		 if(v.substr(0,1) === '.'){//过滤用户第一位输入为'.'
 			  Toast.fail('面额需大于0元');
-			 return 
+			 return
 		 }
 
 			let data =Number(v)
 			if(Number(v)<=0){//过滤用户输入金额小于或者等于0
 			 Toast.fail('面额需大于0元');
-			 return 
+			 return
 		 }
 	 }
 
@@ -58,12 +59,12 @@ export default class PaymentReturnRules extends Component<Props> {
 	 limitThreshold(v:any){
 		 if(v.substr(0,1) === '.'){//过滤用户第一位输入为'.'
 			  Toast.fail('使用门槛不能低于0元');
-			 return 
+			 return
 		 }
 		 	let data =Number(v)
 			if(Number(v)<0){//过滤用户输入金额小于或者等于0
 			Toast.fail('使用门槛不能低于0元');
-			 return 
+			 return
 		 }
 	 }
 
@@ -71,7 +72,7 @@ export default class PaymentReturnRules extends Component<Props> {
 	 limmitInventory(v:any){
 		if(Number(v)<=0){//过滤用户输入金额小于或者等于0
 			 Toast.fail('库存数量需大于0');
-			 return 
+			 return
 		 }
 	 }
 
@@ -79,8 +80,8 @@ export default class PaymentReturnRules extends Component<Props> {
 		const moneyInput = (
 			<Flex>
 				支付
-				<InputItem className="numberInput" type="money" 
-				onChange={this.handleChange2('money')} value={String(this.props.item.money || '')} 
+				<InputItem className="numberInput" type="money"
+				onChange={this.handleChange2('money')} value={String(this.props.item.money || '')}
 				onVirtualKeyboardConfirm={this.limitCoupons.bind(this)}//点击确定
 				onBlur={this.limitCoupons.bind(this)} //失去焦点触发
 				clear />
@@ -90,14 +91,14 @@ export default class PaymentReturnRules extends Component<Props> {
 		const dateInput = (
 			<Flex>
 				发券日起
-				<InputItem className="numberInput" type="money" onChange={this.handleChange('day')} value={String(this.props.item.day || '')} clear />
+				<InputItem className="numberInput" type="money" onChange={this.handleChange('day')} value={String(this.props.item.day || '')} />
 				天可用
 			</Flex>
 		);
 		const limitInput = (
 			<Flex>
 				满
-				<InputItem className="numberInput" type="money" onChange={this.handleChange2('limit')} value={String(this.props.item.limit || '')} 
+				<InputItem className="numberInput" type="money" onChange={this.handleChange2('limit')} value={String(this.props.item.limit || '')}
 				onVirtualKeyboardConfirm={this.limitThreshold.bind(this)}//点击确定
 				onBlur={this.limitThreshold.bind(this)} //失去焦点触发
 				clear />
