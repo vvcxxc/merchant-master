@@ -7,8 +7,16 @@ import wx from "weixin-js-sdk";
 interface Props {
   closeShare: (close: boolean) => void;
   showShare: boolean;
-  type?:Object
- }
+  type?: Object;
+  //定义一个要传递给海报的数据appreciation_info
+  posterData?: any,
+  
+}
+
+declare global {
+  interface Window { open_id: string; pay_url: string; shareLink: string }
+}
+const Url = window.shareLink ? window.shareLink : 'http://mall.tdianyi.com/';
 
 export default class BottomShare extends Component<Props>{
   state = {
@@ -16,11 +24,20 @@ export default class BottomShare extends Component<Props>{
     shareButton: false,
     showBottom: true,//控制底部用户操作部分
     showPoster: false,//控制显示海报部分
-    showArrows:false
+    showArrows: false,
+    showArrowUp: false,
+    posterData:{}
   }
 
+  componentWillReceiveProps() {
+    if (!this.props.posterData) return
+    if (Object.keys(this.props.posterData).length > 1) {
+      this.setState({ posterData: this.props.posterData })
+    }
+  }
 
   componentDidMount() {
+   
   }
 
   shouldComponentUpdate(nextProps: any, nextState: any) {
@@ -49,7 +66,8 @@ export default class BottomShare extends Component<Props>{
   }
 
   //点击分享
-  shareData = (e:any) => {
+  shareData = (e?: any) => {
+    
     let meta: any = this.props.type
     this.setState({ showBottom: false })// 点击分享 遮挡层不消失 消失白色区域部分
     this.setState({ showArrows:true})
@@ -84,7 +102,7 @@ export default class BottomShare extends Component<Props>{
           wx.updateAppMessageShareData({
             title:  meta.title,
             desc: meta.text,
-            link: 'http://test.mall.tdianyi.com/#/pages/activity/pages/detail/detail?id=' + meta.id + '&type=5&activity_id=' + meta.activity_id + '&gift_id=' + meta.gift_id,
+            link: Url+'#/pages/activity/pages/detail/detail?id=' + meta.id + '&type=5&activity_id=' + meta.activity_id + '&gift_id=' + meta.gift_id,
             imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
             success: function () {
               //成功后触发
@@ -98,7 +116,7 @@ export default class BottomShare extends Component<Props>{
           wx.updateAppMessageShareData({
             title: meta.title,
             desc: meta.text,
-            link: 'http://test.mall.tdianyi.com/#/pages/activity/pages/detail/detail?id=' + meta.id + '&type=1&activity_id=' + meta.activity_id + '&gift_id=' + meta.gift_id,
+            link: Url +'#/pages/activity/pages/detail/detail?id=' + meta.id + '&type=1&activity_id=' + meta.activity_id + '&gift_id=' + meta.gift_id,
             imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
             success: function () {
               //成功后触发
@@ -112,7 +130,7 @@ export default class BottomShare extends Component<Props>{
           wx.updateAppMessageShareData({
             title:  meta.storeName + '正在派发' + meta.return_money+'元兑换券，手慢无，速抢！',
             desc: '拼手速的时候来了，超值兑换券限量抢购，手慢就没了！速速戳进来一起领取！',
-            link: 'http://test.mall.tdianyi.com/#/pages/business/index?id='+meta.id,
+            link: Url +'#/pages/business/index?id='+meta.id,
             imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
             success: function () {
               //成功后触发
@@ -125,7 +143,7 @@ export default class BottomShare extends Component<Props>{
             wx.updateAppMessageShareData({
               title: '嘘，这里有一张' + meta.return_money+'元现金券，悄悄领了，别声张！',
               desc:  meta.storeName+'又搞活动啦，是好友我才偷偷告诉你，现金券数量有限，领券要快姿势要帅！',
-              link: 'http://test.mall.tdianyi.com/#/pages/business/index?id=' + meta.id,
+              link: Url +'#/pages/business/index?id=' + meta.id,
               imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
               success: function () {
                 //成功后触发
@@ -136,7 +154,7 @@ export default class BottomShare extends Component<Props>{
       }//else
     
     })
-    e.stopPropagation();
+    if (e) e.stopPropagation();
   }
 
   // 点击生成海报
@@ -165,9 +183,11 @@ export default class BottomShare extends Component<Props>{
             className={styles.share_prompt}
           >点击并分享给朋友</div>
         </div>
-
-        <Posters closePoster={this.closePoster} showPoster={this.state.showPoster} >{null}</Posters>{/* 海报组件 */}
-        
+        <Posters closePoster={this.closePoster} showPoster={this.state.showPoster} data={this.state.posterData}
+        >{null}
+          </Posters>
+        {/* 海报组件 */}
+      
         <div className={styles.share_box} style={{ display: this.state.showBottom  ? '' : 'none' }}>
           <div className={styles.box}>
             <div className={styles.all_center} onClick={this.shareData.bind(this)}>
