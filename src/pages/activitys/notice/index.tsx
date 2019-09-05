@@ -154,6 +154,9 @@ export default connect(({ activity }: any) => activity)(
           <WingBlank>
             <Flex className={styles.title}><div>使用须知</div></Flex>
             <div className={styles.box}>
+            {
+                this.state.drag_list.length==0?<div className={styles.nullListMsg}>暂无商品数据</div>:null
+              }
               {
                 this.state.drag_list.map((item, index) => {
                   return (

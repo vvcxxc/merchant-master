@@ -131,6 +131,10 @@ export default connect(({ activity }: any) => activity)(
             <Flex className={styles.title}><div>商品内容</div></Flex>
             <div className={styles.box}>
               {
+                this.state.drag_list.length==0?<div className={styles.nullListMsg}>暂无商品数据</div>:null
+              }
+              
+              {
                 this.state.drag_list.map((item, index) => {
                   return (
                     <Flex key={item.id} className={styles.row}>
