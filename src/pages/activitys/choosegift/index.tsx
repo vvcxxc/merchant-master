@@ -80,6 +80,7 @@ export default connect(({ activity }: any) => activity)(
   submit = () => {
       if (this.state.type == '1'){
         const {gift_id, gift_pic, gift_name} = this.props.Group
+        console.log(gift_id,gift_pic,gift_name)
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {

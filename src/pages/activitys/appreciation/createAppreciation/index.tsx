@@ -402,12 +402,12 @@ export default connect(({ activity }: any) => activity)(
                         this.props.Appreciation.scope_mode == 0 ? (
                           <Flex className={styles.choose}>
                             <div className={styles.chooseBox} style={{ marginRight: 80 }} onClick={this.onScope.bind(this, 0)}><img src={require('./image/choose.png')} />全场通用券</div>
-                            <div className={styles.chooseBox} onClick={this.onScope.bind(this, 1)}><img src={require('./image/no_choose.png')} />品券类</div>
+                            <div className={styles.chooseBox} onClick={this.onScope.bind(this, 1)}><img src={require('./image/no_choose.png')} />品类券</div>
                           </Flex>
                         ) : (
                             <Flex className={styles.choose}>
                               <div className={styles.chooseBox} style={{ marginRight: 80 }} onClick={this.onScope.bind(this, 0)}><img src={require('./image/no_choose.png')} />全场通用券</div>
-                              <div className={styles.chooseBox} onClick={this.onScope.bind(this, 1)}><img src={require('./image/choose.png')} />品券类</div>
+                              <div className={styles.chooseBox} onClick={this.onScope.bind(this, 1)}><img src={require('./image/choose.png')} />品类券</div>
                             </Flex>
                           )
                       }
