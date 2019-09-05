@@ -228,7 +228,6 @@ export default connect(({ app }: any) => app)(
 					</Flex>
 				</Flex>
 			) : null;
-
 		render() {
 			const { data } = this.props;
 			const mapIcons = (list: Array<any>) =>
