@@ -8,6 +8,7 @@ export interface Group {
   group_number: string;
   group_sum: string;
   validity: string;
+  scope_mode: number;
   cover_img: Array<any>;
   describe_img1: Array<any>;
   describe_img2: Array<any>;
@@ -17,6 +18,7 @@ export interface Group {
   gift_id: string;
   gift_pic: string;
   gift_name: string;
+  postage:string;
   keys: string;
   description: Array<any>;
   pay_list: Array<any>;
@@ -56,7 +58,8 @@ const model: Model = {
       cover_img: [],
       describe_img1: [],
       describe_img2: [],
-      mail_mode: '1'
+      mail_mode: '1',
+      scope_mode:0,
     },
     Appreciation: {
       mail_mode: '1',

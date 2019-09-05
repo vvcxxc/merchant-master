@@ -441,12 +441,12 @@ export default connect(({ activity }: any) => activity)(
     render() {
       const chooseMail = this.props.Appreciation.mail_mode == '1' ? (
         <Flex className={styles.choose}>
-          <div style={{ marginRight: 17 }} onClick={this.chooseMailMode.bind(this, '1')}><img src={require('./image/choose.png')} />联盟店支付</div>
+          <div style={{ marginRight: 17 }} onClick={this.chooseMailMode.bind(this, '1')}><img src={require('./image/choose.png')} />店家支付</div>
           <div onClick={this.chooseMailMode.bind(this, '2')}><img src={require('./image/no_choose.png')} />用户支付</div>
         </Flex>
       ) : (
           <Flex className={styles.choose}>
-            <div style={{ marginRight: 17 }} onClick={this.chooseMailMode.bind(this, '1')}><img src={require('./image/no_choose.png')} />联盟店支付</div>
+            <div style={{ marginRight: 17 }} onClick={this.chooseMailMode.bind(this, '1')}><img src={require('./image/no_choose.png')} />店家支付</div>
             <div onClick={this.chooseMailMode.bind(this, '2')}><img src={require('./image/choose.png')} />用户支付</div>
           </Flex>
         )
@@ -632,7 +632,7 @@ export default connect(({ activity }: any) => activity)(
               </List>
 
               <Flex className={styles.img_title}>
-                <div>图片详情</div>
+                <div>活动图片</div>
               </Flex>
               <div className={styles.img_msg}>温馨提示：请上传横向的图片，建议图片比例为16:9。</div>
               <Flex className={styles.img_box}>
@@ -682,7 +682,8 @@ export default connect(({ activity }: any) => activity)(
 
               <Flex className={styles.title}><div>礼品设置</div></Flex>
               <div className={styles.gift_Box}>
-                <Flex className={styles.giftBox} onClick={this.toGift}><div style={{ color: "#666666" }}>选择礼品</div>
+                <Flex className={styles.giftBox} onClick={this.toGift}>
+                  <div style={{ color: "#666666" }}>选择礼品</div>
                   <div className={styles.giftName} >
                     <div className={styles.giftName_title} >
                       {this.state.is_gift == true ? this.props.Appreciation.gift_name : ""}</div>

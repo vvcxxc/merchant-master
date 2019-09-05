@@ -169,7 +169,7 @@ export default connect(({ activity }: any) => activity)(
             <div className={styles.box2}>
               {this.state.list.map((item: any, idx: any) => {
                 return (
-                  <Flex key={item} className={styles.row2}>
+                  <Flex key={idx} className={styles.row2}>
                     {item}
                     <img src={require('./add.png')} onClick={this.Add.bind(this, item)} />
                   </Flex>

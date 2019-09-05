@@ -1250,7 +1250,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                 <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum} clear>银行卡号</InputItem>
                 <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank} clear>开户行</InputItem>
                 <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} onBlur={() => {
-                  this.props.dispatch({ type: 'submitQua/setQua', payload: { bankShow: false } })
+                  setTimeout(()=>{ this.props.dispatch({ type: 'submitQua/setQua', payload: { bankShow: false } })},300)
                 }} clear>支行</InputItem>
 
                 <div className={styles.bankMsg} style={{ display: this.props.bankShow ? "block" : "none" }}>

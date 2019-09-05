@@ -60,7 +60,8 @@ export default connect(({ activity }: any) => activity)(
           payload: {
             gift_id: id,
             gift_pic,
-            gift_name
+            gift_name,
+            postage
           }
         })
       }else if(this.state.type == '2'){
