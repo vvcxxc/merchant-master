@@ -1,3 +1,4 @@
+/**title: 商品设置 */
 import React, { Component } from 'react';
 import { Flex, WingBlank, Button, InputItem } from 'antd-mobile';
 import styles from './appreSetting.less';

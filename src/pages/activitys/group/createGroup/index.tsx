@@ -227,8 +227,7 @@ export default connect(({ activity }: any) => activity)(
       router.push({ pathname: '/activitys/choosegift', query: { type: 1 } })
     }
     toSetting = () => {
-      //不是这个
-      router.push({ pathname: '/activitys/setting/appreSetting' })
+      router.push({ pathname: '/activitys/setting/groupSetting' })
     }
     toNotice = () => {
       router.push({ pathname: '/activitys/notice', query: { type: 1 } })
