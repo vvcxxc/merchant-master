@@ -261,15 +261,14 @@ export default connect(({ submitQua }: any) => submitQua)(
           // }
 
         } else {
-          // if (this.props.bank_disable == true) {
-          //   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-          // }
-          let temp = document.getElementById("box1").value;
-          this.handleBankName(temp);
+          // console.log(document.getElementById("box1").value);
+          // let temp=document.getElementById("box1").value;
+          // this.handleBankName(temp);
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
-              date_back: false
+              date_back: false,
+              bankShow: false
             }
           })
           return
@@ -383,7 +382,8 @@ export default connect(({ submitQua }: any) => submitQua)(
         })
       }
       //不给缓存了，防止写一半刷新
-      Cookies.set("_handleBankName", JSON.stringify(''), { expires: 1 });
+      //又说要给了
+      Cookies.set("_handleBankName", JSON.stringify(e), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
         payload: {
@@ -936,21 +936,25 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     /**保存或者提交 */
     submit = (type: number) => () => {
+      // if (this.props.bankShow) {
+      //   //清除，以免这次保存下次直接提交
+      //   Cookies.set("_handleBankName", JSON.stringify(""), { expires: 1 });
+      //   this.props.dispatch({
+      //     type: 'submitQua/setQua',
+      //     payload: {
+      //       bankShow: false,
+      //       bank_name: ""
+      //     }
+      //   })
+      //   //提交的话直接打回
+      //   if (type == 2) {
+      //     Toast.fail('未选择支行', 1);
+      //     return
+      //   }
+      // }
       if (this.props.bankShow) {
-        //清除，以免这次保存下次直接提交
-        Cookies.set("_handleBankName", JSON.stringify(""), { expires: 1 });
-        this.props.dispatch({
-          type: 'submitQua/setQua',
-          payload: {
-            bankShow: false,
-            bank_name: ""
-          }
-        })
-        //提交的话直接打回
-        if (type == 2) {
-          Toast.fail('未选择支行', 1);
-          return
-        }
+        Toast.fail('未选择支行', 1);
+        return
       }
       const { legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.props;
       let data = {
@@ -1092,6 +1096,17 @@ export default connect(({ submitQua }: any) => submitQua)(
       if (!pNode) {
         e.preventDefault();
       }
+    }
+
+    chooseOne = (e) => {
+      Cookies.set("_handleBankName", JSON.stringify(e.target.innerText), { expires: 1 });
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          bank_name: e.target.innerText,
+          bankShow: false
+        }
+      })
     }
 
     render() {
@@ -1253,16 +1268,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                       {
                         this.state.bankList != [] ? this.state.bankList.map((item: any, index) => {
                           return (
-                            <li key={index} className={styles.bankMsg_box_li} onClick={(e) => {
-                              Cookies.set("_handleBankName", JSON.stringify(e.target.innerText), { expires: 1 });
-                              this.props.dispatch({
-                                type: 'submitQua/setQua',
-                                payload: {
-                                  bank_name: e.target.innerText,
-                                  bankShow: false
-                                }
-                              })
-                            }} >{item.name}</li>
+                            <li key={index} className={styles.bankMsg_box_li} onClick={this.chooseOne}>{item.name}</li>
                           )
                         }) : null
                       }
