@@ -105,7 +105,8 @@ export default class PlatformBenefit extends Component {
 		}
 		const insignificant = (
 			<Flex>
-				总计￥{this.state.total} {this.state.type === 0 && `，已结算￥${this.state.invoice || 0}`}
+        总计￥{this.state.total}
+        {/* {this.state.type === 0 && `，已结算￥${this.state.invoice || 0}`} */}
 			</Flex>
 		);
 		return (
