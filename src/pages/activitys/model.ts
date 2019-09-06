@@ -23,7 +23,7 @@ export interface Group {
   description: Array<any>;
   pay_list: Array<any>;
   // 商品设置
-  isHaveData: Boolean;
+  // isHaveData: Boolean;
   storeItems: Array<any>;
 }
 
@@ -65,7 +65,7 @@ const model: Model = {
       mail_mode: '1',
       scope_mode:0,
       // 商品设置
-      isHaveData: false,
+      // isHaveData: false,
       storeItems: []
     },
     Appreciation: {
@@ -78,15 +78,15 @@ const model: Model = {
     }
   },
   reducers: {
-    changeIsHaveData(state, { payload }) {
-      return {
-        ...state,
-        Group: {
-          ...state.Group,
-          isHaveData: payload.flag
-        },
-      }
-    },
+    // changeIsHaveData(state, { payload }) {
+    //   return {
+    //     ...state,
+    //     Group: {
+    //       ...state.Group,
+    //       isHaveData: payload.flag
+    //     },
+    //   }
+    // },
     ReduStoreItem(state, { payload }) {
       return {
         ...state,

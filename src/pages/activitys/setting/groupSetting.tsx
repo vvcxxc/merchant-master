@@ -12,7 +12,8 @@ export default connect(({ activity }: any) => activity)(
             name: '',
             num: '',
             price: '',
-            storeItems: []
+            storeItems: [],
+            isHaveData: this.props.Group.storeItems.length != 0 ? true : false
         }
 
 
@@ -51,14 +52,11 @@ export default connect(({ activity }: any) => activity)(
             this.setState({
                 storeItems: list
             }, () => {
-                // if(storeItems.length <= 1) {
-                //     this.props.dispatch({
-                //         type: 'groupSetting/changeIsHaveData',
-                //         payload: {
-                //             flag: false
-                //         }
-                //     })
-                // }
+                if(storeItems.length <= 1) {
+                   this.setState({
+                        isHaveData: false
+                   })
+                }
             })
         }
 
@@ -87,6 +85,7 @@ export default connect(({ activity }: any) => activity)(
                 }
             })
             this.setState({
+                isHaveData: true,
                 storeItems: [
                     ...this.state.storeItems,
                     {
@@ -111,14 +110,14 @@ export default connect(({ activity }: any) => activity)(
                     storeItems: this.state.storeItems
                 }
             })
-            if (this.state.storeItems.length == 0) {
-                this.props.dispatch({
-                    type: 'activity/changeIsHaveData',
-                    payload: {
-                        flag: false
-                    }
-                })
-            }
+            // if (this.state.storeItems.length == 0) {
+            //     this.props.dispatch({
+            //         type: 'activity/changeIsHaveData',
+            //         payload: {
+            //             flag: false
+            //         }
+            //     })
+            // }
             router.goBack()
         }
 
@@ -147,7 +146,7 @@ export default connect(({ activity }: any) => activity)(
 
                                 <div className={styles.store_data}>
                                     {
-                                        this.props.Group.isHaveData ? (
+                                        this.state.isHaveData ? (
                                             this.state.storeItems.map((item, index) => (
                                                 <Flex className={styles.store_data_item} key={index}>
                                                     <Flex.Item className={styles.store_data_item_info}><div style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 2, overflow: 'hidden' }}>{item.name}</div></Flex.Item>
