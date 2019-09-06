@@ -232,6 +232,9 @@ export default connect(({ activity }: any) => activity)(
     toNotice = () => {
       router.push({ pathname: '/activitys/notice', query: { type: 1 } })
     }
+    toSetting = () => {
+      router.push({ pathname: '/activitys/setting/groupSetting' })
+    }
 
     /**确认发布 */
     confirm = async () => {

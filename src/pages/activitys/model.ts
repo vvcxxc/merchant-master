@@ -22,6 +22,9 @@ export interface Group {
   keys: string;
   description: Array<any>;
   pay_list: Array<any>;
+  // 商品设置
+  isHaveData: Boolean;
+  storeItems: Array<any>;
 }
 export interface Appreciation {
   activityName: string;
@@ -30,7 +33,7 @@ export interface Appreciation {
   gift_id: string;
   gift_pic: string;
   gift_name: string;
-  postage:string;
+  postage: string;
   start_price: string;
   end_price: string;
   appreciation_number_sum: string;
@@ -60,6 +63,9 @@ const model: Model = {
       describe_img2: [],
       mail_mode: '1',
       scope_mode:0,
+      // 商品设置
+      isHaveData: false,
+      storeItems: []
     },
     Appreciation: {
       mail_mode: '1',
@@ -71,6 +77,26 @@ const model: Model = {
     }
   },
   reducers: {
+    changeIsHaveData(state, { payload }) {
+      return {
+        ...state,
+        Group: {
+          ...state.Group,
+          isHaveData: payload.flag
+        },
+      }
+    },
+    ReduStoreItem(state, { payload }) {
+      return {
+        ...state,
+        Group: {
+          ...state.Group,
+          storeItems: [
+            ...payload.storeItems
+          ]
+        },
+      }
+    },
     setGroup(state, { payload }) {
       return {
         ...state,
