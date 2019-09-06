@@ -1,11 +1,12 @@
 /**title: 添加好友增值 */
 import React, { Component } from 'react';
 import styles from './index.less';
-import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast, Radio } from 'antd-mobile';
+import { Flex, WingBlank, DatePicker, List, InputItem, Icon, Toast, Radio, ImagePicker } from 'antd-mobile';
 import moment from 'moment'
 import request from '@/services/request'
 import router from 'umi/router';
 import { connect } from 'dva';
+import upload from '@/services/oss';
 import ReactDOM from 'react-dom';
 import SelectTime from '@/components/select-time';
 import ad_intro2 from '@/assets/ad/ad_intro2.png'
@@ -232,8 +233,8 @@ export default connect(({ activity }: any) => activity)(
 
     /**提交 */
     submit = async () => {
-      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description,scope_mode } = this.props.Appreciation
-      console.log("券适用范围:"+scope_mode);
+      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description, scope_mode } = this.props.Appreciation
+      console.log("券适用范围:" + scope_mode);
       // 自定义名称
       if (this.state.value == 1 && !activityName) {
         Toast.fail('请输入自定义名称', 2);
@@ -331,20 +332,121 @@ export default connect(({ activity }: any) => activity)(
         });
       }
     }
+    toSetting=()=>{
+      router.push({ pathname: '/activitys/setting/appreSetting'})
+    }
     toNotice = () => {
       router.push({ pathname: '/activitys/notice', query: { type: 2 } })
+    }
+
+    changeCover = (files: any) => {
+      // this.props.dispatch({
+      //   type: 'activity/setAppreciation',
+      //   payload: {
+      //     cover_img: files
+      //   }
+      // });
+      Toast.loading('')
+      if (files[0]) {
+        let img = files[0].url;
+        upload(img).then(res => {
+          Toast.hide()
+          let { data } = res;
+          this.props.dispatch({
+            type: 'activity/setAppreciation',
+            payload: {
+              cover_img: files,
+              image: data.path
+            }
+          });
+        });
+      } else {
+        Toast.hide()
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            image: '',
+            cover_img: [],
+          }
+        });
+      }
+    }
+    changeDescribe1 = (files: any) => {
+      // this.props.dispatch({
+      //   type: 'activity/setAppreciation',
+      //   payload: {
+      //     describe_img1: files
+      //   }
+      // });
+      console.log(files);
+      Toast.loading('')
+      if (files[0]) {
+        let img = files[0].url;
+        upload(img).then(res => {
+          Toast.hide()
+          let { data } = res;
+          this.props.dispatch({
+            type: 'activity/setAppreciation',
+            payload: {
+              image_url1: data.path,
+              describe_img1: files
+            }
+          });
+        });
+      } else {
+        Toast.hide()
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            image_url1: '',
+            describe_img1: []
+          }
+        });
+      }
+    }
+    changeDescribe2 = (files: any) => {
+      // this.props.dispatch({
+      //   type: 'activity/setAppreciation',
+      //   payload: {
+      //     describe_img2: files
+      //   }
+      // });
+      Toast.loading('')
+      if (files[0]) {
+        let img = files[0].url;
+        upload(img).then(res => {
+          Toast.hide()
+          let { data } = res;
+          this.props.dispatch({
+            type: 'activity/setAppreciation',
+            payload: {
+              image_url2: data.path,
+              describe_img2: files
+            }
+          });
+        });
+      } else {
+        Toast.hide()
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            image_url2: '',
+            describe_img2: []
+          }
+        });
+      }
     }
 
 
     render() {
       const chooseMail = this.props.Appreciation.mail_mode == '1' ? (
         <Flex className={styles.choose}>
-          <div style={{ marginRight: 17 }} onClick={this.chooseMailMode.bind(this, '1')}><img src={require('./image/choose.png')} />联盟店支付</div>
+          <div style={{ marginRight: 17 }} onClick={this.chooseMailMode.bind(this, '1')}><img src={require('./image/choose.png')} />店家支付</div>
           <div onClick={this.chooseMailMode.bind(this, '2')}><img src={require('./image/no_choose.png')} />用户支付</div>
         </Flex>
       ) : (
           <Flex className={styles.choose}>
-            <div style={{ marginRight: 17 }} onClick={this.chooseMailMode.bind(this, '1')}><img src={require('./image/no_choose.png')} />联盟店支付</div>
+            <div style={{ marginRight: 17 }} onClick={this.chooseMailMode.bind(this, '1')}><img src={require('./image/no_choose.png')} />店家支付</div>
             <div onClick={this.chooseMailMode.bind(this, '2')}><img src={require('./image/choose.png')} />用户支付</div>
           </Flex>
         )
@@ -373,7 +475,7 @@ export default connect(({ activity }: any) => activity)(
 
 
 
-      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, display, start_date, end_date } = this.props.Appreciation
+      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, display, start_date, end_date, cover_img,describe_img1, describe_img2 } = this.props.Appreciation
 
       const { value } = this.state;
       // const time = this.state.startTime
@@ -525,12 +627,63 @@ export default connect(({ activity }: any) => activity)(
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num} extra='张' clear>
                   发放数量
               </InputItem>
-                <Flex className={styles.notice} onClick={this.toNotice}><div>使用须知</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
-                </Flex>
+                <Flex className={styles.notice}  onClick={this.toSetting}><div>商品设置</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex>
+                <Flex className={styles.notice} onClick={this.toNotice}><div>使用规则</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex>
               </List>
+
+              <Flex className={styles.img_title}>
+                <div>活动图片</div>
+              </Flex>
+              <div className={styles.img_msg}>温馨提示：请上传横向的图片，建议图片比例为16:9。</div>
+              <Flex className={styles.img_box}>
+                <div className={styles.image}>
+                  <div className={styles.cover_img}>
+                    <ImagePicker
+                      className={styles.upload_img}
+                      files={cover_img}
+                      multiple={false}
+                      length={1}
+                      selectable={cover_img.length < 1}
+                      onChange={this.changeCover}
+                    />
+                  </div>
+                  <div className={styles.describe}>封面</div>
+                </div>
+                <div className={styles.image}>
+                  <div>
+                    <ImagePicker
+                      className={styles.upload_img}
+                      files={describe_img1}
+                      multiple={false}
+                      length={1}
+                      selectable={describe_img1.length < 1}
+                      onChange={this.changeDescribe1}
+                    />
+                  </div>
+                  <div className={styles.describe}></div>
+                </div>
+
+
+                <div className={styles.image}>
+                  <div>
+                    <ImagePicker
+                      className={styles.upload_img}
+                      files={describe_img2}
+                      multiple={false}
+                      length={1}
+                      selectable={describe_img2.length < 1}
+                      onChange={this.changeDescribe2}
+                    />
+                  </div>
+                  <div className={styles.describe}></div>
+                </div>
+              </Flex>
+
+
               <Flex className={styles.title}><div>礼品设置</div></Flex>
               <div className={styles.gift_Box}>
-                <Flex className={styles.giftBox} onClick={this.toGift}><div style={{ color: "#666666" }}>选择礼品</div>
+                <Flex className={styles.giftBox} onClick={this.toGift}>
+                  <div style={{ color: "#666666" }}>选择礼品</div>
                   <div className={styles.giftName} >
                     <div className={styles.giftName_title} >
                       {this.state.is_gift == true ? this.props.Appreciation.gift_name : ""}</div>
