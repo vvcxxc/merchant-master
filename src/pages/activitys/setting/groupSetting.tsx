@@ -31,17 +31,19 @@ export default connect(({ activity }: any) => activity)(
         }
 
         handleChangeNum = (e) => {
-            this.setState({
-                num: e.target.value
-            })
+            if (/^[0-9]+$/.test(e.target.value) || e.target.value == "") {
+                this.setState({
+                    num: e.target.value
+                })
+            }
         }
-
         handleChangePrice = (e) => {
-            this.setState({
-                price: e.target.value
-            })
+            if (/^[0-9]+\.+[0-9]\d{0,1}$/.test(e.target.value) || /^[0-9]+\.?$/.test(e.target.value) || e.target.value == "") {
+                this.setState({
+                    price: e.target.value
+                })
+            }
         }
-
         handleDelete = (item: any) => {
             let { storeItems } = this.state;
             let list = [...storeItems]
