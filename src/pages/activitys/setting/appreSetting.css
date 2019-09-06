@@ -19,6 +19,7 @@
   padding: 0 20px;
   box-sizing: border-box;
   position: relative;
+  border-bottom: #999999 1px solid;
 }
 .box .nullListMsg {
   font-size: 36px;
@@ -42,7 +43,6 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: #999999 1px solid;
 }
 .box .row img {
   padding-left: 20px;
