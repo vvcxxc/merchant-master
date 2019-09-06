@@ -150,7 +150,7 @@ export default connect(({ activity }: any) => activity)(
     render() {
 
       return (
-        <div style={{ width: '100%', height: '100%', background: '#fff', position: 'fixed', top: '0', left: '0' }}>
+        <div style={{width: '100%', height: '100%', background: '#fff' }}>
           <WingBlank>
             <Flex className={styles.title}><div>使用须知</div></Flex>
             <div className={styles.box}>
@@ -161,7 +161,7 @@ export default connect(({ activity }: any) => activity)(
                 this.state.drag_list.map((item, index) => {
                   return (
                     <Flex key={item.id} className={styles.row}>
-                      {item.content}
+                       <div className={styles.row_msg}>{item.content}</div>
                       <img src={require('./delete.png')} onClick={this.Delete.bind(this, item)} />
                     </Flex>
                   )
@@ -173,7 +173,7 @@ export default connect(({ activity }: any) => activity)(
               {this.state.list.map((item: any, idx: any) => {
                 return (
                   <Flex key={idx} className={styles.row2}>
-                    {item}
+                     <div className={styles.row_msg}>{item}</div>
                     <img src={require('./add.png')} onClick={this.Add.bind(this, item)} />
                   </Flex>
                 )

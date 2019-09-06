@@ -1,5 +1,5 @@
 .title {
-  padding-top: 38px;
+  padding-top: 28px;
 
   div {
     width: 132px;
@@ -17,7 +17,7 @@
   width: 100%;
   height: 300px;
   overflow: scroll;
-  margin: 20px 0;
+  margin: 20px 0 0 0;
   padding: 0 20px;
   box-sizing: border-box;
   position: relative;
@@ -38,18 +38,23 @@
 
   .row {
     width: 100%;
-    height: 80px;
+    height: auto;
     color: #333;
     font-size: 30px;
     padding-right: 11px;
+    margin: 40px 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border-bottom: #999999 1px solid;
+
+    .row_msg {
+      width: 600px;
+      height: auto;
+    }
 
     img {
-      padding-left: 20px;
       height: 40px;
+      width: 40px;
     }
   }
 }
@@ -58,7 +63,7 @@
   width: 100%;
   height: 300px;
   overflow: scroll;
-  margin: 20px 0;
+  margin: 20px 0 0 0;
   padding: 0 20px;
   box-sizing: border-box;
 
@@ -73,9 +78,14 @@
     justify-content: space-between;
     border-bottom: #999999 1px solid;
 
+    .row_msg {
+      width: 600px;
+      height: auto;
+    }
+
     img {
-      padding-left: 20px;
       height: 40px;
+      width: 40px;
     }
   }
 }
@@ -118,10 +128,7 @@
   text-align: center;
   line-height: 88px;
   font-size: 30px;
-  position: fixed;
-  left: 50%;
-  bottom: 61px;
-  margin-left: -280px;
+  margin: 30px auto;
 }
 
 .tip {

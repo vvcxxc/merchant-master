@@ -426,7 +426,7 @@ export default connect(({ activity }: any) => activity)(
             <Flex className={styles.notice} onClick={this.toNotice}><div style={{ color: "#666666" }}>使用规则</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
             </Flex>
 
-            <Flex className={styles.radio1}>
+            {/* <Flex className={styles.radio1}>
               <div className={styles.radioFlex}>
                 <div className={styles.radioScope}>
                   <div className={styles.radioTitle}>
@@ -460,9 +460,7 @@ export default connect(({ activity }: any) => activity)(
                   }
                 </div>
               </div>
-            </Flex>
-
-
+            </Flex> */}
 
             <Flex className={styles.img_title}>
               <div>图片详情</div>
