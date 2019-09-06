@@ -8,6 +8,7 @@ export interface Group {
   group_number: string;
   group_sum: string;
   validity: string;
+  scope_mode: number;
   cover_img: Array<any>;
   describe_img1: Array<any>;
   describe_img2: Array<any>;
@@ -17,10 +18,15 @@ export interface Group {
   gift_id: string;
   gift_pic: string;
   gift_name: string;
+  postage:string;
   keys: string;
   description: Array<any>;
   pay_list: Array<any>;
+  // 商品设置
+  // isHaveData: Boolean;
+  storeItems: Array<any>;
 }
+
 export interface Appreciation {
   activityName: string;
   start_date: string | number;
@@ -28,17 +34,24 @@ export interface Appreciation {
   gift_id: string;
   gift_pic: string;
   gift_name: string;
-  postage:string;
+  postage: string;
   start_price: string;
   end_price: string;
   appreciation_number_sum: string;
   validity: string;
+  cover_img: Array<any>;
+  describe_img1: Array<any>;
+  describe_img2: Array<any>;
+  image: string;
+  image_url1: string;
+  image_url2: string;
   pay_money: string;
   total_num: string;
   total_fee: string;
   mail_mode: string;
   name_mode: number;
   scope_mode: number;
+  shoppingSetting: Array<any>;
   description: Array<any>;
   pay_list: object;
 }
@@ -49,15 +62,42 @@ const model: Model = {
       cover_img: [],
       describe_img1: [],
       describe_img2: [],
-      mail_mode: '1'
+      mail_mode: '1',
+      scope_mode:0,
+      // 商品设置
+      // isHaveData: false,
+      storeItems: []
     },
     Appreciation: {
       mail_mode: '1',
       name_mode: 0,
-      scope_mode:0
+      scope_mode:0,
+      cover_img: [],
+      describe_img1: [],
+      describe_img2: [],
     }
   },
   reducers: {
+    // changeIsHaveData(state, { payload }) {
+    //   return {
+    //     ...state,
+    //     Group: {
+    //       ...state.Group,
+    //       isHaveData: payload.flag
+    //     },
+    //   }
+    // },
+    ReduStoreItem(state, { payload }) {
+      return {
+        ...state,
+        Group: {
+          ...state.Group,
+          storeItems: [
+            ...payload.storeItems
+          ]
+        },
+      }
+    },
     setGroup(state, { payload }) {
       return {
         ...state,
