@@ -254,8 +254,9 @@ export default class Posters extends Component<Props> {
 
 
     setTimeout(() => {
-      let tome = canvas.toDataURL('image/jpeg')//这里设置了编码
-      this.setState({ url: tome })
+        this.setState({
+          url: canvas.toDataURL('image/jpeg')
+        })//这里设置了编码 
     }, 1000);
 
   }
