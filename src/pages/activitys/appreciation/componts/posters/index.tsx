@@ -124,9 +124,7 @@ export default class Posters extends Component<Props> {
       contents.arc(353, 490 , 58, 0, 2 * Math.PI);
       contents.stroke();
       contents.clip();
-      // headImg.crossOrigin = 'Anonymous'
       contents.drawImage(headImg, 0, 0, 545, 345, 300, 423, 145, 145)
-      
       contents.save();
     }
 
@@ -139,8 +137,8 @@ export default class Posters extends Component<Props> {
 
     giftImg.onload = () => {
       if (data.gift_id != 0) {
-        // contents.drawImage(giftImg, 0, 0, 550, 222, 168, 990, 345, 170)
-        // contents.save()
+        contents.drawImage(giftImg, 0, 0, 550, 222, 168, 990, 345, 170)
+        contents.save()
       }
     }
 
@@ -233,30 +231,12 @@ export default class Posters extends Component<Props> {
     contents.fillText('一起来领取免费礼品吧！', 195, 1510 , 390)
     contents.save()
 
-    // setTimeout(() => {
-      if (canvas) {
         let url = canvas.toDataURL('image/jpeg')
         // console.log(url, 'url');
         this.setState({
           url
         })//这里设置了编码 
-      }
     
-    // let nodeI = document.createElement("a");
-    // nodeI.href = canvas.toDataURL('image/jpeg/png')
-    // nodeI
-
-    // nodeI.src = canvas.toDataURL();
-    // document.body.appendChild(nodeI)
-    // this.setState({url:nodeI})
-
-      
-     
-      
-       
-
-    //  }, 100);
-
   }
 
 
