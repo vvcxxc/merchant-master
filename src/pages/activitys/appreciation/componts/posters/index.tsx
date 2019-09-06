@@ -36,7 +36,7 @@ export default class Posters extends Component<Props> {
   componentWillReceiveProps() {
     if (!this.props.data ) return
     if (Object.keys(this.props.data).length > 1) {
-      // console.log(this.props.data)
+      console.log(this.props.data)
       // this.setState({ data: this.props.data }, () => {
       //   this.creatCanvas()
       // })
@@ -118,7 +118,7 @@ export default class Posters extends Component<Props> {
       contents.arc(353, 490 , 58, 0, 2 * Math.PI);
       contents.stroke();
       contents.clip();
-      contents.drawImage(headImg, 0, 0, 545, 345, 300, 423  , 145, 145)
+      // contents.drawImage(headImg, 0, 0, 545, 345, 300, 423  , 145, 145)
       contents.save();
     }
 
@@ -131,8 +131,8 @@ export default class Posters extends Component<Props> {
 
     giftImg.onload = () => {
       if (data.gift_id != 0) {
-        contents.drawImage(giftImg, 0, 0, 550, 222, 168, 990, 345, 170)
-        contents.save()
+        // contents.drawImage(giftImg, 0, 0, 550, 222, 168, 990, 345, 170)
+        // contents.save()
       }
     }
 
@@ -225,11 +225,20 @@ export default class Posters extends Component<Props> {
     contents.fillText('一起来领取免费礼品吧！', 195, 1510 , 390)
     contents.save()
 
-     setTimeout(() => {
-       this.setState({
-         url: canvas.toDataURL('image/jpeg')
-       })//这里设置了编码 
-     }, 100);
+    // setTimeout(() => {
+      // if (canvas) {
+        let url = canvas.toDataURL('image/jpeg')
+        // console.log(url, 'url');
+        this.setState({
+          url
+        })//这里设置了编码 
+      // }
+      
+     
+      
+       
+
+    //  }, 100);
 
   }
 
@@ -437,7 +446,7 @@ export default class Posters extends Component<Props> {
         {/* big box provide  */}
     {/* //  <div className={ styles.posterBox} onClick={this.closeData.bind(this)}>  */}
         <div className={styles.new_poster}>
-          <div className={styles.hiddenImg}>{/* hidden canvas element 1470*/}
+          <div className={styles.hiddenImg}>hidden canvas element 1470
             <canvas id="canvas" width="700x" height="1700px" />
           </div>
           <div className={styles.img_box}>
