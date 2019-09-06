@@ -21,7 +21,7 @@ export interface Group {
   description: Array<any>;
   pay_list: Array<any>;
   // 商品设置
-  isHaveData: Boolean;
+  // isHaveData: Boolean;
   storeItems: Array<any>;
 }
 export interface Appreciation {
@@ -54,7 +54,7 @@ const model: Model = {
       describe_img2: [],
       mail_mode: '1',
       // 商品设置
-      isHaveData: false,
+      // isHaveData: false,
       storeItems: []
     },
     Appreciation: {
@@ -64,15 +64,15 @@ const model: Model = {
     }
   },
   reducers: {
-    changeIsHaveData(state, { payload }) {
-      return {
-        ...state,
-        Group: {
-          ...state.Group,
-          isHaveData: payload.flag
-        },
-      }
-    },
+    // changeIsHaveData(state, { payload }) {
+    //   return {
+    //     ...state,
+    //     Group: {
+    //       ...state.Group,
+    //       isHaveData: payload.flag
+    //     },
+    //   }
+    // },
     ReduStoreItem(state, { payload }) {
       return {
         ...state,
