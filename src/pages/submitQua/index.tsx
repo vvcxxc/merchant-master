@@ -261,13 +261,14 @@ export default connect(({ submitQua }: any) => submitQua)(
           // }
 
         } else {
-          console.log(document.getElementById("box1").value);
-          let temp=document.getElementById("box1").value;
-          this.handleBankName(temp);
+          // console.log(document.getElementById("box1").value);
+          // let temp=document.getElementById("box1").value;
+          // this.handleBankName(temp);
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
-              date_back: false
+              date_back: false,
+              bankShow: false
             }
           })
           return
@@ -381,7 +382,8 @@ export default connect(({ submitQua }: any) => submitQua)(
         })
       }
       //不给缓存了，防止写一半刷新
-      Cookies.set("_handleBankName", JSON.stringify(''), { expires: 1 });
+      //又说要给了
+      Cookies.set("_handleBankName", JSON.stringify(e), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
         payload: {
@@ -934,21 +936,25 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     /**保存或者提交 */
     submit = (type: number) => () => {
+      // if (this.props.bankShow) {
+      //   //清除，以免这次保存下次直接提交
+      //   Cookies.set("_handleBankName", JSON.stringify(""), { expires: 1 });
+      //   this.props.dispatch({
+      //     type: 'submitQua/setQua',
+      //     payload: {
+      //       bankShow: false,
+      //       bank_name: ""
+      //     }
+      //   })
+      //   //提交的话直接打回
+      //   if (type == 2) {
+      //     Toast.fail('未选择支行', 1);
+      //     return
+      //   }
+      // }
       if (this.props.bankShow) {
-        //清除，以免这次保存下次直接提交
-        Cookies.set("_handleBankName", JSON.stringify(""), { expires: 1 });
-        this.props.dispatch({
-          type: 'submitQua/setQua',
-          payload: {
-            bankShow: false,
-            bank_name: ""
-          }
-        })
-        //提交的话直接打回
-        if (type == 2) {
-          Toast.fail('未选择支行', 1);
-          return
-        }
+        Toast.fail('未选择支行', 1);
+        return
       }
       const { legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.props;
       let data = {
@@ -1243,7 +1249,9 @@ export default connect(({ submitQua }: any) => submitQua)(
                 <InputItem ref="bank1" placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name} clear>开户人</InputItem>
                 <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum} clear>银行卡号</InputItem>
                 <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank} clear>开户行</InputItem>
-                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} clear>支行</InputItem>
+                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} onBlur={() => {
+                  this.props.dispatch({ type: 'submitQua/setQua', payload: { bankShow: false } })
+                }} clear>支行</InputItem>
 
                 <div className={styles.bankMsg} style={{ display: this.props.bankShow ? "block" : "none" }}>
                   <div className={styles.bankMsg_box} >
