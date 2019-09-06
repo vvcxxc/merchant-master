@@ -76,12 +76,12 @@ export default connect(({ activity }: any) => activity)(
                 Toast.fail('价格必须为数字', 2);
                 return;
             }
-            await this.props.dispatch({
-                type: 'activity/changeIsHaveData',
-                payload: {
-                    flag: true
-                }
-            })
+            // await this.props.dispatch({
+            //     type: 'activity/changeIsHaveData',
+            //     payload: {
+            //         flag: true
+            //     }
+            // })
             this.setState({
                 isHaveData: true,
                 storeItems: [
