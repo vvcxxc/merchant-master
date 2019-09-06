@@ -225,11 +225,11 @@ export default class Posters extends Component<Props> {
     contents.fillText('一起来领取免费礼品吧！', 195, 1510 , 390)
     contents.save()
 
-    //  setTimeout(() => {
+     setTimeout(() => {
        this.setState({
          url: canvas.toDataURL('image/jpeg')
        })//这里设置了编码 
-    //  }, 500);
+     }, 200);
 
   }
 
