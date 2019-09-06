@@ -1,0 +1,136 @@
+.store_wrap {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.store_info {
+    margin-bottom: 20px;
+}
+
+.title {
+    padding-top: 38px;
+    div {
+      width:132px;
+      height:42px;
+      background:#C5D7FF;
+      border-radius:10px;
+      font-size:28px;
+      line-height: 42px;
+      color: #21418A;
+      text-align: center;
+    }
+  }
+.store_table_title {
+    border-bottom: 1px solid #ccc;
+    .store_table_title_item {
+        flex: 2;
+        div {
+            color: #ccc;
+            padding: 25px 0;
+            text-align: center;
+        }
+    }
+    .store_table_title_item:last-child {
+        flex: 1;
+    }
+}
+
+
+.store_data {
+    height: 35vh;
+    border-bottom: 1px solid #ccc;
+    overflow: scroll;
+    .store_data_item {
+        height: 25%;
+        border-bottom: 1px solid #ccc;
+        text-align: center;
+        color: #5f5f5f;
+        .store_data_item_info {
+            flex: 2;
+        }
+        .store_data_item_info:last-child {
+            flex: 1;
+            .delete_btn {
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                border-radius: 50%;
+                font-size: 16px;
+                font-weight: 500;
+                background-color: #eb5454;
+                color: #fff;
+            }
+        }
+    }
+
+    .no_data {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .no_data_desc {
+            color: #5f5f5f;
+            font-size: 36px;
+        }
+    }
+}
+
+.store_operation_title_item {
+    flex: 2 !important;
+    div {
+        color: #ccc;
+        padding: 25px 0;
+        text-align: center;
+    }
+}
+.store_operation_title_item:last-child {
+    flex: 1 !important;
+}
+
+.operation {
+    height: 50px;
+    .inputItem {
+        text-align: center;
+        input {
+            width: 80%;
+            border: 1px solid #ccc;
+            height: 50px;
+        }
+        // .submit_btn {
+        //     border-radius: 5px !important;
+        // }
+    }
+}
+
+
+
+.inputItem {
+    text-align: center;
+    flex: 2 !important;
+    input {
+        width: 80%;
+        border: 1px solid #ccc;
+        height: 60px;
+    }
+    .submit_btn {
+        height: 60px;
+        // line-height: 50px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        span {
+            font-size: 24px;
+        }
+    }
+}
+.inputItem:last-child {
+    flex: 1 !important;
+}
+    
+
+.save_btn {
+    margin-bottom: 20px;
+}

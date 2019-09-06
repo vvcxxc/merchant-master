@@ -175,6 +175,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						使用须知
 					</List.Item>
 					<List.Item arrow="horizontal">封面图片</List.Item>
+					<div className={styles.prompt}>温馨提示：请上传横向的图片; 建议图片比例为16:9。</div>
 					<ImagePicker
 						files={this.props.temp_url1}
 						// files={this.state.files}

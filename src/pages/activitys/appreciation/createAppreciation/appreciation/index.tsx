@@ -25,8 +25,6 @@ export default connect(({ activity }: any) => activity.Appreciation)(
     state = {
     };
     componentDidMount = () => {
-      console.log('this.props',this.props)
-      console.log(this.props.start_date)
       console.log(moment(this.props.start_date).format('YYYY-MM-DD'))
       document.title = "五金店"
     };
