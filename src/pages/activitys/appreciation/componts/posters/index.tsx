@@ -229,7 +229,7 @@ export default class Posters extends Component<Props> {
        this.setState({
          url: canvas.toDataURL('image/jpeg')
        })//这里设置了编码 
-     }, 200);
+     }, 100);
 
   }
 
@@ -437,8 +437,8 @@ export default class Posters extends Component<Props> {
         {/* big box provide  */}
     {/* //  <div className={ styles.posterBox} onClick={this.closeData.bind(this)}>  */}
         <div className={styles.new_poster}>
-          <div className={styles.hiddenImg}>{/* hidden canvas element */}
-            <canvas id="canvas" width="700x" height={this.props.data.gift_id == 0? 1470+'px':1700+'px'} />
+          <div className={styles.hiddenImg}>{/* hidden canvas element 1470*/}
+            <canvas id="canvas" width="700x" height="1700px" />
           </div>
           <div className={styles.img_box}>
             <img src={this.state.url} alt="" onClick={this.canvasImg.bind(this)} />{/* show Image element*/}
