@@ -228,6 +228,9 @@ export default connect(({ activity }: any) => activity)(
     toNotice = () => {
       router.push({ pathname: '/activitys/notice', query: { type: 1 } })
     }
+    toSetting = () => {
+      router.push({ pathname: '/activitys/setting/groupSetting' })
+    }
 
     /**确认发布 */
     confirm = async () => {
@@ -394,8 +397,8 @@ export default connect(({ activity }: any) => activity)(
                 有效期<span className={styles.left_text}>领券日起</span>
               </InputItem>
             </List>
-            <Flex className={styles.notice} onClick={this.toNotice}><div>使用须知</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
-            </Flex>
+            <Flex className={styles.notice} onClick={this.toNotice}><div>使用须知</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex>
+            <Flex className={styles.notice} onClick={this.toSetting}><div>商品设置</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex>
             <Flex className={styles.img_title}>
               <div>图片详情</div>
             </Flex>
