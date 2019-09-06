@@ -26,6 +26,7 @@ export interface Group {
   isHaveData: Boolean;
   storeItems: Array<any>;
 }
+
 export interface Appreciation {
   activityName: string;
   start_date: string | number;
