@@ -244,6 +244,7 @@ export default connect(({ activity }: any) => activity)(
       // 日期验证
       let startDate = new Date(start_date).getTime();
       let endDate = new Date(end_date).getTime();
+      console.log(this.props.Appreciation)
 
       //起始结束日期效验
       if (startDate > endDate) {

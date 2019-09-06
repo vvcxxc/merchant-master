@@ -83,7 +83,7 @@ export default class CreatePaymentReturn extends Component {
     let activity_begin_time = moment(a._d).format('X')
     let b = moment(this.state.end_date).endOf('day')
     let activity_end_time = moment(b).format('X');
-    console.log(activity_begin_time, activity_end_time)
+    // console.log(activity_begin_time, activity_end_time)
 		const res = await request({
 			url: 'v3/return_coupons',
 			method: 'post',

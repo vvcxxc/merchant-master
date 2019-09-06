@@ -6,7 +6,8 @@ const config: IConfig = {
     "window.open_id": "test_open_id",
     "window.url": "http://test.api.tdianyi.com/",
     "window.from": "http://test.supplierv2.tdianyi.com/",
-    "window.pay_url": "http://test.api.tdianyi.com/payCentre/toSupplierWxPay"
+    "window.pay_url": "http://test.api.tdianyi.com/payCentre/toSupplierWxPay",
+    "window.shareLink": "http://test.mall.tdianyi.com/"
   }
 }
 export default config
