@@ -287,7 +287,6 @@ export default connect(({ activity }: any) => activity)(
       if ((this.props.Appreciation.activity_coupons_type == 1 && start_price && end_price && appreciation_number_sum && validity && pay_money && total_num && total_fee && start_date && end_date && mail_mode) ||
         (this.props.Appreciation.activity_coupons_type != 1 && start_price && end_price && appreciation_number_sum && validity && pay_money && total_num && total_fee && start_date && end_date && mail_mode && image_url1 && image_url2 && image)) {
         Toast.loading('');
-
         let res = await request({
           url: 'api/merchant/youhui/addYouhuiAppreciation',
           method: 'post',
