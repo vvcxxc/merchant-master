@@ -252,7 +252,7 @@ export default connect(({ activity }: any) => activity)(
       let image_url = [];
       image_url.push(image_url1);
       image_url.push(image_url2);
-      if (activity_name && activity_begin_time && activity_end_tine && validity && participation_money && image_url && image && group_number && group_sum && old_price && mail_mode) {
+      if (activity_name && activity_begin_time && activity_end_tine && validity && participation_money && image_url1&&image_url2 && image && group_number && group_sum && old_price && mail_mode) {
         Toast.loading('');
         let res = await request({
           url: 'api/merchant/youhui/addYouhuiGroup',

@@ -266,7 +266,7 @@ export default connect(({ activity }: any) => activity)(
         Toast.fail('助力人数应在2至18之间', 2);
         return;
       }
-  
+
       let image_url;
       if (this.props.Appreciation.activity_coupons_type == 1) {
         image_url = undefined;
@@ -284,7 +284,8 @@ export default connect(({ activity }: any) => activity)(
       let activity_begin_time = moment(a._d).format('X')
       let b = moment(end_date).endOf('day')
       let activity_end_tine = moment(b).format('X');
-      if (start_price && end_price && appreciation_number_sum && validity && pay_money && total_num && total_fee && start_date && end_date && mail_mode) {
+      if ((this.props.Appreciation.activity_coupons_type == 1 && start_price && end_price && appreciation_number_sum && validity && pay_money && total_num && total_fee && start_date && end_date && mail_mode) ||
+        (this.props.Appreciation.activity_coupons_type != 1 && start_price && end_price && appreciation_number_sum && validity && pay_money && total_num && total_fee && start_date && end_date && mail_mode && image_url1 && image_url2 && image)) {
         Toast.loading('');
 
         let res = await request({
@@ -307,7 +308,7 @@ export default connect(({ activity }: any) => activity)(
             appreciation_number_sum: appreciation_number_sum * 1,
             activity_name: this.state.value == 0 ? "" : activityName,
             description,
-            image:this.props.Appreciation.activity_coupons_type != 1?image:undefined,
+            image: this.props.Appreciation.activity_coupons_type != 1 ? image : undefined,
             image_url
           }
         });
