@@ -306,7 +306,7 @@ export default connect(({ activity }: any) => activity)(
             gift_name,
             appreciation_number_sum: appreciation_number_sum * 1,
             activity_name: this.state.value == 0 ? "" : activityName,
-            description,
+            description: this.props.Appreciation.activity_coupons_type != 1 ? description : undefined,
             image: this.props.Appreciation.activity_coupons_type != 1 ? image : undefined,
             image_url
           }
@@ -646,7 +646,11 @@ export default connect(({ activity }: any) => activity)(
                   发放数量
               </InputItem>
                 {/* <Flex className={styles.notice} onClick={this.toSetting}><div>商品设置</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex> */}
-                <Flex className={styles.notice} onClick={this.toNotice}><div>使用规则</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex>
+
+                {
+                  this.props.Appreciation.activity_coupons_type != 1 ? <Flex className={styles.notice} onClick={this.toNotice}><div>使用规则</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex>
+                    : null
+                }
               </List>
 
               {
