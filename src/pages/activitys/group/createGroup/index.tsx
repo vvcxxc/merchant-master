@@ -232,9 +232,6 @@ export default connect(({ activity }: any) => activity)(
     toNotice = () => {
       router.push({ pathname: '/activitys/notice', query: { type: 1 } })
     }
-    toSetting = () => {
-      router.push({ pathname: '/activitys/setting/groupSetting' })
-    }
 
     /**确认发布 */
     confirm = async () => {
@@ -394,7 +391,7 @@ export default connect(({ activity }: any) => activity)(
                 </div>
               </Flex>
 
-              <Flex className={styles.notice} onClick={this.toSetting}><div style={{ color: "#666666" }}>商品设置</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex>
+              {/* <Flex className={styles.notice} onClick={this.toSetting}><div style={{ color: "#666666" }}>商品设置</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex> */}
 
               {/* <div className={styles.cover_box}>
                 <div>活动封面图</div>
