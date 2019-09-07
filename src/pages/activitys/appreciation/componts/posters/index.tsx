@@ -36,7 +36,7 @@ export default class Posters extends Component<Props> {
   componentWillReceiveProps() {
     if (!this.props.data ) return
     if (Object.keys(this.props.data).length > 1) {
-      // console.log(this.props.data)
+      console.log(this.props.data)
       // this.setState({ data: this.props.data }, () => {
       //   this.creatCanvas()
       // })
@@ -60,6 +60,9 @@ export default class Posters extends Component<Props> {
 
     let bigImg = new Image()      // 创建img对象 最大的背景图片
     let headImg = new Image()     // 店铺头部
+    headImg.crossOrigin = 'Anonymous'
+    // contents.save()
+   
     let borderImg = new Image()   // 礼品边框
     let ballImg = new Image()     // 礼字
     let wxImg = new Image()       // 微信小程序图片
@@ -81,7 +84,10 @@ export default class Posters extends Component<Props> {
     let schedule = data.schedule                                //控制进度条
     let link = data.link                                        // 用户扫二维码所跳转的链接
     
-    headImg.src = data.shop_door_header_img // 门头照            
+    
+    // headImg.setAttibute('crossOrign', 'Anonymous')
+    headImg.src = data.shop_door_header_img // 门头照       
+    // headImg.crossOrigin = 'Anonymous'
     giftImg.src = data.gif_pic              // 礼品图片
    
     bigImg.src = require('../../../../../assets/new_haibao.png')
@@ -118,7 +124,7 @@ export default class Posters extends Component<Props> {
       contents.arc(353, 490 , 58, 0, 2 * Math.PI);
       contents.stroke();
       contents.clip();
-      contents.drawImage(headImg, 0, 0, 545, 345, 300, 423  , 145, 145)
+      contents.drawImage(headImg, 0, 0, 545, 345, 300, 423, 145, 145)
       contents.save();
     }
 
@@ -225,12 +231,12 @@ export default class Posters extends Component<Props> {
     contents.fillText('一起来领取免费礼品吧！', 195, 1510 , 390)
     contents.save()
 
-     setTimeout(() => {
-       this.setState({
-         url: canvas.toDataURL('image/jpeg')
-       })//这里设置了编码 
-     }, 100);
-
+        let url = canvas.toDataURL('image/jpeg')
+        // console.log(url, 'url');
+        this.setState({
+          url
+        })//这里设置了编码 
+    
   }
 
 
@@ -437,7 +443,7 @@ export default class Posters extends Component<Props> {
         {/* big box provide  */}
     {/* //  <div className={ styles.posterBox} onClick={this.closeData.bind(this)}>  */}
         <div className={styles.new_poster}>
-          <div className={styles.hiddenImg}>{/* hidden canvas element 1470*/}
+          <div className={styles.hiddenImg}>hidden canvas element 1470
             <canvas id="canvas" width="700x" height="1700px" />
           </div>
           <div className={styles.img_box}>
