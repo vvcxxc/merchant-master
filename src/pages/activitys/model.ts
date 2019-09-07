@@ -123,13 +123,17 @@ const model: Model = {
           cover_img: [],
           describe_img1: [],
           describe_img2: [],
-          mail_mode: '1'
+          mail_mode: '1',
+          scope_mode:0,
+          storeItems: []
         },
         Appreciation: {
           cover_img: [],
           describe_img1: [],
           describe_img2: [],
-          mail_mode: '1'
+          mail_mode: '1',
+          name_mode: 0,
+      activity_coupons_type:1,
         }
       }
     }
