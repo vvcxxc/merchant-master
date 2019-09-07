@@ -327,9 +327,7 @@ export default connect(({ activity }: any) => activity)(
             this.props.dispatch({
               type: 'activity/Clean',
             })
-            setTimeout(() => {
               router.push('/activitys/appreciation');
-            }, 300)
             Toast.hide();
           })
         }

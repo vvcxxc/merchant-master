@@ -126,6 +126,9 @@ const model: Model = {
           mail_mode: '1'
         },
         Appreciation: {
+          cover_img: [],
+          describe_img1: [],
+          describe_img2: [],
           mail_mode: '1'
         }
       }
