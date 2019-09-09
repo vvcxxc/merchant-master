@@ -47,6 +47,8 @@ export default class BottomShare extends Component<Props>{
     return true 
   }
 
+ 
+
   //点击遮挡层
   keep_outOnclick = (e: any) => {
     this.setState({ showBottom: true })
