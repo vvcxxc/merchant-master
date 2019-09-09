@@ -50,7 +50,7 @@ export interface Appreciation {
   total_fee: string;
   mail_mode: string;
   name_mode: number;
-  scope_mode: number;
+  activity_coupons_type: number;
   shoppingSetting: Array<any>;
   description: Array<any>;
   pay_list: object;
@@ -71,7 +71,7 @@ const model: Model = {
     Appreciation: {
       mail_mode: '1',
       name_mode: 0,
-      scope_mode:0,
+      activity_coupons_type:1,
       cover_img: [],
       describe_img1: [],
       describe_img2: [],
@@ -123,10 +123,17 @@ const model: Model = {
           cover_img: [],
           describe_img1: [],
           describe_img2: [],
-          mail_mode: '1'
+          mail_mode: '1',
+          scope_mode:0,
+          storeItems: []
         },
         Appreciation: {
-          mail_mode: '1'
+          cover_img: [],
+          describe_img1: [],
+          describe_img2: [],
+          mail_mode: '1',
+          name_mode: 0,
+      activity_coupons_type:1,
         }
       }
     }

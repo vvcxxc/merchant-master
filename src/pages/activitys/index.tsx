@@ -12,6 +12,7 @@ export default connect()(
   class ActivityPage extends Component<any> {
     state = {};
 
+    
     /**跳转到页面 */
     pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
     render() {
