@@ -1098,6 +1098,17 @@ export default connect(({ submitQua }: any) => submitQua)(
       }
     }
 
+    chooseOne = (e) => {
+      Cookies.set("_handleBankName", JSON.stringify(e.target.innerText), { expires: 1 });
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          bank_name: e.target.innerText,
+          bankShow: false
+        }
+      })
+    }
+
     render() {
       const idFront = this.props.is_id_front == true ? (
         <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_front_img} alt="" /><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
@@ -1249,9 +1260,9 @@ export default connect(({ submitQua }: any) => submitQua)(
                 <InputItem ref="bank1" placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name} clear>开户人</InputItem>
                 <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum} clear>银行卡号</InputItem>
                 <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank} clear>开户行</InputItem>
-                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} onBlur={() => {
-                  setTimeout(()=>{ this.props.dispatch({ type: 'submitQua/setQua', payload: { bankShow: false } })},300)
-                }} clear>支行</InputItem>
+                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} onBlur={() => {
+                  setTimeout(()=>{ this.props.dispatch({ type: 'submitQua/setQua', payload: { bankShow: false } })},300)
+                }} clear>支行</InputItem>
 
                 <div className={styles.bankMsg} style={{ display: this.props.bankShow ? "block" : "none" }}>
                   <div className={styles.bankMsg_box} >
@@ -1259,16 +1270,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                       {
                         this.state.bankList != [] ? this.state.bankList.map((item: any, index) => {
                           return (
-                            <li key={index} className={styles.bankMsg_box_li} onClick={(e) => {
-                              Cookies.set("_handleBankName", JSON.stringify(e.target.innerText), { expires: 1 });
-                              this.props.dispatch({
-                                type: 'submitQua/setQua',
-                                payload: {
-                                  bank_name: e.target.innerText,
-                                  bankShow: false
-                                }
-                              })
-                            }} >{item.name}</li>
+                            <li key={index} className={styles.bankMsg_box_li} onClick={this.chooseOne}>{item.name}</li>
                           )
                         }) : null
                       }
