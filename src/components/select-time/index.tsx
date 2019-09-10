@@ -58,7 +58,7 @@ export default class SelectTime extends Component<Props> {
 			);
 		return (
 			<Modal
-				title="选择投放时长"
+				title="请设置活动时间"
 				show={this.props.show}
 				onClose={this.props.onClose}
 				onCancel={this.props.onClose}
