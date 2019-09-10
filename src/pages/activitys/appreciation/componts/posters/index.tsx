@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Grid, Button } from 'antd-mobile';
+import { Icon, Grid, Button, Toast } from 'antd-mobile';
 import request from '@/services/request';
 import styles from './index.less'
 import wx from "weixin-js-sdk";
@@ -166,24 +166,24 @@ export default class Posters extends Component<Props<dataType>> {
       contents.save();
       contents.clip();//从原始画布剪切任意形状和尺寸的区域
     }
-    
+
     headImg.onload = () => {
       contents.drawImage(headImg, 0, 0, 545, 345, 290, 420, 145, 145)
     }
 
     borderImg.onload = () => {
-        contents.drawImage(borderImg, 0, 0, 359, 222, 200, 980, 359, 222)
-        contents.save()
+      contents.drawImage(borderImg, 0, 0, 359, 222, 200, 980, 359, 222)
+      contents.save()
     }
 
     giftImg.onload = () => {
-        contents.drawImage(giftImg, 0, 0, 550, 222, 168, 990, 345, 170)
-        contents.save()
+      contents.drawImage(giftImg, 0, 0, 550, 222, 168, 990, 345, 170)
+      contents.save()
     }
 
     ballImg.onload = () => {
-        contents.drawImage(ballImg, 0, 0, 359, 222, 335, 970, 359, 222)
-        contents.save()
+      contents.drawImage(ballImg, 0, 0, 359, 222, 335, 970, 359, 222)
+      contents.save()
     }
 
     wxImg.onload = () => {
@@ -267,22 +267,20 @@ export default class Posters extends Component<Props<dataType>> {
     contents.fillText('长按识别小程序码关注“小熊敬礼”', 145, 1480, 430)
     contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
 
-    if (canvas.toDataURL('image/jpeg/png').length > 400000) {
-      console.log('如何触发');
-      
-      this.setState({
-        url: canvas.toDataURL('image/jpeg/png')
-      })//这里设置了编码 
+    if (canvas.toDataURL('image/jpeg/png').length < 500000) {
+      Toast.loading('loading', 1)
+      setTimeout(() => {
+        this.setState({
+          url: canvas.toDataURL('image/jpeg/png')
+        })//这里设置了编码 
+      }, 180);
     } else {
       setTimeout(() => {
-        console.log(88);
-        this.creatCanvas(this.props.data)
-      }, 150);
-        
-        
+        this.setState({
+          url: canvas.toDataURL('image/jpeg/png')
+        })//这里设置了编码 
+      }, 180);
     }
-   
-  
   }
 
 
@@ -319,7 +317,7 @@ export default class Posters extends Component<Props<dataType>> {
         wxImg.src = url
       })
       .catch((err: any) => { })
-    
+
     headImg.src = this.state.headImg
     bigImg.src = require('../../../../../assets/short_poster.png')
     JYB_IMG.src = require('../../../../../assets/JYB.png')
@@ -436,9 +434,26 @@ export default class Posters extends Component<Props<dataType>> {
     contents.fillText('一起来领取免费礼品吧！', 195, 1280, 390)
     contents.save()
 
-    this.setState({
-      url: canvas.toDataURL('image/jpeg/png')
-    })//这里设置了编码 
+    if (canvas.toDataURL('image/jpeg/png').length < 500000) {
+      Toast.loading('loading', 1)
+      setTimeout(() => {
+        this.setState({
+          url: canvas.toDataURL('image/jpeg/png')
+        })//这里设置了编码 
+      }, 180);
+    } else {
+      setTimeout(() => {
+        this.setState({
+          url: canvas.toDataURL('image/jpeg/png')
+        })//这里设置了编码 
+      }, 180);
+    }
+
+    // setTimeout(() => {
+    //   this.setState({
+    //     url: canvas.toDataURL('image/jpeg/png')
+    //   })//这里设置了编码 
+    // }, 180);
 
   }
 
@@ -473,7 +488,7 @@ export default class Posters extends Component<Props<dataType>> {
         <div className={styles.new_poster}>
           {/* //hidden canvas element 1470 */}
           <div className={styles.hiddenImg}>
-            <canvas id="canvas" width="700x" height={this.props.data.gift_id==0? 1470+'px':1700+'px' } />
+            <canvas id="canvas" width="700x" height={this.props.data.gift_id == 0 ? 1470 + 'px' : 1700 + 'px'} />
           </div>
           <div className={styles.img_box}>
             <img
