@@ -65,6 +65,9 @@ export default class Posters extends Component<Props<dataType>> {
           this.setState({
             headImg: this.getBase64Image2(tempImage)
           })
+          if (this.props.data.gift_id == 0) {
+            this.panduan()
+          }
         }//end
         if (this.props.data.gift_id != 0) {
           let tempImage2 = new Image();// 礼品图片
@@ -170,7 +173,7 @@ export default class Posters extends Component<Props<dataType>> {
     }
 
     headImg.onload = () => {
-      contents.drawImage(headImg, 0, 0, 545, 345, 290, 420, 145, 145)
+      contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
     }
 
     borderImg.onload = () => {
@@ -275,13 +278,13 @@ export default class Posters extends Component<Props<dataType>> {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 300);
+      }, 500);
     } else {
       setTimeout(() => {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 300);
+      }, 500);
     }
   }
 
@@ -442,20 +445,14 @@ export default class Posters extends Component<Props<dataType>> {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 300);
+      }, 500);
     } else {
       setTimeout(() => {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 300);
+      }, 500);
     }
-
-    // setTimeout(() => {
-    //   this.setState({
-    //     url: canvas.toDataURL('image/jpeg/png')
-    //   })//这里设置了编码 
-    // }, 180);
 
   }
 
