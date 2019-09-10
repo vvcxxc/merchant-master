@@ -167,7 +167,7 @@ export default class Posters extends Component<Props<dataType>> {
       } else {
         contents.fillText('地址：' + home, 105, 1635);
       }
-      contents.stroke();//绘制已定义的路径
+      // contents.stroke();//绘制已定义的路径
       contents.save();
       contents.clip();//从原始画布剪切任意形状和尺寸的区域
     }
@@ -278,13 +278,13 @@ export default class Posters extends Component<Props<dataType>> {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 500);
+      }, 800);
     } else {
       setTimeout(() => {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 500);
+      }, 800);
     }
   }
 
@@ -344,14 +344,13 @@ export default class Posters extends Component<Props<dataType>> {
       } else {
         contents.fillText('地址：' + home, 105, 1405);
       }
-      contents.stroke();
+      // contents.stroke();
       contents.clip();
       contents.save();
     }
 
     headImg.onload = () => {
-
-      contents.drawImage(headImg, 0, 0, 545, 345, 300, 433, 145, 145)
+      contents.drawImage(headImg, 0, 0, 545, 345, 300, 420, 145, 145)
     }
 
     giftImg.onload = () => {
@@ -445,13 +444,13 @@ export default class Posters extends Component<Props<dataType>> {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 500);
+      }, 800);
     } else {
       setTimeout(() => {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 500);
+      }, 800);
     }
 
   }
