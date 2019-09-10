@@ -5,67 +5,40 @@
   z-index: 10;
   top:0;
   left:0;
-  background-color: rgba(0,0,0,.3);
+  overflow: hidden;
 }
 
-.posters{
-  position: fixed;
-  width: 100vw;
-  bottom: 0;
-  padding-bottom: 38px;
-  background: #F8F8F8;
-  .title {
-    display: flex;
-    justify-content: center;
-    position: relative;
-    padding: 40px 19px 37px 0px;
-    .font {
-      font-size: 32px;
-      color: #313131;
-    }
-    .close {
-      position: absolute;
-      right: 0;
-      right: 38px;
-      color: #666666;
-      font-size:26px;
-    }
-  }
+.hiddenposterBox {
+  // height: 0px;
+  // overflow: hidden;
+  opacity: 0;
+}
 
-  .canvas_box{
-    display: flex;
-    justify-content: center;
-    line-height: 1;
-  }
-
-  .save {
-    display: flex;
-    justify-content: center;
-    margin-top: 87px;
-    margin-bottom: 29px;
-    .save_img {
-      width: 464px;
-      background-color: #21418A;
-      color: #FFFFFF;
-      font-size:31px;
+.new_poster {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  height: 100vh;
+  .img_box{
+    text-align: center;
+    .save_font {
+      font-size: 38px;
+      color: #FFFEFE;
+      font-family:PingFang SC;
+      font-weight:bold;
+      padding-top: 40px;
+    }
+    img {
+      height: auto;
     }
   }
-
-  .describe {
-    display: flex;
-    justify-content: center;
-    font-size: 28px;
-    font-family: PingFang-SC-Regular;
-    color:#666666;
-    font-weight:400;
+  
+  .hiddenImg {
+    height: 0;
+    display: none;
+    visibility: hidden;
+    overflow: hidden;
   }
-
-  .line {
-    width: 96vw;
-    position: absolute;
-    right: 0;
-    bottom:4.2%;
-    border:1px solid rgba(229,229,229,1);
-    z-index:-1;
-   }
 }

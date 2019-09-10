@@ -50,7 +50,7 @@ export default connect(({ activity }: any) => activity)(
       }
     }
   }
-  chooseOne = (id: string, gift_pic: string, gift_name: string) => {
+  chooseOne = (id: string, gift_pic: string, gift_name: string,postage:string) => {
     this.setState({
       value: id,
     });
@@ -60,7 +60,8 @@ export default connect(({ activity }: any) => activity)(
           payload: {
             gift_id: id,
             gift_pic,
-            gift_name
+            gift_name,
+            postage
           }
         })
       }else if(this.state.type == '2'){
@@ -69,7 +70,8 @@ export default connect(({ activity }: any) => activity)(
           payload: {
             gift_id: id,
             gift_pic,
-            gift_name
+            gift_name,
+            postage
           }
         })
       }
@@ -79,6 +81,7 @@ export default connect(({ activity }: any) => activity)(
   submit = () => {
       if (this.state.type == '1'){
         const {gift_id, gift_pic, gift_name} = this.props.Group
+        console.log(gift_id,gift_pic,gift_name)
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {
@@ -157,7 +160,7 @@ export default connect(({ activity }: any) => activity)(
             <div className={styles.prices}>
               <span style={{color: '#666', marginRight: 32}}>快递{item.postage}元</span>
               <span style={{color: '#F55641'}}>单价：{item.price}元</span>
-              <Radio className={styles.icon} onChange={this.chooseOne.bind(this,item.id,item.cover_image,item.title)} checked={value === item.id} defaultChecked={false}/>
+              <Radio className={styles.icon} onChange={this.chooseOne.bind(this,item.id,item.cover_image,item.title,item.postage)} checked={value === item.id} defaultChecked={false}/>
             </div>
           </div>
         </Flex>

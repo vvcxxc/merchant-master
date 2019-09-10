@@ -1,7 +1,8 @@
-/**title: 使用规则 */
+/**title: 商品设置 */
 import React, { Component } from 'react';
-import { Flex, WingBlank, Button, InputItem ,Toast} from 'antd-mobile';
-import styles from './index.less';
+import { Flex, WingBlank, Button, InputItem } from 'antd-mobile';
+import styles from './appreSetting.less';
+
 import request from '@/services/request'
 import { DraggableArea } from 'react-draggable-tags';
 import { connect } from 'dva'
@@ -22,13 +23,9 @@ export default connect(({ activity }: any) => activity)(
     };
 
     componentDidMount() {
-      let type = this.props.location.query.type;
+
       let notice_list = [];
-      if (type == 1) {
-        notice_list = this.props.Group.description;
-      } else {
-        notice_list = this.props.Appreciation.description;
-      }
+      notice_list = this.props.Appreciation.shoppingSetting;
       let drag_list = [];
       if (notice_list) {
         for (let i = 0; i < notice_list.length; i++) {
@@ -42,45 +39,21 @@ export default connect(({ activity }: any) => activity)(
       this.setState({
         drag_list
       })
-      request({
-        url: 'v3/activity/employ_notice',
-        method: 'get',
-      }).then(res => {
-        let { data } = res;
-        this.setState({ list: data })
-      })
+      //   request({
+      //     url: 'v3/activity/employ_notice',
+      //     method: 'get',
+      //   }).then(res => {
+      //     let { data } = res;
+      //     this.setState({ list: data })
+      //   })
     }
 
-
-    List = (data: any) => {
-      let { tag } = data;
-      return (
-        <Flex className={styles.row}>
-          · {tag.content}
-          <img src={require('./delete.png')} onClick={this.Delete.bind(this, tag)} />
-        </Flex>
-      )
-    }
-
-    /**当拖拽位置发生改变的时候 */
-    changeList = (data: any) => {
-      this.setState({
-        drag_list: data
-      })
-    }
-
-    /**添加到拖拽 */
+    /**添加 */
     Add = (item: string) => {
       let { key, drag_list } = this.state;
       let list = {
         id: key,
         content: item
-      }
-      for (let i = 0; i < drag_list.length; i++) {
-        if (drag_list[i].content == item) {
-          Toast.fail('此规则已存在',1);
-          return;
-        }
       }
       drag_list.unshift(list);
       let id = key - 1
@@ -110,18 +83,12 @@ export default connect(({ activity }: any) => activity)(
           content: tag
         }
         let id = key - 1
-        for (let i = 0; i < drag_list.length; i++) {
-          if (drag_list[i].content == tag) {
-            Toast.fail('此规则已存在',1);
-            return;
-          }
-        }
         drag_list.unshift(lists);
         this.setState({
           drag_list,
           tag: '',
           key: id
-        })
+        }, () => { console.log(this.state) })
       }
 
     }
@@ -132,43 +99,33 @@ export default connect(({ activity }: any) => activity)(
     /**完成 */
     Finish = () => {
       let { drag_list } = this.state;
-      let description = [];
+      let shoppingSetting = [];
       if (drag_list) {
         for (let i = 0; i < drag_list.length; i++) {
-          description.push(drag_list[i].content);
+          shoppingSetting.push(drag_list[i].content);
         }
       }
-      let type = this.props.location.query.type;
-      if (type == 1) {
-        this.props.dispatch({
-          type: 'activity/setGroup',
-          payload: {
-            description
-          }
-        })
-        // router.push('/activitys/group/createGroup')
-      } else {
+  
+    
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
-            description
+            shoppingSetting
           }
         })
-        // router.push('/activitys/appreciation/createAppreciation')
-      }
       router.goBack()
     }
 
     render() {
-
       return (
         <div style={{ width: '100%', height: '100%', background: '#fff' }}>
           <WingBlank>
-            <Flex className={styles.title}><div>使用须知</div></Flex>
+            <Flex className={styles.title}><div>商品内容</div></Flex>
             <div className={styles.box}>
               {
-                this.state.drag_list.length == 0 ? <div className={styles.nullListMsg}>暂无商品数据</div> : null
+                this.state.drag_list.length==0?<div className={styles.nullListMsg}>暂无商品数据</div>:null
               }
+              
               {
                 this.state.drag_list.map((item, index) => {
                   return (
@@ -180,19 +137,9 @@ export default connect(({ activity }: any) => activity)(
                 })
               }
             </div>
-            <Flex className={styles.title}><div>须知推荐</div></Flex>
-            <div className={styles.box2}>
-              {this.state.list.map((item: any, idx: any) => {
-                return (
-                  <Flex key={idx} className={styles.row2}>
-                    <div className={styles.row_msg}>{item}</div>
-                    <img src={require('./add.png')} onClick={this.Add.bind(this, item)} />
-                  </Flex>
-                )
-              })}
-            </div>
-            <Flex className={styles.title}><div>自定义</div></Flex>
-            <div className={styles.inputBox}>
+
+            <Flex className={styles.title}><div>添加商品</div></Flex>
+            <div className={styles.box2} style={{ border: "none" }}>
               <input type="text" placeholder='自定义' onChange={this.handleChange} value={this.state.tag} />
               <div className={styles.button2} onClick={this.addToRecommend}>添加</div>
             </div>

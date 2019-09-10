@@ -6,14 +6,19 @@ import router from 'umi/router';
 import wx from "weixin-js-sdk";
 import Success from '@/pages/verification/success';
 import BottomShare from '@/pages/activitys/appreciation/componts/bottom_share'
-import Posters from '../componts/posters/index'
+import Posters from '@/pages/activitys/appreciation/componts/posters'
 import EchartsSan from '../../../../components/echart_shan/index'
 const alert = Modal.alert;
-export default class GroupDetails extends Component {
+interface Props {
+  location:any
+}
+export default class GroupDetails extends Component<Props> {
 
   state = {
     echart_Data: [],
+    posterData:{},
     info: {
+      share: {},
       activity_image: '',
       appreciation_count: {
         participate_number: '',
@@ -23,6 +28,7 @@ export default class GroupDetails extends Component {
       appreciation_info: {
         activity_type: '',
         max_money: '',
+        activity_name : '',
         appreciation_number: '',
         participation_number: '',
         activity_time: ''
@@ -38,17 +44,18 @@ export default class GroupDetails extends Component {
         gif_pic: '',
         gif_integral: '',
         delivery: ''
+      },
+      supplier: {
+        
       }
     },
     id: '',
     is_gift: true,
     type: '',
     types: '',
-    showShare: false,
-    showPoster: false
+    showShare: false,//是否显示分享的组件
   }
   componentDidMount() {
-
     let { id, type } = this.props.location.query;
     if (type == '1') {
       this.setState({ types: '进行中' })
@@ -73,6 +80,24 @@ export default class GroupDetails extends Component {
           data.appreciation_count.coupons_number
         ]
       })
+
+      this.setState({
+        posterData: {
+          ...data.supplier,
+          git_money: data.appreciation_gif_info.gif_integral,//礼品金额
+          gif_pic: data.appreciation_gif_info.gif_pic,//礼品图片
+          gift_id: data.appreciation_gif_info.gift_id,// 礼品id 如果为0 海报就不显示礼品图片以及信息
+          init_money: data.appreciation_info.init_money,
+          max_money: data.appreciation_info.max_money,
+          ...data.supplier,
+          use_tim: data.appreciation_coupons_info.use_tim,
+          gif_name: data.appreciation_gif_info.gif_name,
+          schedule: data.appreciation_count.schedule,
+          link: data.appreciation_info.link,
+          title: '增值'
+        }
+      })
+
       if (data.appreciation_gif_info.gift_id == 0) {
         this.setState({ is_gift: false })
       }
@@ -99,48 +124,6 @@ export default class GroupDetails extends Component {
   }
 
   shareClick = () => {
-    // let userAgent = navigator.userAgent;
-    // let isIos = userAgent.indexOf('iPhone') > -1;
-    // let url: any;
-    // if (isIos) {
-    //   url = sessionStorage.getItem('url');
-    // } else {
-    //   url = location.href;
-    // }
-    // request({
-    //   url: 'wechat/getShareSign',
-    //   method: 'get',
-    //   params: {
-    //     url
-    //   }
-    // }).then(res => {
-    //   let _this = this;
-    //   wx.config({
-    //     debug: false,
-    //     appId: res.appId,
-    //     timestamp: res.timestamp,
-    //     nonceStr: res.nonceStr,
-    //     signature: res.signature,
-    //     jsApiList: [
-    //       "updateAppMessageShareData"
-    //     ]
-    //   });
-
-    //   wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
-    //     wx.updateAppMessageShareData({
-    //       title: '34343', // 分享标题
-    //       desc: '4343434', // 分享描述
-    //       link: 'http://test.supplierv2.tdianyi.com',//分享链接该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-    //       imgUrl: '', // 分享图标
-    //       success: function () {
-    //         // 设置成功
-    //         console.log('3434')
-    //       }
-    //     })
-    //   });
-
-
-    // })
     this.setState({ showShare: true })
   }
 
@@ -148,17 +131,11 @@ export default class GroupDetails extends Component {
     this.setState({ showShare: false })
   }
 
-  showPoster = (show: any) => {
-    this.setState({ showPoster: true })
-    this.setState({ showShare: false })
-  }
-  closePoster = (close: any) => {
-    this.setState({ showPoster: false })
-  }
-
 
   render() {
     const { info, is_gift, types } = this.state;
+    let infoData: any = info.appreciation_gif_info
+    let share: any = info.share
     const description = info.appreciation_coupons_info.description.map((item, idx) => <p key={idx}>· {item}</p>);
     const button = this.state.type == '3' ? null : (
       <Button
@@ -202,17 +179,23 @@ export default class GroupDetails extends Component {
     const echart = this.state.echart_Data.length > 1 ?
       (
         <EchartsSan
-          list={[222, 444, 444]}
+          list={this.state.echart_Data}
           name={["参与人数", "增值人数", "券使用人数"]}
           colors={['#5476C4', '#7156C6', '#45BDBD']}
         />) : null
-
-    const poster = <Posters closePoster={this.closePoster} showPoster={this.state.showPoster} >{null}</Posters>
+    
     const bottom_share = (
       <BottomShare
         closeShare={this.closeShare}
         showShare={this.state.showShare}
-        showPoster={this.showPoster}
+        type={{
+          activity_id: infoData.activity_id,
+          id: this.props.location.query.id,
+          name: '增值',
+          gift_id: infoData.gift_id,
+          ...share
+        }}
+        posterData={this.state.posterData}
       >{null}
       </BottomShare>)
     return (
@@ -228,13 +211,13 @@ export default class GroupDetails extends Component {
           </Flex>
 
           {/* 基本信息 */}
-          {/* <Flex className={styles.title}>
+          <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
             活动统计数据
           </Flex>
           <div>
             {echart}
-          </div> */}
+          </div>
 
           <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
@@ -292,8 +275,6 @@ export default class GroupDetails extends Component {
           {/* <Button type='primary' style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button> */}
           {button}
         </WingBlank>
-        {poster}
-
         {bottom_share}
       </div>
     )
