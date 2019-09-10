@@ -62,15 +62,15 @@ export default connect()(
 				this.setState({ info: res.data });
 			}
     };
-    /**我的签约码 */
-		goSignCode = () => {
-			router.push({
-				pathname: '/my/signCode',
-				query: {
-					url: this.state.info.wx_sign_url
-				}
-			})
-		}
+    // /**我的签约码 */
+		// goSignCode = () => {
+		// 	router.push({
+		// 		pathname: '/my/signCode',
+		// 		query: {
+		// 			url: this.state.info.wx_sign_url
+		// 		}
+		// 	})
+		// }
 
 		/**转到余额 */
 		transferredBalance = () => {

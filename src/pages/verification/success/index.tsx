@@ -45,20 +45,28 @@ export default class Success extends Component {
     render (){
       const {res} = this.state;
       let data = res.data;
-      const description = data.description.map((item,idx)=> {
+      const description = data.description ? data.description.map((item,idx)=> {
         return (
           <p key={idx}>· {item}</p>
         )
-      })
+      }) : null;
       const info = this.state.is_show == true ? (
           <div className={styles.box2} style={{marginTop: 40}}>
               <p>
                   <span>使用有效期：</span>
                   {data.begin_time}-{data.end_time}
               </p>
-              <p><span>使用规则：</span></p>
-              {/* <p>· 123</p> */}
-              {description}
+
+              {
+                data.description ? (
+                  <div>
+                    <p><span>使用规则：</span></p>
+                    {/* <p>· 123</p> */}
+                    {description}
+                  </div>
+                ) : null
+              }
+
               <Flex justify='around' style={{marginTop: 40}} onClick={this.isShow}>
                   <Flex className={styles.button2} justify='around'>
                       收起 <Icon type='up'/>
