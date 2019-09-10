@@ -78,7 +78,7 @@ export default connect(({ activity }: any) => activity)(
       }
       for (let i = 0; i < drag_list.length; i++) {
         if (drag_list[i].content == item) {
-          Toast.fail('这条已经添加过了',1);
+          Toast.fail('此规则已存在',1);
           return;
         }
       }
@@ -112,7 +112,7 @@ export default connect(({ activity }: any) => activity)(
         let id = key - 1
         for (let i = 0; i < drag_list.length; i++) {
           if (drag_list[i].content == tag) {
-            Toast.fail('这条已经添加过了',1);
+            Toast.fail('此规则已存在',1);
             return;
           }
         }
