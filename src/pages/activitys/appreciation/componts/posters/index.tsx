@@ -166,29 +166,24 @@ export default class Posters extends Component<Props<dataType>> {
       contents.save();
       contents.clip();//从原始画布剪切任意形状和尺寸的区域
     }
+    
     headImg.onload = () => {
-      contents.drawImage(headImg, 0, 0, 545, 345, 300, 423, 145, 145)
+      contents.drawImage(headImg, 0, 0, 545, 345, 290, 420, 145, 145)
     }
 
     borderImg.onload = () => {
-      if (data.gift_id != 0) {
         contents.drawImage(borderImg, 0, 0, 359, 222, 200, 980, 359, 222)
         contents.save()
-      }
     }
 
     giftImg.onload = () => {
-      if (data.gift_id != 0) {
         contents.drawImage(giftImg, 0, 0, 550, 222, 168, 990, 345, 170)
         contents.save()
-      }
     }
 
     ballImg.onload = () => {
-      if (data.gift_id != 0) {
         contents.drawImage(ballImg, 0, 0, 359, 222, 335, 970, 359, 222)
         contents.save()
-      }
     }
 
     wxImg.onload = () => {
@@ -259,11 +254,11 @@ export default class Posters extends Component<Props<dataType>> {
 
     contents.font = '32px PingFang-SC-Medium Bold';
     contents.fillStyle = "#FF6654"
-    contents.fillText('只需' + init_money + '元即可领取价值', 190, 905, 350)
+    contents.fillText('只需' + init_money + '元即可领取价值', 200, 905, 350)
     contents.fillText(max_money + '元得' + title + '券!', 255, 950, 350)
     contents.save()
 
-    contents.fillText('消费即可免费领取价值', 195, 1210, 450)
+    contents.fillText('消费即可免费领取价值', 200, 1210, 450)
     contents.fillText(giftPrice + '元礼品', 280, 1250, 350)
     contents.save()
 
@@ -271,15 +266,23 @@ export default class Posters extends Component<Props<dataType>> {
     contents.fillStyle = "#313131"
     contents.fillText('长按识别小程序码关注“小熊敬礼”', 145, 1480, 430)
     contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
-    contents.save()
-    console.log(canvas.toDataURL('image/jpeg/png').length);
+
     if (canvas.toDataURL('image/jpeg/png').length > 400000) {
+      console.log('如何触发');
+      
       this.setState({
         url: canvas.toDataURL('image/jpeg/png')
       })//这里设置了编码 
+    } else {
+      setTimeout(() => {
+        console.log(88);
+        this.creatCanvas(this.props.data)
+      }, 150);
+        
+        
     }
-    
-
+   
+  
   }
 
 
