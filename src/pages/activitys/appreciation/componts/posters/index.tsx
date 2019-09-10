@@ -82,7 +82,7 @@ export default class Posters extends Component<Props<dataType>> {
               this.panduan()
           })
         }
-       
+
       }
     }
     return true
@@ -100,13 +100,13 @@ export default class Posters extends Component<Props<dataType>> {
   }
 
   componentWillMount() {
-   
+
 
   }
 
   creatCanvas = (data: dataType) => {
 
-    const canvas: any = document.getElementById('canvas')//获取到cavans 
+    const canvas: any = document.getElementById('canvas')//获取到cavans
     const contents = canvas.getContext('2d') //生成htlml5对象
     contents.fillStyle = "#fff";
     contents.fillRect(0, 0, canvas.width, canvas.height);
@@ -180,7 +180,7 @@ export default class Posters extends Component<Props<dataType>> {
       contents.save();
 
     borderImg.onload = () => {
-      
+
       if (data.gift_id != 0) {
         contents.drawImage(borderImg, 0, 0, 359, 222, 200, 980, 359, 222)
         contents.save()
@@ -283,10 +283,10 @@ export default class Posters extends Component<Props<dataType>> {
     contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
     contents.save()
 
-    // let url = 
+    // let url =
     this.setState({
       url: canvas.toDataURL('image/jpeg')
-    })//这里设置了编码 
+    })//这里设置了编码
 
   }
 
@@ -294,7 +294,7 @@ export default class Posters extends Component<Props<dataType>> {
   shortCreatCanvas = (data: any) => {
     console.log('2');
 
-    const canvas: any = document.getElementById('canvas')//获取到cavans 
+    const canvas: any = document.getElementById('canvas')//获取到cavans
 
     // headImg.setAttribute("crossOrigin", 'anonymous')
     const contents = canvas.getContext('2d') //生成htlml5对象
@@ -332,7 +332,7 @@ export default class Posters extends Component<Props<dataType>> {
       })
       .catch((err: any) => { })
     // headImg.setAttribute("crossOrigin",'anonymous');
-    // headImg.src = data.shop_door_header_img // 门头照     
+    // headImg.src = data.shop_door_header_img // 门头照
     headImg.src = window.btoa(data.shop_door_header_img)
     // giftImg.setAttribute("crossOrigin",'anonymous');
     // giftImg.src = data.gif_pic              // 礼品图片
@@ -475,7 +475,7 @@ export default class Posters extends Component<Props<dataType>> {
 
     //   this.setState({
     //     url: MyImg
-    //   })//这里设置了编码 
+    //   })//这里设置了编码
     // }, 2000);
 
   }
