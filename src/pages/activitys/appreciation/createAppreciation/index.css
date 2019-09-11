@@ -4,7 +4,7 @@
 .title div {
   width: 132px;
   height: 42px;
-  background: #C5D7FF;
+  background: #e8efff;
   border-radius: 10px;
   font-size: 28px;
   line-height: 42px;
@@ -338,7 +338,8 @@
   margin-right: 0;
 }
 .upload_img :global .am-image-picker-list .am-image-picker-upload-btn {
-  background: #E5E5E5;
+  background: url('shangchuan.png') no-repeat;
+  background-size: 100%;
 }
 .upload_img :global .am-image-picker-list .am-flexbox .am-flexbox-item {
   overflow-y: visible;
