@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Grid, Button } from 'antd-mobile';
+import { Icon, Grid, Button, Toast } from 'antd-mobile';
 import request from '@/services/request';
 import styles from './index.less'
 import wx from "weixin-js-sdk";
@@ -65,18 +65,23 @@ export default class Posters extends Component<Props<dataType>> {
           this.setState({
             headImg: this.getBase64Image2(tempImage)
           })
-        }//end
-        let tempImage2 = new Image();// 礼品图片
-        tempImage2.crossOrigin = ""
-        tempImage2.src = this.judgeNetwork(this.props.data.gif_pic);
-        tempImage2.onload = () => {
-          let base_64 = this.getBase64Image2(tempImage2);
-          this.setState({
-            giftImg: base_64
-          }, () => {
+          if (this.props.data.gift_id == 0) {
             this.panduan()
-          })
+          }
         }//end
+        if (this.props.data.gift_id != 0) {
+          let tempImage2 = new Image();// 礼品图片
+          tempImage2.crossOrigin = ""
+          tempImage2.src = this.judgeNetwork(this.props.data.gif_pic);
+          tempImage2.onload = () => {
+            let base_64 = this.getBase64Image2(tempImage2);
+            this.setState({
+              giftImg: base_64
+            }, () => {
+              this.panduan()
+            })
+          }//end
+       }
       }
     }
     return true
@@ -151,7 +156,7 @@ export default class Posters extends Component<Props<dataType>> {
 
     bigImg.onload = () => {
       contents.drawImage(bigImg, 0, 0, 1700, 2000, 0, 0, 1505, 1730)
-      contents.save();
+      // contents.save();
       contents.font = '23px PingFang-SC-Regular Bold';
       contents.fillStyle = "#fff"
       contents.fillText('电话：' + phone, 105, 1600, 530)
@@ -162,33 +167,29 @@ export default class Posters extends Component<Props<dataType>> {
       } else {
         contents.fillText('地址：' + home, 105, 1635);
       }
-      contents.stroke();//绘制已定义的路径
+      // contents.stroke();//绘制已定义的路径
       contents.save();
       contents.clip();//从原始画布剪切任意形状和尺寸的区域
     }
+
     headImg.onload = () => {
-      contents.drawImage(headImg, 0, 0, 545, 345, 300, 423, 145, 145)
+      contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
+      contents.save();
     }
 
     borderImg.onload = () => {
-      if (data.gift_id != 0) {
-        contents.drawImage(borderImg, 0, 0, 359, 222, 200, 980, 359, 222)
-        contents.save()
-      }
-    }
-
-    giftImg.onload = () => {
-      if (data.gift_id != 0) {
-        contents.drawImage(giftImg, 0, 0, 550, 222, 168, 990, 345, 170)
-        contents.save()
-      }
+      contents.drawImage(borderImg, 0, 0, 359, 222, 200, 980, 359, 222)
+      contents.save()
     }
 
     ballImg.onload = () => {
-      if (data.gift_id != 0) {
-        contents.drawImage(ballImg, 0, 0, 359, 222, 335, 970, 359, 222)
-        contents.save()
-      }
+      contents.drawImage(ballImg, 0, 0, 359, 222, 335, 970, 359, 222)
+      contents.save()
+    }
+
+    giftImg.onload = () => {
+      contents.drawImage(giftImg, 0, 0, 550, 222, 168, 990, 345, 170)
+      contents.save()
     }
 
     wxImg.onload = () => {
@@ -259,11 +260,11 @@ export default class Posters extends Component<Props<dataType>> {
 
     contents.font = '32px PingFang-SC-Medium Bold';
     contents.fillStyle = "#FF6654"
-    contents.fillText('只需' + init_money + '元即可领取价值', 190, 905, 350)
+    contents.fillText('只需' + init_money + '元即可领取价值', 200, 905, 350)
     contents.fillText(max_money + '元得' + title + '券!', 255, 950, 350)
     contents.save()
 
-    contents.fillText('消费即可免费领取价值', 195, 1210, 450)
+    contents.fillText('消费即可免费领取价值', 200, 1210, 450)
     contents.fillText(giftPrice + '元礼品', 280, 1250, 350)
     contents.save()
 
@@ -271,15 +272,21 @@ export default class Posters extends Component<Props<dataType>> {
     contents.fillStyle = "#313131"
     contents.fillText('长按识别小程序码关注“小熊敬礼”', 145, 1480, 430)
     contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
-    contents.save()
-    console.log(canvas.toDataURL('image/jpeg/png').length);
-    if (canvas.toDataURL('image/jpeg/png').length > 400000) {
-      this.setState({
-        url: canvas.toDataURL('image/jpeg/png')
-      })//这里设置了编码 
-    }
-    
 
+    if (canvas.toDataURL('image/jpeg/png').length < 500000) {
+      Toast.loading('loading', 2)
+      setTimeout(() => {
+        this.setState({
+          url: canvas.toDataURL('image/jpeg/png')
+        })//这里设置了编码 
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        this.setState({
+          url: canvas.toDataURL('image/jpeg/png')
+        })//这里设置了编码 
+      }, 2000);
+    }
   }
 
 
@@ -316,7 +323,7 @@ export default class Posters extends Component<Props<dataType>> {
         wxImg.src = url
       })
       .catch((err: any) => { })
-    
+
     headImg.src = this.state.headImg
     bigImg.src = require('../../../../../assets/short_poster.png')
     JYB_IMG.src = require('../../../../../assets/JYB.png')
@@ -338,14 +345,16 @@ export default class Posters extends Component<Props<dataType>> {
       } else {
         contents.fillText('地址：' + home, 105, 1405);
       }
-      contents.stroke();
-      contents.clip();
+
       contents.save();
+      // contents.stroke();
+      contents.clip();
+      // contents.save();
     }
 
     headImg.onload = () => {
-
-      contents.drawImage(headImg, 0, 0, 545, 345, 300, 433, 145, 145)
+      contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145)
+      contents.save();
     }
 
     giftImg.onload = () => {
@@ -433,9 +442,20 @@ export default class Posters extends Component<Props<dataType>> {
     contents.fillText('一起来领取免费礼品吧！', 195, 1280, 390)
     contents.save()
 
-    this.setState({
-      url: canvas.toDataURL('image/jpeg/png')
-    })//这里设置了编码 
+    if (canvas.toDataURL('image/jpeg/png').length < 500000) {
+      Toast.loading('loading', 2)
+      setTimeout(() => {
+        this.setState({
+          url: canvas.toDataURL('image/jpeg/png')
+        })//这里设置了编码 
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        this.setState({
+          url: canvas.toDataURL('image/jpeg/png')
+        })//这里设置了编码 
+      }, 2000);
+    }
 
   }
 
@@ -470,7 +490,7 @@ export default class Posters extends Component<Props<dataType>> {
         <div className={styles.new_poster}>
           {/* //hidden canvas element 1470 */}
           <div className={styles.hiddenImg}>
-            <canvas id="canvas" width="700x" height={this.props.data.gift_id==0? 1470+'px':1700+'px' } />
+            <canvas id="canvas" width="700x" height={this.props.data.gift_id == 0 ? 1470 + 'px' : 1700 + 'px'} />
           </div>
           <div className={styles.img_box}>
             <img
