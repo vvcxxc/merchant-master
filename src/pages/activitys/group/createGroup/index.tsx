@@ -9,6 +9,7 @@ import SelectTime from '@/components/select-time';
 import router from 'umi/router';
 import { connect } from 'dva';
 import ad_intro2 from '@/assets/ad/ad_intro2.png'
+
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
 
