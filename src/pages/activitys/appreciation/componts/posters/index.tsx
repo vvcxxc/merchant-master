@@ -131,8 +131,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
     // contents.restore();
     headImg.onload = ()=> {
-      // contents.save();
-      // contents.restore();
+      contents.save();
+      contents.restore();
       contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
       contents.save();
     }
@@ -234,17 +234,16 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
     contents.save()
 
-    // contents.stroke();//绘制已定义的路径
-    // contents.clip()
-    Toast.loading('loading', 1)
-    setTimeout(() => {
-      this.setState({
-        url: canvas.toDataURL('image/jpeg/png')
-      }, () => {
-          console.log(7777);
-          
-      })//这里设置了编码 
-    }, 1500);
+    let endImg = new Image();
+    endImg.src = canvas.toDataURL('image/jpeg/png')
+    endImg.onload = () => {
+      Toast.loading('loading', 1)
+      setTimeout(() => {
+        this.setState({
+          url: canvas.toDataURL('image/jpeg/png')
+        })//这里设置了编码 
+      }, 1500);
+    }
 
   }
 
