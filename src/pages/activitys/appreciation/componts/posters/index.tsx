@@ -68,9 +68,9 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
   creatCanvas = (data: dataType) => {
     const canvas: any = document.getElementById('canvas')//获取到cavans 
     const contents = canvas.getContext('2d') //生成htlml5对象
-    // contents.fillStyle = "#fff";
+    contents.fillStyle = "#fff";
     contents.fillRect(0, 0, canvas.width, canvas.height);
-    // contents.save()
+    contents.save()
 
     let bigImg = new Image()      // 创建img对象 最大的背景图片
     let headImg = new Image()     // 店铺头部
@@ -234,15 +234,28 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
     contents.save()
 
+    // console.log(canvas.toDataURL('image/jpeg/png').length);
+    
     let endImg = new Image();
     endImg.src = canvas.toDataURL('image/jpeg/png')
     endImg.onload = () => {
-      Toast.loading('loading', 1)
-      setTimeout(() => {
+      // Toast.loading('loading', 1)
+      if (canvas.toDataURL('image/jpeg/png').length < 500000) {
+        // setTimeout(() => {
+        //   this.setState({
+        //     url: canvas.toDataURL('image/jpeg/png')
+        //   })//这里设置了编码 
+        // }, 1500);
+        Toast.loading('loading', 1)
+        setTimeout(() => {
+          this.creatCanvas(this.props.data)
+        }, 1000);
+      } else {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 1500);
+      }
+     
     }
 
   }
