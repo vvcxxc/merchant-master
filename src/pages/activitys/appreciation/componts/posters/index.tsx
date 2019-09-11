@@ -174,6 +174,7 @@ export default class Posters extends Component<Props<dataType>> {
 
     headImg.onload = () => {
       contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
+      contents.save();
     }
 
     borderImg.onload = () => {
@@ -181,13 +182,13 @@ export default class Posters extends Component<Props<dataType>> {
       contents.save()
     }
 
-    giftImg.onload = () => {
-      contents.drawImage(giftImg, 0, 0, 550, 222, 168, 990, 345, 170)
+    ballImg.onload = () => {
+      contents.drawImage(ballImg, 0, 0, 359, 222, 335, 970, 359, 222)
       contents.save()
     }
 
-    ballImg.onload = () => {
-      contents.drawImage(ballImg, 0, 0, 359, 222, 335, 970, 359, 222)
+    giftImg.onload = () => {
+      contents.drawImage(giftImg, 0, 0, 550, 222, 168, 990, 345, 170)
       contents.save()
     }
 
@@ -278,13 +279,13 @@ export default class Posters extends Component<Props<dataType>> {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 800);
+      }, 1000);
     } else {
       setTimeout(() => {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 800);
+      }, 1000);
     }
   }
 
@@ -344,13 +345,16 @@ export default class Posters extends Component<Props<dataType>> {
       } else {
         contents.fillText('地址：' + home, 105, 1405);
       }
+
+      contents.save();
       // contents.stroke();
       contents.clip();
-      contents.save();
+      // contents.save();
     }
 
     headImg.onload = () => {
       contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145)
+      contents.save();
     }
 
     giftImg.onload = () => {
@@ -444,13 +448,13 @@ export default class Posters extends Component<Props<dataType>> {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 800);
+      }, 1000);
     } else {
       setTimeout(() => {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 800);
+      }, 1000);
     }
 
   }
