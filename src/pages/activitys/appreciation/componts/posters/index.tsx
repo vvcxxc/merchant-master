@@ -274,18 +274,18 @@ export default class Posters extends Component<Props<dataType>> {
     contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
 
     if (canvas.toDataURL('image/jpeg/png').length < 500000) {
-      Toast.loading('loading', 1)
+      Toast.loading('loading', 2)
       setTimeout(() => {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 1000);
+      }, 2000);
     } else {
       setTimeout(() => {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 1000);
+      }, 2000);
     }
   }
 
@@ -443,18 +443,18 @@ export default class Posters extends Component<Props<dataType>> {
     contents.save()
 
     if (canvas.toDataURL('image/jpeg/png').length < 500000) {
-      Toast.loading('loading', 1)
+      Toast.loading('loading', 2)
       setTimeout(() => {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 1000);
+      }, 2000);
     } else {
       setTimeout(() => {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
-      }, 1000);
+      }, 2000);
     }
 
   }
