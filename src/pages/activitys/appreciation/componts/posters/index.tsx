@@ -236,13 +236,15 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
     // contents.stroke();//绘制已定义的路径
     // contents.clip()
-
+    Toast.loading('loading', 1)
     setTimeout(() => {
-      Toast.loading('loading', 1)
       this.setState({
         url: canvas.toDataURL('image/jpeg/png')
+      }, () => {
+          console.log(7777);
+          
       })//这里设置了编码 
-    }, 1000);
+    }, 1500);
 
   }
 
@@ -398,12 +400,12 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillText('一起来领取免费礼品吧！', 195, 1280, 390)
     contents.save()
 
+    Toast.loading('loading', 1)
     setTimeout(() => {
-      Toast.loading('loading', 1)
       this.setState({
         url: canvas.toDataURL('image/jpeg/png')
       })//这里设置了编码 
-    }, 1000);
+    }, 1500);
   }
 
   // 小数点后一位采用四舍五入
