@@ -156,7 +156,7 @@ export default class Posters extends Component<Props<dataType>> {
 
     bigImg.onload = () => {
       contents.drawImage(bigImg, 0, 0, 1700, 2000, 0, 0, 1505, 1730)
-      contents.save();
+      // contents.save();
       contents.font = '23px PingFang-SC-Regular Bold';
       contents.fillStyle = "#fff"
       contents.fillText('电话：' + phone, 105, 1600, 530)
@@ -350,7 +350,7 @@ export default class Posters extends Component<Props<dataType>> {
     }
 
     headImg.onload = () => {
-      contents.drawImage(headImg, 0, 0, 545, 345, 300, 420, 145, 145)
+      contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145)
     }
 
     giftImg.onload = () => {
