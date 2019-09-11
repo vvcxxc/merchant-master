@@ -68,6 +68,9 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
   creatCanvas = (data: dataType) => {
     const canvas: any = document.getElementById('canvas')//获取到cavans 
     const contents = canvas.getContext('2d') //生成htlml5对象
+    contents.fillStyle = "#fff";
+    contents.fillRect(0, 0, canvas.width, canvas.height);
+    contents.save()
 
     let bigImg = new Image()      // 创建img对象 最大的背景图片
     let headImg = new Image()     // 店铺头部
@@ -79,11 +82,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let shadowImg = new Image()   // 阴影图片
     let outlineImg = new Image()  // 轮廓图片
     let giftImg = new Image()     // 礼品图片
-
-    contents.fillStyle = "#fff";
-    contents.fillRect(0, 0, canvas.width, canvas.height);
-    contents.save()
-
+    
     let title = data.title
     let shopName = data.name                                    //店铺名字
     let init_money = this.identifyData(data.init_money)         // 只需多少元
@@ -112,7 +111,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       })
       .catch((err: any) => { })
 
-    bigImg.onload = function () {
+    bigImg.onload = ()=> {
       contents.drawImage(bigImg, 0, 0, 1700, 2000, 0, 0, 1505, 1730)
       contents.save();
 
@@ -130,8 +129,9 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       contents.clip();//从原始画布剪切任意形状和尺寸的区域
 
     }
-    contents.restore();
-    headImg.onload = function () {
+    // contents.restore();
+    headImg.onload = ()=> {
+      // contents.save();
       // contents.restore();
       contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
       contents.save();
@@ -234,8 +234,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
     contents.save()
 
-    contents.stroke();//绘制已定义的路径
-    contents.clip()
+    // contents.stroke();//绘制已定义的路径
+    // contents.clip()
 
     setTimeout(() => {
       Toast.loading('loading', 1)
