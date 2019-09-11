@@ -234,18 +234,10 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
     contents.save()
 
-    // console.log(canvas.toDataURL('image/jpeg/png').length);
-    
     let endImg = new Image();
     endImg.src = canvas.toDataURL('image/jpeg/png')
     endImg.onload = () => {
-      // Toast.loading('loading', 1)
       if (canvas.toDataURL('image/jpeg/png').length < 500000) {
-        // setTimeout(() => {
-        //   this.setState({
-        //     url: canvas.toDataURL('image/jpeg/png')
-        //   })//这里设置了编码 
-        // }, 1500);
         Toast.loading('loading', 1)
         setTimeout(() => {
           this.creatCanvas(this.props.data)
@@ -255,7 +247,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
           url: canvas.toDataURL('image/jpeg/png')
         })//这里设置了编码 
       }
-     
     }
 
   }
@@ -412,19 +403,31 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillText('一起来领取免费礼品吧！', 195, 1280, 390)
     contents.save()
 
-    Toast.loading('loading', 1)
-    setTimeout(() => {
-      this.setState({
-        url: canvas.toDataURL('image/jpeg/png')
-      })//这里设置了编码 
-    }, 1500);
+    let endImg = new Image();
+    endImg.src = canvas.toDataURL('image/jpeg/png')
+    endImg.onload = () => {
+      if (canvas.toDataURL('image/jpeg/png').length < 500000) {
+        Toast.loading('loading', 1)
+        setTimeout(() => {
+          this.creatCanvas(this.props.data)
+        }, 1000);
+      } else {
+        this.setState({
+          url: canvas.toDataURL('image/jpeg/png')
+        })//这里设置了编码 
+      }
+    }
+
   }
 
   // 小数点后一位采用四舍五入
   identifyData = (data: string) => {
     if (!data) return
-    if (Number(data.split('.', 1)[0]) >= 5) return Number(data.substring(0, data.indexOf("."))) + 1
-    return Number(data.substring(0, data.indexOf(".")))
+    if (Number(data.substring(data.indexOf(".") + 1, data.indexOf(".") + 2) ) >= 5) {
+      return Number(data.substring(0, data.indexOf("."))) + 1
+    } else {
+      return Number(data.substring(0, data.indexOf(".")))
+    }
   }
 
 
