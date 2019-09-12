@@ -264,7 +264,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let endImg = new Image();
     endImg.src = canvas.toDataURL('image/jpeg/png')
     endImg.onload = () => {
-      if (canvas.toDataURL('image/jpeg/png').length < 500000) {
+      if (canvas.toDataURL('image/jpeg/png').length < 800000) {
         Toast.loading('loading', 1)
         setTimeout(() => {
           this.creatCanvas(this.props.data)
@@ -453,7 +453,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let endImg = new Image();
     endImg.src = canvas.toDataURL('image/jpeg/png')
     endImg.onload = () => {
-      if (canvas.toDataURL('image/jpeg/png').length < 500000) {
+      if (canvas.toDataURL('image/jpeg/png').length < 800000) {
         Toast.loading('loading', 1)
         setTimeout(() => {
           this.creatCanvas(this.props.data)
