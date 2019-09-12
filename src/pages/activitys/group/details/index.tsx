@@ -4,19 +4,11 @@ import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router';
 import EchartsSan from '../../../../components/echart_shan'
-import BottomShare from '@/pages/activitys/appreciation/componts/bottom_share'
-import Posters from '@/pages/activitys/appreciation/componts/posters'
 const alert = Modal.alert;
-interface Props {
-  location:any
-}
-export default class GroupDetails extends Component<Props> {
+export default class GroupDetails extends Component {
   state = {
-    dataEchart: [],
-    posterData:{},
+    dataEchart:[],
     info: {
-      share:{},
-      activity_name:'',
       activity_image: '',
       group_count: {
         group_defeated: '',
@@ -47,8 +39,7 @@ export default class GroupDetails extends Component<Props> {
     id: '',
     type: '',
     is_gift: true,
-    types: '',
-    showShare: false
+    types: ''
   }
   componentWillMount() {
 
@@ -71,24 +62,6 @@ export default class GroupDetails extends Component<Props> {
       }
     }).then(res => {
       let { data } = res;
-
-      this.setState({
-        posterData: {
-          ...data.supplier,
-          git_money: data.group_gif_info.gif_integral,//礼品金额
-          gif_pic: data.group_gif_info.gif_pic,//礼品图片
-          gift_id: data.group_gif_info.gift_id,// 礼品id 如果为0 海报就不显示礼品图片以及信息
-          init_money: data.group_info.group_money,
-          max_money: data.group_info.pay_money,
-          ...data.supplier,
-          use_tim: data.group_coupons_info.use_tim,
-          gif_name: data.group_gif_info.gif_name,
-          schedule: data.group_count.schedule,
-          link: data.group_info.link,
-          title:'拼团'
-        }
-      })
-
       this.setState({
         dataEchart: [
           res.data.group_count.coupons_number,
@@ -139,18 +112,8 @@ export default class GroupDetails extends Component<Props> {
 
   }
 
-  shareClick = () => {
-    this.setState({ showShare: true })
-  }
-
-  closeShare = (close: boolean) => {
-    this.setState({ showShare: false })
-  }
-
   render() {
     const { info, is_gift, types, dataEchart } = this.state;
-    let infoData: any = info.group_gif_info;
-    let share: any = info.share
     let echartData:any = this.state.dataEchart
     const description = info.group_coupons_info.description.map((item,idx) => <p key={idx}>· {item}</p>)
     const button = this.state.type == '3' ? null : (
@@ -201,32 +164,16 @@ export default class GroupDetails extends Component<Props> {
         </EchartsSan>
       </div>
     ) : null
-
-    const bottom_share = (
-      <BottomShare
-        closeShare={this.closeShare}
-        showShare={this.state.showShare}
-        type={{
-          activity_id: infoData.activity_id,
-          id: this.props.location.query.id,
-          name: '拼团',
-          gift_id: infoData.gift_id,
-          ...share
-        }}
-        posterData={this.state.posterData}
-      >{null}
-      </BottomShare>)
-
     return (
       <div className={styles.detailsPage}>
         <WingBlank>
           {/* 活动名 */}
           <Flex justify='between' className={styles.headers}>
             <div className={styles.names}>
-              {info.activity_name}
+              活动名称
               <span>{types}</span>
             </div>
-            <img src={require('./share.png')} onClick={this.shareClick}/>
+            {/* <img src={require('./share.png')}/> */}
           </Flex>
           {/* 图片 */}
           <Flex className={styles.activity_img}>
@@ -295,7 +242,6 @@ export default class GroupDetails extends Component<Props> {
           {/* <Button  style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button> */}
           {button}
         </WingBlank>
-        {bottom_share} 
       </div>
     )
   }

@@ -20,7 +20,7 @@ interface dataType {
   max_money: string,
   name: string,
   schedule: number,
-  shop_door_header_img: string,
+  // shop_door_header_img: string,
   tel: string,
   title: string,
   use_tim: string
@@ -66,7 +66,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
   }
 
   creatCanvas = (data: dataType) => {
-    const canvas: any = document.getElementById('canvas')//获取到cavans 
+    const canvas: any = document.getElementById('canvas')//获取到cavans
     const contents = canvas.getContext('2d') //生成htlml5对象
     contents.fillStyle = "#fff";
     contents.fillRect(0, 0, canvas.width, canvas.height);
@@ -82,7 +82,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let shadowImg = new Image()   // 阴影图片
     let outlineImg = new Image()  // 轮廓图片
     let giftImg = new Image()     // 礼品图片
-    
+
     let title = data.title
     let shopName = data.name                                    //店铺名字
     let init_money = this.identifyData(data.init_money)         // 只需多少元
@@ -245,7 +245,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       } else {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
-        })//这里设置了编码 
+        })//这里设置了编码
       }
     }
 
@@ -253,7 +253,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
 
   shortCreatCanvas = (data: any) => {
-    const canvas: any = document.getElementById('canvas')//获取到cavans 
+    const canvas: any = document.getElementById('canvas')//获取到cavans
     const contents = canvas.getContext('2d') //生成htlml5对象
     contents.fillStyle = "#fff";
     contents.fillRect(0, 0, canvas.width, canvas.height);
@@ -414,7 +414,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       } else {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
-        })//这里设置了编码 
+        })//这里设置了编码
       }
     }
 
