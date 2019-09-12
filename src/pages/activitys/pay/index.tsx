@@ -13,6 +13,7 @@ declare global {
 }
 const pay_url = window.pay_url ? window.pay_url : 'http://test.api.tdianyi.com/payCentre/toSupplierWxPay'
 const open_id = window.open_id ? window.open_id : 'test_open_id';
+
 export default connect(({ activity }: any) => activity)(
   class PayMent extends Component<any> {
   state = {

@@ -25,6 +25,8 @@ export interface Group {
   // 商品设置
   // isHaveData: Boolean;
   storeItems: Array<any>;
+  headImg: string;
+  giftImg:string
 }
 
 export interface Appreciation {
@@ -75,6 +77,10 @@ const model: Model = {
       cover_img: [],
       describe_img1: [],
       describe_img2: [],
+    },
+    details: {
+      headImg: '1',
+      giftImg:'1'
     }
   },
   reducers: {
@@ -87,6 +93,15 @@ const model: Model = {
     //     },
     //   }
     // },
+    setDetails(state,{payload}) {
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          ...payload
+        }
+      }
+    },
     ReduStoreItem(state, { payload }) {
       return {
         ...state,
