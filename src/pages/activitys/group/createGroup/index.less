@@ -1,25 +1,30 @@
 .title {
   padding-top: 38px;
+
   div {
-    width:132px;
-    height:42px;
-    background:#C5D7FF;
-    border-radius:10px;
-    font-size:28px;
+    width: 132px;
+    height: 42px;
+    background: #C5D7FF;
+    border-radius: 10px;
+    font-size: 28px;
     line-height: 42px;
     color: #21418A;
     text-align: center;
   }
 }
+
 .input_Box {
   width: 100%;
+
   .pickerDate {
     width: 100%;
     height: 94px;
   }
+
   .pickerDate>div {
     width: 100%;
   }
+
   .right_text {
     position: absolute;
     right: 0;
@@ -28,6 +33,7 @@
     top: 30px;
   }
 }
+
 .input_Box :global {
   .am-list-body {
     border-top: 0;
@@ -40,6 +46,7 @@
     font-size: 26px;
     padding-right: 0;
   }
+
   .am-list-item .am-list-line .am-list-extra {
     font-size: 26px !important;
   }
@@ -53,27 +60,33 @@
     font-size: 26px;
     padding-right: 30px;
   }
+
   .am-list-item .am-list-line .am-list-extra {
     font-size: 26px !important;
   }
 
 }
+
 .textLong :global {
   .am-list-body {
     border-top: 0;
   }
+
   .am-input-control input {
     text-align: right;
     font-size: 26px;
     padding-right: 110px;
   }
+
   .am-list-item .am-list-line .am-list-extra {
     font-size: 26px !important;
   }
-  input::-webkit-input-placeholder{
+
+  input::-webkit-input-placeholder {
     font-size: 20px;
   }
 }
+
 .left_text {
   position: absolute;
   top: 30px;
@@ -87,14 +100,70 @@
   height: 90px;
   justify-content: space-between;
   border-bottom: 1px solid #ddd;
+
   .icon_right {
     height: 30px;
   }
 }
+
+.radio1 {
+  height: 94px;
+  border-bottom: 1px solid #ddd;
+
+  .radioFlex {
+    position: relative;
+    width: 100%;
+    height: auto;
+
+    .radioScope {
+      color: #666666;
+      font-size: 0.28rem;
+      display: inline-block;
+
+      .radioTitle {
+        // width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          height: 28px;
+          margin-left: 11px;
+        }
+      }
+    }
+
+    .radioBox {
+      display: inline-block;
+      float: right;
+
+      .choose {
+        width: auto;
+
+        .chooseBox {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+
+          img {
+            width: 26px;
+            margin-right: 11px;
+          }
+        }
+
+      }
+    }
+  }
+}
+
+
 .cover_box {
   width: 100%;
   height: auto;
   padding-top: 33px;
+
   .cover_img {
     margin-top: 18px;
     width: 176px;
@@ -105,8 +174,24 @@
 
 .img_title {
   width: 100%;
-  height: 90px;
+  height: 60px;
+  color: #666666;
+  font-size: 0.28rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start !important;
+
 }
+
+.img_msg {
+  color: #999;
+  font-size: 0.2rem;
+  line-height: 1.5;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
 .img_box {
   .image {
     width: 176px;
@@ -114,33 +199,55 @@
     font-size: 23px;
     color: #999;
     text-align: center;
+
     .describe {
       margin-top: 16px;
+      height: 25px;
     }
   }
 }
 
 .gift_Box {
   width: 100%;
+
   .giftBox {
     width: 100%;
     height: 94px;
     border-bottom: 1px solid #ddd;
     justify-content: space-between;
+
+    .giftName {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .giftName_title {
+        display: block;
+        width: 450px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-align: right;
+      }
+    }
+
     .icon_right {
       height: 30px;
     }
+
     .choose {
       width: auto;
+
       img {
         width: 26px;
         margin-right: 11px;
       }
+
       .address {
-        width:107px;
-        height:42px;
-        border:1px solid rgba(153,153,153,1);
-        border-radius:10px;
+        width: 107px;
+        height: 42px;
+        border: 1px solid rgba(153, 153, 153, 1);
+        border-radius: 10px;
         text-align: center;
         line-height: 42px;
         font-size: 24px;
@@ -148,6 +255,7 @@
     }
   }
 }
+
 .button1 {
   width: 50%;
   height: 88px;
@@ -160,6 +268,7 @@
   border-top: #000 1px solid;
   box-sizing: border-box;
 }
+
 .button2 {
   width: 50%;
   height: 88px;
@@ -171,6 +280,7 @@
   bottom: 0;
   left: 50%;
 }
+
 .button2:active {
   background: #999;
 }
@@ -182,16 +292,21 @@
     padding: 0;
     margin-bottom: 0;
   }
-  .am-flexbox-item{
+
+  .am-flexbox-item {
     width: 176px !important;
     height: 97px;
   }
+
   .am-image-picker-list .am-flexbox .am-flexbox-item {
     margin-right: 0;
   }
-  .am-image-picker-list .am-image-picker-upload-btn{
-   background: #E5E5E5;
+
+  .am-image-picker-list .am-image-picker-upload-btn {
+    background: url('./shangchuan.png') no-repeat;
+    background-size: 100%;
   }
+
   .am-image-picker-list .am-flexbox .am-flexbox-item {
     overflow-y: visible;
   }
@@ -202,6 +317,7 @@
   padding-bottom: 88px;
   color: #21418A;
   line-height: 88px;
+
   img {
     margin-right: 8px;
     margin-top: 4px;

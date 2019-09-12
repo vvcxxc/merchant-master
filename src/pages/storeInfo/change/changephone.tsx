@@ -104,6 +104,8 @@ export default class ChangePhone extends Component {
               this.setState({ is_ok: false , wait});
             }
           }, 1000);
+        }else{
+          Toast.fail(res.data)
         }
       });
     }else{

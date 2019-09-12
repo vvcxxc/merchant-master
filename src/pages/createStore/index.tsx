@@ -224,7 +224,7 @@ export default connect(({ createStore }: any) => createStore)(
             store_door_header_img: '',
             files: []
           }
-        })
+        });
       }
     }
     /**个人照1 */
@@ -258,7 +258,7 @@ export default connect(({ createStore }: any) => createStore)(
             store_img_one: '',
             my_files: []
           }
-        })
+        });
       }
     }
     /**个人照2 */
@@ -292,7 +292,7 @@ export default connect(({ createStore }: any) => createStore)(
             store_img_two: '',
             my_files2: []
           }
-        })
+        });
       }
     }
 
@@ -380,7 +380,7 @@ export default connect(({ createStore }: any) => createStore)(
           Toast.fail('地图定位失败')
           return
         }
-        
+
 
         request({
           url: 'v3/stores',
@@ -419,7 +419,7 @@ export default connect(({ createStore }: any) => createStore)(
       // const map = this.state.is_map == true ? (
       //   <MapPage onChange={this.mapChange}/>
       // ) : (
-      //   ''
+      //
       // );
       return (
         <div style={{ height: 'auto', width: '100%', background: ' #fff', paddingBottom: 60 }}>

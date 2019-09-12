@@ -77,6 +77,47 @@
 .notice .icon_right {
   height: 30px;
 }
+.radio1 {
+  height: 94px;
+  border-bottom: 1px solid #ddd;
+}
+.radio1 .radioFlex {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+.radio1 .radioFlex .radioScope {
+  color: #666666;
+  font-size: 0.28rem;
+  display: inline-block;
+}
+.radio1 .radioFlex .radioScope .radioTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.radio1 .radioFlex .radioScope .radioTitle img {
+  height: 28px;
+  margin-left: 11px;
+}
+.radio1 .radioFlex .radioBox {
+  display: inline-block;
+  float: right;
+}
+.radio1 .radioFlex .radioBox .choose {
+  width: auto;
+}
+.radio1 .radioFlex .radioBox .choose .chooseBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.radio1 .radioFlex .radioBox .choose .chooseBox img {
+  width: 26px;
+  margin-right: 11px;
+}
 .cover_box {
   width: 100%;
   height: auto;
@@ -90,7 +131,20 @@
 }
 .img_title {
   width: 100%;
-  height: 90px;
+  height: 60px;
+  color: #666666;
+  font-size: 0.28rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start !important;
+}
+.img_msg {
+  color: #999;
+  font-size: 0.2rem;
+  line-height: 1.5;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 .img_box .image {
   width: 176px;
@@ -101,6 +155,7 @@
 }
 .img_box .image .describe {
   margin-top: 16px;
+  height: 25px;
 }
 .gift_Box {
   width: 100%;
@@ -110,6 +165,19 @@
   height: 94px;
   border-bottom: 1px solid #ddd;
   justify-content: space-between;
+}
+.gift_Box .giftBox .giftName {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.gift_Box .giftBox .giftName .giftName_title {
+  display: block;
+  width: 450px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: right;
 }
 .gift_Box .giftBox .icon_right {
   height: 30px;
@@ -168,7 +236,8 @@
   margin-right: 0;
 }
 .upload_img :global .am-image-picker-list .am-image-picker-upload-btn {
-  background: #E5E5E5;
+  background: url('shangchuan.png') no-repeat;
+  background-size: 100%;
 }
 .upload_img :global .am-image-picker-list .am-flexbox .am-flexbox-item {
   overflow-y: visible;
