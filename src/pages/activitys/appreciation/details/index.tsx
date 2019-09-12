@@ -207,7 +207,7 @@ export default class GroupDetails extends Component {
           colors={['#5476C4', '#7156C6', '#45BDBD']}
         />) : null
 
-    const poster = <Posters closePoster={this.closePoster} showPoster={this.state.showPoster} >{null}</Posters>
+    // const poster = <Posters closePoster={this.closePoster} showPoster={this.state.showPoster} >{null}</Posters>
     const bottom_share = (
       <BottomShare
         closeShare={this.closeShare}
@@ -224,7 +224,7 @@ export default class GroupDetails extends Component {
               {info.appreciation_info.activity_name}
               <span>{types}</span>
             </div>
-            <img src={require('./share.png')} onClick={this.shareClick} />
+            {/* <img src={require('./share.png')} onClick={this.shareClick} /> */}
           </Flex>
 
           {/* 基本信息 */}
@@ -292,9 +292,9 @@ export default class GroupDetails extends Component {
           {/* <Button type='primary' style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button> */}
           {button}
         </WingBlank>
-        {poster}
+        {/* {poster} */}
 
-        {bottom_share}
+        {/* {bottom_share} */}
       </div>
     )
   }
