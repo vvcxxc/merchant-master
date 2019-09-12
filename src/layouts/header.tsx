@@ -4,7 +4,16 @@ import styles from './index.less';
 import router from 'umi/router';
 
 export default class Header extends Component<any> {
-	goBack = () => router.goBack();
+	goBack = () => {
+		let url = window.location.href;
+		console.log(url)
+
+		if(url.includes('rechange')){
+		  router.push('/')
+		  return
+		}
+		router.goBack()
+	};
 	render() {
 		return (
 			<div style={{ width: '100%' }}>
