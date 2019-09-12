@@ -101,7 +101,8 @@ export default connect(({ activity }: any) => activity)(
           gif_name: data.appreciation_gif_info.gif_name,
           schedule: data.appreciation_count.schedule,
           link: data.appreciation_info.link,
-          title: '增值'
+          title: '增值',
+          total_fee: data.appreciation_info.total_fee,
         }
       })
 
@@ -144,7 +145,6 @@ export default connect(({ activity }: any) => activity)(
     }
 
     // 创建图片
-
     createHeadImg = (imgData:string) => {
       let tempImage2 = new Image();// 礼品图片
       tempImage2.crossOrigin = ""

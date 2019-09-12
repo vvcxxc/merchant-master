@@ -26,7 +26,8 @@ export interface Group {
   // isHaveData: Boolean;
   storeItems: Array<any>;
   headImg: string;
-  giftImg:string
+  giftImg: string;
+  activity_image:string
 }
 
 export interface Appreciation {
@@ -80,7 +81,8 @@ const model: Model = {
     },
     details: {
       headImg: '1',
-      giftImg:'1'
+      giftImg: '1',
+      activity_image:'1'
     }
   },
   reducers: {
