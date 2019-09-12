@@ -180,6 +180,9 @@ export default connect(({ activity }: any) => activity)(
                 })
               }
             </div>
+            <Flex className={styles.tip}>
+            <img src={require('./tip.png')}/>上下滑动查看更多
+          </Flex>
             <Flex className={styles.title}><div>须知推荐</div></Flex>
             <div className={styles.box2}>
               {this.state.list.map((item: any, idx: any) => {
