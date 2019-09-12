@@ -69,6 +69,9 @@ export default connect()(
 		transferredBalance = () => {
 			let money = Number(this.state.info.money);
 			if (money > 0) {
+        // if(money < 0.01){
+        //   Toast.fail('提现金额必须大于')
+        // }
 				request({
 					url: 'api/merchant/staff/earnings_go_balance',
 					method: 'post'
@@ -90,14 +93,14 @@ export default connect()(
 		};
 
 		/**我的签约码 */
-		goSignCode = () => {
-			router.push({
-				pathname: '/my/signCode',
-				query: {
-					url: this.state.info.wx_sign_url
-				}
-			})
-		}
+		// goSignCode = () => {
+		// 	router.push({
+		// 		pathname: '/my/signCode',
+		// 		query: {
+		// 			url: this.state.info.wx_sign_url
+		// 		}
+		// 	})
+		// }
 
 		render() {
       console.log(this.state.info.wx_sign_status)
