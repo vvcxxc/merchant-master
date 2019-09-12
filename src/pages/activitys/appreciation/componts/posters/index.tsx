@@ -67,8 +67,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
   }
 
   creatCanvas = (data: dataType) => {
-    console.log(data);
-    
+
     const canvas: any = document.getElementById('canvas')//获取到cavans 
     const contents = canvas.getContext('2d') //生成htlml5对象
     contents.fillStyle = "#fff";
@@ -90,7 +89,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let title = data.title
     let shopName = data.name                                    //店铺名字
     let init_money = this.identifyData(data.init_money)         // 只需多少元
-    let max_money = this.identifyData(data.max_money)           // 拼团券的金额
+    let max_money = this.identifyData(String(data.max_money))           // 拼团券的金额
     let phone = data.tel                                        //店铺电话
     let home = data.address                                     //店铺地址
     let giftPrice = data.git_money
