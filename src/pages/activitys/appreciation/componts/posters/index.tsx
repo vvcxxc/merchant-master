@@ -85,7 +85,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let shadowImg = new Image()   // 阴影图片
     let outlineImg = new Image()  // 轮廓图片
     let giftImg = new Image()     // 礼品图片
-    let activityImg = new Image() //拼团券
+    // let activityImg = new Image() //拼团券
 
     let title = data.title
     let shopName = data.name                                    //店铺名字
@@ -100,20 +100,21 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let link = data.link                                        // 用户扫二维码所跳转的链接
 
     if (data.title != '拼团') {
-      var meet = this.identifyData(data.total_fee.toString())   // 满足多少金额
+      var meet = this.identifyData(data.total_fee.toString())
+      JYB_IMG.src = require("../../../../../assets/add_money.png")
+      JYB_giftImg.src = require("../../../../../assets/add.border.png")  // 满足金额
     } else {
-      activityImg.src = this.props.details.activity_image
+      // activityImg.src = this.props.details.activity_image
+      JYB_IMG.src = require("../../../../../assets/spell_money.png")
+      JYB_giftImg.src = require("../../../../../assets/spell_border.png")
     }
-
     
     giftImg.src = this.props.details.giftImg            // 礼品图片
     headImg.src = this.props.details.headImg
     bigImg.src = require("../../../../../assets/new_haibao.png")
     borderImg.src = require("../../../../../assets/kuang.png")
     ballImg.src = require("../../../../../assets/qiu.png")
-    JYB_IMG.src = require("../../../../../assets/JYB.png")
     shadowImg.src = require("../../../../../assets/shadow.png")
-    JYB_giftImg.src = require("../../../../../assets/blue.png")
     outlineImg.src = require("../../../../../assets/outline.png")
 
     QRCode.toDataURL(link)                                      // 网络链接转化为二维码
@@ -143,7 +144,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     headImg.onload = ()=> {
       contents.save();
       contents.restore();
-      contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
+      contents.drawImage(headImg, 0, 0, 545, 345, 290, 420, 145, 145)
       contents.save();
     }
 
@@ -158,7 +159,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     giftImg.onload = () => {
-      contents.drawImage(giftImg, 0, 0, 550, 222, 168, 990, 345, 170)
+      contents.drawImage(giftImg, 0, 0, 600, 550, 173, 990, 345, 170)
       contents.save()
     }
 
@@ -168,7 +169,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     JYB_IMG.onload = () => {
-      contents.drawImage(JYB_IMG, 0, 0, 145, 145, 325, 705, 145, 145)
+      contents.drawImage(JYB_IMG, 0, 0, 145, 145, 320, 702, 145, 145)
       contents.save()
     }
 
@@ -179,7 +180,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     
     JYB_giftImg.onload = () => {
       
-
       if (data.title != '拼团') { 
         contents.drawImage(JYB_giftImg, 0, 0, 300, 300, 130, 695, 210, 227)
         contents.font = '20px PingFang SC Bold';
@@ -197,9 +197,13 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
         contents.fillText('满' + meet + '可用', 180, 810, 500)
         contents.save()
         
-      } else {
+      }
+      else {
+        contents.drawImage(JYB_giftImg, 0, 0, 300, 300, 130, 695, 210, 227)
         contents.save()
-        contents.drawImage(activityImg, 0, 0, 700, 450, 131, 693, 200, 290)
+        contents.font = '35px PingFang SC Bold';
+        contents.fillStyle = "#fff"
+        contents.fillText('拼团特惠', 150, 780, 500);
         contents.save()
       }
 
@@ -265,14 +269,14 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     endImg.src = canvas.toDataURL('image/jpeg/png')
     endImg.onload = () => {
       if (canvas.toDataURL('image/jpeg/png').length < 800000) {
-        Toast.loading('loading', 1)
+        Toast.loading('正在生成中，请稍后', 1)
         setTimeout(() => {
           this.creatCanvas(this.props.data)
         }, 1000);
       } else {
         this.setState({
           url: canvas.toDataURL('image/jpeg/png')
-        })//这里设置了编码 
+        })
       }
     }
   }
@@ -305,7 +309,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let arch = data.gif_name
     let schedule = data.schedule                                //控制进度条
     let link = data.link                                        // 用户扫二维码所跳转的链接
-    let activityImg = new Image() //增值券
+    // let activityImg = new Image() //增值券
 
     QRCode.toDataURL(link)                                      // 网络链接转化为二维码
       .then((url: any) => {
@@ -314,16 +318,19 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       .catch((err: any) => { })
     
     if (data.title != '拼团') {
-      var meet = this.identifyData(data.total_fee.toString())   // 满足多少金额
+      var meet = this.identifyData(data.total_fee.toString());
+        // 满足金额
+      JYB_IMG.src = require("../../../../../assets/add_money.png")
+      JYB_giftImg.src = require("../../../../../assets/add.border.png") 
     } else {
-      activityImg.src = this.props.details.activity_image
+      JYB_IMG.src = require("../../../../../assets/spell_money.png")
+      JYB_giftImg.src = require("../../../../../assets/spell_border.png")
     }
 
     headImg.src = this.props.details.headImg
     bigImg.src = require('../../../../../assets/short_poster.png')
     JYB_IMG.src = require('../../../../../assets/JYB.png')
     shadowImg.src = require('../../../../../assets/shadow.png')
-    JYB_giftImg.src = require('../../../../../assets/blue.png')
     outlineImg.src = require('../../../../../assets/outline.png')
 
     bigImg.onload = () => {
@@ -346,7 +353,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     headImg.onload = () => {
-      contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145)
+      contents.drawImage(headImg, 0, 0, 545, 345, 295, 430, 145, 145)
       contents.save();
     }
 
@@ -391,8 +398,11 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
         contents.save()
 
       } else {
+        contents.drawImage(JYB_giftImg, 0, 0, 300, 300, 130, 705, 210, 227)
         contents.save()
-        contents.drawImage(activityImg, 0, 0, 700, 450, 131, 693, 200, 290)
+        contents.font = '35px PingFang SC Bold';
+        contents.fillStyle = "#fff"
+        contents.fillText('拼团特惠', 150, 790, 500);
         contents.save()
       }
 
@@ -454,7 +464,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     endImg.src = canvas.toDataURL('image/jpeg/png')
     endImg.onload = () => {
       if (canvas.toDataURL('image/jpeg/png').length < 800000) {
-        Toast.loading('loading', 1)
+        Toast.loading('正在生成中，请稍后', 1)
         setTimeout(() => {
           this.creatCanvas(this.props.data)
         }, 1000);

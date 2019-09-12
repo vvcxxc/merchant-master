@@ -93,7 +93,6 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
       })
 
       this.createHeadImg(data.supplier.shop_door_header_img)
-      this.createActivityImg(data.activity_image)
       if (data.group_gif_info.gift_id != 0) {
         this.createGiftImg(data.group_gif_info.gif_pic)
       }
@@ -180,20 +179,6 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
         type: 'activity/setDetails',
         payload: {
           giftImg: this.getBase64Image2(tempImage2)
-        }
-      });
-    }
-  }
-
-  createActivityImg = (imgData: string) => {
-    let tempImage2 = new Image();// 礼品图片
-    tempImage2.crossOrigin = ""
-    tempImage2.src = this.judgeNetwork(imgData);
-    tempImage2.onload = () => {
-      this.props.dispatch({
-        type: 'activity/setDetails',
-        payload: {
-          activity_image: this.getBase64Image2(tempImage2)
         }
       });
     }
