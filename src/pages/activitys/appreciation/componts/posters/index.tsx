@@ -411,7 +411,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillStyle = "#313131"
 
     //文字超过部分定义省略号
-    contents.measureText(shopName).width < 200 ? contents.fillText(shopName, 260, 610, 400) : contents.fillText(shopName.slice(0, 5) + '.....', 260, 610, 400)
+    contents.measureText(shopName).width < 200 ? contents.fillText(shopName, 260, 612, 400) : contents.fillText(shopName.slice(0, 5) + '.....', 260, 612, 400)
 
     contents.fillText('正在发起' + title + '活动，速来！', 170, 660, 400)
     contents.save()
