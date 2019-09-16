@@ -15,7 +15,8 @@ export default class ExpenseCalendar extends Component<Props> {
 		hasMore: true,
 		// log : {},
 		data: [],
-		page: 1
+		page: 1,
+		money_total:''
 	}
 
 	componentDidMount() {
@@ -27,8 +28,10 @@ export default class ExpenseCalendar extends Component<Props> {
 
 	setLog = async () => {
 		const res = await request({ url: 'v3/ad_logs', params: { ad_id: this.props.adId, page: this.state.page } });
-		console.log('res', res)
 		if (res.code === 200 && res.data.length != 0) {
+			this.setState({
+				money_total: (res.data.money_total*0.00001*100000)
+			})
 			this.setState({
 				// log: this.state.log.concat,
 				// log: res.data,
@@ -54,7 +57,6 @@ export default class ExpenseCalendar extends Component<Props> {
 	}
 
 	render() {
-		console.log(this.state.data)
 		const tableItems = this.state.data ? this.state.data.map(_ => (
 			<Flex className={styles.tableItem} key={_.create_time}>
 				<Flex.Item>{moment.unix(_.create_time).format('YYYY-MM-DD')}</Flex.Item>
@@ -63,12 +65,15 @@ export default class ExpenseCalendar extends Component<Props> {
 			</Flex>
 		)) : null;
 		{
-			/* <Flex className={styles.totalExpense} justify="end">
-					总消耗：1.4
-				</Flex> */
+			// <Flex className={styles.totalExpense} justify="end">
+			// 		总消耗：1.4
+			// </Flex> 
 		}
 		return (
 			<WingBlank>
+				<Flex className={styles.totalExpense} justify="end">
+					总消耗：{this.state.money_total}
+			</Flex> 
 				<Flex className={styles.tableHead}>
 					<Flex.Item>时间</Flex.Item>
 					<span>事件</span>
