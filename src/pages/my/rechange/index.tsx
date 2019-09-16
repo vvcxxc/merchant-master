@@ -55,6 +55,10 @@ export default class Rechange extends Component {
 
           Toast.hide();
         } else {
+          if(this.state.money < '0.01'){
+            Toast.fail('充值金额不能小于0.01')
+            return
+          }
           this.auth()
         }
       } else {
