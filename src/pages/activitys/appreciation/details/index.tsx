@@ -94,14 +94,15 @@ export default connect(({ activity }: any) => activity)(
           git_money: data.appreciation_gif_info.gif_integral,//礼品金额
           gif_pic: data.appreciation_gif_info.gif_pic,//礼品图片
           gift_id: data.appreciation_gif_info.gift_id,// 礼品id 如果为0 海报就不显示礼品图片以及信息
-          init_money: data.appreciation_info.init_money,
+          init_money: data.appreciation_info.pay_money,
           max_money: data.appreciation_info.max_money,
           ...data.supplier,
           use_tim: data.appreciation_coupons_info.use_tim,
           gif_name: data.appreciation_gif_info.gif_name,
           schedule: data.appreciation_count.schedule,
           link: data.appreciation_info.link,
-          title: '增值'
+          title: '增值',
+          total_fee: data.appreciation_info.total_fee,
         }
       })
 
@@ -144,7 +145,6 @@ export default connect(({ activity }: any) => activity)(
     }
 
     // 创建图片
-
     createHeadImg = (imgData:string) => {
       let tempImage2 = new Image();// 礼品图片
       tempImage2.crossOrigin = ""
