@@ -246,6 +246,7 @@ export default connect(({ activity }: any) => activity)(
       let endDate = new Date(end_date).getTime();
       console.log(this.props.Appreciation)
 
+
       //起始结束日期效验
       if (startDate > endDate) {
         Toast.fail('结束日期应大于起始日期');
