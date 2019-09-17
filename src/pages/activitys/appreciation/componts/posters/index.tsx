@@ -24,7 +24,8 @@ interface dataType {
   tel: string,
   title: string,
   use_tim: string,
-  total_fee:string | number
+  total_fee: string | number,
+  pay_money: string | number
 }
 
 interface Props<T> {
@@ -88,8 +89,9 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
     let title = data.title
     let shopName = data.name                                    //店铺名字
-    let init_money = this.identifyData(String(data.init_money) )        // 只需多少元
-    let max_money = this.identifyData(String(data.max_money))           // 拼团券的金额
+    let init_money = data.pay_money       // 只需多少元
+    let max_money = data.max_money
+      // this.identifyData(String(data.max_money))           // 拼团券的金额
     let phone = data.tel                                        //店铺电话
     let home = data.address                                     //店铺地址
     let giftPrice = data.git_money
@@ -251,7 +253,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.font = '32px PingFang-SC-Medium Bold';
     contents.fillStyle = "#FF6654"
     contents.fillText('只需' + init_money + '元即可领取价值', 200, 905, 350)
-    contents.fillText(max_money + '元得' + title + '券!', 255, 950, 350)
+    contents.fillText(max_money + '元的' + title + '券!', 255, 950, 350)
     contents.save()
 
     contents.fillText('消费即可免费领取价值', 200, 1210, 450)
@@ -297,18 +299,16 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let outlineImg = new Image()  // 轮廓图片
     let giftImg = new Image()     // 礼品图片
 
-
     let title = data.title
     let shopName = data.name                                    //店铺名字
-    let init_money = this.identifyData(String(data.init_money) )        // 只需多少元
-    let max_money = this.identifyData(String(data.max_money))          // 拼团券的金额
+    let init_money = data.pay_money      // 只需多少元
+    let max_money = data.max_money      // 拼团券的金额   
     let phone = data.tel                                        //店铺电话
     let home = data.address                                     //店铺地址
     let use_tim = data.use_tim
     let arch = data.gif_name
     let schedule = data.schedule                                //控制进度条
     let link = data.link                                        // 用户扫二维码所跳转的链接
-    // let activityImg = new Image() //增值券
 
     QRCode.toDataURL(link)                                      // 网络链接转化为二维码
       .then((url: any) => {
@@ -317,8 +317,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       .catch((err: any) => { })
     
     if (data.title != '拼团') {
-      var meet = this.identifyData(data.total_fee.toString());
-        // 满足金额
+      var meet = data.total_fee
       JYB_IMG.src = require("../../../../../assets/add_money.png")
       JYB_giftImg.src = require("../../../../../assets/add.border.png") 
     } else {
@@ -450,7 +449,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.font = '32px PingFang-SC-Medium Bold';
     contents.fillStyle = "#FF6654"
     contents.fillText('只需' + init_money + '元即可领取价值', 210, 920, 350)
-    contents.fillText(max_money + '元得' + title + '券!', 255, 970, 350)
+    contents.fillText(max_money + '元的' + title + '券!', 255, 970, 350)
     contents.save()
 
     contents.font = '28px PingFang-SC-Regular';

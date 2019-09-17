@@ -94,7 +94,7 @@ export default connect(({ activity }: any) => activity)(
           git_money: data.appreciation_gif_info.gif_integral,//礼品金额
           gif_pic: data.appreciation_gif_info.gif_pic,//礼品图片
           gift_id: data.appreciation_gif_info.gift_id,// 礼品id 如果为0 海报就不显示礼品图片以及信息
-          init_money: data.appreciation_info.pay_money,
+          pay_money: data.appreciation_info.pay_money,
           max_money: data.appreciation_info.max_money,
           ...data.supplier,
           use_tim: data.appreciation_coupons_info.use_tim,

@@ -81,8 +81,8 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
           git_money: data.group_gif_info.gif_integral,//礼品金额
           gif_pic: data.group_gif_info.gif_pic,//礼品图片
           gift_id: data.group_gif_info.gift_id,// 礼品id 如果为0 海报就不显示礼品图片以及信息
-          init_money: data.group_info.group_money,
-          max_money: data.group_info.pay_money,
+          pay_money: data.group_info.pay_money,
+          max_money: data.group_info.group_money,
           ...data.supplier,
           use_tim: data.group_coupons_info.use_tim,
           gif_name: data.group_gif_info.gif_name,
