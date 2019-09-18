@@ -1,0 +1,84 @@
+.verificationBox {
+  height: auto;
+  width: 100%;
+  background: #fff;
+  padding: 0 30px 50px;
+  box-sizing: border-box;
+
+  .financeItem {
+    height: 130px;
+    border-bottom: 1px solid #e5e5e5;
+    box-sizing: border-box;
+
+    .recordBox {
+      height: 80px;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+
+      .recordLeft {
+        flex: 2;
+        height: 100%;
+        border-right: 1px solid #e5e5e5;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+        .recordTime {
+          font-size: 25px;
+          color: #8c8c8c;
+        }
+
+        .recordDate {
+          font-size: 22px;
+          color: #666666;
+        }
+      }
+
+      .recordRight {
+        flex: 9;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+
+        .recordMsg {
+          flex: 465;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: flex-start;
+          padding-left: 30px;
+          box-sizing: border-box;
+
+          .recordStore {
+            color: #6f6f6f;
+            font-size: 30px;
+            width: 430px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .recordCode {
+            color: #cdcdcd;
+            font-size: 24px;
+          }
+        }
+
+        .recordNum {
+          flex: 9;
+          color: #df1c1c;
+          font-size: 28px;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
+}

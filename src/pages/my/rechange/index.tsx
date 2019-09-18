@@ -22,7 +22,6 @@ export default class Rechange extends Component {
   /** recahnge submit value */
   /** recahnge submit value */
   submit = async () => {
-    console.log(this.state.money);
     if (Number(this.state.money) == 0 || this.state.money == undefined || isNaN(Number(this.state.money))) {
       Toast.fail('请输入充值金额', 1.5);
     } else {
@@ -55,11 +54,12 @@ export default class Rechange extends Component {
 
           Toast.hide();
         } else {
+          Toast.fail(res.data)
           if(this.state.money < '0.01'){
             Toast.fail('充值金额不能小于0.01')
             return
           }
-          this.auth()
+          // this.auth()
         }
       } else {
         this.auth()

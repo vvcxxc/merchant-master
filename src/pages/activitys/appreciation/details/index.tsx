@@ -62,6 +62,20 @@ export default connect(({ activity }: any) => activity)(
     types: '',
     showShare: false,//是否显示分享的组件
   }
+
+    componentWillMount() {
+      console.log(1);
+      
+      this.props.dispatch({
+        type: 'activity/setDetails',
+        payload: {
+          headImg: '1 ',
+          giftImg:' 1'
+        }
+      });
+  }
+  
+  
   componentDidMount() {
     let { id, type } = this.props.location.query;
     if (type == '1') {
@@ -94,7 +108,7 @@ export default connect(({ activity }: any) => activity)(
           git_money: data.appreciation_gif_info.gif_integral,//礼品金额
           gif_pic: data.appreciation_gif_info.gif_pic,//礼品图片
           gift_id: data.appreciation_gif_info.gift_id,// 礼品id 如果为0 海报就不显示礼品图片以及信息
-          init_money: data.appreciation_info.pay_money,
+          pay_money: data.appreciation_info.pay_money,
           max_money: data.appreciation_info.max_money,
           ...data.supplier,
           use_tim: data.appreciation_coupons_info.use_tim,

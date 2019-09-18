@@ -1,0 +1,77 @@
+/* // 新的login页面 */
+ .newLogin { 
+  height: 100vh;
+  width: 100vw;
+  background-image: url('../../../assets/backgroundColor.png');
+  background-size: 100vw 100vh;
+  background-repeat: no-repeat;
+
+  //login部分
+  .login {
+    padding-top: 150px;
+    padding-bottom: 75px;
+    text-align: center;
+    img {
+      height: 205px;
+      width: 155px;
+    }
+  }
+
+  // 内容
+  .contentInput {
+    display: flex;
+    justify-content: center;
+    .list {
+      width:500px;
+      .title {
+        font-size: 26px;
+        color:#999999;
+        font-family:Source Han Sans CN;
+        color:rgba(153,153,153,1);
+      }
+      :global{
+        .am-list-item .am-list-line{
+          align-self:initial;
+        }
+        .am-list-item:not(:last-child) .am-list-line{
+          border-bottom:1px solid #FFD5A3;
+        }
+        .am-list-line{
+          border-bottom:1px solid #FFD5A3;
+        }
+        .am-list-item .am-input-clear{
+          padding-top: -5px;
+        }
+
+      }
+      .password {
+        font-size: 26px;
+        color:#999999;
+        font-family:Source Han Sans CN;
+        color:rgba(153,153,153,1);
+      }
+    }
+  }
+
+  // 登陆按钮
+  .landing{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    padding-top: 84px;
+    div {
+      width: 391px;
+      height: 78px;
+      background:linear-gradient(-20deg,rgba(255,162,0,1),rgba(255,212,0,1));
+      border-radius:39px;
+      font-size: 38px ;
+      font-family:Source Han Sans CN;
+      color:rgba(122,79,4,1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight:300;
+    }
+  }
+
+} 
