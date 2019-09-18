@@ -62,6 +62,20 @@ export default connect(({ activity }: any) => activity)(
     types: '',
     showShare: false,//是否显示分享的组件
   }
+
+    componentWillMount() {
+      console.log(1);
+      
+      this.props.dispatch({
+        type: 'activity/setDetails',
+        payload: {
+          headImg: '1 ',
+          giftImg:' 1'
+        }
+      });
+  }
+  
+  
   componentDidMount() {
     let { id, type } = this.props.location.query;
     if (type == '1') {
