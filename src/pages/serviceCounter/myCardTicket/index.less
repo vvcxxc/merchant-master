@@ -1,0 +1,67 @@
+.card_ticket {
+    height: 200px;
+    border: 1px solid red;
+    padding-left: 50px;
+    background: linear-gradient(to right, #f73e38 20% , #f97844 70%);
+    border-radius: 20px;
+    display: flex;
+    margin-top: 120px;
+    overflow: hidden;
+    .card_ticket_info {
+        flex: 2;
+        padding: 20px 0;
+        color: #fff;
+        letter-spacing: 4px;
+        .store_name {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        .ticket_price {
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 100;
+        }
+        .ticket_date {
+            font-weight: 100;
+        }
+    }
+    .card_ticket_use_btn {
+        flex: 1;
+        position: relative;
+        .use_btn_wrap {
+            position: absolute;
+            top: -60px;
+        }
+    }
+}
+
+.card_ticket_use_btn {
+    .use_btn_wrap {
+        width: 320px;
+        height: 320px;
+        // border: 1px solid #ccc;
+        border-top-left-radius: 50%;
+        border-bottom-left-radius: 50%;
+        box-shadow: 5px 5px 50px 50px #f35b31;
+        background: #f97844;
+        display: flex;
+        align-items: center;
+        .btn_status {
+            width: 160px;
+            height: 160px;
+            background-color: #ffd74d;
+            margin-left: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            box-sizing: border-box;
+            color: #ba8010;
+            font-weight: 700;
+            font-size: 30px;
+            .btn_text {
+                text-align: center;
+            }
+        }
+    }
+}

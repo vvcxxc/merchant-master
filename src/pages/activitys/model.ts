@@ -82,7 +82,9 @@ const model: Model = {
     details: {
       headImg: '1',
       giftImg: '1',
-      activity_image:'1'
+      activity_image: '1',
+      longCanvas: '1',
+      shortCanvas:'1'
     }
   },
   reducers: {
