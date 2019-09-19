@@ -5,6 +5,7 @@ import { CouponForm } from './model';
 import styles from './index.less';
 import upload from '@/services/oss';
 import Notice from '@/pages/activitys/components/notice';
+import router from 'umi/router';
 
 interface Props extends CouponForm {
 	dispatch: (arg0: any) => any;
@@ -35,8 +36,8 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			});
 			this.setState({ showNotice: false });
 		};
-		handleShowNotice = () => this.setState({ showNotice: true });
-
+    // handleShowNotice = () => this.setState({ showNotice: true });
+    handleShowNotice = () => router.push({ pathname: '/activitys/notice', query: { type: 3 } })
 		handleInput = (type: string) => (value: any) => {
 			// console.log(value)
 			// console.log(type)
