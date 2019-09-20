@@ -34,7 +34,7 @@ export default function new_request(options: Options) {
     .catch(err => {
       Toast.hide();
       if (err.response && err.response.status === 401) {
-        router.push('/login');
+        router.push('/serviceCounter/serviceLogin');
       }
       if (err.response && err.response.status !== 401) {
         Toast.fail(err.response.data.message);

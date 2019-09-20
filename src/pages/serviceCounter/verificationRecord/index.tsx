@@ -18,15 +18,13 @@ interface Props {
     data: VerificationItem[];
     dispatch: (arg0: any) => any;
     hasMore: {},
-    // page: null
+    page: null
 }
 
 export default connect(({ verification }: any) => verification)(
     class VerificationRecord extends Component<Props> {
         state = {
             page: 1,
-            min: undefined,
-            max: undefined,
             finance_type: undefined,
             date: undefined
         };
@@ -51,11 +49,7 @@ export default connect(({ verification }: any) => verification)(
                 }, () => {
                     this.props.dispatch({
                         type: 'verification/getData', query: {
-                            page: this.state.page,
-                            finance_type: this.state.finance_type,
-                            date: this.state.date,
-                            moneyscope_micro: this.state.min,
-                            moneyscope_maximum: this.state.max
+                            page: this.state.page
                         }
                     })
                 })
@@ -67,20 +61,20 @@ export default connect(({ verification }: any) => verification)(
         };
         render() {
             /**页面数据列表 */
-            const verificationRecordList = this.props.data.length ? (
-                this.props.data.map(_ => (
-                    <Flex key={_.id} className={styles.financeItem} onClick={() => { null }}>
+            const verificationRecordList = this.props.data.length>0 ? (
+                this.props.data.map(item => (
+                    <Flex key={item.id} className={styles.financeItem} onClick={() => { null }}>
                         <div className={styles.recordBox}>
                             <div className={styles.recordLeft}>
-                                <div className={styles.recordTime}>13:00</div>
-                                <div className={styles.recordDate}>3月10日</div>
+                                <div className={styles.recordTime}>{item.pay_time}</div>
+                                <div className={styles.recordDate}>{item.create_time}</div>
                             </div>
                             <div className={styles.recordRight}>
                                 <div className={styles.recordMsg}>
-                                    <div className={styles.recordStore}>杨大富的五金店杨大富的五金店杨大富的五金店杨大富的五金店杨大富的五金店杨大富的五金店杨大富的五金店</div>
-                                    <div className={styles.recordCode}>订单号：06655463654555</div>
+                                    <div className={styles.recordStore}>{item.store_name}</div>
+                                    <div className={styles.recordCode}>订单号：{item.order_sn}</div>
                                 </div>
-                                <div className={styles.recordNum}> +100</div>
+                                <div className={styles.recordNum}> +{item.amount}</div>
                             </div>
                         </div>
                     </Flex>
