@@ -3,6 +3,7 @@ import styles from './index.less'
 import QRCode from 'qrcode';
 import { Flex, WingBlank, Icon, Toast } from 'antd-mobile';
 import request from '@/services/request';
+import new_request from '@/services/new_request';
 import router from 'umi/router';
 import wx from 'weixin-js-sdk';
 
@@ -13,10 +14,12 @@ export default class ServiceCounter extends Component<Props>{
   state = {
     service: ['扫码核销', '生成服务码'],
     listIndex: 0,
-    qrcodeImg: ''
+    qrcodeImg: '',
+    serviceCounterId:Number
   }
 
   componentWillMount() {
+    if (!localStorage.getItem('token_QL')) router.push({ pathname: '../../serviceCounter/serviceLogin' })
     let userAgent = navigator.userAgent;
     let isIos = userAgent.indexOf('iPhone') > -1;
     let url: any;
@@ -42,12 +45,24 @@ export default class ServiceCounter extends Component<Props>{
         jsApiList: ['getLocation', 'openLocation', 'scanQRCode']
       });
     });
+
+    // 拿到核销id
+    new_request({
+      url: 'v3/service/counter/info',
+      method: 'get',
+      params: {}
+    })
+      .then((res: any) => {
+        if (res.code == 200) {
+          this.setState({ serviceCounterId: res.data.serviceCounterId})
+        }
+      })
   }
 
   componentDidMount() {
     QRCode.toDataURL('阿敏，你个二货，哈哈哈')                                      // 网络链接转化为二维码
       .then((url: any) => {
-        console.log(url);
+        // console.log(url);
         this.setState({ qrcodeImg: url })
       })
       .catch((err: any) => { })
@@ -66,36 +81,56 @@ export default class ServiceCounter extends Component<Props>{
   }
   // 核销
   cancelAfterVerific = () => {
-    console.log('核销');
-
+    // console.log('核销');
+    // this.Verification()
   }
 
   /**点击核销 */
   Verification = () => {
+    console.log('执行');
+    
     wx.scanQRCode({
       needResult: 1,
       desc: 'scanQRCode desc',
       success: ({ resultStr }: any) => {
         let res = JSON.parse(resultStr);
-        request({
-          url: 'api/merchant/youhui/userConsume',
+
+        new_request({
+          url: 'v3/service/counter/order_verification',
           method: 'post',
-          data: {
-            code: res.youhui_sn
+          params: {
+            id: this.state.serviceCounterId
           }
-        }).then(res => {
-          if (res.code == 200) {
-            alert('成功了')
-            // router.push({
-            //   pathname: '/verification/success',
-            //   query: {
-            //     id: res.data.youhu_log_id
-            //   }
-            // })
-          } else {
-            Toast.fail(res.message);
-          }
-        });
+        })
+          .then((res: any) => {
+            if (res.code == 200) {
+             alert(res.code)
+            } else {
+              alert('失败了')
+            }
+          })
+        
+        // request({
+        //   url: 'api/merchant/youhui/userConsume',
+        //   method: 'post',
+        //   data: {
+        //     code: res.youhui_sn
+        //   }
+        // }).then(res => {
+        //   if (res.code == 200) {
+        //      alert('成功了')
+        //     router.push({ pathname: '/' })
+        //     // alert('成功了')
+        //     // router.push({
+        //     //   pathname: '/verification/success',
+        //     //   query: {
+        //     //     id: res.data.youhu_log_id
+        //     //   }
+        //     // })
+        //   } else {
+        //     Toast.fail(res.message);
+        //   }
+        // });
       }
     });
   };
@@ -113,7 +148,7 @@ export default class ServiceCounter extends Component<Props>{
         </div>
 
         {
-          this.state.listIndex == 0 ? <div className={styles.content}>
+          this.state.listIndex == 0 ? <div className={styles.content} onClick={this.Verification}>
             <img src={require('../../../assets/bright.png')} alt="" />
           </div> : <div>
               <div className={styles.content}>

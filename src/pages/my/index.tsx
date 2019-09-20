@@ -116,6 +116,10 @@ export default connect()(
 			this.setState({ showSharethree:false})
 		}
 
+		pujie = () => {
+			router.push({pathname:'../serviceCounter/serviceLogin'})
+		}
+
 		render() {
       // console.log(this.state.info.wx_sign_status)
 			const signCode = this.state.info.wx_sign_status == 2 ? (
@@ -157,6 +161,7 @@ export default connect()(
 								<div className="btn" onClick={this.transferredBalance}>
 									转到余额
 								</div>
+								<div onClick={this.pujie}>扑街</div>
 							</Flex>
 							<Flex className="bottom">
 								<Flex.Item>
