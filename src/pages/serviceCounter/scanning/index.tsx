@@ -104,9 +104,11 @@ export default class ServiceCounter extends Component<Props>{
         })
           .then((res: any) => {
             if (res.code == 200) {
-             alert(res.code)
+              // alert(res.code)
+              Toast.fail(res.message);
             } else {
-              alert('失败了')
+              // alert('失败了')
+              Toast.fail('失败');
             }
           })
         
