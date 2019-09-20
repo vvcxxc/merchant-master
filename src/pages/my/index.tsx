@@ -161,7 +161,7 @@ export default connect()(
 								<div className="btn" onClick={this.transferredBalance}>
 									转到余额
 								</div>
-								<div onClick={this.pujie}>扑街</div>
+							
 							</Flex>
 							<Flex className="bottom">
 								<Flex.Item>
@@ -198,6 +198,10 @@ export default connect()(
 						<Flex onClick={this.pushPage('/my/inviteQrCode')}>
 							<img src={require('./benefit.png')} alt="" />
 							<span>店铺邀请码</span>
+						</Flex>
+
+						<Flex onClick={this.pujie}>
+							服务台演示看这里
 						</Flex>
 						{signCode}
 					</WingBlank>

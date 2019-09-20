@@ -102,6 +102,7 @@ export default class ServiceCounter extends Component<Props>{
         //     id: this.state.serviceCounterId
         //   }
         // })
+        
         //   .then((res: any) => {
         //     if (res.code == 200) {
         //       // alert(res.code)
