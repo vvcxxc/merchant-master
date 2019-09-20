@@ -59,10 +59,9 @@ export default class ServiceCounter extends Component<Props>{
       })
   }
 
-  componentDidMount() {
-    QRCode.toDataURL('阿敏，你个二货，哈哈哈')                                      // 网络链接转化为二维码
+  componentDidMount() {   // 网络链接转化为二维码   --> 跳到泽铜页面
+    QRCode.toDataURL('http://test.supplierv2.tdianyi.com/serviceCounter/myCardTicket?id='+this.state.serviceCounterId)                                     
       .then((url: any) => {
-        // console.log(url);
         this.setState({ qrcodeImg: url })
       })
       .catch((err: any) => { })
@@ -70,7 +69,6 @@ export default class ServiceCounter extends Component<Props>{
 
   // 索引器
   indexer = (index: number) => {
-    console.log(index, '所以韩');
     this.setState({ listIndex: index })
   }
 
