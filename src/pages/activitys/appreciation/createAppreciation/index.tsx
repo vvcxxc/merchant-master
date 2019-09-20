@@ -510,7 +510,7 @@ export default connect(({ activity }: any) => activity)(
               <Flex className={styles.title}><div>活动设置</div></Flex>
               <List className={styles.input_Box}>
 
-                {/* <Flex className={styles.radio0}>
+                <Flex className={styles.radio0}>
                   <div className={styles.radioFlex}>
                     <div className={styles.radioScope}>
                       <div className={styles.radioTitle}>
@@ -534,7 +534,7 @@ export default connect(({ activity }: any) => activity)(
                       }
                     </div>
                   </div>
-                </Flex> */}
+                </Flex>
                 <div className={styles.radio0_space} style={{ height: this.state.prompt ? "auto" : 0 }}>
                   <div className={styles.radio0_msg}>
                     <p>

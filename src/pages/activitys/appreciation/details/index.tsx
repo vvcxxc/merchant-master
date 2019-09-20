@@ -53,7 +53,7 @@ export default connect(({ activity }: any) => activity)(
         delivery: ''
       },
       supplier: {
-        
+
       }
     },
     id: '',
@@ -119,8 +119,13 @@ export default connect(({ activity }: any) => activity)(
           total_fee: data.appreciation_info.total_fee,
         }
       })
+      console.log(res,'res');
+      console.log(data.appreciation_gif_info.gif_pic);
 
-      this.createHeadImg(data.supplier.shop_door_header_img)
+
+      // this.createHeadImg(data.supplier.shop_door_header_img)
+      // this.createHeadImg(data.supplier.preview)
+
       if (data.appreciation_gif_info.gift_id != 0) {
         this.createGiftImg(data.appreciation_gif_info.gif_pic)
       }
@@ -185,7 +190,7 @@ export default connect(({ activity }: any) => activity)(
         });
       }
     }
-    
+
     // 转换图片
     getBase64Image2 = (img: any) => {
       var canvas: any = document.createElement("canvas");
@@ -200,8 +205,10 @@ export default connect(({ activity }: any) => activity)(
 
     // 用来给域里面添加 ‘ \ ’
     judgeNetwork = (Network: string) => {
+      console.log(Network,'999')
+
       if (Network.split('com', 2)[1].slice(0, 1) == '/') {
-        return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
+        // return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
       } else {
         return Network
       }
@@ -222,10 +229,10 @@ export default connect(({ activity }: any) => activity)(
     //     setTimeout(() => {
     //       console.log(this.props.details, 99);
     //     }, 1009);
-    
+
     // }
 
-  
+
 
   render() {
     const { info, is_gift, types } = this.state;
@@ -278,7 +285,7 @@ export default connect(({ activity }: any) => activity)(
           name={["参与人数", "增值人数", "券使用人数"]}
           colors={['#5476C4', '#7156C6', '#45BDBD']}
         />) : null
-    
+
     const bottom_share = (
       <BottomShare
         closeShare={this.closeShare}
@@ -308,7 +315,7 @@ export default connect(({ activity }: any) => activity)(
           {/* 基本信息 */}
           <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
-            活动统计数据
+            活动统计数据6
           </Flex>
           <div>
             {echart}

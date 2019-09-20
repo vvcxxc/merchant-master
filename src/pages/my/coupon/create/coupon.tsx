@@ -5,6 +5,7 @@ import { CouponForm } from './model';
 import styles from './index.less';
 import upload from '@/services/oss';
 import Notice from '@/pages/activitys/components/notice';
+import router from 'umi/router';
 
 interface Props extends CouponForm {
 	dispatch: (arg0: any) => any;
@@ -35,8 +36,8 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			});
 			this.setState({ showNotice: false });
 		};
-		handleShowNotice = () => this.setState({ showNotice: true });
-
+    // handleShowNotice = () => this.setState({ showNotice: true });
+    handleShowNotice = () => router.push({ pathname: '/activitys/notice', query: { type: 3 } })
 		handleInput = (type: string) => (value: any) => {
 			// console.log(value)
 			// console.log(type)
@@ -125,7 +126,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					extra="元"
 					value={String(this.props.pay_money || '')}
 					onChange={this.handleInput('pay_money')}
-					clear
 				>
 					购买价格
 				</InputItem>
@@ -146,7 +146,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						type="money"
 						value={String(this.props.return_money || '')}
 						onChange={this.handleInput('return_money')}
-						clear
 					>
 						市场价
 					</InputItem>

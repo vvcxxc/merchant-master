@@ -84,7 +84,7 @@ export default class PaymentReturnRules extends Component<Props> {
 				onChange={this.handleChange2('money')} value={String(this.props.item.money || '')}
 				onVirtualKeyboardConfirm={this.limitCoupons.bind(this)}//点击确定
 				onBlur={this.limitCoupons.bind(this)} //失去焦点触发
-				clear />
+				/>
 				元送
 			</Flex>
 		);
@@ -101,7 +101,7 @@ export default class PaymentReturnRules extends Component<Props> {
 				<InputItem className="numberInput" type="money" onChange={this.handleChange2('limit')} value={String(this.props.item.limit || '')}
 				onVirtualKeyboardConfirm={this.limitThreshold.bind(this)}//点击确定
 				onBlur={this.limitThreshold.bind(this)} //失去焦点触发
-				clear />
+				/>
 				元可用
 			</Flex>
 		);
@@ -112,13 +112,13 @@ export default class PaymentReturnRules extends Component<Props> {
 					<InputItem type="money" extra="元" onChange={this.handleChange2('returnMoney')} value={String(this.props.item.returnMoney || '')}
 					onVirtualKeyboardConfirm={this.limitDenomination.bind(this)}//点击确定
 					onBlur={this.limitDenomination.bind(this)} //失去焦点触发
-					clear>面额</InputItem>
+					>面额</InputItem>
 					<List.Item extra={limitInput}>使用门槛</List.Item>
 					<List.Item extra={dateInput}>优惠券有效期</List.Item>
 					<InputItem type="money" extra="张" onChange={this.handleChange('num')} value={String(this.props.item.num || '')}
 						onVirtualKeyboardConfirm={this.limmitInventory.bind(this)}//点击确定
 						onBlur={this.limmitInventory.bind(this)} //失去焦点触发
-					clear>库存数量</InputItem>
+					>库存数量</InputItem>
 				</WingBlank>
 			</List>
 		);

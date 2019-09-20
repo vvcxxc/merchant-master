@@ -69,7 +69,8 @@ const model: Model = {
       scope_mode:0,
       // 商品设置
       // isHaveData: false,
-      storeItems: []
+      storeItems: [],
+      description: []
     },
     Appreciation: {
       mail_mode: '1',
@@ -78,6 +79,7 @@ const model: Model = {
       cover_img: [],
       describe_img1: [],
       describe_img2: [],
+      description: []
     },
     details: {
       headImg: '1',
