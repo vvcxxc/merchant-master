@@ -103,7 +103,111 @@ export default connect(({ verification }: any) => verification)(
                             </div>
                         </div>
                     </Flex>
-
+                    <Flex className={styles.financeItem} onClick={() => { null }}>
+                        <div className={styles.recordBox}>
+                            <div className={styles.recordLeft}>
+                                <div className={styles.recordTime}>13：00</div>
+                                <div className={styles.recordDate}>3月10号</div>
+                            </div>
+                            <div className={styles.recordRight}>
+                                <div className={styles.recordMsg}>
+                                    <div className={styles.recordStore}>杨大富的五金店</div>
+                                    <div className={styles.recordCode}>订单号：0558554412</div>
+                                </div>
+                                <div className={styles.recordNum}> +100</div>
+                            </div>
+                        </div>
+                    </Flex>
+                    <Flex className={styles.financeItem} onClick={() => { null }}>
+                        <div className={styles.recordBox}>
+                            <div className={styles.recordLeft}>
+                                <div className={styles.recordTime}>13：00</div>
+                                <div className={styles.recordDate}>3月10号</div>
+                            </div>
+                            <div className={styles.recordRight}>
+                                <div className={styles.recordMsg}>
+                                    <div className={styles.recordStore}>杨大富的五金店</div>
+                                    <div className={styles.recordCode}>订单号：0558554412</div>
+                                </div>
+                                <div className={styles.recordNum}> +100</div>
+                            </div>
+                        </div>
+                    </Flex>
+                    <Flex className={styles.financeItem} onClick={() => { null }}>
+                        <div className={styles.recordBox}>
+                            <div className={styles.recordLeft}>
+                                <div className={styles.recordTime}>13：00</div>
+                                <div className={styles.recordDate}>3月10号</div>
+                            </div>
+                            <div className={styles.recordRight}>
+                                <div className={styles.recordMsg}>
+                                    <div className={styles.recordStore}>杨大富的五金店</div>
+                                    <div className={styles.recordCode}>订单号：0558554412</div>
+                                </div>
+                                <div className={styles.recordNum}> +100</div>
+                            </div>
+                        </div>
+                    </Flex>
+                    <Flex className={styles.financeItem} onClick={() => { null }}>
+                        <div className={styles.recordBox}>
+                            <div className={styles.recordLeft}>
+                                <div className={styles.recordTime}>13：00</div>
+                                <div className={styles.recordDate}>3月10号</div>
+                            </div>
+                            <div className={styles.recordRight}>
+                                <div className={styles.recordMsg}>
+                                    <div className={styles.recordStore}>杨大富的五金店</div>
+                                    <div className={styles.recordCode}>订单号：0558554412</div>
+                                </div>
+                                <div className={styles.recordNum}> +100</div>
+                            </div>
+                        </div>
+                    </Flex>
+                    <Flex className={styles.financeItem} onClick={() => { null }}>
+                        <div className={styles.recordBox}>
+                            <div className={styles.recordLeft}>
+                                <div className={styles.recordTime}>13：00</div>
+                                <div className={styles.recordDate}>3月10号</div>
+                            </div>
+                            <div className={styles.recordRight}>
+                                <div className={styles.recordMsg}>
+                                    <div className={styles.recordStore}>杨大富的五金店</div>
+                                    <div className={styles.recordCode}>订单号：0558554412</div>
+                                </div>
+                                <div className={styles.recordNum}> +100</div>
+                            </div>
+                        </div>
+                    </Flex>
+                    <Flex className={styles.financeItem} onClick={() => { null }}>
+                        <div className={styles.recordBox}>
+                            <div className={styles.recordLeft}>
+                                <div className={styles.recordTime}>13：00</div>
+                                <div className={styles.recordDate}>3月10号</div>
+                            </div>
+                            <div className={styles.recordRight}>
+                                <div className={styles.recordMsg}>
+                                    <div className={styles.recordStore}>杨大富的五金店</div>
+                                    <div className={styles.recordCode}>订单号：0558554412</div>
+                                </div>
+                                <div className={styles.recordNum}> +100</div>
+                            </div>
+                        </div>
+                    </Flex>
+                    <Flex className={styles.financeItem} onClick={() => { null }}>
+                        <div className={styles.recordBox}>
+                            <div className={styles.recordLeft}>
+                                <div className={styles.recordTime}>13：00</div>
+                                <div className={styles.recordDate}>3月10号</div>
+                            </div>
+                            <div className={styles.recordRight}>
+                                <div className={styles.recordMsg}>
+                                    <div className={styles.recordStore}>杨大富的五金店</div>
+                                    <div className={styles.recordCode}>订单号：0558554412</div>
+                                </div>
+                                <div className={styles.recordNum}> +100</div>
+                            </div>
+                        </div>
+                    </Flex>
                     {/* {verificationRecordList} */}
                     <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.props.hasMore.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
                 </div>
