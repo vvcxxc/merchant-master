@@ -161,7 +161,7 @@ export default class ServiceCounter extends Component<Props>{
             </div>
         }
 
-        <div className={styles.foot}>
+        <div className={styles.foot} onClick={()=>{router.push({ pathname: '../../serviceCounter/verificationRecord' })}}>
           <div className={styles.foot_head}></div>
           <div className={styles.footContent} onClick={this.cancelAfterVerific}>
             <span>核销记录</span>
