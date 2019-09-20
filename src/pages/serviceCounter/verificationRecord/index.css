@@ -1,4 +1,5 @@
 .verificationBox {
+  min-height: 100vh;
   height: auto;
   width: 100%;
   background: #fff;
