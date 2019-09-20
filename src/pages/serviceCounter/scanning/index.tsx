@@ -95,44 +95,44 @@ export default class ServiceCounter extends Component<Props>{
       success: ({ resultStr }: any) => {
         let res = JSON.parse(resultStr);
 
-        new_request({
-          url: 'v3/service/counter/order_verification',
-          method: 'post',
-          params: {
-            id: this.state.serviceCounterId
-          }
-        })
-          .then((res: any) => {
-            if (res.code == 200) {
-              // alert(res.code)
-              Toast.fail(res.message);
-            } else {
-              // alert('失败了')
-              Toast.fail('失败');
-            }
-          })
-        
-        // request({
-        //   url: 'api/merchant/youhui/userConsume',
+        // new_request({
+        //   url: 'v3/service/counter/order_verification',
         //   method: 'post',
-        //   data: {
-        //     code: res.youhui_sn
+        //   params: {
+        //     id: this.state.serviceCounterId
         //   }
-        // }).then(res => {
-        //   if (res.code == 200) {
-        //      alert('成功了')
-        //     router.push({ pathname: '/' })
-        //     // alert('成功了')
-        //     // router.push({
-        //     //   pathname: '/verification/success',
-        //     //   query: {
-        //     //     id: res.data.youhu_log_id
-        //     //   }
-        //     // })
-        //   } else {
-        //     Toast.fail(res.message);
-        //   }
-        // });
+        // })
+        //   .then((res: any) => {
+        //     if (res.code == 200) {
+        //       // alert(res.code)
+        //       Toast.fail(res.message);
+        //     } else {
+        //       // alert('失败了')
+        //       Toast.fail('失败');
+        //     }
+        //   })
+        
+        request({
+          url: 'api/merchant/youhui/userConsume',
+          method: 'post',
+          data: {
+            code: res.youhui_sn
+          }
+        }).then(res => {
+          if (res.code == 200) {
+             alert('成功了')
+            router.push({ pathname: '/' })
+            // alert('成功了')
+            // router.push({
+            //   pathname: '/verification/success',
+            //   query: {
+            //     id: res.data.youhu_log_id
+            //   }
+            // })
+          } else {
+            Toast.fail(res.message);
+          }
+        });
       }
     });
   };
