@@ -52,7 +52,7 @@
   box-sizing: border-box;
 }
 .verificationBox .financeItem .recordBox .recordRight .recordMsg .recordStore {
-  color: #6f6f6f;
+  color: #333333;
   font-size: 30px;
   width: 430px;
   overflow: hidden;
