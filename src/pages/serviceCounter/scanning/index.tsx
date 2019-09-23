@@ -182,10 +182,14 @@ export default class ServiceCounter extends Component{
     
   }
 
+  controlAllow = () => {
+    this.setState({ allow: false })
+  }
+ 
 
   render() {
     return (
-      <div className={styles.serviceCounter} style={{ backgroundColor: this.state.allow ?"rgba('0,0,0,.3')":"#fff"}}>
+      <div className={styles.serviceCounter} onClick={this.controlAllow} style={{ backgroundColor: this.state.allow ?"rgba('0,0,0,.3')":"#fff"}}>
         <div className={styles.title}>{/* title */}
           {
             this.state.service.map((item, index) => {
@@ -207,7 +211,7 @@ export default class ServiceCounter extends Component{
                       </div>
                     })
                   }
-                  <div className={styles.descirbeButton} onClick={}>
+                  <div className={styles.descirbeButton} onClick={this.cancelAfterVerific}>
                     <Text className={styles.myButton}>
                       核销</Text>
                   </div>
