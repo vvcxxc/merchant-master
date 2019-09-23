@@ -7,8 +7,6 @@ import new_request from '@/services/new_request';
 import router from 'umi/router';
 import wx from 'weixin-js-sdk';
 
-// type Props = any
-
 interface ShopMessage {
   label: string,
   describe:string
@@ -19,22 +17,22 @@ export default class ServiceCounter extends Component{
   state = {
     service: ['扫码核销', '生成服务码'],
     shopMessage: [
-      {
-        label: '店铺名称：',
-        describe: '多美蛋糕店'
-      },
-      {
-        label: '订单金额：',
-        describe: '多美蛋糕店'
-      },
-      {
-        label: '订 单 号：',
-        describe: '12345678954'
-      },
-      {
-        label: '消费时间：',
-        describe: '2019-09-05 11:11:11'
-      }
+      // {
+      //   label: '店铺名称：',
+      //   describe: '多美蛋糕店'
+      // },
+      // {
+      //   label: '订单金额：',
+      //   describe: '多美蛋糕店'
+      // },
+      // {
+      //   label: '订 单 号：',
+      //   describe: '12345678954'
+      // },
+      // {
+      //   label: '消费时间：',
+      //   describe: '2019-09-05 11:11:11'
+      // }
     ],
     listIndex: 0,
     qrcodeImg: '',
@@ -96,71 +94,25 @@ export default class ServiceCounter extends Component{
     this.setState({ listIndex: index })
   }
 
-  // 扫码
-  scanCode = () => {
-    console.log('扫码');
-
-  }
-  // 核销
-  // cancelAfterVerific = () => {
-  //   // console.log('核销');
-  //   this.Verification()
-  // }
-
   /**点击核销 */
   cancelAfterVerific = () => {
-    console.log('执行');
-    
     wx.scanQRCode({
       needResult: 1,
       desc: 'scanQRCode desc',
       success: ({ resultStr }: any) => {
-        let res = JSON.parse(resultStr);
-
-        // new_request({
-        //   url: 'v3/service/counter/order_verification',
-        //   method: 'post',
-        //   params: {
-        //     id: this.state.serviceCounterId
-        //   }
-        // })
-        
-        //   .then((res: any) => {
-        //     if (res.code == 200) {
-        //       // alert(res.code)
-        //       Toast.fail(res.message);
-        //     } else {
-        //       // alert('失败了')
-        //       Toast.fail('失败');
-        //     }
-        //   })
-        
-        request({
-          url: 'api/merchant/youhui/userConsume',
-          method: 'post',
-          data: {
-            code: res.youhui_sn
-          }
-        }).then(res => {
-          if (res.code == 200) {
-
-            alert(res)
-            // 这里成功触发后， 出现是否允许核销
-            this.setState({ allow:true })
-            // alert('成功了')
-            router.push({ pathname: '../../serviceCounter/scanning' })
-            // router.push({ pathname: '/' })
-            // alert('成功了')
-            // router.push({
-            //   pathname: '/verification/success',
-            //   query: {
-            //     id: res.data.youhu_log_id
-            //   }
-            // })
-          } else {
-            Toast.fail(res.message);
-          }
-        });
+        let res = JSON.parse(resultStr)
+        let data = [
+          { label: '店铺名称：', describe: res.storeName },
+          { label: '订单金额：', describe: res.amount },
+          { label: '订 单 号：', describe: res.orderSn },
+          { label: '消费时间：', describe: res.orderCreateTime}
+        ]
+        this.setState({
+          shopMessage:data
+        })
+        this.setState({
+          orderId:res.id
+        })
       }
     });
   };
@@ -170,12 +122,13 @@ export default class ServiceCounter extends Component{
       url: 'v3/service/counter/order_verification',
       method: 'post',
       data: {
-       id: 1 //核销id
+        id: this.state.orderId //核销id
       }
     })
       .then((res: any) => {
         if (res.code == 200) {
-          localStorage.setItem('token_QL', JSON.stringify(res.data.token))
+          // localStorage.setItem('token_QL', JSON.stringify(res.data.token))
+          alert(res.message)
           router.push({ pathname: '../../serviceCounter/scanning' })
         }
       })
@@ -185,11 +138,16 @@ export default class ServiceCounter extends Component{
   controlAllow = () => {
     this.setState({ allow: false })
   }
+
+  closeShadow = (e: any) => {
+    this.setState({ allow: false })
+    e.stopPropagation();
+  } 
  
 
   render() {
     return (
-      <div className={styles.serviceCounter} onClick={this.controlAllow} style={{ backgroundColor: this.state.allow ?"rgba('0,0,0,.3')":"#fff"}}>
+      <div className={styles.serviceCounter} onClick={this.controlAllow}>
         <div className={styles.title}>{/* title */}
           {
             this.state.service.map((item, index) => {
@@ -201,7 +159,7 @@ export default class ServiceCounter extends Component{
         {
           this.state.listIndex == 0 ? <div className={styles.content} onClick={this.cancelAfterVerific}>
             {
-              !this.state.allow ? <img src={require('../../../assets/bright.png')} alt="" /> : <div >
+              this.state.allow ? <img src={require('../../../assets/bright.png')} alt="" /> : <div className={styles.shopBox} onClick={this.closeShadow.bind(this)}>
                 <div className={styles.shopDescirbe}>
                   {
                     this.state.shopMessage.map((item: ShopMessage, index: number) => {
@@ -211,8 +169,8 @@ export default class ServiceCounter extends Component{
                       </div>
                     })
                   }
-                  <div className={styles.descirbeButton} onClick={this.cancelAfterVerific}>
-                    <Text className={styles.myButton}>
+                  <div className={styles.descirbeButton} >
+                    <Text className={styles.myButton} onClick={this.cancelAfterVerific}>
                       核销</Text>
                   </div>
                 </div>
