@@ -66,8 +66,10 @@ export default connect(({ verification }: any) => verification)(
                     <Flex key={item.id} className={styles.financeItem} onClick={() => { null }}>
                         <div className={styles.recordBox}>
                             <div className={styles.recordLeft}>
-                                <div className={styles.recordTime}>13:00</div>
-                                <div className={styles.recordDate}>3月10日</div>
+                                <div className={styles.recordTime}>{moment(Number(item.create_time) * 1000).format('HH:mm')}</div>
+                                <div className={styles.recordTime}>{moment(Number(item.create_time) * 1000).format('MM月DD日')}</div>
+                                {/* <div className={styles.recordTime}>{new Date(Number(item.create_time)* 1000).getHours() + ":" + new Date(Number(item.create_time)* 1000).getMinutes()}</div> */}
+                                {/* <div className={styles.recordDate}>{(new Date(Number(item.create_time)* 1000).getMonth() + 1) + "月" + new Date(Number(item.create_time)* 1000).getDate() + "日"}</div> */}
                             </div>
                             <div className={styles.recordRight}>
                                 <div className={styles.recordMsg}>
