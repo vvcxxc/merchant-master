@@ -37,7 +37,8 @@ export default class ServiceCounter extends Component{
     listIndex: 0,
     qrcodeImg: '',
     serviceCounterId: Number,
-    allow:false
+    allow: false,
+    orderId:Number
   }
 
   componentWillMount() {
@@ -100,6 +101,9 @@ export default class ServiceCounter extends Component{
       needResult: 1,
       desc: 'scanQRCode desc',
       success: ({ resultStr }: any) => {
+        this.setState({
+          allow:true
+        })
         let res = JSON.parse(resultStr)
         let data = [
           { label: '店铺名称：', describe: res.storeName },
@@ -128,7 +132,7 @@ export default class ServiceCounter extends Component{
       .then((res: any) => {
         if (res.code == 200) {
           // localStorage.setItem('token_QL', JSON.stringify(res.data.token))
-          alert(res.message)
+          // alert(res.message)
           router.push({ pathname: '../../serviceCounter/scanning' })
         }
       })
