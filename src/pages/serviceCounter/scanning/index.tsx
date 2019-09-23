@@ -96,7 +96,10 @@ export default class ServiceCounter extends Component{
   }
 
   /**点击核销 */
-  cancelAfterVerific = () => {
+  cancelAfterVerific = (e: any) => {
+    e.stopPropagation();
+    console.log(22222);
+    
     wx.scanQRCode({
       needResult: 1,
       desc: 'scanQRCode desc',
@@ -133,8 +136,11 @@ export default class ServiceCounter extends Component{
         if (res.code == 200) {
           // localStorage.setItem('token_QL', JSON.stringify(res.data.token))
           // alert(res.message)
+          Toast.success(res.message,1)
           router.push({ pathname: '../../serviceCounter/scanning' })
         }
+      }).catch(() => {
+        Toast.fail('核销失败', 1);
       })
     
   }
@@ -174,7 +180,7 @@ export default class ServiceCounter extends Component{
                     })
                   }
                   <div className={styles.descirbeButton} >
-                    <Text className={styles.myButton} onClick={this.cancelAfterVerific}>
+                    <Text className={styles.myButton} onClick={this.allowverification.bind(this)}>
                       核销</Text>
                   </div>
                 </div>
