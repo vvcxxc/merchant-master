@@ -153,7 +153,7 @@ export default class ServiceCounter extends Component{
     this.setState({ allow: false })
     e.stopPropagation();
   } 
- 
+
 
   render() {
     return (
@@ -197,7 +197,7 @@ export default class ServiceCounter extends Component{
 
         <div className={styles.foot} onClick={()=>{router.push({ pathname: '../../serviceCounter/verificationRecord' })}}>
           <div className={styles.foot_head}></div>
-          <div className={styles.footContent} onClick={this.cancelAfterVerific}>
+          <div className={styles.footContent}>
             <span>核销记录</span>
             <img src={require('../../../assets/jiantou_right.png')} alt="" />
           </div>
