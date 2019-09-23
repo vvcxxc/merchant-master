@@ -1,21 +1,45 @@
 import React, { Component } from 'react';
 import styles from './index.less'
 import QRCode from 'qrcode';
-import { Flex, WingBlank, Icon, Toast } from 'antd-mobile';
+import { Flex, WingBlank, Icon, Toast,Text } from 'antd-mobile';
 import request from '@/services/request';
 import new_request from '@/services/new_request';
 import router from 'umi/router';
 import wx from 'weixin-js-sdk';
 
-type Props = any
+// type Props = any
 
-export default class ServiceCounter extends Component<Props>{
+interface ShopMessage {
+  label: string,
+  describe:string
+}
+
+export default class ServiceCounter extends Component{
 
   state = {
     service: ['扫码核销', '生成服务码'],
+    shopMessage: [
+      {
+        label: '店铺名称：',
+        describe: '多美蛋糕店'
+      },
+      {
+        label: '订单金额：',
+        describe: '多美蛋糕店'
+      },
+      {
+        label: '订 单 号：',
+        describe: '12345678954'
+      },
+      {
+        label: '消费时间：',
+        describe: '2019-09-05 11:11:11'
+      }
+    ],
     listIndex: 0,
     qrcodeImg: '',
-    serviceCounterId:Number
+    serviceCounterId: Number,
+    allow:false
   }
 
   componentWillMount() {
@@ -78,13 +102,13 @@ export default class ServiceCounter extends Component<Props>{
 
   }
   // 核销
-  cancelAfterVerific = () => {
-    // console.log('核销');
-    // this.Verification()
-  }
+  // cancelAfterVerific = () => {
+  //   // console.log('核销');
+  //   this.Verification()
+  // }
 
   /**点击核销 */
-  Verification = () => {
+  cancelAfterVerific = () => {
     console.log('执行');
     
     wx.scanQRCode({
@@ -119,8 +143,13 @@ export default class ServiceCounter extends Component<Props>{
           }
         }).then(res => {
           if (res.code == 200) {
-             alert('成功了')
-            router.push({ pathname: '/' })
+
+            alert(res)
+            // 这里成功触发后， 出现是否允许核销
+            this.setState({ allow:true })
+            // alert('成功了')
+            router.push({ pathname: '../../serviceCounter/scanning' })
+            // router.push({ pathname: '/' })
             // alert('成功了')
             // router.push({
             //   pathname: '/verification/success',
@@ -136,10 +165,27 @@ export default class ServiceCounter extends Component<Props>{
     });
   };
 
+  allowverification = () => {
+    new_request({
+      url: 'v3/service/counter/order_verification',
+      method: 'post',
+      data: {
+       id: 1 //核销id
+      }
+    })
+      .then((res: any) => {
+        if (res.code == 200) {
+          localStorage.setItem('token_QL', JSON.stringify(res.data.token))
+          router.push({ pathname: '../../serviceCounter/scanning' })
+        }
+      })
+    
+  }
+
 
   render() {
     return (
-      <div className={styles.serviceCounter}>
+      <div className={styles.serviceCounter} style={{ backgroundColor: this.state.allow ?"rgba('0,0,0,.3')":"#fff"}}>
         <div className={styles.title}>{/* title */}
           {
             this.state.service.map((item, index) => {
@@ -149,8 +195,26 @@ export default class ServiceCounter extends Component<Props>{
         </div>
 
         {
-          this.state.listIndex == 0 ? <div className={styles.content} onClick={this.Verification}>
-            <img src={require('../../../assets/bright.png')} alt="" />
+          this.state.listIndex == 0 ? <div className={styles.content} onClick={this.cancelAfterVerific}>
+            {
+              !this.state.allow ? <img src={require('../../../assets/bright.png')} alt="" /> : <div >
+                <div className={styles.shopDescirbe}>
+                  {
+                    this.state.shopMessage.map((item: ShopMessage, index: number) => {
+                      return <div className={styles.descirbe}>
+                        <Text>{item.label}</Text>
+                        <Text className={styles.text}>{item.describe}</Text>
+                      </div>
+                    })
+                  }
+                  <div className={styles.descirbeButton} onClick={}>
+                    <Text className={styles.myButton}>
+                      核销</Text>
+                  </div>
+                </div>
+              </div>
+            }
+            
           </div> : <div>
               <div className={styles.content}>
                 <img src={this.state.qrcodeImg} className={styles.border_img} alt="" />
@@ -166,6 +230,7 @@ export default class ServiceCounter extends Component<Props>{
             <img src={require('../../../assets/jiantou_right.png')} alt="" />
           </div>
         </div>
+
       </div>
     )
   }
