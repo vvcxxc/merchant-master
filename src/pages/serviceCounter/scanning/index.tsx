@@ -159,7 +159,7 @@ export default class ServiceCounter extends Component{
         {
           this.state.listIndex == 0 ? <div className={styles.content} onClick={this.cancelAfterVerific}>
             {
-              this.state.allow ? <img src={require('../../../assets/bright.png')} alt="" /> : <div className={styles.shopBox} onClick={this.closeShadow.bind(this)}>
+              !this.state.allow ? <img src={require('../../../assets/bright.png')} alt="" /> : <div className={styles.shopBox} onClick={this.closeShadow.bind(this)}>
                 <div className={styles.shopDescirbe}>
                   {
                     this.state.shopMessage.map((item: ShopMessage, index: number) => {
