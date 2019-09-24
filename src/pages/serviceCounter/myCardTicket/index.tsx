@@ -5,6 +5,8 @@ import styles from './index.less';
 
 import QRModal from '../components/QRModal';
 
+import request from '@/services/new_request';
+
 export default class serviceLogin extends Component {
 
     state = {
@@ -14,6 +16,15 @@ export default class serviceLogin extends Component {
     handleClick = () => {
         this.setState({
             flag: true
+        })
+    }
+
+    componentDidMount() {
+        request({
+            url: 'api/wap/orderGift/code',
+            method: 'get',
+        }).then(res => {
+            console.log(res)
         })
     }
 
