@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import FiltrateLayout from '@/components/layout';
-import NoData from '@/components/no-data';
+import NoData2 from '@/components/no-data2';
 import { Flex } from 'antd-mobile';
 import styles from './index.less';
 import { VerificationItem } from './model';
@@ -83,13 +83,16 @@ export default connect(({ verification }: any) => verification)(
 
                 ))
             ) : (
-                    <NoData type="finance" />
+                    <NoData2 type="finance" />
                 );
 
             return (
                 <div className={styles.verificationBox}>
                     {verificationRecordList}
-                    <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.props.hasMore.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
+                    {
+                        this.props.data.length > 0 ? <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.props.hasMore.hasMore ? "点击加载更多" : "已经到达底线了"}</p>:null
+                    }
+                   
                 </div>
             );
         }
