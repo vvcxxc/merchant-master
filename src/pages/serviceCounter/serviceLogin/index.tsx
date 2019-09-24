@@ -23,7 +23,7 @@ export default class ServiceCounter extends Component<Props>{
         account_passwd:this.state.userPassword
       }
     })
-      .then((res: any) => { 
+      .then((res: any) => {
         if (res.code == 200) {
           localStorage.setItem('token_QL', JSON.stringify(res.data.token))
           router.push({pathname:'../../serviceCounter/scanning'})

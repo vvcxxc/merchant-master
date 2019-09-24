@@ -37,7 +37,7 @@ export default class ServiceCounter extends Component{
     ],
     listIndex: 0,
     qrcodeImg: '',
-    serviceCounterId: Number,
+    serviceCounterId: '',
     allow: false,
     orderId:Number
   }
@@ -79,17 +79,13 @@ export default class ServiceCounter extends Component{
       .then((res: any) => {
         if (res.code == 200) {
           this.setState({ serviceCounterId: res.data.serviceCounterId})
+          QRCode.toDataURL('http://test.mall.tdianyi.com/#/pages/mycardticket/index?id='+res.data.serviceCounterId)
+          .then((url: any) => {
+            this.setState({ qrcodeImg: url })
+          })
+          .catch((err: any) => { })
         }
       })
-  }
-
-  componentDidMount() {   // 网络链接转化为二维码   --> 跳到泽铜页面
-    // ‘http://test.mall.tdianyi.com/#/pages/mycardticket/index’
-    QRCode.toDataURL('http://test.mall.tdianyi.com/#/pages/mycardticket/index?id='+this.state.serviceCounterId)                                     
-      .then((url: any) => {
-        this.setState({ qrcodeImg: url })
-      })
-      .catch((err: any) => { })
   }
 
   // 索引器
@@ -143,7 +139,7 @@ export default class ServiceCounter extends Component{
       }).catch(() => {
         Toast.fail('核销失败', 1);
       })
-    
+
   }
 
   controlAllow = () => {
@@ -153,7 +149,7 @@ export default class ServiceCounter extends Component{
   closeShadow = (e: any) => {
     this.setState({ allow: false })
     e.stopPropagation();
-  } 
+  }
 
 
   render() {
@@ -187,7 +183,7 @@ export default class ServiceCounter extends Component{
                 </div>
               </div>
             }
-            
+
           </div> : <div>
               <div className={styles.content}>
                 <img src={this.state.qrcodeImg} className={styles.border_img} alt="" />
