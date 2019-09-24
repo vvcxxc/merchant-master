@@ -9,15 +9,18 @@ type Props = any
 
 export default class ServiceCounter extends Component<Props>{
 
+  state = {
+    userName: String || Number,
+    userPassword: String || Number
+  }
   allowLanding = () => {
-
     // 确认登陆 获取后台返回token
     new_request({
       url: 'v3/service/counter/login',
       method: 'post',
       data: {
-        account_name: '孙悟空',
-        account_passwd:'123456'
+        account_name: this.state.userName,
+        account_passwd:this.state.userPassword
       }
     })
       .then((res: any) => { 
@@ -27,6 +30,19 @@ export default class ServiceCounter extends Component<Props>{
         }
       })
   }
+
+  nameFocusInst = (data:any) => {
+    this.setState({
+      userName:data
+    })
+  }
+
+  passwordFocusInst = (data:any) => {
+    this.setState({
+      userPassword: data
+    })
+  }
+
 
   render() {
     return (
@@ -39,11 +55,13 @@ export default class ServiceCounter extends Component<Props>{
             <div className={styles.title}>账号</div>
             <InputItem
               clear
+              onChange={this.nameFocusInst}
             ></InputItem>
             <div className={styles.password}>密码</div>
             <InputItem
               type="password"
               clear
+              onChange={this.passwordFocusInst}
               ></InputItem>
           </div>
         </div>
