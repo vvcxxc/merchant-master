@@ -109,7 +109,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						link: nextProps.editForm.link,
 						check_desc: nextProps.editForm.check_desc,
 						ad_status: nextProps.editForm.ad_status,
-						paused_status: nextProps.editForm.paused_status
+						paused_status: 1
 					}, () => {
 					});
 				} else {
@@ -452,7 +452,9 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 								<WhiteSpace size="lg" />
 								{
 									this.state.paused_status != 0 ? (
-										<div className={styles.paused_status}>
+										<div className={styles.paused_status} onClick={()=> {
+											router.push('/my/coupon/detail?id=' + 3605);
+										}}>
 											广告状态：已暂停({
 												this.state.paused_status == 1? '手动暂停':
 													this.state.paused_status == 2? '投放时长超出范围':
