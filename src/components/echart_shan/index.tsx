@@ -14,7 +14,6 @@ export default class Echart_Shan extends Component<Props>{
   componentDidMount() {
 
     const { list, name, colors } = this.props
-    // console.log(this.props,'list')
     var myChart = echarts.init(document.getElementById('main'));
     myChart.setOption({
       tooltip: {},

@@ -18,7 +18,6 @@ export default connect(({ activity }: any) => activity)(
 
 
         componentDidMount() {
-            console.log(this.props)
             this.setState({
                 storeItems: this.props.Group.storeItems
             })

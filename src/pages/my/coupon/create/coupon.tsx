@@ -24,7 +24,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			keys: '100'
 		};
 		componentDidMount() {
-			console.log(this.props)
 		}
 		handleNoticeChange = (notice: any[], keys: string) => {
 			this.setState({ keys });
@@ -74,7 +73,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 		};
 
 		uploadImage = (type: any) => (files: any[], operationType: string, index?: number): void => {
-			console.log(Boolean(this.props.temp_url2))
 			this.setState({ [type]: files });
 			if (type === 'files') {
 				this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { temp_url1: files } });

@@ -27,7 +27,7 @@ export default class ServiceCounter extends Component{
       //   describe: '多美蛋糕店'
       // },
       // {
-      //   label: '订 单 号：',
+      //   label: ' 订  单  号 ：',
       //   describe: '12345678954'
       // },
       // {
@@ -100,7 +100,6 @@ export default class ServiceCounter extends Component{
   /**点击核销 */
   cancelAfterVerific = (e: any) => {
     e.stopPropagation();
-    console.log(22222);
     
     wx.scanQRCode({
       needResult: 1,
@@ -113,12 +112,12 @@ export default class ServiceCounter extends Component{
         let data = [
           { label: '店铺名称：', describe: res.storeName },
           { label: '订单金额：', describe: res.amount },
-          { label: '订 单 号：', describe: res.orderSn },
+          { label: ' 订 单 号 ：', describe: res.orderSn },
           { label: '消费时间：', describe: res.orderCreateTime}
         ]
         this.setState({
           shopMessage:data
-        })
+        }) 
         this.setState({
           orderId:res.id
         })
@@ -176,7 +175,7 @@ export default class ServiceCounter extends Component{
                   {
                     this.state.shopMessage.map((item: ShopMessage, index: number) => {
                       return <div className={styles.descirbe}>
-                        <Text>{item.label}</Text>
+                        <Text className={styles.textLeft}>{item.label}</Text>
                         <Text className={styles.text}>{item.describe}</Text>
                       </div>
                     })

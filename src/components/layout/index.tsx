@@ -65,7 +65,6 @@ export default class FiltrateLayout extends Component<Props> {
 		title2: "月份"
 	};
 	componentDidMount() {
-		console.log(this.props)
 	}
 	componentDidUpdate() {
 		if (this.props.plat_type == 2) {

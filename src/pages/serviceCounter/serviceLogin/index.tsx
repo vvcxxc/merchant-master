@@ -67,7 +67,7 @@ export default class ServiceCounter extends Component<Props>{
         </div>
         <div className={styles.landing}>
           <div onClick={this.allowLanding}>
-             登陆
+             登录
          </div>
         </div>
       </div>

@@ -47,7 +47,6 @@ export default connect(({ finance }: any) => finance)(
 
     handleChange = (query: any) => {
       if (query.resetBool == true) {
-        console.log('重置区间',query)
         this.setState({ min: "", max: "", finance_type: undefined, date: undefined })
       }
       this.setState({

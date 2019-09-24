@@ -51,7 +51,6 @@ export default connect(({ finance }: any) => finance)(
                     log_id: _id,
                 }
             }).then(res => {
-                console.log(res);
                 this.setState({ info: res.data, id: _id, type: _type });
                 Toast.hide();
             })

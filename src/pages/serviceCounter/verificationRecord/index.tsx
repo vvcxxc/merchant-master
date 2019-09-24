@@ -30,7 +30,6 @@ export default connect(({ verification }: any) => verification)(
         };
 
         componentDidMount() {
-            console.log(this.props);
             // 清除数据流里的数据
             this.props.dispatch({
                 type: 'verification/clearData'

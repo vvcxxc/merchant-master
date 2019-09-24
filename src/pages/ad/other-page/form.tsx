@@ -86,9 +86,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 				check_desc: null,
 				ad_status: 0
 			}, () => {
-				console.log('nextProps.editForm.id', this.props)
 				if (nextProps.editForm.id) {
-					console.log('nextProps', nextProps)
 					this.setState({
 						coupon: {
 							label: nextProps.editForm.coupon_name,
@@ -111,7 +109,6 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						check_desc: nextProps.editForm.check_desc,
 						ad_status: nextProps.editForm.ad_status
 					}, () => {
-						console.log(this.state)
 					});
 				} else {
 					// this.setState({
@@ -131,7 +128,6 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 
 		}
 		componentDidMount = () => {
-			console.log(this.props)
 			this.UNSAFE_componentWillReceiveProps(this.props);
 		}
 		handleToRechange = () => router.push('/my/rechange');
@@ -145,7 +141,6 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			}
 		};
 		handleChangePrice = (price: any) => {
-			console.log(price);
 			if (price.split(".")[1] == undefined || (price.split(".")[1].length <= 2 && price.split(".")[2] == undefined)) {
 				this.setState({ price })
 			}

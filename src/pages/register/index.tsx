@@ -27,8 +27,6 @@ export default connect(({ register }: any) => register)(
       is_show: true
     };
     componentDidMount() {
-      console.log(111)
-      console.log(this.props)
       /**获取oss */
       //   request({
       //    url: 'api/v2/up',
