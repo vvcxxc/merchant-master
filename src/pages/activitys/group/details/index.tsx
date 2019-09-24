@@ -54,8 +54,15 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
     showShare: false
   }
   componentWillMount() {
-
+    this.props.dispatch({
+      type: 'activity/setDetails',
+      payload: {
+        headImg: '1 ',
+        giftImg: ' 1'
+      }
+    });
   }
+
   componentDidMount (){
     let {type,id} = this.props.location.query;
     if(type == '1'){
@@ -293,6 +300,7 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
           {/* <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
             活动统计数据
+            
           </Flex>
           {echart} */}
           {/* 基本信息 */}
