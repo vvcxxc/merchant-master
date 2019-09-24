@@ -44,7 +44,6 @@ export default connect()(
 
 		/**跳转到页面 */
 		pushPage = (pathname: string) => () => {
-			// console.log(routerRedux)
 			this.props.dispatch(routerRedux.push({ pathname }))
 		};
 
@@ -120,7 +119,6 @@ export default connect()(
 		}
 
 		render() {
-      // console.log(this.state.info.wx_sign_status)
 			const signCode = this.state.info.wx_sign_status == 2 ? (
 				<Flex onClick={this.goSignCode}>
 					<img src={require('./signed.png')} alt="" />

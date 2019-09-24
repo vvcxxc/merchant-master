@@ -22,7 +22,6 @@ export default class QRModal extends Component<Props> {
     }
 
     componentWillReceiveProps(nextProps: any) {
-        console.log(nextProps)
         if (nextProps.isShow) {
             let ele = document.getElementById('modal');
             ele.style.display = 'flex';

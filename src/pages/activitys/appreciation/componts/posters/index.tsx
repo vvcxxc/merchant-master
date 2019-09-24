@@ -58,17 +58,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     return true
   }
 
-  componentWillMount() {
-    console.log('执行一次');
-    
-    // this.setState({ showPoster: true })
-    // console.log(this.props);
-    
-    // this.panduan()
-  }
-
   componentDidMount() {
-    console.log(this.props);
+    console.log('海报触发');
   }
 
   // 长 短 海报根据此id来
@@ -491,22 +482,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       })
     }, 500);
 
-    // console.log(canvas.toDataURL('image/jpeg/png').length, '端的');
-    // let endImg = new Image();
-    // endImg.src = canvas.toDataURL('image/jpeg/png')
-    // endImg.onload = () => {
-    //   if (canvas.toDataURL('image/jpeg/png').length < 800000) {
-    //     Toast.loading('正在生成中，请稍后', 1)
-    //     setTimeout(() => {
-    //       this.creatCanvas(this.props.data)
-    //     }, 1000);
-    //   } else {
-    //     this.setState({
-    //       url: canvas.toDataURL('image/jpeg/png')
-    //     })//这里设置了编码 
-    //   }
-    // }
-
   }
 
   // 用来优化图片显示时间   图片长度       标准长度
@@ -563,6 +538,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
           <div className={styles.img_box}>
             <img
               id='img'
+              style={{ height: this.props.showPoster? '':'0px'}}
               src={this.state.url} alt="" onClick={this.canvasImg.bind(this)} />
             {/* show Image element */}
             <div className={styles.save_font}>长按保存图片</div>

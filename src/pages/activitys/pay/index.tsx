@@ -25,7 +25,6 @@ export default connect(({ activity }: any) => activity)(
     }
   };
   componentDidMount (){
-    console.log(this.props)
     let type = this.props.location.query.type;
     if(type == 1){
       this.setState({
@@ -76,7 +75,6 @@ export default connect(({ activity }: any) => activity)(
 				}
 			});
     }else{
-      console.log('123:'+message)
       Toast.fail(message)
     }
 

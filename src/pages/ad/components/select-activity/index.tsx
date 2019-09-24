@@ -30,8 +30,6 @@ export default class SelectActivity extends Component<Props> {
 	getActivityList = async () => {
 		Toast.loading('');
     const res = await request({ url: 'v3/activitys' });
-    console.log('123')
-    console.log(res)
 		Toast.hide();
 		if (res.code === 200 && res.data.length) {
 			this.setState({

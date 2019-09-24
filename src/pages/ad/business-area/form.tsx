@@ -44,7 +44,9 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 			stopModalShow: false,
 			check_desc: null,
 			ad_status: 0,
-			modal1: false
+			modal1: false,
+
+			paused_status: 0,
 		};
 
 		componentDidMount = () => {
@@ -67,7 +69,8 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 					edit: nextProps.editForm.ad_status == 1 || nextProps.editForm.ad_status == 2,
 					isOld: true,
 					check_desc: nextProps.editForm.check_desc,
-					ad_status: nextProps.editForm.ad_status
+					ad_status: nextProps.editForm.ad_status,
+					paused_status: nextProps.editForm.paused_status
 				});
 			} else {
 				this.setState({
@@ -88,7 +91,6 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 		showModal = () => this.setState({ showSelectCoupon: true });
 		handleSelectCoupon = (coupon: any) => this.setState({ coupon }, this.closeModal);
 		handleChangePrice = (price: any) => {
-			console.log(price);
 			if (price.split(".")[1] == undefined || (price.split(".")[1].length <= 2 && price.split(".")[2] == undefined)) {
 				this.setState({ price })
 			}
@@ -127,7 +129,6 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 							price: this.state.price,            // 每日预算
 						}
 					})
-					console.log(this.props)
 					Modal.alert('提示', '余额不足', [
 						{ text: '去充值', onPress: () => router.push('/my/rechange') },
 						{ text: '取消', onPress: () => console.log('cancel'), style: 'default' },
@@ -270,6 +271,20 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 										<div>
 											<img src={require('@/assets/ad/ad_fail.png')} alt="" className={styles.ad_fail} />
 											<span className={styles.check_desc}>{this.state.check_desc}</span>
+										</div>
+									) : ''
+								}
+								<WhiteSpace size="lg" />
+								{
+									this.state.paused_status != 0 ? (
+										<div className={styles.paused_status}>
+											广告状态：已暂停({
+												this.state.paused_status == 1? '手动暂停':
+													this.state.paused_status == 2? '投放时长超出范围':
+														this.state.paused_status == 3? '今日预算不足':
+															this.state.paused_status == 4? '余额不足':
+																this.state.paused_status == 5? '' : ''
+											})
 										</div>
 									) : ''
 								}

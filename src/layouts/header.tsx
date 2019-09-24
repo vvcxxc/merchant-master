@@ -12,8 +12,6 @@ export default connect(({ ad , businessArea}: any) => ({ad,businessArea}))(
 		}
 	goBack = () => {
     let url = window.location.href;
-    console.log(url)
-
     // if(url.includes('rechange')){
     //   router.push('/')
     //   return

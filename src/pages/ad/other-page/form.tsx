@@ -63,6 +63,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			ad_status: 0,
 			modal1: false,
 
+			paused_status: 0,
 
 		};
 		UNSAFE_componentWillReceiveProps(nextProps: any) {
@@ -86,9 +87,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 				check_desc: null,
 				ad_status: 0
 			}, () => {
-				console.log('nextProps.editForm.id', this.props)
 				if (nextProps.editForm.id) {
-					console.log('nextProps', nextProps)
 					this.setState({
 						coupon: {
 							label: nextProps.editForm.coupon_name,
@@ -109,9 +108,9 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						endTime: nextProps.editForm.end_time,
 						link: nextProps.editForm.link,
 						check_desc: nextProps.editForm.check_desc,
-						ad_status: nextProps.editForm.ad_status
+						ad_status: nextProps.editForm.ad_status,
+						paused_status: nextProps.editForm.paused_status
 					}, () => {
-						console.log(this.state)
 					});
 				} else {
 					// this.setState({
@@ -131,7 +130,6 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 
 		}
 		componentDidMount = () => {
-			console.log(this.props)
 			this.UNSAFE_componentWillReceiveProps(this.props);
 		}
 		handleToRechange = () => router.push('/my/rechange');
@@ -145,7 +143,6 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			}
 		};
 		handleChangePrice = (price: any) => {
-			console.log(price);
 			if (price.split(".")[1] == undefined || (price.split(".")[1].length <= 2 && price.split(".")[2] == undefined)) {
 				this.setState({ price })
 			}
@@ -449,6 +446,20 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 										<div>
 											<img src={require('@/assets/ad/ad_fail.png')} alt="" className={styles.ad_fail} />
 											<span className={styles.check_desc}>{this.state.check_desc}</span>
+										</div>
+									) : ''
+								}
+								<WhiteSpace size="lg" />
+								{
+									this.state.paused_status != 0 ? (
+										<div className={styles.paused_status}>
+											广告状态：已暂停({
+												this.state.paused_status == 1? '手动暂停':
+													this.state.paused_status == 2? '投放时长超出范围':
+														this.state.paused_status == 3? '今日预算不足':
+															this.state.paused_status == 4? '余额不足':
+																this.state.paused_status == 5? '' : ''
+											})
 										</div>
 									) : ''
 								}

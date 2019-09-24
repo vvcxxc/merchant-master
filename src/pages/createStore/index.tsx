@@ -76,8 +76,6 @@ export default connect(({ createStore }: any) => createStore)(
         }
       })
 
-      console.log(Cookies.get("handleLocation"))
-
       /**获取经营品类 */
       request({
         url: 'v3/manage_type',
@@ -94,7 +92,6 @@ export default connect(({ createStore }: any) => createStore)(
         method: 'get'
       }).then(res => {
         let { data } = res;
-        console.log(data);
         let oss_data = {
           policy: data.policy,
           OSSAccessKeyId: data.accessid,
@@ -141,7 +138,6 @@ export default connect(({ createStore }: any) => createStore)(
         e.target.value = e.target.value.replace(/＠/g, "@")
       }
       this.setState({ email: e.target.value }, () => {
-        console.log(this.state.email)
       })
       Cookies.set("handleEmail", JSON.stringify(e.target.value), { expires: 1 });
       this.props.dispatch({
@@ -340,10 +336,8 @@ export default connect(({ createStore }: any) => createStore)(
 
 
     createStore = () => {
-      console.log(this.props)
       let { name, address, house_num, phone, manage_type, email, _code, store_door_header_img, store_img_one, store_img_two, location } = this.props;
       // if (name && address && house_num && phone && manage_type && email && store_door_header_img && store_img_one && store_img_two) {
-        console.log(location)
         if(!name){
           Toast.fail('店铺名不能为空')
           return

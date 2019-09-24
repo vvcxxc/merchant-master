@@ -79,7 +79,6 @@ export default class MyCouponItem extends Component<Props & Item> {
 
 	closeShare = (close: boolean) => {//关闭分享
 		this.setState({ showShare: false })
-		console.log('触发')
 	}
 
 	render() {

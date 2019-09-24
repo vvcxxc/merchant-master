@@ -51,24 +51,30 @@ export default class BottomShare extends Component<Props>{
 
   //点击遮挡层
   keep_outOnclick = (e: any) => {
-    this.setState({ showBottom: true })
-    this.setState({ showShare: false })
-    this.setState({ showArrows:false})
-    e.stopPropagation();
+
+      console.log('898989');
+      
+    // this.setState({ showBottom: true })//显示
+    // this.setState({ showShare: false })
+    // this.setState({ showArrows: false })
+    
+    // e.stopPropagation();
   }
 
   // 点击取消
-  closeShareData = (e:any) => {
+  closeShareData = (e: any) => {
+    console.log('取消');
     this.setState({ shareButton: true }) //取消按钮变色
     setTimeout(() => {
       this.setState({ shareButton: false }) //取消按钮变色
-      this.setState({ showShare: false })
+      // this.setState({ showShare: false })
     }, 100);
     e.stopPropagation();
   }
 
   //点击分享
   shareData = (e?: any) => {
+    console.log('分享');
     
     let meta: any = this.props.type
     this.setState({ showBottom: false })// 点击分享 遮挡层不消失 消失白色区域部分
@@ -166,7 +172,10 @@ export default class BottomShare extends Component<Props>{
     e.stopPropagation();
   }
 
-  closePoster = () => {
+  closePoster = (e: any) => {
+      console.log('close');
+      
+    this.setState({ showArrows: false })
     this.setState({ showPoster: false })
     this.setState({ showShare: false })
     this.setState({ showBottom:true })
@@ -174,10 +183,21 @@ export default class BottomShare extends Component<Props>{
 
   render() {
     return (
-      <div style={{ display: this.state.showShare ? '' : 'none' }} className={styles.keep_out}
+      <div style={{ display: this.state.showShare ? '' : 'none'}} className={styles.keep_out}
+        // onClick={this.keep_outOnclick.bind(this)}
+        onClick={this.closePoster}
+        
       // <div  className={styles.keep_out}
-        onClick={this.keep_outOnclick.bind(this)}>
-        <div className={styles.keep_shareBox} style={{ display: this.state.showArrows  ? '' : 'none' }} >
+        // style={{ display: this.state.showArrows ? '' : 'none' }}
+       >
+        <div className={styles.keep_shareBox} 
+         
+          style={{
+            // overflow:'hidden',
+            // // height: this.state.showArrows ? 'auto' : '0px',
+            display: this.state.showArrows ? '' : 'none'
+          }}
+        >
           <img
             className={styles.share_arrow}
             src={require('../../../../../assets/jiantou.png')} />
