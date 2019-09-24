@@ -37,7 +37,7 @@ export default class ServiceCounter extends Component{
     ],
     listIndex: 0,
     qrcodeImg: '',
-    serviceCounterId: Number,
+    serviceCounterId: '',
     allow: false,
     orderId:Number
   }
@@ -79,10 +79,16 @@ export default class ServiceCounter extends Component{
       .then((res: any) => {
         if (res.code == 200) {
           this.setState({ serviceCounterId: res.data.serviceCounterId})
+          QRCode.toDataURL('http://test.mall.tdianyi.com/#/pages/mycardticket/index?id='+res.data.serviceCounterId)
+          .then((url: any) => {
+            this.setState({ qrcodeImg: url })
+          })
+          .catch((err: any) => { })
         }
       })
   }
 
+<<<<<<< HEAD
   componentDidMount() {   // 网络链接转化为二维码   --> 跳到泽铜页面
     // ‘http://test.mall.tdianyi.com/#/pages/mycardticket/index’
     QRCode.toDataURL('http://test.mall.tdianyi.com/#/pages/mycardticket/index?id='+this.state.serviceCounterId)
@@ -92,6 +98,8 @@ export default class ServiceCounter extends Component{
       .catch((err: any) => { })
   }
 
+=======
+>>>>>>> test
   // 索引器
   indexer = (index: number) => {
     this.setState({ listIndex: index })
