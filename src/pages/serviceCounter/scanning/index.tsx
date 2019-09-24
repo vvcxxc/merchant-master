@@ -12,7 +12,10 @@ interface ShopMessage {
   label: string,
   describe:string
 }
-
+declare global {
+  interface Window { service_url: string; }
+}
+const service_url = window.service_url ? window.service_url : "http://mall.tdianyi.com/#/pages/mycardticket/index"
 export default class ServiceCounter extends Component{
 
   state = {
@@ -79,7 +82,7 @@ export default class ServiceCounter extends Component{
       .then((res: any) => {
         if (res.code == 200) {
           this.setState({ serviceCounterId: res.data.serviceCounterId})
-          QRCode.toDataURL('http://test.mall.tdianyi.com/#/pages/mycardticket/index?id='+res.data.serviceCounterId)
+          QRCode.toDataURL(service_url+'?id='+res.data.serviceCounterId)
           .then((url: any) => {
             this.setState({ qrcodeImg: url })
           })
