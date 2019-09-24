@@ -26,7 +26,8 @@ export interface Group {
   // isHaveData: Boolean;
   storeItems: Array<any>;
   headImg: string;
-  giftImg:string
+  giftImg: string;
+  activity_image:string
 }
 
 export interface Appreciation {
@@ -68,7 +69,8 @@ const model: Model = {
       scope_mode:0,
       // 商品设置
       // isHaveData: false,
-      storeItems: []
+      storeItems: [],
+      description: []
     },
     Appreciation: {
       mail_mode: '1',
@@ -77,10 +79,14 @@ const model: Model = {
       cover_img: [],
       describe_img1: [],
       describe_img2: [],
+      description: []
     },
     details: {
       headImg: '1',
-      giftImg:'1'
+      giftImg: '1',
+      activity_image: '1',
+      longCanvas: '1',
+      shortCanvas:'1'
     }
   },
   reducers: {

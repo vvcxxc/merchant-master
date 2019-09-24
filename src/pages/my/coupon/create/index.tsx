@@ -28,6 +28,22 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			);
 
 		handleSubmit = async () => {
+			if (this.state.type === 0) {
+				if (!this.props.couponForm.coupons_name || !this.props.couponForm.return_money || !this.props.couponForm.total_num || !this.props.couponForm.validity || !this.props.couponForm.description ||
+					!this.props.couponForm.image || !this.props.couponForm.image_url || !this.props.couponForm.temp_url1 || !this.props.couponForm.temp_url2) {
+						Toast.fail('信息未填完整', 2);
+						return;
+				}
+			} else {
+				if (!this.props.moneyForm.total_fee || !this.props.moneyForm.return_money || !this.props.moneyForm.total_num || !this.props.moneyForm.validity  ) {
+					Toast.fail('信息未填完整', 2);
+					return;
+				}
+				// if (!this.props.couponForm.total_fee || !this.props.couponForm.return_money || !this.props.couponForm.total_num || !this.props.couponForm.validity  ) {
+				// 	Toast.fail('信息未填完整', 2);
+				// 	return;
+				// }
+			}
 			Toast.loading('');
 			const res = this.state.type === 0 ? await this.postCoupon() : await this.postMoney();
 			Toast.hide();
@@ -57,11 +73,11 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				method: 'post',
 				data: {
 					// ...this.props.couponForm,
-					coupons_type: this.props.couponForm.coupons_type*1,
+					coupons_type: this.props.couponForm.coupons_type * 1,
 					coupons_name: this.props.couponForm.coupons_name,
-					return_money: this.props.couponForm.return_money*1,
-					total_num: this.props.couponForm.total_num*1,
-					validity:this.props.couponForm.validity*1,
+					return_money: this.props.couponForm.return_money * 1,
+					total_num: this.props.couponForm.total_num * 1,
+					validity: this.props.couponForm.validity * 1,
 					description: this.props.couponForm.description,
 					image: this.props.couponForm.image,
 					image_url: this.props.couponForm.image_url,
@@ -69,7 +85,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					// temp_url2: this.props.couponForm.temp_url2,
 					is_ad: this.props.location.query.isAd,
 					/**商圈广告下，购买价格为0 */
-					pay_money: this.state.showPrice ? this.props.couponForm.pay_money*1 : 0
+					pay_money: this.state.showPrice ? this.props.couponForm.pay_money * 1 : 0
 				}
 			});
 
@@ -79,14 +95,14 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				method: 'post',
 				data: {
 					// ...this.props.moneyForm,
-					return_money:  this.props.moneyForm.return_money*1,
-					coupons_type: this.props.moneyForm.coupons_type*1,
-					total_fee: this.props.moneyForm.total_fee*1,
-					validity: this.props.moneyForm.validity*1,
-					total_num: this.props.moneyForm.total_num*1,
+					return_money: this.props.moneyForm.return_money * 1,
+					coupons_type: this.props.moneyForm.coupons_type * 1,
+					total_fee: this.props.moneyForm.total_fee * 1,
+					validity: this.props.moneyForm.validity * 1,
+					total_num: this.props.moneyForm.total_num * 1,
 					is_ad: this.props.location.query.isAd,
 					/**商圈广告下，购买价格为0 */
-					pay_money: this.state.showPrice ? this.props.moneyForm.pay_money*1 : 0
+					pay_money: this.state.showPrice ? this.props.moneyForm.pay_money * 1 : 0
 				}
 			});
 		pushPage = (_type: any) => {

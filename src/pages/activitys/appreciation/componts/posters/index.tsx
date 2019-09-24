@@ -20,10 +20,12 @@ interface dataType {
   max_money: string,
   name: string,
   schedule: number,
-  // shop_door_header_img: string,
+  shop_door_header_img: string,
   tel: string,
   title: string,
-  use_tim: string
+  use_tim: string,
+  total_fee: string | number,
+  pay_money: string | number
 }
 
 interface Props<T> {
@@ -42,6 +44,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     data: {},
     headImg: '',//这两个是为了处理跨域问题而设立
     giftImg: '',
+    loadingTime: 0.5,
+    canvasLength:''
   }
 
   shouldComponentUpdate(nextProps: Props<dataType>, nextState: Props<dataType>) {
@@ -54,19 +58,31 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     return true
   }
 
+  componentWillMount() {
+    console.log('执行一次');
+    
+    // this.setState({ showPoster: true })
+    // console.log(this.props);
+    
+    // this.panduan()
+  }
+
+  componentDidMount() {
+    console.log(this.props);
+  }
+
   // 长 短 海报根据此id来
   panduan = () => {
-    switch (this.props.data.gift_id) {
-      case 0:
-        this.shortCreatCanvas(this.props.data);
-        break;
-      default: this.creatCanvas(this.props.data);
-        break;
+    if (this.props.data.gift_id == 0) {
+      this.shortCreatCanvas(this.props.data);
+    } else {
+      this.creatCanvas(this.props.data);
     }
   }
 
   creatCanvas = (data: dataType) => {
-    const canvas: any = document.getElementById('canvas')//获取到cavans
+
+    const canvas: any = document.getElementById('canvas')//获取到cavans 
     const contents = canvas.getContext('2d') //生成htlml5对象
     contents.fillStyle = "#fff";
     contents.fillRect(0, 0, canvas.width, canvas.height);
@@ -82,11 +98,13 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let shadowImg = new Image()   // 阴影图片
     let outlineImg = new Image()  // 轮廓图片
     let giftImg = new Image()     // 礼品图片
+    // let activityImg = new Image() //拼团券
 
     let title = data.title
     let shopName = data.name                                    //店铺名字
-    let init_money = this.identifyData(data.init_money)         // 只需多少元
-    let max_money = this.identifyData(data.max_money)           // 拼团券的金额
+    let init_money = data.pay_money       // 只需多少元
+    let max_money = data.max_money
+      // this.identifyData(String(data.max_money))           // 拼团券的金额
     let phone = data.tel                                        //店铺电话
     let home = data.address                                     //店铺地址
     let giftPrice = data.git_money
@@ -95,14 +113,22 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let schedule = data.schedule                                //控制进度条
     let link = data.link                                        // 用户扫二维码所跳转的链接
 
+    if (data.title != '拼团') {
+      // var meet = this.identifyData(data.total_fee.toString())
+      JYB_IMG.src = require("../../../../../assets/add_money.png")
+      JYB_giftImg.src = require("../../../../../assets/add.border.png")  // 满足金额
+    } else {
+      // activityImg.src = this.props.details.activity_image
+      JYB_IMG.src = require("../../../../../assets/spell_money.png")
+      JYB_giftImg.src = require("../../../../../assets/spell_border.png")
+    }
+    
     giftImg.src = this.props.details.giftImg            // 礼品图片
     headImg.src = this.props.details.headImg
     bigImg.src = require("../../../../../assets/new_haibao.png")
     borderImg.src = require("../../../../../assets/kuang.png")
     ballImg.src = require("../../../../../assets/qiu.png")
-    JYB_IMG.src = require("../../../../../assets/JYB.png")
     shadowImg.src = require("../../../../../assets/shadow.png")
-    JYB_giftImg.src = require("../../../../../assets/3.png")
     outlineImg.src = require("../../../../../assets/outline.png")
 
     QRCode.toDataURL(link)                                      // 网络链接转化为二维码
@@ -129,11 +155,10 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       contents.clip();//从原始画布剪切任意形状和尺寸的区域
 
     }
-    // contents.restore();
     headImg.onload = ()=> {
       contents.save();
-      contents.restore();
-      contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
+      // contents.restore();
+      contents.drawImage(headImg, 0, 0, 545, 345, 290, 420, 145, 145)
       contents.save();
     }
 
@@ -148,7 +173,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     giftImg.onload = () => {
-      contents.drawImage(giftImg, 0, 0, 550, 222, 168, 990, 345, 170)
+      contents.drawImage(giftImg, 0, 0, 600, 550, 173, 990, 345, 170)
       contents.save()
     }
 
@@ -158,7 +183,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     JYB_IMG.onload = () => {
-      contents.drawImage(JYB_IMG, 0, 0, 145, 145, 325, 705, 145, 145)
+      contents.drawImage(JYB_IMG, 0, 0, 145, 145, 320, 702, 145, 145)
       contents.save()
     }
 
@@ -166,19 +191,44 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       contents.drawImage(shadowImg, 0, 0, 655, 180, 120, 680, 580, 200)
       contents.save()
     }
+    
     JYB_giftImg.onload = () => {
-      contents.drawImage(JYB_giftImg, 0, 0, 494, 460, 115, 684, 180, 170)
-    }
+      
+      if (data.title != '拼团') { 
+        contents.drawImage(JYB_giftImg, 0, 0, 300, 300, 130, 695, 210, 227)
+        contents.save()
 
+        contents.font = '20px PingFang SC Bold';
+        contents.fillStyle = "#fff"
+
+        contents.fillText('￥', 170, 780, 500)
+        contents.save()
+
+        contents.font = '35px PingFang SC Bold';
+        let pices = String(max_money)
+
+        pices.length < 4 ? contents.fillText(pices, 220 - (pices.length * 10), 780, 500) : contents.fillText(pices, 190, 780, 500);
+        // contents.save()
+        contents.font = '20px PingFang SC';
+        contents.fillStyle = "#ededed"
+        contents.fillText('满' + data.total_fee + '可用', 180, 810, 500)
+        contents.save()
+        
+      }
+      else {
+        contents.drawImage(JYB_giftImg, 0, 0, 300, 300, 130, 695, 210, 227)
+        contents.save()
+        contents.font = '35px PingFang SC Bold';
+        contents.fillStyle = "#fff"
+        contents.fillText('拼团特惠', 150, 780, 500);
+        contents.save()
+      }
+
+    }
     contents.font = '32px PingFang-SC-Medium Bold';
     contents.fillStyle = "#313131"
-
     //文字超过部分定义省略号
-    if (contents.measureText(shopName).width >= 200) {
-      contents.fillText(shopName.slice(0, 5) + '.....', 260, 600, 400)
-    } else {
-      contents.fillText(shopName, 260, 600, 400)
-    }
+    contents.measureText(shopName).width < 200 ? contents.fillText(shopName, 345 - shopName.length * 11, 605, 400) : contents.fillText(shopName.slice(0, 7) + '.....', 260, 605, 400)
 
     contents.fillText('正在发起' + title + '活动，速来！', 170, 650, 400)
     contents.save()
@@ -188,6 +238,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     outlineImg.onload = () => {
       contents.drawImage(outlineImg, 0, 0, 204, 160, 315, 814, 180, 170)
       //开始绘制进度条
+      contents.beginPath();
       contents.lineWidth = 12
       contents.strokeStyle = '#FF6654'
       contents.lineTo(318, 820);
@@ -203,12 +254,9 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       contents.closePath();
     }
 
+
     //文字超过部分定义省略号
-    if (contents.measureText(shopName).width >= 200) {
-      contents.fillText(shopName.slice(0, 5) + '.....', 410, 725, 430)
-    } else {
-      contents.fillText(shopName, 410, 725, 430)
-    }
+    contents.measureText(shopName).width < 200 ? contents.fillText(shopName, 410, 725, 430) : contents.fillText(shopName.slice(0, 5) + '.....', 410, 725, 430);
     contents.save()
 
     contents.font = '18px PingFang-SC-Regular';
@@ -221,7 +269,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.font = '32px PingFang-SC-Medium Bold';
     contents.fillStyle = "#FF6654"
     contents.fillText('只需' + init_money + '元即可领取价值', 200, 905, 350)
-    contents.fillText(max_money + '元得' + title + '券!', 255, 950, 350)
+    contents.fillText(max_money + '元的' + title + '券!', 255, 950, 350)
     contents.save()
 
     contents.fillText('消费即可免费领取价值', 200, 1210, 450)
@@ -233,27 +281,35 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillText('长按识别小程序码关注“小熊敬礼”', 145, 1480, 430)
     contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
     contents.save()
+    setTimeout(() => {
+      this.setState({
+        canvasLength: canvas.toDataURL('image/jpeg/png')
+      }, () => {
+        this.controlImgTime(this.state.canvasLength.length)
+      })
+    }, 500);
+  }
 
-    let endImg = new Image();
-    endImg.src = canvas.toDataURL('image/jpeg/png')
-    endImg.onload = () => {
-      if (canvas.toDataURL('image/jpeg/png').length < 500000) {
-        Toast.loading('loading', 1)
-        setTimeout(() => {
-          this.creatCanvas(this.props.data)
-        }, 1000);
-      } else {
-        this.setState({
-          url: canvas.toDataURL('image/jpeg/png')
-        })//这里设置了编码
-      }
+  // 用来优化图片显示时间   图片长度       标准长度
+  controlImgTime = (dataLength: number) => {
+    if (dataLength < 1200000) {
+      Toast.loading('正在生成中，请稍后', this.state.loadingTime);
+      setTimeout(() => {
+        this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
+          this.controlImgTime(this.state.canvasLength.length)
+          if (this.state.loadingTime > 2) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
+        })
+      }, this.state.loadingTime * 1000);
+    } else {
+      this.setState({
+        url: this.state.canvasLength
+      })
     }
-
   }
 
 
   shortCreatCanvas = (data: any) => {
-    const canvas: any = document.getElementById('canvas')//获取到cavans
+    const canvas: any = document.getElementById('canvas')//获取到cavans 
     const contents = canvas.getContext('2d') //生成htlml5对象
     contents.fillStyle = "#fff";
     contents.fillRect(0, 0, canvas.width, canvas.height);
@@ -268,11 +324,10 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let outlineImg = new Image()  // 轮廓图片
     let giftImg = new Image()     // 礼品图片
 
-
     let title = data.title
     let shopName = data.name                                    //店铺名字
-    let init_money = this.identifyData(data.init_money)         // 只需多少元
-    let max_money = this.identifyData(data.max_money)           // 拼团券的金额
+    let init_money = data.pay_money      // 只需多少元
+    let max_money = data.max_money      // 拼团券的金额   
     let phone = data.tel                                        //店铺电话
     let home = data.address                                     //店铺地址
     let use_tim = data.use_tim
@@ -285,13 +340,20 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
         wxImg.src = url
       })
       .catch((err: any) => { })
+    
+    if (data.title != '拼团') {
+      var meet = data.total_fee
+      JYB_IMG.src = require("../../../../../assets/add_money.png")
+      JYB_giftImg.src = require("../../../../../assets/add.border.png") 
+    } else {
+      JYB_IMG.src = require("../../../../../assets/spell_money.png")
+      JYB_giftImg.src = require("../../../../../assets/spell_border.png")
+    }
 
-    // headImg.src = this.state.headImg
     headImg.src = this.props.details.headImg
     bigImg.src = require('../../../../../assets/short_poster.png')
     JYB_IMG.src = require('../../../../../assets/JYB.png')
     shadowImg.src = require('../../../../../assets/shadow.png')
-    JYB_giftImg.src = require('../../../../../assets/3.png')
     outlineImg.src = require('../../../../../assets/outline.png')
 
     bigImg.onload = () => {
@@ -314,7 +376,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     headImg.onload = () => {
-      contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145)
+      contents.drawImage(headImg, 0, 0, 545, 345, 295, 430, 145, 145)
       contents.save();
     }
 
@@ -340,18 +402,40 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       contents.save()
     }
     JYB_giftImg.onload = () => {
-      contents.drawImage(JYB_giftImg, 0, 0, 494, 460, 115, 694, 180, 170)
+
+      if (data.title != '拼团') {
+       contents.drawImage(JYB_giftImg, 0, 0, 300, 300, 130, 700, 215, 235)
+        contents.font = '20px PingFang SC Bold';
+        contents.fillStyle = "#fff"
+
+        contents.fillText('￥', 170, 780, 500)
+        contents.save()
+        contents.font = '35px PingFang SC Bold';
+        let pices = String(max_money)
+
+        pices.length < 4 ? contents.fillText(pices, 220 - (pices.length * 10), 780, 500) : contents.fillText(pices, 190, 780, 500);
+        contents.save()
+        contents.font = '20px PingFang SC';
+        contents.fillStyle = "#ededed"
+        contents.fillText('满' + meet + '可用', 180, 810, 500)
+        contents.save()
+
+      } else {
+        contents.drawImage(JYB_giftImg, 0, 0, 300, 300, 130, 705, 210, 227)
+        contents.save()
+        contents.font = '35px PingFang SC Bold';
+        contents.fillStyle = "#fff"
+        contents.fillText('拼团特惠', 150, 790, 500);
+        contents.save()
+      }
+
     }
 
     contents.font = '32px PingFang-SC-Medium Bold';
     contents.fillStyle = "#313131"
 
     //文字超过部分定义省略号
-    if (contents.measureText(shopName).width >= 200) {
-      contents.fillText(shopName.slice(0, 5) + '.....', 260, 610, 400)
-    } else {
-      contents.fillText(shopName, 260, 610, 400)
-    }
+    contents.measureText(shopName).width < 200 ? contents.fillText(shopName, 345 - shopName.length * 11.1, 612, 400) : contents.fillText(shopName.slice(0, 7) + '.....', 260, 612, 400)
 
     contents.fillText('正在发起' + title + '活动，速来！', 170, 660, 400)
     contents.save()
@@ -377,11 +461,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     //文字超过部分定义省略号
-    if (contents.measureText(shopName).width >= 200) {
-      contents.fillText(shopName.slice(0, 5) + '.....', 410, 735, 430)
-    } else {
-      contents.fillText(shopName, 410, 735, 430)
-    }
+    contents.measureText(shopName).width < 200 ? contents.fillText(shopName, 410, 735, 430): contents.fillText(shopName.slice(0, 5) + '.....', 410, 735, 430)
     contents.save()
 
     contents.font = '18px PingFang-SC-Regular';
@@ -394,7 +474,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.font = '32px PingFang-SC-Medium Bold';
     contents.fillStyle = "#FF6654"
     contents.fillText('只需' + init_money + '元即可领取价值', 210, 920, 350)
-    contents.fillText(max_money + '元得' + title + '券!', 255, 970, 350)
+    contents.fillText(max_money + '元的' + title + '券!', 255, 970, 350)
     contents.save()
 
     contents.font = '28px PingFang-SC-Regular';
@@ -403,21 +483,47 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillText('一起来领取免费礼品吧！', 195, 1280, 390)
     contents.save()
 
-    let endImg = new Image();
-    endImg.src = canvas.toDataURL('image/jpeg/png')
-    endImg.onload = () => {
-      if (canvas.toDataURL('image/jpeg/png').length < 500000) {
-        Toast.loading('loading', 1)
-        setTimeout(() => {
-          this.creatCanvas(this.props.data)
-        }, 1000);
-      } else {
-        this.setState({
-          url: canvas.toDataURL('image/jpeg/png')
-        })//这里设置了编码
-      }
-    }
+    setTimeout(() => {
+      this.setState({
+        canvasLength: canvas.toDataURL('image/jpeg/png')
+      }, () => {
+        this.controlImgTime2(this.state.canvasLength.length)
+      })
+    }, 500);
 
+    // console.log(canvas.toDataURL('image/jpeg/png').length, '端的');
+    // let endImg = new Image();
+    // endImg.src = canvas.toDataURL('image/jpeg/png')
+    // endImg.onload = () => {
+    //   if (canvas.toDataURL('image/jpeg/png').length < 800000) {
+    //     Toast.loading('正在生成中，请稍后', 1)
+    //     setTimeout(() => {
+    //       this.creatCanvas(this.props.data)
+    //     }, 1000);
+    //   } else {
+    //     this.setState({
+    //       url: canvas.toDataURL('image/jpeg/png')
+    //     })//这里设置了编码 
+    //   }
+    // }
+
+  }
+
+  // 用来优化图片显示时间   图片长度       标准长度
+  controlImgTime2 = (dataLength: number) => {
+    if (dataLength < 800000) {
+      Toast.loading('正在生成中，请稍后', this.state.loadingTime);
+      setTimeout(() => {
+        this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
+          this.controlImgTime(this.state.canvasLength.length)
+          if (this.state.loadingTime > 2) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
+        })
+      }, this.state.loadingTime * 1000);
+    } else {
+      this.setState({
+        url: this.state.canvasLength
+      })
+    }
   }
 
   // 小数点后一位采用四舍五入

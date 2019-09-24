@@ -6,8 +6,11 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import request from '@/services/request';
 import router from 'umi/router';
+import ShareThree from './components/share_three/index'
+
 interface State {
 	info: Info;
+	showSharethree: boolean;
 }
 
 interface Info {
@@ -35,11 +38,15 @@ export default connect()(
 				integral: 0,
 				canInvite: 0,
 				bank_count: 1
-			}
+			},
+			showSharethree: false
 		};
 
 		/**跳转到页面 */
-		pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
+		pushPage = (pathname: string) => () => {
+			// console.log(routerRedux)
+			this.props.dispatch(routerRedux.push({ pathname }))
+		};
 
 		componentDidMount() {
 			this.getMyInfo();
@@ -102,8 +109,18 @@ export default connect()(
 		// 	})
 		// }
 
+		//点击转发
+		forwarding = () => {
+			this.setState({ showSharethree:true})
+		}
+
+		//遮挡层组件 用户点击选择后触发
+		closeShareThree = (close:boolean) => {
+			this.setState({ showSharethree:false})
+		}
+
 		render() {
-      console.log(this.state.info.wx_sign_status)
+      // console.log(this.state.info.wx_sign_status)
 			const signCode = this.state.info.wx_sign_status == 2 ? (
 				<Flex onClick={this.goSignCode}>
 					<img src={require('./signed.png')} alt="" />
@@ -115,11 +132,14 @@ export default connect()(
       ) : null;
 			return (
 				<div className={styles.page}>
+					<ShareThree show={this.state.showSharethree} onclick={this.closeShareThree.bind(this)} info={this.state.info}/>
 					<div className={styles.headInfo}>
 						<WingBlank>
 							<Flex className={styles.headInfoContent}>
 								<img src={this.state.info.preview} alt="" className="userImg" />
-								<Flex.Item className="name">{this.state.info.name}</Flex.Item>
+								<Flex.Item className="name" >{this.state.info.name}
+									<img src={require('../../assets/share_button.png')} alt="" onClick={this.forwarding.bind(this)}/>
+								</Flex.Item>
 								<img
 									src={require('./setting.png')}
 									alt=""
@@ -140,6 +160,7 @@ export default connect()(
 								<div className="btn" onClick={this.transferredBalance}>
 									转到余额
 								</div>
+
 							</Flex>
 							<Flex className="bottom">
 								<Flex.Item>

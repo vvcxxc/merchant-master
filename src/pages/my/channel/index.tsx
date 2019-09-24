@@ -120,73 +120,73 @@ export default class Benefit extends Component {
 	};
 	//以下两个函数，一个为发起请求时只传递属性字段，一个为发起请求时只传递月份（handleChange为全部传递，可能会有逻辑错误，例如同时选择“今天”和“七月份”）
 	//只选择字段
-	handleChange2 = (query: any) => {
-		// console.log(query)
-		let type0;
-		switch (query.hot._id) {
-			case 3: type0 = 'today'; break;
-			case 4: type0 = 'yestoday'; break;//yestoday……没看错
-			case 5: type0 = 'thisweek'; break;
-			case 6: type0 = 'thismonth'; break;
-		}
-		this.setState({ payType: query.hot.id, type: type0, date: undefined }, async () => {
-			Toast.loading('');
-			const res = await request({
-				url: 'v3/finance/offline_order',
-				params: {
-					type: this.state.type,
-					pay_type: this.state.payType,
-					page: this.state.page
-				}
-			});
-			Toast.hide();
-			if (res.code === 200 && res.data.length != 0) {
-				this.setState({ data: this.state.data.concat(res.data), sum: res.sum, platform: res.platform, count: res.count });
-			} else if (res.code === 200 && res.data.length == 0) {
-				this.setState({ hasMore: false });
-			}
-		})
-		// 每次change时重置
-		this.setState({
-			showNoData: false,
-			data: [],
-			count: 0,
-			sum: 0,
-			platform: 0,
-			page: 1,
-			hasMore: true
-		});
-	};
-	//只选择月份
-	handleChange3 = (query: any) => {
-		//搞掉
-		this.setState({ date: query.time , payType: undefined, type: undefined }, async () => {
-			Toast.loading('');
-			const res = await request({
-				url: 'v3/finance/offline_order',
-				params: {
-					date: this.state.date,
-					page: this.state.page
-				}
-			});
-			Toast.hide();
-			if (res.code === 200 && res.data.length != 0) {
-				this.setState({ data: this.state.data.concat(res.data), sum: res.sum, platform: res.platform, count: res.count });
-			} else if (res.code === 200 && res.data.length == 0) {
-				this.setState({ hasMore: false });
-			}
-		})
-		// 每次change时重置
-		this.setState({
-			showNoData: false,
-			data: [],
-			count: 0,
-			sum: 0,
-			platform: 0,
-			page: 1,
-			hasMore: true
-		});
-	};
+	// handleChange2 = (query: any) => {
+	// 	// console.log(query)
+	// 	let type0;
+	// 	switch (query.hot._id) {
+	// 		case 3: type0 = 'today'; break;
+	// 		case 4: type0 = 'yestoday'; break;//yestoday……没看错
+	// 		case 5: type0 = 'thisweek'; break;
+	// 		case 6: type0 = 'thismonth'; break;
+	// 	}
+	// 	this.setState({ payType: query.hot.id, type: type0, date: undefined }, async () => {
+	// 		Toast.loading('');
+	// 		const res = await request({
+	// 			url: 'v3/finance/offline_order',
+	// 			params: {
+	// 				type: this.state.type,
+	// 				pay_type: this.state.payType,
+	// 				page: this.state.page
+	// 			}
+	// 		});
+	// 		Toast.hide();
+	// 		if (res.code === 200 && res.data.length != 0) {
+	// 			this.setState({ data: this.state.data.concat(res.data), sum: res.sum, platform: res.platform, count: res.count });
+	// 		} else if (res.code === 200 && res.data.length == 0) {
+	// 			this.setState({ hasMore: false });
+	// 		}
+	// 	})
+	// 	// 每次change时重置
+	// 	this.setState({
+	// 		showNoData: false,
+	// 		data: [],
+	// 		count: 0,
+	// 		sum: 0,
+	// 		platform: 0,
+	// 		page: 1,
+	// 		hasMore: true
+	// 	});
+	// };
+	// //只选择月份
+	// handleChange3 = (query: any) => {
+	// 	//搞掉
+	// 	this.setState({ date: query.time , payType: undefined, type: undefined }, async () => {
+	// 		Toast.loading('');
+	// 		const res = await request({
+	// 			url: 'v3/finance/offline_order',
+	// 			params: {
+	// 				date: this.state.date,
+	// 				page: this.state.page
+	// 			}
+	// 		});
+	// 		Toast.hide();
+	// 		if (res.code === 200 && res.data.length != 0) {
+	// 			this.setState({ data: this.state.data.concat(res.data), sum: res.sum, platform: res.platform, count: res.count });
+	// 		} else if (res.code === 200 && res.data.length == 0) {
+	// 			this.setState({ hasMore: false });
+	// 		}
+	// 	})
+	// 	// 每次change时重置
+	// 	this.setState({
+	// 		showNoData: false,
+	// 		data: [],
+	// 		count: 0,
+	// 		sum: 0,
+	// 		platform: 0,
+	// 		page: 1,
+	// 		hasMore: true
+	// 	});
+	// };
 	render() {
 		const list = this.state.data.map((_: Item) => <BenefitItem key={_.id} {..._} />);
 		const noData = (
@@ -208,9 +208,9 @@ export default class Benefit extends Component {
 					undetermined2={this.undetermined2}
 					insignificant={insignificant}
 					hasInsignificant={true}
-					// onChange={this.handleChange}
-					onChange2={this.handleChange2}
-					onChange3={this.handleChange3}
+					onChange={this.handleChange}
+					// onChange2={this.handleChange2}
+					// onChange3={this.handleChange3}
 				>
 					{this.state.showNoData ? noData : list}
 					<p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
