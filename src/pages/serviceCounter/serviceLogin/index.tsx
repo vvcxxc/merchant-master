@@ -1,3 +1,4 @@
+/**title: 小熊敬礼服务台 */
 import React, { Component } from 'react';
 import { List, InputItem } from 'antd-mobile';
 import styles from './index.less'
@@ -30,11 +31,9 @@ export default class ServiceCounter extends Component<Props>{
   render() {
     return (
       <div className={styles.newLogin}>
-        
         <div className={styles.login}>
           <img src={require('../../../assets/new_login.png')} alt=""/>
         </div>
-
         <div className={styles.contentInput}>
           <div className={styles.list}>
             <div className={styles.title}>账号</div>
@@ -48,13 +47,11 @@ export default class ServiceCounter extends Component<Props>{
               ></InputItem>
           </div>
         </div>
-
         <div className={styles.landing}>
           <div onClick={this.allowLanding}>
              登陆
          </div>
         </div>
-
       </div>
     )
   }

@@ -1,3 +1,4 @@
+/**title: 小熊敬礼服务台 */
 import React, { Component } from 'react';
 import styles from './index.less'
 import QRCode from 'qrcode';
@@ -83,7 +84,8 @@ export default class ServiceCounter extends Component{
   }
 
   componentDidMount() {   // 网络链接转化为二维码   --> 跳到泽铜页面
-    QRCode.toDataURL('http://test.supplierv2.tdianyi.com/serviceCounter/myCardTicket?id='+this.state.serviceCounterId)                                     
+    // ‘http://test.mall.tdianyi.com/#/pages/mycardticket/index’
+    QRCode.toDataURL('http://test.mall.tdianyi.com/#/pages/mycardticket/index?id='+this.state.serviceCounterId)                                     
       .then((url: any) => {
         this.setState({ qrcodeImg: url })
       })

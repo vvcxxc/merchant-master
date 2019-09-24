@@ -6,7 +6,10 @@ import router from 'umi/router';
 import { connect } from 'dva';
 
 export default connect(({ ad , businessArea}: any) => ({ad,businessArea}))(
-class Header extends Component<any> {
+	class Header extends Component<any> {
+		state = {
+			showNav:true
+		}
 	goBack = () => {
     let url = window.location.href;
     console.log(url)
@@ -28,12 +31,19 @@ class Header extends Component<any> {
 			type: 'businessArea/resetAllData',
 		})
 	}
-  };
+		};
+		componentWillMount() {
+			if (window.location.href.includes('serviceCounter')) {
+				this.setState({
+					showNav:false
+				})
+			}
+		}
 
 	render() {
 		return (
 			<div style={{ width: '100%' }}>
-				<Flex className={styles.header} justify="center">
+				<Flex className={styles.header} justify="center" style={{display: this.state.showNav? '':'none'}}>
 					<img onClick={this.goBack} src={require('./icon-back@2x.png')} className={styles.backImg} />
 					{window.title}
 				</Flex>
