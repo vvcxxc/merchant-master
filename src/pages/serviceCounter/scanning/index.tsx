@@ -12,7 +12,10 @@ interface ShopMessage {
   label: string,
   describe:string
 }
-
+declare global {
+  interface Window { service_url: string; }
+}
+const service_url = window.service_url ? window.service_url : "http://mall.tdianyi.com/#/pages/mycardticket/index"
 export default class ServiceCounter extends Component{
 
   state = {
@@ -27,7 +30,7 @@ export default class ServiceCounter extends Component{
       //   describe: '多美蛋糕店'
       // },
       // {
-      //   label: '订 单 号：',
+      //   label: ' 订  单  号 ：',
       //   describe: '12345678954'
       // },
       // {
@@ -37,7 +40,7 @@ export default class ServiceCounter extends Component{
     ],
     listIndex: 0,
     qrcodeImg: '',
-    serviceCounterId: Number,
+    serviceCounterId: '',
     allow: false,
     orderId:Number
   }
@@ -79,17 +82,13 @@ export default class ServiceCounter extends Component{
       .then((res: any) => {
         if (res.code == 200) {
           this.setState({ serviceCounterId: res.data.serviceCounterId})
+          QRCode.toDataURL(service_url+'?id='+res.data.serviceCounterId)
+          .then((url: any) => {
+            this.setState({ qrcodeImg: url })
+          })
+          .catch((err: any) => { })
         }
       })
-  }
-
-  componentDidMount() {   // 网络链接转化为二维码   --> 跳到泽铜页面
-    // ‘http://test.mall.tdianyi.com/#/pages/mycardticket/index’
-    QRCode.toDataURL('http://test.mall.tdianyi.com/#/pages/mycardticket/index?id='+this.state.serviceCounterId)                                     
-      .then((url: any) => {
-        this.setState({ qrcodeImg: url })
-      })
-      .catch((err: any) => { })
   }
 
   // 索引器
@@ -100,7 +99,6 @@ export default class ServiceCounter extends Component{
   /**点击核销 */
   cancelAfterVerific = (e: any) => {
     e.stopPropagation();
-    console.log(22222);
     
     wx.scanQRCode({
       needResult: 1,
@@ -113,12 +111,12 @@ export default class ServiceCounter extends Component{
         let data = [
           { label: '店铺名称：', describe: res.storeName },
           { label: '订单金额：', describe: res.amount },
-          { label: '订 单 号：', describe: res.orderSn },
+          { label: ' 订 单 号 ：', describe: res.orderSn },
           { label: '消费时间：', describe: res.orderCreateTime}
         ]
         this.setState({
           shopMessage:data
-        })
+        }) 
         this.setState({
           orderId:res.id
         })
@@ -144,7 +142,7 @@ export default class ServiceCounter extends Component{
       }).catch(() => {
         Toast.fail('核销失败', 1);
       })
-    
+
   }
 
   controlAllow = () => {
@@ -154,7 +152,7 @@ export default class ServiceCounter extends Component{
   closeShadow = (e: any) => {
     this.setState({ allow: false })
     e.stopPropagation();
-  } 
+  }
 
 
   render() {
@@ -176,7 +174,7 @@ export default class ServiceCounter extends Component{
                   {
                     this.state.shopMessage.map((item: ShopMessage, index: number) => {
                       return <div className={styles.descirbe}>
-                        <Text>{item.label}</Text>
+                        <Text className={styles.textLeft}>{item.label}</Text>
                         <Text className={styles.text}>{item.describe}</Text>
                       </div>
                     })
@@ -188,7 +186,7 @@ export default class ServiceCounter extends Component{
                 </div>
               </div>
             }
-            
+
           </div> : <div>
               <div className={styles.content}>
                 <img src={this.state.qrcodeImg} className={styles.border_img} alt="" />

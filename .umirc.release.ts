@@ -6,7 +6,8 @@ const config: IConfig = {
     "window.open_id": "open_id",
     "window.url": "http://release.api.tdianyi.com/",
     "window.from": "http://release.supplierv2.tdianyi.com/",
-    "window.pay_url": "http://release.api.tdianyi.com/payCentre/toSupplierWxPay"
+    "window.pay_url": "http://release.api.tdianyi.com/payCentre/toSupplierWxPay",
+    "window.service_url": "http://test.mall.tdianyi.com/#/pages/mycardticket/index"
   }
 }
 

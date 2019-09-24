@@ -248,7 +248,6 @@ export default class MapPage extends Component<Props> {
   }
 
   chooseSearch = (item: any) => {
-    // console.log(item)
     let location = {
       longitude: item.location.lng,
       latitude: item.location.lat

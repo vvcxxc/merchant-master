@@ -55,7 +55,6 @@ class WithDraw extends Component {
   /**全部提现 */
   allWithDraw = () => {
     let { info } = this.state;
-    // console.log(String(Number(info.money).toFixed(2)))
     let money = this.numFloor(Number(info.money));
     this.setState({ money });
   };

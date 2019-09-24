@@ -54,7 +54,6 @@ export default connect(({ finance }: any) => finance)(
                 //  field_help: ""
              }
          }).then(res => {
-             console.log(res);
              this.setState({info:res.data});
              Toast.hide();
          })

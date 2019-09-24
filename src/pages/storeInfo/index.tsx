@@ -72,7 +72,7 @@ export default class StoreInfo extends Component {
         account_mobile: data.account_mobile,
         manage_type: data.manage_type,
         house_num: data.house_num
-      },()=>{console.log(this.state)});
+      },()=>{});
     })
   }
 

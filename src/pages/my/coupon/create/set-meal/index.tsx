@@ -23,7 +23,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
     state = {
     };
     componentDidMount = () => {
-      console.log(this.props)
     };
     render() {
       return (

@@ -10,6 +10,7 @@ import Posters from '@/pages/activitys/appreciation/componts/posters'
 import EchartsSan from '../../../../components/echart_shan/index'
 import { connect } from 'dva';
 
+
 const alert = Modal.alert;
 
 interface Props {
@@ -64,8 +65,6 @@ export default connect(({ activity }: any) => activity)(
   }
 
     componentWillMount() {
-      console.log(1);
-      
       this.props.dispatch({
         type: 'activity/setDetails',
         payload: {

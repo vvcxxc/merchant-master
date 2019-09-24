@@ -23,7 +23,6 @@ export default class CreateMoneyOff extends Component {
 	//关闭时间选择
 	closeModal = () => this.setState({ showSelectCoupon: false, showSelectTime: false, showSelectActivity: false });
 	handleSelectTime = (time: any) => {
-		console.log(time);
 		this.setState({start_date: new Date(time.startTime).toString(), end_date: new Date(time.endTime).toString() }, this.closeModal)
 	};
 	handleRuleChange = (index: number, rule: any) => {

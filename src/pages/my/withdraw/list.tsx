@@ -53,7 +53,7 @@ export default class WithDrawList extends Component {
   //         total,
   //       });
   //     },function(){
-  //       // console.log(this.state.list)
+  //       //
   //     });
   //   }else{
   //     this.setState({hasMore: false})
