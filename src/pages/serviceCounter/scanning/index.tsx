@@ -85,7 +85,7 @@ export default class ServiceCounter extends Component{
 
   componentDidMount() {   // 网络链接转化为二维码   --> 跳到泽铜页面
     // ‘http://test.mall.tdianyi.com/#/pages/mycardticket/index’
-    QRCode.toDataURL('http://test.mall.tdianyi.com/#/pages/mycardticket/index?id='+this.state.serviceCounterId)                                     
+    QRCode.toDataURL('http://test.mall.tdianyi.com/#/pages/mycardticket/index?id='+this.state.serviceCounterId)
       .then((url: any) => {
         this.setState({ qrcodeImg: url })
       })
@@ -101,7 +101,7 @@ export default class ServiceCounter extends Component{
   cancelAfterVerific = (e: any) => {
     e.stopPropagation();
     console.log(22222);
-    
+
     wx.scanQRCode({
       needResult: 1,
       desc: 'scanQRCode desc',
@@ -113,7 +113,7 @@ export default class ServiceCounter extends Component{
         let data = [
           { label: '店铺名称：', describe: res.storeName },
           { label: '订单金额：', describe: res.amount },
-          { label: '订 单 号：', describe: res.orderSn },
+          { label: ' 订 单 号 ：', describe: res.orderSn },
           { label: '消费时间：', describe: res.orderCreateTime}
         ]
         this.setState({
@@ -144,7 +144,7 @@ export default class ServiceCounter extends Component{
       }).catch(() => {
         Toast.fail('核销失败', 1);
       })
-    
+
   }
 
   controlAllow = () => {
@@ -154,7 +154,7 @@ export default class ServiceCounter extends Component{
   closeShadow = (e: any) => {
     this.setState({ allow: false })
     e.stopPropagation();
-  } 
+  }
 
 
   render() {
@@ -188,7 +188,7 @@ export default class ServiceCounter extends Component{
                 </div>
               </div>
             }
-            
+
           </div> : <div>
               <div className={styles.content}>
                 <img src={this.state.qrcodeImg} className={styles.border_img} alt="" />
