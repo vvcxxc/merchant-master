@@ -23,7 +23,7 @@ export default class ServiceCounter extends Component<Props>{
         account_passwd:this.state.userPassword
       }
     })
-      .then((res: any) => { 
+      .then((res: any) => {
         if (res.code == 200) {
           localStorage.setItem('token_QL', JSON.stringify(res.data.token))
           router.push({pathname:'../../serviceCounter/scanning'})
@@ -67,7 +67,7 @@ export default class ServiceCounter extends Component<Props>{
         </div>
         <div className={styles.landing}>
           <div onClick={this.allowLanding}>
-             登陆
+             登录
          </div>
         </div>
       </div>

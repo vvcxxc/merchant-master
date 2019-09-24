@@ -88,18 +88,6 @@ export default class ServiceCounter extends Component{
       })
   }
 
-<<<<<<< HEAD
-  componentDidMount() {   // 网络链接转化为二维码   --> 跳到泽铜页面
-    // ‘http://test.mall.tdianyi.com/#/pages/mycardticket/index’
-    QRCode.toDataURL('http://test.mall.tdianyi.com/#/pages/mycardticket/index?id='+this.state.serviceCounterId)
-      .then((url: any) => {
-        this.setState({ qrcodeImg: url })
-      })
-      .catch((err: any) => { })
-  }
-
-=======
->>>>>>> test
   // 索引器
   indexer = (index: number) => {
     this.setState({ listIndex: index })
