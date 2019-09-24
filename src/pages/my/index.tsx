@@ -116,10 +116,6 @@ export default connect()(
 			this.setState({ showSharethree:false})
 		}
 
-		pujie = () => {
-			router.push({pathname:'../serviceCounter/serviceLogin'})
-		}
-
 		render() {
       // console.log(this.state.info.wx_sign_status)
 			const signCode = this.state.info.wx_sign_status == 2 ? (
@@ -198,10 +194,6 @@ export default connect()(
 						<Flex onClick={this.pushPage('/my/inviteQrCode')}>
 							<img src={require('./benefit.png')} alt="" />
 							<span>店铺邀请码</span>
-						</Flex>
-
-						<Flex onClick={this.pujie}>
-							服务台演示看这里
 						</Flex>
 						{signCode}
 					</WingBlank>

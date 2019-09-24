@@ -114,7 +114,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let link = data.link                                        // 用户扫二维码所跳转的链接
 
     if (data.title != '拼团') {
-      var meet = this.identifyData(data.total_fee.toString())
+      // var meet = this.identifyData(data.total_fee.toString())
       JYB_IMG.src = require("../../../../../assets/add_money.png")
       JYB_giftImg.src = require("../../../../../assets/add.border.png")  // 满足金额
     } else {
@@ -157,7 +157,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
     headImg.onload = ()=> {
       contents.save();
-      contents.restore();
+      // contents.restore();
       contents.drawImage(headImg, 0, 0, 545, 345, 290, 420, 145, 145)
       contents.save();
     }
@@ -196,19 +196,22 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       
       if (data.title != '拼团') { 
         contents.drawImage(JYB_giftImg, 0, 0, 300, 300, 130, 695, 210, 227)
+        contents.save()
+
         contents.font = '20px PingFang SC Bold';
         contents.fillStyle = "#fff"
 
         contents.fillText('￥', 170, 780, 500)
         contents.save()
+
         contents.font = '35px PingFang SC Bold';
         let pices = String(max_money)
 
         pices.length < 4 ? contents.fillText(pices, 220 - (pices.length * 10), 780, 500) : contents.fillText(pices, 190, 780, 500);
-        contents.save()
+        // contents.save()
         contents.font = '20px PingFang SC';
         contents.fillStyle = "#ededed"
-        contents.fillText('满' + meet + '可用', 180, 810, 500)
+        contents.fillText('满' + data.total_fee + '可用', 180, 810, 500)
         contents.save()
         
       }

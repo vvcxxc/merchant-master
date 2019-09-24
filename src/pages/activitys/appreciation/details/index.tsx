@@ -119,13 +119,8 @@ export default connect(({ activity }: any) => activity)(
           total_fee: data.appreciation_info.total_fee,
         }
       })
-      console.log(res,'res');
-      console.log(data.appreciation_gif_info.gif_pic);
 
-
-      // this.createHeadImg(data.supplier.shop_door_header_img)
-      // this.createHeadImg(data.supplier.preview)
-
+      this.createHeadImg(data.supplier.shop_door_header_img)
       if (data.appreciation_gif_info.gift_id != 0) {
         this.createGiftImg(data.appreciation_gif_info.gif_pic)
       }
@@ -205,10 +200,9 @@ export default connect(({ activity }: any) => activity)(
 
     // 用来给域里面添加 ‘ \ ’
     judgeNetwork = (Network: string) => {
-      console.log(Network,'999')
-
+      // console.log(Network,'999')
       if (Network.split('com', 2)[1].slice(0, 1) == '/') {
-        // return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
+        return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
       } else {
         return Network
       }
@@ -315,7 +309,7 @@ export default connect(({ activity }: any) => activity)(
           {/* 基本信息 */}
           <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
-            活动统计数据6
+            活动统计数据
           </Flex>
           <div>
             {echart}
