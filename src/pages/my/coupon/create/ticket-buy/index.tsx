@@ -22,7 +22,6 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
     state = {
     };
     componentDidMount = () => {
-      console.log(this.props)
     };
     render() {
       return (

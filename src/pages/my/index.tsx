@@ -44,7 +44,6 @@ export default connect()(
 
 		/**跳转到页面 */
 		pushPage = (pathname: string) => () => {
-			// console.log(routerRedux)
 			this.props.dispatch(routerRedux.push({ pathname }))
 		};
 
@@ -76,6 +75,9 @@ export default connect()(
 		transferredBalance = () => {
 			let money = Number(this.state.info.money);
 			if (money > 0) {
+        // if(money < 0.01){
+        //   Toast.fail('提现金额必须大于')
+        // }
 				request({
 					url: 'api/merchant/staff/earnings_go_balance',
 					method: 'post'
@@ -116,12 +118,7 @@ export default connect()(
 			this.setState({ showSharethree:false})
 		}
 
-		pujie = () => {
-			router.push({pathname:'../serviceCounter/serviceLogin'})
-		}
-
 		render() {
-      // console.log(this.state.info.wx_sign_status)
 			const signCode = this.state.info.wx_sign_status == 2 ? (
 				<Flex onClick={this.goSignCode}>
 					<img src={require('./signed.png')} alt="" />
@@ -161,7 +158,7 @@ export default connect()(
 								<div className="btn" onClick={this.transferredBalance}>
 									转到余额
 								</div>
-								<div onClick={this.pujie}>扑街</div>
+
 							</Flex>
 							<Flex className="bottom">
 								<Flex.Item>

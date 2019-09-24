@@ -51,7 +51,6 @@ export default class OrderPage extends Component {
 
 	getData = async (query?: any) => {
 		Toast.loading('');
-		console.log("getData"+query)
 		const res = await request({ url: 'v3/coupons/order_list', params: {
 			...query,
 			page : this.state.page
@@ -73,7 +72,6 @@ export default class OrderPage extends Component {
 			type: query.hot._id,
 			date : query.time ? moment(query.time).unix() : undefined
 		},() => {
-			console.log("2:"+query.hot.id,query.hot._id)
 			this.getData({
 				pay_status: query.hot.id || 0,
 				type: query.hot._id || undefined,

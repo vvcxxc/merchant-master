@@ -25,7 +25,6 @@ export default connect(({ activity, createCoupon}: any) => ({activity,createCoup
      * @type =1 为拼团 =2 为增值 =3 为优惠券
      */
     componentDidMount() {
-      console.log(this.props)
       let type = this.props.location.query.type;
       let notice_list = [];
       if (type == 1) {

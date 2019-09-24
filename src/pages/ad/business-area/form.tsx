@@ -91,7 +91,6 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 		showModal = () => this.setState({ showSelectCoupon: true });
 		handleSelectCoupon = (coupon: any) => this.setState({ coupon }, this.closeModal);
 		handleChangePrice = (price: any) => {
-			console.log(price);
 			if (price.split(".")[1] == undefined || (price.split(".")[1].length <= 2 && price.split(".")[2] == undefined)) {
 				this.setState({ price })
 			}
@@ -130,7 +129,6 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 							price: this.state.price,            // 每日预算
 						}
 					})
-					console.log(this.props)
 					Modal.alert('提示', '余额不足', [
 						{ text: '去充值', onPress: () => router.push('/my/rechange') },
 						{ text: '取消', onPress: () => console.log('cancel'), style: 'default' },

@@ -1,21 +1,45 @@
+/**title: 小熊敬礼服务台 */
 import React, { Component } from 'react';
 import styles from './index.less'
 import QRCode from 'qrcode';
-import { Flex, WingBlank, Icon, Toast } from 'antd-mobile';
+import { Flex, WingBlank, Icon, Toast,Text } from 'antd-mobile';
 import request from '@/services/request';
 import new_request from '@/services/new_request';
 import router from 'umi/router';
 import wx from 'weixin-js-sdk';
 
-type Props = any
+interface ShopMessage {
+  label: string,
+  describe:string
+}
 
-export default class ServiceCounter extends Component<Props>{
+export default class ServiceCounter extends Component{
 
   state = {
     service: ['扫码核销', '生成服务码'],
+    shopMessage: [
+      // {
+      //   label: '店铺名称：',
+      //   describe: '多美蛋糕店'
+      // },
+      // {
+      //   label: '订单金额：',
+      //   describe: '多美蛋糕店'
+      // },
+      // {
+      //   label: ' 订  单  号 ：',
+      //   describe: '12345678954'
+      // },
+      // {
+      //   label: '消费时间：',
+      //   describe: '2019-09-05 11:11:11'
+      // }
+    ],
     listIndex: 0,
     qrcodeImg: '',
-    serviceCounterId:Number
+    serviceCounterId: '',
+    allow: false,
+    orderId:Number
   }
 
   componentWillMount() {
@@ -55,92 +79,82 @@ export default class ServiceCounter extends Component<Props>{
       .then((res: any) => {
         if (res.code == 200) {
           this.setState({ serviceCounterId: res.data.serviceCounterId})
+          QRCode.toDataURL('http://test.mall.tdianyi.com/#/pages/mycardticket/index?id='+res.data.serviceCounterId)
+          .then((url: any) => {
+            this.setState({ qrcodeImg: url })
+          })
+          .catch((err: any) => { })
         }
       })
   }
 
-  componentDidMount() {
-    QRCode.toDataURL('阿敏，你个二货，哈哈哈')                                      // 网络链接转化为二维码
-      .then((url: any) => {
-        // console.log(url);
-        this.setState({ qrcodeImg: url })
-      })
-      .catch((err: any) => { })
-  }
-
   // 索引器
   indexer = (index: number) => {
-    console.log(index, '所以韩');
     this.setState({ listIndex: index })
   }
 
-  // 扫码
-  scanCode = () => {
-    console.log('扫码');
-
-  }
-  // 核销
-  cancelAfterVerific = () => {
-    // console.log('核销');
-    // this.Verification()
-  }
-
   /**点击核销 */
-  Verification = () => {
-    console.log('执行');
+  cancelAfterVerific = (e: any) => {
+    e.stopPropagation();
     
     wx.scanQRCode({
       needResult: 1,
       desc: 'scanQRCode desc',
       success: ({ resultStr }: any) => {
-        let res = JSON.parse(resultStr);
-
-        // new_request({
-        //   url: 'v3/service/counter/order_verification',
-        //   method: 'post',
-        //   params: {
-        //     id: this.state.serviceCounterId
-        //   }
-        // })
-        //   .then((res: any) => {
-        //     if (res.code == 200) {
-        //       // alert(res.code)
-        //       Toast.fail(res.message);
-        //     } else {
-        //       // alert('失败了')
-        //       Toast.fail('失败');
-        //     }
-        //   })
-        
-        request({
-          url: 'api/merchant/youhui/userConsume',
-          method: 'post',
-          data: {
-            code: res.youhui_sn
-          }
-        }).then(res => {
-          if (res.code == 200) {
-             alert('成功了')
-            router.push({ pathname: '/' })
-            // alert('成功了')
-            // router.push({
-            //   pathname: '/verification/success',
-            //   query: {
-            //     id: res.data.youhu_log_id
-            //   }
-            // })
-          } else {
-            Toast.fail(res.message);
-          }
-        });
+        this.setState({
+          allow:true
+        })
+        let res = JSON.parse(resultStr)
+        let data = [
+          { label: '店铺名称：', describe: res.storeName },
+          { label: '订单金额：', describe: res.amount },
+          { label: ' 订 单 号 ：', describe: res.orderSn },
+          { label: '消费时间：', describe: res.orderCreateTime}
+        ]
+        this.setState({
+          shopMessage:data
+        }) 
+        this.setState({
+          orderId:res.id
+        })
       }
     });
   };
 
+  allowverification = () => {
+    new_request({
+      url: 'v3/service/counter/order_verification',
+      method: 'post',
+      data: {
+        id: this.state.orderId //核销id
+      }
+    })
+      .then((res: any) => {
+        if (res.code == 200) {
+          // localStorage.setItem('token_QL', JSON.stringify(res.data.token))
+          // alert(res.message)
+          Toast.success(res.message,1)
+          router.push({ pathname: '../../serviceCounter/scanning' })
+        }
+      }).catch(() => {
+        Toast.fail('核销失败', 1);
+      })
+
+  }
+
+  controlAllow = () => {
+    this.setState({ allow: false })
+  }
+
+  closeShadow = (e: any) => {
+    this.setState({ allow: false })
+    e.stopPropagation();
+  }
+
 
   render() {
     return (
-      <div className={styles.serviceCounter}>
+      <div className={styles.serviceCounter} onClick={this.controlAllow}>
         <div className={styles.title}>{/* title */}
           {
             this.state.service.map((item, index) => {
@@ -150,8 +164,26 @@ export default class ServiceCounter extends Component<Props>{
         </div>
 
         {
-          this.state.listIndex == 0 ? <div className={styles.content} onClick={this.Verification}>
-            <img src={require('../../../assets/bright.png')} alt="" />
+          this.state.listIndex == 0 ? <div className={styles.content} onClick={this.cancelAfterVerific}>
+            {
+              !this.state.allow ? <img src={require('../../../assets/bright.png')} alt="" /> : <div className={styles.shopBox} onClick={this.closeShadow.bind(this)}>
+                <div className={styles.shopDescirbe}>
+                  {
+                    this.state.shopMessage.map((item: ShopMessage, index: number) => {
+                      return <div className={styles.descirbe}>
+                        <Text className={styles.textLeft}>{item.label}</Text>
+                        <Text className={styles.text}>{item.describe}</Text>
+                      </div>
+                    })
+                  }
+                  <div className={styles.descirbeButton} >
+                    <Text className={styles.myButton} onClick={this.allowverification.bind(this)}>
+                      核销</Text>
+                  </div>
+                </div>
+              </div>
+            }
+
           </div> : <div>
               <div className={styles.content}>
                 <img src={this.state.qrcodeImg} className={styles.border_img} alt="" />
@@ -160,13 +192,14 @@ export default class ServiceCounter extends Component<Props>{
             </div>
         }
 
-        <div className={styles.foot}>
+        <div className={styles.foot} onClick={()=>{router.push({ pathname: '../../serviceCounter/verificationRecord' })}}>
           <div className={styles.foot_head}></div>
-          <div className={styles.footContent} onClick={this.cancelAfterVerific}>
+          <div className={styles.footContent}>
             <span>核销记录</span>
             <img src={require('../../../assets/jiantou_right.png')} alt="" />
           </div>
         </div>
+
       </div>
     )
   }

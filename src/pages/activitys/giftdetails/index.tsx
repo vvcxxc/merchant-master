@@ -34,7 +34,6 @@ export default connect(({ activity }: any) => activity)(
   }
   chooseOne = () => {
     let type = this.props.location.query.type;
-    console.log(this.props.location.query)
     const {id, pic, name} = this.props.location.query;
     if(type == '1'){
       console.log(1)

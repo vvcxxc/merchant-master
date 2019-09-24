@@ -58,17 +58,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     return true
   }
 
-  componentWillMount() {
-    console.log('执行一次');
-    
-    // this.setState({ showPoster: true })
-    // console.log(this.props);
-    
-    // this.panduan()
-  }
-
   componentDidMount() {
-    console.log(this.props);
+    console.log('海报触发');
   }
 
   // 长 短 海报根据此id来
@@ -114,7 +105,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let link = data.link                                        // 用户扫二维码所跳转的链接
 
     if (data.title != '拼团') {
-      var meet = this.identifyData(data.total_fee.toString())
+      // var meet = this.identifyData(data.total_fee.toString())
       JYB_IMG.src = require("../../../../../assets/add_money.png")
       JYB_giftImg.src = require("../../../../../assets/add.border.png")  // 满足金额
     } else {
@@ -157,7 +148,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
     headImg.onload = ()=> {
       contents.save();
-      contents.restore();
+      // contents.restore();
       contents.drawImage(headImg, 0, 0, 545, 345, 290, 420, 145, 145)
       contents.save();
     }
@@ -196,19 +187,22 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       
       if (data.title != '拼团') { 
         contents.drawImage(JYB_giftImg, 0, 0, 300, 300, 130, 695, 210, 227)
+        contents.save()
+
         contents.font = '20px PingFang SC Bold';
         contents.fillStyle = "#fff"
 
         contents.fillText('￥', 170, 780, 500)
         contents.save()
+
         contents.font = '35px PingFang SC Bold';
         let pices = String(max_money)
 
         pices.length < 4 ? contents.fillText(pices, 220 - (pices.length * 10), 780, 500) : contents.fillText(pices, 190, 780, 500);
-        contents.save()
+        // contents.save()
         contents.font = '20px PingFang SC';
         contents.fillStyle = "#ededed"
-        contents.fillText('满' + meet + '可用', 180, 810, 500)
+        contents.fillText('满' + data.total_fee + '可用', 180, 810, 500)
         contents.save()
         
       }
@@ -488,22 +482,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       })
     }, 500);
 
-    // console.log(canvas.toDataURL('image/jpeg/png').length, '端的');
-    // let endImg = new Image();
-    // endImg.src = canvas.toDataURL('image/jpeg/png')
-    // endImg.onload = () => {
-    //   if (canvas.toDataURL('image/jpeg/png').length < 800000) {
-    //     Toast.loading('正在生成中，请稍后', 1)
-    //     setTimeout(() => {
-    //       this.creatCanvas(this.props.data)
-    //     }, 1000);
-    //   } else {
-    //     this.setState({
-    //       url: canvas.toDataURL('image/jpeg/png')
-    //     })//这里设置了编码 
-    //   }
-    // }
-
   }
 
   // 用来优化图片显示时间   图片长度       标准长度
@@ -560,6 +538,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
           <div className={styles.img_box}>
             <img
               id='img'
+              style={{ height: this.props.showPoster? '':'0px'}}
               src={this.state.url} alt="" onClick={this.canvasImg.bind(this)} />
             {/* show Image element */}
             <div className={styles.save_font}>长按保存图片</div>

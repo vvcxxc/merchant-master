@@ -261,7 +261,6 @@ export default connect(({ submitQua }: any) => submitQua)(
           // }
 
         } else {
-          // console.log(document.getElementById("box1").value);
           // let temp=document.getElementById("box1").value;
           // this.handleBankName(temp);
           this.props.dispatch({

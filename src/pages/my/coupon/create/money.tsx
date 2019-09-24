@@ -12,7 +12,6 @@ interface Props extends MoneyForm {
 export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 	class MoneyForm extends Component<Props> {
 		handleInput = (type: string) => (value: any) => {
-      console.log(value)
 			this.props.dispatch({
 				type: 'createCoupon/setMoney',
 				payload: {
@@ -23,7 +22,6 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 			});
     };
     handleInput2 = (type: string) => (value: any) => {
-      console.log(value)
 			this.props.dispatch({
 				type: 'createCoupon/setMoney',
 				payload: {
