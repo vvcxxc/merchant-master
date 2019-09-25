@@ -154,11 +154,11 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 		 * @param isStop 是否是暂停提交操作
 		 */
 		handleSubmit = async (e: any, isStop?: boolean) => {
-			// console.log(this.state);
 			if (this.state.ad_status == 1) {
 				return Toast.info('审核中，请耐心等待')
 			}
-
+			
+			// 除了状态为1 和 2
 			if (!this.state.edit || isStop) {
 				if (this.state.formType === 1 && !this.state.coupon.value && this.props.type != "钻石展位") {
 					return Toast.info('请选择优惠券');
@@ -178,22 +178,25 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 				if (Number(this.state.price) < 1.1) {
 					return Toast.info('每日预算金额不能低于1.1元');
 				}
-				if (Number(this.state.price) > Number(this.props.app.data.money)) {
-					await this.props.dispatch({
-						type: 'ad/setFormData',
-						payload: {
-							coupon: this.state.coupon,          // 优惠券
-							startTime: this.state.startTime,    // 起始时间
-							endTime: this.state.endTime,        // 结束时间
-							price: this.state.price,            // 每日预算
-							files: this.state.files,		 	// 广告图
-						}
-					})
-					Modal.alert('提示', '余额不足', [
-						{ text: '去充值', onPress: () => router.push('/my/rechange') },
-						{ text: '取消', onPress: () => console.log('cancel'), style: 'default' },
-					])
-					return;
+				// 暂停的情况不考虑价格比较问题 除了状态为2时即是暂停时都可以弹出余额不足
+				if(this.state.ad_status != 2) {
+					if (Number(this.state.price) > Number(this.props.app.data.money)) {
+						await this.props.dispatch({
+							type: 'ad/setFormData',
+							payload: {
+								coupon: this.state.coupon,          // 优惠券
+								startTime: this.state.startTime,    // 起始时间
+								endTime: this.state.endTime,        // 结束时间
+								price: this.state.price,            // 每日预算
+								files: this.state.files,		 	// 广告图
+							}
+						})
+						Modal.alert('提示', '余额不足', [
+							{ text: '去充值', onPress: () => router.push('/my/rechange') },
+							{ text: '取消', onPress: () => console.log('cancel'), style: 'default' },
+						])
+						return;
+					}
 				}
 				if (!this.state.files.length) {
 					return Toast.info('请选择广告图');
@@ -433,8 +436,8 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 										<span className={styles.budget_info}>
 											{
 												this.state.ad_status == 0 ? '最低预算1.1元，建议预算101元'
-													: this.state.ad_status == 1 || this.state.ad_status == 2 ? `预算剩余${this.state.price - this.state.already_use_budget}元，低于1.1元广告将暂停`
-														: this.state.ad_status == 3 ? `预算剩余${this.state.price - this.state.already_use_budget}元` : ''
+													: this.state.ad_status == 1 || this.state.ad_status == 2 ? `预算剩余${Number(this.state.price) - Number(this.state.already_use_budget)}元，低于1.1元广告将暂停`
+														: this.state.ad_status == 3 ? `预算剩余${Number(this.state.price) - Number(this.state.already_use_budget)}元` : ''
 											}
 										</span>
 									</InputItem>
