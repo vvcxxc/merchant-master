@@ -466,16 +466,15 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime = (dataLength: number) => {
     if (dataLength < 1200000) {
-      Toast.loading('正在生成中，请稍后', this.state.loadingTime);
+      Toast.loading('正在生成中，请稍后', this.state.loadingTime-0.5);
       setTimeout(() => {
         this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
           this.controlImgTime(this.state.canvasLength.length)
           if (this.state.loadingTime > 1) {
-            Toast.loading('缓存成功请重试', 1);
+            Toast.loading('缓存成功请重试', 1.5);
             setTimeout(() => {
               history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
             }, 500);
-           
           }  
         })
       }, this.state.loadingTime * 1000);
@@ -491,12 +490,12 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime2 = (dataLength: number) => {
     if (dataLength < 1500000) {
-      Toast.loading('正在生成中，请稍后', this.state.loadingTime);
+      Toast.loading('正在生成中，请稍后', this.state.loadingTime-0.5);
       setTimeout(() => {
         this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
           this.controlImgTime(this.state.canvasLength.length)
           if (this.state.loadingTime > 1) {
-            Toast.loading('缓存成功请重试', 1);
+            Toast.loading('缓存成功请重试', 1.5);
             setTimeout(() => {
               history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
             }, 500);
