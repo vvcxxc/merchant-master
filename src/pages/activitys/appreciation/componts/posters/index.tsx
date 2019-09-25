@@ -89,13 +89,10 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let shadowImg = new Image()   // 阴影图片
     let outlineImg = new Image()  // 轮廓图片
     let giftImg = new Image()     // 礼品图片
-    // let activityImg = new Image() //拼团券
-
     let title = data.title
     let shopName = data.name                                    //店铺名字
     let init_money = data.pay_money       // 只需多少元
-    let max_money = data.max_money
-      // this.identifyData(String(data.max_money))           // 拼团券的金额
+    let max_money = data.max_money        // 拼团券的金额
     let phone = data.tel                                        //店铺电话
     let home = data.address                                     //店铺地址
     let giftPrice = data.git_money
@@ -105,11 +102,9 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let link = data.link                                        // 用户扫二维码所跳转的链接
 
     if (data.title != '拼团') {
-      // var meet = this.identifyData(data.total_fee.toString())
       JYB_IMG.src = require("../../../../../assets/add_money.png")
       JYB_giftImg.src = require("../../../../../assets/add.border.png")  // 满足金额
     } else {
-      // activityImg.src = this.props.details.activity_image
       JYB_IMG.src = require("../../../../../assets/spell_money.png")
       JYB_giftImg.src = require("../../../../../assets/spell_border.png")
     }
@@ -142,14 +137,14 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       } else {
         contents.fillText('地址：' + home, 105, 1635);
       }
-      contents.save();
+      
       contents.clip();//从原始画布剪切任意形状和尺寸的区域
-
+      contents.save();
     }
     headImg.onload = ()=> {
       contents.save();
-      // contents.restore();
-      contents.drawImage(headImg, 0, 0, 545, 345, 290, 420, 145, 145)
+      contents.restore();
+      contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
       contents.save();
     }
 
@@ -191,7 +186,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
         contents.font = '20px PingFang SC Bold';
         contents.fillStyle = "#fff"
-
         contents.fillText('￥', 170, 780, 500)
         contents.save()
 
@@ -199,7 +193,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
         let pices = String(max_money)
 
         pices.length < 4 ? contents.fillText(pices, 220 - (pices.length * 10), 780, 500) : contents.fillText(pices, 190, 780, 500);
-        // contents.save()
+        contents.save()
         contents.font = '20px PingFang SC';
         contents.fillStyle = "#ededed"
         contents.fillText('满' + data.total_fee + '可用', 180, 810, 500)
@@ -243,6 +237,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       contents.fillText(schedule + '/100', 504, 825);
       contents.fill();
       contents.closePath();
+      contents.save()
     }
 
 
@@ -272,32 +267,19 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillText('长按识别小程序码关注“小熊敬礼”', 145, 1480, 430)
     contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
     contents.save()
+
+    Toast.loading('正在生成中，请稍后', this.state.loadingTime);
     setTimeout(() => {
       this.setState({
         canvasLength: canvas.toDataURL('image/jpeg/png')
       }, () => {
         this.controlImgTime(this.state.canvasLength.length)
       })
-    }, 500);
+    }, this.state.loadingTime *1000);
+
   }
 
-  // 用来优化图片显示时间   图片长度       标准长度
-  controlImgTime = (dataLength: number) => {
-    if (dataLength < 1200000) {
-      Toast.loading('正在生成中，请稍后', this.state.loadingTime);
-      setTimeout(() => {
-        this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
-          this.controlImgTime(this.state.canvasLength.length)
-          if (this.state.loadingTime > 2) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
-        })
-      }, this.state.loadingTime * 1000);
-    } else {
-      this.setState({
-        url: this.state.canvasLength
-      })
-    }
-  }
-
+  
 
   shortCreatCanvas = (data: any) => {
     const canvas: any = document.getElementById('canvas')//获取到cavans 
@@ -367,7 +349,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     headImg.onload = () => {
-      contents.drawImage(headImg, 0, 0, 545, 345, 295, 430, 145, 145)
+      contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145)
       contents.save();
     }
 
@@ -474,15 +456,34 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillText('一起来领取免费礼品吧！', 195, 1280, 390)
     contents.save()
 
+    Toast.loading('正在生成中，请稍后', this.state.loadingTime);
     setTimeout(() => {
       this.setState({
         canvasLength: canvas.toDataURL('image/jpeg/png')
       }, () => {
         this.controlImgTime2(this.state.canvasLength.length)
       })
-    }, 500);
+    }, this.state.loadingTime * 1000);
 
   }
+
+  // 用来优化图片显示时间   图片长度       标准长度
+  controlImgTime = (dataLength: number) => {
+    if (dataLength < 1190000) {
+      Toast.loading('正在生成中，请稍后', this.state.loadingTime);
+      setTimeout(() => {
+        this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
+          this.controlImgTime(this.state.canvasLength.length)
+          if (this.state.loadingTime > 2.5) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
+        })
+      }, this.state.loadingTime * 1000);
+    } else {
+      this.setState({
+        url: this.state.canvasLength
+      })
+    }
+  }
+
 
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime2 = (dataLength: number) => {
@@ -491,7 +492,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       setTimeout(() => {
         this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
           this.controlImgTime(this.state.canvasLength.length)
-          if (this.state.loadingTime > 2) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
+          if (this.state.loadingTime > 2.5) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
         })
       }, this.state.loadingTime * 1000);
     } else {

@@ -205,6 +205,12 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 			})
 		}
 
+		handlePaused = () => {
+			if(this.state.paused_status == 5) {
+				router.push('/my/coupon/detail?id=' + this.state.coupon.value);
+			}
+		}
+
 
 		render() {
 			const time = this.state.startTime
@@ -277,13 +283,13 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 								<WhiteSpace size="lg" />
 								{
 									this.state.paused_status != 0 ? (
-										<div className={styles.paused_status}>
+										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)}>
 											广告状态：已暂停({
 												this.state.paused_status == 1? '手动暂停':
 													this.state.paused_status == 2? '投放时长超出范围':
 														this.state.paused_status == 3? '今日预算不足':
 															this.state.paused_status == 4? '余额不足':
-																this.state.paused_status == 5? '' : ''
+																this.state.paused_status == 5? '关联的券或活动已结束' : ''
 											})
 										</div>
 									) : ''

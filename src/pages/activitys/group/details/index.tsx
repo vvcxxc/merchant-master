@@ -54,6 +54,7 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
     showShare: false
   }
   componentWillMount() {
+    
     this.props.dispatch({
       type: 'activity/setDetails',
       payload: {
