@@ -64,10 +64,20 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
   // 长 短 海报根据此id来
   panduan = () => {
+
     if (this.props.data.gift_id == 0) {
       this.shortCreatCanvas(this.props.data);
     } else {
       this.creatCanvas(this.props.data);
+    }
+  }
+
+  // 用来给域里面添加 ‘ \ ’
+  judgeNetwork = (Network: string) => {
+    if (Network.split('com', 2)[1].slice(0, 1) == '/') {
+      return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
+    } else {
+      return Network
     }
   }
 
@@ -109,7 +119,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       JYB_giftImg.src = require("../../../../../assets/spell_border.png")
     }
     
-    giftImg.src = this.props.details.giftImg            // 礼品图片
+    giftImg.src = this.props.details.giftImg
     headImg.src = this.props.details.headImg
     bigImg.src = require("../../../../../assets/new_haibao.png")
     borderImg.src = require("../../../../../assets/kuang.png")
@@ -210,18 +220,18 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       }
 
     }
+
     contents.font = '32px PingFang-SC-Medium Bold';
     contents.fillStyle = "#313131"
     //文字超过部分定义省略号
     contents.measureText(shopName).width < 200 ? contents.fillText(shopName, 345 - shopName.length * 11, 605, 400) : contents.fillText(shopName.slice(0, 7) + '.....', 260, 605, 400)
-
     contents.fillText('正在发起' + title + '活动，速来！', 170, 650, 400)
     contents.save()
-
     contents.font = '25px PingFang-SC-Bold';
 
     outlineImg.onload = () => {
       contents.drawImage(outlineImg, 0, 0, 204, 160, 315, 814, 180, 170)
+
       //开始绘制进度条
       contents.beginPath();
       contents.lineWidth = 12
@@ -239,8 +249,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       contents.closePath();
       contents.save()
     }
-
-
     //文字超过部分定义省略号
     contents.measureText(shopName).width < 200 ? contents.fillText(shopName, 410, 725, 430) : contents.fillText(shopName.slice(0, 5) + '.....', 410, 725, 430);
     contents.save()
@@ -324,11 +332,16 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     headImg.src = this.props.details.headImg
+    // headImg.src = this.judgeNetwork(data.shop_door_header_img)
     bigImg.src = require('../../../../../assets/short_poster.png')
     JYB_IMG.src = require('../../../../../assets/JYB.png')
     shadowImg.src = require('../../../../../assets/shadow.png')
     outlineImg.src = require('../../../../../assets/outline.png')
 
+    headImg.onload = () => {
+      contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145)
+      contents.save();
+    }
     bigImg.onload = () => {
       contents.drawImage(bigImg, 0, 0, 1700, 1700, 0, 0, 1505, 1500)
       contents.save();
@@ -336,22 +349,15 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       contents.font = '23px PingFang-SC-Regular Bold';
       contents.fillStyle = "#fff"
       contents.fillText('电话：' + phone, 105, 1370, 530)
-
       if (contents.measureText(home).width >= 506) {
         contents.fillText('地址：' + home.slice(0, 19), 105, 1405);
         contents.fillText(home.slice(19, 48), 105, 1440);
       } else {
         contents.fillText('地址：' + home, 105, 1405);
       }
-
-      contents.save();
-      contents.clip();
     }
 
-    headImg.onload = () => {
-      contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145)
-      contents.save();
-    }
+   
 
     giftImg.onload = () => {
       if (data.gift_id != 0) {
@@ -417,7 +423,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
     outlineImg.onload = () => {
       contents.drawImage(outlineImg, 0, 0, 204, 160, 315, 824, 180, 170)
-      //开始绘制进度条
+
       contents.lineWidth = 12
       contents.strokeStyle = '#FF6654'
       contents.lineTo(318, 830);
@@ -469,6 +475,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime = (dataLength: number) => {
+    console.log(dataLength);
+    
     if (dataLength < 1190000) {
       Toast.loading('正在生成中，请稍后', this.state.loadingTime);
       setTimeout(() => {
@@ -487,7 +495,9 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime2 = (dataLength: number) => {
-    if (dataLength < 800000) {
+    console.log(dataLength);
+    
+    if (dataLength < 1520000) {
       Toast.loading('正在生成中，请稍后', this.state.loadingTime);
       setTimeout(() => {
         this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
@@ -496,6 +506,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
         })
       }, this.state.loadingTime * 1000);
     } else {
+      console.log('执行');
+      
       this.setState({
         url: this.state.canvasLength
       })
