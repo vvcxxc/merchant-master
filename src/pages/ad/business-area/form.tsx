@@ -119,21 +119,24 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 				if (Number(this.state.price) < 1) {
 					return Toast.info('每日预算金额不能低于1元');
 				}
-				if (Number(this.state.price) > Number(this.props.app.data.money)) {
-					await this.props.dispatch({
-						type: 'businessArea/setFormData',
-						payload: {
-							coupon: this.state.coupon,          // 优惠券
-							startTime: this.state.startTime,    // 起始时间
-							endTime: this.state.endTime,        // 结束时间
-							price: this.state.price,            // 每日预算
-						}
-					})
-					Modal.alert('提示', '余额不足', [
-						{ text: '去充值', onPress: () => router.push('/my/rechange') },
-						{ text: '取消', onPress: () => console.log('cancel'), style: 'default' },
-					])
-					return;
+				// 暂停的情况不考虑价格比较问题 除了状态为2时即是暂停时都可以弹出余额不足
+				if (this.state.ad_status != 2) {
+					if (Number(this.state.price) > Number(this.props.app.data.money)) {
+						await this.props.dispatch({
+							type: 'businessArea/setFormData',
+							payload: {
+								coupon: this.state.coupon,          // 优惠券
+								startTime: this.state.startTime,    // 起始时间
+								endTime: this.state.endTime,        // 结束时间
+								price: this.state.price,            // 每日预算
+							}
+						})
+						Modal.alert('提示', '余额不足', [
+							{ text: '去充值', onPress: () => router.push('/my/rechange') },
+							{ text: '取消', onPress: () => console.log('cancel'), style: 'default' },
+						])
+						return;
+					}
 				}
 				Toast.loading('');
 				const data = {
@@ -206,7 +209,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 		}
 
 		handlePaused = () => {
-			if(this.state.paused_status == 5) {
+			if (this.state.paused_status == 5) {
 				router.push('/my/coupon/detail?id=' + this.state.coupon.value);
 			}
 		}
@@ -265,8 +268,8 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 									<span className={styles.budget_info}>
 											{
 												this.state.ad_status == 0 ? '最低预算1元，建议预算1元'
-													: this.state.ad_status == 1 || this.state.ad_status == 2 ? `预算剩余${this.state.price - this.state.already_use_budget}元，低于1.1元广告将暂停`
-														: this.state.ad_status == 3 ? `预算剩余${this.state.price - this.state.already_use_budget}元` : ''
+													: this.state.ad_status == 1 || this.state.ad_status == 2 ? `预算剩余${Number(this.state.price) - Number(this.state.already_use_budget)}元，低于1.1元广告将暂停`
+														: this.state.ad_status == 3 ? `预算剩余${Number(this.state.price) - Number(this.state.already_use_budget)}元` : ''
 											}
 										</span>
 									</InputItem>
@@ -285,11 +288,11 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 									this.state.paused_status != 0 ? (
 										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)}>
 											广告状态：已暂停({
-												this.state.paused_status == 1? '手动暂停':
-													this.state.paused_status == 2? '投放时长超出范围':
-														this.state.paused_status == 3? '今日预算不足':
-															this.state.paused_status == 4? '余额不足':
-																this.state.paused_status == 5? '关联的券或活动已结束' : ''
+												this.state.paused_status == 1 ? '手动暂停' :
+													this.state.paused_status == 2 ? '投放时长超出范围' :
+														this.state.paused_status == 3 ? '今日预算不足' :
+															this.state.paused_status == 4 ? '余额不足' :
+																this.state.paused_status == 5 ? '关联的券或活动已结束' : ''
 											})
 										</div>
 									) : ''
