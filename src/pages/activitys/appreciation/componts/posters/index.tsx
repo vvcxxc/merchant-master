@@ -472,7 +472,10 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
           this.controlImgTime(this.state.canvasLength.length)
           if (this.state.loadingTime > 1) {
             Toast.loading('缓存成功请重试', 1);
-            history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
+            setTimeout(() => {
+              history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
+            }, 500);
+           
           }  
         })
       }, this.state.loadingTime * 1000);
@@ -494,7 +497,9 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
           this.controlImgTime(this.state.canvasLength.length)
           if (this.state.loadingTime > 1) {
             Toast.loading('缓存成功请重试', 1);
-            history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
+            setTimeout(() => {
+              history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
+            }, 500);
           }  
         })
       }, this.state.loadingTime * 500);
