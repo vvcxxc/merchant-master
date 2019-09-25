@@ -1,0 +1,63 @@
+.modal {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    background: rgba(76, 76, 76, .5);
+    justify-content: center;
+    align-items: center;
+    padding: 0 100px;
+    box-sizing: border-box;
+    .modal_content {
+        width: 100%;
+        height: 70vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        .qr_code_content {
+            width: 100%;
+            border:8px solid #ffc419;
+            border-radius: 15px;
+            background-color: #fff;
+            padding: 70px 50px;
+            box-sizing: border-box;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            .store_name {
+                color: #f28f37;
+                font-weight: 700;
+                letter-spacing: 5px;
+                text-align: center;
+                // margin-bottom: 30px;
+            }
+            .qr_code {
+                width: 300px;
+                height: 300px;
+            }
+            .qr_code, .order_num {
+                // margin-bottom: 30px;
+            }
+            .gift_step {
+                color: #ccc;
+            }
+        }
+        .close_modal {
+            width: 80px !important;
+            height: 80px !important;
+            border: 2px solid #fff;
+            color: #fff;
+            font-size: 56px;
+            // font-weight: 700;
+            line-height: 70px !important;
+            text-align: center;
+            border-radius: 50%;
+        }
+    }
+    
+}

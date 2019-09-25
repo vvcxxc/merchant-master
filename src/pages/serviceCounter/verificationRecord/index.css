@@ -1,0 +1,76 @@
+.verificationBox {
+  min-height: 100vh;
+  height: auto;
+  width: 100%;
+  background: #fff;
+  padding: 0 30px 50px;
+  box-sizing: border-box;
+}
+.verificationBox .financeItem {
+  height: 130px;
+  border-bottom: 1px solid #e5e5e5;
+  box-sizing: border-box;
+}
+.verificationBox .financeItem .recordBox {
+  height: 80px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.verificationBox .financeItem .recordBox .recordLeft {
+  flex: 2;
+  height: 100%;
+  border-right: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding-right: 10px;
+}
+.verificationBox .financeItem .recordBox .recordLeft .recordTime {
+  font-size: 25px;
+  color: #8c8c8c;
+}
+.verificationBox .financeItem .recordBox .recordLeft .recordDate {
+  font-size: 22px;
+  color: #666666;
+}
+.verificationBox .financeItem .recordBox .recordRight {
+  flex: 9;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.verificationBox .financeItem .recordBox .recordRight .recordMsg {
+  flex: 450;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding-left: 15px;
+  box-sizing: border-box;
+}
+.verificationBox .financeItem .recordBox .recordRight .recordMsg .recordStore {
+  color: #6f6f6f;
+  font-size: 30px;
+  width: 360px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.verificationBox .financeItem .recordBox .recordRight .recordMsg .recordCode {
+  color: #cdcdcd;
+  font-size: 24px;
+}
+.verificationBox .financeItem .recordBox .recordRight .recordNum {
+  flex: 9;
+  color: #df1c1c;
+  font-size: 28px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
