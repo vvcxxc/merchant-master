@@ -200,7 +200,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
         contents.font = '35px PingFang SC Bold';
         let pices = String(max_money)
-
         pices.length < 4 ? contents.fillText(pices, 220 - (pices.length * 10), 780, 500) : contents.fillText(pices, 190, 780, 500);
         contents.save()
         contents.font = '20px PingFang SC';
@@ -285,9 +284,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }, this.state.loadingTime *2000);
 
   }
-
   
-
   shortCreatCanvas = (data: any) => {
     const canvas: any = document.getElementById('canvas')//获取到cavans 
     const contents = canvas.getContext('2d') //生成htlml5对象
@@ -338,16 +335,16 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     outlineImg.src = require('../../../../../assets/outline.png')
 
     headImg.onload = () => {
-      contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145)
+      contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145);
       contents.save();
     }
     bigImg.onload = () => {
-      contents.drawImage(bigImg, 0, 0, 1700, 1700, 0, 0, 1505, 1500)
+      contents.drawImage(bigImg, 0, 0, 1700, 1700, 0, 0, 1505, 1500);
       contents.save();
 
       contents.font = '23px PingFang-SC-Regular Bold';
-      contents.fillStyle = "#fff"
-      contents.fillText('电话：' + phone, 105, 1370, 530)
+      contents.fillStyle = "#fff";
+      contents.fillText('电话：' + phone, 105, 1370, 530);
       if (contents.measureText(home).width >= 506) {
         contents.fillText('地址：' + home.slice(0, 19), 105, 1405);
         contents.fillText(home.slice(19, 48), 105, 1440);
@@ -355,9 +352,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
         contents.fillText('地址：' + home, 105, 1405);
       }
     }
-
    
-
     giftImg.onload = () => {
       if (data.gift_id != 0) {
         contents.drawImage(giftImg, 0, 0, 550, 222, 168, 990, 345, 170)
@@ -411,7 +406,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
     contents.font = '32px PingFang-SC-Medium Bold';
     contents.fillStyle = "#313131"
-
     //文字超过部分定义省略号
     contents.measureText(shopName).width < 200 ? contents.fillText(shopName, 345 - shopName.length * 11.1, 612, 400) : contents.fillText(shopName.slice(0, 7) + '.....', 260, 612, 400)
 
@@ -422,7 +416,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
     outlineImg.onload = () => {
       contents.drawImage(outlineImg, 0, 0, 204, 160, 315, 824, 180, 170)
-      contents.save()
+      contents.save();
       contents.lineWidth = 12
       contents.strokeStyle = '#FF6654'
       contents.lineTo(318, 830);
@@ -440,7 +434,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
     //文字超过部分定义省略号
     contents.measureText(shopName).width < 200 ? contents.fillText(shopName, 410, 735, 430): contents.fillText(shopName.slice(0, 5) + '.....', 410, 735, 430)
-    contents.save()
+    contents.save();
 
     contents.font = '18px PingFang-SC-Regular';
     contents.fillText(arch, 325, 770, 630)
@@ -468,18 +462,18 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       }, () => {
         this.controlImgTime2(this.state.canvasLength.length)
       })
-    }, this.state.loadingTime * 2000);
+    }, this.state.loadingTime * 500);
 
   }
 
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime = (dataLength: number) => {
-    
+    console.log(dataLength,'东西');
     setTimeout(() => {
       this.setState({
         url: this.state.canvasLength
       })
-    }, 1000);
+    }, 500);
 
     // console.log(dataLength);
     
