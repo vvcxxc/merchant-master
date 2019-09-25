@@ -15,11 +15,12 @@ declare global {
 		from: string;
 	}
 }
+
 const Url = window.url ? window.url : 'http://test.api.tdianyi.com/';
 const open_id = window.open_id ? window.open_id : 'test_open_id';
 const from = window.from ? window.from : 'v3_supplier';
-
-export default connect()(
+// connect(({ activity }: any) => activity)
+export default connect(({ activity }: any) => activity)(
 	class Login extends Component<any> {
 		state = {
 			/**0 验证码登录 1 账号密码登录 */
@@ -36,6 +37,7 @@ export default connect()(
 			remainingTime: 0
 		};
 		componentDidMount() {
+			
 			// console.log('99999');
 			// localStorage.setItem('QL_poster', 'true')
 			/**获取oss */
