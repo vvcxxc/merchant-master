@@ -282,7 +282,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       }, () => {
         this.controlImgTime(this.state.canvasLength.length)
       })
-    }, this.state.loadingTime *1000);
+    }, this.state.loadingTime *2000);
 
   }
 
@@ -474,43 +474,55 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime = (dataLength: number) => {
-    console.log(dataLength);
-    
-    if (dataLength < 1190000) {
-      Toast.loading('正在生成中，请稍后', this.state.loadingTime);
-      setTimeout(() => {
-        this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
-          this.controlImgTime(this.state.canvasLength.length)
-          if (this.state.loadingTime > 1.5) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
-        })
-      }, this.state.loadingTime * 1000);
-    } else {
+    setTimeout(() => {
       this.setState({
         url: this.state.canvasLength
       })
-    }
+    }, 500);
+    // console.log(dataLength);
+    
+    // if (dataLength < 1190000) {
+    //   Toast.loading('正在生成中，请稍后', this.state.loadingTime);
+    //   setTimeout(() => {
+    //     this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
+    //       this.controlImgTime(this.state.canvasLength.length)
+    //       if (this.state.loadingTime > 1.5) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
+    //     })
+    //   }, this.state.loadingTime * 1000);
+    // } else {
+    //   this.setState({
+    //     url: this.state.canvasLength
+    //   })
+    // }
   }
 
 
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime2 = (dataLength: number) => {
     console.log(dataLength);
-    
-    if (dataLength < 1520000) {
-      Toast.loading('正在生成中，请稍后', this.state.loadingTime);
-      setTimeout(() => {
-        this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
-          this.controlImgTime(this.state.canvasLength.length)
-          if (this.state.loadingTime > 1.5) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
-        })
-      }, this.state.loadingTime * 1000);
-    } else {
-      console.log('执行');
-      
+    setTimeout(() => {
       this.setState({
         url: this.state.canvasLength
       })
-    }
+    }, 500);
+    // if (dataLength < 1520000) {
+      // setTimeout(() => {
+        
+      // }, 500);
+      // Toast.loading('正在生成中，请稍后', this.state.loadingTime);
+      // setTimeout(() => {
+      //   this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
+      //     this.controlImgTime(this.state.canvasLength.length)
+      //     if (this.state.loadingTime > 1.5) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
+      //   })
+      // }, this.state.loadingTime * 1000);
+    // } else {
+    //   console.log('执行');
+      
+    //   this.setState({
+    //     url: this.state.canvasLength
+    //   })
+    // }
   }
 
   // 小数点后一位采用四舍五入
