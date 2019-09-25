@@ -11,7 +11,8 @@ interface Props {
 export default class NoData extends Component<Props> {
 	infos = [
 		{ type: 'order', img: require('./finance-nodata.png'), info: '暂无订单信息' },
-		{ type: 'finance', img: require('./order-nodata.png'), info: '暂无财务信息' }
+		{ type: 'finance', img: require('./order-nodata.png'), info: '暂无财务信息' },
+		{ type: 'record', img: require('./record-nodata.png'), info: '暂无核销记录' }
 	];
 	render() {
 		const infoItem: any = this.infos.find((_: any) => _.type === this.props.type);

@@ -83,13 +83,16 @@ export default connect(({ verification }: any) => verification)(
 
                 ))
             ) : (
-                    <NoData type="finance" />
+                    <NoData type="record" />
                 );
 
             return (
                 <div className={styles.verificationBox}>
                     {verificationRecordList}
-                    <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.props.hasMore.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
+                    {
+                        this.props.data.length > 0 ? <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.props.hasMore.hasMore ? "点击加载更多" : "已经到达底线了"}</p>:null
+                    }
+                   
                 </div>
             );
         }
