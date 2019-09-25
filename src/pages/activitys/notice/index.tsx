@@ -32,7 +32,8 @@ export default connect(({ activity, createCoupon}: any) => ({activity,createCoup
       } else if (type == 2) {
         // notice_list = this.props.Appreciation.description;
       } else if (type == 3) {
-        notice_list = this.props.activity.createCoupon.couponForm.description
+        console.log(this.props)
+        notice_list = this.props.createCoupon.couponForm.description
       }
       let drag_list = [];
       if (notice_list) {
