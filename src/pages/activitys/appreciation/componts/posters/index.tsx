@@ -134,8 +134,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       .catch((err: any) => { })
     
     headImg.onload = () => {
-      contents.save();
-      contents.restore();
+      // contents.save();
+      // contents.restore();
       contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
       contents.save();
     }
@@ -230,7 +230,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
     outlineImg.onload = () => {
       contents.drawImage(outlineImg, 0, 0, 204, 160, 315, 814, 180, 170)
-
+      contents.save()
       //开始绘制进度条
       contents.beginPath();
       contents.lineWidth = 12
@@ -422,7 +422,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
     outlineImg.onload = () => {
       contents.drawImage(outlineImg, 0, 0, 204, 160, 315, 824, 180, 170)
-
+      contents.save()
       contents.lineWidth = 12
       contents.strokeStyle = '#FF6654'
       contents.lineTo(318, 830);
@@ -468,17 +468,19 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       }, () => {
         this.controlImgTime2(this.state.canvasLength.length)
       })
-    }, this.state.loadingTime * 1000);
+    }, this.state.loadingTime * 2000);
 
   }
 
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime = (dataLength: number) => {
+    
     setTimeout(() => {
       this.setState({
         url: this.state.canvasLength
       })
-    }, 500);
+    }, 1000);
+
     // console.log(dataLength);
     
     // if (dataLength < 1190000) {
@@ -494,6 +496,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     //     url: this.state.canvasLength
     //   })
     // }
+
   }
 
 
@@ -504,7 +507,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       this.setState({
         url: this.state.canvasLength
       })
-    }, 500);
+    }, 1000);
     // if (dataLength < 1520000) {
       // setTimeout(() => {
         
