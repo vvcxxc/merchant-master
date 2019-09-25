@@ -95,7 +95,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let bigImg = new Image()      // 创建img对象 最大的背景图片
     let headImg = new Image()     // 店铺头部
     let borderImg = new Image()   // 礼品边框
-    let ballImg = new Image()     // 礼字
     let wxImg = new Image()       // 微信小程序图片
     let JYB_IMG = new Image()     // 拼团兑换券
     let JYB_giftImg = new Image() // 拼团兑换券
@@ -127,7 +126,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     headImg.src = this.props.details.headImg
     bigImg.src = require("../../../../../assets/new_haibao.png")
     borderImg.src = require("../../../../../assets/kuang.png")
-    ballImg.src = require("../../../../../assets/qiu.png")
     shadowImg.src = require("../../../../../assets/shadow.png")
     outlineImg.src = require("../../../../../assets/outline.png")
 
@@ -159,12 +157,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     borderImg.onload = () => {
-      contents.drawImage(borderImg, 0, 0, 359, 222, 200, 980, 359, 222)
-      contents.save()
-    }
-
-    ballImg.onload = () => {
-      contents.drawImage(ballImg, 0, 0, 359, 222, 335, 970, 359, 222)
+      contents.drawImage(borderImg, 0, 0, 359, 222, 188, 970, 350, 215)
       contents.save()
     }
 
@@ -466,7 +459,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       }, () => {
         this.controlImgTime2(this.state.canvasLength.length)
       })
-    }, this.state.loadingTime * 500);
+    }, this.state.loadingTime * 1000);
 
   }
 
@@ -479,7 +472,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
           this.controlImgTime(this.state.canvasLength.length)
           if (this.state.loadingTime > 1) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
         })
-      }, this.state.loadingTime * 500);
+      }, this.state.loadingTime * 1000);
     } else {
       this.setState({
         url: this.state.canvasLength

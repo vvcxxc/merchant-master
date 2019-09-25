@@ -36,6 +36,8 @@ export default connect()(
 			remainingTime: 0
 		};
 		componentDidMount() {
+			// console.log('99999');
+			// localStorage.setItem('QL_poster', 'true')
 			/**获取oss */
 			// request({
 			// 	url: 'api/v2/up',
