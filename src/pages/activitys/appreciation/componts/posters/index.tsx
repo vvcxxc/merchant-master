@@ -132,6 +132,13 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
         wxImg.src = url
       })
       .catch((err: any) => { })
+    
+    headImg.onload = () => {
+      contents.save();
+      contents.restore();
+      contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
+      contents.save();
+    }
 
     bigImg.onload = ()=> {
       contents.drawImage(bigImg, 0, 0, 1700, 2000, 0, 0, 1505, 1730)
@@ -147,16 +154,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       } else {
         contents.fillText('地址：' + home, 105, 1635);
       }
-      
-      contents.clip();//从原始画布剪切任意形状和尺寸的区域
-      contents.save();
     }
-    headImg.onload = ()=> {
-      contents.save();
-      contents.restore();
-      contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
-      contents.save();
-    }
+   
 
     borderImg.onload = () => {
       contents.drawImage(borderImg, 0, 0, 359, 222, 200, 980, 359, 222)
@@ -482,7 +481,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       setTimeout(() => {
         this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
           this.controlImgTime(this.state.canvasLength.length)
-          if (this.state.loadingTime > 2.5) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
+          if (this.state.loadingTime > 1.5) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
         })
       }, this.state.loadingTime * 1000);
     } else {
@@ -502,7 +501,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       setTimeout(() => {
         this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
           this.controlImgTime(this.state.canvasLength.length)
-          if (this.state.loadingTime > 2.5) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
+          if (this.state.loadingTime > 1.5) history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
         })
       }, this.state.loadingTime * 1000);
     } else {
