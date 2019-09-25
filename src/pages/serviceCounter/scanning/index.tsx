@@ -99,7 +99,7 @@ export default class ServiceCounter extends Component{
   /**点击核销 */
   cancelAfterVerific = (e: any) => {
     e.stopPropagation();
-    
+
     wx.scanQRCode({
       needResult: 1,
       desc: 'scanQRCode desc',
@@ -116,7 +116,7 @@ export default class ServiceCounter extends Component{
         ]
         this.setState({
           shopMessage:data
-        }) 
+        })
         this.setState({
           orderId:res.id
         })
