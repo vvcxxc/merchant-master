@@ -57,7 +57,10 @@ class BusinessArea extends Component<any> {
 				await this.props.dispatch({
 					type: 'ad/setStatus',
 					payload: {
-						adStatus: res.data[0].ad_status
+						adStatus: {
+							isPause: res.data[0].is_pause,
+							checkStatus: res.data[0].check_status
+						}
 					}
 				})
 			}
@@ -70,7 +73,7 @@ class BusinessArea extends Component<any> {
 				await this.props.dispatch({
 					type: 'ad/setStatus',
 					payload: {
-						adStatus: null
+						adStatus: {}
 					}
 				})
 			}
