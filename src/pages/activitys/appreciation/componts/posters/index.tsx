@@ -269,14 +269,20 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
     contents.save()
 
-    Toast.loading('正在生成中，请稍后', this.state.loadingTime);
+    Toast.loading('正在生成中，请稍后', 1);
     setTimeout(() => {
       this.setState({
-        canvasLength: canvas.toDataURL('image/jpeg/png')
-      }, () => {
-        this.controlImgTime(this.state.canvasLength.length)
+        url: canvas.toDataURL('image/jpeg/png',0.3)
       })
-    }, this.state.loadingTime *1500);
+
+    }, 800);
+    // setTimeout(() => {
+    //   this.setState({
+    //     canvasLength: canvas.toDataURL('image/jpeg/png')
+    //   }, () => {
+    //     this.controlImgTime(this.state.canvasLength.length)
+    //   })
+    // }, this.state.loadingTime *1500);
 
   }
   
@@ -450,14 +456,28 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillText('一起来领取免费礼品吧！', 195, 1280, 390);
     contents.save();
 
-    Toast.loading('正在生成中，请稍后', this.state.loadingTime);
+    Toast.loading('正在生成中，请稍后', 1);
     setTimeout(() => {
       this.setState({
-        canvasLength: canvas.toDataURL('image/jpeg/png')
-      }, () => {
-        this.controlImgTime2(this.state.canvasLength.length)
+        url: canvas.toDataURL('image/jpeg/png', 0.3)
       })
-    }, this.state.loadingTime * 1500);
+
+    }, 800);
+    // Toast.loading('正在生成中，请稍后', 1);
+    // setTimeout(() => {
+    //   this.setState({
+    //     url: this.state.canvasLength
+    //   })
+
+    // }, 800);
+    // Toast.loading('正在生成中，请稍后', this.state.loadingTime);
+    // setTimeout(() => {
+    //   this.setState({
+    //     canvasLength: canvas.toDataURL('image/jpeg/png')
+    //   }, () => {
+    //     this.controlImgTime2(this.state.canvasLength.length)
+    //   })
+    // }, this.state.loadingTime * 1500);
 
   }
 
@@ -484,7 +504,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
         url: this.state.canvasLength
       })
       
-    }, 200);
+    }, 800);
       
     // }
 

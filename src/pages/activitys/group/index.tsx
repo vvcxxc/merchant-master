@@ -11,6 +11,9 @@ export default class Group extends Component {
 	state = {
 		data: []
 	};
+	componentWillMount() {
+		localStorage.setItem('QL_loading', 'loading')
+	}
 	componentDidMount = () => this.getData(1);
 	getData = async (id?: any) => {
 		Toast.loading('');
