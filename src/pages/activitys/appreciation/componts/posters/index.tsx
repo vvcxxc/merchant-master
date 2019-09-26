@@ -263,9 +263,10 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
     if (localStorage.getItem('QL_headImg') == 'refresh') {
       Toast.loading('缓存成功，请重试', 1);
+      localStorage.removeItem('QL_headImg')
       setTimeout(() => {
-        localStorage.removeItem('QL_headImg')
-        this.creatCanvas(this.props.data);
+        history.go(0) 
+        // this.creatCanvas(this.props.data);
       }, 900);
     } else {
       Toast.loading('正在生成中，请稍后', 1);
@@ -451,9 +452,9 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     // 用户第一次进来 点击海包后， 应该提示用户缓存成功，请重试 然后清除掉loalstorage
     if (localStorage.getItem('QL_giftImg') == 'refresh') {
       Toast.loading('缓存成功，请重试', 1);
+      localStorage.removeItem('QL_giftImg')
       setTimeout(() => {
-        localStorage.removeItem('QL_giftImg')
-        this.shortCreatCanvas(this.props.data);
+        history.go(0) 
       }, 900);
     } else {
       Toast.loading('正在生成中，请稍后', 1);
