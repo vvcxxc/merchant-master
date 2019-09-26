@@ -265,8 +265,11 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       Toast.loading('缓存成功，请重试', 1);
       localStorage.removeItem('QL_headImg')
       setTimeout(() => {
-        history.go(0) 
-        // this.creatCanvas(this.props.data);
+        this.setState({
+          url: canvas.toDataURL('image/jpeg/png', 0.3)
+        }, () => {
+          history.go(0)
+        })
       }, 900);
     } else {
       Toast.loading('正在生成中，请稍后', 1);
@@ -454,7 +457,12 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       Toast.loading('缓存成功，请重试', 1);
       localStorage.removeItem('QL_giftImg')
       setTimeout(() => {
-        history.go(0) 
+        this.setState({
+          url: canvas.toDataURL('image/jpeg/png', 0.3)
+        }, () => {
+            history.go(0) 
+        })
+        
       }, 900);
     } else {
       Toast.loading('正在生成中，请稍后', 1);
