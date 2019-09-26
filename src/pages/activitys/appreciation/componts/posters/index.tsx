@@ -278,7 +278,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       }, () => {
         this.controlImgTime(this.state.canvasLength.length)
       })
-    }, this.state.loadingTime *1000);
+    }, this.state.loadingTime *1500);
 
   }
   
@@ -345,7 +345,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     headImg.onload = () => {
-      contents.drawImage(headImg, 290, 448)
+      contents.drawImage(headImg, 290, 445)
       // contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145);
       contents.save();
     }
@@ -460,7 +460,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       }, () => {
         this.controlImgTime2(this.state.canvasLength.length)
       })
-    }, this.state.loadingTime * 1000);
+    }, this.state.loadingTime * 1500);
 
   }
 

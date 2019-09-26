@@ -124,9 +124,9 @@ export default connect(({ activity }: any) => activity)(
           }
         })
 
-        this.createHeadImg(data.supplier.shop_door_header_img + '?x-oss-process=image/format,jpg/resize,w_200,h_200/quality,q_30')
+        this.createHeadImg(data.supplier.shop_door_header_img + '?x-oss-process=image/format,jpg/resize,m_lfit,w_200,h_200/quality,q_10')
         if (data.appreciation_gif_info.gift_id != 0) {
-          this.createGiftImg(data.appreciation_gif_info.gif_pic + '?x-oss-process=image/resize,m_lfit,w_400,h_150/quality,q_30')
+          this.createGiftImg(data.appreciation_gif_info.gif_pic + '?x-oss-process=image/resize,m_lfit,w_400,h_150/quality,q_10')
         }
         // this.createHeadImg(data.supplier.shop_door_header_img)
         // if (data.appreciation_gif_info.gift_id != 0) {
