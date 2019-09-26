@@ -136,10 +136,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       .catch((err: any) => { })
     
     bigImg.onload = () => {
-      
       contents.drawImage(bigImg, 0, 0, 1700, 2000, 0, 0, 1505, 1730)
-      contents.save();
-
       contents.font = '23px PingFang-SC-Regular Bold';
       contents.fillStyle = "#fff"
       contents.fillText('电话：' + phone, 105, 1600, 530)
@@ -150,9 +147,11 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       } else {
         contents.fillText('地址：' + home, 105, 1635);
       }
+      contents.save();
     }
     headImg.onload = () => {
-      contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
+      contents.drawImage(headImg, 290, 438)
+      // contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
       contents.save();
     }
 
@@ -162,7 +161,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     giftImg.onload = () => {
-      contents.drawImage(giftImg, 0, 0, 600, 550, 173, 990, 345, 170)
+      contents.drawImage(giftImg, 270, 1000)
+      // contents.drawImage(giftImg, 0, 0, 600, 550, 173, 990, 345, 170)
       contents.save()
     }
 
@@ -276,7 +276,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       }, () => {
         this.controlImgTime(this.state.canvasLength.length)
       })
-    }, this.state.loadingTime *1000);
+    }, this.state.loadingTime *1500);
 
   }
   
@@ -329,8 +329,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
     bigImg.onload = () => {
       contents.drawImage(bigImg, 0, 0, 1700, 1700, 0, 0, 1505, 1500);
-      contents.save();
-
       contents.font = '23px PingFang-SC-Regular Bold';
       contents.fillStyle = "#fff";
       contents.fillText('电话：' + phone, 105, 1370, 530);
@@ -340,10 +338,12 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       } else {
         contents.fillText('地址：' + home, 105, 1405);
       }
+      contents.save();
     }
 
     headImg.onload = () => {
-      contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145);
+      contents.drawImage(headImg, 290, 445)
+      // contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145);
       contents.save();
     }
    
@@ -457,57 +457,66 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       }, () => {
         this.controlImgTime2(this.state.canvasLength.length)
       })
-    }, this.state.loadingTime * 1000);
+    }, this.state.loadingTime * 1500);
 
   }
 
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime = (dataLength: number) => {
-    console.log(dataLength,'长的');
+    // console.log(dataLength,'长的');
     
-    if (dataLength < 1200000) {
-      Toast.loading('正在生成中，请稍后', this.state.loadingTime-0.5);
-      setTimeout(() => {
-        this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
-          this.controlImgTime(this.state.canvasLength.length)
-          if (this.state.loadingTime > 1) {
-            Toast.loading('缓存成功请重试', 1.5);
-            setTimeout(() => {
-              history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
-            }, 500);
-          }  
-        })
-      }, this.state.loadingTime * 1000);
-    } else {
+    // if (dataLength < 1200000) {
+    //   Toast.loading('正在生成中，请稍后', this.state.loadingTime-0.5);
+    //   setTimeout(() => {
+    //     this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
+    //       this.controlImgTime(this.state.canvasLength.length)
+    //       if (this.state.loadingTime > 1) {
+    //         Toast.loading('缓存成功请重试', 1.5);
+    //         setTimeout(() => {
+    //           history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
+    //         }, 500);
+    //       }  
+    //     })
+    //   }, this.state.loadingTime * 1000);
+    // } else {
+    setTimeout(() => {
       this.setState({
         url: this.state.canvasLength
       })
-    }
+      
+    }, 200);
+      
+    // }
 
   }
 
 
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime2 = (dataLength: number) => {
-    console.log(dataLength, '短的');
-    if (dataLength < 1500000) {
-      Toast.loading('正在生成中，请稍后', this.state.loadingTime-0.5);
-      setTimeout(() => {
-        this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
-          this.controlImgTime(this.state.canvasLength.length)
-          if (this.state.loadingTime > 1) {
-            Toast.loading('缓存成功请重试', 1.5);
-            setTimeout(() => {
-              history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
-            }, 500);
-          }  
-        })
-      }, this.state.loadingTime * 500);
-    } else {
+    setTimeout(() => {
       this.setState({
         url: this.state.canvasLength
       })
-    }
+    }, 200);
+    // console.log(dataLength, '短的');
+    // if (dataLength < 1500000) {
+    //   Toast.loading('正在生成中，请稍后', this.state.loadingTime-0.5);
+    //   setTimeout(() => {
+    //     this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
+    //       this.controlImgTime(this.state.canvasLength.length)
+    //       if (this.state.loadingTime > 1) {
+    //         Toast.loading('缓存成功请重试', 1.5);
+    //         setTimeout(() => {
+    //           history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
+    //         }, 500);
+    //       }  
+    //     })
+    //   }, this.state.loadingTime * 500);
+    // } else {
+    //   this.setState({
+    //     url: this.state.canvasLength
+    //   })
+    // }
   }
 
   // 小数点后一位采用四舍五入
