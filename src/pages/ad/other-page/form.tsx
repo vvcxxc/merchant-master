@@ -428,13 +428,12 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						</div>
 					</Modal>
 
-					<div className={((this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1) || (this.state.is_pause == 1 && this.state.check_status == 0)) ? styles.ad_status_isPut : (this.state.is_pause == 1 && this.state.check_status == 1) ? styles.ad_status_ispause : (this.state.is_pause == 0 && this.state.check_status == 2) ? styles.ad_status_isFail : ''}>
+					<div className={((this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1)) ? styles.ad_status_isPut : this.state.is_pause == 1 ? styles.ad_status_ispause : (this.state.is_pause == 0 && this.state.check_status == 2) ? styles.ad_status_isFail : ''}>
 						{
 							// this.state.ad_status == 0 ? ' 暂未投放': 
 							(this.state.is_pause == 0 && this.state.check_status == 0) ? ' 审核中'
 								: (this.state.is_pause == 0 && this.state.check_status == 1) ? ' 已投放'
-									: (this.state.is_pause == 1 && this.state.check_status == 1) ? ' 已暂停'
-										: (this.state.is_pause == 1 && this.state.check_status == 0) ? '待审核'
+									: (this.state.is_pause == 1) ? ' 已暂停'
 											: (this.state.is_pause == 0 && this.state.check_status == 2) ? ' 审核未通过' : ''
 						}
 					</div>
@@ -457,9 +456,9 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 										每日预算
 										<span className={styles.budget_info}>
 											{
-												(this.state.is_pause == -1) || (this.state.is_pause == 1 && this.state.check_status == 0) ? '最低预算1.1元，建议预算101元'
+												(this.state.is_pause == -1) ? '最低预算1.1元，建议预算101元'
 													: (this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元，低于1.1元广告将暂停`
-														: (this.state.is_pause == 1 && this.state.check_status == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元` : ''
+														: (this.state.is_pause == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元` : ''
 											}
 										</span>
 									</InputItem>
@@ -490,7 +489,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 								}
 								<WhiteSpace size="lg" />
 								{
-									(this.state.is_pause == 1 && this.state.check_status == 1) ? (
+									this.state.is_pause == 1 ? (
 										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)}>
 											广告状态：已暂停({
 												this.state.paused_status == 1 ? '手动暂停' :

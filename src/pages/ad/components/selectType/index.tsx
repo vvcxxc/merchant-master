@@ -39,7 +39,7 @@ export default class SelectAdType extends Component<Props> {
 					index === this.state.value && (this.props.adStatus.isPause == 0 && this.props.adStatus.checkStatus == 1) ? (
 						<span className={styles.status_normal} ></span>
 					)
-						: (index === this.state.value && (this.props.adStatus.isPause == 1 && this.props.adStatus.checkStatus == 1)) || (index === this.state.value && (this.props.adStatus.isPause == 0 && this.props.adStatus.checkStatus == 0)) || (index === this.state.value && (this.props.adStatus.isPause == 0 && this.props.adStatus.checkStatus == 2)) || (index === this.state.value && (this.props.adStatus.isPause == 1 && this.props.adStatus.checkStatus == 2)) ? (
+						: (index === this.state.value && this.props.adStatus.isPause == 1) || (index === this.state.value && (this.props.adStatus.isPause == 0 && this.props.adStatus.checkStatus == 0)) || (index === this.state.value && (this.props.adStatus.isPause == 0 && this.props.adStatus.checkStatus == 2)) ? (
 							<span className={styles.status_abnormal}></span>
 						)
 							: ''
