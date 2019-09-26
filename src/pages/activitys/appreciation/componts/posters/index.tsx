@@ -114,11 +114,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       JYB_giftImg.src = require("../../../../../assets/spell_border.png")
     }
     
-    // giftImg.src = this.props.details.giftImg
-    // headImg.src = this.props.details.headImg
-    giftImg.src = localStorage.getItem('giftImg')
-    
-    headImg.src=localStorage.getItem('headImg')
+    giftImg.src = this.props.details.giftImg
+    headImg.src = this.props.details.headImg
     bigImg.src = require('../../../../../assets/new_haibao.png')
     borderImg.src = require("../../../../../assets/kuang.png")
     shadowImg.src = require("../../../../../assets/shadow.png")
@@ -264,13 +261,20 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
     contents.save()
 
-    Toast.loading('正在生成中，请稍后', 1);
-    setTimeout(() => {
-      this.setState({
-        url: canvas.toDataURL('image/jpeg/png',0.3)
-      })
-
-    }, 800);
+    if (localStorage.getItem('QL_headImg') == 'refresh') {
+      Toast.loading('缓存成功，请重试', 1);
+      setTimeout(() => {
+        localStorage.removeItem('QL_headImg')
+        this.creatCanvas(this.props.data);
+      }, 900);
+    } else {
+      Toast.loading('正在生成中，请稍后', 1);
+      setTimeout(() => {
+        this.setState({
+          url: canvas.toDataURL('image/jpeg/png', 0.3)
+        })
+      }, 800);
+    }
 
   }
   
@@ -316,8 +320,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       JYB_giftImg.src = require('../../../../../assets/spell_border.png');
     }
 
-    // headImg.src = this.props.details.headImg
-    headImg.src =  localStorage.getItem('headImg')
+    headImg.src = this.props.details.headImg
     bigImg.src = require('../../../../../assets/short_poster.png');
     shadowImg.src = require('../../../../../assets/shadow.png');
     outlineImg.src = require('../../../../../assets/outline.png');
@@ -444,14 +447,22 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.fillText('长按识别小程序码关注“小熊敬礼”', 145, 1245, 430);
     contents.fillText('一起来领取免费礼品吧！', 195, 1280, 390);
     contents.save();
-
-    Toast.loading('正在生成中，请稍后', 1);
-    setTimeout(() => {
-      this.setState({
-        url: canvas.toDataURL('image/jpeg/png', 0.3)
-      })
-
-    }, 800);
+   
+    // 用户第一次进来 点击海包后， 应该提示用户缓存成功，请重试 然后清除掉loalstorage
+    if (localStorage.getItem('QL_giftImg') == 'refresh') {
+      Toast.loading('缓存成功，请重试', 1);
+      setTimeout(() => {
+        localStorage.removeItem('QL_giftImg')
+        this.shortCreatCanvas(this.props.data);
+      }, 900);
+    } else {
+      Toast.loading('正在生成中，请稍后', 1);
+      setTimeout(() => {
+        this.setState({
+          url: canvas.toDataURL('image/jpeg/png', 0.3)
+        })
+      }, 800);
+    }
 
   }
 
@@ -475,56 +486,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
   canvasImg = (e: any) => { // 用户点击图片保证 遮挡层不会消失
     e.stopPropagation();
-  }
-
-  // 创建图片
-  createHeadImg = (imgData: string) => {
-    let tempImage2 = new Image();// 礼品图片
-    tempImage2.crossOrigin = ""
-    tempImage2.src = this.judgeNetwork(imgData);
-    tempImage2.onload = () => {
-      // this.props.dispatch({
-      //   type: 'activity/setDetails',
-      //   payload: {
-      //     headImg: this.getBase64Image2(tempImage2)
-      //   }
-      // });
-    }
-  }
-  createGiftImg = (imgData: string) => {
-    let tempImage2 = new Image();// 礼品图片
-    tempImage2.crossOrigin = ""
-    tempImage2.src = this.judgeNetwork(imgData);
-    tempImage2.onload = () => {
-      // this.props.dispatch({
-      //   type: 'activity/setDetails',
-      //   payload: {
-      //     giftImg: this.getBase64Image2(tempImage2)
-      //   }
-      // });
-    }
-  }
-
-  // 转换图片
-  getBase64Image2 = (img: any) => {
-    var canvas: any = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, img.width, img.height);
-    var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
-    var dataURL = canvas.toDataURL("image/" + ext, 0.1);
-    return dataURL;
-  }
-
-  // 用来给域里面添加 ‘ \ ’
-  judgeNetwork = (Network: string) => {
-    // console.log(Network,'999')
-    if (Network.split('com', 2)[1].slice(0, 1) == '/') {
-      return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
-    } else {
-      return Network
-    }
   }
 
 

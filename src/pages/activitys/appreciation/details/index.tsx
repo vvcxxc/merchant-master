@@ -124,7 +124,7 @@ export default connect(({ activity }: any) => activity)(
           }
         })
 
-        this.createHeadImg(data.supplier.shop_door_header_img + '?x-oss-process=image/format,jpg/resize,m_lfit,w_200,h_200/quality,q_10')
+        this.createHeadImg(data.supplier.shop_door_header_img + '?x-oss-process=image/format,jpg/resize,m_lfit,,w_200,h_200/quality,q_10')
         if (data.appreciation_gif_info.gift_id != 0) {
           this.createGiftImg(data.appreciation_gif_info.gif_pic + '?x-oss-process=image/resize,m_lfit,w_400,h_150/quality,q_10')
         }
@@ -172,13 +172,12 @@ export default connect(({ activity }: any) => activity)(
       tempImage2.crossOrigin = ""
       tempImage2.src = this.judgeNetwork(imgData);
       tempImage2.onload = () => {
-        localStorage.setItem('headImg', this.getBase64Image2(tempImage2)  )
-        // this.props.dispatch({
-        //   type: 'activity/setDetails',
-        //   payload: {
-        //     headImg: this.getBase64Image2(tempImage2)
-        //   }
-        // });
+        this.props.dispatch({
+          type: 'activity/setDetails',
+          payload: {
+            headImg: this.getBase64Image2(tempImage2)
+          }
+        });
       }
     }
     createGiftImg = (imgData: string) => {
@@ -186,13 +185,12 @@ export default connect(({ activity }: any) => activity)(
       tempImage2.crossOrigin = ""
       tempImage2.src = this.judgeNetwork(imgData);
       tempImage2.onload = () => {
-        localStorage.setItem('giftImg', this.getBase64Image2(tempImage2))
-        // this.props.dispatch({
-        //   type: 'activity/setDetails',
-        //   payload: {
-        //     giftImg: this.getBase64Image2(tempImage2)
-        //   }
-        // });
+        this.props.dispatch({
+          type: 'activity/setDetails',
+          payload: {
+            giftImg: this.getBase64Image2(tempImage2)
+          }
+        });
       }
     }
 
