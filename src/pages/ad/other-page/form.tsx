@@ -99,7 +99,9 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 				endTime: undefined,
 				link: "",
 				check_desc: null,
-				ad_status: 0
+				ad_status: 0,
+				is_pause: -1,
+				check_status: 0
 			}, () => {
 				if (nextProps.editForm.id) {
 					this.setState({
@@ -124,7 +126,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						check_desc: nextProps.editForm.check_desc,
 						ad_status: nextProps.editForm.ad_status,
 						paused_status: nextProps.editForm.paused_status,
-						is_pause: nextProps.editForm.is_pause,
+						is_pause: nextProps.editForm.is_pause ,
 						check_status: nextProps.editForm.check_status
 					}, () => {
 					});
@@ -266,7 +268,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						this.handleCloseModal();
 						Toast.success('暂停成功');
 					} else {
-						Toast.success('投放成功');
+						Toast.success('已提交审核');
 					}
 					setTimeout(() => {
 						this.props.onSuccess();
