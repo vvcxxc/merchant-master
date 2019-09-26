@@ -46,6 +46,11 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 			ad_status: 0,
 			modal1: false,
 
+			// 是否停止广告 初始值未-1表示未有数据的情况下
+			is_pause: -1,
+			// 审核状态
+			check_status: 0,
+
 			paused_status: 0,
 		};
 
@@ -65,12 +70,14 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 					already_use_budget: nextProps.editForm.already_use_budget,
 					startTime: nextProps.editForm.begin_time,
 					endTime: nextProps.editForm.end_time,
-					// edit: !nextProps.editForm.is_pause,
-					edit: nextProps.editForm.ad_status == 1 || nextProps.editForm.ad_status == 2,
+					edit: nextProps.editForm.is_pause === 0,
+					// edit: nextProps.editForm.ad_status == 1 || nextProps.editForm.ad_status == 2,
 					isOld: true,
 					check_desc: nextProps.editForm.check_desc,
 					ad_status: nextProps.editForm.ad_status,
-					paused_status: nextProps.editForm.paused_status
+					paused_status: nextProps.editForm.paused_status,
+					is_pause: nextProps.editForm.is_pause,
+					check_status: nextProps.editForm.check_status
 				});
 			} else {
 				this.setState({
@@ -99,7 +106,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 		handleShowSelectTime = () => this.setState({ showSelectTime: true });
 		handleSelectTime = (time: any) => this.setState({ ...time }, this.closeModal);
 		handleSubmit = async (e: any, isStop?: boolean) => {
-			if (this.state.ad_status == 1) {
+			if (this.state.is_pause == 0 && this.state.check_status == 0) {
 				return Toast.info('审核中，请耐心等待');
 			}
 
@@ -120,7 +127,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 					return Toast.info('每日预算金额不能低于1元');
 				}
 				// 暂停的情况不考虑价格比较问题 除了状态为2时即是暂停时都可以弹出余额不足
-				if (this.state.ad_status != 2) {
+				if (!(this.state.is_pause == 0 && this.state.check_status == 1)) {
 					if (Number(this.state.price) > Number(this.props.app.data.money)) {
 						await this.props.dispatch({
 							type: 'businessArea/setFormData',
@@ -224,13 +231,13 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 				: '广告投放时长';
 			return (
 				<div>
-					<div className={(this.state.ad_status == 1 || this.state.ad_status == 2) ? styles.ad_status_isPut : this.state.ad_status == 3 ? styles.ad_status_ispause : this.state.ad_status == 4 ? styles.ad_status_isFail : ''}>
+					<div className={((this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1)) ? styles.ad_status_isPut : this.state.is_pause == 1 ? styles.ad_status_ispause : (this.state.is_pause == 0 && this.state.check_status == 2) ? styles.ad_status_isFail : ''}>
 						{
 							// this.state.ad_status == 0 ? ' 暂未投放': 
-							this.state.ad_status == 1 ? ' 审核中'
-								: this.state.ad_status == 2 ? ' 已投放'
-									: this.state.ad_status == 3 ? ' 已暂停'
-										: this.state.ad_status == 4 ? ' 审核未通过' : ''
+							(this.state.is_pause == 0 && this.state.check_status == 0) ? ' 审核中'
+								: (this.state.is_pause == 0 && this.state.check_status == 1) ? ' 已投放'
+									: (this.state.is_pause == 1) ? ' 已暂停'
+										: (this.state.is_pause == 0 && this.state.check_status == 2) ? ' 审核未通过' : ''
 						}
 					</div>
 					<WingBlank className={styles.maxheight}>
@@ -268,9 +275,9 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 										每日预算
 									<span className={styles.budget_info}>
 											{
-												this.state.ad_status == 0 ? '最低预算1元，建议预算1元'
-													: this.state.ad_status == 1 || this.state.ad_status == 2 ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元，低于1.1元广告将暂停`
-														: this.state.ad_status == 3 ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元` : ''
+												(this.state.is_pause == -1) ? '最低预算1元，建议预算1元'
+													: (this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元，低于1.1元广告将暂停`
+														: (this.state.is_pause == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元` : ''
 											}
 										</span>
 									</InputItem>
@@ -284,7 +291,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 								</Flex>
 								<WhiteSpace size="lg" />
 								{
-									this.state.ad_status == 4 ? (
+									(this.state.is_pause == 0 && this.state.check_status == 2) ? (
 										<div>
 											<img src={require('@/assets/ad/ad_fail.png')} alt="" className={styles.ad_fail} />
 											<span className={styles.check_desc}>{this.state.check_desc}</span>
@@ -293,8 +300,8 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 								}
 								<WhiteSpace size="lg" />
 								{
-									this.state.paused_status != 0 ? (
-										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)} style={this.state.paused_status == 5 ? { color: '#d81e06', textDecoration: 'underline' } : {}}>
+									this.state.is_pause == 1 ? (
+										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)}>
 											广告状态：已暂停({
 												this.state.paused_status == 1 ? '手动暂停' :
 													this.state.paused_status == 2 ? '投放时长超出范围' :
@@ -307,7 +314,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 								}
 								<Flex justify="center" className={styles.ad_title}>
 									<div className={styles.ad_rechange} onClick={this.handleToRechange} style={{ width: "50%", left: "0" }}>充值</div>
-									{
+									{/* {
 										this.state.ad_status != 1 ? (<div
 											className={styles.ad_submit}
 											onClick={this.handleSubmit}
@@ -332,7 +339,16 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 																: this.state.ad_status == 4 ? '投放' : ''
 											}
 										</div>)
-									}
+									} */}
+
+									<div
+										className={styles.ad_submit}
+										onClick={this.handleSubmit}>
+										{
+											this.state.is_pause == 0 ? '暂停投放'
+												: this.state.is_pause == 1 ? '继续投放' : '开始投放'
+										}
+									</div>
 								</Flex>
 							</Flex.Item>
 
