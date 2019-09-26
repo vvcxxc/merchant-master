@@ -115,10 +115,10 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let poster = data.poster_max_money
 
     if (data.title != '拼团') {
-      // JYB_IMG.src = require("../../../../../assets/add_money.png")
+      JYB_IMG.src = require("../../../../../assets/add_money.png")
       JYB_giftImg.src = require("../../../../../assets/add.border.png")  // 满足金额
     } else {
-      // JYB_IMG.src = require("../../../../../assets/spell_money.png")
+      JYB_IMG.src = require("../../../../../assets/spell_money.png")
       JYB_giftImg.src = require("../../../../../assets/spell_border.png")
     }
     
