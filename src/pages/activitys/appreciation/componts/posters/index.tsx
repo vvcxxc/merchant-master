@@ -260,7 +260,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.save()
 
     contents.fillText('消费即可免费领取价值', 200, 1210, 450)
-    contents.fillText(giftPrice + '元礼品', 280, 1250, 350)
+    contents.fillText(giftPrice + '元的礼品', 280, 1250, 350)
     contents.save()
 
     contents.font = '28px PingFang-SC-Regular';
@@ -463,6 +463,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime = (dataLength: number) => {
+    console.log(dataLength,'长的');
+    
     if (dataLength < 1200000) {
       Toast.loading('正在生成中，请稍后', this.state.loadingTime-0.5);
       setTimeout(() => {
@@ -487,6 +489,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime2 = (dataLength: number) => {
+    console.log(dataLength, '短的');
     if (dataLength < 1500000) {
       Toast.loading('正在生成中，请稍后', this.state.loadingTime-0.5);
       setTimeout(() => {
