@@ -115,10 +115,10 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     let poster = data.poster_max_money
 
     if (data.title != '拼团') {
-      JYB_IMG.src = require("../../../../../assets/add_money.png")
+      // JYB_IMG.src = require("../../../../../assets/add_money.png")
       JYB_giftImg.src = require("../../../../../assets/add.border.png")  // 满足金额
     } else {
-      JYB_IMG.src = require("../../../../../assets/spell_money.png")
+      // JYB_IMG.src = require("../../../../../assets/spell_money.png")
       JYB_giftImg.src = require("../../../../../assets/spell_border.png")
     }
     
@@ -323,9 +323,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     headImg.src = this.props.details.headImg
-    // headImg.src = this.judgeNetwork(data.shop_door_header_img)
     bigImg.src = require('../../../../../assets/short_poster.png');
-    JYB_IMG.src = require('../../../../../assets/JYB.png');
     shadowImg.src = require('../../../../../assets/shadow.png');
     outlineImg.src = require('../../../../../assets/outline.png');
 
@@ -362,7 +360,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     JYB_IMG.onload = () => {
-      contents.drawImage(JYB_IMG, 0, 0, 145, 145, 325, 715, 145, 145);
+      contents.drawImage(JYB_IMG, 0, 0, 145, 145, 320, 712, 145, 145);
       contents.save();
     }
 
