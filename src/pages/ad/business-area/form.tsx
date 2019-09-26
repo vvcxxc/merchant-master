@@ -149,11 +149,12 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 				let res;
 				/**是否是暂停操作 */
 				if (isStop) {
-					res = await request({
-						url: 'v3/ads/business/' + this.state.id,
-						method: 'put',
-						data: { ...data, is_pause: 1 }
-					});
+					// res = await request({
+					// 	url: 'v3/ads/business/' + this.state.id,
+					// 	method: 'put',
+					// 	data: { ...data, is_pause: 1 }
+					// });
+					res = await request({ url: 'v3/ads/stop', method: 'put', data: { ad_id: this.state.id } })
 				} else {
 					/**是否是修改状态 */
 					if (this.state.isOld) {
@@ -229,7 +230,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 							this.state.ad_status == 1 ? ' 审核中'
 								: this.state.ad_status == 2 ? ' 已投放'
 									: this.state.ad_status == 3 ? ' 已暂停'
-										: this.state.ad_status == 4 ? ' 审核失败，查看失败原因' : ''
+										: this.state.ad_status == 4 ? ' 审核未通过' : ''
 						}
 					</div>
 					<WingBlank className={styles.maxheight}>
@@ -268,12 +269,19 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 									<span className={styles.budget_info}>
 											{
 												this.state.ad_status == 0 ? '最低预算1元，建议预算1元'
-													: this.state.ad_status == 1 || this.state.ad_status == 2 ? `预算剩余${Number(this.state.price) - Number(this.state.already_use_budget)}元，低于1.1元广告将暂停`
-														: this.state.ad_status == 3 ? `预算剩余${Number(this.state.price) - Number(this.state.already_use_budget)}元` : ''
+													: this.state.ad_status == 1 || this.state.ad_status == 2 ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元，低于1.1元广告将暂停`
+														: this.state.ad_status == 3 ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元` : ''
 											}
 										</span>
 									</InputItem>
 								</List>
+								<WhiteSpace size="lg" />
+								<Flex justify="start">
+									< img src={require('@/assets/ad/ad_intro.png')} alt="" style={{ marginRight: '15px' }} className={styles.ad_intro} />
+									<span className={styles.ad_desc} onClick={() => { router.push('/ad/other-page/readme') }}>
+										广告位介绍
+									</span>
+								</Flex>
 								<WhiteSpace size="lg" />
 								{
 									this.state.ad_status == 4 ? (
@@ -286,7 +294,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 								<WhiteSpace size="lg" />
 								{
 									this.state.paused_status != 0 ? (
-										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)}>
+										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)} style={this.state.paused_status == 5 ? { color: '#d81e06', textDecoration: 'underline' } : {}}>
 											广告状态：已暂停({
 												this.state.paused_status == 1 ? '手动暂停' :
 													this.state.paused_status == 2 ? '投放时长超出范围' :
@@ -305,11 +313,11 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 											onClick={this.handleSubmit}
 										>
 											{
-												this.state.ad_status == 0 ? '广告投放'
-													: this.state.ad_status == 1 ? '暂停投放'
-														: this.state.ad_status == 2 ? '暂停投放'
+												this.state.ad_status == 0 ? '投放'
+													: this.state.ad_status == 1 ? '投放'
+														: this.state.ad_status == 2 ? '暂停'
 															: this.state.ad_status == 3 ? '继续投放'
-																: this.state.ad_status == 4 ? '重新提交' : ''
+																: this.state.ad_status == 4 ? '投放' : ''
 											}
 										</div>) : (<div
 											className={styles.ad_submit}
@@ -317,11 +325,11 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 										// style={{background: '#c1c1c1'}}
 										>
 											{
-												this.state.ad_status == 0 ? '广告投放'
-													: this.state.ad_status == 1 ? '暂停投放'
-														: this.state.ad_status == 2 ? '暂停投放'
+												this.state.ad_status == 0 ? '投放'
+													: this.state.ad_status == 1 ? '投放'
+														: this.state.ad_status == 2 ? '暂停'
 															: this.state.ad_status == 3 ? '继续投放'
-																: this.state.ad_status == 4 ? '重新提交' : ''
+																: this.state.ad_status == 4 ? '投放' : ''
 											}
 										</div>)
 									}

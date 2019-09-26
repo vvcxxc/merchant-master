@@ -6,7 +6,7 @@ const model: Model = {
     state: {
         popType: null,
         romotionType: 1, // 推广ID
-        adStatus: null,
+        adStatus: {},
         coupon: {
             label: '',
             value: 0
@@ -49,7 +49,7 @@ const model: Model = {
                 ...state,
                 popType: null,
                 romotionType: 1,
-                adStatus: null,
+                adStatus: {},
                 coupon: {
                     label: '',
                     value: 0

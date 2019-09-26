@@ -59,8 +59,22 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			files: [],
 			// 审批意见
 			check_desc: null,
-			// 审批状态 默认为初始化状态
-			ad_status: 0,
+			// 广告状态 默认为初始化状态
+			/**
+			 * 0 初始
+			 * 1 审核中
+			 * 2 已投放
+			 * 3 已暂停
+			 * 4 审核不通过
+			 */
+			ad_status: 0,   // 已作废
+
+
+			// 是否停止广告 初始值未-1表示未有数据的情况下
+			is_pause: -1,
+			// 审核状态
+			check_status: 0,
+
 			modal1: false,
 
 			paused_status: 0,
@@ -95,8 +109,8 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						},
 						price: nextProps.editForm.daily_budget,
 						already_use_budget: nextProps.editForm.already_use_budget,
-						// edit: nextProps.editForm.is_pause === 0,
-						edit: nextProps.editForm.ad_status == 1 || nextProps.editForm.ad_status == 2,
+						edit: nextProps.editForm.is_pause === 0,
+						// edit: nextProps.editForm.ad_status == 1 || nextProps.editForm.ad_status == 2,
 						formType: nextProps.editForm.romotion_type - 1,
 						maked: true,
 						id: nextProps.editForm.id,
@@ -109,7 +123,9 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						link: nextProps.editForm.link,
 						check_desc: nextProps.editForm.check_desc,
 						ad_status: nextProps.editForm.ad_status,
-						paused_status: nextProps.editForm.paused_status
+						paused_status: nextProps.editForm.paused_status,
+						is_pause: nextProps.editForm.is_pause,
+						check_status: nextProps.editForm.check_status
 					}, () => {
 					});
 				} else {
@@ -130,6 +146,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 
 		}
 		componentDidMount = () => {
+			console.log(this.props)
 			this.UNSAFE_componentWillReceiveProps(this.props);
 		}
 		handleToRechange = () => router.push('/my/rechange');
@@ -154,10 +171,10 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 		 * @param isStop 是否是暂停提交操作
 		 */
 		handleSubmit = async (e: any, isStop?: boolean) => {
-			if (this.state.ad_status == 1) {
+			if (this.state.is_pause == 0 && this.state.check_status == 0) {
 				return Toast.info('审核中，请耐心等待')
 			}
-			
+
 			// 除了状态为1 和 2
 			if (!this.state.edit || isStop) {
 				if (this.state.formType === 1 && !this.state.coupon.value && this.props.type != "钻石展位") {
@@ -179,7 +196,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 					return Toast.info('每日预算金额不能低于1.1元');
 				}
 				// 暂停的情况不考虑价格比较问题 除了状态为2时即是暂停时都可以弹出余额不足
-				if(this.state.ad_status != 2) {
+				if (!(this.state.is_pause == 0 && this.state.check_status == 1)) {
 					if (Number(this.state.price) > Number(this.props.app.data.money)) {
 						await this.props.dispatch({
 							type: 'ad/setFormData',
@@ -222,15 +239,19 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 				}
 				let res;
 				if (isStop) {
-					res = await request({ url: 'v3/ads/' + this.state.id, method: 'put', data: { ...data, is_pause: 1 } });
+					// 暂停广告
+					// res = await request({ url: 'v3/ads/' + this.state.id, method: 'put', data: { ...data, is_pause: 1 } });
+					res = await request({ url: 'v3/ads/stop', method: 'put', data: { ad_id: this.state.id } })
 				} else {
 					if (this.state.maked) {
+						// 暂停后继续投放修改接口？
 						res = await request({
 							url: 'v3/ads/' + this.state.id,
 							method: 'put',
 							data: { ...data, is_pause: 0 }
 						});
 					} else {
+						// 初始时添加广告
 						res = await request({ url: 'v3/ads', method: 'post', data });
 					}
 				}
@@ -330,7 +351,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 		}
 
 		handlePaused = () => {
-			if(this.state.paused_status == 5) {
+			if (this.state.paused_status == 5) {
 				router.push('/my/coupon/detail?id=' + this.state.coupon.value);
 			}
 		}
@@ -407,13 +428,14 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						</div>
 					</Modal>
 
-					<div className={(this.state.ad_status == 1 || this.state.ad_status == 2) ? styles.ad_status_isPut : this.state.ad_status == 3 ? styles.ad_status_ispause : this.state.ad_status == 4 ? styles.ad_status_isFail : ''}>
+					<div className={((this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1) || (this.state.is_pause == 1 && this.state.check_status == 0)) ? styles.ad_status_isPut : (this.state.is_pause == 1 && this.state.check_status == 1) ? styles.ad_status_ispause : (this.state.is_pause == 0 && this.state.check_status == 2) ? styles.ad_status_isFail : ''}>
 						{
 							// this.state.ad_status == 0 ? ' 暂未投放': 
-							this.state.ad_status == 1 ? ' 审核中'
-								: this.state.ad_status == 2 ? ' 已投放'
-									: this.state.ad_status == 3 ? ' 已暂停'
-										: this.state.ad_status == 4 ? ' 审核失败，查看失败原因' : ''
+							(this.state.is_pause == 0 && this.state.check_status == 0) ? ' 审核中'
+								: (this.state.is_pause == 0 && this.state.check_status == 1) ? ' 已投放'
+									: (this.state.is_pause == 1 && this.state.check_status == 1) ? ' 已暂停'
+										: (this.state.is_pause == 1 && this.state.check_status == 0) ? '待审核'
+											: (this.state.is_pause == 0 && this.state.check_status == 2) ? ' 审核未通过' : ''
 						}
 					</div>
 					<WingBlank className={styles.maxheight}>
@@ -435,14 +457,22 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 										每日预算
 										<span className={styles.budget_info}>
 											{
-												this.state.ad_status == 0 ? '最低预算1.1元，建议预算101元'
-													: this.state.ad_status == 1 || this.state.ad_status == 2 ? `预算剩余${Number(this.state.price) - Number(this.state.already_use_budget)}元，低于1.1元广告将暂停`
-														: this.state.ad_status == 3 ? `预算剩余${Number(this.state.price) - Number(this.state.already_use_budget)}元` : ''
+												(this.state.is_pause == -1) || (this.state.is_pause == 1 && this.state.check_status == 0) ? '最低预算1.1元，建议预算101元'
+													: (this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元，低于1.1元广告将暂停`
+														: (this.state.is_pause == 1 && this.state.check_status == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元` : ''
 											}
 										</span>
 									</InputItem>
 								</List>
-								<div className={styles.adTitle}>广告图</div>
+								<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+									<div className={styles.adTitle}>广告图</div>
+									<div className={styles.adTitle}>
+										< img src={require('@/assets/ad/ad_intro.png')} alt="" style={{ marginRight: '15px' }} className={styles.ad_intro} />
+										<span className={styles.ad_desc} onClick={() => { router.push('/ad/other-page/readme') }}>
+											广告位介绍
+										</span>
+									</div>
+								</div>
 								{imagePicker}
 								{this.state.edit &&
 									<div className={styles.bannerBox}>
@@ -451,7 +481,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 								}
 
 								{
-									this.state.ad_status == 4 ? (
+									(this.state.is_pause == 0 && this.state.check_status == 2) ? (
 										<div>
 											<img src={require('@/assets/ad/ad_fail.png')} alt="" className={styles.ad_fail} />
 											<span className={styles.check_desc}>{this.state.check_desc}</span>
@@ -460,14 +490,14 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 								}
 								<WhiteSpace size="lg" />
 								{
-									this.state.paused_status != 0 ? (
+									(this.state.is_pause == 1 && this.state.check_status == 1) ? (
 										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)}>
 											广告状态：已暂停({
-												this.state.paused_status == 1? '手动暂停':
-													this.state.paused_status == 2? '投放时长超出范围':
-														this.state.paused_status == 3? '今日预算不足':
-															this.state.paused_status == 4? '余额不足':
-																this.state.paused_status == 5? '关联的券或活动已结束' : ''
+												this.state.paused_status == 1 ? '手动暂停' :
+													this.state.paused_status == 2 ? '投放时长超出范围' :
+														this.state.paused_status == 3 ? '今日预算不足' :
+															this.state.paused_status == 4 ? '余额不足' :
+																this.state.paused_status == 5 ? '关联的券或活动已结束' : ''
 											})
 										</div>
 									) : ''
@@ -479,17 +509,17 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 
 							<Flex justify="center" className={styles.ad_title}>
 								<div className={styles.ad_rechange} onClick={this.handleToRechange} style={{ width: "50%", left: "0" }}>充值</div>
-								{
+								{/* {
 									this.state.ad_status != 1 ? (<div
 										className={styles.ad_submit}
 										onClick={this.handleSubmit}
 									>
 										{
-											this.state.ad_status == 0 ? '广告投放'
-												: this.state.ad_status == 1 ? '暂停投放'
-													: this.state.ad_status == 2 ? '暂停投放'
+											this.state.ad_status == 0 ? '投放'
+												: this.state.ad_status == 1 ? '投放'
+													: this.state.ad_status == 2 ? '暂停'
 														: this.state.ad_status == 3 ? '继续投放'
-															: this.state.ad_status == 4 ? '重新提交' : ''
+															: this.state.ad_status == 4 ? '投放' : ''
 										}
 									</div>) : (<div
 										className={styles.ad_submit}
@@ -497,14 +527,24 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 									// style={{background: '#c1c1c1'}}
 									>
 										{
-											this.state.ad_status == 0 ? '广告投放'
-												: this.state.ad_status == 1 ? '暂停投放'
-													: this.state.ad_status == 2 ? '暂停投放'
+											this.state.ad_status == 0 ? '投放'
+												: this.state.ad_status == 1 ? '投放'
+													: this.state.ad_status == 2 ? '暂停'
 														: this.state.ad_status == 3 ? '继续投放'
-															: this.state.ad_status == 4 ? '重新提交' : ''
+															: this.state.ad_status == 4 ? '投放' : ''
 										}
 									</div>)
-								}
+								} */}
+
+								<div
+									className={styles.ad_submit}
+									onClick={this.handleSubmit}>
+									{
+										this.state.is_pause == 0 ? '暂停投放'
+											: this.state.is_pause == 1 ? '继续投放' : '开始投放'
+									}
+								</div>
+
 							</Flex>
 						</Flex>
 						<SelectCoupon
