@@ -136,10 +136,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       .catch((err: any) => { })
     
     bigImg.onload = () => {
-      
       contents.drawImage(bigImg, 0, 0, 1700, 2000, 0, 0, 1505, 1730)
-      contents.save();
-
       contents.font = '23px PingFang-SC-Regular Bold';
       contents.fillStyle = "#fff"
       contents.fillText('电话：' + phone, 105, 1600, 530)
@@ -150,6 +147,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       } else {
         contents.fillText('地址：' + home, 105, 1635);
       }
+      contents.save();
     }
     headImg.onload = () => {
       contents.drawImage(headImg, 290, 438)
@@ -331,8 +329,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
     bigImg.onload = () => {
       contents.drawImage(bigImg, 0, 0, 1700, 1700, 0, 0, 1505, 1500);
-      contents.save();
-
       contents.font = '23px PingFang-SC-Regular Bold';
       contents.fillStyle = "#fff";
       contents.fillText('电话：' + phone, 105, 1370, 530);
@@ -342,6 +338,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       } else {
         contents.fillText('地址：' + home, 105, 1405);
       }
+      contents.save();
     }
 
     headImg.onload = () => {
