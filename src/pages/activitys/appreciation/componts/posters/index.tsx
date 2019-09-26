@@ -121,13 +121,14 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       JYB_IMG.src = require("../../../../../assets/spell_money.png")
       JYB_giftImg.src = require("../../../../../assets/spell_border.png")
     }
-    
-    giftImg.src = this.props.details.giftImg
-    headImg.src = this.props.details.headImg
+
     bigImg.src = require("../../../../../assets/new_haibao.png")
     borderImg.src = require("../../../../../assets/kuang.png")
     shadowImg.src = require("../../../../../assets/shadow.png")
     outlineImg.src = require("../../../../../assets/outline.png")
+    giftImg.src = this.props.details.giftImg
+    headImg.src = this.props.details.headImg
+    
 
     QRCode.toDataURL(link)                                      // 网络链接转化为二维码
       .then((url: any) => {
@@ -276,14 +277,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       })
 
     }, 800);
-    // setTimeout(() => {
-    //   this.setState({
-    //     canvasLength: canvas.toDataURL('image/jpeg/png')
-    //   }, () => {
-    //     this.controlImgTime(this.state.canvasLength.length)
-    //   })
-    // }, this.state.loadingTime *1500);
-
   }
   
   shortCreatCanvas = (data: any) => {
@@ -328,11 +321,11 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       JYB_giftImg.src = require("../../../../../assets/spell_border.png");
     }
 
-    headImg.src = this.props.details.headImg
     bigImg.src = require('../../../../../assets/short_poster.png');
     shadowImg.src = require('../../../../../assets/shadow.png');
     outlineImg.src = require('../../../../../assets/outline.png');
-
+    headImg.src = this.props.details.headImg
+    
     bigImg.onload = () => {
       contents.drawImage(bigImg, 0, 0, 1700, 1700, 0, 0, 1505, 1500);
       contents.font = '23px PingFang-SC-Regular Bold';
@@ -463,81 +456,9 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       })
 
     }, 800);
-    // Toast.loading('正在生成中，请稍后', 1);
-    // setTimeout(() => {
-    //   this.setState({
-    //     url: this.state.canvasLength
-    //   })
-
-    // }, 800);
-    // Toast.loading('正在生成中，请稍后', this.state.loadingTime);
-    // setTimeout(() => {
-    //   this.setState({
-    //     canvasLength: canvas.toDataURL('image/jpeg/png')
-    //   }, () => {
-    //     this.controlImgTime2(this.state.canvasLength.length)
-    //   })
-    // }, this.state.loadingTime * 1500);
 
   }
 
-  // 用来优化图片显示时间   图片长度       标准长度
-  controlImgTime = (dataLength: number) => {
-    // console.log(dataLength,'长的');
-    
-    // if (dataLength < 1200000) {
-    //   Toast.loading('正在生成中，请稍后', this.state.loadingTime-0.5);
-    //   setTimeout(() => {
-    //     this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
-    //       this.controlImgTime(this.state.canvasLength.length)
-    //       if (this.state.loadingTime > 1) {
-    //         Toast.loading('缓存成功请重试', 1.5);
-    //         setTimeout(() => {
-    //           history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
-    //         }, 500);
-    //       }  
-    //     })
-    //   }, this.state.loadingTime * 1000);
-    // } else {
-    setTimeout(() => {
-      this.setState({
-        url: this.state.canvasLength
-      })
-      
-    }, 800);
-      
-    // }
-
-  }
-
-
-  // 用来优化图片显示时间   图片长度       标准长度
-  controlImgTime2 = (dataLength: number) => {
-    setTimeout(() => {
-      this.setState({
-        url: this.state.canvasLength
-      })
-    }, 200);
-    // console.log(dataLength, '短的');
-    // if (dataLength < 1500000) {
-    //   Toast.loading('正在生成中，请稍后', this.state.loadingTime-0.5);
-    //   setTimeout(() => {
-    //     this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
-    //       this.controlImgTime(this.state.canvasLength.length)
-    //       if (this.state.loadingTime > 1) {
-    //         Toast.loading('缓存成功请重试', 1.5);
-    //         setTimeout(() => {
-    //           history.go(0) // 如果执行了多次，还是无法显示图片 ，刷新当前页面
-    //         }, 500);
-    //       }  
-    //     })
-    //   }, this.state.loadingTime * 500);
-    // } else {
-    //   this.setState({
-    //     url: this.state.canvasLength
-    //   })
-    // }
-  }
 
   // 小数点后一位采用四舍五入
   identifyData = (data: string) => {
