@@ -6,14 +6,27 @@ import router from 'umi/router';
 import wx from "weixin-js-sdk";
 import Success from '@/pages/verification/success';
 import BottomShare from '@/pages/activitys/appreciation/componts/bottom_share'
-import Posters from '../componts/posters/index'
+import Posters from '@/pages/activitys/appreciation/componts/posters'
 import EchartsSan from '../../../../components/echart_shan/index'
+import { connect } from 'dva';
+
+
 const alert = Modal.alert;
-export default class GroupDetails extends Component {
+
+interface Props {
+  location: any,
+  dispatch: any,
+  details:any
+}
+
+export default connect(({ activity }: any) => activity)(
+  class GroupDetails extends Component<any> {
 
   state = {
     echart_Data: [],
+    posterData:{},
     info: {
+      share: {},
       activity_image: '',
       appreciation_count: {
         participate_number: '',
@@ -23,6 +36,7 @@ export default class GroupDetails extends Component {
       appreciation_info: {
         activity_type: '',
         max_money: '',
+        activity_name : '',
         appreciation_number: '',
         participation_number: '',
         activity_time: ''
@@ -38,17 +52,30 @@ export default class GroupDetails extends Component {
         gif_pic: '',
         gif_integral: '',
         delivery: ''
+      },
+      supplier: {
+
       }
     },
     id: '',
     is_gift: true,
     type: '',
     types: '',
-    showShare: false,
-    showPoster: false
+    showShare: false,//是否显示分享的组件
   }
-  componentDidMount() {
 
+    componentWillMount() {
+      this.props.dispatch({
+        type: 'activity/setDetails',
+        payload: {
+          headImg: '1 ',
+          giftImg:' 1'
+        }
+      });
+  }
+
+
+  componentDidMount() {
     let { id, type } = this.props.location.query;
     if (type == '1') {
       this.setState({ types: '进行中' })
@@ -73,6 +100,35 @@ export default class GroupDetails extends Component {
           data.appreciation_count.coupons_number
         ]
       })
+
+      this.setState({
+        posterData: {
+          ...data.supplier,
+          git_money: data.appreciation_gif_info.gif_integral,//礼品金额
+          gif_pic: data.appreciation_gif_info.gif_pic,//礼品图片
+          gift_id: data.appreciation_gif_info.gift_id,// 礼品id 如果为0 海报就不显示礼品图片以及信息
+          // pay_money: data.appreciation_info.max_money,  // 后端改变上下参数
+          // max_money: data.appreciation_info.pay_money,
+          // pay_money: data.appreciation_info.pay_money,  // 后端改变上下参数
+          // max_money: data.appreciation_info.poster_max_money,
+          pay_money: data.appreciation_info.pay_money,
+          max_money: data.appreciation_info.poster_max_money,
+          poster_max_money: data.appreciation_info.poster_max_money,
+          ...data.supplier,
+          use_tim: data.appreciation_coupons_info.use_tim,
+          gif_name: data.appreciation_gif_info.gif_name,
+          schedule: data.appreciation_count.schedule,
+          link: data.appreciation_info.link,
+          title: '增值',
+          total_fee: data.appreciation_info.total_fee,
+        }
+      })
+
+      this.createHeadImg(data.supplier.shop_door_header_img)
+      if (data.appreciation_gif_info.gift_id != 0) {
+        this.createGiftImg(data.appreciation_gif_info.gif_pic)
+      }
+
       if (data.appreciation_gif_info.gift_id == 0) {
         this.setState({ is_gift: false })
       }
@@ -99,66 +155,87 @@ export default class GroupDetails extends Component {
   }
 
   shareClick = () => {
-    // let userAgent = navigator.userAgent;
-    // let isIos = userAgent.indexOf('iPhone') > -1;
-    // let url: any;
-    // if (isIos) {
-    //   url = sessionStorage.getItem('url');
-    // } else {
-    //   url = location.href;
-    // }
-    // request({
-    //   url: 'wechat/getShareSign',
-    //   method: 'get',
-    //   params: {
-    //     url
-    //   }
-    // }).then(res => {
-    //   let _this = this;
-    //   wx.config({
-    //     debug: false,
-    //     appId: res.appId,
-    //     timestamp: res.timestamp,
-    //     nonceStr: res.nonceStr,
-    //     signature: res.signature,
-    //     jsApiList: [
-    //       "updateAppMessageShareData"
-    //     ]
-    //   });
-
-    //   wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
-    //     wx.updateAppMessageShareData({
-    //       title: '34343', // 分享标题
-    //       desc: '4343434', // 分享描述
-    //       link: 'http://test.supplierv2.tdianyi.com',//分享链接该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-    //       imgUrl: '', // 分享图标
-    //       success: function () {
-    //         // 设置成功
-    //         console.log('3434')
-    //       }
-    //     })
-    //   });
-
-
-    // })
     this.setState({ showShare: true })
   }
 
   closeShare = (close: boolean) => {
     this.setState({ showShare: false })
-  }
+    }
 
-  showPoster = (show: any) => {
-    this.setState({ showPoster: true })
-    this.setState({ showShare: false })
-  }
-  closePoster = (close: any) => {
-    this.setState({ showPoster: false })
-  }
+    // 创建图片
+    createHeadImg = (imgData:string) => {
+      let tempImage2 = new Image();// 礼品图片
+      tempImage2.crossOrigin = ""
+      tempImage2.src = this.judgeNetwork(imgData);
+      tempImage2.onload = () => {
+        this.props.dispatch({
+          type: 'activity/setDetails',
+          payload: {
+            headImg: this.getBase64Image2(tempImage2)
+          }
+        });
+      }
+    }
+    createGiftImg = (imgData: string) => {
+      let tempImage2 = new Image();// 礼品图片
+      tempImage2.crossOrigin = ""
+      tempImage2.src = this.judgeNetwork(imgData);
+      tempImage2.onload = () => {
+        this.props.dispatch({
+          type: 'activity/setDetails',
+          payload: {
+            giftImg: this.getBase64Image2(tempImage2)
+          }
+        });
+      }
+    }
+
+    // 转换图片
+    getBase64Image2 = (img: any) => {
+      var canvas: any = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
+      var dataURL = canvas.toDataURL("image/" + ext,0.1);
+      return dataURL;
+    }
+
+    // 用来给域里面添加 ‘ \ ’
+    judgeNetwork = (Network: string) => {
+      // console.log(Network,'999')
+      if (Network.split('com', 2)[1].slice(0, 1) == '/') {
+        return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
+      } else {
+        return Network
+      }
+    }
+
+
+
+  // 将canvas要的图片转译成base64编码
+    // base64Data = () => {
+    //   this.props.dispatch({
+    //     type: 'activity/setDetails',
+    //     payload: {
+    //       headImg: '23232',
+    //       giftImg:'8989'
+    //     }
+    //   });
+
+    //     setTimeout(() => {
+    //       console.log(this.props.details, 99);
+    //     }, 1009);
+
+    // }
+
 
 
   render() {
     const { info, is_gift, types } = this.state;
+    let infoData: any = info.appreciation_gif_info
+    let share: any = info.share
     const description = info.appreciation_coupons_info.description.map((item, idx) => <p key={idx}>· {item}</p>);
     const button = this.state.type == '3' ? null : (
       <Button
@@ -202,17 +279,23 @@ export default class GroupDetails extends Component {
     const echart = this.state.echart_Data.length > 1 ?
       (
         <EchartsSan
-          list={[222, 444, 444]}
+          list={this.state.echart_Data}
           name={["参与人数", "增值人数", "券使用人数"]}
           colors={['#5476C4', '#7156C6', '#45BDBD']}
         />) : null
 
-    // const poster = <Posters closePoster={this.closePoster} showPoster={this.state.showPoster} >{null}</Posters>
     const bottom_share = (
       <BottomShare
         closeShare={this.closeShare}
         showShare={this.state.showShare}
-        showPoster={this.showPoster}
+        type={{
+          activity_id: infoData.activity_id,
+          id: this.props.location.query.id,
+          name: '增值',
+          gift_id: infoData.gift_id,
+          ...share
+        }}
+        posterData={this.state.posterData}
       >{null}
       </BottomShare>)
     return (
@@ -224,7 +307,7 @@ export default class GroupDetails extends Component {
               {info.appreciation_info.activity_name}
               <span>{types}</span>
             </div>
-            {/* <img src={require('./share.png')} onClick={this.shareClick} /> */}
+            <img src={require('./share.png')} onClick={this.shareClick} />
           </Flex>
 
           {/* 基本信息 */}
@@ -292,10 +375,8 @@ export default class GroupDetails extends Component {
           {/* <Button type='primary' style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button> */}
           {button}
         </WingBlank>
-        {/* {poster} */}
-
-        {/* {bottom_share} */}
+        {bottom_share}
       </div>
     )
   }
-}
+})

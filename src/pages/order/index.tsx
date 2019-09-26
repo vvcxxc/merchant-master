@@ -68,13 +68,13 @@ export default class OrderPage extends Component {
 			page : 1,
 			hasMore : true,
 			list : [],
-			pay_status: query.hot.id,
+			pay_status: query.hot.id || undefined,
 			type: query.hot._id,
 			date : query.time ? moment(query.time).unix() : undefined
 		},() => {
 			this.getData({
-				pay_status: query.hot.id,
-				type: query.hot._id,
+				pay_status: query.hot.id || 0,
+				type: query.hot._id || undefined,
 				date: query.time ? moment(query.time).unix() : undefined
 			});
 		})
@@ -92,7 +92,7 @@ export default class OrderPage extends Component {
 				page : this.state.page + 1
 			},() => {
 				this.getData({
-					pay_status : this.state.pay_status,
+					pay_status : this.state.pay_status || undefined,
 					date : this.state.date
 				})
 			})

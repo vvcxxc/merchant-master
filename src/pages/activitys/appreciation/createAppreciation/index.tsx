@@ -35,7 +35,6 @@ export default connect(({ activity }: any) => activity)(
       prompt: false
     };
     componentDidMount() {
-      console.log(this.props.Appreciation)
       if (this.props.Appreciation.gift_id) {
         this.setState({ is_gift: true })
       }
@@ -244,7 +243,7 @@ export default connect(({ activity }: any) => activity)(
       // 日期验证
       let startDate = new Date(start_date).getTime();
       let endDate = new Date(end_date).getTime();
-      console.log(this.props.Appreciation)
+
 
       //起始结束日期效验
       if (startDate > endDate) {
@@ -396,7 +395,6 @@ export default connect(({ activity }: any) => activity)(
       //     describe_img1: files
       //   }
       // });
-      console.log(files);
       Toast.loading('')
       if (files[0]) {
         let img = files[0].url;

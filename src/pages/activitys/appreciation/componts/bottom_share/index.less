@@ -5,6 +5,7 @@
   height: 100vh;
   width: 100vw;
   background-color: rgba(0,0,0,.3);
+  z-index: 20;
   // pointer-events:auto
 }
 
@@ -12,6 +13,7 @@
   position: absolute;
   right: 0;
   top:100px;
+  z-index: 10;
   .share_arrow {
     position: absolute;
     right: 10px;
@@ -33,27 +35,36 @@
   width:100vw;
   bottom:0;
   background-color: #fff;
-  .all_center {
+  .all_center_left {
+    height: 350px;
+    width: 50vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-content: center;
-    img {
-      height: 98px;
-      width: 98px;
-    }
+    background: url('../../../../../assets/share.png') no-repeat center center;
+    background-size: 30%
+  }
+  .all_center_right {
+    height: 350px;
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    background: url('../../../../../assets/posters.png') no-repeat center center;
+    background-size: 30%
   }
   .box {
     display: flex;
     justify-content: space-around;
-    padding: 86px 0px;
     border-bottom: 1px solid  #E5E5E5;
   }
 
   .text_center {
     text-align: center;
-    line-height: 1;
-    margin-top: 18px;
+    // line-height: 1;
+    margin-top: 150px;
     color:#666666
   }
 

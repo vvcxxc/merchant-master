@@ -6,7 +6,8 @@ import request from '@/services/request'
 import { DraggableArea } from 'react-draggable-tags';
 import { connect } from 'dva'
 import router from 'umi/router';
-export default connect(({ activity }: any) => activity)(
+// export default connect(({ activity }: any) => activity,({ createCoupon }: any) => createCoupon)(
+export default connect(({ activity, createCoupon}: any) => ({activity,createCoupon}))(
   class Notice extends Component<any> {
     state = {
       /**推荐列表 */
@@ -20,14 +21,19 @@ export default connect(({ activity }: any) => activity)(
       key: '100',
       tag: ''
     };
-
+    /**
+     * @type =1 为拼团 =2 为增值 =3 为优惠券
+     */
     componentDidMount() {
       let type = this.props.location.query.type;
       let notice_list = [];
       if (type == 1) {
-        notice_list = this.props.Group.description;
-      } else {
-        notice_list = this.props.Appreciation.description;
+        notice_list = this.props.activity.Group.description;
+      } else if (type == 2) {
+        // notice_list = this.props.Appreciation.description;
+      } else if (type == 3) {
+        console.log(this.props)
+        notice_list = this.props.createCoupon.couponForm.description
       }
       let drag_list = [];
       if (notice_list) {
@@ -147,7 +153,7 @@ export default connect(({ activity }: any) => activity)(
           }
         })
         // router.push('/activitys/group/createGroup')
-      } else {
+      } else if (type == 2) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
@@ -155,6 +161,13 @@ export default connect(({ activity }: any) => activity)(
           }
         })
         // router.push('/activitys/appreciation/createAppreciation')
+      } else if (type == 3) {
+        this.props.dispatch({
+          type: 'createCoupon/setCoupon',
+          payload: {
+            description
+          }
+        });
       }
       router.goBack()
     }

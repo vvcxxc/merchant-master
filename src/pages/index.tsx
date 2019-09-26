@@ -20,7 +20,6 @@ interface Props {
 	data: Data;
 	dispatch: (arg0: any) => any;
 }
-
 export default connect(({ app }: any) => app)(
 	class IndexPage extends Component<Props> {
 		/**是否显示核销的界面 */
@@ -56,13 +55,10 @@ export default connect(({ app }: any) => app)(
             reason = '资质审核失败，查看详情'
             this.setState({is_show: true});
           }
-
         }
         this.setState({
           reason
         })
-
-
 			});
 			let userAgent = navigator.userAgent;
 			let isIos = userAgent.indexOf('iPhone') > -1;
@@ -232,7 +228,6 @@ export default connect(({ app }: any) => app)(
 					</Flex>
 				</Flex>
 			) : null;
-
 		render() {
 			const { data } = this.props;
 			const mapIcons = (list: Array<any>) =>

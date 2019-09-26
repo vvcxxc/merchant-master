@@ -12,13 +12,16 @@ const Url = window.url ? window.url : 'http://test.api.tdianyi.com/';
 const open_id = window.open_id ? window.open_id : 'test_open_id';
 export default class Rechange extends Component {
 
-  state = { money: 0 };
+  state = { money: '' };
   /**input change */
-  handleInputChange = (value: any) => this.setState({ money: parseFloat(value) });
+  handleInputChange = (value: any) => {
+    if (value.split(".")[1] == undefined || (value.split(".")[1].length <= 2 && value.split(".")[2] == undefined)) {
+      this.setState({ money: value });
+    }
+  }
   /** recahnge submit value */
   /** recahnge submit value */
   submit = async () => {
-    console.log(this.state.money);
     if (Number(this.state.money) == 0 || this.state.money == undefined || isNaN(Number(this.state.money))) {
       Toast.fail('请输入充值金额', 1.5);
     } else {
@@ -92,7 +95,7 @@ export default class Rechange extends Component {
           <Flex className="input-wrap">
             <span className="symbol">￥</span>
             <Flex.Item>
-              <InputItem type="money" placeholder="" onChange={this.handleInputChange} clear />
+              <InputItem type="money" placeholder="" onChange={this.handleInputChange} value={this.state.money} clear />
             </Flex.Item>
           </Flex>
           <Button type="primary" onClick={this.submit}>

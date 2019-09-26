@@ -1,0 +1,42 @@
+.share_{
+  position: fixed;
+  z-index: 200;
+  height: 100vh;
+  width: 100vw;
+  top:0;
+  background-color: rgba(0,0,0,.1);
+  .share_child{
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
+    width: 100vw;
+    z-index: 201;
+    div {
+      font-size: 32px;
+      padding-bottom: 29px;
+      padding-top: 30px;
+      text-align: center;
+      border:1px solid #EEEEEE;
+    }
+  }
+}
+
+.keep_shareBox {
+  position: absolute;
+  right: 0;
+  top:10px;
+  .share_arrow {
+    position: absolute;
+    right: 10px;
+    width:100px;
+    height:160px;
+  }
+  .share_prompt {
+    padding-top: 117px;
+    padding-right: 90px;
+    font-family:PingFang SC;
+    font-size: 36px;
+    margin-right: 28px;
+    color:#FABE1A;
+  }
+}

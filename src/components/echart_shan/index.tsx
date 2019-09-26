@@ -8,12 +8,12 @@ import 'echarts/lib/component/title';
 interface Props {
   name: any,
   list: any,
-  colors:any
+  colors: any
 }
 export default class Echart_Shan extends Component<Props>{
   componentDidMount() {
 
-    const { list , name ,colors } = this.props
+    const { list, name, colors } = this.props
     var myChart = echarts.init(document.getElementById('main'));
     myChart.setOption({
       tooltip: {},
@@ -23,12 +23,12 @@ export default class Echart_Shan extends Component<Props>{
       grid: {//干掉所有的坐标轴
         show: true,
         borderWidth: 0,
-    },
+      },
       xAxis: { //更改x轴
         type: 'category',
-        data:this.props.name,
+        data: this.props.name,
         axisLabel: {
-          show:true,
+          show: true,
           textStyle: {
             color: '#999999',  //更改坐标轴文字颜色
             fontSize: 21,
@@ -62,7 +62,7 @@ export default class Echart_Shan extends Component<Props>{
         },
         type: 'value',
         axisLine: {
-          show:false,
+          show: false,
           lineStyle: {
             color: '#999999'
           }
@@ -78,13 +78,13 @@ export default class Echart_Shan extends Component<Props>{
             show: true,
             position: 'top',
             color: '#333333',
-            fontSize:19
+            fontSize: 19
           }
         },
         itemStyle: {
           normal: {// 设置不同背景色
             // color: this.props.colors
-            color:function (params:any) {
+            color: function (params: any) {
               var colorList = colors
               return colorList[params.dataIndex]
             }

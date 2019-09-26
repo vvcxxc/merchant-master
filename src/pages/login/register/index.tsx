@@ -15,8 +15,6 @@ export default connect(({ register }: any) => register)(
   class Register extends Component<any> {
     
     componentDidMount() {
-      console.log(111)
-      console.log(this.props)
       /**获取oss */
       //   request({
       //    url: 'api/v2/up',
@@ -168,7 +166,6 @@ export default connect(({ register }: any) => register)(
      * 注册
      */
     register = () => {
-      console.log(this.props)
       const { username, phone, password, code, inviter_phone } = this.props;
       if (username && phone && password && code) {
         request({

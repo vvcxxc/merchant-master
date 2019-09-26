@@ -213,7 +213,6 @@ export default connect(({createStore}: any) => createStore)(
       });
       this.setState({search_words: e});
       this.msearch.search(keywords, function(status: any, result: object){
-        console.log(result)
         if(result.poiList){
           that.setState({
             is_search: true,

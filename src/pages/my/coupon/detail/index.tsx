@@ -11,7 +11,16 @@ export default class Detial extends Component<any> {
 	};
 
 	componentDidMount = () => {
-		this.setState({ id: this.props.location.state.id });
+		if(this.props.location.state) {
+			this.setState({ 
+				id: this.props.location.state.id
+			});
+		}else {
+			this.setState({ 
+				id: this.props.location.query.id
+			})
+		}
+		
 	};
 
 	tabs = [{ id: 1, label: '详情' }, { id: 2, label: '领取' }];
@@ -23,8 +32,8 @@ export default class Detial extends Component<any> {
 			this.state.pageType === 1 ? (
 				<ContentDetail id={this.state.id} />
 			) : (
-				<ReceiveList id={this.state.id} />
-			)
+					<ReceiveList id={this.state.id} />
+				)
 		) : null;
 		return (
 			<TabPage tabs={this.tabs} onChange={this.handleChange}>

@@ -4,11 +4,22 @@ import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router';
 import EchartsSan from '../../../../components/echart_shan'
+import BottomShare from '@/pages/activitys/appreciation/componts/bottom_share'
+import Posters from '@/pages/activitys/appreciation/componts/posters'
+import { connect } from 'dva';
+
 const alert = Modal.alert;
-export default class GroupDetails extends Component {
+interface Props {
+  location: any,
+  dispatch:any
+}
+export default connect(({ activity }: any) => activity)(class GroupDetails extends Component<Props> {
   state = {
-    dataEchart:[],
+    dataEchart: [],
+    posterData:{},
     info: {
+      share:{},
+      activity_name:'',
       activity_image: '',
       group_count: {
         group_defeated: '',
@@ -39,11 +50,20 @@ export default class GroupDetails extends Component {
     id: '',
     type: '',
     is_gift: true,
-    types: ''
+    types: '',
+    showShare: false
   }
   componentWillMount() {
 
+    this.props.dispatch({
+      type: 'activity/setDetails',
+      payload: {
+        headImg: '1 ',
+        giftImg: ' 1'
+      }
+    });
   }
+
   componentDidMount (){
     let {type,id} = this.props.location.query;
     if(type == '1'){
@@ -62,6 +82,29 @@ export default class GroupDetails extends Component {
       }
     }).then(res => {
       let { data } = res;
+
+      this.setState({
+        posterData: {
+          ...data.supplier,
+          git_money: data.group_gif_info.gif_integral,//礼品金额
+          gif_pic: data.group_gif_info.gif_pic,//礼品图片
+          gift_id: data.group_gif_info.gift_id,// 礼品id 如果为0 海报就不显示礼品图片以及信息
+          pay_money: data.group_info.group_money, 
+          max_money: data.group_info.pay_money,
+          ...data.supplier,
+          use_tim: data.group_coupons_info.use_tim,
+          gif_name: data.group_gif_info.gif_name,
+          schedule: data.group_count.schedule,
+          link: data.group_info.link,
+          title: '拼团'
+        }
+      })
+
+      this.createHeadImg(data.supplier.shop_door_header_img)
+      if (data.group_gif_info.gift_id != 0) {
+        this.createGiftImg(data.group_gif_info.gif_pic)
+      }
+
       this.setState({
         dataEchart: [
           res.data.group_count.coupons_number,
@@ -112,8 +155,68 @@ export default class GroupDetails extends Component {
 
   }
 
+  shareClick = () => {
+    this.setState({ showShare: true })
+  }
+
+  closeShare = (close: boolean) => {
+    this.setState({ showShare: false })
+  }
+
+  // 创建图片
+  createHeadImg = (imgData: string) => {
+    let tempImage2 = new Image();// 礼品图片
+    tempImage2.crossOrigin = ""
+    tempImage2.src = this.judgeNetwork(imgData);
+    tempImage2.onload = () => {
+      this.props.dispatch({
+        type: 'activity/setDetails',
+        payload: {
+          headImg: this.getBase64Image2(tempImage2)
+        }
+      });
+    }
+  }
+
+  createGiftImg = (imgData: string) => {
+    let tempImage2 = new Image();// 礼品图片
+    tempImage2.crossOrigin = ""
+    tempImage2.src = this.judgeNetwork(imgData);
+    tempImage2.onload = () => {
+      this.props.dispatch({
+        type: 'activity/setDetails',
+        payload: {
+          giftImg: this.getBase64Image2(tempImage2)
+        }
+      });
+    }
+  }
+
+  // 转换图片
+  getBase64Image2 = (img: any) => {
+    var canvas: any = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
+    var dataURL = canvas.toDataURL("image/" + ext);
+    return dataURL;
+  }
+
+  // 用来给域里面添加 ‘ \ ’
+  judgeNetwork = (Network: string) => {
+    if (Network.split('com', 2)[1].slice(0, 1) == '/') {
+      return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
+    } else {
+      return Network
+    }
+  }
+
   render() {
     const { info, is_gift, types, dataEchart } = this.state;
+    let infoData: any = info.group_gif_info;
+    let share: any = info.share
     let echartData:any = this.state.dataEchart
     const description = info.group_coupons_info.description.map((item,idx) => <p key={idx}>· {item}</p>)
     const button = this.state.type == '3' ? null : (
@@ -164,16 +267,32 @@ export default class GroupDetails extends Component {
         </EchartsSan>
       </div>
     ) : null
+
+    const bottom_share = (
+      <BottomShare
+        closeShare={this.closeShare}
+        showShare={this.state.showShare}
+        type={{
+          activity_id: infoData.activity_id,
+          id: this.props.location.query.id,
+          name: '拼团',
+          gift_id: infoData.gift_id,
+          ...share
+        }}
+        posterData={this.state.posterData}
+      >{null}
+      </BottomShare>)
+
     return (
       <div className={styles.detailsPage}>
         <WingBlank>
           {/* 活动名 */}
           <Flex justify='between' className={styles.headers}>
             <div className={styles.names}>
-              活动名称
+              {info.activity_name}
               <span>{types}</span>
             </div>
-            {/* <img src={require('./share.png')}/> */}
+            <img src={require('./share.png')} onClick={this.shareClick}/>
           </Flex>
           {/* 图片 */}
           <Flex className={styles.activity_img}>
@@ -182,6 +301,7 @@ export default class GroupDetails extends Component {
           {/* <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
             活动统计数据
+            
           </Flex>
           {echart} */}
           {/* 基本信息 */}
@@ -242,7 +362,8 @@ export default class GroupDetails extends Component {
           {/* <Button  style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button> */}
           {button}
         </WingBlank>
+        {bottom_share} 
       </div>
     )
   }
-}
+})

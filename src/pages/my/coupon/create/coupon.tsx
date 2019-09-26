@@ -5,6 +5,7 @@ import { CouponForm } from './model';
 import styles from './index.less';
 import upload from '@/services/oss';
 import Notice from '@/pages/activitys/components/notice';
+import router from 'umi/router';
 
 interface Props extends CouponForm {
 	dispatch: (arg0: any) => any;
@@ -23,7 +24,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			keys: '100'
 		};
 		componentDidMount() {
-			console.log(this.props)
 		}
 		handleNoticeChange = (notice: any[], keys: string) => {
 			this.setState({ keys });
@@ -35,8 +35,8 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			});
 			this.setState({ showNotice: false });
 		};
-		handleShowNotice = () => this.setState({ showNotice: true });
-
+    // handleShowNotice = () => this.setState({ showNotice: true });
+    handleShowNotice = () => router.push({ pathname: '/activitys/notice', query: { type: 3 } })
 		handleInput = (type: string) => (value: any) => {
 			// console.log(value)
 			// console.log(type)
@@ -73,7 +73,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 		};
 
 		uploadImage = (type: any) => (files: any[], operationType: string, index?: number): void => {
-			console.log(Boolean(this.props.temp_url2))
 			this.setState({ [type]: files });
 			if (type === 'files') {
 				this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { temp_url1: files } });
@@ -125,7 +124,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					extra="元"
 					value={String(this.props.pay_money || '')}
 					onChange={this.handleInput('pay_money')}
-					clear
 				>
 					购买价格
 				</InputItem>
@@ -146,7 +144,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						type="money"
 						value={String(this.props.return_money || '')}
 						onChange={this.handleInput('return_money')}
-						clear
 					>
 						市场价
 					</InputItem>
@@ -175,6 +172,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						使用须知
 					</List.Item>
 					<List.Item arrow="horizontal">封面图片</List.Item>
+					<div className={styles.prompt}>温馨提示：请上传横向的图片; 建议图片比例为16:9。</div>
 					<ImagePicker
 						files={this.props.temp_url1}
 						// files={this.state.files}
