@@ -266,7 +266,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						this.handleCloseModal();
 						Toast.success('暂停成功');
 					} else {
-						Toast.success('投放成功');
+						Toast.success('已提交审核');
 					}
 					setTimeout(() => {
 						this.props.onSuccess();
