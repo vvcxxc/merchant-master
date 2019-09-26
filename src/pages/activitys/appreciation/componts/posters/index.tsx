@@ -74,14 +74,6 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
   }
 
-  // 用来给域里面添加 ‘ \ ’
-  judgeNetwork = (Network: string) => {
-    if (Network.split('com', 2)[1].slice(0, 1) == '/') {
-      return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
-    } else {
-      return Network
-    }
-  }
 
   // 缓存成功请重试
   creatCanvas = (data: dataType) => {
@@ -121,14 +113,16 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       JYB_IMG.src = require("../../../../../assets/spell_money.png")
       JYB_giftImg.src = require("../../../../../assets/spell_border.png")
     }
-
-    bigImg.src = require("../../../../../assets/new_haibao.png")
+    
+    // giftImg.src = this.props.details.giftImg
+    // headImg.src = this.props.details.headImg
+    giftImg.src = localStorage.getItem('giftImg')
+    
+    headImg.src=localStorage.getItem('headImg')
+    bigImg.src = require('../../../../../assets/new_haibao.png')
     borderImg.src = require("../../../../../assets/kuang.png")
     shadowImg.src = require("../../../../../assets/shadow.png")
     outlineImg.src = require("../../../../../assets/outline.png")
-    giftImg.src = this.props.details.giftImg
-    headImg.src = this.props.details.headImg
-    
 
     QRCode.toDataURL(link)                                      // 网络链接转化为二维码
       .then((url: any) => {
@@ -277,6 +271,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       })
 
     }, 800);
+
   }
   
   shortCreatCanvas = (data: any) => {
@@ -314,18 +309,19 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     
     if (data.title != '拼团') {
       var meet = data.total_fee
-      JYB_IMG.src = require("../../../../../assets/add_money.png");
-      JYB_giftImg.src = require("../../../../../assets/add.border.png") ;
+      JYB_IMG.src = require('../../../../../assets/add_money.png');
+      JYB_giftImg.src = require('../../../../../assets/add.border.png') ;
     } else {
-      JYB_IMG.src = require("../../../../../assets/spell_money.png");
-      JYB_giftImg.src = require("../../../../../assets/spell_border.png");
+      JYB_IMG.src = require('../../../../../assets/spell_money.png');
+      JYB_giftImg.src = require('../../../../../assets/spell_border.png');
     }
 
+    // headImg.src = this.props.details.headImg
+    headImg.src =  localStorage.getItem('headImg')
     bigImg.src = require('../../../../../assets/short_poster.png');
     shadowImg.src = require('../../../../../assets/shadow.png');
     outlineImg.src = require('../../../../../assets/outline.png');
-    headImg.src = this.props.details.headImg
-    
+
     bigImg.onload = () => {
       contents.drawImage(bigImg, 0, 0, 1700, 1700, 0, 0, 1505, 1500);
       contents.font = '23px PingFang-SC-Regular Bold';
@@ -479,6 +475,56 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
   canvasImg = (e: any) => { // 用户点击图片保证 遮挡层不会消失
     e.stopPropagation();
+  }
+
+  // 创建图片
+  createHeadImg = (imgData: string) => {
+    let tempImage2 = new Image();// 礼品图片
+    tempImage2.crossOrigin = ""
+    tempImage2.src = this.judgeNetwork(imgData);
+    tempImage2.onload = () => {
+      // this.props.dispatch({
+      //   type: 'activity/setDetails',
+      //   payload: {
+      //     headImg: this.getBase64Image2(tempImage2)
+      //   }
+      // });
+    }
+  }
+  createGiftImg = (imgData: string) => {
+    let tempImage2 = new Image();// 礼品图片
+    tempImage2.crossOrigin = ""
+    tempImage2.src = this.judgeNetwork(imgData);
+    tempImage2.onload = () => {
+      // this.props.dispatch({
+      //   type: 'activity/setDetails',
+      //   payload: {
+      //     giftImg: this.getBase64Image2(tempImage2)
+      //   }
+      // });
+    }
+  }
+
+  // 转换图片
+  getBase64Image2 = (img: any) => {
+    var canvas: any = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
+    var dataURL = canvas.toDataURL("image/" + ext, 0.1);
+    return dataURL;
+  }
+
+  // 用来给域里面添加 ‘ \ ’
+  judgeNetwork = (Network: string) => {
+    // console.log(Network,'999')
+    if (Network.split('com', 2)[1].slice(0, 1) == '/') {
+      return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
+    } else {
+      return Network
+    }
   }
 
 

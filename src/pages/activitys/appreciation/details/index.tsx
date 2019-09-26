@@ -172,12 +172,13 @@ export default connect(({ activity }: any) => activity)(
       tempImage2.crossOrigin = ""
       tempImage2.src = this.judgeNetwork(imgData);
       tempImage2.onload = () => {
-        this.props.dispatch({
-          type: 'activity/setDetails',
-          payload: {
-            headImg: this.getBase64Image2(tempImage2)
-          }
-        });
+        localStorage.setItem('headImg', this.getBase64Image2(tempImage2)  )
+        // this.props.dispatch({
+        //   type: 'activity/setDetails',
+        //   payload: {
+        //     headImg: this.getBase64Image2(tempImage2)
+        //   }
+        // });
       }
     }
     createGiftImg = (imgData: string) => {
@@ -185,12 +186,13 @@ export default connect(({ activity }: any) => activity)(
       tempImage2.crossOrigin = ""
       tempImage2.src = this.judgeNetwork(imgData);
       tempImage2.onload = () => {
-        this.props.dispatch({
-          type: 'activity/setDetails',
-          payload: {
-            giftImg: this.getBase64Image2(tempImage2)
-          }
-        });
+        localStorage.setItem('giftImg', this.getBase64Image2(tempImage2))
+        // this.props.dispatch({
+        //   type: 'activity/setDetails',
+        //   payload: {
+        //     giftImg: this.getBase64Image2(tempImage2)
+        //   }
+        // });
       }
     }
 
