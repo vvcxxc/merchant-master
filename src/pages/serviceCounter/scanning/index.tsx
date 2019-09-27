@@ -99,6 +99,7 @@ export default class ServiceCounter extends Component{
   /**点击核销 */
   cancelAfterVerific = (e: any) => {
     e.stopPropagation();
+
     wx.scanQRCode({
       needResult: 1,
       desc: 'scanQRCode desc',
@@ -182,6 +183,10 @@ export default class ServiceCounter extends Component{
                     <Text className={styles.myButton} onClick={this.allowverification.bind(this)}>
                       核销</Text>
                   </div>
+                  <div className={styles.descirbeButton} onClick={this.controlAllow}>
+                    <img src={require('../../../assets/error.png')} alt="" />
+                  </div>
+
                 </div>
               </div>
             }
