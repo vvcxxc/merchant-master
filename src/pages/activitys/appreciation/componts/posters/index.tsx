@@ -152,7 +152,7 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       }
     }
     headImg.onload = () => {
-      contents.drawImage(headImg, 290, 415)
+      contents.drawImage(headImg, 290, 396)
       // contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
       contents.save();
     }
@@ -191,16 +191,16 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
         contents.font = '20px PingFang SC Bold';
         contents.fillStyle = "#fff"
-        contents.fillText('￥', 170, 780, 500)
+        contents.fillText('￥', 170, 770, 500)
         contents.save()
 
         contents.font = '35px PingFang SC Bold';
         let pices = String(max_money)
-        pices.length < 4 ? contents.fillText(pices, 220 - (pices.length * 10), 780, 500) : contents.fillText(pices, 190, 780, 500);
+        pices.length < 4 ? contents.fillText(pices, 220 - (pices.length * 10), 770, 500) : contents.fillText(pices, 190, 780, 500);
         contents.save()
         contents.font = '20px PingFang SC';
         contents.fillStyle = "#ededed"
-        contents.fillText('满' + data.total_fee + '可用', 180, 810, 500)
+        contents.fillText('满' + data.total_fee + '可用', 180, 805, 500)
         contents.save()
         
       }
@@ -346,7 +346,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
     headImg.onload = () => {
       // contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145);
-      contents.drawImage(headImg, 290, 425)
+      // contents.drawImage(headImg, 290, 425)
+      contents.drawImage(headImg, 290, 405)
       contents.save();
     }
    
