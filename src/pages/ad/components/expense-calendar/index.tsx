@@ -72,7 +72,7 @@ export default class ExpenseCalendar extends Component<Props> {
 		return (
 			<WingBlank>
 				<Flex className={styles.totalExpense} justify="end">
-					总消耗：{this.state.money_total}
+					总消耗：{Number(this.state.money_total).toFixed(2)}
 			</Flex> 
 				<Flex className={styles.tableHead}>
 					<Flex.Item>时间</Flex.Item>
