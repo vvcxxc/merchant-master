@@ -60,7 +60,22 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
   }
 
   componentDidMount() {
+    setTimeout(() => {
+      if (this.props.data.gift_id == 0) {
+        this.shortCreatCanvas(this.props.data);
+      } else {
+        this.creatCanvas(this.props.data);
+      }
+    }, 400);
+    
     console.log('海报触发');
+  }
+
+  componentWillMount() {
+    console.log('执行了');
+
+   
+    
   }
   
 
@@ -208,9 +223,12 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     contents.font = '32px PingFang-SC-Medium Bold';
     contents.fillStyle = "#313131"
     //文字超过部分定义省略号
-    contents.measureText(shopName).width < 200 ? contents.fillText(shopName, 345 - shopName.length * 11, 605, 400) : contents.fillText(shopName.slice(0, 7) + '.....', 260, 605, 400)
-    contents.fillText('正在发起' + title + '活动，速来！', 170, 650, 400)
-    contents.save()
+    // if (shopName) {
+      contents.measureText(shopName).width < 200 ? contents.fillText(shopName, 345 - shopName.length * 11, 605, 400) : contents.fillText(shopName.slice(0, 7) + '.....', 260, 605, 400)
+      contents.fillText('正在发起' + title + '活动，速来！', 170, 650, 400)
+      contents.save()
+    // }
+   
     contents.font = '25px PingFang-SC-Bold';
 
     outlineImg.onload = () => {
