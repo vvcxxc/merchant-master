@@ -152,7 +152,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
       }
     }
     headImg.onload = () => {
-      contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
+      contents.drawImage(headImg, 290, 415)
+      // contents.drawImage(headImg, 0, 0, 545, 345, 290, 410, 145, 145)
       contents.save();
     }
 
@@ -162,7 +163,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     giftImg.onload = () => {
-      contents.drawImage(giftImg, 0, 0, 600, 550, 173, 990, 345, 170)
+      contents.drawImage(giftImg, 200, 1010)
+      // contents.drawImage(giftImg, 0, 0, 600, 550, 173, 990, 345, 170)
       contents.save()
     }
 
@@ -343,7 +345,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
     }
 
     headImg.onload = () => {
-      contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145);
+      // contents.drawImage(headImg, 0, 0, 545, 345, 295, 420, 145, 145);
+      contents.drawImage(headImg, 290, 425)
       contents.save();
     }
    
@@ -463,7 +466,9 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime = (dataLength: number) => {
-    if (dataLength < 1200000) {
+    console.log(dataLength,'长度');
+    
+    if (dataLength < 1150000) {
       Toast.loading('正在生成中，请稍后', this.state.loadingTime-0.5);
       setTimeout(() => {
         this.setState({ loadingTime: this.state.loadingTime + 0.5 }, () => {
@@ -487,6 +492,8 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
   // 用来优化图片显示时间   图片长度       标准长度
   controlImgTime2 = (dataLength: number) => {
+    console.log('33');
+    console.log(dataLength, '短的');
     if (dataLength < 1500000) {
       Toast.loading('正在生成中，请稍后', this.state.loadingTime-0.5);
       setTimeout(() => {
