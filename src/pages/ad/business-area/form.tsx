@@ -301,7 +301,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 								<WhiteSpace size="lg" />
 								{
 									this.state.is_pause == 1 ? (
-										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)}>
+										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)} style={this.state.paused_status == 5?{color:'blue',textDecoration:'underline'}:{}}>
 											广告状态：已暂停({
 												this.state.paused_status == 1 ? '手动暂停' :
 													this.state.paused_status == 2 ? '投放时长超出范围' :
