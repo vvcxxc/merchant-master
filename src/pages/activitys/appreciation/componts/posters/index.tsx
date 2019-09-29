@@ -267,8 +267,10 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
     contents.font = '28px PingFang-SC-Regular';
     contents.fillStyle = "#313131"
-    contents.fillText('长按识别小程序码关注“小熊敬礼”', 145, 1480, 430)
-    contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
+    // contents.fillText('长按识别小程序码关注“小熊敬礼”', 145, 1480, 430)
+    // contents.fillText('一起来领取免费礼品吧！', 195, 1510, 390)
+
+    data.title != '拼团' ? contents.fillText('长按识别二维码，立即发起增值！', 180, 1480, 390) : contents.fillText('长按识别二维码，立即发起拼图！', 180, 1480, 390);
     contents.save()
 
     Toast.loading('正在生成中，请稍后', this.state.loadingTime);
@@ -450,8 +452,10 @@ export default connect(({ activity }: any) => activity)(class Posters extends Co
 
     contents.font = '28px PingFang-SC-Regular';
     contents.fillStyle = "#313131";
-    contents.fillText('长按识别小程序码关注“小熊敬礼”', 145, 1245, 430);
-    contents.fillText('一起来领取免费礼品吧！', 195, 1280, 390);
+    // contents.fillText('长按识别小程序码关注“小熊敬礼”', 145, 1245, 430);
+    // contents.fillText('一起来领取免费礼品吧！', 195, 1280, 390);
+    data.title != '拼团' ? contents.fillText('长按识别二维码，立即发起增值！', 180, 1260, 390) : contents.fillText('长按识别二维码，立即发起拼图！', 180, 1260, 390);
+
     contents.save();
 
     Toast.loading('正在生成中，请稍后', this.state.loadingTime);

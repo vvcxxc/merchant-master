@@ -4,7 +4,10 @@ const model: Model = {
   namespace: 'businessArea',
   state: {
     coupon: {},
-    hasCoupon: false
+    hasCoupon: false,
+    startTime: undefined,
+    endTime: undefined,
+    price: '',
   },
   reducers: {
     setCoupon(state, { payload }) {
@@ -18,6 +21,25 @@ const model: Model = {
       return {
         hasCoupon: false,
         coupon: {}
+      }
+    },
+
+    resetAllData(state) {
+      return {
+        ...state,
+        coupon: {
+          label: '',
+          value: 0
+        },
+        startTime: undefined,
+        endTime: undefined,
+        price: '',
+      }
+    },
+    setFormData(state, { payload }) {
+      return {
+        ...state,
+        ...payload
       }
     }
   }

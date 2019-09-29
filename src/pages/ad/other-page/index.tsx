@@ -20,7 +20,6 @@ class BusinessArea extends Component<any> {
 		// romotionType: 1 // 推广ID
 	};
 	componentDidMount() {
-		console.log(this.props)
 		this.getDetail();
 	}
 	componentWillUnmount() {
@@ -55,12 +54,27 @@ class BusinessArea extends Component<any> {
 					data: res.data[0],
 					adId: res.data[0].id
 				});
+				await this.props.dispatch({
+					type: 'ad/setStatus',
+					payload: {
+						adStatus: {
+							isPause: res.data[0].is_pause,
+							checkStatus: res.data[0].check_status
+						}
+					}
+				})
 			}
 			else {
 				// 为了防止美数据的情况下还把原本的数据带过去子组件
 				this.setState({
 					data : {},
 					adId: null
+				})
+				await this.props.dispatch({
+					type: 'ad/setStatus',
+					payload: {
+						adStatus: {}
+					}
 				})
 			}
 			// this.setLog();

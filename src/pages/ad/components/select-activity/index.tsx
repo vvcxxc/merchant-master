@@ -29,7 +29,7 @@ export default class SelectActivity extends Component<Props> {
 
 	getActivityList = async () => {
 		Toast.loading('');
-		const res = await request({ url: 'v3/return_coupons' });
+    const res = await request({ url: 'v3/activitys' });
 		Toast.hide();
 		if (res.code === 200 && res.data.length) {
 			this.setState({
