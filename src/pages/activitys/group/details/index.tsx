@@ -100,9 +100,17 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
         }
       })
 
-      this.createHeadImg(data.supplier.shop_door_header_img)
+      // this.createHeadImg(data.supplier.shop_door_header_img)
+      // if (data.group_gif_info.gift_id != 0) {
+      //   this.createGiftImg(data.group_gif_info.gif_pic)
+      // }
+
+      // this.createHeadImg(data.supplier.shop_door_header_img + '?x-oss-process=image/format,jpg/resize,m_pad,h_160,w_160/quality,q_90'
+      // )
+      this.createHeadImg(data.supplier.shop_door_header_img + '?x-oss-process=image/format,jpg/resize,m_pad,h_180,w_180/quality,q_90'
+      )
       if (data.group_gif_info.gift_id != 0) {
-        this.createGiftImg(data.group_gif_info.gif_pic)
+        this.createGiftImg(data.group_gif_info.gif_pic + '?x-oss-process=image/format,jpg/resize,m_pad,w_300,h_130/quality,q_90')
       }
 
       this.setState({
