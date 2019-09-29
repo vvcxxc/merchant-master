@@ -73,8 +73,8 @@ export default connect(({ activity }: any) => activity)(
         }
       });
   }
-  
-  
+
+
   componentDidMount() {
     let { id, type } = this.props.location.query;
     if (type == '1') {
@@ -316,13 +316,13 @@ export default connect(({ activity }: any) => activity)(
           </Flex>
 
           {/* 基本信息 */}
-          <Flex className={styles.title}>
+          {/* <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
             活动统计数据
           </Flex>
           <div>
             {echart}
-          </div>
+          </div> */}
 
           <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
