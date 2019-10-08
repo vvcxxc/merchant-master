@@ -70,7 +70,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 					already_use_budget: nextProps.editForm.already_use_budget,
 					startTime: nextProps.editForm.begin_time,
 					endTime: nextProps.editForm.end_time,
-					edit: nextProps.editForm.is_pause === 0,
+					edit: (nextProps.editForm.is_pause === 0 && nextProps.editForm.check_status === 0) || (nextProps.editForm.is_pause === 0 && nextProps.editForm.check_status === 1),
 					// edit: nextProps.editForm.ad_status == 1 || nextProps.editForm.ad_status == 2,
 					isOld: true,
 					check_desc: nextProps.editForm.check_desc,
@@ -301,7 +301,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 								<WhiteSpace size="lg" />
 								{
 									this.state.is_pause == 1 ? (
-										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)}>
+										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)} style={this.state.paused_status == 5?{color:'blue',textDecoration:'underline'}:{}}>
 											广告状态：已暂停({
 												this.state.paused_status == 1 ? '手动暂停' :
 													this.state.paused_status == 2 ? '投放时长超出范围' :
@@ -345,8 +345,9 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 										className={styles.ad_submit}
 										onClick={this.handleSubmit}>
 										{
-											this.state.is_pause == 0 ? '暂停投放'
-												: this.state.is_pause == 1 ? '继续投放' : '开始投放'
+											this.state.is_pause == 0 && this.state.check_status == 2 ? '继续投放'
+												: this.state.is_pause == 0 && this.state.check_status != 2 ? '暂停投放'
+													: this.state.is_pause == 1 ? '继续投放' : '开始投放'
 										}
 									</div>
 								</Flex>

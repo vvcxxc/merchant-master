@@ -111,7 +111,8 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						},
 						price: nextProps.editForm.daily_budget,
 						already_use_budget: nextProps.editForm.already_use_budget,
-						edit: nextProps.editForm.is_pause === 0,
+						// edit: nextProps.editForm.is_pause === 0 ,
+						edit: (nextProps.editForm.is_pause === 0 && nextProps.editForm.check_status === 0) || (nextProps.editForm.is_pause === 0 && nextProps.editForm.check_status === 1),
 						// edit: nextProps.editForm.ad_status == 1 || nextProps.editForm.ad_status == 2,
 						formType: nextProps.editForm.romotion_type - 1,
 						maked: true,
@@ -126,7 +127,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						check_desc: nextProps.editForm.check_desc,
 						ad_status: nextProps.editForm.ad_status,
 						paused_status: nextProps.editForm.paused_status,
-						is_pause: nextProps.editForm.is_pause ,
+						is_pause: nextProps.editForm.is_pause,
 						check_status: nextProps.editForm.check_status
 					}, () => {
 					});
@@ -436,7 +437,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 							(this.state.is_pause == 0 && this.state.check_status == 0) ? ' 审核中'
 								: (this.state.is_pause == 0 && this.state.check_status == 1) ? ' 已投放'
 									: (this.state.is_pause == 1) ? ' 已暂停'
-											: (this.state.is_pause == 0 && this.state.check_status == 2) ? ' 审核未通过' : ''
+										: (this.state.is_pause == 0 && this.state.check_status == 2) ? ' 审核未通过' : ''
 						}
 					</div>
 					<WingBlank className={styles.maxheight}>
@@ -492,7 +493,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 								<WhiteSpace size="lg" />
 								{
 									this.state.is_pause == 1 ? (
-										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)}>
+										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)} style={this.state.paused_status == 5?{color:'blue',textDecoration:'underline'}:{}}>
 											广告状态：已暂停({
 												this.state.paused_status == 1 ? '手动暂停' :
 													this.state.paused_status == 2 ? '投放时长超出范围' :
@@ -541,8 +542,9 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 									className={styles.ad_submit}
 									onClick={this.handleSubmit}>
 									{
-										this.state.is_pause == 0 ? '暂停投放'
-											: this.state.is_pause == 1 ? '继续投放' : '开始投放'
+										this.state.is_pause == 0 && this.state.check_status == 2 ? '继续投放'
+											: this.state.is_pause == 0 && this.state.check_status != 2 ? '暂停投放'
+												: this.state.is_pause == 1 ? '继续投放' : '开始投放'
 									}
 								</div>
 
