@@ -84,6 +84,7 @@ export default connect(({ register }: any) => register)(
     };
     /**设置手机号 */
     handlePhone = (e: any) => {
+      console.log(123)
       this.setState({ phone: e.target.value });
       this.props.dispatch({
         type: 'register/registered',
@@ -161,6 +162,8 @@ export default connect(({ register }: any) => register)(
                 clearInterval();
               }
             }, 1000);
+          }else{
+            Toast.fail(res.data)
           }
         });
       } else {
