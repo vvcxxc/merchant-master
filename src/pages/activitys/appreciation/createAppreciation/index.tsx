@@ -126,15 +126,17 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handlePayMoney = (e: any) => {
-      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
-        this.props.dispatch({
-          type: 'activity/setAppreciation',
-          payload: {
-            pay_money: e,
-            gift_id: '',
-            gift_pic: ''
-          }
-        });
+      if (e.indexOf('.') != 0) {
+        if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+          this.props.dispatch({
+            type: 'activity/setAppreciation',
+            payload: {
+              pay_money: e,
+              gift_id: '',
+              gift_pic: ''
+            }
+          });
+        }
       }
     }
     handleTotalNum = (e: any) => {
@@ -148,13 +150,15 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleTotalFee = (e: any) => {
-      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
-        this.props.dispatch({
-          type: 'activity/setAppreciation',
-          payload: {
-            total_fee: e
-          }
-        });
+      if (e.indexOf('.') != 0) {
+        if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+          this.props.dispatch({
+            type: 'activity/setAppreciation',
+            payload: {
+              total_fee: e
+            }
+          });
+        }
       }
     }
     startChange = (value: any) => {
@@ -237,6 +241,12 @@ export default connect(({ activity }: any) => activity)(
       // 自定义名称
       if (this.state.value == 1 && !activityName) {
         Toast.fail('请输入自定义名称', 2);
+        return;
+      }
+
+      // 有效期验证
+      if (validity < 1) {
+        Toast.fail('有效期至少为一天', 2);
         return;
       }
 
@@ -326,7 +336,7 @@ export default connect(({ activity }: any) => activity)(
             this.props.dispatch({
               type: 'activity/Clean',
             })
-              router.push('/activitys/appreciation');
+            router.push('/activitys/appreciation');
             Toast.hide();
           })
         }

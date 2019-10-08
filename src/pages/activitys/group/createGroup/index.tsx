@@ -76,25 +76,29 @@ export default connect(({ activity }: any) => activity)(
       });
     }
     handleOldPrice = (e: any) => {
-      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
-        this.props.dispatch({
-          type: 'activity/setGroup',
-          payload: {
-            old_price: e
-          }
-        });
+      if (e.indexOf('.') != 0) {
+        if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+          this.props.dispatch({
+            type: 'activity/setGroup',
+            payload: {
+              old_price: e
+            }
+          });
+        }
       }
     }
     handleNewPrice = (e: any) => {
-      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
-        this.props.dispatch({
-          type: 'activity/setGroup',
-          payload: {
-            participation_money: e,
-            gift_id: '',
-            gift_pic: ''
-          }
-        });
+      if (e.indexOf('.') != 0) {
+        if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+          this.props.dispatch({
+            type: 'activity/setGroup',
+            payload: {
+              participation_money: e,
+              gift_id: '',
+              gift_pic: ''
+            }
+          });
+        }
       }
     }
     handleNum = (e: any) => {
@@ -238,6 +242,12 @@ export default connect(({ activity }: any) => activity)(
     confirm = async () => {
       let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name } = this.props.Group;
 
+      // 有效期验证
+      if (validity < 1) {
+        Toast.fail('有效期至少为一天', 2);
+        return;
+      }
+
       // 日期验证
       let startDate = new Date(start_date).getTime();
       let endDate = new Date(end_date).getTime();
@@ -253,7 +263,7 @@ export default connect(({ activity }: any) => activity)(
       let image_url = [];
       image_url.push(image_url1);
       image_url.push(image_url2);
-      if (activity_name && activity_begin_time && activity_end_tine && validity && participation_money && image_url1&&image_url2 && image && group_number && group_sum && old_price && mail_mode) {
+      if (activity_name && activity_begin_time && activity_end_tine && validity && participation_money && image_url1 && image_url2 && image && group_number && group_sum && old_price && mail_mode) {
         Toast.loading('');
         let res = await request({
           url: 'api/merchant/youhui/addYouhuiGroup',
