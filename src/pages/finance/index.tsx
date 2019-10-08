@@ -164,7 +164,7 @@ export default connect(({ finance }: any) => finance)(
         );
 
       return (
-        <View style={{ position: 'fixed', height: '100vh', width: '100vw', overflow: 'scroll' }}>
+        <View style={{ position: 'fixed', height: '100vh', width: '100vw', overflow: 'scroll',top:0,left:0 }}>
           <FiltrateLayout after={layoutAfter} undetermined={undetermined} onChange={this.handleChange}>
             {financeList}
             <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.props.hasMore.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
