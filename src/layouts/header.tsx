@@ -31,7 +31,7 @@ export default connect(({ ad , businessArea}: any) => ({ad,businessArea}))(
 	}
 		};
 		componentWillMount() {
-			if (window.location.href.includes('serviceCounter')) {
+			if (window.location.href.includes('serviceCounter') ||window.location.href.includes('register?phone=')) {
 				this.setState({
 					showNav:false
 				})
