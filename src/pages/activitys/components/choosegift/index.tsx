@@ -78,7 +78,8 @@ export default class ChooseGift extends Component<Props> {
 
   render (){
     const { value, display } = this.state;
-    const list = this.state.list.map((item: any,idx: number)=>{
+    const list = this.state.list.map((item: any, idx: number) => {
+      if (!this.state.list || this.state.list[0] === '金额不能为空') return
       return (
         <Flex className={styles.giftBox} key={idx}>
           <div className={styles.image}><img src={item.cover_image}/></div>
