@@ -153,8 +153,12 @@ export default class ChangeBank extends Component {
               clearInterval();
             }
           }, 1000);
+        } else {
+          Toast.fail('当日获取验证码次数已达上限，请明日重试', 1);
         }
-      });
+      }).catch(res => {
+        Toast.fail('当日获取验证码次数已达上限，请明日重试',1);
+      })
   }
 
   /**更新 */

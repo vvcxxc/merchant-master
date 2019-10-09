@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex } from 'antd-mobile';
+import router from 'umi/router';
 
 export interface Item {
 	youhui_log_id: number;
@@ -12,9 +13,15 @@ export interface Item {
 }
 
 export default class VerificationItem extends Component<Item> {
+
+	my_click = ()=>{
+		router.push({ pathname: 'verification/success', query: { youhui_log_id: this.props.youhui_log_id } })
+	}
 	render() {
+		// console.log(this.props,'8989898');
+		
 		return (
-			<Flex className={styles.item}>
+			<Flex className={styles.item} onClick={this.my_click}>
 				<img src={this.props.image} className="img" alt="" />
 				<Flex.Item>
 					<Flex className="title">
