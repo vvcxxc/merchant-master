@@ -242,6 +242,12 @@ export default connect(({ activity }: any) => activity)(
     confirm = async () => {
       let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name } = this.props.Group;
 
+      // 价格验证
+      if (participation_money > old_price) {
+        Toast.fail('拼团价格必须低于商品原价，请重新设置', 2);
+        return;
+      }
+
       // 有效期验证
       if (validity < 1) {
         Toast.fail('有效期至少为一天', 2);
