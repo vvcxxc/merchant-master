@@ -141,9 +141,9 @@ export default connect(({ finance }: any) => finance)(
                 case 3: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 1 }); break;  //线下交易（线下收银）
                 case 13: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 2 }); break; //费率返点（商家返点）
                 case 6: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 3 }); break;  //广告收益
-                case 8: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 4 }); break;   //优惠券收益（优惠券分润）
-                case 15: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 5 }); break;   //线上卖券，存疑(平台收益)
-                case 9: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 6 }); break; //广告购买
+                case 8: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 4 }); break;  //优惠券收益（优惠券分润）
+                case 15: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 5 }); break; //线上卖券，存疑(平台收益)
+                case 9: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 6 }); break;  //广告购买
                 default: return
               }
             }

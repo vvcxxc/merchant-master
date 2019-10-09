@@ -39,7 +39,8 @@ export default connect(({ activity }: any) => activity)(
         activity_name : '',
         appreciation_number: '',
         participation_number: '',
-        activity_time: ''
+        activity_time: '',
+        pay_money:''
       },
       appreciation_coupons_info: {
         market_price: '',
@@ -332,9 +333,17 @@ export default connect(({ activity }: any) => activity)(
             <div className={styles.item_name}>活动类型：</div>
             <div className={styles.item_detail}>{info.appreciation_info.activity_type}</div>
           </Flex>
-          <Flex className={styles.item} align='start'>
+          {/* <Flex className={styles.item} align='start'>
             <div className={styles.item_name}>封顶值：</div>
             <div className={styles.item_detail}>{info.appreciation_info.max_money}元</div>
+          </Flex> */}
+          <Flex className={styles.item} align='start'>
+            <div className={styles.item_name}>增值区间：</div>
+            <div className={styles.item_detail}> </div>
+          </Flex>
+          <Flex className={styles.item} align='start'>
+            <div className={styles.item_name}>购买价格：</div>
+            <div className={styles.item_detail}>{info.appreciation_info.pay_money}元</div>
           </Flex>
           <Flex className={styles.item} align='start'>
             <div className={styles.item_name}>增值人数：</div>
