@@ -239,11 +239,11 @@ export default connect(({ activity }: any) => activity)(
       const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description, activity_coupons_type, image, image_url1, image_url2, } = this.props.Appreciation
 
       // 价格验证
-      if (start_price>end_price) {
+      if (Number(start_price) > Number(end_price)) {
         Toast.fail('增值区间设置规则有误，请重新设置', 2);
         return;
       }
-      if (pay_money>end_price) {
+      if (Number(pay_money) > Number(end_price)) {
         Toast.fail('购买价格不可高于增值区间峰值，请重新设置', 2);
         return;
       }
@@ -655,9 +655,9 @@ export default connect(({ activity }: any) => activity)(
                 <InputItem type={'money'} className={styles.textLong_door} onChange={this.handleTotalFee} value={total_fee} extra='元可用' >
                   使用门槛 {/* <span className={styles.left_text_door}>满</span> */}
                 </InputItem>
-                <InputItem type={'money'} className={styles.textLong} onChange={this.handleValidity} value={validity} extra='天内可用' >
+                <InputItem type={'money'} className={styles.textLong} onChange={this.handleValidity} value={validity} extra='天可用' >
                   有效期
-                  <span className={styles.left_text}>发券日起</span>
+                  <span className={styles.left_text}>购券日起</span>
                 </InputItem>
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num} extra='张' >
                   发放数量

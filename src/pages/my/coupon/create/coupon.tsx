@@ -35,8 +35,8 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			});
 			this.setState({ showNotice: false });
 		};
-    // handleShowNotice = () => this.setState({ showNotice: true });
-    handleShowNotice = () => router.push({ pathname: '/activitys/notice', query: { type: 3 } })
+		// handleShowNotice = () => this.setState({ showNotice: true });
+		handleShowNotice = () => router.push({ pathname: '/activitys/notice', query: { type: 3 } })
 		handleInput = (type: string) => (value: any) => {
 			// console.log(value)
 			// console.log(type)
@@ -82,7 +82,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			if (operationType === 'add') {
 				Toast.loading('上传图片中');
 				upload(files[files.length - 1].url).then(res => {
-          this.setState({ [type]: files });
+					this.setState({ [type]: files });
 					Toast.hide();
 					if (res.status === 'ok') {
 						if (type === 'files') {
@@ -96,7 +96,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					}
 				});
 			} else if (operationType === 'remove') {
-        this.setState({ [type]: files });
+				this.setState({ [type]: files });
 				if (type === 'files') {
 					this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { image: '' } });
 				} else {
@@ -128,6 +128,18 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					购买价格
 				</InputItem>
 			);
+			const DateInput = (
+				<Flex>
+					购券日起
+					<InputItem
+						className="numberInput"
+						extra="天可用"
+						type="money"
+						value={String(this.props.validity || '')}
+						onChange={this.handleInput2('validity')}
+					/>
+				</Flex>
+			);
 			return (
 				<div>
 					<InputItem
@@ -156,14 +168,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						发放数量
 					</InputItem>
 					{priceInput}
-					<InputItem
-						extra="天可用"
-						type="money"
-						value={String(this.props.validity || '')}
-						onChange={this.handleInput2('validity')}
-					>
-						优惠券有效期
-					</InputItem>
+					<List.Item extra={DateInput}>优惠券有效期</List.Item>
 					<List.Item
 						extra={<span>{this.props.description[0] ? this.props.description[0] + '...' : undefined}</span>}
 						arrow="horizontal"
