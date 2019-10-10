@@ -19,6 +19,8 @@ export default class payReturnDetail extends Component<any> {
 		const res = await request({ url: 'v3/return_coupons/' + this.props.location.query.id });
 		Toast.hide();
 		if (res.code === 200) {
+			console.log(res,'res');
+			
 			this.setState({ data: res.data, hasData: true });
 		}
 	};
