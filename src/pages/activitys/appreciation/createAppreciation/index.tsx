@@ -239,11 +239,11 @@ export default connect(({ activity }: any) => activity)(
       const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description, activity_coupons_type, image, image_url1, image_url2, } = this.props.Appreciation
 
       // 价格验证
-      if (start_price>end_price) {
+      if (Number(start_price) > Number(end_price)) {
         Toast.fail('增值区间设置规则有误，请重新设置', 2);
         return;
       }
-      if (pay_money>end_price) {
+      if (Number(pay_money) > Number(end_price)) {
         Toast.fail('购买价格不可高于增值区间峰值，请重新设置', 2);
         return;
       }
