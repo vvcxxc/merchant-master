@@ -183,7 +183,7 @@ export default connect(({ activity }: any) => activity)(
         <div>
           <div className={styles.lists}>
             {
-              !this.state.list || this.state.list[0] === '金额不能为空' ? noGift:null
+              !this.state.list || this.state.list[0] ? null:noGift
           }
             <WingBlank>
               {list}
