@@ -97,7 +97,7 @@ export default class FiltrateLayout extends Component<Props> {
 	hotHide = () => this.setState({ hotShow: false });
 	timeHide = () => this.setState({ timeShow: false });
 	timeChange = (value: string|undefined): any => {
-		// this.setState({ title2: value == undefined ? "月份" : value })
+		// this.setState({ title2: value == undefined ? "月份" : value })// 启林注释，解决月份消失的问题
 		this.setState({ timeShow: false, query: { ...this.state.query, time: value } }, () => {
 			this.handleQueryChange();
 			// this.handleQueryChange3();
