@@ -150,7 +150,8 @@ export default connect(({ activity }: any) => activity)(
 
   render (){
     const { value } = this.state;
-    const list = this.state.list.map((item: any,idx: number)=>{
+    const list = this.state.list.map((item: any, idx: number) => {
+      if (!this.state.list || this.state.list[0]=== '金额不能为空') return
       return (
         <Flex className={styles.giftBox} key={idx}>
           <div className={styles.image}><img src={item.cover_image}/></div>
@@ -165,10 +166,25 @@ export default connect(({ activity }: any) => activity)(
         </Flex>
       )
     })
+
+    const noGift = (
+      <div className={styles.no_giftBox} >
+        <div className={styles.gift_img}>
+          <img src={require('../../../assets/gift_icon.png')} />
+        </div>
+        <div className={styles.centerBox}>
+          <div className={styles.center}>很遗憾</div>
+          <div className={styles.center}>没有与您活动金额匹配的礼品哦</div>
+        </div>
+      </div>
+    )
     return (
       <div className={styles.page}>
         <div>
           <div className={styles.lists}>
+            {
+              !this.state.list || this.state.list[0] ? null:noGift
+          }
             <WingBlank>
               {list}
               <div style={{width: '100%',height: '90px', background: '#fff', marginTop: -2}}>{''}</div>
