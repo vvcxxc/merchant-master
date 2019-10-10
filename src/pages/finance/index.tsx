@@ -5,7 +5,7 @@
 import React, { Component } from 'react';
 import FiltrateLayout from '@/components/layout';
 import NoData from '@/components/no-data';
-import { Flex } from 'antd-mobile';
+import { Flex, View } from 'antd-mobile';
 import styles from './index.less';
 import { FinanceItem } from './model';
 import { connect } from 'dva';
@@ -64,8 +64,8 @@ export default connect(({ finance }: any) => finance)(
             page: this.state.page,
             finance_type: this.state.finance_type,
             date: query.time ? moment(query.time).unix() : undefined,
-            moneyscope_micro: this.state.min==""?undefined:this.state.min,
-            moneyscope_maximum: this.state.max==""?undefined:this.state.max
+            moneyscope_micro: this.state.min == "" ? undefined : this.state.min,
+            moneyscope_maximum: this.state.max == "" ? undefined : this.state.max
           }
         });
 
@@ -98,6 +98,11 @@ export default connect(({ finance }: any) => finance)(
     pushPage = (pathname: string, query: object) => {
       router.push({ pathname, query })
     };
+
+    handleChangeBlur = (e) => {
+      console.log('失焦')
+      window.scrollTo(0, 0)
+    }
     render() {
 
       /**单选条件 */
@@ -116,28 +121,29 @@ export default connect(({ finance }: any) => finance)(
         context: (
           <Flex className={styles.layoutAfter}>
             <Flex className="input-wrap">
-              ￥<input placeholder="最低金额" onChange={this.handleChangePrice('min')} value={this.state.min} />
+              ￥<input placeholder="最低金额" onChange={this.handleChangePrice('min')} onBlur={this.handleChangeBlur.bind(this)} value={this.state.min} />
             </Flex>
             <div className="line" />
             <Flex className="input-wrap">
-              ￥<input placeholder="最高金额" onChange={this.handleChangePrice('max')} value={this.state.max} />
+              ￥<input placeholder="最高金额" onChange={this.handleChangePrice('max')} onBlur={this.handleChangeBlur.bind(this)} value={this.state.max} />
             </Flex>
           </Flex>
         )
       };
       /**页面数据列表 */
       const financeList = this.props.data.length ? (
+
         this.props.data.map(_ => (
           <Flex key={_.id} className={styles.financeItem} onClick={
             () => {
               switch (_.type) {
                 //账单类型1=线下收银详情 2=费率返点详情 3=广告收益 4=优惠券收益 5=线上卖券 6=广告支出
                 case 3: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 1 }); break;  //线下交易（线下收银）
-                case 13: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 2 });break; //费率返点（商家返点）
+                case 13: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 2 }); break; //费率返点（商家返点）
                 case 6: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 3 }); break;  //广告收益
-                case 8: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 4 }); break;   //优惠券收益（优惠券分润）
-                case 15: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 5 });break;   //线上卖券，存疑(平台收益)
-                case 9: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 6 }); break; //广告购买
+                case 8: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 4 }); break;  //优惠券收益（优惠券分润）
+                case 15: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 5 }); break; //线上卖券，存疑(平台收益)
+                case 9: this.pushPage('/finance/financeDetail/list', { _id: _.id, _type: 6 }); break;  //广告购买
                 default: return
               }
             }
@@ -158,10 +164,12 @@ export default connect(({ finance }: any) => finance)(
         );
 
       return (
-        <FiltrateLayout after={layoutAfter} undetermined={undetermined} onChange={this.handleChange}>
-          {financeList}
-          <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.props.hasMore.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
-        </FiltrateLayout>
+        <View style={{ position: 'fixed', height: '100vh', width: '100vw', overflow: 'scroll',top:0,left:0 }}>
+          <FiltrateLayout after={layoutAfter} undetermined={undetermined} onChange={this.handleChange}>
+            {financeList}
+            <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.props.hasMore.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
+          </FiltrateLayout>
+        </View>
       );
     }
   }

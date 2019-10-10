@@ -35,6 +35,7 @@ export default connect(({ activity }: any) => activity)(
       prompt: false
     };
     componentDidMount() {
+      console.log(this.props.Appreciation)
       if (this.props.Appreciation.gift_id) {
         this.setState({ is_gift: true })
       }
@@ -58,16 +59,16 @@ export default connect(({ activity }: any) => activity)(
       // }
     }
 
-
-
     /**改变值 */
     activityNameChange = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setAppreciation',
-        payload: {
-          activityName: e
-        }
-      });
+      if (e.length <= 30) {
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            activityName: e
+          }
+        });
+      }
     }
     handleStartPri = (e: any) => {
       if (/^[0-9]+\.+[0-9]\d{0,1}$/.test(e.target.value) || /^[0-9]+\.?$/.test(e.target.value) || e.target.value == "") {
@@ -106,7 +107,7 @@ export default connect(({ activity }: any) => activity)(
       });
     }
     handlePeopleNum = (e: any) => {
-      if (e.indexOf(".") == -1 && e.length <= 2) {
+      if (e.indexOf(".") == -1 && e.length <= 2 && e != 0) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
@@ -116,7 +117,7 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleValidity = (e: any) => {
-      if (e.indexOf(".") == -1 && e.length <= 3) {
+      if (e.indexOf(".") == -1 && e.length <= 3 && e != 0) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
@@ -126,19 +127,21 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handlePayMoney = (e: any) => {
-      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
-        this.props.dispatch({
-          type: 'activity/setAppreciation',
-          payload: {
-            pay_money: e,
-            gift_id: '',
-            gift_pic: ''
-          }
-        });
+      if (e.indexOf('.') != 0) {
+        if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+          this.props.dispatch({
+            type: 'activity/setAppreciation',
+            payload: {
+              pay_money: e,
+              gift_id: '',
+              gift_pic: ''
+            }
+          });
+        }
       }
     }
     handleTotalNum = (e: any) => {
-      if (e.indexOf(".") == -1) {
+      if (e.indexOf(".") == -1 && e != 0) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
@@ -148,13 +151,15 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleTotalFee = (e: any) => {
-      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
-        this.props.dispatch({
-          type: 'activity/setAppreciation',
-          payload: {
-            total_fee: e
-          }
-        });
+      if (e.indexOf('.') != 0) {
+        if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+          this.props.dispatch({
+            type: 'activity/setAppreciation',
+            payload: {
+              total_fee: e
+            }
+          });
+        }
       }
     }
     startChange = (value: any) => {
@@ -234,9 +239,24 @@ export default connect(({ activity }: any) => activity)(
     submit = async () => {
       const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description, activity_coupons_type, image, image_url1, image_url2, } = this.props.Appreciation
 
+      // 价格验证
+      if (Number(start_price) > Number(end_price)) {
+        Toast.fail('增值区间设置规则有误，请重新设置', 2);
+        return;
+      }
+      if (Number(pay_money) > Number(end_price)) {
+        Toast.fail('购买价格不可高于增值区间峰值，请重新设置', 2);
+        return;
+      }
       // 自定义名称
       if (this.state.value == 1 && !activityName) {
         Toast.fail('请输入自定义名称', 2);
+        return;
+      }
+
+      // 有效期验证
+      if (validity < 1) {
+        Toast.fail('有效期至少为一天', 2);
         return;
       }
 
@@ -326,7 +346,7 @@ export default connect(({ activity }: any) => activity)(
             this.props.dispatch({
               type: 'activity/Clean',
             })
-              router.push('/activitys/appreciation');
+            router.push('/activitys/appreciation');
             Toast.hide();
           })
         }
@@ -636,9 +656,9 @@ export default connect(({ activity }: any) => activity)(
                 <InputItem type={'money'} className={styles.textLong_door} onChange={this.handleTotalFee} value={total_fee} extra='元可用' >
                   使用门槛 {/* <span className={styles.left_text_door}>满</span> */}
                 </InputItem>
-                <InputItem type={'money'} className={styles.textLong} onChange={this.handleValidity} value={validity} extra='天内可用' >
+                <InputItem type={'money'} className={styles.textLong} onChange={this.handleValidity} value={validity} extra='天可用' >
                   有效期
-                  <span className={styles.left_text}>发券日起</span>
+                  <span className={styles.left_text}>购券日起</span>
                 </InputItem>
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num} extra='张' >
                   发放数量
@@ -646,8 +666,15 @@ export default connect(({ activity }: any) => activity)(
                 {/* <Flex className={styles.notice} onClick={this.toSetting}><div>商品设置</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex> */}
 
                 {
-                  this.props.Appreciation.activity_coupons_type != 1 ? <Flex className={styles.notice} onClick={this.toNotice}><div>使用规则</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex>
-                    : null
+                  this.props.Appreciation.activity_coupons_type != 1 ? <Flex className={styles.notice} onClick={this.toNotice}>
+                    <div>使用规则</div>
+                    <div className={styles.icon_right_box}>
+                      {
+                        this.props.Appreciation.description.length == 0 ? '请设置使用须知' : '已设置' + this.props.Appreciation.description.length + '条规则'
+                      }
+                      <Icon type="right" color='#999' className={styles.icon_right} />
+                    </div>
+                  </Flex> : null
                 }
               </List>
 
