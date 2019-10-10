@@ -51,10 +51,38 @@ export default connect(({ createStore }: any) => createStore)(
       },
       imgshow1: false,
       imgshow2: false,
-      imgshow3: false
+      imgshow3: false,
+
+
+      detailAddress: ''
     };
 
     componentDidMount() {
+      console.log(Cookies.get('handleAddress'))
+      console.log(Cookies.get('handleDetailAddress'))
+      if((Cookies.get('handleAddress') && Cookies.get('handleDetailAddress') )) {
+        if((Cookies.get('handleAddress') != Cookies.get('handleDetailAddress'))) {
+          console.log('执行不等于')
+          this.setState({
+            detailAddress: Cookies.get("handleDetailAddress") ? JSON.parse(Cookies.get("handleDetailAddress")) : ""
+          })
+        }else {
+          console.log('执行等于')
+          this.setState({
+            detailAddress: Cookies.get("handleDetailAddress") ? JSON.parse(Cookies.get("handleDetailAddress")) : ""
+          })
+        }
+        
+        
+      }else {
+        console.log('执行2')
+        this.setState({
+          // detailAddress: Cookies.get("handleDetailAddress") ? JSON.parse(Cookies.get("handleDetailAddress")) :
+          //                 Cookies.get("handleAddress") ? JSON.parse(Cookies.get("handleAddress")) : ""
+          detailAddress: Cookies.get("handleAddress") ? JSON.parse(Cookies.get("handleAddress")) : ""
+        })
+      }
+
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -334,8 +362,26 @@ export default connect(({ createStore }: any) => createStore)(
       router.push('/createStore/map')
     }
 
+    handleChange = (e:any) => {
+      // let address = e.target.value;
+      // Cookies.set("handleAddress", JSON.stringify(address), { expires: 1 });
+      // this.props.dispatch({
+      //   type: 'createStore/setStore',
+      //   payload: {
+      //     address
+      //   }
+      // })
+      let address = e.target.value;
+      Cookies.set("handleDetailAddress", JSON.stringify(address), { expires: 1 });
+      this.setState({
+        detailAddress: e.target.value
+      })
+    }
+
 
     createStore = () => {
+      // console.log(Cookies.get("handleDetailAddress"))
+      let detailAddress = Cookies.get("handleDetailAddress");
       let { name, address, house_num, phone, manage_type, email, _code, store_door_header_img, store_img_one, store_img_two, location } = this.props;
       // if (name && address && house_num && phone && manage_type && email && store_door_header_img && store_img_one && store_img_two) {
         if(!name){
@@ -343,9 +389,14 @@ export default connect(({ createStore }: any) => createStore)(
           return
         }
         if(!address){
-          Toast.fail('地址不能为空')
+          Toast.fail('门店地址不能为空')
           return
         }
+        if(!detailAddress) {
+          Toast.fail('详细地址不能为空')
+          return
+        }
+
         if(!house_num){
           Toast.fail('门牌号不能为空')
           return
@@ -381,7 +432,7 @@ export default connect(({ createStore }: any) => createStore)(
           method: 'post',
           data: {
             store_name: name,
-            address,
+            address: detailAddress,
             house_num,
             phone,
             manage_type,
@@ -436,6 +487,15 @@ export default connect(({ createStore }: any) => createStore)(
                 value={this.props.address}
               />
               <Icon type='right' />
+            </Flex>
+            <Flex className={styles.inputWrap}>
+              <span>详细地址</span>
+              <input
+                type="text"
+                placeholder='请输入详细地址'
+                value={this.state.detailAddress}
+                onChange={this.handleChange.bind(this)}
+              />
             </Flex>
             <Flex className={styles.inputWrap}>
               <span>门牌号</span>

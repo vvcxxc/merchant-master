@@ -18,6 +18,8 @@
     "aliyun-oss-web": "^1.0.4",
     "antd": "^3.15.0",
     "antd-mobile": "^2.2.13",
+    "antd-mobile-demo-data": "^0.3.0",
+    "antd-mobile-full-demo-data": "^0.2.1",
     "axios": "^0.18.0",
     "babel-preset-env": "^1.7.0",
     "bizgoblin": "^0.1.9",
