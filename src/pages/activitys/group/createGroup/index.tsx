@@ -20,6 +20,7 @@ export default connect(({ activity }: any) => activity)(
       showSelectTime: false,
       startTime: undefined,
       endTime: undefined,
+      prompt: false
     };
     componentDidMount() {
 
@@ -68,12 +69,14 @@ export default connect(({ activity }: any) => activity)(
     }
     /**改变值 */
     handleName = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setGroup',
-        payload: {
-          activity_name: e
-        }
-      });
+      if (e.length <= 30) {
+        this.props.dispatch({
+          type: 'activity/setGroup',
+          payload: {
+            activity_name: e
+          }
+        });
+      }
     }
     handleOldPrice = (e: any) => {
       if (e.indexOf('.') != 0) {
@@ -102,7 +105,7 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleNum = (e: any) => {
-      if (e.indexOf(".") == -1 && e.length <= 2) {
+      if (e.indexOf(".") == -1 && e.length <= 2 && e != 0) {
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {
@@ -112,7 +115,7 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleSum = (e: any) => {
-      if (e.indexOf(".") == -1) {
+      if (e.indexOf(".") == -1 && e != 0) {
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {
@@ -122,7 +125,7 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleValidity = (e: any) => {
-      if (e.indexOf(".") == -1 && e.length <= 3) {
+      if (e.indexOf(".") == -1 && e.length <= 3 && e != 0) {
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {
@@ -241,6 +244,11 @@ export default connect(({ activity }: any) => activity)(
     /**确认发布 */
     confirm = async () => {
       let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name } = this.props.Group;
+      // 价格验证
+      if (Number(participation_money) > Number(old_price)) {
+        Toast.fail('拼团价格必须低于商品原价，请重新设置', 2);
+        return;
+      }
 
       // 有效期验证
       if (validity < 1) {
@@ -428,13 +436,27 @@ export default connect(({ activity }: any) => activity)(
                 成团人数
               </InputItem>
               <InputItem className={styles.activity_name} placeholder="请输入团数" value={group_sum} onChange={this.handleSum} type={'money'}>
-                发团数量
+                开团数量
+                <img src={ad_intro2} onClick={() => { this.setState({ prompt: !this.state.prompt }) }} />
               </InputItem>
-              <InputItem type={'money'} className={styles.textLong} value={validity} onChange={this.handleValidity} extra='天内可用'>
-                有效期<span className={styles.left_text}>领券日起</span>
+              <div className={styles.activity_gropNum_msg} style={{ height: this.state.prompt ? 'auto' : '0px' }}>
+                <p>
+                  拼团数量*拼团人数=活动商品数量
+                </p>
+              </div>
+
+              <InputItem type={'money'} className={styles.textLong} value={validity} onChange={this.handleValidity} extra='天可用'>
+                有效期<span className={styles.left_text}>拼团成功后</span>
               </InputItem>
             </List>
-            <Flex className={styles.notice} onClick={this.toNotice}><div style={{ color: "#666666" }}>使用规则</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
+            <Flex className={styles.notice} onClick={this.toNotice}>
+              <div style={{ color: "#666666" }}>使用规则</div>
+              <div className={styles.icon_right_box}>
+                {
+                  this.props.Group.description.length == 0 ? '请设置使用须知' : '已设置' + this.props.Group.description.length + '条规则'
+                }
+                <Icon type="right" color='#999' className={styles.icon_right} />
+              </div>
             </Flex>
 
             {/* <Flex className={styles.radio1}>
