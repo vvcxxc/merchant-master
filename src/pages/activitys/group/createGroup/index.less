@@ -41,17 +41,47 @@
 }
 
 .activity_name :global {
+  .am-list-line {
+    border-bottom: none !important;
+  }
+
+  .am-input-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
   .am-input-control input {
     text-align: right;
     font-size: 26px;
     padding-right: 0;
   }
 
+  img {
+    height: 28px;
+    width: 28px;
+    margin-left: 11px;
+  }
+
   .am-list-item .am-list-line .am-list-extra {
     font-size: 26px !important;
+
   }
 }
 
+.activity_gropNum_msg :global {
+  border-bottom: 1px solid #ddd;
+  width: 100%;
+  overflow: hidden;
+  p {
+    height: 100%;
+    width:100%;
+    margin-top: 0;
+    color: #999;
+    font-size: 24px;
+    line-height: 30px;
+  }
+}
 
 .textShort :global {
 
@@ -59,6 +89,7 @@
     text-align: right;
     font-size: 26px;
     padding-right: 30px;
+
   }
 
   .am-list-item .am-list-line .am-list-extra {
@@ -101,8 +132,15 @@
   justify-content: space-between;
   border-bottom: 1px solid #ddd;
 
-  .icon_right {
-    height: 30px;
+  .icon_right_box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: #999;
+
+    .icon_right {
+      height: 30px;
+    }
   }
 }
 

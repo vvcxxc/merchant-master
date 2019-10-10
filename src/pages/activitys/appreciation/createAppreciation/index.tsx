@@ -35,6 +35,7 @@ export default connect(({ activity }: any) => activity)(
       prompt: false
     };
     componentDidMount() {
+      console.log(this.props.Appreciation)
       if (this.props.Appreciation.gift_id) {
         this.setState({ is_gift: true })
       }
@@ -58,16 +59,16 @@ export default connect(({ activity }: any) => activity)(
       // }
     }
 
-
-
     /**改变值 */
     activityNameChange = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setAppreciation',
-        payload: {
-          activityName: e
-        }
-      });
+      if (e.length <= 30) {
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            activityName: e
+          }
+        });
+      }
     }
     handleStartPri = (e: any) => {
       if (/^[0-9]+\.+[0-9]\d{0,1}$/.test(e.target.value) || /^[0-9]+\.?$/.test(e.target.value) || e.target.value == "") {
@@ -106,7 +107,7 @@ export default connect(({ activity }: any) => activity)(
       });
     }
     handlePeopleNum = (e: any) => {
-      if (e.indexOf(".") == -1 && e.length <= 2) {
+      if (e.indexOf(".") == -1 && e.length <= 2 && e != 0) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
@@ -116,7 +117,7 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleValidity = (e: any) => {
-      if (e.indexOf(".") == -1 && e.length <= 3) {
+      if (e.indexOf(".") == -1 && e.length <= 3 && e != 0) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
@@ -140,7 +141,7 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleTotalNum = (e: any) => {
-      if (e.indexOf(".") == -1) {
+      if (e.indexOf(".") == -1 && e != 0) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
@@ -665,8 +666,15 @@ export default connect(({ activity }: any) => activity)(
                 {/* <Flex className={styles.notice} onClick={this.toSetting}><div>商品设置</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex> */}
 
                 {
-                  this.props.Appreciation.activity_coupons_type != 1 ? <Flex className={styles.notice} onClick={this.toNotice}><div>使用规则</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex>
-                    : null
+                  this.props.Appreciation.activity_coupons_type != 1 ? <Flex className={styles.notice} onClick={this.toNotice}>
+                    <div>使用规则</div>
+                    <div className={styles.icon_right_box}>
+                      {
+                        this.props.Appreciation.description.length == 0 ? '请设置使用须知' : '已设置' + this.props.Appreciation.description.length + '条规则'
+                      }
+                      <Icon type="right" color='#999' className={styles.icon_right} />
+                    </div>
+                  </Flex> : null
                 }
               </List>
 

@@ -41,14 +41,15 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			// console.log(value)
 			// console.log(type)
 			if (type == 'coupons_name') {
-				//商家名
-				this.props.dispatch({
-					type: 'createCoupon/setCoupon',
-					payload: {
-
-						[type]: value
-					}
-				});
+				if (value.length <= 30) {
+					//名字
+					this.props.dispatch({
+						type: 'createCoupon/setCoupon',
+						payload: {
+							[type]: value
+						}
+					});
+				}
 			} else {
 				if (value.split(".")[1] == undefined || (value.split(".")[1].length < 3 && value.split(".")[2] == undefined)) {
 					//涉及到金额的都用一位小数
