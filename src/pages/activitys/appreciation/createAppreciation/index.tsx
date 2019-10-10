@@ -126,15 +126,17 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handlePayMoney = (e: any) => {
-      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
-        this.props.dispatch({
-          type: 'activity/setAppreciation',
-          payload: {
-            pay_money: e,
-            gift_id: '',
-            gift_pic: ''
-          }
-        });
+      if (e.indexOf('.') != 0) {
+        if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+          this.props.dispatch({
+            type: 'activity/setAppreciation',
+            payload: {
+              pay_money: e,
+              gift_id: '',
+              gift_pic: ''
+            }
+          });
+        }
       }
     }
     handleTotalNum = (e: any) => {
@@ -148,13 +150,15 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleTotalFee = (e: any) => {
-      if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
-        this.props.dispatch({
-          type: 'activity/setAppreciation',
-          payload: {
-            total_fee: e
-          }
-        });
+      if (e.indexOf('.') != 0) {
+        if (e.split(".")[1] == undefined || (e.split(".")[1].length <= 2 && e.split(".")[2] == undefined)) {
+          this.props.dispatch({
+            type: 'activity/setAppreciation',
+            payload: {
+              total_fee: e
+            }
+          });
+        }
       }
     }
     startChange = (value: any) => {
@@ -234,9 +238,24 @@ export default connect(({ activity }: any) => activity)(
     submit = async () => {
       const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description, activity_coupons_type, image, image_url1, image_url2, } = this.props.Appreciation
 
+      // 价格验证
+      if (start_price>end_price) {
+        Toast.fail('增值区间设置规则有误，请重新设置', 2);
+        return;
+      }
+      if (pay_money>end_price) {
+        Toast.fail('购买价格不可高于增值区间峰值，请重新设置', 2);
+        return;
+      }
       // 自定义名称
       if (this.state.value == 1 && !activityName) {
         Toast.fail('请输入自定义名称', 2);
+        return;
+      }
+
+      // 有效期验证
+      if (validity < 1) {
+        Toast.fail('有效期至少为一天', 2);
         return;
       }
 
@@ -326,7 +345,7 @@ export default connect(({ activity }: any) => activity)(
             this.props.dispatch({
               type: 'activity/Clean',
             })
-              router.push('/activitys/appreciation');
+            router.push('/activitys/appreciation');
             Toast.hide();
           })
         }
