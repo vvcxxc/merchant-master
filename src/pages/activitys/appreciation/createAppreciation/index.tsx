@@ -655,9 +655,9 @@ export default connect(({ activity }: any) => activity)(
                 <InputItem type={'money'} className={styles.textLong_door} onChange={this.handleTotalFee} value={total_fee} extra='元可用' >
                   使用门槛 {/* <span className={styles.left_text_door}>满</span> */}
                 </InputItem>
-                <InputItem type={'money'} className={styles.textLong} onChange={this.handleValidity} value={validity} extra='天内可用' >
+                <InputItem type={'money'} className={styles.textLong} onChange={this.handleValidity} value={validity} extra='天可用' >
                   有效期
-                  <span className={styles.left_text}>发券日起</span>
+                  <span className={styles.left_text}>购券日起</span>
                 </InputItem>
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num} extra='张' >
                   发放数量

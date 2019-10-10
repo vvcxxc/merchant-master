@@ -241,7 +241,6 @@ export default connect(({ activity }: any) => activity)(
     /**确认发布 */
     confirm = async () => {
       let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name } = this.props.Group;
-console.log('拼团价格:',participation_money,'商品原价:',old_price)
       // 价格验证
       if (Number(participation_money) > Number(old_price)) {
         Toast.fail('拼团价格必须低于商品原价，请重新设置', 2);
@@ -436,8 +435,8 @@ console.log('拼团价格:',participation_money,'商品原价:',old_price)
               <InputItem className={styles.activity_name} placeholder="请输入团数" value={group_sum} onChange={this.handleSum} type={'money'}>
                 发团数量
               </InputItem>
-              <InputItem type={'money'} className={styles.textLong} value={validity} onChange={this.handleValidity} extra='天内可用'>
-                有效期<span className={styles.left_text}>领券日起</span>
+              <InputItem type={'money'} className={styles.textLong} value={validity} onChange={this.handleValidity} extra='天可用'>
+                有效期<span className={styles.left_text}>拼团成功后</span>
               </InputItem>
             </List>
             <Flex className={styles.notice} onClick={this.toNotice}><div style={{ color: "#666666" }}>使用规则</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div>
