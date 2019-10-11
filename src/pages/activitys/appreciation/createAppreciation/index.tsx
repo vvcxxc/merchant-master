@@ -291,6 +291,7 @@ export default connect(({ activity }: any) => activity)(
         image_url = undefined;
       } else {
         image_url = [];
+        image_url.push(image)
         image_url.push(image_url1);
         image_url.push(image_url2);
       }
