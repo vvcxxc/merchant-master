@@ -376,10 +376,10 @@ export default connect(({ activity }: any) => activity)(
               <div className={styles.gang}>{null}</div>
               优惠券信息
           </Flex>
-            <Flex className={styles.item} align='start'>
+            {/* <Flex className={styles.item} align='start'>
               <div className={styles.item_name}>市场价：</div>
               <div className={styles.item_detail}>{info.appreciation_coupons_info.market_price}元</div>
-            </Flex>
+            </Flex> */}
             <Flex className={styles.item} align='start'>
               <div className={styles.item_name}>使用时间：</div>
               <div className={styles.item_detail}>{info.appreciation_coupons_info.use_tim}</div>

@@ -87,7 +87,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					Toast.hide();
 					if (res.status === 'ok') {
 						if (type === 'files') {
-							this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { image: res.data.path } });
+							this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { image: res.data.path,  image_url: [...(this.props.image_url || []), res.data.path] } });
 						} else {
 							this.props.dispatch({
 								type: 'createCoupon/setCoupon',
