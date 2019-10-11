@@ -146,7 +146,8 @@ const model: Model = {
           describe_img2: [],
           mail_mode: '1',
           scope_mode:0,
-          storeItems: []
+          storeItems: [],
+          description: []
         },
         Appreciation: {
           cover_img: [],
@@ -154,6 +155,7 @@ const model: Model = {
           describe_img2: [],
           mail_mode: '1',
           name_mode: 0,
+          description: [],
       activity_coupons_type:1,
         }
       }
