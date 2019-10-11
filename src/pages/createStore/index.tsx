@@ -389,7 +389,7 @@ export default connect(({ createStore }: any) => createStore)(
           return
         }
         if(!address){
-          Toast.fail('门店地址不能为空')
+          Toast.fail('门店定位不能为空')
           return
         }
         if(!detailAddress) {
@@ -432,7 +432,8 @@ export default connect(({ createStore }: any) => createStore)(
           method: 'post',
           data: {
             store_name: name,
-            address: detailAddress,
+            address,
+            gaode_address:detailAddress,
             house_num,
             phone,
             manage_type,
@@ -479,10 +480,10 @@ export default connect(({ createStore }: any) => createStore)(
               />
             </Flex>
             <Flex className={styles.inputWrap} onClick={this.openMap}>
-              <span>门店地址</span>
+              <span>门店定位</span>
               <input
                 type="text"
-                placeholder='请输入门店地址'
+                placeholder='请输入门店定位'
                 readOnly={true}
                 value={this.props.address}
               />
