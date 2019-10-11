@@ -151,7 +151,7 @@ export default connect(({ activity }: any) => activity)(
   render (){
     const { value } = this.state;
     const list = this.state.list.map((item: any, idx: number) => {
-      if (!this.state.list || this.state.list[0]=== '金额不能为空') return
+      if (!this.state.list[0] || this.state.list[0]=== '金额不能为空') return
       return (
         <Flex className={styles.giftBox} key={idx}>
           <div className={styles.image}><img src={item.cover_image}/></div>
@@ -183,7 +183,7 @@ export default connect(({ activity }: any) => activity)(
         <div>
           <div className={styles.lists}>
             {
-              !this.state.list || this.state.list[0] ? null:noGift
+              !this.state.list[0] || this.state.list[0] === '金额不能为空' ? noGift:null
           }
             <WingBlank>
               {list}

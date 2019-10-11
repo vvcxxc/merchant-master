@@ -90,7 +90,7 @@ export default class PaymentReturnRules extends Component<Props> {
 		);
 		const dateInput = (
 			<Flex>
-				发券日起
+				领券日起
 				<InputItem className="numberInput" type="money" onChange={this.handleChange('day')} value={String(this.props.item.day || '')} />
 				天可用
 			</Flex>

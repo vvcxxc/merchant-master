@@ -30,7 +30,7 @@ export default connect(({ activity, createCoupon}: any) => ({activity,createCoup
       if (type == 1) {
         notice_list = this.props.activity.Group.description;
       } else if (type == 2) {
-        // notice_list = this.props.Appreciation.description;
+        notice_list = this.props.activity.Appreciation.description;
       } else if (type == 3) {
         console.log(this.props)
         notice_list = this.props.createCoupon.couponForm.description

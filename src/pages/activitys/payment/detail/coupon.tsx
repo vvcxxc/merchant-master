@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
-import { Flex } from 'antd-mobile';
+import request from '@/services/request';
+import { Toast, Flex, WingBlank, Button } from 'antd-mobile';
 
 interface Props {
 	name: string;
@@ -13,9 +14,28 @@ interface Props {
 	user_count: number;
 	total_num: number;
 	total_fee: number;
+	location:any
 }
 
 export default class CouponCard extends Component<Props> {
+	// 删除数据
+	deleteData = async () => {
+		// console.log(this.props,'porp');
+		console.log(this.props,333);
+		
+		
+		return 
+		// handleDelete = async () => {
+			Toast.loading('');
+			const res = await request({ url: 'v3/return_coupons/' + this.props.location.query.id, method: 'delete' });
+			Toast.hide();
+			if (res.code === 200) {
+				Toast.success('删除成功');
+				// setTimeout(router.goBack, 1000);
+			}
+		// };
+	}
+
 	render() {
 		return (
 			<div className={styles.couponCard}>
@@ -34,6 +54,9 @@ export default class CouponCard extends Component<Props> {
 				<ProgressBar title="库存" value={this.props.total_num / this.props.user_count * 100} label={this.props.total_num + '张'} />
 				<ProgressBar title="已领" value={(this.props.user_count - this.props.total_num) / this.props.user_count * 100} label={(this.props.user_count - this.props.total_num) + '张'} />
 				<ProgressBar title="已使用" value={this.props.use_sum / this.props.user_count * 100} label={this.props.use_sum + '张'} />
+				<div className={styles.errbBox}>
+					<img onClick={this.deleteData} src={require('../../../../assets/error_border.png')} alt="" />
+				</div>
 			</div>
 		);
 	}
