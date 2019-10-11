@@ -479,10 +479,10 @@ export default connect(({ createStore }: any) => createStore)(
               />
             </Flex>
             <Flex className={styles.inputWrap} onClick={this.openMap}>
-              <span>门店地址</span>
+              <span>门店定位</span>
               <input
                 type="text"
-                placeholder='请输入门店地址'
+                placeholder='请输入门店定位'
                 readOnly={true}
                 value={this.props.address}
               />
