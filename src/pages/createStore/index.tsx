@@ -389,7 +389,7 @@ export default connect(({ createStore }: any) => createStore)(
           return
         }
         if(!address){
-          Toast.fail('门店地址不能为空')
+          Toast.fail('门店定位不能为空')
           return
         }
         if(!detailAddress) {
@@ -432,7 +432,8 @@ export default connect(({ createStore }: any) => createStore)(
           method: 'post',
           data: {
             store_name: name,
-            address: detailAddress,
+            address,
+            gaode_address:detailAddress,
             house_num,
             phone,
             manage_type,
