@@ -269,6 +269,7 @@ export default connect(({ activity }: any) => activity)(
       let b = moment(end_date).endOf('day')
       let activity_end_tine = moment(b).format('X');
       let image_url = [];
+      image_url.push(image)
       image_url.push(image_url1);
       image_url.push(image_url2);
       if (activity_name && activity_begin_time && activity_end_tine && validity && participation_money && image_url1 && image_url2 && image && group_number && group_sum && old_price && mail_mode) {
@@ -453,7 +454,7 @@ export default connect(({ activity }: any) => activity)(
               <div style={{ color: "#666666" }}>使用规则</div>
               <div className={styles.icon_right_box}>
                 {
-                  this.props.Group.description.length == 0 ? '请设置使用须知' : '已设置' + this.props.Group.description.length + '条规则'
+                  this.props.Group.description && this.props.Group.description.length != 0 ? '已设置' + this.props.Group.description.length + '条规则' : '请设置使用须知'
                 }
                 <Icon type="right" color='#999' className={styles.icon_right} />
               </div>

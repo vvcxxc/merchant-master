@@ -291,6 +291,7 @@ export default connect(({ activity }: any) => activity)(
         image_url = undefined;
       } else {
         image_url = [];
+        image_url.push(image)
         image_url.push(image_url1);
         image_url.push(image_url2);
       }
@@ -670,7 +671,7 @@ export default connect(({ activity }: any) => activity)(
                     <div>使用规则</div>
                     <div className={styles.icon_right_box}>
                       {
-                        this.props.Appreciation.description.length == 0 ? '请设置使用须知' : '已设置' + this.props.Appreciation.description.length + '条规则'
+                        this.props.Appreciation.description && this.props.Appreciation.description.length != 0 ? '已设置' + this.props.Appreciation.description.length + '条规则' : '请设置使用须知'
                       }
                       <Icon type="right" color='#999' className={styles.icon_right} />
                     </div>
