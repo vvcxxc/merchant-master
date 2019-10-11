@@ -107,7 +107,7 @@ export default connect(({ activity }: any) => activity)(
       });
     }
     handlePeopleNum = (e: any) => {
-      if (e.indexOf(".") == -1 && e.length <= 2 && e != 0) {
+      if (e.indexOf(".") == -1 && e.length <= 2) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
@@ -117,7 +117,7 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleValidity = (e: any) => {
-      if (e.indexOf(".") == -1 && e.length <= 3 && e != 0) {
+      if (e.indexOf(".") == -1 && e.length <= 3) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
@@ -141,7 +141,7 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleTotalNum = (e: any) => {
-      if (e.indexOf(".") == -1 && e != 0) {
+      if (e.indexOf(".") == -1) {
         this.props.dispatch({
           type: 'activity/setAppreciation',
           payload: {
@@ -239,6 +239,18 @@ export default connect(({ activity }: any) => activity)(
     submit = async () => {
       const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description, activity_coupons_type, image, image_url1, image_url2, } = this.props.Appreciation
 
+      if (appreciation_number_sum == 0) {
+        Toast.fail('助力人数不能为0', 2);
+        return;
+      }
+      if (validity == 0) {
+        Toast.fail('有效期不能为0', 2);
+        return;
+      }
+      if (total_num == 0) {
+        Toast.fail('发放数量不能为0', 2);
+        return;
+      }
       // 价格验证
       if (Number(start_price) > Number(end_price)) {
         Toast.fail('增值区间设置规则有误，请重新设置', 2);

@@ -105,7 +105,7 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleNum = (e: any) => {
-      if (e.indexOf(".") == -1 && e.length <= 2 && e != 0) {
+      if (e.indexOf(".") == -1 && e.length <= 2 ) {
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {
@@ -115,7 +115,7 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleSum = (e: any) => {
-      if (e.indexOf(".") == -1 && e != 0) {
+      if (e.indexOf(".") == -1 ) {
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {
@@ -125,7 +125,7 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     handleValidity = (e: any) => {
-      if (e.indexOf(".") == -1 && e.length <= 3 && e != 0) {
+      if (e.indexOf(".") == -1 && e.length <= 3) {
         this.props.dispatch({
           type: 'activity/setGroup',
           payload: {
@@ -244,6 +244,20 @@ export default connect(({ activity }: any) => activity)(
     /**确认发布 */
     confirm = async () => {
       let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name } = this.props.Group;
+    
+      if (group_sum == 0) {
+        Toast.fail('开团数量不能为0', 2);
+        return;
+      }
+      if (validity == 0) {
+        Toast.fail('有效期不能为0', 2);
+        return;
+      }
+      if (group_number == 0) {
+        Toast.fail('成团人数不能为0', 2);
+        return;
+      }
+    
       // 价格验证
       if (Number(participation_money) > Number(old_price)) {
         Toast.fail('拼团价格必须低于商品原价，请重新设置', 2);
