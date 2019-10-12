@@ -48,6 +48,7 @@ export default class CreateMoneyOff extends Component {
 	};
 
 	onSubmit = async () => {
+		const { start_date, end_date } = this.state
 		if (!this.state.start_date || !this.state.end_date) {
 			Toast.fail('请选择日期');
 		} else 
@@ -55,11 +56,8 @@ export default class CreateMoneyOff extends Component {
 			Toast.fail('请填写满减规则');
 		} else {
 			Toast.loading('');
-			let a = moment(this.state.start_date).startOf('day')
-			let activity_begin_time = moment(a._d).format('X')
-			let b = moment(this.state.end_date).endOf('day')
-			let activity_end_time = moment(b).format('X');
-			
+			let activity_begin_time = start_date
+			let activity_end_time = end_date
 			const res = await request({
 				url: 'v3/activity/more_decrease',
 				method: 'post',
