@@ -129,7 +129,6 @@ export default class CreatePaymentReturn extends Component {
 		if (!date.startTime)return 
 		this.setState({ start_date: date.startTime, end_date: date.endTime })
 		this.setState({ showStartTime: date.showStartTime, showEndtTime: date.showEndtTime })
-		
 	}
 	render() {
 		const rules = this.state.rules.map((_, index) => (

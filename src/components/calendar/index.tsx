@@ -11,13 +11,22 @@ interface Props {
   choose: (data: Object) => void,
   show:boolean
 }
+
+interface stateType  {
+  en: boolean,
+  show: boolean,
+  showStartTimg: Number,
+  showEndTimg: Number,
+  onSelect: boolean,
+  config: Object
+}
 // 日历组件
 export default class CreateCalendar extends Component<Props> {
-  state = {
+  state: stateType = {
     en: false,
     show: false,
-    showStartTimg: null,
-    showEndTimg: null,
+    showStartTimg: 0,
+    showEndTimg:0,
     onSelect:false,
     config: {
     },
@@ -63,8 +72,8 @@ export default class CreateCalendar extends Component<Props> {
 
 
   onSelect = (date: number) => {//转化秒 从开始的0秒开始， 结束的59秒结束
-    const { onSelect, showEndTimg } = this.state
-    if (showEndTimg) this.setState({ showEndTimg:null})
+    const { onSelect, showEndTimg, showStartTimg } = this.state
+    if (showEndTimg) this.setState({ showEndTimg: null })
     this.setState({ onSelect:false})
     if (!onSelect) {
       this.setState({
@@ -73,8 +82,14 @@ export default class CreateCalendar extends Component<Props> {
       this.setState({ onSelect:true})
       return
     }
-    this.setState({
-      showEndTimg: moment(date).format('YYYY-MM-DD')
+    this.setState({ showEndTimg: moment(date).format('YYYY-MM-DD') }, () => {
+      if (moment(date).format('X') < moment(showStartTimg).format('X')) {
+        let save = showStartTimg 
+        this.setState({
+          showStartTimg: moment(date).format('YYYY-MM-DD'),
+          showEndTimg: save
+        })
+      }
     })
     this.setState({ onSelect: false })
   }
