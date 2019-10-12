@@ -3,7 +3,8 @@
 import React, { Component } from 'react';
 import { Flex, Icon, WingBlank, List, Button, DatePickerView, Toast } from 'antd-mobile';
 import ListItem from 'antd-mobile/lib/list/ListItem';
-import SelectTime from '@/components/select-time';
+// import SelectTime from '@/components/select-time';
+import SelectCalendar from '@/components/calendar'
 import styles from './create.less';
 import LimitItem from '../components/limit-item';
 import moment from 'moment';
@@ -17,7 +18,9 @@ export default class CreateMoneyOff extends Component {
 		start_date: '',
 		end_date: '',
 		rules: [{ min: undefined, max: undefined }],
-		showSelectTime: false
+		showSelectTime: false,
+		showStartTime: null,
+		showEndtTime: null
 	};
 	handleShowSelectTime = () => { this.setState({ showSelectTime: true }) };
 	//关闭时间选择
@@ -45,6 +48,7 @@ export default class CreateMoneyOff extends Component {
 	};
 
 	onSubmit = async () => {
+		const { start_date, end_date } = this.state
 		if (!this.state.start_date || !this.state.end_date) {
 			Toast.fail('请选择日期');
 		} else 
@@ -52,11 +56,8 @@ export default class CreateMoneyOff extends Component {
 			Toast.fail('请填写满减规则');
 		} else {
 			Toast.loading('');
-			let a = moment(this.state.start_date).startOf('day')
-			let activity_begin_time = moment(a._d).format('X')
-			let b = moment(this.state.end_date).endOf('day')
-			let activity_end_time = moment(b).format('X');
-			
+			let activity_begin_time = start_date
+			let activity_end_time = end_date
 			const res = await request({
 				url: 'v3/activity/more_decrease',
 				method: 'post',
@@ -79,6 +80,13 @@ export default class CreateMoneyOff extends Component {
 		}
 	};
 
+	start_endTime = (date: any) => {
+		this.setState({ showSelectTime: false })
+		if (!date.startTime) return
+		this.setState({ start_date: date.startTime, end_date: date.endTime })
+		this.setState({ showStartTime: date.showStartTime, showEndtTime: date.showEndtTime })
+	}
+
 	render() {
 		const rules = this.state.rules.map((_, index) => (
 			<LimitItem
@@ -91,8 +99,9 @@ export default class CreateMoneyOff extends Component {
 			/>
 		));
 		
-		const { start_date, end_date, } = this.state;
-		const time = start_date ? new Date(start_date).getFullYear() + '-' + (new Date(start_date).getMonth() + 1) + '-' + new Date(start_date).getDate() + '至' + new Date(end_date).getFullYear() + '-' + (new Date(end_date).getMonth() + 1) + '-' + new Date(end_date).getDate() : '';
+		const { start_date, end_date, showStartTime , showEndtTime } = this.state;
+		const time = start_date ? showStartTime + '至' + showEndtTime : ''
+			// new Date(start_date).getFullYear() + '-' + (new Date(start_date).getMonth() + 1) + '-' + new Date(start_date).getDate() + '至' + new Date(end_date).getFullYear() + '-' + (new Date(end_date).getMonth() + 1) + '-' + new Date(end_date).getDate() : '';
 		return (
 			<div className={styles.page}>
 				<WingBlank>
@@ -114,11 +123,14 @@ export default class CreateMoneyOff extends Component {
 
 
 				</WingBlank>
-				<SelectTime
+				{/* <SelectTime
 					show={this.state.showSelectTime}
 					onClose={this.closeModal}
 					onConfirm={this.handleSelectTime}
-				/>
+				/> */}
+				<SelectCalendar
+					show={this.state.showSelectTime}
+					choose={this.start_endTime.bind(this)} />
 			</div>
 		);
 	}
