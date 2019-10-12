@@ -35,6 +35,7 @@ export default connect(({ activity }: any) => activity)(
       prompt: false
     };
     componentDidMount() {
+      console.log(this.props.Appreciation)
       if (this.props.Appreciation.gift_id) {
         this.setState({ is_gift: true })
       }
@@ -58,16 +59,16 @@ export default connect(({ activity }: any) => activity)(
       // }
     }
 
-
-
     /**改变值 */
     activityNameChange = (e: any) => {
-      this.props.dispatch({
-        type: 'activity/setAppreciation',
-        payload: {
-          activityName: e
-        }
-      });
+      if (e.length <= 30) {
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            activityName: e
+          }
+        });
+      }
     }
     handleStartPri = (e: any) => {
       if (/^[0-9]+\.+[0-9]\d{0,1}$/.test(e.target.value) || /^[0-9]+\.?$/.test(e.target.value) || e.target.value == "") {
@@ -238,6 +239,18 @@ export default connect(({ activity }: any) => activity)(
     submit = async () => {
       const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description, activity_coupons_type, image, image_url1, image_url2, } = this.props.Appreciation
 
+      if (appreciation_number_sum == 0) {
+        Toast.fail('助力人数不能为0', 2);
+        return;
+      }
+      if (validity == 0) {
+        Toast.fail('有效期不能为0', 2);
+        return;
+      }
+      if (total_num == 0) {
+        Toast.fail('发放数量不能为0', 2);
+        return;
+      }
       // 价格验证
       if (Number(start_price) > Number(end_price)) {
         Toast.fail('增值区间设置规则有误，请重新设置', 2);
@@ -290,6 +303,7 @@ export default connect(({ activity }: any) => activity)(
         image_url = undefined;
       } else {
         image_url = [];
+        image_url.push(image)
         image_url.push(image_url1);
         image_url.push(image_url2);
       }
@@ -665,8 +679,15 @@ export default connect(({ activity }: any) => activity)(
                 {/* <Flex className={styles.notice} onClick={this.toSetting}><div>商品设置</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex> */}
 
                 {
-                  this.props.Appreciation.activity_coupons_type != 1 ? <Flex className={styles.notice} onClick={this.toNotice}><div>使用规则</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex>
-                    : null
+                  this.props.Appreciation.activity_coupons_type != 1 ? <Flex className={styles.notice} onClick={this.toNotice}>
+                    <div>使用规则</div>
+                    <div className={styles.icon_right_box}>
+                      {
+                        this.props.Appreciation.description && this.props.Appreciation.description.length != 0 ? '已设置' + this.props.Appreciation.description.length + '条规则' : '请设置使用须知'
+                      }
+                      <Icon type="right" color='#999' className={styles.icon_right} />
+                    </div>
+                  </Flex> : null
                 }
               </List>
 

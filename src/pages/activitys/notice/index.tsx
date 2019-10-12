@@ -30,7 +30,7 @@ export default connect(({ activity, createCoupon}: any) => ({activity,createCoup
       if (type == 1) {
         notice_list = this.props.activity.Group.description;
       } else if (type == 2) {
-        // notice_list = this.props.Appreciation.description;
+        notice_list = this.props.activity.Appreciation.description;
       } else if (type == 3) {
         console.log(this.props)
         notice_list = this.props.createCoupon.couponForm.description
@@ -180,7 +180,7 @@ export default connect(({ activity, createCoupon}: any) => ({activity,createCoup
             <Flex className={styles.title}><div>使用须知</div></Flex>
             <div className={styles.box}>
               {
-                this.state.drag_list.length == 0 ? <div className={styles.nullListMsg}>暂无商品数据</div> : null
+                this.state.drag_list.length == 0 ? <div className={styles.nullListMsg}>暂无设置规则</div> : null
               }
               {
                 this.state.drag_list.map((item, index) => {
