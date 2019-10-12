@@ -127,7 +127,7 @@ export default class ContentDetail extends Component<Props, any> {
 								infinite
 							>
 								{this.state.data.images.map(val => (
-									<img key={val} className={styles.Carouselimg} src={val} />
+									<img key={val} className="Carouselimg" src={val} />
 								))}
 							</Carousel>
 						</Flex> : null
