@@ -318,7 +318,7 @@ export default connect(({ activity }: any) => activity)(
               <img src={require('./share.png')} onClick={this.shareClick} />
             </Flex>
             {
-              this.state.info.appreciation_info.images ? < Flex className={styles.activity_img}>
+              this.state.info.appreciation_info.images && this.state.info.appreciation_info.images.length>1? < Flex className={styles.activity_img}>
                 <Carousel
                   autoplay={true}
                   infinite

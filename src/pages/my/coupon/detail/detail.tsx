@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import request from '@/services/request';
-import { Toast, Flex, WingBlank } from 'antd-mobile';
+import { Toast, Flex, WingBlank,Carousel } from 'antd-mobile';
 import MyCouponItem, { Item } from '../item';
 import router from 'umi/router';
 import OperationTip from '@/components/OperationTip';
@@ -12,7 +12,7 @@ interface Props {
 
 export default class ContentDetail extends Component<Props, any> {
 	state = {
-		data: { description: [], publish_wait: 1 },
+		data: { description: [], publish_wait: 1, images: [] },
 		modalType: ''
 	};
 
@@ -114,9 +114,31 @@ export default class ContentDetail extends Component<Props, any> {
 		return (
 			<Flex direction="column" className={styles.detail}>
 				<Flex.Item>
+
+					
 					<WingBlank>
 						<MyCouponItem {...itemProps} onClick={this.handleClickItem} />
 					</WingBlank>
+
+					{
+						this.state.data.images && this.state.data.images.length > 0 ? < Flex className="activity_img">
+							<Carousel
+								autoplay={true}
+								infinite
+							>
+								{this.state.data.images.map(val => (
+									<img key={val} className={styles.Carouselimg} src={val} />
+								))}
+							</Carousel>
+						</Flex> : null
+					}
+
+
+
+
+
+
+
 					<div className="couponDetail">
 						<Flex className="head">
 							<img src={require('./icon.png')} alt="" />
