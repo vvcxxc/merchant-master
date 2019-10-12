@@ -180,7 +180,7 @@ export default connect(({ activity, createCoupon}: any) => ({activity,createCoup
             <Flex className={styles.title}><div>使用须知</div></Flex>
             <div className={styles.box}>
               {
-                this.state.drag_list.length == 0 ? <div className={styles.nullListMsg}>暂无商品数据</div> : null
+                this.state.drag_list.length == 0 ? <div className={styles.nullListMsg}>暂无设置规则</div> : null
               }
               {
                 this.state.drag_list.map((item, index) => {
