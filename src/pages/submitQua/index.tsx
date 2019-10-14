@@ -11,7 +11,7 @@ import { connect } from 'dva';
 import Axios from 'axios';
 import styles from './index.less';
 import Cookies from 'js-cookie';
-
+import ad_intro2 from '@/assets/ad/ad_intro2.png'
 
 function closest(el, selector) {
   const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
@@ -118,7 +118,8 @@ export default connect(({ submitQua }: any) => submitQua)(
         '渤海银行',
         '恒丰银行',
         '邮政储蓄银行',
-      ]
+      ],
+      prompt:false
     };
 
 
@@ -1282,10 +1283,26 @@ export default connect(({ submitQua }: any) => submitQua)(
                   />
                 </InputItem>
               </List>
+
+
               <Flex className={styles.bank_title}>
                 <div className={styles.sfz_left}>银行卡认证</div>
                 <div className={styles.sfz_right} onClick={this.toBankExample}>查看示例</div>
               </Flex>
+
+              <div className={styles.radioScope}>
+                <div className={styles.radioTitle}>
+                  推荐使用银行
+                  <img src={ad_intro2} onClick={() => { this.setState({ prompt: !this.state.prompt }) }} />
+                </div>
+              </div>
+              <div className={styles.radio0_space} style={{ height: this.state.prompt ? "auto" : 0 }}>
+                  <div className={styles.radio0_msg}>
+                    <p>
+                    银行列表：工商银行，建设银行，农业银行，中国银行，交通银行，招商银行，中信银行，兴业银行，民生银行，浦发银行，光大银行，广发银行，华夏银行，平安银行，浙商银行，渤海银行，恒丰银行，邮政储蓄银行。
+                    </p>
+                  </div>
+                </div>
               <Flex className={styles.bank_img}>
                 {bankFront}
                 {bankBack}
