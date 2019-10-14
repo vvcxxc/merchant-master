@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import request from '@/services/request';
 import { Toast, Flex, WingBlank, Button } from 'antd-mobile';
-
+import DeleteActivity from '@/components/deleteActivity'
 interface Props {
 	name: string;
 	begin_time: number;
@@ -14,14 +14,25 @@ interface Props {
 	user_count: number;
 	total_num: number;
 	total_fee: number;
-	location:any
+	location: any;
+	coupon: any;
+	coupon_id: number;
+	query_id:number
 }
 
 export default class CouponCard extends Component<Props> {
+
+	state = {
+		showDeleteActivity:false
+	}
 	// 删除数据
 	deleteData = async () => {
+		// console.log('8878675');
+		this.setState({
+			showDeleteActivity:true
+		})
 		// console.log(this.props,'porp');
-		console.log(this.props,333);
+		// console.log(this.props,333);
 		
 		
 		return 
@@ -36,9 +47,22 @@ export default class CouponCard extends Component<Props> {
 		// };
 	}
 
+	showDeleteActivityData = (data:any) => {
+		console.log(data,'实际收到的数据');
+		this.setState({showDeleteActivity:false})
+	}
+
 	render() {
+		const { showDeleteActivity } = this.state
 		return (
 			<div className={styles.couponCard}>
+				<DeleteActivity
+					show={showDeleteActivity}
+					showDeleteActivity={this.showDeleteActivityData.bind(this)}
+					coupon={this.props.coupon}
+					coupon_id={this.props.coupon_id}
+					query_id={this.props.query_id}
+				/>
 				<div className="price">¥ {this.props.return_money}</div>
 				<div className="info">
 					<span>满{this.props.total_fee}可用</span>
@@ -57,6 +81,8 @@ export default class CouponCard extends Component<Props> {
 				<div className={styles.errbBox}>
 					<img onClick={this.deleteData} src={require('../../../../assets/error_border.png')} alt="" />
 				</div>
+
+				
 			</div>
 		);
 	}
@@ -74,6 +100,7 @@ class ProgressBar extends Component<ProgressBarProps> {
 	render() {
 		return (
 			<div className={styles.progressBar}>
+				
 				<div className="title">{this.props.title}</div>
 				<Flex>
 					<div className="bar">
