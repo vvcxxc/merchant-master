@@ -1,0 +1,101 @@
+.calendarPage {
+  height: 100vh;
+  .shadow{
+    position: fixed;
+    top:0;
+    left: 0;
+    background-color:rgba(0, 0, 0, 0.5) ;
+    height: 100vh;
+    width: 100vw;
+    z-index: 888;
+  }
+  .calendar{
+    background-color: #fff;
+    position: fixed;
+    top:100px;
+  }
+  .headers {
+    // position: absolute;
+    position: fixed;
+    width: 100vw;
+    left: 0;
+    bottom: 708px;
+    background-color: #fff;
+    .start_end{
+      padding-top: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        width: 200%;
+      }
+    }
+    .title {
+      font-size:32px;
+      font-family:PingFang SC;
+      font-weight:500;
+      color:rgba(33,65,138,1);
+      margin: 0 52px;
+      padding: 21px 29px;
+      background-color: #fff;
+      border-bottom: 1.5px solid rgba(33,65,138,1);
+    }
+    .showTime{
+      padding-top: 33px;
+      margin: 0 52px;
+      font-size:24px;
+      font-family:PingFang SC;
+      font-weight:500;
+      color:rgba(51,51,51,1);
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      border: none;
+      background-color: #fff;
+      padding-bottom: 20px;
+      .mydates{
+        margin-top: 11px;
+        // padding: 20px;
+        height: 61px;
+        width: 208px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size:28px;
+        font-family:PingFang SC;
+        font-weight:bold;
+        border:2px solid rgba(33,65,138,1);
+        border-radius:5px;
+        color:rgba(33,65,138,1);
+      }
+    }
+  }
+  .calendarBottom{
+    position: fixed;
+    bottom: 0;
+    padding: 20px 76px 50px 50px ;
+    font-size: 23px;
+    color: #999999;
+    background: #fff;
+  }
+
+  // 修改组件库样式
+  :global {
+    .am-calendar .content{
+      height: 590px;
+      top:auto;
+      bottom: 120px;
+    }
+    .am-calendar .header {
+      display: none;
+    }
+    .am-calendar .single-month .row .cell .info {
+      // height: 0px;
+    }
+    .am-calendar .mask {
+      z-index: -999;
+    }
+  }
+}
+
+ 
