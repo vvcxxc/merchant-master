@@ -249,10 +249,10 @@ export default connect(({ activity }: any) => activity)(
         Toast.fail('开团数量不能为0', 2);
         return;
       }
-      if (validity == 0) {
-        Toast.fail('有效期不能为0', 2);
-        return;
-      }
+      // if (validity == 0) {
+      //   Toast.fail('有效期不能为0', 2);
+      //   return;
+      // }
       if (group_number == 0) {
         Toast.fail('成团人数不能为0', 2);
         return;
