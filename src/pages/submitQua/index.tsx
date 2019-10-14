@@ -99,6 +99,26 @@ export default connect(({ submitQua }: any) => submitQua)(
       modal1: false,
       modal1img: [],
       bankList: [],
+      hasBankList: [
+        '工商银行',
+        '建设银行',
+        '农业银行',
+        '中国银行',
+        '交通银行',
+        '招商银行',
+        '中信银行',
+        '兴业银行',
+        '民生银行',
+        '浦发银行',
+        '光大银行',
+        '广发银行',
+        '华夏银行',
+        '平安银行',
+        '浙商银行',
+        '渤海银行',
+        '恒丰银行',
+        '邮政储蓄银行',
+      ]
     };
 
 
@@ -641,12 +661,21 @@ export default connect(({ submitQua }: any) => submitQua)(
                 Toast.hide();
                 Cookies.set("_handleBankNum", JSON.stringify(str), { expires: 1 });
                 Cookies.set("_handleSettleBank", JSON.stringify(data.bank_name), { expires: 1 });
+                if (this.state.hasBankList.indexOf(data.bank_name) > -1) {
+                  console.log('有啊')
+                  this.props.dispatch({
+                    type: 'submitQua/setQua',
+                    payload: {
+                      bank_disable: true
+                    }
+                  });
+                }
                 this.props.dispatch({
                   type: 'submitQua/setQua',
                   payload: {
                     settle_bank_account_no: str,
                     settle_bank: data.bank_name,
-                    bank_disable: true
+                    // bank_disable: true
                   }
                 });
                 // if (data.bank_name) {
@@ -732,12 +761,20 @@ export default connect(({ submitQua }: any) => submitQua)(
                 Toast.hide();
                 Cookies.set("_handleBankNum", JSON.stringify(str), { expires: 1 });
                 Cookies.set("_handleSettleBank", JSON.stringify(data.bank_name), { expires: 1 });
+                if (this.state.hasBankList.indexOf(data.bank_name) > -1) {
+                  this.props.dispatch({
+                    type: 'submitQua/setQua',
+                    payload: {
+                      bank_disable: true
+                    }
+                  });
+                }
                 this.props.dispatch({
                   type: 'submitQua/setQua',
                   payload: {
                     settle_bank_account_no: str,
                     settle_bank: data.bank_name,
-                    bank_disable: true
+                    // bank_disable: true
                   }
                 });
                 // if (data.bank_name) {
@@ -1259,11 +1296,11 @@ export default connect(({ submitQua }: any) => submitQua)(
                 <InputItem ref="bank1" placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name} clear>开户人</InputItem>
                 <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum} clear>银行卡号</InputItem>
                 <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank} clear>开户行</InputItem>
-                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} onBlur={() => {
-                  setTimeout(()=>{ this.props.dispatch({ type: 'submitQua/setQua', payload: { bankShow: false } })},300)
-                }} clear>支行</InputItem>
+                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} onBlur={() => {
+                  setTimeout(() => { this.props.dispatch({ type: 'submitQua/setQua', payload: { bankShow: false } }) }, 300)
+                }} clear>支行</InputItem>
 
-                <div className={styles.bankMsg} style={{ display: this.props.bankShow ? "block" : "none" }}>
+                <div className={styles.bankMsg} style={{ display: this.props.bankShow && this.props.bank_disable ? "block" : "none" }}>
                   <div className={styles.bankMsg_box} >
                     <ul className={styles.bankMsg_box_ul}>
                       {
