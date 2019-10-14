@@ -33,7 +33,7 @@ export default connect(({ app }: any) => app)(
 
 		componentWillMount() {
 
-			// 给两个用于海报使用 
+			// 给两个用于海报使用
 			localStorage.setItem('QL_headImg', 'refresh')
 			localStorage.setItem('QL_giftImg', 'refresh')
 			request({
@@ -194,7 +194,7 @@ export default connect(({ app }: any) => app)(
               router.push({
                 pathname: '/verification/success',
                 query: {
-                  id: res.data.youhu_log_id
+                  youhui_log_id: res.data.youhu_log_id
                 }
               })
             } else {
