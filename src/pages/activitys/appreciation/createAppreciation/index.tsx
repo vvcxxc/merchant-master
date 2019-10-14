@@ -243,10 +243,10 @@ export default connect(({ activity }: any) => activity)(
         Toast.fail('助力人数不能为0', 2);
         return;
       }
-      if (validity == 0) {
-        Toast.fail('有效期不能为0', 2);
-        return;
-      }
+      // if (validity == 0) {
+      //   Toast.fail('有效期不能为0', 2);
+      //   return;
+      // }
       if (total_num == 0) {
         Toast.fail('发放数量不能为0', 2);
         return;

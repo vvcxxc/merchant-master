@@ -312,7 +312,7 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
           </Flex>
           {/* 图片 */}
           {
-            this.state.info.group_info.images ? <Flex className={styles.activity_img}>
+            this.state.info.group_info.images&& this.state.info.group_info.images.length>1 ? <Flex className={styles.activity_img}>
               <Carousel
                 autoplay={true}
                 infinite
