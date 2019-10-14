@@ -434,7 +434,7 @@ export default connect(({ createStore }: any) => createStore)(
           data: {
             store_name: name,
             // 详细地址
-            address:detailAddress,
+            address:JSON.parse(detailAddress),
             // 定位地址
             gaode_address:address,
             house_num,
