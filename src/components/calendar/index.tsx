@@ -130,8 +130,8 @@ export default class CreateCalendar extends Component<Props> {
           onCancel={this.onCancel}
           onSelect={this.onSelect}
           onConfirm={this.onConfirm}
-          // onSelectHasDisableDate={this.onSelectHasDisableDate}
-          // getDateExtra={this.getDateExtra}
+          onSelectHasDisableDate={this.onSelectHasDisableDate}
+          getDateExtra={this.getDateExtra}
           defaultDate={now}
           minDate={new Date(+now - 5184000000)}
           maxDate={new Date(+now + 91536000000)}
