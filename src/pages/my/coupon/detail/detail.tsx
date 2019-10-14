@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import request from '@/services/request';
-import { Toast, Flex, WingBlank,Carousel } from 'antd-mobile';
+import { Toast, Flex, WingBlank, Carousel } from 'antd-mobile';
 import MyCouponItem, { Item } from '../item';
 import router from 'umi/router';
 import OperationTip from '@/components/OperationTip';
@@ -9,10 +9,10 @@ import OperationTip from '@/components/OperationTip';
 interface Props {
 	id: any;
 }
-
+//youhui_type 0兑换券
 export default class ContentDetail extends Component<Props, any> {
 	state = {
-		data: { description: [], publish_wait: 1, images: [] },
+		data: { description: [], publish_wait: 1, images: [], youhui_type: 2 },
 		modalType: ''
 	};
 
@@ -109,19 +109,20 @@ export default class ContentDetail extends Component<Props, any> {
 
 	render() {
 		const itemProps: Item = this.state.data;
-		const rules = this.state.data.description.map((_: string) => <li key={_}>{_}</li>);
+		const rules = this.state.data.description.map((_: string) => <li key={_}>. {_}</li>);
 		const stopBtnStyle = { backgroundColor: this.state.data.publish_wait === 1 ? '#ff6654' : '' };
 		return (
 			<Flex direction="column" className={styles.detail}>
 				<Flex.Item>
 
-					
-					<WingBlank>
-						<MyCouponItem {...itemProps} onClick={this.handleClickItem} />
-					</WingBlank>
+					{
+						this.state.data.youhui_type == 1 ? <WingBlank>
+							<MyCouponItem {...itemProps} onClick={this.handleClickItem} />
+						</WingBlank> : null
+					}
 
 					{
-						this.state.data.images && this.state.data.images.length > 0 ? < Flex className="activity_img">
+						this.state.data.youhui_type == 0 && this.state.data.images && this.state.data.images.length > 0 ? < Flex className="activity_img">
 							<Carousel
 								autoplay={true}
 								infinite
@@ -134,20 +135,35 @@ export default class ContentDetail extends Component<Props, any> {
 					}
 
 
+					{
+						this.state.data.youhui_type == 0 ? <div className="setMealCoupon">
+							<Flex className="setMealCoupon_title">
+								<img src={require('./icon.png')} alt="" />
+								<Flex.Item>
+									<div className="title">优惠券信息</div>
+								</Flex.Item>
+							</Flex>
 
+							<Flex className="setMealCoupon_msg">
+								<div className="setMealCoupon_msg_key">商品原价:</div>
+								<div className="setMealCoupon_msg_value">{this.state.data.return_money}</div>
+							</Flex>
 
+							<Flex className="setMealCoupon_msg">
+								<div className="setMealCoupon_msg_key">优惠价格:</div>
+								<div className="setMealCoupon_msg_value">{this.state.data.return_money}</div>
+							</Flex>
+							<Flex className="setMealCoupon_msg">
+								<div className="setMealCoupon_msg_key">有效期:</div>
+								<div className="setMealCoupon_msg_value">{this.state.data.validity}</div>
+							</Flex>
+							<Flex className="setMealCoupon_msg">
+								<div className="setMealCoupon_msg_key">使用须知:</div>
+								<ul className="setMealCoupon_msg_ul">{rules}</ul>
+							</Flex>
+						</div> : null
 
-
-
-					<div className="couponDetail">
-						<Flex className="head">
-							<img src={require('./icon.png')} alt="" />
-							<Flex.Item>
-								<div className="title">使用规则</div>
-							</Flex.Item>
-						</Flex>
-						<ul className="ruleList">{rules}</ul>
-					</div>
+					}
 				</Flex.Item>
 				<Flex className="footerBtns">
 					<Flex.Item className="deleteBtn" onClick={this.showModalDelete('delete')}>

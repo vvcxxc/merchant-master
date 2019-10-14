@@ -662,7 +662,6 @@ export default connect(({ submitQua }: any) => submitQua)(
                 Cookies.set("_handleBankNum", JSON.stringify(str), { expires: 1 });
                 Cookies.set("_handleSettleBank", JSON.stringify(data.bank_name), { expires: 1 });
                 if (this.state.hasBankList.indexOf(data.bank_name) > -1) {
-                  console.log('有啊')
                   this.props.dispatch({
                     type: 'submitQua/setQua',
                     payload: {
