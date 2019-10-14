@@ -146,12 +146,12 @@ export default class ContentDetail extends Component<Props, any> {
 
 							<Flex className="setMealCoupon_msg">
 								<div className="setMealCoupon_msg_key">商品原价:</div>
-								<div className="setMealCoupon_msg_value"></div>
+								<div className="setMealCoupon_msg_value">{this.state.data.return_money}</div>
 							</Flex>
 
 							<Flex className="setMealCoupon_msg">
 								<div className="setMealCoupon_msg_key">优惠价格:</div>
-								<div className="setMealCoupon_msg_value"></div>
+								<div className="setMealCoupon_msg_value">{this.state.data.pay_money}</div>
 							</Flex>
 							<Flex className="setMealCoupon_msg">
 								<div className="setMealCoupon_msg_key">有效期:</div>
