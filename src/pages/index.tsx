@@ -190,7 +190,7 @@ export default connect(({ app }: any) => app)(
               router.push({
                 pathname: '/verification/success',
                 query: {
-                  id: res.data.youhu_log_id
+                  youhu_log_id: res.data.youhu_log_id
                 }
               })
             } else {

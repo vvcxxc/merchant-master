@@ -29,7 +29,7 @@ export default class Success extends Component {
         url: 'api/merchant/youhui/cancel_succeed',
         method: 'get',
         params: {
-          youhu_log_id: this.props.location.query.id
+          youhu_log_id: this.props.location.query.youhu_log_id
         }
       }).then(res => {
         this.setState({
