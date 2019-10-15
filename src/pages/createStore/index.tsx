@@ -82,7 +82,7 @@ export default connect(({ createStore }: any) => createStore)(
           detailAddress: Cookies.get("handleAddress") ? JSON.parse(Cookies.get("handleAddress")) : ""
         })
       }
-
+ 
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
