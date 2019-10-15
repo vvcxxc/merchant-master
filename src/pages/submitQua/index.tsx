@@ -119,7 +119,7 @@ export default connect(({ submitQua }: any) => submitQua)(
         '恒丰银行',
         '邮政储蓄银行',
       ],
-      prompt:false
+      prompt: false
     };
 
 
@@ -232,6 +232,16 @@ export default connect(({ submitQua }: any) => submitQua)(
             }
           })
 
+          let temp_name = Cookies.get("_handleSettleBank") ? JSON.parse(Cookies.get("_handleSettleBank")) : settle_bank;
+          if (this.state.hasBankList.indexOf(temp_name) > -1) {
+            this.props.dispatch({
+              type: 'submitQua/setQua',
+              payload: {
+                bank_disable: true
+              }
+            });
+          }
+
           // if (legal_id_front_img) {
           //   this.props.dispatch({
           //     type: 'submitQua/setQua',
@@ -284,6 +294,17 @@ export default connect(({ submitQua }: any) => submitQua)(
         } else {
           // let temp=document.getElementById("box1").value;
           // this.handleBankName(temp);
+
+          let temp_name = Cookies.get("_handleSettleBank") ? JSON.parse(Cookies.get("_handleSettleBank")) : settle_bank;
+          if (this.state.hasBankList.indexOf(temp_name) > -1) {
+            this.props.dispatch({
+              type: 'submitQua/setQua',
+              payload: {
+                bank_disable: true
+              }
+            });
+          }
+
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
@@ -401,8 +422,6 @@ export default connect(({ submitQua }: any) => submitQua)(
           this.setState({ bankList: res.date })
         })
       }
-      //不给缓存了，防止写一半刷新
-      //又说要给了
       Cookies.set("_handleBankName", JSON.stringify(e), { expires: 1 });
       this.props.dispatch({
         type: 'submitQua/setQua',
@@ -1297,12 +1316,12 @@ export default connect(({ submitQua }: any) => submitQua)(
                 </div>
               </div>
               <div className={styles.radio0_space} style={{ height: this.state.prompt ? "auto" : 0 }}>
-                  <div className={styles.radio0_msg}>
-                    <p>
+                <div className={styles.radio0_msg}>
+                  <p>
                     银行列表：工商银行，建设银行，农业银行，中国银行，交通银行，招商银行，中信银行，兴业银行，民生银行，浦发银行，光大银行，广发银行，华夏银行，平安银行，浙商银行，渤海银行，恒丰银行，邮政储蓄银行。
                     </p>
-                  </div>
                 </div>
+              </div>
               <Flex className={styles.bank_img}>
                 {bankFront}
                 {bankBack}
