@@ -383,6 +383,7 @@ export default connect(({ createStore }: any) => createStore)(
       // console.log(Cookies.get("handleDetailAddress"))
       let detailAddress = Cookies.get("handleDetailAddress");
       let { name, address, house_num, phone, manage_type, email, _code, store_door_header_img, store_img_one, store_img_two, location } = this.props;
+      // console.log(address,detailAddress)
       // if (name && address && house_num && phone && manage_type && email && store_door_header_img && store_img_one && store_img_two) {
         if(!name){
           Toast.fail('店铺名不能为空')
@@ -432,8 +433,10 @@ export default connect(({ createStore }: any) => createStore)(
           method: 'post',
           data: {
             store_name: name,
-            address,
-            gaode_address:detailAddress,
+            // 详细地址
+            address:JSON.parse(detailAddress),
+            // 定位地址
+            gaode_address:address,
             house_num,
             phone,
             manage_type,
