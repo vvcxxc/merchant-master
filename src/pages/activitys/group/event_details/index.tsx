@@ -119,7 +119,7 @@ export default class EventDetails extends Component<Props> {
                   <div className={styles.content_b}>
                     <div className={styles.content_bgc}>
                       <div className={styles.content_round} style={{
-                        width: item.init_money + item.appreciation_money / item.return_money * 340+'px'
+                        width: item.init_money + item.appreciation_money / item.return_money * 100 + '%'
                       }}></div>
                     </div>
                     <div className={styles.people}> {item.return_money*1000000/1000000}元</div>
@@ -143,7 +143,7 @@ export default class EventDetails extends Component<Props> {
                   <div className={styles.content_b}>
                     <div className={styles.content_bgc}>
                       <div className={styles.content_round} style={{
-                        width: item.participation_number / item.number * 340+'px'
+                        width: item.participation_number / item.number * 100+'%'
                       }}></div>
                     </div>
                     <div className={styles.people}> {item.participation_number}人
