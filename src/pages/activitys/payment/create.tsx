@@ -8,6 +8,8 @@ import request from '@/services/request';
 import router from 'umi/router';
 import SelectTime from '@/components/select-time';
 import SelectCalendar from '@/components/calendar'
+// import CreateCalendar from '@/components/calendarTwo'
+
 export default class CreatePaymentReturn extends Component {
 	state = {
 		rules: [{}],
@@ -177,6 +179,7 @@ export default class CreatePaymentReturn extends Component {
 				<SelectCalendar
 					show={this.state.showSelectTime}
 					choose={this.start_endTime.bind(this)}/>
+				{/* <CreateCalendar/> */}
 			</div>
 		);
 	}
