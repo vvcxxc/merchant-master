@@ -13,6 +13,7 @@ interface Props {
   location: any,
   dispatch: any
 }
+
 export default connect(({ activity }: any) => activity)(class GroupDetails extends Component<Props> {
   state = {
     dataEchart: [],
@@ -226,7 +227,7 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
 
   // 点击查看详情
   lookDetail = () => {
-    
+    router.push({ pathname: '/activitys/group/event_details', query: { id: this.props.location.query.id} })
   }
 
   render() {

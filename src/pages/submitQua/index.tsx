@@ -1163,6 +1163,9 @@ export default connect(({ submitQua }: any) => submitQua)(
         }
       })
     }
+    service = () => {
+      window.location.href = 'https://xiaokefu.com.cn/s/9196ogf3'
+    }
 
     render() {
       const idFront = this.props.is_id_front == true ? (
@@ -1365,6 +1368,9 @@ export default connect(({ submitQua }: any) => submitQua)(
               <div className={styles.save} onClick={this.submit(1)}>保存</div>
               <div className={styles.submit} onClick={this.submit(2)}>提交审核</div>
             </Flex>
+          </div>
+          <div className={styles.service} onClick={this.service}>
+            <img src={require('@/assets/service.png')}/>
           </div>
         </div>
       )

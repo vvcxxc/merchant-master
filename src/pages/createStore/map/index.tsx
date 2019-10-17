@@ -106,7 +106,18 @@ export default connect(({ createStore }: any) => createStore)(
                 latitude,
                 longitude
               };
-              _this.setState({ location });
+              console.log(this.props.address)
+              if(!this.props.address) {
+                // alert('123')
+                _this.setState({ location });
+                _this.props.dispatch({
+                  type: 'createStore/setStore',
+                  payload: {
+                    location,
+                  }
+                })
+              }
+
               const lnglat = [longitude, latitude]
               _this.geocoder && _this.geocoder.getAddress(lnglat, (status: string, result: any) => {
                 if (status === 'complete') {
@@ -449,7 +460,7 @@ export default connect(({ createStore }: any) => createStore)(
               buttonOffset: new AMap.Pixel(14, 130),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
               showMarker: false,        //定位成功后在定位到的位置显示点标记，默认：true
               showCircle: false,        //定位成功后用圆圈表示定位精度范围，默认：true
-              panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+              panToLocation: false,     //定位成功后将定位到的位置作为地图中心点，默认：true
               zoomToAccuracy: true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
             });
             instance.addControl(geolocation);
@@ -471,6 +482,7 @@ export default connect(({ createStore }: any) => createStore)(
           })
         },
         click: (e: any) => {
+          console.log(e)
           this.setState({
             location: {
               longitude: e.lnglat.lng,
