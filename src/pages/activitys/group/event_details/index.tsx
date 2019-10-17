@@ -107,7 +107,7 @@ export default class EventDetails extends Component<Props> {
           this.props.location.query.youhui_id?  myData.map((item:any,index) => {
             return <div className={styles.page} key={index}>
               <div className={styles.title}>
-                <div>{item.create_time}</div>
+                <div>{item.created_at}</div>
                 <div>{item.is_consume}</div>
               </div>
               <div className={styles.eventDetailsContent}>
@@ -119,8 +119,9 @@ export default class EventDetails extends Component<Props> {
                   <div className={styles.content_b}>
                     <div className={styles.content_bgc}>
                       <div className={styles.content_round} style={{
-                        width: item.init_money + item.appreciation_money / item.return_money * 100 + '%'
-                      }}></div>
+                        width: item.percentage+ '%'
+                      }}>
+                      </div>
                     </div>
                     <div className={styles.people}> {item.return_money*1000000/1000000}元</div>
                   </div>
