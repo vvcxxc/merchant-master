@@ -66,7 +66,7 @@ export default class MemberInformation extends Component<Props> {
     }).then(res => {
       const { code, data } = res
       if (code == 200) {
-        data.length > 0 ? this.setState({ show: true }): this.setState({ show: true })
+        data.length > 0 ? this.setState({ show: true }): this.setState({ show: false })
       }
     })
   }
@@ -103,7 +103,7 @@ export default class MemberInformation extends Component<Props> {
       <div className={styles.memberInformation}>
         {
           myData.map((item: any, index: number) => {
-            return <div className={styles.memberInformationContent} key={index}>
+            return <div className={styles.memberInformationContent} key={' '}>
               <div className={styles.content_left}>
                 <img src={item.user_portrait} alt="" />
               </div>
