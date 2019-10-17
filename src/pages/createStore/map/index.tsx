@@ -113,6 +113,7 @@ export default connect(({ createStore }: any) => createStore)(
                   location,
                 }
               })
+
               const lnglat = [longitude, latitude]
               _this.geocoder && _this.geocoder.getAddress(lnglat, (status: string, result: any) => {
                 if (status === 'complete') {
