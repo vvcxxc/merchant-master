@@ -23,6 +23,7 @@ export default connect(({ activity }: any) => activity)(
   class GroupDetails extends Component<any> {
 
     state = {
+      youhui_id:'',
       echart_Data: [],
       posterData: {},
       info: {
@@ -102,6 +103,10 @@ export default connect(({ activity }: any) => activity)(
             data.appreciation_count.participation_number,
             data.appreciation_count.coupons_number
           ]
+        })
+
+        this.setState({
+          youhui_id: data.appreciation_gif_info.youhui_id
         })
 
         this.setState({
@@ -221,22 +226,9 @@ export default connect(({ activity }: any) => activity)(
     }
 
 
-
-    // 将canvas要的图片转译成base64编码
-    // base64Data = () => {
-    //   this.props.dispatch({
-    //     type: 'activity/setDetails',
-    //     payload: {
-    //       headImg: '23232',
-    //       giftImg:'8989'
-    //     }
-    //   });
-
-    //     setTimeout(() => {
-    //       console.log(this.props.details, 99);
-    //     }, 1009);
-
-    // }
+    lookDetail = () => {
+      router.push({ pathname: '/activitys/group/event_details', query: { youhui_id: this.state.youhui_id } })
+    }
 
 
 
@@ -361,6 +353,7 @@ export default connect(({ activity }: any) => activity)(
             <Flex className={styles.item} align='start'>
               <div className={styles.item_name}>增值人数：</div>
               <div className={styles.item_detail}>{info.appreciation_info.appreciation_number}人</div>
+              <div className={styles.jump_detail} onClick={this.lookDetail}>查看详细</div>
             </Flex>
             <Flex className={styles.item} align='start'>
               <div className={styles.item_name}>总参与人数：</div>
