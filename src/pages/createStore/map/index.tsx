@@ -107,6 +107,12 @@ export default connect(({ createStore }: any) => createStore)(
                 longitude
               };
               _this.setState({ location });
+              _this.props.dispatch({
+                type: 'createStore/setStore',
+                payload: {
+                  location,
+                }
+              })
               const lnglat = [longitude, latitude]
               _this.geocoder && _this.geocoder.getAddress(lnglat, (status: string, result: any) => {
                 if (status === 'complete') {
@@ -471,6 +477,7 @@ export default connect(({ createStore }: any) => createStore)(
           })
         },
         click: (e: any) => {
+          console.log(e)
           this.setState({
             location: {
               longitude: e.lnglat.lng,
