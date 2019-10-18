@@ -1,6 +1,6 @@
 /**title: 使用规则 */
 import React, { Component } from 'react';
-import { Flex, WingBlank, Button, InputItem ,Toast} from 'antd-mobile';
+import { Flex, WingBlank, Button, InputItem ,Toast,View} from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request'
 import { DraggableArea } from 'react-draggable-tags';
@@ -171,16 +171,22 @@ export default connect(({ activity, createCoupon}: any) => ({activity,createCoup
       }
       router.goBack()
     }
+    
+    handleChangeBlur = (e) => {
+      console.log('失焦')
+      window.scrollTo(0, 0)
+    }
 
     render() {
 
       return (
+        <View style={{ position: 'fixed', height: '100vh', width: '100vw', overflow: 'scroll',top:0,left:0 }}>
         <div style={{ width: '100%', height: '100%', background: '#fff' }}>
           <WingBlank>
             <Flex className={styles.title}><div>使用须知</div></Flex>
             <div className={styles.box}>
               {
-                this.state.drag_list.length == 0 ? <div className={styles.nullListMsg}>暂无商品数据</div> : null
+                this.state.drag_list.length == 0 ? <div className={styles.nullListMsg}>暂无设置规则</div> : null
               }
               {
                 this.state.drag_list.map((item, index) => {
@@ -209,12 +215,13 @@ export default connect(({ activity, createCoupon}: any) => ({activity,createCoup
             </div>
             <Flex className={styles.title}><div>自定义</div></Flex>
             <div className={styles.inputBox}>
-              <input type="text" placeholder='自定义' onChange={this.handleChange} value={this.state.tag} />
+              <input type="text" placeholder='自定义' onChange={this.handleChange}  onBlur={this.handleChangeBlur.bind(this)} value={this.state.tag} />
               <div className={styles.button2} onClick={this.addToRecommend}>添加</div>
             </div>
             <div className={styles.button} onClick={this.Finish}>保存</div>
           </WingBlank>
         </div>
+        </View>
       )
     }
   })

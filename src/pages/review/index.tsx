@@ -97,9 +97,9 @@ export default class Review extends Component {
         if(payment_open_status == 2 || payment_open_status == 0 || store_open_status == 2){
           this.setState({is_show: true})
         }
-
-
-
+        if(payment_open_status == 3 && store_open_status == 3){
+          router.push('/')
+        }
 
         this.setState({
           info: data,

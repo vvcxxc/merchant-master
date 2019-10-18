@@ -33,7 +33,7 @@ export default class InputCode extends Component {
           router.push({
             pathname: '/verification/success',
             query: {
-              youhu_log_id: res.data.youhu_log_id
+              youhui_log_id: res.data.youhu_log_id
             }
           })
 				} else {

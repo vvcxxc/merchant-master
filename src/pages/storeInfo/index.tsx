@@ -15,6 +15,7 @@ export default class StoreInfo extends Component {
   state = {
     store_name: '',
     address: '',
+    detailAddress: '',
     house_num: '',
     phone: '',
     value: [],
@@ -64,7 +65,8 @@ export default class StoreInfo extends Component {
         location,
         store_name: data.name,
         phone: data.tel,
-        address: data.address,
+        address: data.gaode_address,
+        detailAddress: data.address,
         value: [data.manage_type],
         store_door_header_img: data.store_door_header_img,
         store_img_two: data.store_img_two,
@@ -164,6 +166,7 @@ export default class StoreInfo extends Component {
     this.setState({
       location,
       address,
+      detailAddress: address,
       is_map: false
     })
   }
@@ -191,16 +194,23 @@ export default class StoreInfo extends Component {
     })
   }
 
+  handleChange = (val:any) => {
+    this.setState({
+      detailAddress: val
+    })
+  }
+
 
   save = () => {
-    const { store_name, address, house_num, phone, store_img_one, store_img_two, store_door_header_img, manage_type, location, email} = this.state;
+    const { store_name, address, detailAddress ,house_num, phone, store_img_one, store_img_two, store_door_header_img, manage_type, location, email} = this.state;
     request ({
       url: 'v3/stores',
       method: 'put',
       data: {
         email,
         store_name,
-        address,
+        address:detailAddress,
+        gaode_address: address,
         phone,
         manage_type,
         store_door_header_img,
@@ -223,7 +233,7 @@ export default class StoreInfo extends Component {
   }
 
   render (){
-    const { store_head, store_img1, store_img2, store_name, address, house_num, phone, email, store_img_one, store_img_two, store_door_header_img} = this.state;
+    const { store_head, store_img1, store_img2, store_name, address,detailAddress, house_num, phone, email, store_img_one, store_img_two, store_door_header_img} = this.state;
     const map = this.state.is_map == true ? (
       <MapPage onChange={this.mapChange}/>
     ) : (
@@ -286,7 +296,8 @@ export default class StoreInfo extends Component {
         <WingBlank className={styles.inputBox}>
           <List>
             <InputItem placeholder='门店名称' value={store_name} onChange={this.handleStoreName} clear>门店名称</InputItem>
-            <InputItem placeholder='门店地址' onClick={this.openMap} value={address}>门店地址</InputItem>
+            <InputItem placeholder='门店定位' onClick={this.openMap} value={address}>门店定位</InputItem>
+            <InputItem placeholder='详细地址' onChange={this.handleChange} value={detailAddress}>详细地址</InputItem>
             <InputItem placeholder='请输入详细门牌号，如：5栋2楼401' value={house_num} onChange={this.handleHouseNum} clear>门牌号</InputItem>
             <InputItem placeholder='门店电话' value={phone} onChange={this.handlePhone} clear>门店电话</InputItem>
             <InputItem placeholder='邮箱' value={email} onChange={this.handleEmail} clear>邮箱</InputItem>

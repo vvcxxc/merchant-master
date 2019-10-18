@@ -13,6 +13,7 @@ interface Props {
   location: any,
   dispatch: any
 }
+
 export default connect(({ activity }: any) => activity)(class GroupDetails extends Component<Props> {
   state = {
     dataEchart: [],
@@ -224,6 +225,11 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
     }
   }
 
+  // 点击查看详情
+  lookDetail = () => {
+    router.push({ pathname: '/activitys/group/event_details', query: { id: this.props.location.query.id} })
+  }
+
   render() {
     const { info, is_gift, types, dataEchart } = this.state;
     let infoData: any = info.group_gif_info;
@@ -307,7 +313,7 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
           </Flex>
           {/* 图片 */}
           {
-            this.state.info.group_info.images ? <Flex className={styles.activity_img}>
+            this.state.info.group_info.images&& this.state.info.group_info.images.length>1 ? <Flex className={styles.activity_img}>
               <Carousel
                 autoplay={true}
                 infinite
@@ -322,7 +328,7 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
           {/* <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
             活动统计数据
-            
+
           </Flex>
           {echart} */}
           {/* 基本信息 */}
@@ -345,6 +351,7 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
           <Flex className={styles.item} align='start'>
             <div className={styles.item_name}>拼团人数：</div>
             <div className={styles.item_detail}>{info.group_info.group_number}人</div>
+            <div className={styles.jump_detail} onClick={this.lookDetail}>查看详细</div>
           </Flex>
           <Flex className={styles.item} align='start'>
             <div className={styles.item_name}>活动时间：</div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { InputItem } from 'antd-mobile';
+import { Flex, List, InputItem } from 'antd-mobile';
 import { connect } from 'dva';
 import { MoneyForm } from './model';
 
@@ -18,14 +18,6 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 					[type]: parseInt(value)
 					// [type]: value
 
-				}
-			});
-    };
-    handleInput2 = (type: string) => (value: any) => {
-			this.props.dispatch({
-				type: 'createCoupon/setMoney',
-				payload: {
-					[type]: value
 				}
 			});
 		};
@@ -55,6 +47,23 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 					购买价格
 				</InputItem>
 			);
+
+
+			const DateInput = (
+				<Flex>
+					购券日起
+				<InputItem
+				className="numberInput" 
+						extra="天可用"
+						type="money"
+						value={String(this.props.validity || '')}
+						onChange={this.handleInput('validity')}
+					/>
+				</Flex>
+			);
+
+
+
 			return (
 				<div>
 					<InputItem
@@ -74,14 +83,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 					>
 						使用门槛
 					</InputItem>
-					<InputItem
-						extra="天可用"
-						type="money"
-						value={String(this.props.validity || '')}
-						onChange={this.handleInput('validity')}
-					>
-						优惠券有效期
-					</InputItem>
+					<List.Item extra={DateInput}>优惠券有效期</List.Item>
 					<InputItem
 						type="money"
 						extra="张"

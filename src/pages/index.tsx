@@ -32,6 +32,10 @@ export default connect(({ app }: any) => app)(
 		};
 
 		componentWillMount() {
+
+			// 给两个用于海报使用
+			localStorage.setItem('QL_headImg', 'refresh')
+			localStorage.setItem('QL_giftImg', 'refresh')
 			request({
 				url: 'v3/payment_profiles/payment_status',
 				method: 'get'
@@ -190,7 +194,11 @@ export default connect(({ app }: any) => app)(
               router.push({
                 pathname: '/verification/success',
                 query: {
+<<<<<<< HEAD
                   youhu_log_id: res.data.youhu_log_id
+=======
+                  youhui_log_id: res.data.youhu_log_id
+>>>>>>> release
                 }
               })
             } else {
