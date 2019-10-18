@@ -89,7 +89,7 @@ export default class MemberInformation extends Component<Props> {
     const { myData,show } = this.state
     const { group_id, status } = this.props.location.query
     const specific: any = {
-      [1]: '未成团',
+      [1]: '卡券待生成',
       [2]: '已参团',
       [3]: '已过期'
     }
