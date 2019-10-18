@@ -511,33 +511,6 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 
 							<Flex justify="center" className={styles.ad_title}>
 								<div className={styles.ad_rechange} onClick={this.handleToRechange} style={{ width: "50%", left: "0" }}>充值</div>
-								{/* {
-									this.state.ad_status != 1 ? (<div
-										className={styles.ad_submit}
-										onClick={this.handleSubmit}
-									>
-										{
-											this.state.ad_status == 0 ? '投放'
-												: this.state.ad_status == 1 ? '投放'
-													: this.state.ad_status == 2 ? '暂停'
-														: this.state.ad_status == 3 ? '继续投放'
-															: this.state.ad_status == 4 ? '投放' : ''
-										}
-									</div>) : (<div
-										className={styles.ad_submit}
-										onClick={this.handleSubmit}
-									// style={{background: '#c1c1c1'}}
-									>
-										{
-											this.state.ad_status == 0 ? '投放'
-												: this.state.ad_status == 1 ? '投放'
-													: this.state.ad_status == 2 ? '暂停'
-														: this.state.ad_status == 3 ? '继续投放'
-															: this.state.ad_status == 4 ? '投放' : ''
-										}
-									</div>)
-								} */}
-
 								<div
 									className={styles.ad_submit}
 									onClick={this.handleSubmit}>
