@@ -72,7 +72,7 @@ export default class DeleteActivity extends Component<Props> {
     const { show } = this.state
     return (
       <div className={styles.deleteActive} style={{
-        zIndex:show?10:-10
+        zIndex:show?100:-100
       }}>
         <div className={styles.deleteContent}>
           {
