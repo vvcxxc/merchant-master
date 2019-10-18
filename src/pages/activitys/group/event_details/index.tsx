@@ -96,7 +96,7 @@ export default class EventDetails extends Component<Props> {
   render() {
     const { myData, show} = this.state
     let specific:any = {
-      [1]: '未成团',
+      [1]: '拼团中',
       [2]: '已成团',
       [3]:'已过期'
     }
