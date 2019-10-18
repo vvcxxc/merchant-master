@@ -72,8 +72,8 @@ export default connect(({ createStore }: any) => createStore)(
             detailAddress: Cookies.get("handleDetailAddress") ? JSON.parse(Cookies.get("handleDetailAddress")) : ""
           })
         }
-        
-        
+
+
       }else {
         console.log('执行2')
         this.setState({
@@ -82,7 +82,7 @@ export default connect(({ createStore }: any) => createStore)(
           detailAddress: Cookies.get("handleAddress") ? JSON.parse(Cookies.get("handleAddress")) : ""
         })
       }
-
+ 
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -463,6 +463,9 @@ export default connect(({ createStore }: any) => createStore)(
       //   Toast.fail('请将信息填写完整')
       // }
     }
+    service = () => {
+      window.location.href = 'https://xiaokefu.com.cn/s/9196ogf3'
+    }
     render() {
       const { files, my_files, my_files2 } = this.props;
       // const map = this.state.is_map == true ? (
@@ -608,6 +611,9 @@ export default connect(({ createStore }: any) => createStore)(
 
           </WingBlank>
           {/* {map} */}
+          <div className={styles.service} onClick={this.service}>
+            <img src={require('@/assets/service.png')}/>
+          </div>
         </div>
       )
     }
