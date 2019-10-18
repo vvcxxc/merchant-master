@@ -10,7 +10,8 @@ export default class EventDetails extends Component<Props> {
   state = {
     myData: [],
     page: 1,
-    clickAllow:true
+    clickAllow: true,
+    show:false
   }
 
   memberInformation = (group_id: number, status:number) => {
@@ -22,13 +23,23 @@ export default class EventDetails extends Component<Props> {
   }
 
   getDtata = () => {
-    request({
-      url: 'api/merchant/activity/user_group_list',
-      method: 'GET',
-      params: {
-        activity_id: this.props.location.query.id,
+    let url = 'api/merchant/activity/user_group_list'
+    let params:any= {
+      activity_id: this.props.location.query.id,
+      page: this.state.page
+  }
+    if (this.props.location.query.youhui_id) {
+      url = 'api/merchant/youhui/appreciation/activity/yohui_log';
+      params = {
+        youhui_id: this.props.location.query.youhui_id,
         page: this.state.page
       }
+    }
+
+    request({
+      url: url,
+      method: 'GET',
+      params: params
     }).then(res => {
       this.testGetData()
       const { code, data } = res
@@ -45,13 +56,23 @@ export default class EventDetails extends Component<Props> {
   }
 
   testGetData = () => {
-    request({
-      url: 'api/merchant/activity/user_group_list',
-      method: 'GET',
-      params: {
-        activity_id: this.props.location.query.id,
+
+    let url = 'api/merchant/activity/user_group_list'
+    let params: any = {
+      activity_id: this.props.location.query.id,
+      page: this.state.page+1
+    }
+    if (this.props.location.query.youhui_id) {
+      url = 'api/merchant/youhui/appreciation/activity/yohui_log';
+      params = {
+        youhui_id: this.props.location.query.youhui_id,
         page: this.state.page+1
       }
+    }
+    request({
+      url: url,
+      method: 'GET',
+      params: params
     }).then(res => {
       const { code, data } = res
       if (code == 200) {
@@ -75,13 +96,39 @@ export default class EventDetails extends Component<Props> {
   render() {
     const { myData, show} = this.state
     let specific:any = {
-      [1]: '未成团',
+      [1]: '拼团中',
       [2]: '已成团',
       [3]:'已过期'
     }
     return (
       <div className={styles.eventDetails}>
         {
+          //存在这个id，则是增值页面
+          this.props.location.query.youhui_id?  myData.map((item:any,index) => {
+            return <div className={styles.page} key={index}>
+              <div className={styles.title}>
+                <div>{item.created_at}</div>
+                <div>{item.is_consume}</div>
+              </div>
+              <div className={styles.eventDetailsContent}>
+                <div className={styles.content_left}>
+                  <img src={item.avatar} alt="" />
+                </div>
+                <div className={styles.content_right}>
+                  <div className={styles.content_t}>{item.t_name}</div>
+                  <div className={styles.content_b}>
+                    <div className={styles.content_bgc}>
+                      <div className={styles.content_round} style={{
+                        width: item.percentage+ '%'
+                      }}>
+                      </div>
+                    </div>
+                    <div className={styles.people}> {item.return_money*1000000/1000000}元</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }):
           myData.map((item:any,index) => {
             return <div className={styles.page} key={index} onClick={this.memberInformation.bind(this, item.group_id, item.status)}>
               <div className={styles.title}>
@@ -97,10 +144,12 @@ export default class EventDetails extends Component<Props> {
                   <div className={styles.content_b}>
                     <div className={styles.content_bgc}>
                       <div className={styles.content_round} style={{
-                        width: item.participation_number / item.number * 340+'px'
+                        width: item.participation_number / item.number * 100+'%'
                       }}></div>
                     </div>
-                    <div className={styles.people}> {item.participation_number}人</div>
+                    <div className={styles.people}> {item.participation_number}人
+                        <img src={require('../../../../assets/right_back.png')} alt="" />
+                    </div>
                   </div>
                 </div>
               </div>

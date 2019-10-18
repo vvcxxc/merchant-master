@@ -171,7 +171,11 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					{priceInput}
 					<List.Item extra={DateInput}>优惠券有效期</List.Item>
 					<List.Item
-						extra={<span>{this.props.description[0] ? this.props.description[0] + '...' : undefined}</span>}
+						extra={<span>
+							{
+								this.props.description && this.props.description .length != 0 ? '已设置' + this.props.description .length + '条规则' : '请设置使用须知'
+							}
+						</span>}
 						arrow="horizontal"
 						onClick={this.handleShowNotice}
 					>
