@@ -194,11 +194,7 @@ export default connect(({ app }: any) => app)(
               router.push({
                 pathname: '/verification/success',
                 query: {
-<<<<<<< HEAD
-                  youhu_log_id: res.data.youhu_log_id
-=======
                   youhui_log_id: res.data.youhu_log_id
->>>>>>> release
                 }
               })
             } else {
