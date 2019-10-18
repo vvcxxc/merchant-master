@@ -285,7 +285,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 								<WhiteSpace size="lg" />
 								<Flex justify="start">
 									< img src={require('@/assets/ad/ad_intro.png')} alt="" style={{ marginRight: '15px' }} className={styles.ad_intro} />
-									<span className={styles.ad_desc} onClick={() => { router.push('/ad/other-page/readme') }}>
+									<span className={styles.ad_desc} onClick={() => { router.push('/ad/business-area/mustRead') }}>
 										广告位介绍
 									</span>
 								</Flex>
@@ -301,7 +301,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 								<WhiteSpace size="lg" />
 								{
 									this.state.is_pause == 1 ? (
-										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)} style={this.state.paused_status == 5?{color:'blue',textDecoration:'underline'}:{}}>
+										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)} style={this.state.paused_status == 5 ? { color: 'blue', textDecoration: 'underline' } : {}}>
 											广告状态：已暂停({
 												this.state.paused_status == 1 ? '手动暂停' :
 													this.state.paused_status == 2 ? '投放时长超出范围' :
@@ -312,47 +312,23 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 										</div>
 									) : ''
 								}
-								<Flex justify="center" className={styles.ad_title}>
-									<div className={styles.ad_rechange} onClick={this.handleToRechange} style={{ width: "50%", left: "0" }}>充值</div>
-									{/* {
-										this.state.ad_status != 1 ? (<div
-											className={styles.ad_submit}
-											onClick={this.handleSubmit}
-										>
-											{
-												this.state.ad_status == 0 ? '投放'
-													: this.state.ad_status == 1 ? '投放'
-														: this.state.ad_status == 2 ? '暂停'
-															: this.state.ad_status == 3 ? '继续投放'
-																: this.state.ad_status == 4 ? '投放' : ''
-											}
-										</div>) : (<div
-											className={styles.ad_submit}
-											onClick={this.handleSubmit}
-										// style={{background: '#c1c1c1'}}
-										>
-											{
-												this.state.ad_status == 0 ? '投放'
-													: this.state.ad_status == 1 ? '投放'
-														: this.state.ad_status == 2 ? '暂停'
-															: this.state.ad_status == 3 ? '继续投放'
-																: this.state.ad_status == 4 ? '投放' : ''
-											}
-										</div>)
-									} */}
 
-									<div
-										className={styles.ad_submit}
-										onClick={this.handleSubmit}>
-										{
-											this.state.is_pause == 0 && this.state.check_status == 2 ? '继续投放'
-												: this.state.is_pause == 0 && this.state.check_status != 2 ? '暂停投放'
-													: this.state.is_pause == 1 ? '继续投放' : '开始投放'
-										}
-									</div>
-								</Flex>
 							</Flex.Item>
 
+							<WhiteSpace size="lg" />
+
+							<Flex justify="center" className={styles.ad_title}>
+								<div className={styles.ad_rechange} onClick={this.handleToRechange} style={{ width: "50%", left: "0" }}>充值</div>
+								<div
+									className={styles.ad_submit}
+									onClick={this.handleSubmit}>
+									{
+										this.state.is_pause == 0 && this.state.check_status == 2 ? '继续投放'
+											: this.state.is_pause == 0 && this.state.check_status != 2 ? '暂停投放'
+												: this.state.is_pause == 1 ? '继续投放' : '开始投放'
+									}
+								</div>
+							</Flex>
 						</Flex>
 						<SelectCoupon
 							show={this.state.showSelectCoupon}
