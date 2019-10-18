@@ -97,8 +97,8 @@ export default class EventDetails extends Component<Props> {
     const { myData, show} = this.state
     let specific:any = {
       [1]: '拼团中',
-      [2]: '已成团',
-      [3]:'已过期'
+      [2]: '拼团成功',
+      [3]:'拼团失败'
     }
     return (
       <div className={styles.eventDetails}>
