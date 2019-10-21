@@ -69,17 +69,6 @@ export default class ContentDetail extends Component<Props, any> {
 		}
 	};
 
-	// showModal = (type: string) => () => {
-	// 	if (this.state.data.publish_wait === 1) {
-	// 		this.setState({ modalType: type });
-	// 		this.modal.show &&
-	// 			this.modal.show({
-	// 				text: type === 'stop' ? '暂停投放优惠券 将会怎么样怎么样' : '删除优惠券 将会怎么样怎么样'
-	// 			});
-	// 	} else {
-	// 		this.handleStopCoupon();
-	// 	}
-	// };
 
 	showModalStop = (type: string) => () => {
 		if (this.state.data.publish_wait === 1) {
