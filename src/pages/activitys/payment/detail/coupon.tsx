@@ -31,20 +31,6 @@ export default class CouponCard extends Component<Props> {
 		this.setState({
 			showDeleteActivity:true
 		})
-		// console.log(this.props,'porp');
-		// console.log(this.props,333);
-
-
-		return
-		// handleDelete = async () => {
-			Toast.loading('');
-			const res = await request({ url: 'v3/return_coupons/' + this.props.location.query.id, method: 'delete' });
-			Toast.hide();
-			if (res.code === 200) {
-				Toast.success('删除成功');
-				// setTimeout(router.goBack, 1000);
-			}
-		// };
 	}
 
 	showDeleteActivityData = (data:any) => {
@@ -68,13 +54,6 @@ export default class CouponCard extends Component<Props> {
 					<span>满{this.props.total_fee}可用</span>
 					<span>有效期{this.props.expire_day}天</span>
 				</div>
-				{/* 这几个字段是否正确？*/}
-				{/* use_sum	    已使用数量
-					user_count	总数量
-					total_num	已领取数量 */}
-				{/* <ProgressBar title="库存" value={0} label={this.props.total_num + '张'} />
-				<ProgressBar title="已领" value={0} label={this.props.user_count - this.props.total_num + '张'} />
-				<ProgressBar title="已使用" value={0} label={this.props.use_sum + '张'} /> */}
 				<ProgressBar title="库存" value={this.props.total_num / this.props.user_count * 100} label={this.props.total_num + '张'} />
 				<ProgressBar title="已领" value={(this.props.user_count - this.props.total_num) / this.props.user_count * 100} label={(this.props.user_count - this.props.total_num) + '张'} />
 				<ProgressBar title="已使用" value={this.props.use_sum / this.props.user_count * 100} label={this.props.use_sum + '张'} />
