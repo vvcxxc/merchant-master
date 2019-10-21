@@ -23,6 +23,8 @@ export default class DeleteActivity extends Component<Props> {
 
   shouldComponentUpdate(newData: any, oldData: any) {
     if (newData.show !== oldData.show && newData.show) {
+      console.log('89898989');
+      
       this.setState({ show: true })
     }
     return true
@@ -69,10 +71,11 @@ export default class DeleteActivity extends Component<Props> {
   };
 
   render() {
-    const { show } = this.state
+    // const { show } = this.state
     return (
       <div className={styles.deleteActive} style={{
-        zIndex:show?10:-10
+        // zIndex: !this.state.show ? -100 : 100
+        display: !this.state.show ?'none':''
       }}>
         <div className={styles.deleteContent}>
           {

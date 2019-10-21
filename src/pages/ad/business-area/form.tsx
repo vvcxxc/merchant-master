@@ -285,7 +285,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 								<WhiteSpace size="lg" />
 								<Flex justify="start">
 									< img src={require('@/assets/ad/ad_intro.png')} alt="" style={{ marginRight: '15px' }} className={styles.ad_intro} />
-									<span className={styles.ad_desc} onClick={() => { router.push('/ad/other-page/readme') }}>
+									<span className={styles.ad_desc} onClick={() => { router.push('/ad/business-area/mustRead') }}>
 										广告位介绍
 									</span>
 								</Flex>

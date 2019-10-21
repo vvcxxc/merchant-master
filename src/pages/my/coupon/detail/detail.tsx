@@ -69,17 +69,6 @@ export default class ContentDetail extends Component<Props, any> {
 		}
 	};
 
-	// showModal = (type: string) => () => {
-	// 	if (this.state.data.publish_wait === 1) {
-	// 		this.setState({ modalType: type });
-	// 		this.modal.show &&
-	// 			this.modal.show({
-	// 				text: type === 'stop' ? '暂停投放优惠券 将会怎么样怎么样' : '删除优惠券 将会怎么样怎么样'
-	// 			});
-	// 	} else {
-	// 		this.handleStopCoupon();
-	// 	}
-	// };
 
 	showModalStop = (type: string) => () => {
 		if (this.state.data.publish_wait === 1) {
@@ -146,12 +135,12 @@ export default class ContentDetail extends Component<Props, any> {
 
 							<Flex className="setMealCoupon_msg">
 								<div className="setMealCoupon_msg_key">商品原价:</div>
-								<div className="setMealCoupon_msg_value">{this.state.data.return_money}</div>
+								<div className="setMealCoupon_msg_value">{this.state.data.return_money}元</div>
 							</Flex>
 
 							<Flex className="setMealCoupon_msg">
 								<div className="setMealCoupon_msg_key">优惠价格:</div>
-								<div className="setMealCoupon_msg_value">{this.state.data.pay_money}</div>
+								<div className="setMealCoupon_msg_value">{this.state.data.pay_money}元</div>
 							</Flex>
 							<Flex className="setMealCoupon_msg">
 								<div className="setMealCoupon_msg_key">有效期:</div>
