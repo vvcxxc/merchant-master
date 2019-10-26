@@ -3,8 +3,8 @@
  */
 import React, { Component } from 'react';
 import styles from './index.less';
-import { Flex, WingBlank, Button, Icon, InputItem, PickerView} from 'antd-mobile';
-import { Map, Marker, MouseTool} from 'react-amap';
+import { Flex, WingBlank, Button, Icon, InputItem, PickerView } from 'antd-mobile';
+import { Map, Marker, MouseTool } from 'react-amap';
 import request from '@/services/request';
 import axios from 'axios';
 import wx from "weixin-js-sdk";
@@ -12,7 +12,7 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import Cookies from 'js-cookie';
 
-export default connect(({createStore}: any) => createStore)(
+export default connect(({ createStore }: any) => createStore)(
   class MapPage extends Component<any> {
     geocoder: any;
     msearch: any;
@@ -21,9 +21,9 @@ export default connect(({createStore}: any) => createStore)(
       // 城市选择页
       is_show: false,
       // picker的value
-      value: ['广东省','广州市','天河区'],
+      value: ['广东省', '广州市', '天河区'],
       // picker选好的值
-      city: ['广东省','广州市','天河区'],
+      city: ['广东省', '广州市', '天河区'],
       // 城市名称
       city_name: '广州',
       // 省市区
@@ -50,7 +50,7 @@ export default connect(({createStore}: any) => createStore)(
       is_search: true,
     };
 
-    componentDidMount (){
+    componentDidMount() {
       axios({
         url: 'http://test.api.tdianyi.com/v3/district',
         method: 'get'
@@ -62,9 +62,9 @@ export default connect(({createStore}: any) => createStore)(
       let userAgent = navigator.userAgent;
       let isIos = userAgent.indexOf('iPhone') > -1;
       let url: any;
-      if(isIos){
+      if (isIos) {
         url = sessionStorage.getItem('url');
-      }else{
+      } else {
         url = location.href;
       }
       request({
@@ -74,7 +74,7 @@ export default connect(({createStore}: any) => createStore)(
           url
         }
       }).then(res => {
-        let _this:any = this;
+        let _this: any = this;
         wx.config({
           debug: false,
           appId: res.appId,
@@ -96,18 +96,18 @@ export default connect(({createStore}: any) => createStore)(
                 latitude,
                 longitude
               };
-              _this.setState({location});
+              _this.setState({ location });
               const lnglat = [longitude, latitude]
-              _this.geocoder && _this.geocoder.getAddress(lnglat, (status:string, result:any) => {
-                if (status === 'complete'){
-                  if (result.regeocode){
+              _this.geocoder && _this.geocoder.getAddress(lnglat, (status: string, result: any) => {
+                if (status === 'complete') {
+                  if (result.regeocode) {
                     _this.createSearch(result);
                     let res = result.regeocode.addressComponent
                     let province = res.province + res.city + res.district;
                     _this.setState({
                       province,
-                      value: [res.province,res.city,res.district],
-                      city: [res.province,res.city,res.district],
+                      value: [res.province, res.city, res.district],
+                      city: [res.province, res.city, res.district],
                       district: result.regeocode.addressComponent.district,
                       address: result.regeocode.formattedAddress || '未知地点',
                       city_name: result.regeocode.addressComponent.city
@@ -131,32 +131,32 @@ export default connect(({createStore}: any) => createStore)(
     }
 
     handleChangeCity = (e: any) => {
-      this.setState({value: e})
+      this.setState({ value: e })
     }
 
     pickerCityClose = () => {
-      this.setState({is_show: false, value: []});
+      this.setState({ is_show: false, value: [] });
     }
     pickerCityOpen = () => {
-      this.setState({is_show: true})
+      this.setState({ is_show: true })
     }
     pickerCityOk = () => {
       let { value } = this.state;
       let city_name = value[1];
       let province = '';
-      for (let i = 0; i < value.length; i ++){
+      for (let i = 0; i < value.length; i++) {
         province += value[i]
       }
 
       let that = this;
       let keywords = province;
       this.msearch = new AMap.PlaceSearch({
-        pageSize:5,
-        pageIndex:1,
+        pageSize: 5,
+        pageIndex: 1,
         // city: '广州'
-        city:city_name //城市
+        city: city_name //城市
       });
-      this.msearch.search(keywords, function(status: any, result: any){
+      this.msearch.search(keywords, function (status: any, result: any) {
         let one = result.poiList.pois[0]
         let location = {
           longitude: one.location.lng,
@@ -187,18 +187,18 @@ export default connect(({createStore}: any) => createStore)(
       // alert('ok')
       let _this = this;
       let { city, district, street } = result.regeocode.addressComponent
-        this.msearch = new AMap.PlaceSearch({
-          pageSize:5,
-          pageIndex:1,
-          city
-        });
-        let keywords = city + district + street;
+      this.msearch = new AMap.PlaceSearch({
+        pageSize: 5,
+        pageIndex: 1,
+        city
+      });
+      let keywords = city + district + street;
 
-        this.msearch.search(keywords, function(status: any, result: any){
-          _this.setState({
-            searchList: result.poiList.pois
-          })
+      this.msearch.search(keywords, function (status: any, result: any) {
+        _this.setState({
+          searchList: result.poiList.pois
         })
+      })
     }
 
 
@@ -206,19 +206,19 @@ export default connect(({createStore}: any) => createStore)(
       let that = this;
       let keywords = e;
       this.msearch = new AMap.PlaceSearch({
-        pageSize:10,
-        pageIndex:1,
+        pageSize: 10,
+        pageIndex: 1,
         // city: '广州'
-        city:this.state.city_name //城市
+        city: this.state.city_name //城市
       });
-      this.setState({search_words: e});
-      this.msearch.search(keywords, function(status: any, result: object){
-        if(result.poiList){
+      this.setState({ search_words: e });
+      this.msearch.search(keywords, function (status: any, result: object) {
+        if (result.poiList) {
           that.setState({
             is_search: true,
             search_list: result.poiList.pois
           })
-        }else{
+        } else {
           that.setState({
             search_list: [],
             is_search: false
@@ -280,23 +280,23 @@ export default connect(({createStore}: any) => createStore)(
         longitude: item.location.lng,
         latitude: item.location.lat
       }
-      AMap.plugin('AMap.Geocoder',() => {
+      AMap.plugin('AMap.Geocoder', () => {
         _this.geocoder = new AMap.Geocoder({
-            city: "010"//城市，默认：“全国”
+          city: "010"//城市，默认：“全国”
         })
       })
-      let lnglat = [location.longitude, location.latitude ]
+      let lnglat = [location.longitude, location.latitude]
       _this.geocoder && _this.geocoder.getAddress(lnglat, (status: any, result: any) => {
         let res = result.regeocode.addressComponent
         let province = res.province + res.city + res.district;
         _this.setState({
           province,
-          value: [res.province,res.city,res.district],
-          city: [res.province,res.city,res.district],
+          value: [res.province, res.city, res.district],
+          city: [res.province, res.city, res.district],
           district: result.regeocode.addressComponent.district,
           address: result.regeocode.formattedAddress || '未知地点',
           city_name: result.regeocode.addressComponent.city
-        },() =>{
+        }, () => {
           let address = this.state.city[0] + this.state.city[1] + item.address + item.name;
           // this.props.onChange(location,address);
           Cookies.set("handleAddress", JSON.stringify(address), { expires: 1 });
@@ -319,37 +319,37 @@ export default connect(({createStore}: any) => createStore)(
 
 
     clickAddress = () => {
-      this.setState({is_map: !this.state.is_map})
+      this.setState({ is_map: !this.state.is_map })
     }
 
 
-    render (){
+    render() {
       const picker = this.state.is_show == true ? (
         <div className={styles.picker}>
-            <Flex className={styles.picker_buttons}>
-              <span onClick={this.pickerCityClose}>取消</span>
-              <span onClick={this.pickerCityOk}>完成</span>
-            </Flex>
-            <PickerView
-              onChange={this.handleChangeCity}
-              data={this.state.city_list}
-              value={this.state.value}
-            />
-          </div>
+          <Flex className={styles.picker_buttons}>
+            <span onClick={this.pickerCityClose}>取消</span>
+            <span onClick={this.pickerCityOk}>完成</span>
+          </Flex>
+          <PickerView
+            onChange={this.handleChangeCity}
+            data={this.state.city_list}
+            value={this.state.value}
+          />
+        </div>
       ) : (
-        ''
-      );
+          ''
+        );
       const { city_name, province } = this.state;
-      const { location} = this.props;
+      const { location } = this.props;
 
       let that = this;
       const plugins = [
         'Scale',
         {
-          name:'ToolBar',
-          options:{
-              visible: true,  // 不设置该属性默认就是 true
-              onCreated(ins: any) {},
+          name: 'ToolBar',
+          options: {
+            visible: true,  // 不设置该属性默认就是 true
+            onCreated(ins: any) { },
           },
         }
       ];
@@ -373,41 +373,41 @@ export default connect(({createStore}: any) => createStore)(
       const _this = this;
       const events = {
         created: (instance: any) => {
-            instance.plugin('AMap.Geolocation', function () {
-                let geolocation = new AMap.Geolocation({
-                    enableHighAccuracy: true,//是否使用高精度定位，默认:true
-                    timeout: 10000,          //超过10秒后停止定位，默认：无穷大
-                    maximumAge: 0,           //定位结果缓存0毫秒，默认：0
-                    convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
-                    showButton: true,        //显示定位按钮，默认：true
-                    buttonPosition: 'RB',    //定位按钮停靠位置，默认：'LB'，左下角
-                    buttonOffset: new AMap.Pixel(14, 130),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-                    showMarker: false,        //定位成功后在定位到的位置显示点标记，默认：true
-                    showCircle: false,        //定位成功后用圆圈表示定位精度范围，默认：true
-                    panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
-                    zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-                });
-                instance.addControl(geolocation);
-                geolocation.getCurrentPosition();
-                // AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
-                // AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+          instance.plugin('AMap.Geolocation', function () {
+            let geolocation = new AMap.Geolocation({
+              enableHighAccuracy: true,//是否使用高精度定位，默认:true
+              timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+              maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+              convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+              showButton: true,        //显示定位按钮，默认：true
+              buttonPosition: 'RB',    //定位按钮停靠位置，默认：'LB'，左下角
+              buttonOffset: new AMap.Pixel(14, 130),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+              showMarker: false,        //定位成功后在定位到的位置显示点标记，默认：true
+              showCircle: false,        //定位成功后用圆圈表示定位精度范围，默认：true
+              panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+              zoomToAccuracy: true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
             });
-            AMap.plugin('AMap.Geocoder',() => {
-              _this.geocoder = new AMap.Geocoder({
-                  city: "010"//城市，默认：“全国”
-              })
+            instance.addControl(geolocation);
+            geolocation.getCurrentPosition();
+            // AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+            // AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+          });
+          AMap.plugin('AMap.Geocoder', () => {
+            _this.geocoder = new AMap.Geocoder({
+              city: "010"//城市，默认：“全国”
             })
-            AMap.plugin('AMap.PlaceSearch',() => {
-              this.msearch = new AMap.PlaceSearch({
-                pageSize:10,
-                pageIndex:1,
-                city:this.state.city_name //城市
-              });
-            })
+          })
+          AMap.plugin('AMap.PlaceSearch', () => {
+            this.msearch = new AMap.PlaceSearch({
+              pageSize: 10,
+              pageIndex: 1,
+              city: this.state.city_name //城市
+            });
+          })
         },
         click: (e: any) => {
           this.setState({
-            location:{
+            location: {
               longitude: e.lnglat.lng,
               latitude: e.lnglat.lat
             }
@@ -415,7 +415,7 @@ export default connect(({createStore}: any) => createStore)(
           this.props.dispatch({
             type: 'createStore/setStore',
             payload: {
-              location:{
+              location: {
                 longitude: e.lnglat.lng,
                 latitude: e.lnglat.lat
               }
@@ -423,15 +423,15 @@ export default connect(({createStore}: any) => createStore)(
           })
           const lnglat = e.lnglat;
           _this.geocoder && _this.geocoder.getAddress(lnglat, (status: any, result: any) => {
-            if (status === 'complete'){
-              if (result.regeocode){
+            if (status === 'complete') {
+              if (result.regeocode) {
                 _this.createSearch(result);
                 let res = result.regeocode.addressComponent
                 let province = res.province + res.city + res.district;
                 _this.setState({
                   province,
-                  value: [res.province,res.city,res.district],
-                  city: [res.province,res.city,res.district],
+                  value: [res.province, res.city, res.district],
+                  city: [res.province, res.city, res.district],
                   district: result.regeocode.addressComponent.district,
                   address: result.regeocode.formattedAddress || '未知地点',
                   city_name: result.regeocode.addressComponent.city
@@ -451,9 +451,9 @@ export default connect(({createStore}: any) => createStore)(
       };
 
 
-      const list_item = this.state.search_list.map((item,idx) => {
+      const list_item = this.state.search_list.map((item, idx) => {
         return (
-          <div className={styles.list_item} key={idx} onClick={this.chooseSearch.bind(this,item)}>
+          <div className={styles.list_item} key={idx} onClick={this.chooseSearch.bind(this, item)}>
             <p className={styles.name}>{item.name}</p>
             <p className={styles.address}>{item.address}</p>
           </div>
@@ -462,11 +462,11 @@ export default connect(({createStore}: any) => createStore)(
       const is_sear = this.state.is_search == true ? (
         <div>{list_item}</div>
       ) : (
-        <Flex justify='around' style={{color: '#999'}}>"{this.state.search_words}"无搜索结果，请确认您填写的地址</Flex>
-      )
-      const searchList = this.state.searchList.map((item,idx) => {
+          <Flex justify='around' style={{ color: '#999' }}>"{this.state.search_words}"无搜索结果，请确认您填写的地址</Flex>
+        )
+      const searchList = this.state.searchList.map((item, idx) => {
         return (
-          <div className={styles.list_item} key={idx} onClick={this.chooseOne.bind(this,item)}>
+          <div className={styles.list_item} key={idx} onClick={this.chooseOne.bind(this, item)}>
             <p className={styles.name}>{item.name}</p>
             <p className={styles.address}>{item.address}</p>
           </div>
@@ -499,15 +499,20 @@ export default connect(({createStore}: any) => createStore)(
           <Flex direction='column'>
             <div className={styles.mapBox}>
               <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
-                <Marker position={location}/>
+                {/* <Marker position={location} /> */}
+                {
+                  location ? (
+                    <Marker position={location} />
+                  ) : null
+                }
               </Map>
             </div>
             {picker}
             <div className={styles.searchList}>
               <div className={styles.list_item} onClick={this.chooseBest}>
-                <p className={styles.name} style={{color: '#FF6654'}}>{this.state.address}</p>
+                <p className={styles.name} style={{ color: '#FF6654' }}>{this.state.address}</p>
                 <p className={styles.address}>{this.state.district}</p>
-                <div className={styles.iconMap}><img src={require("./iconMap.png")}/></div>
+                <div className={styles.iconMap}><img src={require("./iconMap.png")} /></div>
               </div>
               {searchList}
             </div>
@@ -515,8 +520,8 @@ export default connect(({createStore}: any) => createStore)(
 
         </div>
       ) : (
-        <div className={styles.box}>
-          {/* <WingBlank>
+          <div className={styles.box}>
+            {/* <WingBlank>
           <Flex className={styles.inputWrap}>
 
             <div className={styles.city}>
@@ -538,17 +543,22 @@ export default connect(({createStore}: any) => createStore)(
             <div className={styles.search_close} onClick={this.clickAddress}>取消</div>
           </Flex>
           </WingBlank> */}
-          <div className={styles.list}>
-           {is_sear}
+            <div className={styles.list}>
+              {is_sear}
+            </div>
+            <div style={{ display: 'none' }}>
+              <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
+                {/* <Marker position={location}/> */}
+                {
+                  location ? (
+                    <Marker position={location} />
+                  ) : null
+                }
+              </Map>
+            </div>
+            {picker}
           </div>
-          <div style={{display: 'none'}}>
-            <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
-              <Marker position={location}/>
-            </Map>
-          </div>
-          {picker}
-        </div>
-      )
+        )
 
 
 

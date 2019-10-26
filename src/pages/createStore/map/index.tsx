@@ -107,7 +107,7 @@ export default connect(({ createStore }: any) => createStore)(
                 longitude
               };
               console.log(this.props.address)
-              if(!this.props.address) {
+              if (!this.props.address) {
                 // alert('123')
                 _this.setState({ location });
                 _this.props.dispatch({
@@ -581,7 +581,12 @@ export default connect(({ createStore }: any) => createStore)(
           <Flex direction='column'>
             <div className={styles.mapBox}>
               <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
-                <Marker position={location} />
+                {/* <Marker position={location} /> */}
+                {
+                  location ? (
+                    <Marker position={location} />
+                  ) : null
+                }
               </Map>
             </div>
             {picker}
@@ -628,7 +633,12 @@ export default connect(({ createStore }: any) => createStore)(
             </div>
             <div style={{ display: 'none' }}>
               <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
-                <Marker position={location} />
+                {/* <Marker position={location} /> */}
+                {
+                  location ? (
+                    <Marker position={location} />
+                  ) : null
+                }
               </Map>
             </div>
             {picker}
