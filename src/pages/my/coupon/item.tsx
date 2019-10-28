@@ -43,10 +43,10 @@ export default class MyCouponItem extends Component<Props & Item> {
 
 	handleClick = () => this.props.id && this.props.onClick(this.props.id);
 
-	shareClick = (e:any) => {//开启分享
+  shareClick = (e:any) => {//开启分享
+    console.log('分享')
 		this.setState({ showShare: true })//启用组件
 		// this.setState({ showArrowUp: true })//启用组件
-		console.log(Url + '#/business-pages/ticket-buy/index?id=' + this.props.id)
 		if (this.props.youhui_type == 0) {//兑换券
 			wx.ready(() => {
 				wx.updateAppMessageShareData({
