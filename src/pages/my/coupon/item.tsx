@@ -46,13 +46,13 @@ export default class MyCouponItem extends Component<Props & Item> {
 	shareClick = (e:any) => {//开启分享
 		this.setState({ showShare: true })//启用组件
 		// this.setState({ showArrowUp: true })//启用组件
-		
+		console.log(Url + '#/business-pages/ticket-buy/index?id=' + this.props.id)
 		if (this.props.youhui_type == 0) {//兑换券
 			wx.ready(() => {
 				wx.updateAppMessageShareData({
 					title: this.props.store_name + '正在派发' + this.props.return_money + '元兑换券，手慢无，速抢！',
 					desc: '拼手速的时候来了，超值兑换券限量抢购，手慢就没了！速速戳进来一起领取！',
-					link: Url + '#/pages/business/index?id=' + this.props.id,
+					link: Url + '#/business-pages/ticket-buy/index?id=' + this.props.id,
 					imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
 					success: function () {
 					}
@@ -82,7 +82,7 @@ export default class MyCouponItem extends Component<Props & Item> {
 	}
 
 	render() {
-		
+
 		const useScale =
 			this.props.total_num && this.props.user_count && (this.props.total_num / this.props.user_count) * 100;
 		const leftMain =
@@ -98,7 +98,7 @@ export default class MyCouponItem extends Component<Props & Item> {
 					<img src={this.props.image} />
 				</Flex>
 				);
-		
+
 		// const bottom_share = (
 			// <BottomShare
 			// 	closeShare={this.closeShare}
@@ -113,7 +113,7 @@ export default class MyCouponItem extends Component<Props & Item> {
 			// 	showArrowUp={this.state.showArrowUp}
 			// >{null}
 			// </BottomShare>)
-		
+
 		const share = (
 			<NewShare
 				onclick={this.closeShare}
