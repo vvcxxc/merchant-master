@@ -212,9 +212,9 @@ export default class BottomShare extends Component<Props>{
       
         <div className={styles.share_box} style={{ display: this.state.showBottom  ? '' : 'none' }}>
           <div className={styles.box}>
-            <div className={styles.all_center_left} onClick={this.shareData.bind(this)}>
+            {/* <div className={styles.all_center_left} onClick={this.shareData.bind(this)}>
               <div className={styles.text_center}>分享</div>
-            </div>
+            </div> */}
             <div className={styles.all_center_right} onClick={this.showPosterData}>
               <div className={styles.text_center}>生成海报</div>
             </div>
