@@ -291,7 +291,7 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
         showShare={this.state.showShare}
         type={{
           activity_id: infoData.activity_id,
-          id: this.props.location.query.id,
+          id: infoData.youhui_id,
           name: '拼团',
           gift_id: infoData.gift_id,
           ...share
