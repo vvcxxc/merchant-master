@@ -111,7 +111,7 @@ export default class BottomShare extends Component<Props>{
             title:  meta.title,
             desc: meta.text,
             // link: Url+'#/pages/activity/pages/detail/detail?id=' + meta.id + '&type=5&activity_id=' + meta.activity_id + '&gift_id=' + meta.gift_id,
-            link: Url+'#/pages/activity/appreciation/index?id='+meta.id+'&type=5&gift_id='+meta.gift_id+'&activity_id='+ meta.activity_id,
+            link: Url+'#/pages/activity/group/index?id='+meta.id+'&type=5&gift_id='+meta.gift_id+'&activity_id='+ meta.activity_id,
             imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
             success: function () {
               //成功后触发
