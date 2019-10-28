@@ -10,7 +10,7 @@ interface Props {
   type?: Object;
   //定义一个要传递给海报的数据appreciation_info
   posterData?: any,
-  
+
 }
 
 declare global {
@@ -37,27 +37,27 @@ export default class BottomShare extends Component<Props>{
   }
 
   componentDidMount() {
-   
+
   }
 
   shouldComponentUpdate(nextProps: any, nextState: any) {
     if (nextProps.showShare != nextState.showShare) { //新旧值在不一致的情况下，更新赋值
-      if (!this.state.showShare) this.setState({ showShare: true }) 
+      if (!this.state.showShare) this.setState({ showShare: true })
     }
-    return true 
+    return true
   }
 
- 
+
 
   //点击遮挡层
   keep_outOnclick = (e: any) => {
 
       console.log('898989');
-      
+
     // this.setState({ showBottom: true })//显示
     // this.setState({ showShare: false })
     // this.setState({ showArrows: false })
-    
+
     // e.stopPropagation();
   }
 
@@ -75,11 +75,11 @@ export default class BottomShare extends Component<Props>{
   //点击分享
   shareData = (e?: any) => {
     console.log('分享');
-    
+
     let meta: any = this.props.type
     this.setState({ showBottom: false })// 点击分享 遮挡层不消失 消失白色区域部分
     this.setState({ showArrows:true})
-    
+
     let userAgent = navigator.userAgent;
     let isIos = userAgent.indexOf('iPhone') > -1;
     let url: any;
@@ -110,21 +110,23 @@ export default class BottomShare extends Component<Props>{
           wx.updateAppMessageShareData({
             title:  meta.title,
             desc: meta.text,
-            link: Url+'#/pages/activity/pages/detail/detail?id=' + meta.id + '&type=5&activity_id=' + meta.activity_id + '&gift_id=' + meta.gift_id,
+            // link: Url+'#/pages/activity/pages/detail/detail?id=' + meta.id + '&type=5&activity_id=' + meta.activity_id + '&gift_id=' + meta.gift_id,
+            link: Url+'#/pages/activity/appreciation/index?id='+meta.id+'&type=5&gift_id='+meta.gift_id+'&activity_id='+ meta.activity_id,
             imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
             success: function () {
               //成功后触发
             }
           })
         })
-        
+
       } else if (meta.name == '增值') {
-        
+
         wx.ready(() => {
           wx.updateAppMessageShareData({
             title: meta.title,
             desc: meta.text,
-            link: Url +'#/pages/activity/pages/detail/detail?id=' + meta.id + '&type=1&activity_id=' + meta.activity_id + '&gift_id=' + meta.gift_id,
+            // link: Url +'#/pages/activity/pages/detail/detail?id=' + meta.id + '&type=1&activity_id=' + meta.activity_id + '&gift_id=' + meta.gift_id,
+            link: Url +'#/pages/activity/appreciation/index?id='+meta.id+'&type=1&gift_id='+meta.gift_id+'&activity_id='+meta.activity_id,
             imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
             success: function () {
               //成功后触发
@@ -133,12 +135,12 @@ export default class BottomShare extends Component<Props>{
         })
 
       } else if (meta.name == '优惠券' && meta.youhui_type == 0) {//兑换券
-        
+
         wx.ready(() => {
           wx.updateAppMessageShareData({
             title:  meta.storeName + '正在派发' + meta.return_money+'元兑换券，手慢无，速抢！',
             desc: '拼手速的时候来了，超值兑换券限量抢购，手慢就没了！速速戳进来一起领取！',
-            link: Url +'#/pages/business/index?id='+meta.id,
+            link: Url + '#/business-pages/ticket-buy/index?id=' + meta.id,
             imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
             success: function () {
               //成功后触发
@@ -151,16 +153,16 @@ export default class BottomShare extends Component<Props>{
             wx.updateAppMessageShareData({
               title: '嘘，这里有一张' + meta.return_money+'元现金券，悄悄领了，别声张！',
               desc:  meta.storeName+'又搞活动啦，是好友我才偷偷告诉你，现金券数量有限，领券要快姿势要帅！',
-              link: Url +'#/pages/business/index?id=' + meta.id,
+              link: Url + '#/business-pages/ticket-buy/index?id=' + meta.id,
               imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
               success: function () {
                 //成功后触发
               }
             })
           })
-        
+
       }//else
-    
+
     })
     if (e) e.stopPropagation();
   }
@@ -174,7 +176,7 @@ export default class BottomShare extends Component<Props>{
 
   closePoster = (e: any) => {
       console.log('close');
-      
+
     this.setState({ showArrows: false })
     this.setState({ showPoster: false })
     this.setState({ showShare: false })
@@ -186,12 +188,12 @@ export default class BottomShare extends Component<Props>{
       <div style={{ display: this.state.showShare ? '' : 'none'}} className={styles.keep_out}
         // onClick={this.keep_outOnclick.bind(this)}
         onClick={this.closePoster}
-        
+
       // <div  className={styles.keep_out}
         // style={{ display: this.state.showArrows ? '' : 'none' }}
        >
-        <div className={styles.keep_shareBox} 
-         
+        <div className={styles.keep_shareBox}
+
           style={{
             // overflow:'hidden',
             // // height: this.state.showArrows ? 'auto' : '0px',
@@ -209,7 +211,7 @@ export default class BottomShare extends Component<Props>{
         >{null}
           </Posters>
         {/* 海报组件 */}
-      
+
         <div className={styles.share_box} style={{ display: this.state.showBottom  ? '' : 'none' }}>
           <div className={styles.box}>
             {/* <div className={styles.all_center_left} onClick={this.shareData.bind(this)}>
