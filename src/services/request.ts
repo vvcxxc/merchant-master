@@ -11,7 +11,7 @@ declare global {
   interface Window { api: string; }
 }
 
-const host = window.api ? window.api : 'http://test.api.supplier.tdianyi.com/';
+const host = window.api ? window.api : 'http://api.supplier.tdianyi.com/';
 
 /**发起请求
  *

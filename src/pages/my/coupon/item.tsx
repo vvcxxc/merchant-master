@@ -43,7 +43,8 @@ export default class MyCouponItem extends Component<Props & Item> {
 
 	handleClick = () => this.props.id && this.props.onClick(this.props.id);
 
-	shareClick = (e:any) => {//开启分享
+  shareClick = (e:any) => {//开启分享
+    console.log('分享')
 		this.setState({ showShare: true })//启用组件
 		// this.setState({ showArrowUp: true })//启用组件
 
