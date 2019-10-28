@@ -148,7 +148,6 @@ export default class BottomShare extends Component<Props>{
           })
         })
       }  else if (meta.name == '优惠券' && meta.youhui_type == 1) {//现金券
-
           wx.ready(() => {
             wx.updateAppMessageShareData({
               title: '嘘，这里有一张' + meta.return_money+'元现金券，悄悄领了，别声张！',
