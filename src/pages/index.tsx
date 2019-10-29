@@ -32,7 +32,7 @@ export default connect(({ app }: any) => app)(
 		};
 
 		componentWillMount() {
-
+      console.log('gasdw')
 			// 给两个用于海报使用
 			localStorage.setItem('QL_headImg', 'refresh')
 			localStorage.setItem('QL_giftImg', 'refresh')
