@@ -13,9 +13,11 @@ const model: Model = {
       // 可以充当路由守卫，每次路由变化会触发
       // console.log('触发了')
       window.onerror = function(msg, url, line, col, error){
-        console.log(error)
-        if(error)
-        console.log(msg)
+        if(error){
+          const pattern = /Loading chunk (\d)+ failed/g;
+          const isChunkLoadFailed = error.message.match(pattern);
+          if(isChunkLoadFailed) window.location.href = window.location.href
+        }
       }
       return {
         ...state,
