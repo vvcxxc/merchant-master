@@ -48,14 +48,14 @@ export default class payReturnDetail extends Component<any> {
 		const coupons = data.coupon.map((_: any, index: number) => (
 			<div className="couponWrap">
 				<CouponCard key={' '} {..._} coupon={this.state.coupon} coupon_id={_.id} query_id={this.props.location.query.id}/>
-			</div>	
+			</div>
 		));
 
 		return (
 			// <div>
-				
+
 				<Flex className={styles.page} align="start" direction="column">
-				
+
 					<Flex.Item>
 						<WingBlank>
 							<Flex className="head">
@@ -79,7 +79,7 @@ export default class payReturnDetail extends Component<any> {
 
 				</Flex>
 			// </div>
-			
+
 		);
 	}
 }

@@ -101,6 +101,9 @@ export default connect(({ createStore }: any) => createStore)(
           imgshow2: !Cookies.get("Mychange") ? false : (JSON.parse(Cookies.get("Mychange")) != "" ? true : false),
           imgshow3: !Cookies.get("Mychange2") ? false : (JSON.parse(Cookies.get("Mychange2")) != "" ? true : false),
           location: Cookies.get("handleLocation") ? JSON.parse(Cookies.get("handleLocation")) : "",
+          files: [],
+          my_files: [],
+          my_files2: []
         }
       })
 
@@ -138,6 +141,7 @@ export default connect(({ createStore }: any) => createStore)(
 
     /**设置门店名 */
     handleName = (e: any) => {
+      console.log(this.props)
       Cookies.set("handleName", JSON.stringify(e.target.value), { expires: 1 });
       // console.log(Cookies.get("storeinfo"));
       this.props.dispatch({
@@ -326,7 +330,8 @@ export default connect(({ createStore }: any) => createStore)(
         type: 'createStore/setStore',
         payload: {
           imgshow1: false,
-          store_door_header_img: ''
+          store_door_header_img: '',
+          files: []
         }
       })
     }
@@ -336,7 +341,8 @@ export default connect(({ createStore }: any) => createStore)(
         type: 'createStore/setStore',
         payload: {
           imgshow2: false,
-          store_img_one: ''
+          store_img_one: '',
+          my_files: []
         }
       })
     }
@@ -346,7 +352,8 @@ export default connect(({ createStore }: any) => createStore)(
         type: 'createStore/setStore',
         payload: {
           imgshow3: false,
-          store_img_two: ''
+          store_img_two: '',
+          my_files2: []
         }
       })
     }

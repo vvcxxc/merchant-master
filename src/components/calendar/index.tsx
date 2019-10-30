@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styles from './index.less'
 import moment from 'moment';
 import request from '@/services/request';
+import {  Toast } from 'antd-mobile';
 interface timestampType {
   start?: number,
   end?: number
@@ -314,7 +315,18 @@ export default class Calendar extends Component<Props> {
 
   //点击确定 组件消失
   onClickConfirm = () => {
-    const { startTime, endTime, startDay, endDay} = this.state
+    
+    
+    const { startTime, endTime, startDay, endDay } = this.state
+    console.log(startTime, endTime, startDay, endDay);
+    if (!startTime && !endTime) {
+      Toast.fail('活动时间不能为空')
+      return
+    }
+    if (!endTime) {
+      Toast.fail('结束时间不能为空')
+      return
+    }
     this.props.confirm(startTime/1000, (endTime - 1000)/1000, startDay, endDay)
   }
 

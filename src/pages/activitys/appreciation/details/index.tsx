@@ -290,7 +290,7 @@ export default connect(({ activity }: any) => activity)(
           showShare={this.state.showShare}
           type={{
             activity_id: infoData.activity_id,
-            id: this.props.location.query.id,
+            id: infoData.youhui_id,
             name: '增值',
             gift_id: infoData.gift_id,
             ...share
@@ -322,13 +322,13 @@ export default connect(({ activity }: any) => activity)(
               </Flex> : null
             }
             {/* 基本信息 */}
-            <Flex className={styles.title}>
+            {/* <Flex className={styles.title}>
               <div className={styles.gang}>{null}</div>
               活动统计数据
           </Flex>
             <div>
               {echart}
-            </div>
+            </div> */}
 
             <Flex className={styles.title}>
               <div className={styles.gang}>{null}</div>

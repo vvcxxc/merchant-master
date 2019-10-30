@@ -67,8 +67,6 @@ export default class Rechange extends Component {
           // } else {
           //   Toast.fail('充值失败', 1.5);
           // }
-        } else {
-          this.auth()
         }
       } else {
         this.auth()
