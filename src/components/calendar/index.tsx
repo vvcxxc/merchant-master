@@ -327,7 +327,11 @@ export default class Calendar extends Component<Props> {
       Toast.fail('结束时间不能为空')
       return
     }
-    this.props.confirm(startTime/1000, (endTime - 1000)/1000, startDay, endDay)
+    if (startTime == endTime) {
+      this.props.confirm((startTime / 1000), ((endTime+86400000-1000)/1000), startDay, endDay)
+      return 
+    }
+    this.props.confirm((startTime/1000), ((endTime - 1000)/1000), startDay, endDay)
   }
 
 
