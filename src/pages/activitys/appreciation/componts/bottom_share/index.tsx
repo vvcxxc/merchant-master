@@ -120,7 +120,6 @@ export default class BottomShare extends Component<Props>{
         })
 
       } else if (meta.name == '增值') {
-
         wx.ready(() => {
           wx.updateAppMessageShareData({
             title: meta.title,
