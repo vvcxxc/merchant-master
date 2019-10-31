@@ -347,26 +347,31 @@ export default connect(({ activity }: any) => activity)(
             image_url
           }
         });
-        let { data, message } = res;
-        if (data.order_sn) {
-          // 支付去
-          this.props.dispatch({
-            type: 'activity/setAppreciation',
-            payload: {
-              list: data
-            }
-          });
-          router.push({ pathname: '/activitys/pay', query: { type: 2 } })
-          Toast.hide();
-        } else {
-          Toast.success(message, 2, () => {
+        let { data, message, code } = res;
+        if (code == 200){
+          if (data.order_sn) {
+            // 支付去
             this.props.dispatch({
-              type: 'activity/Clean',
-            })
-            router.push('/activitys/appreciation');
+              type: 'activity/setAppreciation',
+              payload: {
+                list: data
+              }
+            });
+            router.push({ pathname: '/activitys/pay', query: { type: 2 } })
             Toast.hide();
-          })
+          } else {
+            Toast.success(message, 2, () => {
+              this.props.dispatch({
+                type: 'activity/Clean',
+              })
+              router.push('/activitys/appreciation');
+              Toast.hide();
+            })
+          }
+        }else{
+          Toast.fail(message,2)
         }
+
       } else {
         Toast.fail('请填写完整', 2)
       }

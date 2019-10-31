@@ -270,12 +270,12 @@ export default connect(({ activity }: any) => activity)(
         return;
       }
 
-      
+
       if (description.length < 1) {
         Toast.fail('使用须知不能为空', 2);
         return;
       }
-      
+
       // 日期验证
       let startDate = new Date(start_date).getTime();
       let endDate = new Date(end_date).getTime();
@@ -337,6 +337,8 @@ export default connect(({ activity }: any) => activity)(
               Toast.hide();
             })
           }
+        }else{
+          Toast.fail(message, 2)
         }
       } else {
         Toast.fail('请将信息填写完整', 2);
