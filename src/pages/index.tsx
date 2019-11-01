@@ -184,11 +184,12 @@ export default connect(({ app }: any) => app)(
 								id: res.id
 							}
 						}).then(res => {
-							// alert("核销奖品" + res.id)
 							if (res.code == 200) {
-								router.push({
-									pathname: '/verificationPrize',
-								})
+								Toast.success(res.message, 1.5, () => {
+									router.push({
+										pathname: '/verificationPrize',
+									})
+								});
 							} else {
 								Toast.fail(res.message);
 							}
