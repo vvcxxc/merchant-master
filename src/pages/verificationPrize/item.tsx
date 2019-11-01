@@ -25,7 +25,7 @@ export default class VerificationItem extends Component<Item> {
 						{this.props.prize_name}
 						{
 							this.props.status == 1 ? <Flex.Item className="time">未使用</Flex.Item> : (
-								this.props.status == 2 ? <Flex.Item className="time">已使用</Flex.Item> : (
+								this.props.status == 2 ? <Flex.Item className="time">已核销</Flex.Item> : (
 									this.props.status == 3 ? <Flex.Item className="time">已过期</Flex.Item> : null
 								)
 							)
