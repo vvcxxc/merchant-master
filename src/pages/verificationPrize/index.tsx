@@ -38,7 +38,7 @@ export default class Verification extends Component {
 		}
 	}
 	render() {
-		const list = this.state.data.map((_: Item) => <VerificationItem key={_.youhui_log_id} {..._} />);
+		const list = this.state.data.map((_: Item) => <VerificationItem key={_.id} {..._} />);
 		return (
 			<div className={styles.page}>
 				<WingBlank>
