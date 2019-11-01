@@ -175,16 +175,16 @@ export default connect(({ app }: any) => app)(
 				success: ({ resultStr }: any) => {
 					let res = JSON.parse(resultStr);
 					if (res.verificationType && res.verificationType == "Prize") {
-						alert("我的奖品" + res.id)
+						// alert("我的奖品" + res.id)
 						//核销奖品
 						request({
 							url: 'v3/activity/verification',
-							method: 'post',
+							method: 'PUT',
 							data: {
 								id: res.id
 							}
 						}).then(res => {
-							alert("核销奖品" + res.id)
+							// alert("核销奖品" + res.id)
 							if (res.code == 200) {
 								router.push({
 									pathname: '/verificationPrize',
@@ -202,7 +202,7 @@ export default connect(({ app }: any) => app)(
 								code: res.youhui_sn
 							}
 						}).then(res => {
-							alert("核销" + res.youhui_sn)
+							// alert("核销" + res.youhui_sn)
 							if (res.code == 200) {
 								router.push({
 									pathname: '/verification/success',
