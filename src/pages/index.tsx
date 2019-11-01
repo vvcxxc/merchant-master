@@ -12,7 +12,7 @@ import request from '@/services/request';
 import wx from 'weixin-js-sdk';
 import Cookies from 'js-cookie';
 declare global {
-  interface Window { open_id: string; pay_url: string; Url: string }
+	interface Window { open_id: string; pay_url: string; Url: string }
 }
 const Url = window.url ? window.url : 'http://test.api.tdianyi.com/';
 const open_id = window.open_id ? window.open_id : 'test_open_id';
@@ -44,25 +44,25 @@ export default connect(({ app }: any) => app)(
 				let reason = '';
 				if (data.apply_store_status.store_open_status == 0) {
 					router.push('/createStore');
-        }else if(data.apply_store_status.store_open_status == 2){
-          router.push('/review');
-        }else if(data.apply_store_status.store_open_status == 1){
-          router.push('/review');
-        }else{
-          if(data.payment_status.payment_open_status == 0){
-            reason = '请您提交经营资质，完成入驻'
-            this.setState({is_show: true});
-          }else if(data.payment_status.payment_open_status == 1){
-            reason = '资料审核中'
-            this.setState({is_show: true});
-          }else if(data.payment_status.payment_open_status == 2){
-            reason = '资质审核失败，查看详情'
-            this.setState({is_show: true});
-          }
-        }
-        this.setState({
-          reason
-        })
+				} else if (data.apply_store_status.store_open_status == 2) {
+					router.push('/review');
+				} else if (data.apply_store_status.store_open_status == 1) {
+					router.push('/review');
+				} else {
+					if (data.payment_status.payment_open_status == 0) {
+						reason = '请您提交经营资质，完成入驻'
+						this.setState({ is_show: true });
+					} else if (data.payment_status.payment_open_status == 1) {
+						reason = '资料审核中'
+						this.setState({ is_show: true });
+					} else if (data.payment_status.payment_open_status == 2) {
+						reason = '资质审核失败，查看详情'
+						this.setState({ is_show: true });
+					}
+				}
+				this.setState({
+					reason
+				})
 			});
 			let userAgent = navigator.userAgent;
 			let isIos = userAgent.indexOf('iPhone') > -1;
@@ -92,28 +92,16 @@ export default connect(({ app }: any) => app)(
 		}
 
 		componentDidMount() {
-      let openId = Cookies.get(open_id);
-      if(process.env.NODE_ENV != 'development'){
-        if(!openId){
-          this.auth()
-        }
-      }
+			let openId = Cookies.get(open_id);
+			if (process.env.NODE_ENV != 'development') {
+				if (!openId) {
+					this.auth()
+				}
+			}
 			this.props.dispatch({
 				type: 'app/getData'
 			});
-    }
-
-    // 授权
-  auth = () => {
-    let from = window.location.href;
-    let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
-    url = encodeURIComponent(url);
-    let urls =
-      'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
-      url +
-      '&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
-    return (window.location.href = urls);
-  }
+		}
 
 		/**跳转到页面 */
 		pushPage = (pathname: string) => () => this.props.dispatch(routerRedux.push({ pathname }));
@@ -161,20 +149,23 @@ export default connect(({ app }: any) => app)(
 				case '我的收益':
 					router.push('/my/platformBenefit');
 					break;
+				case '抽奖核销记录':
+					router.push('/verificationPrize');
+					break;
 			}
 			// router.push('');
-    };
-        // 授权
-  auth = () => {
-    let from = window.location.href;
-    let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
-    url = encodeURIComponent(url);
-    let urls =
-      'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
-      url +
-      '&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
-    return (window.location.href = urls);
-  }
+		};
+		// 授权
+		auth = () => {
+			let from = window.location.href;
+			let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
+			url = encodeURIComponent(url);
+			let urls =
+				'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
+				url +
+				'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+			return (window.location.href = urls);
+		}
 
 		/**点击核销 */
 		Verification = () => {
@@ -183,24 +174,44 @@ export default connect(({ app }: any) => app)(
 				desc: 'scanQRCode desc',
 				success: ({ resultStr }: any) => {
 					let res = JSON.parse(resultStr);
-					request({
-						url: 'api/merchant/youhui/userConsume',
-						method: 'post',
-						data: {
-							code: res.youhui_sn
-						}
-					}).then(res => {
-            if (res.code == 200) {
-              router.push({
-                pathname: '/verification/success',
-                query: {
-                  youhui_log_id: res.data.youhu_log_id
-                }
-              })
-            } else {
-              Toast.fail(res.message);
-            }
-					});
+					if (res.verificationType && res.verificationType == "Prize") {
+						//核销奖品
+						request({
+							url: 'v3/activity/verification',
+							method: 'post',
+							data: {
+								id: res.id
+							}
+						}).then(res => {
+							if (res.code == 200) {
+								router.push({
+									pathname: '/verificationPrize',
+								})
+							} else {
+								Toast.fail(res.message);
+							}
+						});
+					} else {
+						//核销
+						request({
+							url: 'api/merchant/youhui/userConsume',
+							method: 'post',
+							data: {
+								code: res.youhui_sn
+							}
+						}).then(res => {
+							if (res.code == 200) {
+								router.push({
+									pathname: '/verification/success',
+									query: {
+										youhui_log_id: res.data.youhu_log_id
+									}
+								})
+							} else {
+								Toast.fail(res.message);
+							}
+						});
+					}
 				}
 			});
 		};
