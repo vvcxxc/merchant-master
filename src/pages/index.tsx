@@ -205,12 +205,14 @@ export default connect(({ app }: any) => app)(
 						}).then(res => {
 							// alert("核销" + res.youhui_sn)
 							if (res.code == 200) {
-								router.push({
-									pathname: '/verification/success',
-									query: {
-										youhui_log_id: res.data.youhu_log_id
-									}
-								})
+								Toast.success(res.message, 2, () => {
+									router.push({
+										pathname: '/verification/success',
+										query: {
+											youhui_log_id: res.data.youhu_log_id
+										}
+									})
+								});
 							} else {
 								Toast.fail(res.message);
 							}
