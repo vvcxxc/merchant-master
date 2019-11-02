@@ -11,7 +11,7 @@ declare global {
   interface Window { api: string; }
 }
 
-const host = window.api ? window.api : 'http://api.supplier.tdianyi.com/';
+const host = window.api ? window.api : 'http://test.api.supplier.tdianyi.com/';
 
 /**发起请求
  *
@@ -37,7 +37,7 @@ export default function request(options: Options) {
         router.push('/login');
       }
       if (err.response && err.response.status !== 401) {
-        // Toast.fail(err.response.data.message,500);
+        Toast.fail(err.response.data.message,2);
       }
       return new Promise(() => { });
     });

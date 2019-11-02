@@ -348,7 +348,7 @@ export default connect(({ activity }: any) => activity)(
           }
         });
         let { data, message, code } = res;
-        if (code == 200){
+        if(code == 200){
           if (data.order_sn) {
             // 支付去
             this.props.dispatch({

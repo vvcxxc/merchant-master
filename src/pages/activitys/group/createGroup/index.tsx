@@ -338,7 +338,7 @@ export default connect(({ activity }: any) => activity)(
             })
           }
         }else{
-          Toast.fail(message, 2)
+          Toast.fail(message,2)
         }
       } else {
         Toast.fail('请将信息填写完整', 2);

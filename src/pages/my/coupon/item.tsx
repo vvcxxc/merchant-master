@@ -45,6 +45,30 @@ export default class MyCouponItem extends Component<Props & Item> {
 
   shareClick = (e:any) => {//开启分享
     console.log('分享')
+    let userAgent = navigator.userAgent;
+    let isIos = userAgent.indexOf('iPhone') > -1;
+    let url: any;
+    if (isIos) {
+      url = sessionStorage.getItem('url');
+    } else {
+      url = location.href;
+    }
+    request({
+      url: 'wechat/getShareSign',
+      method: 'get',
+      params: {
+        url
+      }
+    }).then(res => {
+      let _this = this;
+      wx.config({
+        debug: false,
+        appId: res.appId,
+        timestamp: res.timestamp,
+        nonceStr: res.nonceStr,
+        signature: res.signature,
+        jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData']
+      });
 		this.setState({ showShare: true })//启用组件
 		// this.setState({ showArrowUp: true })//启用组件
 		if (this.props.youhui_type == 0) {//兑换券
@@ -72,8 +96,9 @@ export default class MyCouponItem extends Component<Props & Item> {
 					}
 				})
 			})
-			e.stopPropagation();//需要一个穿透事件
-		}//else
+    }//else
+  })
+  e.stopPropagation();//需要一个穿透事件
 
 	}
 
