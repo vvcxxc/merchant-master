@@ -156,16 +156,16 @@ export default connect(({ app }: any) => app)(
 			// router.push('');
     };
         // 授权
-//   auth = () => {
-//     let from = window.location.href;
-//     let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
-//     url = encodeURIComponent(url);
-//     let urls =
-//       'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
-//       url +
-//       '&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
-//     return (window.location.href = urls);
-//   }
+  auth = () => {
+    let from = window.location.href;
+    let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
+    url = encodeURIComponent(url);
+    let urls =
+      'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
+      url +
+      '&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+    return (window.location.href = urls);
+  }
 
 		/**点击核销 */
 		Verification = () => {
