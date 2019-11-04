@@ -1,3 +1,5 @@
+
+import Vconsole from 'vconsole'
 declare global {
   interface Window {
     /**页面标题 */
@@ -12,6 +14,7 @@ export const dva = {
   }
 };
 
+const vConsole = new Vconsole()
 /**路由变化 */
 export const onRouteChange = (params: { location: any, routes: any }) => {
   try {
