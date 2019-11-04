@@ -63,7 +63,9 @@ export default connect(({ app }: any) => app)(
 				this.setState({
 					reason
 				})
-			});
+			}).catch(err => {
+        console.log(err)
+      });
 			let userAgent = navigator.userAgent;
 			let isIos = userAgent.indexOf('iPhone') > -1;
 			let url: any;
@@ -88,7 +90,9 @@ export default connect(({ app }: any) => app)(
 					signature: res.signature,
 					jsApiList: ['getLocation', 'openLocation', 'scanQRCode']
 				});
-			});
+			}).catch(err => {
+        console.log(err)
+      });
 		}
 
 		componentDidMount() {
@@ -193,7 +197,9 @@ export default connect(({ app }: any) => app)(
 							} else {
 								Toast.fail(res.message);
 							}
-						});
+						}).catch(err => {
+              console.log(err)
+            });
 					} else {
 						//核销
 						request({
@@ -216,7 +222,9 @@ export default connect(({ app }: any) => app)(
 							} else {
 								Toast.fail(res.message);
 							}
-						});
+						}).catch(err => {
+              console.log(err)
+            });
 					}
 				}
 			});
