@@ -15,6 +15,22 @@ export const dva = {
 };
 
 const vConsole = new Vconsole()
+window.onerror = function(msg, url, line, col, error){
+  if(error){
+    console.log(error)
+    console.log(error.message)
+    alert('有错')
+    const pattern = /Loading chunk (\d)+ failed/g;
+    const isChunkLoadFailed = error.message.match(pattern);
+    console.log(isChunkLoadFailed)
+    alert(isChunkLoadFailed)
+    if(isChunkLoadFailed) {
+      alert('报错')
+      location.reload()
+      console.log('触发了')
+    }
+  }
+}
 /**路由变化 */
 export const onRouteChange = (params: { location: any, routes: any }) => {
   try {
