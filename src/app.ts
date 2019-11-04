@@ -17,6 +17,7 @@ export const dva = {
 const vConsole = new Vconsole()
 window.onerror = function(msg, url, line, col, error){
   if(error){
+    console.log(msg,'msg')
     console.log(error)
     console.log(error.message)
     alert('有错')
