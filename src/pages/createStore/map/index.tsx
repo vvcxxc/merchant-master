@@ -131,7 +131,7 @@ export default connect(({ createStore }: any) => createStore)(
                       city: [res.province, res.city, res.district],
                       district: result.regeocode.addressComponent.district,
                       address: result.regeocode.formattedAddress || '未知地点',
-                      city_name: result.regeocode.addressComponent.city
+                      city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province
                     });
                   } else {
                     _this.setState({
@@ -324,7 +324,9 @@ export default connect(({ createStore }: any) => createStore)(
           city: [res.province, res.city, res.district],
           district: result.regeocode.addressComponent.district,
           address: result.regeocode.formattedAddress || '未知地点',
-          city_name: result.regeocode.addressComponent.city
+          city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province,
+          // 选择地点后回到地图
+          is_map: true
         }, () => {
           let address = this.state.city[0] + this.state.city[1] + item.address + item.name;
           // this.props.onChange(location,address);
@@ -341,7 +343,7 @@ export default connect(({ createStore }: any) => createStore)(
               }
             }
           })
-          router.push('/createStore')
+          // router.push('/createStore')
         });
       })
 
@@ -349,7 +351,11 @@ export default connect(({ createStore }: any) => createStore)(
 
 
     clickAddress = () => {
-      this.setState({ is_map: !this.state.is_map })
+      this.setState({ is_map: !this.state.is_map }, () => {
+        if(!this.state.is_map) {
+          this.refs.searchREF.focus()
+        }
+      })
     }
 
     handleSaveAddress = () => {
@@ -501,6 +507,7 @@ export default connect(({ createStore }: any) => createStore)(
           const lnglat = e.lnglat;
           _this.geocoder && _this.geocoder.getAddress(lnglat, (status: any, result: any) => {
             if (status === 'complete') {
+              console.log(result)
               if (result.regeocode) {
                 _this.createSearch(result);
                 let res = result.regeocode.addressComponent
@@ -511,7 +518,7 @@ export default connect(({ createStore }: any) => createStore)(
                   city: [res.province, res.city, res.district],
                   district: result.regeocode.addressComponent.district,
                   address: result.regeocode.formattedAddress || '未知地点',
-                  city_name: result.regeocode.addressComponent.city
+                  city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province
                 });
               } else {
                 _this.setState({
@@ -564,14 +571,9 @@ export default connect(({ createStore }: any) => createStore)(
               </div>
 
               <Flex className={styles.inputBox} >
-                {/* <div className={styles.inputIcon}><img src={require('./icon-map.png')} /></div> */}
                 <Flex onClick={this.clickAddress} style={{ display: 'flex', justifyContent: 'center' }}>
                   <Icon type='search' color='#000' size='xxs' className={styles.search_icon} />
                   <span className={styles.search_address}>搜索地址</span>
-                  {/* <Icon type='search' color='#000' size='xxs'/> */}
-                  {/* <InputItem
-                        placeholder='搜索地址'
-                      /> */}
                 </Flex>
               </Flex>
 
@@ -581,7 +583,6 @@ export default connect(({ createStore }: any) => createStore)(
           <Flex direction='column'>
             <div className={styles.mapBox}>
               <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
-                {/* <Marker position={location} /> */}
                 {
                   location ? (
                     <Marker position={location} />
@@ -592,7 +593,6 @@ export default connect(({ createStore }: any) => createStore)(
             {picker}
             <div className={styles.searchList}>
               <div className={styles.list_item} onClick={this.chooseBest} style={this.state.active_best_style}>
-                {/* <p className={styles.name} style={{color: '#FF6654'}}>{this.state.address}</p> */}
                 <p className={styles.name}>{this.state.address}</p>
                 <p className={styles.address}>{this.state.district}</p>
                 <div className={styles.iconMap}><img src={require("./iconMap.png")} /></div>
@@ -615,31 +615,40 @@ export default connect(({ createStore }: any) => createStore)(
                 </div>
 
                 <Flex className={styles.inputBox_search}>
-                  {/* <div className={styles.inputIcon}><img src={require('./icon-map.png')} /></div> */}
                   <Flex>
                     <InputItem
                       placeholder='搜索地址'
                       style={{ textAlign: 'center' }}
                       onChange={this.search}
+                      ref="searchREF"
                     />
-                    {/* </InputItem> */}
                   </Flex>
                 </Flex>
                 <div className={styles.search_close} onClick={this.clickAddress}>取消</div>
               </Flex>
             </WingBlank>
+            {/* <Flex direction='column'>
+              <div className={styles.mapBox}>
+                <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
+                  {
+                    location ? (
+                      <Marker position={location} />
+                    ) : null
+                  }
+                </Map>
+              </div>
+              {picker}
+              <div className={styles.searchList}>
+                <div className={styles.list_item} onClick={this.chooseBest} style={this.state.active_best_style}>
+                  <p className={styles.name}>{this.state.address}</p>
+                  <p className={styles.address}>{this.state.district}</p>
+                  <div className={styles.iconMap}><img src={require("./iconMap.png")} /></div>
+                </div>
+                {searchList}
+              </div>
+            </Flex> */}
             <div className={styles.list}>
               {is_sear}
-            </div>
-            <div style={{ display: 'none' }}>
-              <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
-                {/* <Marker position={location} /> */}
-                {
-                  location ? (
-                    <Marker position={location} />
-                  ) : null
-                }
-              </Map>
             </div>
             {picker}
           </div>

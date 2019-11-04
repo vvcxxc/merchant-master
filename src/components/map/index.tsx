@@ -120,7 +120,7 @@ export default class MapPage extends Component<Props> {
                     city: [res.province, res.city, res.district],
                     district: result.regeocode.addressComponent.district,
                     address: result.regeocode.formattedAddress || '未知地点',
-                    city_name: result.regeocode.addressComponent.city
+                    city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province
                   });
                 } else {
                   _this.setState({
@@ -290,17 +290,22 @@ export default class MapPage extends Component<Props> {
         city: [res.province, res.city, res.district],
         district: result.regeocode.addressComponent.district,
         address: result.regeocode.formattedAddress || '未知地点',
-        city_name: result.regeocode.addressComponent.city
+        city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province,
+        is_map: true
       }, () => {
-        let address = this.state.city[0] + this.state.city[1] + item.address + item.name;
-        this.props.onChange(location,address);
+        // let address = this.state.city[0] + this.state.city[1] + item.address + item.name;
+        // this.props.onChange(location,address);
       })
     })
   }
 
 
   clickAddress = () => {
-    this.setState({ is_map: !this.state.is_map })
+    this.setState({ is_map: !this.state.is_map }, () => {
+      if(!this.state.is_map) {
+        this.refs.searchREF.focus()
+      }
+    })
   }
 
 
@@ -416,6 +421,7 @@ export default class MapPage extends Component<Props> {
         const lnglat = e.lnglat;
         _this.geocoder && _this.geocoder.getAddress(lnglat, (status, result) => {
           if (status === 'complete') {
+            console.log(result)
             if (result.regeocode) {
               _this.createSearch(result);
               let res = result.regeocode.addressComponent
@@ -426,7 +432,7 @@ export default class MapPage extends Component<Props> {
                 city: [res.province, res.city, res.district],
                 district: result.regeocode.addressComponent.district,
                 address: result.regeocode.formattedAddress || '未知地点',
-                city_name: result.regeocode.addressComponent.city
+                city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province
               });
             } else {
               _this.setState({
@@ -526,18 +532,12 @@ export default class MapPage extends Component<Props> {
               </div>
 
               <Flex className={styles.inputBox_search}>
-                {/* <div className={styles.inputIcon}><img src={require('./icon-map.png')} /></div>
-                <Flex>
-                  <InputItem
-                    placeholder='请输入详细地址'
-                    onChange={this.search}
-                  />
-                </Flex> */}
                 <Flex>
                   <InputItem
                     placeholder='搜索地址'
                     style={{ textAlign: 'center' }}
                     onChange={this.search}
+                    ref="searchREF"
                   />
                 </Flex>
               </Flex>
@@ -546,11 +546,6 @@ export default class MapPage extends Component<Props> {
           </WingBlank>
           <div className={styles.list}>
             {is_sear}
-          </div>
-          <div style={{ display: 'none' }}>
-            <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
-              <Marker position={location} />
-            </Map>
           </div>
           {picker}
         </div>
