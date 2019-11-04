@@ -38,7 +38,7 @@ const config: IConfig = {
   ],
   hash: true,
   targets: {
-
+    safari: 10
   },
   // browserslist: ['> 1%', 'last 2 versions'],
 };

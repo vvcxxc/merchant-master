@@ -489,7 +489,6 @@ export default connect(({ createStore }: any) => createStore)(
           })
         },
         click: (e: any) => {
-          console.log(e)
           this.setState({
             location: {
               longitude: e.lnglat.lng,
