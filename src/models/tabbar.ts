@@ -15,9 +15,11 @@ const model: Model = {
       window.onerror = function(msg, url, line, col, error){
         if(error){
           console.log(error)
+          console.log(error.message)
           alert('有错')
           const pattern = /Loading chunk (\d)+ failed/g;
           const isChunkLoadFailed = error.message.match(pattern);
+          console.log(isChunkLoadFailed)
           if(isChunkLoadFailed) {
             alert('报错')
             location.reload()
