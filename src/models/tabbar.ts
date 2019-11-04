@@ -20,6 +20,7 @@ const model: Model = {
           const pattern = /Loading chunk (\d)+ failed/g;
           const isChunkLoadFailed = error.message.match(pattern);
           console.log(isChunkLoadFailed)
+          alert(isChunkLoadFailed)
           if(isChunkLoadFailed) {
             alert('报错')
             location.reload()
