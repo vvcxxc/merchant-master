@@ -14,6 +14,7 @@ const model: Model = {
       // console.log('触发了')
       window.onerror = function(msg, url, line, col, error){
         if(error){
+          console.log(error)
           alert('有错')
           const pattern = /Loading chunk (\d)+ failed/g;
           const isChunkLoadFailed = error.message.match(pattern);
