@@ -291,7 +291,7 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
         showShare={this.state.showShare}
         type={{
           activity_id: infoData.activity_id,
-          id: this.props.location.query.id,
+          id: infoData.youhui_id,
           name: '拼团',
           gift_id: infoData.gift_id,
           ...share
@@ -328,7 +328,7 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
           {/* <Flex className={styles.title}>
             <div className={styles.gang}>{null}</div>
             活动统计数据
-            
+
           </Flex>
           {echart} */}
           {/* 基本信息 */}

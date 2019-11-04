@@ -61,7 +61,7 @@ export default class CouponCard extends Component<Props> {
 					<img onClick={this.deleteData} src={require('../../../../assets/error_border.png')} alt="" />
 				</div>
 
-				
+
 			</div>
 		);
 	}
@@ -79,7 +79,7 @@ class ProgressBar extends Component<ProgressBarProps> {
 	render() {
 		return (
 			<div className={styles.progressBar}>
-				
+
 				<div className="title">{this.props.title}</div>
 				<Flex>
 					<div className="bar">

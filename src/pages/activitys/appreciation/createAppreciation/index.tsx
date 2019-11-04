@@ -239,6 +239,10 @@ export default connect(({ activity }: any) => activity)(
     submit = async () => {
       const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description, activity_coupons_type, image, image_url1, image_url2, } = this.props.Appreciation
 
+      if (description.length < 1 && activity_coupons_type != 1) {
+        Toast.fail('使用须知不能为空', 2);
+        return;
+      }
       if (appreciation_number_sum == 0) {
         Toast.fail('助力人数不能为0', 2);
         return;
@@ -343,26 +347,31 @@ export default connect(({ activity }: any) => activity)(
             image_url
           }
         });
-        let { data, message } = res;
-        if (data.order_sn) {
-          // 支付去
-          this.props.dispatch({
-            type: 'activity/setAppreciation',
-            payload: {
-              list: data
-            }
-          });
-          router.push({ pathname: '/activitys/pay', query: { type: 2 } })
-          Toast.hide();
-        } else {
-          Toast.success(message, 2, () => {
+        let { data, message, code } = res;
+        if(code == 200){
+          if (data.order_sn) {
+            // 支付去
             this.props.dispatch({
-              type: 'activity/Clean',
-            })
-            router.push('/activitys/appreciation');
+              type: 'activity/setAppreciation',
+              payload: {
+                list: data
+              }
+            });
+            router.push({ pathname: '/activitys/pay', query: { type: 2 } })
             Toast.hide();
-          })
+          } else {
+            Toast.success(message, 2, () => {
+              this.props.dispatch({
+                type: 'activity/Clean',
+              })
+              router.push('/activitys/appreciation');
+              Toast.hide();
+            })
+          }
+        }else{
+          Toast.fail(message,2)
         }
+
       } else {
         Toast.fail('请填写完整', 2)
       }
@@ -682,7 +691,7 @@ export default connect(({ activity }: any) => activity)(
                   this.props.Appreciation.activity_coupons_type != 1 ? <Flex className={styles.notice} onClick={this.toNotice}>
                     <div>使用规则</div>
                     <div className={styles.icon_right_box}>
-                    {
+                      {
                         this.props.Appreciation.description && this.props.Appreciation.description.length != 0 ? '已设置' + this.props.Appreciation.description.length + '条规则' : '请设置使用须知'
                       }
                       <Icon type="right" color='#999' className={styles.icon_right} />

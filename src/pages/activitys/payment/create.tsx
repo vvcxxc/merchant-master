@@ -9,24 +9,27 @@ import router from 'umi/router';
 import SelectTime from '@/components/select-time';
 import SelectCalendar from '@/components/calendar'
 // import CreateCalendar from '@/components/calendarTwo'
+import Calendar from '@/components/calendar'
 
 export default class CreatePaymentReturn extends Component {
 	state = {
 		rules: [{}],
 		start_date: '',
 		end_date: '',
-		showSelectTime: false,
-		showStartTime: null,
-		showEndtTime:null
+		showStartTime: 0,
+		showEndtTime:0,
+		showSelectTime: false
 	};
 	// handleShowSelectTime = () => { this.setState({ showSelectTime: true }) };
 	// 显示日历
 	handleShowSelectTime = () => {
-		console.log('显示日历');
 		this.setState({ showSelectTime: true })
 	}
+	closeCalendar = () => {
+		this.setState({ showSelectTime: false })
+	}
 	//关闭时间选择
-	// closeModal = () => this.setState({ showSelectCoupon: false, showSelectTime: false, showSelectActivity: false });
+	closeModal = () => this.setState({ showSelectCoupon: false, showSelectTime: false, showSelectActivity: false });
 	// handleSelectTime = (time: any) => {
 	// 	console.log(time);
 	// 	this.setState({ start_date: new Date(time.startTime).toString(), end_date: new Date(time.endTime).toString() }, this.closeModal)
@@ -94,17 +97,18 @@ export default class CreatePaymentReturn extends Component {
 			rules['total_num' + (index + 1)] = _.num * 1;
 			rules['total_fee' + (index + 1)] = _.limit * 1;
 		});
-		const { start_date, end_date } = this.state
-		let activity_begin_time = start_date
-		let activity_end_time = end_date
+		// let a = moment(this.state.start_date).startOf('day')
+		// let activity_begin_time = moment(a._d).format('X')
+		// let b = moment(this.state.end_date).endOf('day')
+		// let activity_end_time = moment(b).format('X');
 		// console.log(activity_begin_time, activity_end_time)
 		const res = await request({
 			url: 'v3/return_coupons',
 			method: 'post',
 			data: {
 				coupon_sum: this.state.rules.length,
-				activity_begin_time,
-				activity_end_time,
+				activity_begin_time: this.state.start_date,
+				activity_end_time: this.state.end_date,
 				...rules
 			}
 		});
@@ -125,12 +129,26 @@ export default class CreatePaymentReturn extends Component {
 	};
 
 	// 日历组件中获取 开始和结束时间
-	start_endTime = (date: any) => {
-		this.setState({ showSelectTime: false })
-		if (!date.startTime)return 
-		this.setState({ start_date: date.startTime, end_date: date.endTime })
-		this.setState({ showStartTime: date.showStartTime, showEndtTime: date.showEndtTime })
+	// start_endTime = (date: any) => {
+		// this.setState({ showSelectTime: false })
+		// if (!date.startTime)return 
+		// this.setState({ start_date: date.startTime, end_date: date.endTime })
+		// this.setState({ showStartTime: date.showStartTime, showEndtTime: date.showEndtTime })
+	// }
+
+	// 从新组件得到毫秒数目
+	getCalendar = (start: number, end: number, startDay: number, endDay: number) => {
+		// console.log(start, end,'开始到结束');
+		this.setState({
+			start_date: start,
+			end_date: end,
+			showSelectTime: false,
+			showStartTime: startDay,
+			showEndtTime: endDay
+		}, this.closeModal)
+		// this.setState({ showSelectTime: true })
 	}
+
 	render() {
 		const rules = this.state.rules.map((_, index) => (
 			<div key={' '}>
@@ -144,8 +162,8 @@ export default class CreatePaymentReturn extends Component {
 				<div className="delete">删除</div>
 			</Flex>
 		);
-		const { start_date, end_date, showStartTime, showEndtTime } = this.state;
-		const time = start_date ? showStartTime + '至' + showEndtTime:''
+		const { start_date, end_date, showStartTime, showEndtTime} = this.state;
+		const time = !showStartTime && !showEndtTime ? null: showStartTime + '至' + showEndtTime
 		return (
 			<div className={styles.page}>
 				<List className="topForm">
@@ -153,7 +171,7 @@ export default class CreatePaymentReturn extends Component {
 						<Flex className="notice" onClick={this.handleShowSelectTime}>
 							<div style={{ color: "#666666" }}>活动时间</div>
 							<div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-								{time}
+								{ time }
 								<Icon type="right" color='#999' className="icon_right" />
 							</div>
 						</Flex>
@@ -171,15 +189,22 @@ export default class CreatePaymentReturn extends Component {
 						发布
 					</Button>
 				</WingBlank>
+
+
 				{/* <SelectTime
 					show={this.state.showSelectTime}
 					onClose={this.closeModal}
 					onConfirm={this.handleSelectTime}
 				/> */}
-				<SelectCalendar
-					show={this.state.showSelectTime}
-					choose={this.start_endTime.bind(this)}/>
+				{/* <SelectCalendar */}
+					{/* show={this.state.showSelectTime}
+					choose={this.start_endTime.bind(this)}/> */}
 				{/* <CreateCalendar/> */}
+				<Calendar
+					show={this.state.showSelectTime}
+					confirm={this.getCalendar}
+					onClose={this.closeCalendar}
+				/>
 			</div>
 		);
 	}

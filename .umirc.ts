@@ -16,6 +16,7 @@ const config: IConfig = {
         antd: true,
         dva: true,
         dynamicImport: { webpackChunkName: true },
+        // dynamicImport: false,
         title: '小熊敬礼',
         dll: false,
         devServer: {
