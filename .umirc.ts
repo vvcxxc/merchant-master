@@ -36,6 +36,7 @@ const config: IConfig = {
       },
     ],
   ],
-  hash: true
+  hash: true,
+  browserslist: ['> 1%', 'last 2 versions'],
 };
 export default config;
