@@ -16,7 +16,10 @@ const model: Model = {
         if(error){
           const pattern = /Loading chunk (\d)+ failed/g;
           const isChunkLoadFailed = error.message.match(pattern);
-          if(isChunkLoadFailed) window.location.href = window.location.href
+          if(isChunkLoadFailed) {
+            location.reload()
+            console.log('触发了')
+          }
         }
       }
       return {
