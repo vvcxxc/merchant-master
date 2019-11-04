@@ -17,7 +17,7 @@ export const dva = {
 const vConsole = new Vconsole()
 window.onerror = function(msg, url, line, col, error){
   if(error){
-    console.log(error.message)
+    console.log(error)
     const pattern = /Loading chunk (\d)+ failed/g;
     const isChunkLoadFailed = error.message.match(pattern);
     console.log(isChunkLoadFailed)
