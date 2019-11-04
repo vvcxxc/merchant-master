@@ -37,7 +37,7 @@ export default function request(options: Options) {
         router.push('/login');
       }
       if (err.response && err.response.status !== 401) {
-        Toast.fail(err.response.data.message,2);
+        Toast.fail(err.response.data.message,1);
       }
       return new Promise(() => { });
     });
