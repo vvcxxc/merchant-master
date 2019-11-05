@@ -19,7 +19,7 @@ const config: IConfig = {
         // dynamicImport: false,
         title: '小熊敬礼',
         dll: false,
-        chunks: 'all',
+        chunk: ['vendor','umi'],
         devServer: {
           host: '192.168.2.187',
           inline: true,
@@ -33,12 +33,12 @@ const config: IConfig = {
             /service\.(t|j)sx?$/,
             /components\//,
           ],
-        }, 
+        },
       },
     ],
   ],
   hash: true,
-  targets: { chrome: 49, firefox: 45, safari: 7, edge: 13, ios: 10 },
+  targets: { chrome: 49, firefox: 45, safari: 7, edge: 13, ios: 7 },
   // browserslist: ['> 1%', 'last 2 versions'],
 };
 export default config;
