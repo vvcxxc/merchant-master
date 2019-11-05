@@ -40,6 +40,7 @@
     "react-infinite-scroll-component": "^4.5.3",
     "react-minimal-pie-chart": "^4.2.0",
     "recharts": "^1.8.5",
+    "umi-plugin-polyfills": "^1.4.2",
     "vconsole": "^3.3.4",
     "weixin-js-sdk": "^1.4.0-test"
   },
