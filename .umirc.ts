@@ -18,7 +18,8 @@ const config: IConfig = {
         dynamicImport: { webpackChunkName: true },
         // dynamicImport: false,
         title: '小熊敬礼',
-        dll: true,
+        dll: false,
+        chunks: ['vendor', 'umi'],
         devServer: {
           host: '192.168.2.187',
           inline: true,
