@@ -19,7 +19,7 @@ const config: IConfig = {
         // dynamicImport: false,
         title: '小熊敬礼',
         dll: false,
-        chunks: ['vendor', 'umi'],
+        chunks: 'all',
         devServer: {
           host: '192.168.2.187',
           inline: true,
