@@ -15,18 +15,20 @@ export const dva = {
 };
 
 const vConsole = new Vconsole()
-window.onerror = function(msg, url, line, col, error){
+window.onerror = function (msg, url, line, col, error) {
   console.log('123')
-  if(error){
-    console.log(error)
-    const pattern = /Loading chunk (\d)+ failed/g;
-    const isChunkLoadFailed = error.message.match(pattern);
-    console.log(isChunkLoadFailed)
-    alert(isChunkLoadFailed)
-    if(isChunkLoadFailed) {
-      location.reload()
-      console.log('触发了')
-    }
+  if (error) {
+    // console.log(error)
+    // const pattern = /Loading chunk (\d)+ failed/g;
+    // const isChunkLoadFailed = error.message.match(pattern);
+    // console.log(isChunkLoadFailed)
+    // alert(isChunkLoadFailed)
+    // if(isChunkLoadFailed) {
+    //   location.reload()
+    //   console.log('触发了')
+    // }
+    location.reload()
+    console.log('触发了')
   }
 }
 /**路由变化 */
