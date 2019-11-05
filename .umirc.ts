@@ -15,10 +15,10 @@ const config: IConfig = {
         hd: true,
         antd: true,
         dva: true,
-        dynamicImport: { webpackChunkName: false },
+        dynamicImport: { webpackChunkName: true },
         // dynamicImport: false,
         title: '小熊敬礼',
-        dll: false,
+        dll: true,
         devServer: {
           host: '192.168.2.187',
           inline: true,
