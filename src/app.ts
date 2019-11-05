@@ -19,7 +19,8 @@ window.onerror = function (msg, url, line, col, error) {
   console.log('123')
   if (error) {
     console.log(error)
-    const pattern = /Loading chunk (\d)+ failed/g;
+    // const pattern = /Loading chunk (\d)+ failed/g;
+    const pattern = /Cannot declare a let/g;
     const isChunkLoadFailed = error.message.match(pattern);
     console.log(isChunkLoadFailed)
     alert(isChunkLoadFailed)
