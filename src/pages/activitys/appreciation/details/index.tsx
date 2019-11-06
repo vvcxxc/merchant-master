@@ -23,6 +23,7 @@ export default connect(({ activity }: any) => activity)(
   class GroupDetails extends Component<any> {
 
     state = {
+      show_notice:false,
       youhui_id:'',
       echart_Data: [],
       posterData: {},
@@ -97,6 +98,8 @@ export default connect(({ activity }: any) => activity)(
         }
       }).then(res => {
         let { data } = res;
+        console.log(data.appreciation_info.images,'data');
+        
         this.setState({
           echart_Data: [
             data.appreciation_count.participate_number,
@@ -106,7 +109,8 @@ export default connect(({ activity }: any) => activity)(
         })
 
         this.setState({
-          youhui_id: data.appreciation_gif_info.youhui_id
+          youhui_id: data.appreciation_gif_info.youhui_id,
+          show_notice: data.appreciation_info.images.length>0?true:false
         })
 
         this.setState({
@@ -233,7 +237,7 @@ export default connect(({ activity }: any) => activity)(
 
 
     render() {
-      const { info, is_gift, types } = this.state;
+      const { info, is_gift, types, show_notice } = this.state;
       let infoData: any = info.appreciation_gif_info
       let share: any = info.share
       const description = info.appreciation_coupons_info.description.map((item, idx) => <p key={idx}>· {item}</p>);
@@ -381,12 +385,15 @@ export default connect(({ activity }: any) => activity)(
               <div className={styles.item_name}>数量：</div>
               <div className={styles.item_detail}>{info.appreciation_coupons_info.coupons_is_number}张</div>
             </Flex>
-            <Flex className={styles.item_height} align='start'>
-              <div className={styles.item_name}>使用须知：</div>
-              <div className={styles.item_long}>
-                {description}
-              </div>
-            </Flex>
+            {
+              show_notice ? <Flex className={styles.item_height} align='start'>
+                <div className={styles.item_name}>使用须知：</div>
+                <div className={styles.item_long}>
+                  {description}
+                </div>
+              </Flex>:null
+            }
+            
 
             {/* 礼品信息 */}
             {isGift}
