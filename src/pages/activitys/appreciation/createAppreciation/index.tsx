@@ -348,7 +348,7 @@ export default connect(({ activity }: any) => activity)(
           }
         });
         let { data, message, code } = res;
-        if(code == 200){
+        if (code == 200) {
           if (data.order_sn) {
             // 支付去
             this.props.dispatch({
@@ -368,8 +368,8 @@ export default connect(({ activity }: any) => activity)(
               Toast.hide();
             })
           }
-        }else{
-          Toast.fail(message,2)
+        } else {
+          Toast.fail(message, 2)
         }
 
       } else {
@@ -653,12 +653,12 @@ export default connect(({ activity }: any) => activity)(
                   <div className={styles.intervalbox} >
                     <div className={styles.inputBox} >
                       {/* <div className={styles.inputClose} style={{ display: this.state.Close1 ? "block" : "none" }} onClick={this.clearPri1}></div> */}
-                      <input className={styles.textInterval} type="text" onChange={this.handleStartPri} value={start_price ? start_price : ""} onFocus={() => { this.setState({ Close1: true }) }} onBlur={() => { setTimeout(() => { this.setState({ Close1: false }) }, 4) }} placeholder='请输入' style={{ textAlign: this.state.Close1 ? "center" : "center" }} />
+                      <input className={styles.textInterval} type="text" onChange={this.handleStartPri} value={start_price ? start_price : ""} onFocus={() => { this.setState({ Close1: true }) }} onBlur={() => { window.scrollTo(0, 0); setTimeout(() => { this.setState({ Close1: false }) }, 4) }} placeholder='请输入' style={{ textAlign: this.state.Close1 ? "center" : "center" }} />
                     </div>
                     元 增值至
                     <div className={styles.inputBox} >
                       {/* <div className={styles.inputClose} style={{ display: this.state.Close2 ? "block" : "none" }} onClick={this.clearPri2}></div> */}
-                      <input className={styles.textInterval} type="text" onChange={this.handleEndPri} value={end_price ? end_price : ""} onFocus={() => { this.setState({ Close2: true }) }} onBlur={() => { setTimeout(() => { this.setState({ Close2: false }) }, 4) }} placeholder='请输入' style={{ textAlign: this.state.Close2 ? "center" : "center" }} />
+                      <input className={styles.textInterval} type="text" onChange={this.handleEndPri} value={end_price ? end_price : ""} onFocus={() => { this.setState({ Close2: true }) }} onBlur={() => { window.scrollTo(0, 0); setTimeout(() => { this.setState({ Close2: false }) }, 4) }} placeholder='请输入' style={{ textAlign: this.state.Close2 ? "center" : "center" }} />
                     </div>
                     元
                   </div>
