@@ -18,7 +18,7 @@ export interface Group {
   gift_id: string;
   gift_pic: string;
   gift_name: string;
-  postage:string;
+  postage: string;
   keys: string;
   description: Array<any>;
   pay_list: Array<any>;
@@ -27,7 +27,7 @@ export interface Group {
   storeItems: Array<any>;
   headImg: string;
   giftImg: string;
-  activity_image:string
+  activity_image: string
 }
 
 export interface Appreciation {
@@ -66,16 +66,21 @@ const model: Model = {
       describe_img1: [],
       describe_img2: [],
       mail_mode: '1',
-      scope_mode:0,
+      scope_mode: 0,
       // 商品设置
       // isHaveData: false,
       storeItems: [],
-      description: []
+      description: [],
+      old_price: '',
+      participation_money: '',
+      group_number: '',
+      group_sum: '',
+      validity: ''
     },
     Appreciation: {
       mail_mode: '1',
       name_mode: 0,
-      activity_coupons_type:1,
+      activity_coupons_type: 1,
       cover_img: [],
       describe_img1: [],
       describe_img2: [],
@@ -86,7 +91,7 @@ const model: Model = {
       giftImg: '1',
       activity_image: '1',
       longCanvas: '1',
-      shortCanvas:'1'
+      shortCanvas: '1'
     }
   },
   reducers: {
@@ -99,7 +104,7 @@ const model: Model = {
     //     },
     //   }
     // },
-    setDetails(state,{payload}) {
+    setDetails(state, { payload }) {
       return {
         ...state,
         details: {
@@ -145,7 +150,7 @@ const model: Model = {
           describe_img1: [],
           describe_img2: [],
           mail_mode: '1',
-          scope_mode:0,
+          scope_mode: 0,
           storeItems: [],
           description: []
         },
@@ -156,7 +161,7 @@ const model: Model = {
           mail_mode: '1',
           name_mode: 0,
           description: [],
-      activity_coupons_type:1,
+          activity_coupons_type: 1,
         }
       }
     }
