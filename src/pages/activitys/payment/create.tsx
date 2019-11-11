@@ -56,6 +56,7 @@ export default class CreatePaymentReturn extends Component {
 	}
 
 	handleSubmit = async () => {
+		console.log()
 		if (!this.state.start_date || !this.state.end_date) {
 			Toast.fail('没有选择活动时间');
 			return;

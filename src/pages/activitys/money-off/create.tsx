@@ -18,7 +18,8 @@ export default class CreateMoneyOff extends Component {
 		end_date: '',
 		rules: [{ min: undefined, max: undefined }],
 		showSelectTime: false,
-		indexList: []
+		indexList: [],
+		timeSelect: false
 	};
 	handleShowSelectTime = () => { this.setState({ showSelectTime: true }) };
 	//关闭时间选择
@@ -50,45 +51,49 @@ export default class CreateMoneyOff extends Component {
 		let indexList = [];
 		for (let i = 0; i < rulesList.length; i++) {
 			if (!rulesList[i].min || !rulesList[i].max || Number(rulesList[i].max) > Number(rulesList[i].min) || Number(rulesList[i].min) == 0 || Number(rulesList[i].max) == 0) {
-				console.log(rulesList[i].min , rulesList[i].max)
+				console.log(rulesList[i].min, rulesList[i].max)
 				indexList.push(i);
 			}
 		}
-		console.log(indexList)
 		this.setState({ indexList: indexList })
-
+		let timeSelectBool;
 		if (!this.state.start_date || !this.state.end_date) {
-			Toast.fail('请选择日期');
-		} else
-			if (!this.state.rules.length && this.state.rules[0].max && this.state.rules[0].min) {
-				Toast.fail('请填写满减规则');
-			} else {
-				Toast.loading('');
-				let a = moment(this.state.start_date).startOf('day')
-				let activity_begin_time = moment(a._d).format('X')
-				let b = moment(this.state.end_date).endOf('day')
-				let activity_end_time = moment(b).format('X');
+			timeSelectBool = true;
+			this.setState({ timeSelect: true })
+		} else {
+			timeSelectBool = false;
+			this.setState({ timeSelect: false })
+		}
+		if (indexList.length > 0 || timeSelectBool == true) {
+			return;
+		}
 
-				const res = await request({
-					url: 'v3/activity/more_decrease',
-					method: 'post',
-					data: {
-						activity_begin_time,
-						activity_end_time,
-						grade: JSON.stringify(this.state.rules.map(_ => ({ more: _.min, decrease: _.max })))
-					}
-				});
-				Toast.hide();
+		Toast.loading('');
+		let a = moment(this.state.start_date).startOf('day')
+		let activity_begin_time = moment(a._d).format('X')
+		let b = moment(this.state.end_date).endOf('day')
+		let activity_end_time = moment(b).format('X');
 
-				if (res.code === 200) {
-					Toast.success('添加成功', 2, () => {
-						router.push('/activitys/money-off')
-					});
-
-				} else {
-					Toast.fail(res.data);
-				}
+		const res = await request({
+			url: 'v3/activity/more_decrease',
+			method: 'post',
+			data: {
+				activity_begin_time,
+				activity_end_time,
+				grade: JSON.stringify(this.state.rules.map(_ => ({ more: _.min, decrease: _.max })))
 			}
+		});
+		Toast.hide();
+
+		if (res.code === 200) {
+			Toast.success('添加成功', 2, () => {
+				router.push('/activitys/money-off')
+			});
+
+		} else {
+			Toast.fail(res.data);
+		}
+
 	};
 
 	render() {
@@ -117,7 +122,15 @@ export default class CreateMoneyOff extends Component {
 							<Icon type="right" color='#999' className="icon_right" />
 						</div>
 					</Flex>
-					{/* <div>请选择日期</div> */}
+					{
+						this.state.timeSelect && (!this.state.start_date && !this.state.end_date) ? <div className="errorLine" >请选择活动时间后重新提交</div> : null
+					}
+					{
+						this.state.timeSelect && ((this.state.start_date && !this.state.end_date) || (!this.state.start_date && this.state.end_date)) ? <div className="errorLine" >未设置开始时间/结束时间/,无法提交</div> : null
+					}
+
+
+
 
 					<div className="rules">{rules}</div>
 					<div className="tip">点击+创建新的信息</div>
