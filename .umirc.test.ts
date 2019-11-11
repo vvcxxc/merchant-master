@@ -9,6 +9,28 @@ const config: IConfig = {
     "window.pay_url": "http://test.api.tdianyi.com/payCentre/toSupplierWxPay",
     "window.shareLink": "http://test.mall.tdianyi.com/",
     "window.service_url": "http://test.mall.tdianyi.com/#/pages/mycardticket/index"
-  }
+  },
+  chainWebpack: function (config, { webpack }) {
+    config.merge({
+      optimization: {
+        minimize: true,
+        splitChunks: {
+          chunks: 'all',
+          minSize: 30000,
+          minChunks: 3,
+          automaticNameDelimiter: '.',
+          cacheGroups: {
+            vendor: {
+              name: 'vendors',
+              test({ resource }) {
+                return /[\\/]node_modules[\\/]/.test(resource);
+              },
+              priority: 10,
+            },
+          },
+        },
+      }
+    });
+  },
 }
 export default config
