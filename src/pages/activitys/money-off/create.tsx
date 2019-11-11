@@ -51,7 +51,6 @@ export default class CreateMoneyOff extends Component {
 		let indexList = [];
 		for (let i = 0; i < rulesList.length; i++) {
 			if (!rulesList[i].min || !rulesList[i].max || Number(rulesList[i].max) > Number(rulesList[i].min) || Number(rulesList[i].min) == 0 || Number(rulesList[i].max) == 0) {
-				console.log(rulesList[i].min, rulesList[i].max)
 				indexList.push(i);
 			}
 		}
