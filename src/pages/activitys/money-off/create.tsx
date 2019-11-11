@@ -17,13 +17,14 @@ export default class CreateMoneyOff extends Component {
 		start_date: '',
 		end_date: '',
 		rules: [{ min: undefined, max: undefined }],
-		showSelectTime: false
+		showSelectTime: false,
+		indexList: []
 	};
 	handleShowSelectTime = () => { this.setState({ showSelectTime: true }) };
 	//关闭时间选择
 	closeModal = () => this.setState({ showSelectCoupon: false, showSelectTime: false, showSelectActivity: false });
 	handleSelectTime = (time: any) => {
-		this.setState({start_date: new Date(time.startTime).toString(), end_date: new Date(time.endTime).toString() }, this.closeModal)
+		this.setState({ start_date: new Date(time.startTime).toString(), end_date: new Date(time.endTime).toString() }, this.closeModal)
 	};
 	handleRuleChange = (index: number, rule: any) => {
 		const rules = [...this.state.rules];
@@ -45,38 +46,49 @@ export default class CreateMoneyOff extends Component {
 	};
 
 	onSubmit = async () => {
-		if (!this.state.start_date || !this.state.end_date) {
-			Toast.fail('请选择日期');
-		} else 
-		if (!this.state.rules.length && this.state.rules[0].max && this.state.rules[0].min) {
-			Toast.fail('请填写满减规则');
-		} else {
-			Toast.loading('');
-			let a = moment(this.state.start_date).startOf('day')
-			let activity_begin_time = moment(a._d).format('X')
-			let b = moment(this.state.end_date).endOf('day')
-			let activity_end_time = moment(b).format('X');
-			
-			const res = await request({
-				url: 'v3/activity/more_decrease',
-				method: 'post',
-				data: {
-					activity_begin_time,
-					activity_end_time,
-					grade: JSON.stringify(this.state.rules.map(_ => ({ more: _.min, decrease: _.max })))
-				}
-			});
-			Toast.hide();
-
-			if (res.code === 200) {
-				Toast.success('添加成功', 2, () => {
-					router.push('/activitys/money-off')
-				});
-
-			} else {
-				Toast.fail(res.data);
+		let rulesList = this.state.rules;
+		let indexList = [];
+		for (let i = 0; i < rulesList.length; i++) {
+			if (!rulesList[i].min || !rulesList[i].max || Number(rulesList[i].max) > Number(rulesList[i].min) || Number(rulesList[i].min) == 0 || Number(rulesList[i].max) == 0) {
+				console.log(rulesList[i].min , rulesList[i].max)
+				indexList.push(i);
 			}
 		}
+		console.log(indexList)
+		this.setState({ indexList: indexList })
+
+		if (!this.state.start_date || !this.state.end_date) {
+			Toast.fail('请选择日期');
+		} else
+			if (!this.state.rules.length && this.state.rules[0].max && this.state.rules[0].min) {
+				Toast.fail('请填写满减规则');
+			} else {
+				Toast.loading('');
+				let a = moment(this.state.start_date).startOf('day')
+				let activity_begin_time = moment(a._d).format('X')
+				let b = moment(this.state.end_date).endOf('day')
+				let activity_end_time = moment(b).format('X');
+
+				const res = await request({
+					url: 'v3/activity/more_decrease',
+					method: 'post',
+					data: {
+						activity_begin_time,
+						activity_end_time,
+						grade: JSON.stringify(this.state.rules.map(_ => ({ more: _.min, decrease: _.max })))
+					}
+				});
+				Toast.hide();
+
+				if (res.code === 200) {
+					Toast.success('添加成功', 2, () => {
+						router.push('/activitys/money-off')
+					});
+
+				} else {
+					Toast.fail(res.data);
+				}
+			}
 	};
 
 	render() {
@@ -85,18 +97,19 @@ export default class CreateMoneyOff extends Component {
 				showAdd={index === 0}
 				key={index}
 				index={index}
+				isError={this.state.indexList.indexOf(index) >= 0 ? true : false}
 				{..._}
 				onChange={this.handleRuleChange}
 				onClick={this.handleRuleClick}
 			/>
 		));
-		
+
 		const { start_date, end_date, } = this.state;
 		const time = start_date ? new Date(start_date).getFullYear() + '-' + (new Date(start_date).getMonth() + 1) + '-' + new Date(start_date).getDate() + '至' + new Date(end_date).getFullYear() + '-' + (new Date(end_date).getMonth() + 1) + '-' + new Date(end_date).getDate() : '';
 		return (
 			<div className={styles.page}>
 				<WingBlank>
-				
+
 					<Flex className="notice" onClick={this.handleShowSelectTime}>
 						<div style={{ color: "#666666" }}>活动时间</div>
 						<div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
@@ -104,7 +117,7 @@ export default class CreateMoneyOff extends Component {
 							<Icon type="right" color='#999' className="icon_right" />
 						</div>
 					</Flex>
-
+					{/* <div>请选择日期</div> */}
 
 					<div className="rules">{rules}</div>
 					<div className="tip">点击+创建新的信息</div>
