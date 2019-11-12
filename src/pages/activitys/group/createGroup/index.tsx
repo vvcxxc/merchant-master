@@ -256,14 +256,14 @@ export default connect(({ activity }: any) => activity)(
         is_image: '',
       }
       // 名字的验证
-      if (activity_name) {
-        //验证输入的名字1-30个字符，可以为数字、字母、中文
-        let is_name = /[a-zA-Z0-9!@#$%^&*()_＠+=-{}[\]＼\|、''"/><,.;:`~！@#￥%……&*（）【】《》？“”：；，。~·——-\u4E00-\u9FA5]{1,30}/.test(activity_name)
-        is_name ? rule.is_name = '优惠券名称中含有非法字符，请重新编辑' : ''
-      } else {
-        // 请输入优惠券名称
-        rule.is_name = '请输入活动名'
-      }
+      // if (activity_name) {
+      //   //验证输入的名字1-30个字符，可以为数字、字母、中文
+      //   let is_name = /[a-zA-Z0-9!@#$%^&*()_＠+=-{}[\]＼\|、''"/><,.;:`~！@#￥%……&*（）【】《》？“”：；，。~·——-\u4E00-\u9FA5]{1,30}/.test(activity_name)
+      //   is_name ? rule.is_name = '优惠券名称中含有非法字符，请重新编辑' : ''
+      // } else {
+      //   // 请输入优惠券名称
+      //   rule.is_name = '请输入活动名'
+      // }
 
       // 开团数量
       if (group_sum == 0) {
@@ -293,12 +293,13 @@ export default connect(({ activity }: any) => activity)(
         rule.is_old = '请输入商品原价'
       }
 
+      
       // 拼团价格验证
       if (participation_money == 0) {
         rule.is_new = '拼团价格必须大于0'
       } else if (participation_money == '') {
         rule.is_new = '拼团价格不能为空'
-      } else if (participation_money > old_price) {
+      } else if (Number(participation_money) > Number(old_price)) {
         rule.is_new = '拼团价格不可高于商品原价'
       }
 
