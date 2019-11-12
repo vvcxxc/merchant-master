@@ -111,34 +111,30 @@ export default connect(({ activity }: any) => activity)(
 		};
 		/**登录 */
 		submit = () => {
-			let haveError;
+			let haveError = false;
 			if (this.state.tab == 0 && !(/^1[3456789]\d{9}$/.test(this.state.mobile))) {
 				this.setState({ errorMobile: true });
 				haveError = true;
 			} else {
 				this.setState({ errorMobile: false });
-				haveError = false;
 			}
 			if (this.state.tab == 0 && !this.state.code) {
 				this.setState({ errorCode: true });
 				haveError = true;
 			} else {
 				this.setState({ errorCode: false });
-				haveError = false;
 			}
 			if (this.state.tab == 1 && !this.state.account_name) {
 				this.setState({ errorAccountName: true });
 				haveError = true;
 			} else {
 				this.setState({ errorAccountName: false });
-				haveError = false;
 			}
 			if (this.state.tab == 1 && !this.state.password) {
 				this.setState({ errorPassword: true });
 				haveError = true;
 			} else {
 				this.setState({ errorPassword: false });
-				haveError = false;
 			}
 			if (haveError) {
 				return;

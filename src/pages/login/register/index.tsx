@@ -172,10 +172,9 @@ export default connect(({ register }: any) => register)(
      * 注册
      */
     register = () => {
-      let haveError;
+      let haveError=false;
       if (!(/^1[3456789]\d{9}$/.test(this.props.phone))) {
         this.setState({ errorMobile: true });
-        haveError = true;
       } else {
         this.setState({ errorMobile: false });
         haveError = false;
@@ -185,21 +184,18 @@ export default connect(({ register }: any) => register)(
         haveError = true;
       } else {
         this.setState({ errorCode: false });
-        haveError = false;
       }
       if (!this.props.username) {
         this.setState({ errorAccountName: true });
         haveError = true;
       } else {
         this.setState({ errorAccountName: false });
-        haveError = false;
       }
       if (!this.props.password || this.props.password.length < 6) {
         this.setState({ errorPassword: true });
         haveError = true;
       } else {
         this.setState({ errorPassword: false });
-        haveError = false;
       }
       if (haveError) {
         return;

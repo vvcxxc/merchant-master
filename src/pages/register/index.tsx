@@ -178,62 +178,58 @@ export default connect(({ register }: any) => register)(
      * 注册
      */
     register = () => {
-      let haveError;
+      let haveError = false;
       if (!(/^1[3456789]\d{9}$/.test(this.state.phone))) {
         this.setState({ errorMobile: true });
         haveError = true;
       } else {
         this.setState({ errorMobile: false });
-        haveError = false;
       }
       if (!this.state.code) {
         this.setState({ errorCode: true });
         haveError = true;
       } else {
         this.setState({ errorCode: false });
-        haveError = false;
       }
       if (!this.state.username) {
         this.setState({ errorAccountName: true });
         haveError = true;
       } else {
         this.setState({ errorAccountName: false });
-        haveError = false;
       }
       if (!this.state.password || this.state.password.length < 6) {
         this.setState({ errorPassword: true });
         haveError = true;
       } else {
         this.setState({ errorPassword: false });
-        haveError = false;
       }
       if (haveError) {
         return;
       }
       const { username, phone, password, code, inviter_phone } = this.props;
       // if (username && phone && password && code) {
-        request({
-          url: 'v3/register',
-          method: 'post',
-          data: {
-            user_name: username,
-            password,
-            user_phone: phone,
-            verify_code: code,
-            invite_phone: inviter_phone
-          },
-        }).then(res => {
-          let { code, data } = res;
-          if (code == 200) {
-            Toast.success('注册成功', 2, () => {
-              localStorage.setItem('token', 'Bearer ' + res.data.token);
-              router.push('/createStore');
-            })
+      request({
+        url: 'v3/register',
+        method: 'post',
+        data: {
+          user_name: username,
+          password,
+          user_phone: phone,
+          verify_code: code,
+          invite_phone: inviter_phone
+        },
+      }).then(res => {
+        let { code, data } = res;
+        if (code == 200) {
+          Toast.success('注册成功', 2, () => {
+            localStorage.setItem('token', 'Bearer ' + res.data.token);
+            router.push('/createStore');
+          })
 
-          } else {
-            Toast.fail(data)
-          }
-        });
+        } else {
+          Toast.fail(data)
+        }
+      });
       // } else {
       //   Toast.fail('请将信息填写完整', 2)
       // }
