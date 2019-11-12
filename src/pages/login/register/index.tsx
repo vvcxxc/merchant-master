@@ -205,7 +205,7 @@ export default connect(({ register }: any) => register)(
         return;
       }
       const { username, phone, password, code, inviter_phone } = this.props;
-      if (username && phone && password && code) {
+      // if (username && phone && password && code) {
         request({
           url: 'v3/register',
           method: 'post',
@@ -228,9 +228,9 @@ export default connect(({ register }: any) => register)(
             Toast.fail(data)
           }
         });
-      } else {
-        Toast.fail('请将信息填写完整', 2)
-      }
+      // } else {
+      //   Toast.fail('请将信息填写完整', 2)
+      // }
     }
 
     componentWillUnmount() {
