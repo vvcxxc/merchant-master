@@ -32,8 +32,10 @@ const vConsole = new Vconsole()
 //     // console.log('触发了')
 //   }
 // }
+
 /**路由变化 */
 export const onRouteChange = (params: { location: any, routes: any }) => {
+  // console.log(params)
   try {
     const defaultTitle = '小熊敬礼'
     const path = params.location.pathname

@@ -6,6 +6,7 @@ import styles from './index.less';
 interface Props {
 	index: number;
 	showAdd?: boolean;
+	isError?: boolean;
 	onChange: (index: number, params: Params) => void;
 	onClick: (index: number) => void;
 }
@@ -39,14 +40,25 @@ export default class LimitItem extends Component<Props & Params> {
 			</Flex.Item>
 		);
 		return (
-			<Flex className={styles.limitItem}>
-				<span className={styles.sort}>{this.props.index + 1}. </span>
-				<span>满</span>
-				<input value={this.props.min} onInput={this.handleMinChange} />
-				<span>减</span>
-				<input value={this.props.max} onInput={this.handleMaxChange} />
-				{icon}
-			</Flex>
+			<div >
+				<Flex className={styles.limitItem} style={{ borderBottom: this.props.isError ? '1px #d2284b solid' : 'none' }}>
+					<span className={styles.sort}>{this.props.index + 1}. </span>
+					<span>满</span>
+					<input value={this.props.min} onInput={this.handleMinChange} />
+					<span>减</span>
+					<input value={this.props.max} onInput={this.handleMaxChange} />
+					{icon}
+				</Flex>
+				{
+					this.props.isError && (Number(this.props.min) == 0 || Number(this.props.max) == 0) ? <div className={styles.errorLine} >满减活动的金额设置必须大于0元</div> : null
+				}
+				{
+					this.props.isError && (!this.props.min || !this.props.max) ? <div className={styles.errorLine} >请设置满减条件</div> : null
+				}
+				{
+					this.props.isError && Number(this.props.min) < Number(this.props.max) ? <div className={styles.errorLine} >满减条件设置规则有误，请重新设置</div> : null
+				}
+			</div>
 		);
 	}
 }

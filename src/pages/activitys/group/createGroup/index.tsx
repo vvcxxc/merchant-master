@@ -9,6 +9,7 @@ import SelectTime from '@/components/select-time';
 import router from 'umi/router';
 import { connect } from 'dva';
 import ad_intro2 from '@/assets/ad/ad_intro2.png'
+import PaymentReturnRules from '../../payment/rules';
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
@@ -23,7 +24,6 @@ export default connect(({ activity }: any) => activity)(
       prompt: false
     };
     componentDidMount() {
-
       if (this.props.Group.gift_id) {
         this.setState({ is_gift: true })
       }
@@ -43,6 +43,7 @@ export default connect(({ activity }: any) => activity)(
       });
     };
     startChange = (value: any) => {
+      console.log(value)
       this.props.dispatch({
         type: 'activity/setGroup',
         payload: {
@@ -244,44 +245,83 @@ export default connect(({ activity }: any) => activity)(
     /**确认发布 */
     confirm = async () => {
       let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name } = this.props.Group;
-
-      if (group_sum == 0) {
-        Toast.fail('开团数量不能为0', 2);
-        return;
+      let rule = {
+        is_name: '',
+        is_date: '',
+        is_old: '',
+        is_new: '',
+        is_people: '',
+        is_num: '',
+        is_validity: '',
+        is_image: '',
       }
-      // if (validity == 0) {
-      //   Toast.fail('有效期不能为0', 2);
-      //   return;
+      // 名字的验证
+      // if (activity_name) {
+      //   //验证输入的名字1-30个字符，可以为数字、字母、中文
+      //   let is_name = /[a-zA-Z0-9!@#$%^&*()_＠+=-{}[\]＼\|、''"/><,.;:`~！@#￥%……&*（）【】《》？“”：；，。~·——-\u4E00-\u9FA5]{1,30}/.test(activity_name)
+      //   is_name ? rule.is_name = '优惠券名称中含有非法字符，请重新编辑' : ''
+      // } else {
+      //   // 请输入优惠券名称
+      //   rule.is_name = '请输入活动名'
       // }
+
+      // 开团数量
+      if (group_sum == 0) {
+        rule.is_num = '开团数量必须大于0'
+      } else if (group_sum == '') {
+        rule.is_num = '请设置开团数量'
+      }
+
+      // 有效期的验证
+      if (validity == 0) {
+        rule.is_validity = '优惠券有效期必须大于0'
+      } else if (validity == '') {
+        rule.is_validity = '请设置优惠券有效期'
+      }
+
+      // 拼团人数的验证
       if (group_number == 0) {
-        Toast.fail('成团人数不能为0', 2);
-        return;
+        rule.is_people = '拼团人数必须大于0'
+      } else if (group_number == '') {
+        rule.is_people = '请设置拼团人数'
       }
 
-      // 价格验证
-      if (Number(participation_money) >= Number(old_price)) {
-        Toast.fail('拼团价格必须低于商品原价，请重新设置', 2);
-        return;
+      // 拼团原价验证
+      if (old_price == 0) {
+        rule.is_old = '商品原价必须大于0'
+      } else if (old_price == '') {
+        rule.is_old = '请输入商品原价'
       }
 
-      // 有效期验证
-      if (validity < 1) {
-        Toast.fail('有效期至少为一天', 2);
-        return;
+      
+      // 拼团价格验证
+      if (participation_money == 0) {
+        rule.is_new = '拼团价格必须大于0'
+      } else if (participation_money == '') {
+        rule.is_new = '拼团价格不能为空'
+      } else if (Number(participation_money) > Number(old_price)) {
+        rule.is_new = '拼团价格不可高于商品原价'
       }
 
-
-      if (description.length < 1) {
-        Toast.fail('使用须知不能为空', 2);
-        return;
+      // 图片验证
+      if (!image || !image_url1 || !image_url2) {
+        rule.is_image = '请上传图片完整后再重新提交'
       }
 
       // 日期验证
       let startDate = new Date(start_date).getTime();
       let endDate = new Date(end_date).getTime();
       if (startDate > endDate) {
-        Toast.fail('起始日期应大于结束日期', 2);
-        return;
+        rule.is_date = '开始时间不能大于结束时间'
+      } else if (start_date == undefined || '') {
+        rule.is_date = '未设置开始时间，无法提交'
+      } else if (end_date == undefined || '') {
+        rule.is_date = '未设置结束时间，无法提交'
+      }
+
+      if ( rule.is_validity || rule.is_people || rule.is_old || rule.is_num || rule.is_new || rule.is_name || rule.is_image || rule.is_date ) {
+        console.log(rule)
+        return
       }
 
       let a = moment(start_date).startOf('day')
@@ -337,8 +377,8 @@ export default connect(({ activity }: any) => activity)(
               Toast.hide();
             })
           }
-        }else{
-          Toast.fail(message,2)
+        } else {
+          Toast.fail(message, 2)
         }
       } else {
         Toast.fail('请将信息填写完整', 2);
