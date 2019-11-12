@@ -56,5 +56,56 @@
 		}
 	}
 }
+.groub_hint {
+  padding-top: 10px;
+  font-size:22px;
+  font-family:PingFang SC;
+  font-weight:500;
+  color:rgba(210,40,75,1);
+  text-align: right;
+  border-top: 1px solid red;
+}
+
+.img_box {
+	padding: 20px 0px;
+	// margin-bottom: 30px;
+  .image {
+    width: 176px;
+    margin-right: 40px;
+    font-size: 23px;
+    color: #999;
+    text-align: center;
+
+    .describe {
+      margin-top: 16px;
+      height: 25px;
+    }
+  }
+}
+
+.upload_img :global {
+  .am-image-picker-list {
+    padding: 0;
+    margin-bottom: 0;
+	}
+	.am-flexbox-item {
+    width: 176px !important;
+    height: 97px;
+  }
+
+  .am-image-picker-list .am-flexbox .am-flexbox-item {
+    margin-right: 0;
+  }
+
+  .am-image-picker-list .am-image-picker-upload-btn {
+    background: url('./shangchuan.png') no-repeat;
+    background-size: 100%;
+  }
+
+  .am-image-picker-list .am-flexbox .am-flexbox-item {
+    overflow-y: visible;
+	}
+	
+}
 
 
