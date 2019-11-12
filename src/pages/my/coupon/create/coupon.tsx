@@ -252,12 +252,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 							<div className={styles.groub_hint} style={{ marginBottom: '50px' }}>{error.activeImg}</div> : null
 					}
 					{notice}
-					<div onClick={() => {
-						console.log(this.props,'porpss');
-						
-					}}>
-						{/* 输出 */}
-					</div>
 				</div>
 			);
 		}
