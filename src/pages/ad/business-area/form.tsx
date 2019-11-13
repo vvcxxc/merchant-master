@@ -50,10 +50,13 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 			is_pause: -1,
 			// 审核状态
 			check_status: 0,
-
 			paused_status: 0,
 
-			countMoney: 0
+			countMoney: 0,
+			//校验规则
+			couponErr: false,
+			timeErr: false,
+			priceErr: false
 		};
 
 		componentDidMount = () => {
@@ -117,18 +120,40 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 
 			/**是否是修改提交状态 或者暂停请求状态 */
 			if (!this.state.edit || isStop) {
+				let haveErr = false;
 				if (!this.state.coupon.value) {
-					return Toast.info('请选择优惠券');
+					haveErr = true;
+					this.setState({ couponErr: true })
+				} else {
+					this.setState({ couponErr: false })
 				}
 				if (!this.state.startTime) {
-					return Toast.info('请选择广告投放时长');
+					haveErr = true;
+					this.setState({ timeErr: true })
+				} else {
+					this.setState({ timeErr: false })
 				}
-				if (!this.state.price) {
-					return Toast.info('请输入每日预算');
+				if (!this.state.price || Number(this.state.price) <= 1.1) {
+					haveErr = true;
+					this.setState({ priceErr: true })
+				} else {
+					this.setState({ priceErr: false })
 				}
-				if (Number(this.state.price) < 1) {
-					return Toast.info('每日预算金额不能低于1元');
+				if (haveErr == true) {
+					return;
 				}
+				// if (!this.state.coupon.value) {
+				// 	return Toast.info('请选择优惠券');
+				// }
+				// if (!this.state.startTime) {
+				// 	return Toast.info('请选择广告投放时长');
+				// }
+				// if (!this.state.price) {
+				// 	return Toast.info('请输入每日预算');
+				// }
+				// if (Number(this.state.price) < 1) {
+				// 	return Toast.info('每日预算金额不能低于1元');
+				// }
 				// 暂停的情况不考虑价格比较问题 除了状态为2时即是暂停时都可以弹出余额不足
 				if (!(this.state.is_pause == 0 && this.state.check_status == 1)) {
 					// if (Number(this.state.price) > Number(this.props.app.data.money)) {
@@ -267,9 +292,16 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 									>
 										优惠券
 								</List.Item>
+									{
+										this.state.couponErr && !this.state.coupon.value ? <div className={styles.errorLine}>请选择优惠券后重新提交</div> : null
+									}
+
 									<List.Item extra={time} arrow="horizontal" onClick={this.handleShowSelectTime}>
 										广告投放时长
 								</List.Item>
+									{
+										this.state.timeErr && !this.state.startTime ? <div className={styles.errorLine}>请选择活动时间后重新提交</div> : null
+									}
 									<InputItem
 										extra="元"
 										value={this.state.price}
@@ -279,12 +311,19 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 										每日预算
 									<span className={styles.budget_info}>
 											{
-												(this.state.is_pause == -1) ? '最低预算1元，建议预算1元'
+												(this.state.is_pause == -1) ? '最低预算1.1元，建议预算1.1元'
 													: (this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元，低于1.1元广告将暂停`
 														: (this.state.is_pause == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元` : ''
 											}
 										</span>
 									</InputItem>
+									{
+										this.state.priceErr && !this.state.price ? <div className={styles.errorLine}>账号余额低于每日最低预算，请充值后重新投放</div> : null
+									}
+									{
+										this.state.priceErr && Number(this.state.price) <= 1.1 ? <div className={styles.errorLine}>每日投放预算不可低于1.1元</div> : null
+									}
+
 								</List>
 								<WhiteSpace size="lg" />
 								<Flex justify="start">
