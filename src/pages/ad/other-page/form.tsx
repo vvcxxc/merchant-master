@@ -86,7 +86,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			timeErr: false,
 			priceErr: false,
 			imageErr: false,
-			uploadIng: false
+			uploadIng: false,
 
 			countMoney: 0
 
@@ -479,7 +479,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 
 					<div className={((this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1)) ? styles.ad_status_isPut : this.state.is_pause == 1 ? styles.ad_status_ispause : (this.state.is_pause == 0 && this.state.check_status == 2) ? styles.ad_status_isFail : ''}>
 						{
-							// this.state.ad_status == 0 ? ' 暂未投放': 
+							// this.state.ad_status == 0 ? ' 暂未投放':
 							(this.state.is_pause == 0 && this.state.check_status == 0) ? ' 审核中'
 								: (this.state.is_pause == 0 && this.state.check_status == 1) ? ' 已投放'
 									: (this.state.is_pause == 1) ? ' 已暂停'
