@@ -13,7 +13,7 @@ import { connect } from 'dva';
 // export default class Register extends Component {
 export default connect(({ register }: any) => register)(
   class Register extends Component<any> {
-    
+
     componentDidMount() {
       /**获取oss */
       //   request({
@@ -167,6 +167,13 @@ export default connect(({ register }: any) => register)(
      */
     register = () => {
       const { username, phone, password, code, inviter_phone } = this.props;
+      let rule = {
+        is_username: '',
+        is_phone: '',
+        is_code: '',
+      }
+
+
       if (username && phone && password && code) {
         request({
           url: 'v3/register',
@@ -231,6 +238,7 @@ export default connect(({ register }: any) => register)(
                 clear
               />
             </Flex>
+            <div className={styles.error}>12312</div>
             <Flex className={styles.inputWrap}>
               <InputItem
                 style={{ width: '100%' }}
@@ -268,7 +276,7 @@ export default connect(({ register }: any) => register)(
           </Button>
             </WingBlank>
             <Flex.Item className={styles.footer}>
-              点击“注册”即同意<span style={{ color: '#21418A' }} 
+              点击“注册”即同意<span style={{ color: '#21418A' }}
               onClick={()=>{router.push('/login/register/agreement')}}
               >《小熊敬礼服务及隐私条款》</span>
             </Flex.Item>

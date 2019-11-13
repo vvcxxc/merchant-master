@@ -21,7 +21,17 @@ export default connect(({ activity }: any) => activity)(
       showSelectTime: false,
       startTime: undefined,
       endTime: undefined,
-      prompt: false
+      prompt: false,
+      rule: {
+        is_name: '',
+        is_date: '',
+        is_old: '',
+        is_new: '',
+        is_people: '',
+        is_num: '',
+        is_validity: '',
+        is_image: '',
+      }
     };
     componentDidMount() {
       if (this.props.Group.gift_id) {
@@ -137,12 +147,6 @@ export default connect(({ activity }: any) => activity)(
     }
     /**选择图片 */
     changeCover = (files: any) => {
-      // this.props.dispatch({
-      //   type: 'activity/setGroup',
-      //   payload: {
-      //     cover_img: files
-      //   }
-      // });
       Toast.loading('')
       if (files[0]) {
         let img = files[0].url;
@@ -169,12 +173,6 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     changeDescribe1 = (files: any) => {
-      // this.props.dispatch({
-      //   type: 'activity/setGroup',
-      //   payload: {
-      //     describe_img1: files
-      //   }
-      // });
       Toast.loading('')
       if (files[0]) {
         let img = files[0].url;
@@ -201,12 +199,6 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     changeDescribe2 = (files: any) => {
-      // this.props.dispatch({
-      //   type: 'activity/setGroup',
-      //   payload: {
-      //     describe_img2: files
-      //   }
-      // });
       Toast.loading('')
       if (files[0]) {
         let img = files[0].url;
@@ -258,8 +250,8 @@ export default connect(({ activity }: any) => activity)(
       // 名字的验证
       if (activity_name) {
         //验证输入的名字1-30个字符，可以为数字、字母、中文
-        let is_name = /[a-zA-Z0-9!@#$%^&*()_＠+=-{}[\]＼\|、''"/><,.;:`~！@#￥%……&*（）【】《》？“”：；，。~·——-\u4E00-\u9FA5]{1,30}/.test(activity_name)
-        is_name ? rule.is_name = '优惠券名称中含有非法字符，请重新编辑' : ''
+        let is_name = /^[\u4e00-\u9fa5A-Za-z0-9-_!@#$%^&*()+=,./';:"?><\|！@#￥%……&*（）——：“”；》《，。、？|]*$/.test(activity_name)
+        is_name ? rule.is_name = '' : rule.is_name ='优惠券名称中含有非法字符，请重新编辑'
       } else {
         // 请输入优惠券名称
         rule.is_name = '请输入活动名'
@@ -318,8 +310,8 @@ export default connect(({ activity }: any) => activity)(
         rule.is_date = '未设置结束时间，无法提交'
       }
 
-      if ( rule.is_validity || rule.is_people || rule.is_old || rule.is_num || rule.is_new || rule.is_name || rule.is_image || rule.is_date ) {
-        console.log(rule)
+      if (rule.is_validity || rule.is_people || rule.is_old || rule.is_num || rule.is_new || rule.is_name || rule.is_image || rule.is_date) {
+        this.setState({ rule })
         return
       }
 
@@ -432,38 +424,18 @@ export default connect(({ activity }: any) => activity)(
         );
       const time = start_date ? new Date(start_date).getFullYear() + '-' + (new Date(start_date).getMonth() + 1) + '-' + new Date(start_date).getDate() + '至' + new Date(end_date).getFullYear() + '-' + (new Date(end_date).getMonth() + 1) + '-' + new Date(end_date).getDate() : '';
 
+      const { rule } = this.state;
+
       return (
         <div style={{ width: '100%', height: 'auto', minHeight: '100%', background: '#fff', overflow: 'hidden', }}>
           {/* <div style={{ display }}> */}
-          <WingBlank>
+          <WingBlank className={styles.main}>
             <Flex className={styles.title}><div>活动设置</div></Flex>
             <List className={styles.input_Box}>
-              {/* <Flex className={styles.pickerDate}>
-                <DatePicker
-                  mode="date"
-                  title="起始日期"
-                  extra="Optional"
-                  value={start_date}
-                  onChange={this.startChange}
-                >
-                  <List.Item arrow="horizontal">起始日期</List.Item>
-                </DatePicker>
-              </Flex>
-              <Flex className={styles.pickerDate}>
-                <DatePicker
-                  mode="date"
-                  title="结束日期"
-                  extra="Optional"
-                  value={end_date}
-                  onChange={this.endChange}
-                >
-                  <List.Item arrow="horizontal">结束日期</List.Item>
-                </DatePicker>
-              </Flex> */}
               <InputItem className={styles.activity_name} placeholder="请输入活动名称" value={activity_name} onChange={this.handleName} clear>
                 活动名称
               </InputItem>
-
+              {rule.is_name ? <div className={styles.error}>{rule.is_name}</div> : null}
               <Flex className={styles.notice} onClick={this.handleShowSelectTime}>
                 <div style={{ color: "#666666" }}>活动时间</div>
                 <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
@@ -471,36 +443,27 @@ export default connect(({ activity }: any) => activity)(
                   <Icon type="right" color='#999' className={styles.icon_right} />
                 </div>
               </Flex>
+              {rule.is_date ? <div className={styles.error}>{rule.is_date}</div> : null}
 
               {/* <Flex className={styles.notice} onClick={this.toSetting}><div style={{ color: "#666666" }}>商品设置</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex> */}
-
-              {/* <div className={styles.cover_box}>
-                <div>活动封面图</div>
-                <div className={styles.cover_img}>
-                  <ImagePicker
-                    className={styles.upload_img}
-                    files={cover_img}
-                    multiple={false}
-                    length={1}
-                    selectable={cover_img.length < 1}
-                    onChange={this.changeCover}
-                  />
-                </div>
-              </div> */}
 
               <InputItem type={'money'} className={styles.textShort} value={old_price} onChange={this.handleOldPrice} extra='元'>
                 商品原价
               </InputItem>
+              {rule.is_old ? <div className={styles.error}>{rule.is_old}</div> : null}
               <InputItem type={'money'} className={styles.textShort} value={participation_money} onChange={this.handleNewPrice} extra='元'>
                 拼团价格
               </InputItem>
+              {rule.is_new ? <div className={styles.error}>{rule.is_new}</div> : null}
               <InputItem type={'money'} className={styles.textShort} value={group_number} onChange={this.handleNum} extra='人'>
                 成团人数
               </InputItem>
+              {rule.is_people ? <div className={styles.error}>{rule.is_people}</div> : null}
               <InputItem className={styles.activity_name} placeholder="请输入团数" value={group_sum} onChange={this.handleSum} type={'money'}>
                 开团数量
                 <img src={ad_intro2} onClick={() => { this.setState({ prompt: !this.state.prompt }) }} />
               </InputItem>
+              {rule.is_num ? <div className={styles.error}>{rule.is_num}</div> : null}
               <div className={styles.activity_gropNum_msg} style={{ height: this.state.prompt ? 'auto' : '0px' }}>
                 <p>
                   拼团数量*拼团人数=活动商品数量
@@ -510,6 +473,7 @@ export default connect(({ activity }: any) => activity)(
               <InputItem type={'money'} className={styles.textLong} value={validity} onChange={this.handleValidity} extra='天可用'>
                 有效期<span className={styles.left_text}>拼团成功后</span>
               </InputItem>
+              {rule.is_validity ? <div className={styles.error}>{rule.is_validity}</div> : null}
             </List>
             <Flex className={styles.notice} onClick={this.toNotice}>
               <div style={{ color: "#666666" }}>使用规则</div>
@@ -520,6 +484,7 @@ export default connect(({ activity }: any) => activity)(
                 <Icon type="right" color='#999' className={styles.icon_right} />
               </div>
             </Flex>
+
 
             {/* <Flex className={styles.radio1}>
               <div className={styles.radioFlex}>
@@ -604,7 +569,7 @@ export default connect(({ activity }: any) => activity)(
                 <div className={styles.describe}></div>
               </div>
             </Flex>
-
+            {rule.is_image ? <div className={styles.error}>{rule.is_image}</div> : null}
             <div className={styles.gift}>
               <Flex className={styles.title}><div>礼品设置</div></Flex>
               <div className={styles.gift_Box}>
@@ -623,7 +588,7 @@ export default connect(({ activity }: any) => activity)(
               {/* <img src={require('./image/tip.png')}/>创建必读 */}
             </Flex>
           </WingBlank>
-          <Flex>
+          <Flex className={styles.buttons}>
             {/* <div className={styles.button1} onClick={() => { router.push('/activitys/group/createGroup/activitygroup') }}>预览</div> */}
             <div className={styles.button2} onClick={this.confirm} style={{ width: "100%", left: "0" }}>确认发布</div>
           </Flex>
@@ -633,11 +598,6 @@ export default connect(({ activity }: any) => activity)(
             onConfirm={this.handleSelectTime}
           />
         </div>
-
-        // {chooseGift}
-
-        // {payment}
-        // </div>
       )
     }
   })
