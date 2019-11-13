@@ -12,9 +12,11 @@ export default class BusinessArea extends Component {
 	state = {
 		data: {},
 		// log: {},
-		adId : null // 广告ID 
+		adId : null, // 广告ID 
+		userMoney: 0
 	};
 	componentDidMount() {
+		this.getMoney();
 		this.getDetail();
 	}
 	getDetail = async () => {
@@ -30,6 +32,14 @@ export default class BusinessArea extends Component {
 			// this.setLog(res.data.id);
 		}
 	};
+	getMoney = async () => {
+		const res = await request({
+			url: "v3/finance/index"
+		});
+		this.setState({
+			userMoney: res.data.money
+		})
+	}
 	// setLog = async (id: string) => {
 	// 	const res = await request({ url: 'v3/ad_logs', params: { ad_id: id } });
 	// 	if (res.code === 200) {
@@ -38,7 +48,7 @@ export default class BusinessArea extends Component {
 	// };
 	handleFormChange = () => this.getDetail();
 	render() {
-		const form = <From editForm={this.state.data} onChange={this.handleFormChange}/>;
+		const form = <From editForm={this.state.data} onChange={this.handleFormChange} userMoney={this.state.userMoney}/>;
 		// const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
 		const expenseCalendar = <ExpenseCalendar adId={this.state.adId} />;
 		const chart = <Chart adId={this.state.adId} />;

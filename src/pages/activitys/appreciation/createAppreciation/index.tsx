@@ -32,7 +32,28 @@ export default connect(({ activity }: any) => activity)(
       /**券范围*/
       activity_coupons_type: 0,
       /**显示温馨提示 */
-      prompt: false
+      prompt: false,
+
+      // 活动名称提示
+      ToastTipsActivity: "",
+      // 活动时间
+      ToastTipsActivityTime: "",
+      // 增值区间
+      ToastTipsAppreciationRange: "",
+      // 助力人数
+      ToastTipsAppreciationNum: "",
+      // 购买价格
+      ToastTipsPayMoney: "",
+      // 使用门槛
+      ToastTipsTotalFee: "",
+      // 有效期
+      ToastTipsValidity: "",
+      // 发放数量
+      ToastTipsTotalNum: "",
+      // 使用须知
+      ToastTipsDescription: "",
+      // 活动图片
+      ToastTipsImageUrl: "",
     };
     componentDidMount() {
       console.log(this.props.Appreciation)
@@ -196,6 +217,7 @@ export default connect(({ activity }: any) => activity)(
     onChange = (value: any) => {
       this.setState({
         value,
+        ToastTipsActivity: ""
       }, () => {
         this.props.dispatch({
           type: 'activity/setAppreciation',
@@ -209,6 +231,16 @@ export default connect(({ activity }: any) => activity)(
     onScope = (value: any) => {
       this.setState({
         activity_coupons_type: value,
+        ToastTipsActivity: "",
+        ToastTipsActivityTime: "",
+        ToastTipsAppreciationRange: "",
+        ToastTipsAppreciationNum: "",
+        ToastTipsPayMoney: "",
+        ToastTipsTotalFee: "",
+        ToastTipsValidity: "",
+        ToastTipsTotalNum: "",
+        ToastTipsDescription: "",
+        ToastTipsImageUrl: "",
       }, () => {
         this.props.dispatch({
           type: 'activity/setAppreciation',
@@ -239,69 +271,133 @@ export default connect(({ activity }: any) => activity)(
     submit = async () => {
       const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description, activity_coupons_type, image, image_url1, image_url2, } = this.props.Appreciation
 
-      if (description.length < 1 && activity_coupons_type != 1) {
-        Toast.fail('使用须知不能为空', 2);
-        return;
-      }
-      if (appreciation_number_sum == 0) {
-        Toast.fail('助力人数不能为0', 2);
-        return;
-      }
-      // if (validity == 0) {
-      //   Toast.fail('有效期不能为0', 2);
-      //   return;
-      // }
-      if (total_num == 0) {
-        Toast.fail('发放数量不能为0', 2);
-        return;
-      }
-      // 价格验证
-      if (Number(start_price) > Number(end_price)) {
-        Toast.fail('增值区间设置规则有误，请重新设置', 2);
-        return;
-      }
-      if (Number(pay_money) > Number(end_price)) {
-        Toast.fail('购买价格不可高于增值区间峰值，请重新设置', 2);
-        return;
-      }
+      await this.setState({
+        ToastTipsActivity: "",
+        ToastTipsActivityTime: "",
+        ToastTipsAppreciationRange: "",
+        ToastTipsAppreciationNum: "",
+        ToastTipsPayMoney: "",
+        ToastTipsTotalFee: "",
+        ToastTipsValidity: "",
+        ToastTipsTotalNum: "",
+        ToastTipsDescription: "",
+        ToastTipsImageUrl: "",
+      })
+
       // 自定义名称
       if (this.state.value == 1 && !activityName) {
-        Toast.fail('请输入自定义名称', 2);
-        return;
-      }
-
-      // 有效期验证
-      if (validity < 1) {
-        Toast.fail('有效期至少为一天', 2);
-        return;
+        this.setState({
+          ToastTipsActivity: "请输入活动名称"
+        })
+      } else if (this.state.value == 1 && !(/^[\u4e00-\u9fa5A-Za-z0-9-_!@#$%^&*()+=,./';:"?><\|！@#￥%……&*（）——：“”；》《，。、？|]*$/.test(activityName))) {
+        this.setState({
+          ToastTipsActivity: "优惠券名称中含有非法字符，请重新编辑"
+        })
       }
 
       // 日期验证
       let startDate = new Date(start_date).getTime();
       let endDate = new Date(end_date).getTime();
-
-
-      //起始结束日期效验
-      if (startDate > endDate) {
-        Toast.fail('结束日期应大于起始日期');
-        return;
+      if (!startDate && !endDate) {
+        this.setState({
+          ToastTipsActivityTime: "请选择活动时间后重新提交"
+        })
+      } else if (!startDate) {
+        this.setState({
+          ToastTipsActivityTime: "未设置开始时间,无法提交"
+        })
+      } else if (!endDate) {
+        this.setState({
+          ToastTipsActivityTime: "未设置结束时间,无法提交"
+        })
+      } else if (startDate > endDate) {
+        this.setState({
+          ToastTipsActivityTime: "结束日期应大于起始日期"
+        })
+      } else if (startDate === endDate) {
+        this.setState({
+          ToastTipsActivityTime: "活动时间不能同一天"
+        })
       }
-      if (startDate === endDate) {
-        Toast.fail('活动时间不能同一天');
-        return;
+
+      // 价格验证
+      if (Number(start_price) <= 0 || Number(end_price) <= 0) {
+        this.setState({
+          ToastTipsAppreciationRange: "增值区间的数额必须大于0元"
+        })
+      } else if (!Number(start_price) || !Number(end_price)) {
+        this.setState({
+          ToastTipsAppreciationRange: "请设置增值区间"
+        })
+      } else if (Number(start_price) > Number(end_price)) {
+        this.setState({
+          ToastTipsAppreciationRange: "增值区间设置规则有误，请重新设置"
+        })
       }
 
-      //起始封顶值效验
-      if (end_price * 1 <= start_price * 1) {
-        Toast.fail('封顶值应大于起始值');
-        return;
+      // 助力人数
+      if (!appreciation_number_sum) {
+        this.setState({
+          ToastTipsAppreciationNum: "请设置助力人数"
+        })
+      } else if (appreciation_number_sum == 0) {
+        this.setState({
+          ToastTipsAppreciationNum: "助力人数必须大于0"
+        })
       }
 
-      if (appreciation_number_sum < 2 || appreciation_number_sum > 18) {
-        Toast.fail('助力人数应在2至18之间', 2);
-        return;
+      // 购买价格
+      if (!pay_money) {
+        this.setState({
+          ToastTipsPayMoney: "请设置购买价格"
+        })
+      } else if (Number(pay_money) > Number(end_price)) {
+        this.setState({
+          ToastTipsPayMoney: "购买价格不可高于增值区间峰值，请重新设置"
+        })
+      } else if (Number(pay_money) == 0) {
+        this.setState({
+          ToastTipsPayMoney: "购买价格必须大于0元"
+        })
       }
 
+      // 使用门槛
+      if (!total_fee) {
+        this.setState({
+          ToastTipsTotalFee: "请设置使用门槛"
+        })
+      }
+
+      // 有效期
+      if (!validity) {
+        this.setState({
+          ToastTipsValidity: "请设置优惠券有效期"
+        })
+      } else if (validity == 0) {
+        this.setState({
+          ToastTipsValidity: "优惠券有效期必须大于0"
+        })
+      }
+
+      // 发放数量
+      if (!total_num) {
+        this.setState({
+          ToastTipsTotalNum: "请设置发放数量"
+        })
+      } else if (total_num == 0) {
+        this.setState({
+          ToastTipsTotalNum: "发放数量必须大于0"
+        })
+      }
+
+      // 使用须知
+      if (description.length < 1 && activity_coupons_type != 1) {
+        this.setState({
+          ToastTipsDescription: "使用须知不能为空"
+        })
+      }
+
+      // 活动图片
       let image_url;
       if (this.props.Appreciation.activity_coupons_type == 1) {
         image_url = undefined;
@@ -310,11 +406,31 @@ export default connect(({ activity }: any) => activity)(
         image_url.push(image)
         image_url.push(image_url1);
         image_url.push(image_url2);
+        image_url.forEach(item => {
+          if (!item) {
+            this.setState({
+              ToastTipsImageUrl: "请上传图片完整后再重新提交"
+            })
+          }
+        })
       }
 
-      // let image_url = [];
-      // image_url.push(image_url1);
-      // image_url.push(image_url2);
+      if (
+        this.state.ToastTipsActivity ||
+        this.state.ToastTipsActivityTime ||
+        this.state.ToastTipsAppreciationRange ||
+        this.state.ToastTipsPayMoney ||
+        this.state.ToastTipsTotalFee ||
+        this.state.ToastTipsValidity ||
+        this.state.ToastTipsTotalNum
+      ) return;
+
+      if (activity_coupons_type == 2) {
+        if (
+          this.state.ToastTipsDescription ||
+          this.state.ToastTipsImageUrl
+        ) return;
+      }
 
       let a = moment(start_date).startOf('day')
       let activity_begin_time = moment(a._d).format('X')
@@ -348,7 +464,7 @@ export default connect(({ activity }: any) => activity)(
           }
         });
         let { data, message, code } = res;
-        if(code == 200){
+        if (code == 200) {
           if (data.order_sn) {
             // 支付去
             this.props.dispatch({
@@ -368,12 +484,12 @@ export default connect(({ activity }: any) => activity)(
               Toast.hide();
             })
           }
-        }else{
-          Toast.fail(message,2)
+        } else {
+          Toast.fail(message, 2)
         }
 
       } else {
-        Toast.fail('请填写完整', 2)
+        return;
       }
 
     }
@@ -497,6 +613,9 @@ export default connect(({ activity }: any) => activity)(
 
 
     render() {
+
+      const { ToastTipsActivity, ToastTipsActivityTime, ToastTipsAppreciationRange, ToastTipsAppreciationNum, ToastTipsPayMoney, ToastTipsTotalFee, ToastTipsValidity, ToastTipsTotalNum, ToastTipsDescription, ToastTipsImageUrl } = this.state;
+
       const chooseMail = this.props.Appreciation.mail_mode == '1' ? (
         <Flex className={styles.choose}>
           <div style={{ marginRight: 17 }} onClick={this.chooseMailMode.bind(this, '1')}><img src={require('./image/choose.png')} />店家支付</div>
@@ -609,15 +728,24 @@ export default connect(({ activity }: any) => activity)(
                     this.state.value == 0 ? (
                       <span>从{start_price ? start_price : 0}元增值至{end_price ? end_price : 0}元</span>
                     ) : (
-                        <InputItem
-                          placeholder="请输入活动名称"
-                          value={activityName}
-                          onChange={this.activityNameChange}
-                          clear
-                        />
+                        <div>
+                          <InputItem
+                            placeholder="请输入活动名称"
+                            value={activityName}
+                            onChange={this.activityNameChange}
+                            clear
+                          />
+                        </div>
                       )
                   }
                 </Flex>
+                {
+                  ToastTipsActivity ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsActivity}</span>
+                    </Flex>
+                  ) : ""
+                }
                 {/* <Flex className={styles.pickerDate}>
                   <DatePicker
                     mode="date"
@@ -647,45 +775,85 @@ export default connect(({ activity }: any) => activity)(
                     <Icon type="right" color='#999' className={styles.icon_right} />
                   </div>
                 </Flex>
+                {
+                  ToastTipsActivityTime ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsActivityTime}</span>
+                    </Flex>
+                  ) : ""
+                }
 
                 <Flex className={styles.appreInterval}>
                   <div>增值区间</div>
                   <div className={styles.intervalbox} >
                     <div className={styles.inputBox} >
-                      {/* <div className={styles.inputClose} style={{ display: this.state.Close1 ? "block" : "none" }} onClick={this.clearPri1}></div> */}
                       <input className={styles.textInterval} type="text" onChange={this.handleStartPri} value={start_price ? start_price : ""} onFocus={() => { this.setState({ Close1: true }) }} onBlur={() => { setTimeout(() => { this.setState({ Close1: false }) }, 4) }} placeholder='请输入' style={{ textAlign: this.state.Close1 ? "center" : "center" }} />
                     </div>
                     元 增值至
                     <div className={styles.inputBox} >
-                      {/* <div className={styles.inputClose} style={{ display: this.state.Close2 ? "block" : "none" }} onClick={this.clearPri2}></div> */}
                       <input className={styles.textInterval} type="text" onChange={this.handleEndPri} value={end_price ? end_price : ""} onFocus={() => { this.setState({ Close2: true }) }} onBlur={() => { setTimeout(() => { this.setState({ Close2: false }) }, 4) }} placeholder='请输入' style={{ textAlign: this.state.Close2 ? "center" : "center" }} />
                     </div>
                     元
                   </div>
                 </Flex>
-                {/* <InputItem type={'money'} className={styles.textShort} onChange={this.handleStartPri} value={start_price} placeholder='请输入 ' extra='元' clear>
-                  起始值
-              </InputItem>
-                <InputItem type={'money'} className={styles.textShort} onChange={this.handleEndPri} value={end_price} placeholder='请输入 ' extra='元' clear>
-                  封顶值
-              </InputItem> */}
+                {
+                  ToastTipsAppreciationRange ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsAppreciationRange}</span>
+                    </Flex>
+                  ) : ""
+                }
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handlePeopleNum} value={appreciation_number_sum} placeholder='请输入 ' extra='人' ref="appreciationNumber" >
                   助力人数
               </InputItem>
+                {
+                  ToastTipsAppreciationNum ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsAppreciationNum}</span>
+                    </Flex>
+                  ) : ""
+                }
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handlePayMoney} value={pay_money} placeholder='请输入 ' extra='元' >
                   购买价格
               </InputItem>
+                {
+                  ToastTipsPayMoney ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsPayMoney}</span>
+                    </Flex>
+                  ) : ""
+                }
                 <InputItem type={'money'} className={styles.textLong_door} onChange={this.handleTotalFee} value={total_fee} extra='元可用' >
                   使用门槛 {/* <span className={styles.left_text_door}>满</span> */}
                 </InputItem>
+                {
+                  ToastTipsTotalFee ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsTotalFee}</span>
+                    </Flex>
+                  ) : ""
+                }
                 <InputItem type={'money'} className={styles.textLong} onChange={this.handleValidity} value={validity} extra='天可用' >
                   有效期
                   <span className={styles.left_text}>购券日起</span>
                 </InputItem>
+                {
+                  ToastTipsValidity ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsValidity}</span>
+                    </Flex>
+                  ) : ""
+                }
                 <InputItem type={'money'} className={styles.textShort} onChange={this.handleTotalNum} value={total_num} extra='张' >
                   发放数量
               </InputItem>
-                {/* <Flex className={styles.notice} onClick={this.toSetting}><div>商品设置</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex> */}
+                {
+                  ToastTipsTotalNum ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsTotalNum}</span>
+                    </Flex>
+                  ) : ""
+                }
 
                 {
                   this.props.Appreciation.activity_coupons_type != 1 ? <Flex className={styles.notice} onClick={this.toNotice}>
@@ -697,6 +865,13 @@ export default connect(({ activity }: any) => activity)(
                       <Icon type="right" color='#999' className={styles.icon_right} />
                     </div>
                   </Flex> : null
+                }
+                {
+                  ToastTipsDescription ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsDescription}</span>
+                    </Flex>
+                  ) : ""
                 }
               </List>
 
@@ -748,6 +923,14 @@ export default connect(({ activity }: any) => activity)(
                     </div>
                   </Flex>
                 </div> : null
+              }
+
+              {
+                ToastTipsImageUrl ? (
+                  <Flex justify="end" className={styles.toast_tips}>
+                    <span>{ToastTipsImageUrl}</span>
+                  </Flex>
+                ) : ""
               }
 
 
