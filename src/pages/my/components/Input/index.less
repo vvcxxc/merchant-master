@@ -1,0 +1,36 @@
+.inputBox_text{
+  position: relative;
+    display: flex;
+    height: 106px;
+    border: 2px solid rgba(187, 187, 187, 1);
+    padding-right: 20px;
+    input {
+    width: 100%;
+    padding-left: 10px;
+    color: rgba(136, 136, 136, 1);
+    font-family: Microsoft Yahei;
+    font-size: 28px;
+    border:none;
+    outline: none;
+  }
+  .icon{
+    display: flex;
+    align-items: center;
+  }
+  .error_message {
+    position: absolute;
+    bottom:0;
+    left:1.5vw;
+    color: rgba(229, 28, 35, 1);
+    font-size: 24px;
+    text-align: left;
+    font-family: SourceHanSansSC-regular;
+  }
+}
+
+.inputBox_text :global .am-icon {
+    background-color: #ccc;
+    border-radius: 50%;
+    color: #fff;
+    border:none;
+  }

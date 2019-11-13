@@ -79,8 +79,11 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 
 			paused_status: 0,
 
+			countMoney: 0
+
 		};
 		UNSAFE_componentWillReceiveProps(nextProps: any) {
+			console.log('nextProps',nextProps)
 			// 为了防止切换时没数据而保持渲染所以每次切换时先清除数据
 			this.setState({
 				coupon: {
@@ -101,7 +104,8 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 				check_desc: null,
 				ad_status: 0,
 				is_pause: -1,
-				check_status: 0
+				check_status: 0,
+				countMoney: 0
 			}, () => {
 				if (nextProps.editForm.id) {
 					this.setState({
@@ -128,7 +132,8 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						ad_status: nextProps.editForm.ad_status,
 						paused_status: nextProps.editForm.paused_status,
 						is_pause: nextProps.editForm.is_pause,
-						check_status: nextProps.editForm.check_status
+						check_status: nextProps.editForm.check_status,
+						countMoney: nextProps.userMoney
 					}, () => {
 					});
 				} else {
@@ -200,7 +205,8 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 				}
 				// 暂停的情况不考虑价格比较问题 除了状态为2时即是暂停时都可以弹出余额不足
 				if (!(this.state.is_pause == 0 && this.state.check_status == 1)) {
-					if (Number(this.state.price) > Number(this.props.app.data.money)) {
+					// if (Number(this.state.price) > Number(this.props.app.data.money)) {
+					if (Number(this.state.price) > Number(this.state.countMoney)) {
 						await this.props.dispatch({
 							type: 'ad/setFormData',
 							payload: {

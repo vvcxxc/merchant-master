@@ -285,12 +285,13 @@ export default connect(({ activity }: any) => activity)(
         rule.is_old = '请输入商品原价'
       }
 
+
       // 拼团价格验证
       if (participation_money == 0) {
         rule.is_new = '拼团价格必须大于0'
       } else if (participation_money == '') {
         rule.is_new = '拼团价格不能为空'
-      } else if (participation_money > old_price) {
+      } else if (Number(participation_money) > Number(old_price)) {
         rule.is_new = '拼团价格不可高于商品原价'
       }
 

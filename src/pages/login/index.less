@@ -3,12 +3,15 @@
   height: 100%;
   box-sizing: border-box;
   background-color: #fff;
+
   :global {
     .tab {
       margin: 120px 0;
       color: #999999;
+
       .tab-item {
         margin-right: 40px;
+
         &:after {
           content: '';
           display: block;
@@ -17,8 +20,10 @@
           margin-left: 5%;
           margin: 10px;
         }
+
         &.active {
           color: #21418a;
+
           &:after {
             background: #21418a;
           }
@@ -35,9 +40,11 @@
 .inputWrap {
   height: 108px;
   border-bottom: 2px solid #999;
+
   div {
     width: 100%;
   }
+
   :global {
     .phone-prefix {
       width: 107px;
@@ -48,6 +55,7 @@
       line-height: 58px;
       margin-right: 24px;
     }
+
     .send-code {
       width: 175px;
       height: 58px;
@@ -58,6 +66,17 @@
       color: #999;
     }
   }
+}
+
+.errorLine {
+  margin-top: -1px;
+  border-top: 2px solid #d2284b;
+  padding-top: 10px;
+  width: 100%;
+  text-align: right;
+  line-height: 1;
+  font-size: 24px;
+  color: #d2284b;
 }
 
 .warring {
