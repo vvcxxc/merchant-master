@@ -124,7 +124,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 				} else {
 					this.setState({ couponErr: false })
 				}
-				if (!this.state.startTime) {
+				if (!this.state.startTime || !this.state.endTime) {
 					haveErr = true;
 					this.setState({ timeErr: true })
 				} else {
@@ -296,7 +296,10 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 										广告投放时长
 								</List.Item>
 									{
-										this.state.timeErr && !this.state.startTime ? <div className={styles.errorLine}>请选择活动时间后重新提交</div> : null
+										this.state.timeErr && !this.state.startTime && !this.state.endTime ? <div className={styles.errorLine}>请选择活动时间后重新提交</div> : null
+									}
+									{
+										this.state.timeErr && ((!this.state.startTime && this.state.endTime) || (this.state.startTime && !this.state.endTime)) ? <div className={styles.errorLine}>未设置开始时间/结束时间/,无法提交</div> : null
 									}
 									<InputItem
 										extra="元"
