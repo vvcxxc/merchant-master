@@ -51,6 +51,8 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 			// 审核状态
 			check_status: 0,
 			paused_status: 0,
+
+			countMoney: 0,
 			//校验规则
 			couponErr: false,
 			timeErr: false,
@@ -80,7 +82,8 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 					ad_status: nextProps.editForm.ad_status,
 					paused_status: nextProps.editForm.paused_status,
 					is_pause: nextProps.editForm.is_pause,
-					check_status: nextProps.editForm.check_status
+					check_status: nextProps.editForm.check_status,
+					countMoney: nextProps.userMoney
 				});
 			} else {
 				this.setState({
@@ -153,7 +156,8 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 				// }
 				// 暂停的情况不考虑价格比较问题 除了状态为2时即是暂停时都可以弹出余额不足
 				if (!(this.state.is_pause == 0 && this.state.check_status == 1)) {
-					if (Number(this.state.price) > Number(this.props.app.data.money)) {
+					// if (Number(this.state.price) > Number(this.props.app.data.money)) {
+					if (Number(this.state.price) > Number(this.state.countMoney)) {
 						await this.props.dispatch({
 							type: 'businessArea/setFormData',
 							payload: {
