@@ -18,6 +18,9 @@ interface Props {
 	editForm: any;
 	position: number;
 	onSuccess: () => void;
+	type: any;
+	ad: any;
+	app: any;
 }
 
 export default connect(({ ad, app }: any) => ({ ad, app }))(
@@ -78,6 +81,12 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			modal1: false,
 
 			paused_status: 0,
+			//校验
+			couponErr: false,
+			timeErr: false,
+			priceErr: false,
+			imageErr: false,
+			uploadIng: false
 
 			countMoney: 0
 
@@ -88,7 +97,11 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			this.setState({
 				coupon: {
 					label: "",
-					value: 0
+					value: 0,
+					couponErr: false,
+					timeErr: false,
+					priceErr: false,
+					imageErr: false
 				},
 				price: "",
 				already_use_budget: '',
@@ -182,27 +195,51 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			if (this.state.is_pause == 0 && this.state.check_status == 0) {
 				return Toast.info('审核中，请耐心等待')
 			}
-
 			// 除了状态为1 和 2
 			if (!this.state.edit || isStop) {
+				let haveErr = false;
 				if (this.state.formType === 1 && !this.state.coupon.value && this.props.type != "钻石展位") {
-					return Toast.info('请选择优惠券');
+					haveErr = true;
+					this.setState({ couponErr: true });
+					// return Toast.info('请选择优惠券');
 				}
-				if (this.state.formType === 2 && !this.state.activity.value && this.props.type != "钻石展位") {
-					return Toast.info('请选择活动');
+				else {
+					this.setState({ couponErr: false });
 				}
-				if (this.state.formType === 3 && !this.state.link && this.props.type != "钻石展位") {
-					return Toast.info('请填写链接');
-				}
+				// if (this.state.formType === 2 && !this.state.activity.value && this.props.type != "钻石展位") {
+				// 	return Toast.info('请选择活动');
+				// }
+
+				// if (this.state.formType === 3 && !this.state.link && this.props.type != "钻石展位") {
+				// 	return Toast.info('请填写链接');
+				// }
 				if (!this.state.startTime) {
-					return Toast.info('请选择广告投放时长');
+					haveErr = true;
+					this.setState({ timeErr: true });
+					// return Toast.info('请选择广告投放时长');
+				} else {
+					this.setState({ timeErr: false });
 				}
-				if (!this.state.price) {
-					return Toast.info('请输入每日预算');
+				if (!this.state.price || Number(this.state.price) < 1.1) {
+					haveErr = true;
+					this.setState({ priceErr: true });
+					// return Toast.info('请输入每日预算');
+				} else {
+					this.setState({ priceErr: false });
 				}
-				if (Number(this.state.price) < 1.1) {
-					return Toast.info('每日预算金额不能低于1.1元');
+				// if (Number(this.state.price) < 1.1) {
+				// 	return Toast.info('每日预算金额不能低于1.1元');
+				// }
+				if (this.state.files.length == 0) {
+					haveErr = true;
+					this.setState({ imageErr: true });
+				} else {
+					this.setState({ imageErr: false });
 				}
+				if (haveErr) {
+					return;
+				}
+
 				// 暂停的情况不考虑价格比较问题 除了状态为2时即是暂停时都可以弹出余额不足
 				if (!(this.state.is_pause == 0 && this.state.check_status == 1)) {
 					// if (Number(this.state.price) > Number(this.props.app.data.money)) {
@@ -327,12 +364,15 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 		handleCheckImage = async (files: any[], operationType: string) => {
 			if (operationType === 'add' && files.length) {
 				Toast.loading('上传图片中');
+				this.setState({ uploadIng: true },()=>{console.log('开始上传')})
 				const res = await oss(files[0].url);
 				Toast.hide();
 				if (res.status === 'ok') {
+					this.setState({ uploadIng: false },()=>{console.log('上传好了')})
 					files.splice(0, 1, { ...files[0], path: res.data.path });
 					this.setState({ files });
 				} else {
+					this.setState({ uploadIng: false },()=>{console.log('上传好了')})
 					this.setState({ files: [] });
 					Toast.fail('上传图片失败');
 				}
@@ -452,9 +492,19 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 							<Flex.Item>
 								<List>
 									{typeFormInput}
+									{
+										this.state.formType === 1 && !this.state.coupon.value && this.props.type != "钻石展位" && this.state.couponErr ? <div className={styles.errorLine} >请选择优惠券后重新提交</div> : null
+									}
+
 									<List.Item extra={time} arrow="horizontal" onClick={this.handleShowSelectTime}>
 										广告投放时长
 								</List.Item>
+									{
+										this.state.timeErr && !this.state.startTime && !this.state.endTime ? <div className={styles.errorLine} >请选择活动时间后重新提交</div> : null
+									}
+									{
+										this.state.timeErr && ((this.state.startTime && !this.state.endTime) || (!this.state.startTime && this.state.endTime)) ? <div className={styles.errorLine} >未设置开始时间/结束时间/,无法提交</div> : null
+									}
 									<InputItem
 										value={this.state.price}
 										extra="元"
@@ -471,6 +521,13 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 											}
 										</span>
 									</InputItem>
+									{
+										this.state.priceErr && !this.state.price ? <div className={styles.errorLine} >账号余额低于每日最低预算，请充值后重新投放</div> : null
+									}
+									{
+										this.state.priceErr && this.state.price && Number(this.state.price) < 1.1 ? <div className={styles.errorLine} >每日投放预算不可低于1.1元</div> : null
+									}
+
 								</List>
 								<div style={{ display: 'flex', justifyContent: 'space-between' }}>
 									<div className={styles.adTitle}>广告图</div>
@@ -487,7 +544,6 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 										<img className={styles.banner} src={this.state.banner} />
 									</div>
 								}
-
 								{
 									(this.state.is_pause == 0 && this.state.check_status == 2) ? (
 										<div>
@@ -496,10 +552,16 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 										</div>
 									) : ''
 								}
+								{
+									this.state.imageErr && this.state.uploadIng == false && this.state.files.length == 0 ? <div className={styles.errorLine} >请上传广告图片后再重新提交</div> : null
+								}
+								{
+									this.state.imageErr && this.state.uploadIng == true ? <div className={styles.errorLine} >图片上传中，请等待图片上传完毕</div> : null
+								}
 								<WhiteSpace size="lg" />
 								{
 									this.state.is_pause == 1 ? (
-										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)} style={this.state.paused_status == 5?{color:'blue',textDecoration:'underline'}:{}}>
+										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)} style={this.state.paused_status == 5 ? { color: 'blue', textDecoration: 'underline' } : {}}>
 											广告状态：已暂停({
 												this.state.paused_status == 1 ? '手动暂停' :
 													this.state.paused_status == 2 ? '投放时长超出范围' :
