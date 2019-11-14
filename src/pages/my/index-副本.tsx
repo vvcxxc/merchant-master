@@ -60,12 +60,24 @@ export default connect()(
 			if (res.code === 200) {
 				this.setState({ info: res.data });
 			}
-		};
+    };
+    // /**我的签约码 */
+		// goSignCode = () => {
+		// 	router.push({
+		// 		pathname: '/my/signCode',
+		// 		query: {
+		// 			url: this.state.info.wx_sign_url
+		// 		}
+		// 	})
+		// }
 
 		/**转到余额 */
 		transferredBalance = () => {
 			let money = Number(this.state.info.money);
 			if (money > 0) {
+        // if(money < 0.01){
+        //   Toast.fail('提现金额必须大于')
+        // }
 				request({
 					url: 'api/merchant/staff/earnings_go_balance',
 					method: 'post'
@@ -86,14 +98,24 @@ export default connect()(
 			}
 		};
 
+		/**我的签约码 */
+		// goSignCode = () => {
+		// 	router.push({
+		// 		pathname: '/my/signCode',
+		// 		query: {
+		// 			url: this.state.info.wx_sign_url
+		// 		}
+		// 	})
+		// }
+
 		//点击转发
 		forwarding = () => {
-			this.setState({ showSharethree: true })
+			this.setState({ showSharethree:true})
 		}
 
 		//遮挡层组件 用户点击选择后触发
-		closeShareThree = (close: boolean) => {
-			this.setState({ showSharethree: false })
+		closeShareThree = (close:boolean) => {
+			this.setState({ showSharethree:false})
 		}
 
 		render() {
@@ -102,16 +124,19 @@ export default connect()(
 					<img src={require('./signed.png')} alt="" />
 					<span>我的签约码</span>
 				</Flex>
-			) : null;
+      ) : null;
+      const qianyue = this.state.info.wx_sign_status == 3 ? (
+        <Flex className={styles.qianyue}><img src={require('@/assets/qianyue.png')}/></Flex>
+      ) : null;
 			return (
 				<div className={styles.page}>
-					{/* <ShareThree show={this.state.showSharethree} onclick={this.closeShareThree.bind(this)} info={this.state.info} />
+					<ShareThree show={this.state.showSharethree} onclick={this.closeShareThree.bind(this)} info={this.state.info}/>
 					<div className={styles.headInfo}>
 						<WingBlank>
 							<Flex className={styles.headInfoContent}>
 								<img src={this.state.info.preview} alt="" className="userImg" />
 								<Flex.Item className="name" >{this.state.info.name}
-									<img src={require('../../assets/share_button.png')} alt="" onClick={this.forwarding.bind(this)} />
+									<img src={require('../../assets/share_button.png')} alt="" onClick={this.forwarding.bind(this)}/>
 								</Flex.Item>
 								<img
 									src={require('./setting.png')}
@@ -119,52 +144,41 @@ export default connect()(
 									className="setting"
 									onClick={this.pushPage('/myInfo')}
 								/>
+                {/* {qianyue} */}
 							</Flex>
 						</WingBlank>
-					</div> */}
-					<div className={styles.head_info_content}>
-						<Flex justify="between" className={styles.head_info_wrap}>
-							<div className={styles.head_info}>
-								<img src={this.state.info.preview} alt="" className="userImg" />
-								<div className={styles.user_info}>
-									<div className={styles.user_name}>{this.state.info.name}</div>
-									<div className={styles.last_login_time}>上次登录前天</div>
-								</div>
-							</div>
-							<img src={require('@/assets/my/arrow_icon.png')} alt="" className={styles.arrow_icon} />
-						</Flex>
-						<div className={styles.user_money}>
-							<div className={styles.count_balance}>
-								<div className={styles.count_balance_wrap}>
-									<div className={styles.count_balance_title}>账号余额</div>
-									<div className={styles.count_balance_money}>4000.00</div>
-								</div>
-								<div className={styles.count_balance_btn}>
-									<div className={styles.count_balance_invest}>充值</div>
-									<div className={styles.count_balance_withdraw}>提现</div>
-								</div>
-							</div>
-							<div className={styles.platform_revenu}>
-								<div className={styles.platform_revenu_wrap}>
-									<div className={styles.platform_revenu_title}>平台收益</div>
-									<div className={styles.platform_revenu_money}>{this.state.info.money}</div>
-								</div>
-								<div className={styles.platform_revenu_btn}>
-									<div className={styles.platform_revenu_transfer_account}>转到余额</div>
-								</div>
-							</div>
-						</div>
-						<div className={styles.user_bank_gift}>
-							<div className={styles.user_bank}>
-								<div className={styles.bank_num}>{this.state.info.bank_count}</div>
-								<div className={styles.bank_title}>银行卡</div>
-							</div>
-							<div className={styles.user_gift}>
-								<div className={styles.gift_num}>{this.state.info.integral}</div>
-								<div className={styles.gift_title}>礼品币</div>
-							</div>
-						</div>
 					</div>
+					<WingBlank className={styles.treasure}>
+						<div className="content">
+							<Flex align="start">
+								<Flex.Item className="benefit">
+									<div className="label">平台收益</div>
+									<div className="money">￥{this.state.info.money} </div>
+								</Flex.Item>
+								<div className="btn" onClick={this.transferredBalance}>
+									转到余额
+								</div>
+
+							</Flex>
+							<Flex className="bottom">
+								<Flex.Item>
+									<Flex
+										direction="column"
+										align="start"
+										className="card"
+										onClick={this.pushPage('/my/bank')}
+									>
+										<div>银行卡</div>
+										<div>{this.state.info.bank_count}</div>
+									</Flex>
+								</Flex.Item>
+								<div className="give" onClick={this.pushPage('/my/give')}>
+									<div className="label">礼品币</div>
+									<div className="value">{this.state.info.integral} </div>
+								</div>
+							</Flex>
+						</div>
+					</WingBlank>
 					<WingBlank className={styles.list}>
 						<Flex onClick={this.pushPage('/activitys')}>
 							<img src={require('./activity.png')} alt="" />
