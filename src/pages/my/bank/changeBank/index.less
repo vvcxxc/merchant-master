@@ -67,3 +67,37 @@
   font-size: 26px;
   padding: 0 23px;
 }
+
+.card_img_box {
+  position: relative;
+  // pointer-events: none;
+  .img_box{
+    // pointer-events: none;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index: 10;
+    text-align: center;
+    background-color: #fff;
+    img {
+      height: 85%;
+      // pointer-events: none;
+    }
+  }
+
+  .border_error {
+    position: absolute;
+    right:10px;
+    top:0px;
+    height: 30px;
+    width: 30px;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: #ededed;
+    img {
+      height: 100%;
+    }
+  }
+}
