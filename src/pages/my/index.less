@@ -36,7 +36,7 @@
 }
 
 .treasure {
-	margin-top: -165px;
+	// margin-top: -165px;
 	:global {
 		.content {
 			height: 278px;
@@ -118,5 +118,144 @@
   img {
     width: 100%;
   }
+}
+
+.head_info_content {
+	height: 620px;
+	padding: 50px 10px 0 10px;
+	box-sizing: border-box;
+	background: url('../../assets/my/head.png') no-repeat center top;
+	background-size: 100% 100%;
+	:global{
+		.userImg {
+			height: 98px;
+			width: 98px;
+			border-radius: 84px;
+			background: #fff;
+			margin-right: 40px;
+		}
+	}
+	.head_info_wrap {
+		padding: 0 30px;
+		box-sizing: border-box;
+		.head_info {
+			display: flex;
+			.user_info{
+				.user_name {
+					font-size: 34px;
+					color: #fff;
+					margin-bottom: 18px;
+				}
+				.last_login_time {
+					font-size: 24px;
+					color: #D2E4FA;
+				}
+			}
+		}
+		.arrow_icon {
+			width: 18px;
+			height: 18px;
+		}
+	}
+	.user_money {
+		height: 350px;
+		background: url('../../assets/my/head_banner.png') no-repeat center top;
+		background-size: 100% 100%;
+		padding: 66px;
+		box-sizing: border-box;
+		display: flex;
+		// justify-content: space-between;
+		.count_balance {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			margin-right: 100px;
+			.count_balance_wrap {
+				color: #fff;
+				.count_balance_title {
+					font-size: 28px;
+					margin-bottom: 18px;
+				}
+				.count_balance_money {
+					font-size: 48px;
+				}
+			}
+			.count_balance_btn {
+				display: flex;
+				justify-content: start;
+				div {
+					width: 138px;
+					height: 64px;
+					background: #d4e2ff;
+					border-radius: 32px;
+					color: #293186;
+					line-height: 64px;
+					font-size: 28px;
+					text-align: center;
+					margin-right: 20px;
+				}
+			}
+		}
+		.platform_revenu{
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			.platform_revenu_wrap {
+				color: #fff;
+				.platform_revenu_title {
+					font-size: 28px;
+					margin-bottom: 18px;
+				}
+				.platform_revenu_money {
+					font-size: 48px;
+				}
+			}
+			.platform_revenu_btn {
+				display: flex;
+				justify-content: start;
+				div {
+					width: 160px;
+					height: 64px;
+					background: #d4e2ff;
+					border-radius: 32px;
+					color: #293186;
+					line-height: 64px;
+					font-size: 28px;
+					text-align: center;
+					margin-right: 20px;
+				}
+			}
+		}
+	}
+	.user_bank_gift {
+		display: flex;
+		padding: 0 15px;
+		box-sizing: border-box;
+		color: #fff;
+		.user_bank {
+			flex: 1;
+			text-align: center;
+			.bank_num {
+				font-size: 36px;
+				margin-bottom: 8px;
+			}
+			.bank_title {
+				font-size: 28px;
+				color: #D2E4FA;
+			}
+		}
+		.user_gift {
+			flex: 1;
+			text-align: center;
+			.gift_num {
+				font-size: 36px;
+				margin-bottom: 8px;
+			}
+			.gift_title {
+				font-size: 28px;
+				color: #D2E4FA;
+			}
+		}
+	}
 }
 
