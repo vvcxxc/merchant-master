@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styles from './index.less';
-import { WingBlank, Flex } from 'antd-mobile';
+import { WingBlank, Flex,Tabs } from 'antd-mobile';
 import UndeterminedModal, { Undetermined, After } from './undeterminedModal';
 import SelectDate from './selectDate';
 import checkIcon from './icon-check.png';
@@ -37,8 +37,15 @@ interface Props {
   /**我的收益页条件变动重置 */
   plat_type?: number;
   changePlatType?: () => any;
+  tab?: Array<object>
 }
 
+
+const tabar = [
+  { title: '已核销' },
+  { title: '未核销' },
+  { title: '已退款' },
+];
 /**筛选列表页组件
  *
  * 筛选条件只包含基础选项和时间筛选
@@ -52,7 +59,8 @@ export default class FiltrateLayout extends Component<Props> {
       /**时间月份选择 */
       time: '',
       end_time: '',
-      resetBool: false //判断点了重置
+      resetBool: false, //判断点了重置
+      tab_index: 0
     },
     /**显示条件的下拉列表 */
     hotShow: false,
@@ -117,6 +125,15 @@ export default class FiltrateLayout extends Component<Props> {
     this.props.onTabChange && this.props.onTabChange(index);
   };
 
+  /**
+   * tab onChange回调
+   */
+  tabChange = (title:any,idx:any) => {
+    this.setState({query:{...this.state.query,tab_index:idx}},()=>{
+      this.props.onChange && this.props.onChange(this.state.query)
+    })
+  }
+
   render() {
     const insignificant = this.props.hasInsignificant && (
       <Flex className={styles.header}>
@@ -179,9 +196,25 @@ export default class FiltrateLayout extends Component<Props> {
         </div>
         {/* 无关紧要的信息 */}
         {insignificant}
+
+        {
+          this.props.tab ? (
+            <div style={{width: '100%'}}>
+            <Tabs
+              tabs={this.props.tab}
+              initialPage={0}
+              onChange={this.tabChange}
+              tabBarUnderlineStyle={{height:'.03rem',width: '1.03rem',background:'#5BA2FA',marginLeft: '.75rem'}}
+              tabBarTextStyle={{fontSize: '.32rem',color: '#333'}}
+            />
+          </div>
+          ) : null
+        }
+
         <Flex.Item className={styles.content}>
           <WingBlank style={{ minHeight: '100%' }}>{this.props.children}</WingBlank>
         </Flex.Item>
+
         <UndeterminedModal
           show={this.state.hotShow}
           onChange={this.hotChange}

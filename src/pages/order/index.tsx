@@ -4,13 +4,18 @@
 
 import React, { Component } from 'react';
 import styles from './index.less';
-import { WingBlank, Flex, Toast } from 'antd-mobile';
+import { WingBlank, Flex, Toast, Tabs } from 'antd-mobile';
 import FiltrateLayout from '../../components/selectLayout';
 import request from '@/services/request';
 import moment from 'moment';
 import router from 'umi/router';
 import NoData from '@/components/no-data';
 
+const tabs = [
+  { title: '已核销' },
+  { title: '未核销' },
+  { title: '已退款' },
+];
 export default class OrderPage extends Component {
   state = {
     list: [],
@@ -90,6 +95,8 @@ export default class OrderPage extends Component {
 
   }
 
+
+
   render() {
     const orderList = this.state.list.length ? (
       this.state.list.map((_: any) => (
@@ -112,6 +119,7 @@ export default class OrderPage extends Component {
         hasInsignificant={true}
         insignificant={list}
         onChange={this.handleLayoutChange}
+        tab={tabs}
       >
         {orderList}
         <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
