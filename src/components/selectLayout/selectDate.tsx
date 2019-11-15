@@ -12,8 +12,10 @@ interface Props {
 }
 
 export default function SelectDate({ show, value, onChange , onHide, end_time }: Props) {
-  const [date, setDate] = useState(moment(value || undefined).toDate());
-  const [end_date, setEndDate] =  useState(moment( end_time || undefined).toDate());
+  const [date, setDate] = useState(moment(value || undefined).toDate()); // 开始时间
+  const [end_date, setEndDate] =  useState(moment( end_time || undefined).toDate()); //结束时间
+  const [max_date, setMaxDate] = useState(); // 设置最小时间
+  const [min_date, setMinDate] = useState() // 设置最大时间
   const [idx, setIdx] = useState(1)
 	const submit = () => onChange(moment(date).format('YYYY-MM-DD'),moment(end_date).format('YYYY-MM-DD'));
 	const reset = () => {
@@ -24,6 +26,7 @@ export default function SelectDate({ show, value, onChange , onHide, end_time }:
 	const handleDateChange = (value: Date) => {
     if(idx === 1){
       setDate(value);
+      setEndDate(value);
     }else{
       setEndDate(value);
     }
@@ -42,6 +45,16 @@ export default function SelectDate({ show, value, onChange , onHide, end_time }:
 
   const selectDate = (a:any) => {
     setIdx(a)
+    if(a == 2){
+      let minDate = moment(date).subtract(30,'days')._d
+      let maxDate = moment(date).add(30,'days')._d
+      // console.log(minDate)
+      setMinDate(minDate)
+      setMaxDate(maxDate)
+    }else{
+      setMinDate('')
+      setMaxDate('')
+    }
   }
 
 
@@ -60,7 +73,13 @@ export default function SelectDate({ show, value, onChange , onHide, end_time }:
               <div className={idx == 2 ? 'time' : 'time_no'} onClick={selectDate.bind(this,2)}>{moment(end_date).format('YYYY-MM-DD')}</div>
             </Flex>
 						<Flex.Item style={{ width: '100%' }}>
-							<DatePickerView value={idx === 1 ? date : end_date} mode="date" onChange={handleDateChange} />
+              <DatePickerView
+                value={idx === 1 ? date : end_date}
+                mode="date"
+                onChange={handleDateChange}
+                minDate={min_date ? min_date : new Date(2000, 1, 1, 0, 0, 0)}
+                maxDate={max_date ? max_date : new Date(2030, 1, 1, 23, 59, 59)}
+              />
 						</Flex.Item>
 					</Flex>
 				</WingBlank>

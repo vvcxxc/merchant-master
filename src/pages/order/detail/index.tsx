@@ -29,17 +29,18 @@ export default class OrderDetail extends Component<any, State> {
 					<div className="content">
 						<div className="box">
 							<Flex>
-								<div className="label">订单金额</div>
-								<Flex.Item>{data.return_money}元</Flex.Item>
-							</Flex>
-							<Flex>
-								<div className="label">创建时间</div>
-								<Flex.Item>{data.create_time}</Flex.Item>
-							</Flex>
-							<Flex>
 								<div className="label">订单编号</div>
 								<Flex.Item>{data.youhui_sn}</Flex.Item>
 							</Flex>
+              <Flex>
+								<div className="label">订单时间</div>
+								<Flex.Item>{data.create_time}</Flex.Item>
+							</Flex>
+							<Flex>
+								<div className="label">订单金额</div>
+								<Flex.Item>￥{data.return_money}</Flex.Item>
+							</Flex>
+
 							<Flex>
 								<div className="label">商户订单</div>
 								<Flex.Item>{data.channel_order_sn}</Flex.Item>
