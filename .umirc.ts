@@ -1,11 +1,5 @@
 import { IConfig } from 'umi-types';
-import * as Sentry from '@sentry/browser';
-// ref: https://umijs.org/config/
-declare const Environment:string
-Sentry.init({
-  dsn: "http://256d89d4fb9243008db86e5039ecbf41@sentry.tdianyi.com/3",
-  environment: Environment
-});
+
 const config: IConfig = {
   treeShaking: true,
   theme: {
