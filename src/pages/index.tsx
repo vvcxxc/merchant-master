@@ -101,7 +101,6 @@ export default connect(({ app }: any) => app)(
 
         componentDidMount() {
             console.log(process.env.NODE_ENV)
-            console.log(UMI_ENV)
             let openId = Cookies.get(open_id);
             if (process.env.NODE_ENV != 'development') {
                 if (!openId) {
