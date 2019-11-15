@@ -95,7 +95,7 @@ export default connect(({ app }: any) => app)(
         }
 
         componentDidMount() {
-            console.log(this.props)
+            console.log(process.env.NODE_ENV)
             let openId = Cookies.get(open_id);
             if (process.env.NODE_ENV != 'development') {
                 if (!openId) {
