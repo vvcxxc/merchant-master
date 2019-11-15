@@ -102,11 +102,13 @@ export default class OrderPage extends Component {
       this.state.list.map((_: any) => (
         <Flex key={_.id} className={styles.orderItem} onClick={this.handleClickOrder(_.id)}>
           <img src={_.small_icon} />
-          <Flex.Item className="content">
-            <div className="ordernum">{_.youhui_sn}</div>
-            <div className="time">{_.create_time}</div>
-          </Flex.Item>
-          <div className="status">{_.status_msg}</div>
+          <Flex className="content">
+            <div className='content_main'>
+              <div className="ordernum">{_.youhui_sn}</div>
+              <div className="time">{_.create_time}</div>
+            </div>
+            <div className="status">{_.status_msg}</div>
+          </Flex>
         </Flex>
       ))
     ) : (
