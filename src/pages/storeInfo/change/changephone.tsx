@@ -39,7 +39,7 @@ export default class ChangePhone extends Component {
   }
   /**下一步 */
   confirm1 = () => {
-    if (!this.state.code1) {
+    if (!this.state.code1||this.state.code1.length!=6) {
       this.setState({ errorCode1: true });
       return
     } else {
@@ -76,7 +76,7 @@ export default class ChangePhone extends Component {
     } else {
       this.setState({ errorPhone2: false });
     }
-    if (!this.state.code2) {
+    if (!this.state.code2||this.state.code2.length!=6) {
       this.setState({ errorCode2: true });
       haveerr = true;
       return
@@ -173,7 +173,7 @@ export default class ChangePhone extends Component {
           {code}
         </Flex>
         {
-          this.state.errorCode1 ? <div className={styles.errorLine}>请输入数字验证码</div> : null
+          this.state.errorCode1 ? <div className={styles.errorLine}>请输入正确6位数字验证码</div> : null
         }
 
         <WingBlank className={styles.buttons}>
@@ -204,7 +204,7 @@ export default class ChangePhone extends Component {
             {codes}
           </Flex>
           {
-            this.state.errorCode2 ? <div className={styles.errorLine}>请输入数字验证码</div> : null
+            this.state.errorCode2 ? <div className={styles.errorLine}>请输入正确6位数字验证码</div> : null
           }
           <WingBlank className={styles.buttons}>
             <Button type="primary" style={{ marginTop: 86 }} onClick={this.confirm2}>

@@ -185,7 +185,7 @@ export default connect(({ register }: any) => register)(
       } else {
         this.setState({ errorMobile: false });
       }
-      if (!this.state.code) {
+      if (!this.state.code||this.state.code.length!=6) {
         this.setState({ errorCode: true });
         haveError = true;
       } else {
@@ -306,7 +306,7 @@ export default connect(({ register }: any) => register)(
               {button}
             </Flex>
             {
-              this.state.errorCode ? <div className={styles.errorLine}>请输入数字验证码</div> : null
+              this.state.errorCode ? <div className={styles.errorLine}>请输入正确6位数字验证码</div> : null
             }
             {inviter}
             <WingBlank size="sm">
