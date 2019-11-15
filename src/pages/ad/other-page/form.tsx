@@ -86,8 +86,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			timeErr: false,
 			priceErr: false,
 			imageErr: false,
-			uploadIng: false
-
+			uploadIng: false,
 			countMoney: 0
 
 		};
