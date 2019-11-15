@@ -82,3 +82,6 @@ input {
 .am-button-primary {
   border-radius: 1rem !important;
 }
+.am-tabs-default-bar-top .am-tabs-default-bar-tab {
+  border: none;
+}
