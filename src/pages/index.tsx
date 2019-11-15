@@ -342,23 +342,23 @@ export default connect(({ app }: any) => app)(
                         <div className={styles.box}>
                             <div className="title">活动管理</div>
                             <div className="inside">
-                                <Flex direction="column" justify="start" className="item_detail">
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.pushPage('/my/coupon/create')}>
                                     <img src={require('@/assets/index/in_store_return.png')} className="icon_img" alt=""/>
                                     <div className="item_name">店内发券</div>
                                 </Flex>
-                                <Flex direction="column" justify="start" className="item_detail">
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.pushPage('/activitys/payment/create')}>
                                     <img src={require('@/assets/index/payment_coupon.png')} className="icon_img" alt=""/>
                                     <div className="item_name">支付返券</div>
                                 </Flex>
-                                <Flex direction="column" justify="start" className="item_detail">
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.pushPage('/activitys/appreciation/createAppreciation')}>
                                     <img src={require('@/assets/index/friend_appreciation.png')} className="icon_img" alt=""/>
                                     <div className="item_name">好友增值</div>
                                 </Flex>
-                                <Flex direction="column" justify="start" className="item_detail">
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.pushPage('/activitys/group/createGroup')}>
                                     <img src={require('@/assets/index/community group.png')} className="icon_img" alt=""/>
                                     <div className="item_name">社区拼团</div>
                                 </Flex>
-                                <Flex direction="column" justify="start" className="item_detail">
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.pushPage('/activitys/money-off/create')}>
                                     <img src={require('@/assets/index/full_scale_activities.png')} className="icon_img" alt=""/>
                                     <div className="item_name">满减活动</div>
                                 </Flex>
