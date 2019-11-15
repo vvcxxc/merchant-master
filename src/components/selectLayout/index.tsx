@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styles from './index.less';
-import { WingBlank, Flex,Tabs } from 'antd-mobile';
+import { WingBlank, Flex, Tabs } from 'antd-mobile';
 import UndeterminedModal, { Undetermined, After } from './undeterminedModal';
 import SelectDate from './selectDate';
 import checkIcon from './icon-check.png';
@@ -79,7 +79,7 @@ export default class FiltrateLayout extends Component<Props> {
   componentDidUpdate() {
     if (this.props.plat_type == 2) {
       //我的收益页用，是2则应该重置页面了
-      this.timeChange("",'');
+      this.timeChange("", '');
       //重置完成改回1
       this.props.changePlatType && this.props.changePlatType();
     }
@@ -128,8 +128,8 @@ export default class FiltrateLayout extends Component<Props> {
   /**
    * tab onChange回调
    */
-  tabChange = (title:any,idx:any) => {
-    this.setState({query:{...this.state.query,tab_index:idx}},()=>{
+  tabChange = (title: any, idx: any) => {
+    this.setState({ query: { ...this.state.query, tab_index: idx } }, () => {
       this.props.onChange && this.props.onChange(this.state.query)
     })
   }
@@ -199,15 +199,15 @@ export default class FiltrateLayout extends Component<Props> {
 
         {
           this.props.tab ? (
-            <div style={{width: '100%'}}>
-            <Tabs
-              tabs={this.props.tab}
-              initialPage={0}
-              onChange={this.tabChange}
-              tabBarUnderlineStyle={{height:'.03rem',width: '1.03rem',background:'#5BA2FA',marginLeft: '.75rem'}}
-              tabBarTextStyle={{fontSize: '.32rem',color: '#333'}}
-            />
-          </div>
+            <div style={{ width: '100%' }}>
+              <Tabs
+                tabs={this.props.tab}
+                initialPage={this.state.query.tab_index}
+                onChange={this.tabChange}
+                tabBarUnderlineStyle={{ height: '.03rem', width: '1.03rem', background: '#5BA2FA', marginLeft: '.75rem' }}
+                tabBarTextStyle={{ fontSize: '.32rem', color: '#333' }}
+              />
+            </div>
           ) : null
         }
 
