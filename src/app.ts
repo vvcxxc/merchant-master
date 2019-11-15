@@ -1,8 +1,9 @@
 import * as Sentry from '@sentry/browser';
 import Vconsole from 'vconsole'
+declare const Environment:string
 Sentry.init({
   dsn: "http://256d89d4fb9243008db86e5039ecbf41@sentry.tdianyi.com/3",
-  environment: process.env.NODE_ENV
+  environment: Environment
 });
 declare global {
   interface Window {
