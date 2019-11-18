@@ -105,11 +105,11 @@ export default class OrderPage extends Component {
           <img src={require('@/assets/new_login.png')} />
           <Flex className="content">
             <div className='content_main'>
-              <div className="ordernum">412asdf1234123123</div>
-              <div className="time">2019/10/11</div>
+      <div className="ordernum">{_.youhui_sn}</div>
+      <div className="time">{_.create_time}</div>
             </div>
             <div className='content_right'>
-              <div className="money">-0.56</div>
+      <div className="money">{_.money}</div>
               <div className="name">现金券</div>
             </div>
             <div className='right_back'>
