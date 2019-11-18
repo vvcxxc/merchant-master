@@ -6,28 +6,6 @@ const config: IConfig = {
     '@brand-primary': '#21418A',
   },
 
-  // chainWebpack: function (config, { webpack }) {
-  //   config.merge({
-  //     optimization: {
-  //       minimize: true,
-  //       splitChunks: {
-  //         chunks: 'all',
-  //         minSize: 30000,
-  //         minChunks: 3,
-  //         automaticNameDelimiter: '.',
-  //         cacheGroups: {
-  //           vendor: {
-  //             name: 'vendors',
-  //             test({ resource }) {
-  //               return /[\\/]node_modules[\\/]/.test(resource);
-  //             },
-  //             priority: 10,
-  //           },
-  //         },
-  //       },
-  //     }
-  //   });
-  // },
 
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html

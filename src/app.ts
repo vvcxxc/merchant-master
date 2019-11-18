@@ -1,10 +1,12 @@
 import * as Sentry from '@sentry/browser';
 // ref: https://umijs.org/config/
 declare const Environment:string
-Sentry.init({
-  dsn: "http://256d89d4fb9243008db86e5039ecbf41@sentry.tdianyi.com/3",
-  environment: Environment
-});
+if (Environment == 'test' || Environment == 'release' || Environment == 'master'){
+  Sentry.init({
+    dsn: "http://256d89d4fb9243008db86e5039ecbf41@sentry.tdianyi.com/3",
+    environment: Environment
+  });
+}
 import Vconsole from 'vconsole'
 
 declare global {
@@ -23,23 +25,6 @@ export const dva = {
 
 // if(process.env.NODE_ENV != '')
 const vConsole = new Vconsole()
-// window.onerror = function (msg, url, line, col, error) {
-//   console.log('123')
-//   if (error) {
-//     console.log(error)
-//     const pattern = /Loading chunk (\d)+ failed/g;
-//     // const pattern = /Cannot declare a let/g;
-//     const isChunkLoadFailed = error.message.match(pattern);
-//     console.log(isChunkLoadFailed)
-//     alert(isChunkLoadFailed)
-//     if(isChunkLoadFailed) {
-//       location.reload()
-//       console.log('触发了')
-//     }
-//     // location.reload()
-//     // console.log('触发了')
-//   }
-// }
 
 /**路由变化 */
 export const onRouteChange = (params: { location: any, routes: any }) => {
