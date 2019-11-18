@@ -1,0 +1,37 @@
+.page {
+  height: 100%;
+  background-color: #fff;
+  :global {
+    .price {
+      padding-top: 66px;
+      color: #ff6654;
+      font-size: 72px;
+      font-weight: 500;
+      text-align: center;
+    }
+    .trade {
+      color: #999;
+      text-align: center;
+      padding-top: 20px;
+    }
+    .label {
+      color: #999;
+    }
+    .content {
+      padding-top: 30px;
+      .box {
+        border-bottom: 1px solid #eee;
+        padding: 40px 0;
+        &:last-child {
+          border-bottom: none;
+        }
+        .am-flexbox {
+          height: 66px;
+          .am-flexbox-item {
+            text-align: right;
+          }
+        }
+      }
+    }
+  }
+}

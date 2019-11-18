@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react';
 import styles from './index.less';
-import { WingBlank, Flex, Toast, Tabs,Icon } from 'antd-mobile';
+import { WingBlank, Flex, Toast, Tabs, Icon } from 'antd-mobile';
 import FiltrateLayout from '../../components/selectLayout';
 import request from '@/services/request';
 import moment from 'moment';
@@ -95,16 +95,19 @@ export default class OrderPage extends Component {
 
   }
 
-
+  pushPage = (pathname: string, query: object,e:object) => {
+    console.log(pathname,query);
+    router.push({ pathname, query })
+  };
 
   render() {
-    const orderList = this.state.list.length ? (
+    const financeList = this.state.list.length ? (
       this.state.list.map((_: any) => (
-        <Flex className={styles.financeItem}>
+        <Flex className={styles.financeItem} onClick={this.pushPage.bind(this,'/finance/detail/index',{id:_.id,type:_.type})}>
           <img src={''} />
           <Flex.Item className="content">
             <div className="financenum">{_.order_sn}</div>
-      <div className="financetime">{_.create_time}</div>
+            <div className="financetime">{_.create_time}</div>
           </Flex.Item>
           <div className="content-right">
             <Flex.Item className="content">
@@ -128,8 +131,7 @@ export default class OrderPage extends Component {
         onChange={this.handleLayoutChange}
         tab={[]}
       >
-        {orderList}
-
+        {financeList}
         <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
       </FiltrateLayout>
 
