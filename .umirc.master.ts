@@ -7,7 +7,8 @@ const config: IConfig = {
     "window.url": "http://release.api.tdianyi.com/",
     "window.from": "http://supplier.tdianyi.com/",
     "window.pay_url": "http://api.tdianyi.com/payCentre/toSupplierWxPay",
-    "window.service_url": "http://mall.tdianyi.com/#/pages/mycardticket/index"
+    "window.service_url": "http://mall.tdianyi.com/#/pages/mycardticket/index",
+    "Environment": "master"
   },
   chainWebpack: function (config, { webpack }) {
     config.merge({

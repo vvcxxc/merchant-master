@@ -1,5 +1,5 @@
 .page {
-	background: #ededed;
+	background: #f7f6fb;
 	height: 100%;
 }
 .header_title {
@@ -217,10 +217,12 @@
         }
         
         .inside {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            // grid-row-gap: 14px;
-            column-gap: 2px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .inside>div {
+            width: 33%;
         }
         .item_info {
             height: 135px;
@@ -263,9 +265,8 @@
 			font-weight: bold;
 		}
         .inside {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            column-gap: 2px;
+            display: flex;
+            flex: 1 1 1 1;
         }
         .icon_img {
             width: 90px;

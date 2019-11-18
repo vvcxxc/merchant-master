@@ -34,7 +34,7 @@ export default class OrderPage extends Component {
     list: [
       { id: 1, label: '现金券' },
       { id: 2, label: '兑换券' },
-      { id: 3, label: '拼图券' },
+      { id: 3, label: '拼团券' },
       { id: 4, label: '增值券' }
     ]
   };
@@ -100,13 +100,21 @@ export default class OrderPage extends Component {
   render() {
     const orderList = this.state.list.length ? (
       this.state.list.map((_: any) => (
-        <Flex key={_.id} className={styles.orderItem} onClick={this.handleClickOrder(_.id)}>
-          <img src={_.small_icon} />
-          <Flex.Item className="content">
-            <div className="ordernum">{_.youhui_sn}</div>
-            <div className="time">{_.create_time}</div>
-          </Flex.Item>
-          <div className="status">{_.status_msg}</div>
+        <Flex className={styles.orderItem}>
+          <img src={require('@/assets/new_login.png')} />
+          <Flex className="content">
+            <div className='content_main'>
+              <div className="ordernum">412asdf1234123123</div>
+              <div className="time">2019/10/11</div>
+            </div>
+            <div className='content_right'>
+              <div className="money">-0.56</div>
+              <div className="name">现金券</div>
+            </div>
+            <div className='right_back'>
+              <img src={require('@/assets/right_back.png')}/>
+            </div>
+          </Flex>
         </Flex>
       ))
     ) : (
@@ -121,7 +129,8 @@ export default class OrderPage extends Component {
         onChange={this.handleLayoutChange}
         tab={tabs}
       >
-        {orderList}
+        {/* {orderList} */}
+
         <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
       </FiltrateLayout>
 

@@ -1,12 +1,15 @@
 /**title: 个人中心 */
 import React, { Component } from 'react';
-import { Flex, WingBlank, Toast } from 'antd-mobile';
+import { Flex, WingBlank, Toast, List } from 'antd-mobile';
 import styles from './index.less';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import request from '@/services/request';
 import router from 'umi/router';
 import ShareThree from './components/share_three/index'
+
+const Item = List.Item;
+const Brief = Item.Brief;
 
 interface State {
 	info: Info;
@@ -98,10 +101,15 @@ export default connect()(
 
 		render() {
 			const signCode = this.state.info.wx_sign_status == 2 ? (
-				<Flex onClick={this.goSignCode}>
-					<img src={require('./signed.png')} alt="" />
-					<span>我的签约码</span>
-				</Flex>
+				<Item
+					arrow="horizontal"
+					thumb={require('@/assets/my/activity.png')}
+					multipleLine
+					onClick={this.goSignCode}
+					className={styles.my_items}
+				>
+					我的签约码
+				</Item>
 			) : null;
 			return (
 				<div className={styles.page}>
@@ -150,7 +158,7 @@ export default connect()(
 									<div className={styles.platform_revenu_money}>{this.state.info.money}</div>
 								</div>
 								<div className={styles.platform_revenu_btn}>
-									<div className={styles.platform_revenu_transfer_account}>转到余额</div>
+									<div className={styles.platform_revenu_transfer_account} onClick={this.transferredBalance}>转到余额</div>
 								</div>
 							</div>
 						</div>
@@ -165,26 +173,57 @@ export default connect()(
 							</div>
 						</div>
 					</div>
-					<WingBlank className={styles.list}>
-						<Flex onClick={this.pushPage('/activitys')}>
-							<img src={require('./activity.png')} alt="" />
-							<span>我的活动</span>
-						</Flex>
-						<Flex onClick={this.pushPage('/my/coupon')}>
-							<img src={require('./coupon.png')} alt="" />
-							<span>我的优惠券</span>
-						</Flex>
-						<Flex onClick={this.pushPage('/my/moneyreceiveQr')}>
-							<img src={require('./code.png')} alt="" />
-							<span>我的收款码</span>
-						</Flex>
-						<Flex onClick={this.pushPage('/my/inviteQrCode')}>
-							<img src={require('./benefit.png')} alt="" />
-							<span>店铺邀请码</span>
-						</Flex>
+					<List className={styles.my_info_items}>
+						<Item
+							arrow="horizontal"
+							thumb={require('@/assets/my/activity.png')}
+							multipleLine
+							onClick={this.pushPage('/activitys')}
+							className={styles.my_items}
+						>
+							我的活动
+						</Item>
+						<Item
+							arrow="horizontal"
+							thumb={require('@/assets/my/coupon.png')}
+							multipleLine
+							onClick={this.pushPage('/my/coupon')}
+							className={styles.my_items}
+						>
+							我的优惠券
+						</Item>
+						<Item
+							arrow="horizontal"
+							thumb={require('@/assets/my/benefit.png')}
+							multipleLine
+							onClick={this.pushPage('/my/inviteQrCode')}
+							className={styles.my_items}
+						>
+							店铺邀请
+						</Item>
+						<Item
+							arrow="horizontal"
+							thumb={require('@/assets/my/code.png')}
+							multipleLine
+							onClick={this.pushPage('/my/moneyreceiveQr')}
+							className={styles.my_items}
+						>
+							我的收款码
+						</Item>
 						{signCode}
-					</WingBlank>
-				</div>
+					</List>
+					<List className={styles.my_info_items}>
+						<Item
+							arrow="horizontal"
+							thumb={require('@/assets/my/setting.png')}
+							multipleLine
+							onClick={this.pushPage('/myInfo')}
+							className={styles.my_items}
+						>
+							设置
+						</Item>
+					</List>
+				</div >
 			);
 		}
 	}

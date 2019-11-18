@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import styles from './index.less';
-import { Flex, WingBlank, Icon, Toast } from 'antd-mobile';
+import { Flex, WingBlank, Icon, Toast, Grid } from 'antd-mobile';
 import verificationImage from '../assets/varied/verification@2x.png';
 import { connect } from 'dva';
 import router from 'umi/router';
@@ -16,6 +16,11 @@ declare global {
 }
 const Url = window.url ? window.url : 'http://test.api.tdianyi.com/';
 const open_id = window.open_id ? window.open_id : 'test_open_id';
+
+
+const data1 = Array.from(new Array(6)).map(() => ({
+    icon: 'https://gw.alipayobjects.com/zos/rmsportal/WXoqXTHrSnRcUwEaQgXJ.png',
+  }));
 interface Props {
     data: Data;
     dispatch: (arg0: any) => any;
@@ -95,7 +100,6 @@ export default connect(({ app }: any) => app)(
         }
 
         componentDidMount() {
-            console.log(this.props)
             let openId = Cookies.get(open_id);
             if (process.env.NODE_ENV != 'development') {
                 if (!openId) {
@@ -342,28 +346,28 @@ export default connect(({ app }: any) => app)(
                         <div className={styles.box}>
                             <div className="title">活动管理</div>
                             <div className="inside">
-                                <Flex direction="column" justify="start" className="item_detail">
-                                    <img src={require('@/assets/index/in_store_return.png')} className="icon_img" alt=""/>
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.pushPage('/my/coupon/create')}>
+                                    <img src={require('@/assets/index/in_store_return.png')} className="icon_img" alt="" />
                                     <div className="item_name">店内发券</div>
                                 </Flex>
-                                <Flex direction="column" justify="start" className="item_detail">
-                                    <img src={require('@/assets/index/payment_coupon.png')} className="icon_img" alt=""/>
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.pushPage('/activitys/payment/create')}>
+                                    <img src={require('@/assets/index/payment_coupon.png')} className="icon_img" alt="" />
                                     <div className="item_name">支付返券</div>
                                 </Flex>
-                                <Flex direction="column" justify="start" className="item_detail">
-                                    <img src={require('@/assets/index/friend_appreciation.png')} className="icon_img" alt=""/>
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.pushPage('/activitys/appreciation/createAppreciation')}>
+                                    <img src={require('@/assets/index/friend_appreciation.png')} className="icon_img" alt="" />
                                     <div className="item_name">好友增值</div>
                                 </Flex>
-                                <Flex direction="column" justify="start" className="item_detail">
-                                    <img src={require('@/assets/index/community group.png')} className="icon_img" alt=""/>
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.pushPage('/activitys/group/createGroup')}>
+                                    <img src={require('@/assets/index/community group.png')} className="icon_img" alt="" />
                                     <div className="item_name">社区拼团</div>
                                 </Flex>
-                                <Flex direction="column" justify="start" className="item_detail">
-                                    <img src={require('@/assets/index/full_scale_activities.png')} className="icon_img" alt=""/>
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.pushPage('/activitys/money-off/create')}>
+                                    <img src={require('@/assets/index/full_scale_activities.png')} className="icon_img" alt="" />
                                     <div className="item_name">满减活动</div>
                                 </Flex>
                                 <Flex direction="column" justify="start" className="item_detail">
-                                    <img src={require('@/assets/index/expect_more.png')} className="icon_img" alt=""/>
+                                    <img src={require('@/assets/index/expect_more.png')} className="icon_img" alt="" />
                                     <div className="item_name">期待更多</div>
                                 </Flex>
                             </div>
@@ -376,6 +380,7 @@ export default connect(({ app }: any) => app)(
                             <div className="title">资产管理</div>
                             <div className="inside">{mapIcons(data.property_management)}</div>
                         </div> */}
+                        {/* <Grid data={data1} columnNum={3} /> */}
                     </WingBlank>
                     {/* 核销按钮 */}
                     <Flex
