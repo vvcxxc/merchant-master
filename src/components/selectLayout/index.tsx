@@ -134,6 +134,7 @@ export default class FiltrateLayout extends Component<Props> {
     })
   }
 
+  
   render() {
     const insignificant = this.props.hasInsignificant && (
       <Flex className={styles.header}>
