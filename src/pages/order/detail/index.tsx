@@ -1,24 +1,32 @@
 /**title: 订单详情 */
 
 import React, { Component } from 'react';
-import { WingBlank, Flex, Toast } from 'antd-mobile';
+import { WingBlank, Flex, Toast, Icon } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
 
 interface State {
-	data: any;
+  data: any;
+  is_show: boolean
 }
 export default class OrderDetail extends Component<any, State> {
-	state: State = { data: {} };
+	state: State = { data: {}, is_show: false };
 	componentDidMount = () => this.getData();
 	getData = async () => {
 		Toast.loading('');
 		const res = await request({ url: 'v3/coupons/order_info/' + this.props.location.query.id });
 		Toast.hide();
 		if (res.code === 200) {
-			this.setState({ data: res.data });
+      this.setState({ data: res.data });
+      console.log(res.data)
 		}
-	};
+  };
+
+  // 查看更多
+  moreData = () => {
+    this.setState({is_show : !this.state.is_show})
+  }
+
 	render() {
 		const data = this.state.data;
 		return (
@@ -28,6 +36,7 @@ export default class OrderDetail extends Component<any, State> {
 					<div className="trade">交易成功</div>
 					<div className="content">
 						<div className="box">
+            <div className="title">订单购买详情</div>
 							<Flex>
 								<div className="label">订单编号</div>
 								<Flex.Item>{data.youhui_sn}</Flex.Item>
@@ -40,34 +49,66 @@ export default class OrderDetail extends Component<any, State> {
 								<div className="label">订单金额</div>
 								<Flex.Item>￥{data.return_money}</Flex.Item>
 							</Flex>
-
-							<Flex>
-								<div className="label">商户订单</div>
-								<Flex.Item>{data.channel_order_sn}</Flex.Item>
+              <Flex>
+								<div className="label">订单状态</div>
+								<Flex.Item></Flex.Item>
 							</Flex>
 							<Flex>
-								<div className="label">优惠券</div>
+								<div className="label">商品名称</div>
+								<Flex.Item></Flex.Item>
+							</Flex>
+							<Flex>
+								<div className="label">商品类型</div>
 								<Flex.Item>{data.youhui_type === 0 ? '兑换' : '优惠'}券</Flex.Item>
 							</Flex>
+              <Flex>
+								<div className="label">商品来源</div>
+								<Flex.Item></Flex.Item>
+							</Flex>
+              <Flex justify='end' onClick={this.moreData}>
+                <div className='order_btn'>查看该订单使用情况</div>
+                <div className='order_btn_icon'><Icon type={this.state.is_show ? 'up' : 'down'}/></div>
+              </Flex>
 						</div>
-						<div className="box">
+						{
+              this.state.is_show ? (
+                <div className="box">
+            <div className="title">订单交易详情</div>
 							<Flex>
-								<div className="label">支付用户</div>
+								<div className="label">用户信息</div>
 								<Flex.Item>{data.user_name}</Flex.Item>
 							</Flex>
 							<Flex>
-								<div className="label">使用状态</div>
-								<Flex.Item>{data.status}</Flex.Item>
+								<div className="label">商品名称</div>
+								<Flex.Item></Flex.Item>
 							</Flex>
 							<Flex>
-								<div className="label">使用时间</div>
-								<Flex.Item>{data.refund_time}</Flex.Item>
+								<div className="label">核销状态</div>
+								<Flex.Item></Flex.Item>
 							</Flex>
 							<Flex>
-								<div className="label">实收金额</div>
-								<Flex.Item>{data.pay_money}元</Flex.Item>
+								<div className="label">核销时间</div>
+								<Flex.Item></Flex.Item>
+							</Flex>
+              <Flex>
+								<div className="label">交易单号</div>
+								<Flex.Item></Flex.Item>
+							</Flex>
+              <Flex>
+								<div className="label">交易金额</div>
+								<Flex.Item></Flex.Item>
+							</Flex>
+              <Flex>
+								<div className="label">优惠金额</div>
+								<Flex.Item></Flex.Item>
+							</Flex>
+              <Flex>
+								<div className="label">实际付款</div>
+								<Flex.Item></Flex.Item>
 							</Flex>
 						</div>
+              ) : null
+            }
 					</div>
 				</WingBlank>
 			</div>

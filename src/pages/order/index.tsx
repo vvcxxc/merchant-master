@@ -60,13 +60,15 @@ export default class OrderPage extends Component {
   };
 
   handleLayoutChange = (query: any) => {
+    console.log(query)
     this.setState({
       page: 1,
       hasMore: true,
       list: [],
       pay_status: query.hot.id || undefined,
-      type: query.hot._id,
-      date: query.time ? moment(query.time).unix() : undefined
+      type: query.hot._id || undefined,
+      begin: query.time ? moment(query.time).unix() : undefined,
+      end: query.time ? moment(query.end_time).unix() : undefined,
     }, () => {
       this.getData({
         pay_status: query.hot.id || 0,
@@ -100,20 +102,20 @@ export default class OrderPage extends Component {
 
   render() {
     const orderList = this.state.list.length ? (
-      this.state.list.map((_: any,index) => (
-        <Flex className={styles.orderItem} key={index}>
+      this.state.list.map((_: any, index) => (
+        <Flex className={styles.orderItem} key={index} onClick={this.handleClickOrder(_.id)}>
           <img src={require('@/assets/new_login.png')} />
           <Flex className="content">
             <div className='content_main'>
-      <div className="ordernum">{_.youhui_sn}</div>
-      <div className="time">{_.create_time}</div>
+              <div className="ordernum">{_.youhui_sn}</div>
+              <div className="time">{_.create_time}</div>
             </div>
             <div className='content_right'>
-      <div className="money">{_.money}</div>
+              <div className="money">{_.money}</div>
               <div className="name">现金券</div>
             </div>
             <div className='right_back'>
-              <img src={require('@/assets/right_back.png')}/>
+              <img src={require('@/assets/right_back.png')} />
             </div>
           </Flex>
         </Flex>
