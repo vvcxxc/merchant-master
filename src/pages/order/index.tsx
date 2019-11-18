@@ -19,7 +19,7 @@ const tabs = [
 export default class OrderPage extends Component {
   state = {
     list: [],
-    insignificant: 0,
+    total: 0,
 
     page: 1,
     hasMore: true,
@@ -52,7 +52,8 @@ export default class OrderPage extends Component {
     });
     Toast.hide();
     if (res.code === 200 && res.data.length != 0) {
-      this.setState({ list: this.state.list.concat(res.data), insignificant: res.total });
+      console.log(res)
+      this.setState({ list: this.state.list.concat(res.data), total: res.total, });
     } else if (res.code === 200 && res.data.length == 0) {
       this.setState({ hasMore: false })
     }
@@ -99,8 +100,8 @@ export default class OrderPage extends Component {
 
   render() {
     const orderList = this.state.list.length ? (
-      this.state.list.map((_: any) => (
-        <Flex className={styles.orderItem}>
+      this.state.list.map((_: any,index) => (
+        <Flex className={styles.orderItem} key={index}>
           <img src={require('@/assets/new_login.png')} />
           <Flex className="content">
             <div className='content_main'>
@@ -129,7 +130,7 @@ export default class OrderPage extends Component {
         onChange={this.handleLayoutChange}
         tab={tabs}
       >
-        {/* {orderList} */}
+        {orderList}
 
         <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
       </FiltrateLayout>
