@@ -1,7 +1,7 @@
 /**title: 订单详情 */
 
 import React, { Component } from 'react';
-import { WingBlank, Flex, Toast } from 'antd-mobile';
+import { WingBlank, Flex, Toast, Icon } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
 
@@ -9,7 +9,10 @@ interface State {
 	data: any;
 }
 export default class OrderDetail extends Component<any, State> {
-	state: State = { data: {} };
+	state = {
+		data: {},
+		showContent: false
+	};
 	componentDidMount = () => this.getData();
 	getData = async () => {
 		Toast.loading('');
@@ -19,55 +22,99 @@ export default class OrderDetail extends Component<any, State> {
 			this.setState({ data: res.data });
 		}
 	};
+	showContent = () => { this.setState({ showContent: !this.state.showContent }) }
 	render() {
 		const data = this.state.data;
 		return (
-			<div className={styles.page} style={{height:"auto",minHeight:"100%",paddingBottom:"20px"}}>
+			<div className={styles.page} style={{ height: "auto", minHeight: "100%", paddingBottom: "20px" }}>
 				<WingBlank>
-					<div className="price">+{data.return_money}</div>
+					<div className="price">+10056</div>
 					<div className="trade">交易成功</div>
 					<div className="content">
 						<div className="box">
 							<Flex>
-								<div className="label">订单编号</div>
-								<Flex.Item>{data.youhui_sn}</Flex.Item>
+								<div className="label-title">订单购买详情</div>
 							</Flex>
-              <Flex>
+							<Flex>
+								<div className="label">订单编号</div>
+								<Flex.Item>kkfgdf</Flex.Item>
+							</Flex>
+							<Flex>
 								<div className="label">订单时间</div>
-								<Flex.Item>{data.create_time}</Flex.Item>
+								<Flex.Item>201944787888</Flex.Item>
 							</Flex>
 							<Flex>
 								<div className="label">订单金额</div>
-								<Flex.Item>￥{data.return_money}</Flex.Item>
+								<Flex.Item>￥30</Flex.Item>
 							</Flex>
+							<Flex>
+								<div className="label">订单状态</div>
+								<Flex.Item style={{ color: '#ff3622' }}>已完成</Flex.Item>
+							</Flex>
+							<Flex>
+								<div className="label">商品名称</div>
+								<Flex.Item>电冰箱</Flex.Item>
+							</Flex>
+							<Flex>
+								<div className="label">商品类型</div>
+								<Flex.Item>现金券</Flex.Item>
+							</Flex>
+							<Flex>
+								<div className="label">商品来源</div>
+								<Flex.Item>支付返券</Flex.Item>
+							</Flex>
+						</div>
+						<div className="showContentBtn-box" onClick={this.showContent}>
+							<div className="showContentBtn">查看该订单使用状态</div>
+							{
+								this.state.showContent ? <Icon type="up" color="#bcbcbc" /> : <Icon type="down" color="#bcbcbc" />
 
-							<Flex>
-								<div className="label">商户订单</div>
-								<Flex.Item>{data.channel_order_sn}</Flex.Item>
-							</Flex>
-							<Flex>
-								<div className="label">优惠券</div>
-								<Flex.Item>{data.youhui_type === 0 ? '兑换' : '优惠'}券</Flex.Item>
-							</Flex>
+							}
+
 						</div>
-						<div className="box">
-							<Flex>
-								<div className="label">支付用户</div>
-								<Flex.Item>{data.user_name}</Flex.Item>
-							</Flex>
-							<Flex>
-								<div className="label">使用状态</div>
-								<Flex.Item>{data.status}</Flex.Item>
-							</Flex>
-							<Flex>
-								<div className="label">使用时间</div>
-								<Flex.Item>{data.refund_time}</Flex.Item>
-							</Flex>
-							<Flex>
-								<div className="label">实收金额</div>
-								<Flex.Item>{data.pay_money}元</Flex.Item>
-							</Flex>
-						</div>
+
+						{
+							this.state.showContent ? <div className="box">
+								<Flex>
+									<div className="label-title">订单交易详情</div>
+								</Flex>
+								<Flex>
+									<div className="label">用户信息</div>
+									<Flex.Item>kkfgdf</Flex.Item>
+								</Flex>
+								<Flex>
+									<div className="label">商品名称</div>
+									<Flex.Item>201944787888</Flex.Item>
+								</Flex>
+								<Flex>
+									<div className="label">核销状态</div>
+									<Flex.Item>￥30</Flex.Item>
+								</Flex>
+								<Flex>
+									<div className="label">核销时间</div>
+									<Flex.Item>已完成</Flex.Item>
+								</Flex>
+								<div className='order-content'>
+									<div className="label">交易单号</div>
+									<div className="order_sn-box" style={{ color: '#486dda' }}>
+										<div>5466224548878</div>
+										<Icon type="right" color="#bcbcbc" />
+									</div>
+								</div>
+								<Flex>
+									<div className="label">交易金额</div>
+									<Flex.Item>现金券</Flex.Item>
+								</Flex>
+								<Flex>
+									<div className="label">优惠金额</div>
+									<Flex.Item>支付返券</Flex.Item>
+								</Flex>
+								<Flex>
+									<div className="label">实际付款</div>
+									<Flex.Item>支付返券</Flex.Item>
+								</Flex>
+							</div> : null
+						}
 					</div>
 				</WingBlank>
 			</div>

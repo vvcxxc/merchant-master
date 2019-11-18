@@ -95,15 +95,15 @@ export default class OrderPage extends Component {
 
   }
 
-  pushPage = (pathname: string, query: object,e:object) => {
-    console.log(pathname,query);
+  pushPage = (pathname: string, query: object, e: object) => {
+    console.log(pathname, query);
     router.push({ pathname, query })
   };
 
   render() {
     const financeList = this.state.list.length ? (
       this.state.list.map((_: any) => (
-        <Flex className={styles.financeItem} onClick={this.pushPage.bind(this,'/finance/detail/index',{id:_.id,type:_.type})}>
+        <Flex className={styles.financeItem} onClick={this.pushPage.bind(this, '/finance/detail', { id: _.id, type: _.type })}>
           <img src={''} />
           <Flex.Item className="content">
             <div className="financenum">{_.order_sn}</div>
