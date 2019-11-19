@@ -38,7 +38,7 @@ const config: IConfig = {
     ],
   ],
   hash: true,
-  targets: { chrome: 49, firefox: 45, safari: 10, edge: 13, ios: 10 },
+  targets: { chrome: 49, firefox: 45, safari: 10, edge: 13, ios: 8 },
   // browserslist: ['> 1%', 'last 2 versions', 'safari 10'],
 };
 export default config;
