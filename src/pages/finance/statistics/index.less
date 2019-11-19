@@ -1,0 +1,104 @@
+.page {
+	min-height: 100%;
+	padding-bottom: 30px;
+	:global {
+		.bg {
+			width: 100%;
+			height: 300px;
+			background-color: #21418a;
+		}
+		.content {
+			margin-top: -300px;
+		}
+		.time-select {
+			font-size: 32px;
+			color: #fff;
+			padding: 34px;
+			box-sizing: border-box;
+			img {
+				width: 20px;
+				height: 12px;
+				margin-left: 22px;
+			}
+		}
+	}
+}
+
+.box {
+	background: rgba(255, 255, 255, 1);
+	border-radius: 10px;
+	margin-top: 26px;
+	:global {
+		.title {
+			padding: 26px;
+			font-size: 32px;
+			box-sizing: border-box;
+		}
+		.box-content {
+			min-height: 200px;
+		}
+		.tip {
+			color: #999;
+		}
+		.incomeBox {
+			padding-left: 30px;
+			.small-title {
+				color: #666666;
+				font-size: 24px;
+				margin-bottom: 30px;
+			}
+			.info {
+				color: #999;
+				margin-bottom: 10px;
+				.price {
+					color: #ff6654;
+					font-weight: bold;
+				}
+			}
+		}
+		.progressbar {
+			width: 134px;
+			margin: 20px auto 0;
+		}
+		.barName {
+			color: #666;
+			font-size: 28px;
+			margin-top: 30px;
+			line-height: 1;
+			text-align: center;
+			margin-bottom: 40px;
+		}
+		.pie-chart {
+			width: 300px;
+			margin-left: 20px;
+		}
+		.pie-tip {
+			font-size: 24px;
+			color: #666;
+			margin-top: 26px;
+			padding-left: 80px;
+			padding-bottom: 20px;
+			.pie {
+				width: 22px;
+				height: 22px;
+				border-radius: 50%;
+				margin-right: 20px;
+				&.zfb {
+					background: rgba(255, 102, 84, 1);
+				}
+				&.wx {
+					background: rgba(33, 65, 138, 1);
+				}
+			}
+		}
+		.lookMore {
+			width: auto;
+			font-size: 22px;
+			color: #21418a;
+			img {
+				width: 12px;
+				margin-left: 10px;
+			}
+		}
+	}
+}

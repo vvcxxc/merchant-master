@@ -27,6 +27,27 @@ export default class OrderDetail extends Component<any, State> {
     this.setState({is_show : !this.state.is_show})
   }
 
+
+  // 订单状态
+  orderStatus = (status: any) => {
+    switch (status){
+      case 1:
+        return '已支付'
+        break
+      case 2:
+        return '已使用'
+        break
+      case 3:
+        return '已退款'
+        break
+      case 4:
+        return '已过期'
+        break
+      default:
+        return ''
+    }
+  }
+
 	render() {
 		const data = this.state.data;
 		return (
@@ -51,11 +72,11 @@ export default class OrderDetail extends Component<any, State> {
 							</Flex>
               <Flex>
 								<div className="label">订单状态</div>
-								<Flex.Item></Flex.Item>
+                <Flex.Item>{this.orderStatus(data.order_status)}</Flex.Item>
 							</Flex>
 							<Flex>
 								<div className="label">商品名称</div>
-								<Flex.Item></Flex.Item>
+                <Flex.Item>{data.name}</Flex.Item>
 							</Flex>
 							<Flex>
 								<div className="label">商品类型</div>
@@ -78,21 +99,21 @@ export default class OrderDetail extends Component<any, State> {
 								<div className="label">用户信息</div>
 								<Flex.Item>{data.user_name}</Flex.Item>
 							</Flex>
-							<Flex>
+              <Flex>
 								<div className="label">商品名称</div>
-								<Flex.Item></Flex.Item>
+                <Flex.Item>{data.name}</Flex.Item>
 							</Flex>
 							<Flex>
 								<div className="label">核销状态</div>
-								<Flex.Item></Flex.Item>
+              <Flex.Item>{data.use_status == 1 ? '已核销' : '未核销'}</Flex.Item>
 							</Flex>
 							<Flex>
 								<div className="label">核销时间</div>
-								<Flex.Item></Flex.Item>
+              <Flex.Item>{data.refund_time}</Flex.Item>
 							</Flex>
               <Flex>
 								<div className="label">交易单号</div>
-								<Flex.Item></Flex.Item>
+              <Flex.Item>{data.channel_order_sn}</Flex.Item>
 							</Flex>
               <Flex>
 								<div className="label">交易金额</div>

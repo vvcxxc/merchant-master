@@ -12,9 +12,9 @@ import router from 'umi/router';
 import NoData from '@/components/no-data';
 
 const tabs = [
-  { title: '已核销' },
-  { title: '未核销' },
-  { title: '已退款' },
+  { title: '已核销', id: 1 },
+  { title: '未核销', id: 2 },
+  { title: '已退款', id: 3 },
 ];
 export default class OrderPage extends Component {
   state = {
@@ -25,7 +25,8 @@ export default class OrderPage extends Component {
     hasMore: true,
 
     pay_status: '',   // 模糊查询筛选
-    date: undefined           // 模糊查询月份
+    date: undefined,           // 模糊查询月份
+    amount: ''
   };
 
 
@@ -33,9 +34,7 @@ export default class OrderPage extends Component {
     title: '订单类型',
     list: [
       { id: 1, label: '现金券' },
-      { id: 2, label: '兑换券' },
-      { id: 3, label: '拼团券' },
-      { id: 4, label: '增值券' }
+      { id: 0, label: '兑换券' },
     ]
   };
   componentDidMount() {
@@ -52,15 +51,14 @@ export default class OrderPage extends Component {
     });
     Toast.hide();
     if (res.code === 200 && res.data.length != 0) {
-      console.log(res)
-      this.setState({ list: this.state.list.concat(res.data), total: res.total, });
+      // console.log(res)
+      this.setState({ list: this.state.list.concat(res.data), total: res.total, amount: res.amount });
     } else if (res.code === 200 && res.data.length == 0) {
-      this.setState({ hasMore: false })
+      this.setState({ hasMore: false,total: res.total, amount: res.amount })
     }
   };
 
   handleLayoutChange = (query: any) => {
-    console.log(query)
     this.setState({
       page: 1,
       hasMore: true,
@@ -71,9 +69,10 @@ export default class OrderPage extends Component {
       end: query.time ? moment(query.end_time).unix() : undefined,
     }, () => {
       this.getData({
-        pay_status: query.hot.id || 0,
-        type: query.hot._id || undefined,
-        date: query.time ? moment(query.time).unix() : undefined
+        pay_status: query.tab_index || 1,
+        youhui_type: query.hot._id || undefined,
+        begin: query.time ? moment(query.time).unix() : undefined,
+        end: query.time ? moment(query.end_time).unix() : undefined,
       });
     })
 
@@ -104,7 +103,7 @@ export default class OrderPage extends Component {
     const orderList = this.state.list.length ? (
       this.state.list.map((_: any, index) => (
         <Flex className={styles.orderItem} key={index} onClick={this.handleClickOrder(_.id)}>
-          <img src={require('@/assets/new_login.png')} />
+          <img src={_.image} />
           <Flex className="content">
             <div className='content_main'>
               <div className="ordernum">{_.youhui_sn}</div>
@@ -121,9 +120,9 @@ export default class OrderPage extends Component {
         </Flex>
       ))
     ) : (
-        <NoData type="order" />
+        <NoData type="order"/>
       );
-    const list = [{ name: '交易笔数', num: '10086' }, { name: '交易金额', num: '156.00' }]
+    const list = [{ name: '交易笔数', num: this.state.total }, { name: '交易金额', num: this.state.amount }]
     return (
       <FiltrateLayout
         undetermined={this.undetermined}
