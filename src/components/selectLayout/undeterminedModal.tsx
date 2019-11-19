@@ -36,7 +36,6 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 	const [checked, setChecked,] = useState();
 	const [_checked, set_Checked] = useState();
 	const { small_box2, small_box } = styles
-	console.log('555',_checked,checked);
 	/**点击某个条件时 */
 	const handleClickUndetermined = (index: number, item: Item): any => () => {
 		setChecked(item.id);
