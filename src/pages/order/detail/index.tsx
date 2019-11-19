@@ -68,11 +68,11 @@ export default class OrderDetail extends Component<any, State> {
 							</Flex>
 							<Flex>
 								<div className="label">订单金额</div>
-								<Flex.Item>￥{data.return_money}</Flex.Item>
+								<Flex.Item>￥{data.pay_money}</Flex.Item>
 							</Flex>
               <Flex>
 								<div className="label">订单状态</div>
-                <Flex.Item>{this.orderStatus(data.order_status)}</Flex.Item>
+                <Flex.Item style={{color: '#FF3622'}}>{this.orderStatus(data.status)}</Flex.Item>
 							</Flex>
 							<Flex>
 								<div className="label">商品名称</div>
@@ -105,7 +105,7 @@ export default class OrderDetail extends Component<any, State> {
 							</Flex>
 							<Flex>
 								<div className="label">核销状态</div>
-              <Flex.Item>{data.use_status == 1 ? '已核销' : '未核销'}</Flex.Item>
+              <Flex.Item>{data.use_status}</Flex.Item>
 							</Flex>
 							<Flex>
 								<div className="label">核销时间</div>
@@ -113,9 +113,9 @@ export default class OrderDetail extends Component<any, State> {
 							</Flex>
               <Flex>
 								<div className="label">交易单号</div>
-              <Flex.Item>{data.channel_order_sn}</Flex.Item>
+              <Flex.Item style={{color: '#486DDA'}}>{data.channel_order_sn}</Flex.Item>
 							</Flex>
-              <Flex>
+              {/* <Flex>
 								<div className="label">交易金额</div>
 								<Flex.Item></Flex.Item>
 							</Flex>
@@ -126,7 +126,7 @@ export default class OrderDetail extends Component<any, State> {
               <Flex>
 								<div className="label">实际付款</div>
 								<Flex.Item></Flex.Item>
-							</Flex>
+							</Flex> */}
 						</div>
               ) : null
             }

@@ -86,7 +86,7 @@ export default class FinanceStatistis extends Component {
 
           <Box title="交易趋势">
             <ResponsiveContainer width="100%" aspect={4.0 / 3.0}>
-              <AreaChart margin={{ left: -10, top: 20, bottom: 0, right: 20 }} data={data.business}>
+              <AreaChart margin={{ left: 30, top: 20, bottom: 10, right: 20 }} data={data.business}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="day" padding={{ left: 20, right: 10 }} label={{ position: 'bottom' }} />
                 <YAxis label={{ color: '#ccc' }} />
