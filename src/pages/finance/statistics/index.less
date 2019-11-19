@@ -1,20 +1,32 @@
 .page {
 	min-height: 100%;
-	padding-bottom: 30px;
+  padding-bottom: 30px;
+  background: #F0F2F5;
+  position: relative;
 	:global {
 		.bg {
 			width: 100%;
 			height: 300px;
-			background-color: #21418a;
-		}
-		.content {
-			margin-top: -300px;
-		}
+			// background-color: #21418a;
+    }
+    .time_box {
+      height: 100px;
+      width: 100%;
+      box-sizing: border-box;
+      color: #fff;
+      font-size: 32px;
+      padding-left: 34px;
+      background:linear-gradient(-28deg,rgba(72,109,218,1) 0%,rgba(122,88,253,1) 100%);
+    }
 		.time-select {
 			font-size: 32px;
-			color: #fff;
-			padding: 34px;
-			box-sizing: border-box;
+      color: #fff;
+      height: 60px;
+      margin-left: 34px;
+      padding-left: 20px;
+      box-sizing: border-box;
+      border-radius: 60px;
+      border: 1px solid #eee;
 			img {
 				width: 20px;
 				height: 12px;
@@ -25,34 +37,61 @@
 }
 
 .box {
-	background: rgba(255, 255, 255, 1);
-	border-radius: 10px;
-	margin-top: 26px;
+
 	:global {
 		.title {
-			padding: 26px;
-			font-size: 32px;
+      // padding: 26px;
+      margin-bottom: 20px;
+      font-weight: bold;
+			font-size: 28px;
 			box-sizing: border-box;
-		}
+      margin-top: 26px;
+    }
+    .box_main {
+      background: rgba(255, 255, 255, 1);
+      border-radius: 10px;
+    }
 		.box-content {
 			min-height: 200px;
 		}
 		.tip {
 			color: #999;
-		}
+    }
+    .pie_box {
+      padding: 38px;
+    }
 		.incomeBox {
-			padding-left: 30px;
+			padding: 30px;
 			.small-title {
-				color: #666666;
-				font-size: 24px;
-				margin-bottom: 30px;
-			}
+				font-size: 30px;
+        margin-bottom: 30px;
+        width: 300px;
+        height: 70px;
+        color: #000;
+        font-weight: bold;
+        text-align: center;
+        line-height: 70px;
+        background: #dfebfe;
+      }
+      .info-box {
+        border: 1px solid #dfebfe;
+        width: 300px;
+        border-radius: 10px;
+        padding-bottom: 25px;
+      }
 			.info {
-				color: #999;
-				margin-bottom: 10px;
+				color: #5f666c;
+        margin-bottom: 10px;
+        .info-title {
+          width: 150px;
+          text-align: right;
+        }
 				.price {
-					color: #ff6654;
-					font-weight: bold;
+          color: #000;
+          font-weight: bold;
+          font-size: 28px;
+          padding-left: 15px;
+          line-height: 44px;
 				}
 			}
 		}

@@ -21,11 +21,13 @@ export default class Box extends Component<Props> {
 			<div className={styles.box}>
 				<Flex className="title" align="end">
 					<Flex.Item>{this.props.title}</Flex.Item>
-					{lookMore}
+					{/* {lookMore} */}
 				</Flex>
-				<Flex className="box-content" justify="center">
-					{this.props.isNoDate ? <span className="tip">暂无数据</span> : this.props.children}
-				</Flex>
+        <div className='box_main'>
+          <Flex className="box-content" justify="center">
+            {this.props.isNoDate ? <span className="tip">暂无数据</span> : this.props.children}
+          </Flex>
+        </div>
 			</div>
 		);
 	}

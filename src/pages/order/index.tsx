@@ -111,7 +111,7 @@ export default class OrderPage extends Component {
             </div>
             <div className='content_right'>
               <div className="money">{_.money}</div>
-              <div className="name">现金券</div>
+      <div className="name">{_.youhui_type == 1 ? '现金券' : '兑换券'}</div>
             </div>
             <div className='right_back'>
               <img src={require('@/assets/right_back.png')} />
