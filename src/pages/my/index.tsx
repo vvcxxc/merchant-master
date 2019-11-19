@@ -148,8 +148,8 @@ export default connect()(
 									<div className={styles.count_balance_money}>4000.00</div>
 								</div>
 								<div className={styles.count_balance_btn}>
-									<div className={styles.count_balance_invest}>充值</div>
-									<div className={styles.count_balance_withdraw}>提现</div>
+									<div className={styles.count_balance_invest} onClick={() => router.push('/my/rechange')}>充值</div>
+									<div className={styles.count_balance_withdraw} onClick={() => router.push('/my/withdraw')}>提现</div>
 								</div>
 							</div>
 							<div className={styles.platform_revenu}>

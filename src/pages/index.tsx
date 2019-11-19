@@ -323,22 +323,22 @@ export default connect(({ app }: any) => app)(
                     <WingBlank className={styles.content}>
                         <div className={styles.box}>
                             <div className="inside">
-                                <Flex direction="column" justify="center" className={styles.financial_statistics}>
+                                <Flex direction="column" justify="center" className={styles.financial_statistics} onClick={() => router.push('/finance/statistics')}>
                                     <div className="item_info">财务统计</div>
                                 </Flex>
                                 <Flex direction="column" justify="center" className={styles.fund_trends}>
                                     <div className="item_info">资金动态</div>
                                 </Flex>
-                                <Flex direction="column" justify="center" className={styles.withdraw_record}>
+                                <Flex direction="column" justify="center" className={styles.withdraw_record} onClick={() => router.push('/my/withdraw/list')}>
                                     <div className="item_info">提现记录</div>
                                 </Flex>
-                                <Flex direction="column" justify="center" className={styles.verification_record}>
+                                <Flex direction="column" justify="center" className={styles.verification_record} onClick={() => router.push('/verification')}>
                                     <div className="item_info">核销记录</div>
                                 </Flex>
                                 <Flex direction="column" justify="center" className={styles.ad_consume}>
                                     <div className="item_info">广告消费</div>
                                 </Flex>
-                                <Flex direction="column" justify="center" className={styles.my_profit}>
+                                <Flex direction="column" justify="center" className={styles.my_profit} onClick={() => router.push('/my/platformBenefit')}>
                                     <div className="item_info">我的收益</div>
                                 </Flex>
                             </div>
