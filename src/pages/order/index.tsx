@@ -103,7 +103,7 @@ export default class OrderPage extends Component {
     const orderList = this.state.list.length ? (
       this.state.list.map((_: any, index) => (
         <Flex className={styles.orderItem} key={index} onClick={this.handleClickOrder(_.id)}>
-          <img src={_.image} />
+          <img src={require('@/assets/index/in_store_return.png')} />
           <Flex className="content">
             <div className='content_main'>
               <div className="ordernum">{_.youhui_sn}</div>
