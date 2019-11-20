@@ -24,7 +24,7 @@ export default class OrderPage extends Component {
     page: 1,
     hasMore: true,
 
-    pay_status: '',   // 模糊查询筛选
+    pay_status: '1',   // 模糊查询筛选
     begin: undefined,           // 模糊查询月份
     end: undefined,
     amount: '',
@@ -48,7 +48,7 @@ export default class OrderPage extends Component {
     const res = await request({
       url: 'v3/coupons/order_list', params: {
         ...query,
-        page: this.state.page
+        page: this.state.page,
       }
     });
     Toast.hide();
@@ -92,6 +92,7 @@ export default class OrderPage extends Component {
         page: this.state.page + 1
       }, () => {
         this.getData({
+          pay_status: this.state.pay_status,
           begin: this.state.begin,
           end: this.state.end,
           page: this.state.page,

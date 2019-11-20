@@ -41,7 +41,10 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			userNotice: '',//使用须知
 			noticeDetails: '',//须知详情
 			activeImg :''//活动图片
-		};
+    };
+    componentDidMount(){
+      console.log(this.props)
+    }
 
 		handleNoticeChange = (notice: any[], keys: string) => {
 			this.setState({ keys });
@@ -172,7 +175,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					/>
 				</Flex>
 			);
-			
+
 			return (
 				<div>
 					<CustomInput

@@ -25,7 +25,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				userNotice: '',//使用须知
 				noticeDetails: '',//须知详情
 				activeImg: '',//活动图片
-				
+
 			},
 			errorTwo: {
 				amountError: '',//面额
@@ -46,8 +46,8 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			);
 
 		handleSubmit = async () => {
-		
-			
+
+
 			const { type } = this.state
 			let total: any = {}
 
@@ -55,14 +55,14 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			if (type === 0) {//优惠券判断
 
 				const { coupons_name, return_money, total_num, pay_money, validity, description, image_url, total_fee } = this.props.couponForm
-				
+
 				!coupons_name || coupons_name.length < 1 ?
 					total.nameWrong = '请输入优惠券名称' : (
 						!/^[\u4e00-\u9fa5A-Za-z0-9-_!@#$%^&*()+=,./';:"?><\|！@#￥%……&*（）——：“”；》《，。、？|]*$/.test(coupons_name) ?
 							total.nameWrong = '优惠券名称中含有非法字符，请重新编辑。' : ''
 					)
-					
-				
+
+
 				!return_money || return_money.length < 1 ?
 					total.marketPrice = '请输入市场价格' : (
 						return_money == 0 ? total.marketPrice = '市场价格必须大于0' : ''
@@ -76,7 +76,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					pay_money == 0 && pay_money <= return_money ? total.buyingPrice = '购买价格必须大于0元' : (
 						total.buyingPrice = pay_money > return_money && return_money ? '购买价格不可高于市场价格，请重新设置.' : ''
 					)
-				)
+        )
 
 				!validity ? total.validity = '请设置优惠券有效期' : (
 					validity == 0 ? '优惠券有效期必须大于0' : ''
@@ -102,7 +102,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					'请设置购买价格' : (
 						return_money <= 0 ? '购买价格必须大于0元' : ''
 					)
-						
+
 				total.buyingPrice = !pay_money || pay_money == '' ?  '请设置购买价格' : (
 					pay_money == 0 && pay_money <= return_money ?  '购买价格必须大于0元' : (
 						 pay_money > return_money && return_money ? '购买价格不可高于优惠券面额，请重新设置.' : ''
@@ -125,7 +125,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					)
 
 			}
-			
+
 			switch (type) {
 				case 1:
 					this.setState({ errorTwo: total })
@@ -137,7 +137,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 						this.setState({ errorTwo: {} })
 					}
 					break;
-				
+
 				default:
 					this.setState({ error: total })
 					for (let key in total) {
@@ -149,7 +149,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					}
 					break;
 			}
-		
+
 
 			Toast.loading('');
 			const res = this.state.type === 0 ? await this.postCoupon() : await this.postMoney();
@@ -198,7 +198,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				}
 			});
 
-		postMoney = () => 
+		postMoney = () =>
 
 			request({
 				url: 'api/merchant/youhui/addDiscounts',
@@ -215,7 +215,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					pay_money: this.state.showPrice ? this.props.moneyForm.pay_money * 1 : 0
 				}
 			});
-		
+
 
 		pushPage = (_type: any) => {
 			if (_type == 1) {
