@@ -1,19 +1,19 @@
-/**title: 订单详情 */
+/**title: 交易详情 */
 
 import React, { Component } from 'react';
 import { WingBlank, Flex, Toast, Icon } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
 
-interface State {
-	data: any;
-}
-export default class OrderDetail extends Component<any, State> {
+
+export default class OrderDetail extends Component {
 	state = {
 		data: {},
 		showContent: false
 	};
-	componentDidMount = () => this.getData();
+	componentDidMount = () => {
+		console.log( this.props.location.query)
+		this.getData();}
 	getData = async () => {
 		Toast.loading('');
 		const res = await request({ url: 'v3/coupons/order_info/' + this.props.location.query.id });
@@ -37,7 +37,7 @@ export default class OrderDetail extends Component<any, State> {
 							</Flex>
 							<Flex>
 								<div className="label">订单编号</div>
-								<Flex.Item>kkfgdf</Flex.Item>
+								<Flex.Item>kid55112223855454</Flex.Item>
 							</Flex>
 							<Flex>
 								<div className="label">订单时间</div>
@@ -45,7 +45,7 @@ export default class OrderDetail extends Component<any, State> {
 							</Flex>
 							<Flex>
 								<div className="label">订单金额</div>
-								<Flex.Item>￥30</Flex.Item>
+								<Flex.Item>￥50</Flex.Item>
 							</Flex>
 							<Flex>
 								<div className="label">订单状态</div>
@@ -53,7 +53,7 @@ export default class OrderDetail extends Component<any, State> {
 							</Flex>
 							<Flex>
 								<div className="label">商品名称</div>
-								<Flex.Item>电冰箱</Flex.Item>
+								<Flex.Item>艾玛电动车</Flex.Item>
 							</Flex>
 							<Flex>
 								<div className="label">商品类型</div>
@@ -80,19 +80,19 @@ export default class OrderDetail extends Component<any, State> {
 								</Flex>
 								<Flex>
 									<div className="label">用户信息</div>
-									<Flex.Item>kkfgdf</Flex.Item>
+									<Flex.Item>kksk</Flex.Item>
 								</Flex>
 								<Flex>
 									<div className="label">商品名称</div>
-									<Flex.Item>201944787888</Flex.Item>
+									<Flex.Item>艾玛电动车</Flex.Item>
 								</Flex>
 								<Flex>
 									<div className="label">核销状态</div>
-									<Flex.Item>￥30</Flex.Item>
+									<Flex.Item>已使用</Flex.Item>
 								</Flex>
 								<Flex>
 									<div className="label">核销时间</div>
-									<Flex.Item>已完成</Flex.Item>
+									<Flex.Item>2019/08/17</Flex.Item>
 								</Flex>
 								<div className='order-content'>
 									<div className="label">交易单号</div>
@@ -103,15 +103,15 @@ export default class OrderDetail extends Component<any, State> {
 								</div>
 								<Flex>
 									<div className="label">交易金额</div>
-									<Flex.Item>现金券</Flex.Item>
+									<Flex.Item>50</Flex.Item>
 								</Flex>
 								<Flex>
 									<div className="label">优惠金额</div>
-									<Flex.Item>支付返券</Flex.Item>
+									<Flex.Item>10</Flex.Item>
 								</Flex>
 								<Flex>
 									<div className="label">实际付款</div>
-									<Flex.Item>支付返券</Flex.Item>
+									<Flex.Item>40</Flex.Item>
 								</Flex>
 							</div> : null
 						}

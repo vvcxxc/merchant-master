@@ -37,7 +37,8 @@ interface Props {
   /**我的收益页条件变动重置 */
   plat_type?: number;
   changePlatType?: () => any;
-  tab?: Array<object>
+  tab?: Array<object>;
+  greyBackground?:Boolean;
 }
 
 
@@ -213,7 +214,7 @@ export default class FiltrateLayout extends Component<Props> {
           ) : null
         }
 
-        <Flex.Item className={styles.content}>
+        <Flex.Item className={styles.content} style={{background:this.props.greyBackground?'#f2f2f2':'#fff'}}>
           <WingBlank style={{ minHeight: '100%' }}>{this.props.children}</WingBlank>
         </Flex.Item>
 
