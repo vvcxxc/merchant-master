@@ -20,7 +20,7 @@ const open_id = window.open_id ? window.open_id : 'test_open_id';
 
 const data1 = Array.from(new Array(6)).map(() => ({
     icon: 'https://gw.alipayobjects.com/zos/rmsportal/WXoqXTHrSnRcUwEaQgXJ.png',
-  }));
+}));
 interface Props {
     data: Data;
     dispatch: (arg0: any) => any;
@@ -374,7 +374,24 @@ export default connect(({ app }: any) => app)(
                         </div>
                         <div className={styles.box_ad}>
                             <div className="title">广告管理</div>
-                            <div className="inside">{mapIcons(data.ad_management)}</div>
+                            <div className="inside">
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.toPage({name:"商圈广告"})}>
+                                    <img src={require('@/assets/index/trade_area.png')} className="icon_img" alt="" />
+                                    <div className="item_name">商圈广告</div>
+                                </Flex>
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.toPage({name:"黄金展位"})}>
+                                    <img src={require('@/assets/index/gold.png')} className="icon_img" alt="" />
+                                    <div className="item_name">黄金展位</div>
+                                </Flex>
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.toPage({name:"铂金展位"})}>
+                                    <img src={require('@/assets/index/platinum.png')} className="icon_img" alt="" />
+                                    <div className="item_name">铂金展位</div>
+                                </Flex>
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.toPage({name:"钻石展位"})}>
+                                    <img src={require('@/assets/index/diamond.png')} className="icon_img" alt="" />
+                                    <div className="item_name">钻石展位</div>
+                                </Flex>
+                            </div>
                         </div>
                         {/* <div className={styles.box}>
                             <div className="title">资产管理</div>

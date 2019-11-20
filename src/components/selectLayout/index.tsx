@@ -130,12 +130,13 @@ export default class FiltrateLayout extends Component<Props> {
    * tab onChange回调
    */
   tabChange = (title: any, idx: any) => {
-    this.setState({ query: { ...this.state.query, tab_index: idx } }, () => {
+    console.log(title)
+    this.setState({ query: { ...this.state.query, tab_index: title.id } }, () => {
       this.props.onChange && this.props.onChange(this.state.query)
     })
   }
 
-  
+
   render() {
     const insignificant = this.props.hasInsignificant && (
       <Flex className={styles.header}>
