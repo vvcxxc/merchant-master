@@ -36,6 +36,8 @@ export default class OrderPage extends Component {
   };
 
   componentDidMount() {
+    // document.title="交易明细";
+    // window.title="交易明细";
     this.getData();
   }
 
@@ -129,28 +131,28 @@ export default class OrderPage extends Component {
             <div className={styles.AdvertisingDate} >2019/11/17</div>
             <div className={styles.AdvertisingTotalMoney} >98696</div>
           </div>
-          <div className={styles.AdvertisingContent} >
+          <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/business-area', query: { value: 1 } })}>
             <div className={styles.AdvertisingName} >商圈广告消费</div>
             <div className={styles.AdvertisingMoneyBox} >
               <div className={styles.AdvertisingMoney} >56</div>
               <Icon type="right" color="#bcbcbc" />
             </div>
           </div>
-          <div className={styles.AdvertisingContent} >
+          <div className={styles.AdvertisingContent}  onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1 ,type:'黄金展位'} })}>
             <div className={styles.AdvertisingName} >黄金广告消费</div>
             <div className={styles.AdvertisingMoneyBox} >
               <div className={styles.AdvertisingMoney} >56</div>
               <Icon type="right" color="#bcbcbc" />
             </div>
           </div>
-          <div className={styles.AdvertisingContent} >
+          <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1 ,type:'铂金展位'} })} >
             <div className={styles.AdvertisingName} >铂金广告消费</div>
             <div className={styles.AdvertisingMoneyBox} >
               <div className={styles.AdvertisingMoney} >56</div>
               <Icon type="right" color="#bcbcbc" />
             </div>
           </div>
-          <div className={styles.AdvertisingContent} >
+          <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1,type:'钻石展位' } })} >
             <div className={styles.AdvertisingName} >钻石广告消费</div>
             <div className={styles.AdvertisingMoneyBox} >
               <div className={styles.AdvertisingMoney} >56</div>
@@ -158,7 +160,6 @@ export default class OrderPage extends Component {
             </div>
           </div>
         </div>
-
 
 
         {

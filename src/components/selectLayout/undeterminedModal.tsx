@@ -4,9 +4,9 @@ import { WingBlank, Flex } from 'antd-mobile';
 
 
 interface Props {
-	undetermined: Undetermined;
+	undetermined: any;
 	undetermined2?: any;
-	onChange: (id: number | string, _id: number | string|undefined) => any;
+	onChange: (id: number | string, _id: number | string | undefined) => any;
 	onHide: () => any;
 	show: boolean /**后备条件 */;
 	after?: After;
@@ -45,12 +45,13 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 		set_Checked(item._id);
 	};
 	const submit = () => {
-		onChange(checked, _checked)};
+		onChange(checked, _checked)
+	};
 	const _reset = () => {
 		setChecked(undefined);
 		set_Checked(undefined);
 		onChange('', undefined);//_id重置自给自足，财务列表id重置要通知一下金额框清空，所以留点变化
-  };
+	};
 
 	/**渲染条件列表 */
 	const undeterminedList = undetermined.list.map((_: any, index: any) => (
@@ -63,7 +64,7 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 		>
 			{_.label}
 		</Flex>
-  ));
+	));
 
 	/**渲染条件列表2 */
 	const undeterminedList2 = undetermined2 ? undetermined2.list.map((_: any, index: any) => (
@@ -103,13 +104,13 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 			<div className="content">
 
 				<WingBlank>
-          <div className="title">{undetermined.title}</div>
-					<div className="undetermined-list">{undeterminedList}</div>
+					<div className="title">{undetermined.title}</div>
+					<div className="undetermined-list" style={{ paddingBottom:undetermined2?'unset':'0.9rem'}}>{undeterminedList}</div>
 					{afterContext}
 				</WingBlank>
 				{
 					undetermined2 ? <WingBlank>
-						<div className="title">交易时间</div>
+						<div className="title">{undetermined2.title}</div>
 						{/* <div className="undetermined-list">{undeterminedList2}</div> */}
 						<div className="undetermined-list"> {undeterminedList2}</div>
 					</WingBlank> : null

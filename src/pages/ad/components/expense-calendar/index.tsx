@@ -16,7 +16,7 @@ export default class ExpenseCalendar extends Component<Props> {
 		// log : {},
 		data: [],
 		page: 1,
-		money_total:''
+		money_total: ''
 	}
 
 	componentDidMount() {
@@ -27,10 +27,11 @@ export default class ExpenseCalendar extends Component<Props> {
 	}
 
 	setLog = async () => {
-		const res = await request({ url: 'v3/ad_logs', params: { ad_id: this.props.adId, page: this.state.page } });
+		let Ad_Id = sessionStorage.getItem("adId");
+		const res = await request({ url: 'v3/ad_logs', params: { ad_id: this.props.adId || Number(Ad_Id), page: this.state.page } });
 		if (res.code === 200 && res.data.length != 0) {
 			this.setState({
-				money_total: (res.data.money_total*0.00001*100000)
+				money_total: (res.data.money_total * 0.00001 * 100000)
 			})
 			this.setState({
 				// log: this.state.log.concat,
@@ -73,7 +74,7 @@ export default class ExpenseCalendar extends Component<Props> {
 			<WingBlank>
 				<Flex className={styles.totalExpense} justify="end">
 					总消耗：{Number(this.state.money_total).toFixed(2)}
-			</Flex> 
+				</Flex>
 				<Flex className={styles.tableHead}>
 					<Flex.Item>时间</Flex.Item>
 					<span>事件</span>

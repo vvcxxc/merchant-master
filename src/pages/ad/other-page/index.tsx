@@ -123,7 +123,7 @@ export default connect(({ ad }: any) => ad)(
 			// const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
 			const expenseCalendar = <ExpenseCalendar adId={this.state.adId} />;
 			const chart = <Chart adId={this.state.adId} />;
-			return <AdLayout children={[form, expenseCalendar, chart]} />;
+			return <AdLayout children={[form, expenseCalendar, chart]} value={this.props.location.query.value}/>;
 		}
 	}
 )
