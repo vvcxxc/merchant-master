@@ -25,8 +25,10 @@ export default class OrderPage extends Component {
     hasMore: true,
 
     pay_status: '',   // 模糊查询筛选
-    date: undefined,           // 模糊查询月份
-    amount: ''
+    begin: undefined,           // 模糊查询月份
+    end: undefined,
+    amount: '',
+    youhui_type: undefined
   };
 
 
@@ -85,12 +87,15 @@ export default class OrderPage extends Component {
 
   handleLoadMore = () => {
     if (this.state.hasMore) {
+      console.log(this.state)
       this.setState({
         page: this.state.page + 1
       }, () => {
         this.getData({
-          pay_status: this.state.pay_status || undefined,
-          date: this.state.date
+          begin: this.state.begin,
+          end: this.state.end,
+          page: this.state.page,
+          youhui_type: this.state.youhui_type
         })
       })
     }

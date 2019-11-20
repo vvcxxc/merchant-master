@@ -46,7 +46,7 @@ export default function SelectDate({ show, value, onChange , onHide, end_time }:
   const selectDate = (a:any) => {
     setIdx(a)
     if(a == 2){
-      let minDate = moment(date).subtract(30,'days')._d
+      let minDate = date
       let maxDate = moment(date).add(30,'days')._d
       // console.log(minDate)
       setMinDate(minDate)
