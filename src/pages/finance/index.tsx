@@ -76,11 +76,6 @@ export default class OrderPage extends Component {
 
   };
 
-  handleClickOrder = (id: any) => () => {
-    // router.push({ pathname: '/order/detail', query: { id } });
-  };
-
-
   handleLoadMore = () => {
     if (this.state.hasMore) {
       this.setState({
@@ -103,8 +98,8 @@ export default class OrderPage extends Component {
   render() {
     const financeList = this.state.list.length ? (
       this.state.list.map((_: any) => (
-        <Flex className={styles.financeItem} onClick={this.pushPage.bind(this, '/finance/detail', { id: _.id, type: _.type })}>
-          <img src={''} />
+        <Flex className={styles.financeItem} key={_.id} onClick={this.pushPage.bind(this, '/finance/detail', { id: _.id, type: _.type })}>
+          <img src={_.small_icon} />
           <Flex.Item className="content">
             <div className="financenum">{_.order_sn}</div>
             <div className="financetime">{_.create_time}</div>
@@ -129,7 +124,6 @@ export default class OrderPage extends Component {
         hasInsignificant={true}
         insignificant={list}
         onChange={this.handleLayoutChange}
-        tab={[]}
       >
         {financeList}
         <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>

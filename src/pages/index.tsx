@@ -335,7 +335,7 @@ export default connect(({ app }: any) => app)(
                                 <Flex direction="column" justify="center" className={styles.verification_record} onClick={() => router.push('/verification')}>
                                     <div className="item_info">核销记录</div>
                                 </Flex>
-                                <Flex direction="column" justify="center" className={styles.ad_consume}>
+                                <Flex direction="column" justify="center" className={styles.ad_consume}  onClick={() => router.push('/AdvertisingSpending')}>
                                     <div className="item_info">广告消费</div>
                                 </Flex>
                                 <Flex direction="column" justify="center" className={styles.my_profit} onClick={() => router.push('/my/platformBenefit')}>
