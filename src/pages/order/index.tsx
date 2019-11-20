@@ -47,6 +47,7 @@ export default class OrderPage extends Component {
     Toast.loading('');
     const res = await request({
       url: 'v3/coupons/order_list', params: {
+        pay_status: this.state.pay_status,
         ...query,
         page: this.state.page,
       }
@@ -61,18 +62,19 @@ export default class OrderPage extends Component {
   };
 
   handleLayoutChange = (query: any) => {
+    console.log(query)
     this.setState({
       page: 1,
       hasMore: true,
       list: [],
-      pay_status: query.hot.id || undefined,
-      type: query.hot._id || undefined,
+      pay_status: query.tab_index || undefined,
+      youhui_type: query.hot.id,
       begin: query.time ? moment(query.time).unix() : undefined,
       end: query.time ? moment(query.end_time).unix() : undefined,
     }, () => {
       this.getData({
         pay_status: query.tab_index || 1,
-        youhui_type: query.hot._id || undefined,
+        youhui_type: query.hot.id,
         begin: query.time ? moment(query.time).unix() : undefined,
         end: query.time ? moment(query.end_time).unix() : undefined,
       });
