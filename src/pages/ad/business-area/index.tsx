@@ -12,7 +12,7 @@ export default class BusinessArea extends Component {
 	state = {
 		data: {},
 		// log: {},
-		adId : null, // 广告ID 
+		adId: null, // 广告ID 
 		userMoney: 0
 	};
 	componentDidMount() {
@@ -27,8 +27,9 @@ export default class BusinessArea extends Component {
 		if (res.code === 200 && res.data.id) {
 			this.setState({
 				data: res.data,
-				adId : res.data.id
+				adId: res.data.id
 			});
+			// sessionStorage.setItem("adId", res.data.id);
 			// this.setLog(res.data.id);
 		}
 	};
@@ -48,10 +49,10 @@ export default class BusinessArea extends Component {
 	// };
 	handleFormChange = () => this.getDetail();
 	render() {
-		const form = <From editForm={this.state.data} onChange={this.handleFormChange} userMoney={this.state.userMoney}/>;
+		const form = <From editForm={this.state.data} onChange={this.handleFormChange} userMoney={this.state.userMoney} />;
 		// const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
 		const expenseCalendar = <ExpenseCalendar adId={this.state.adId} />;
 		const chart = <Chart adId={this.state.adId} />;
-		return <AdLayout children={[form, expenseCalendar, chart]} />;
+		return <AdLayout children={[form, expenseCalendar, chart]} value={this.props.location.query.value} />;
 	}
 }

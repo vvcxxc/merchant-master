@@ -24,9 +24,11 @@ export default class OrderPage extends Component {
     page: 1,
     hasMore: true,
 
-    pay_status: '',   // 模糊查询筛选
-    date: undefined,           // 模糊查询月份
-    amount: ''
+    pay_status: '1',   // 模糊查询筛选
+    begin: undefined,           // 模糊查询月份
+    end: undefined,
+    amount: '',
+    youhui_type: undefined
   };
 
 
@@ -38,6 +40,7 @@ export default class OrderPage extends Component {
     ]
   };
   componentDidMount() {
+    console.log('构建了')
     this.getData();
   }
 
@@ -45,8 +48,9 @@ export default class OrderPage extends Component {
     Toast.loading('');
     const res = await request({
       url: 'v3/coupons/order_list', params: {
+        pay_status: this.state.pay_status,
         ...query,
-        page: this.state.page
+        page: this.state.page,
       }
     });
     Toast.hide();
@@ -59,18 +63,19 @@ export default class OrderPage extends Component {
   };
 
   handleLayoutChange = (query: any) => {
+    console.log(query)
     this.setState({
       page: 1,
       hasMore: true,
       list: [],
-      pay_status: query.hot.id || undefined,
-      type: query.hot._id || undefined,
+      pay_status: query.tab_index || undefined,
+      youhui_type: query.hot.id,
       begin: query.time ? moment(query.time).unix() : undefined,
       end: query.time ? moment(query.end_time).unix() : undefined,
     }, () => {
       this.getData({
         pay_status: query.tab_index || 1,
-        youhui_type: query.hot._id || undefined,
+        youhui_type: query.hot.id,
         begin: query.time ? moment(query.time).unix() : undefined,
         end: query.time ? moment(query.end_time).unix() : undefined,
       });
@@ -85,12 +90,16 @@ export default class OrderPage extends Component {
 
   handleLoadMore = () => {
     if (this.state.hasMore) {
+      console.log(this.state)
       this.setState({
         page: this.state.page + 1
       }, () => {
         this.getData({
-          pay_status: this.state.pay_status || undefined,
-          date: this.state.date
+          pay_status: this.state.pay_status,
+          begin: this.state.begin,
+          end: this.state.end,
+          page: this.state.page,
+          youhui_type: this.state.youhui_type
         })
       })
     }
@@ -103,7 +112,7 @@ export default class OrderPage extends Component {
     const orderList = this.state.list.length ? (
       this.state.list.map((_: any, index) => (
         <Flex className={styles.orderItem} key={index} onClick={this.handleClickOrder(_.id)}>
-          <img src={_.image} />
+          <img src={require('@/assets/index/in_store_return.png')} />
           <Flex className="content">
             <div className='content_main'>
               <div className="ordernum">{_.youhui_sn}</div>
