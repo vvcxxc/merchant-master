@@ -40,6 +40,7 @@ export default class OrderPage extends Component {
     ]
   };
   componentDidMount() {
+    console.log('构建了')
     this.getData();
   }
 
