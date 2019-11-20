@@ -17,6 +17,9 @@ export default class CustomInput extends Component<Props> {
   state = {
     value:''
   }
+  componentDidMount (){
+    this.setState({value: this.props.value})
+  }
   handleInput2=(type: string) => (value: any) => {
     console.log(type,value,'value');
     this.setState({ value: value })
