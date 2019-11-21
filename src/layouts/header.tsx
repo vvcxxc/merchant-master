@@ -33,7 +33,10 @@ export default connect(({ ad, businessArea }: any) => ({ ad, businessArea }))(
 		componentWillMount() {
 			console.log(this.props)
 			console.log('window', window.title)
-			if (window.location.href.includes('serviceCounter') || window.location.href.includes('register?phone=')) {
+			if (window.location.href.includes('serviceCounter')
+				|| window.location.href.includes('register?phone=')
+				|| window.location.href.includes('dynamicFunds')
+			) {
 				this.setState({
 					showNav: false
 				})

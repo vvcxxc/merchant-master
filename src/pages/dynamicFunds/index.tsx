@@ -1,4 +1,4 @@
-/**title: 个人中心 */
+/**title: 资金动态 */
 import React, { Component } from 'react';
 // import { Flex, WingBlank, Toast } from 'antd-mobile';
 import styles from './index.less';
