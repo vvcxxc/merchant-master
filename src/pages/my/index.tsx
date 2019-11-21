@@ -163,7 +163,7 @@ export default connect()(
 							</div>
 						</div>
 						<div className={styles.user_bank_gift}>
-							<div className={styles.user_bank}>
+							<div className={styles.user_bank} onClick={() => router.push('/my/bank')}>
 								<div className={styles.bank_num}>{this.state.info.bank_count}</div>
 								<div className={styles.bank_title}>银行卡</div>
 							</div>

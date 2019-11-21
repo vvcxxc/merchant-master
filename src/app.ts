@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser';
 // ref: https://umijs.org/config/
-declare const Environment:string
-if (Environment == 'test' || Environment == 'release' || Environment == 'master'){
+declare const Environment: string
+if (Environment == 'test' || Environment == 'release' || Environment == 'master') {
   Sentry.init({
     dsn: "http://256d89d4fb9243008db86e5039ecbf41@sentry.tdianyi.com/3",
     environment: Environment
@@ -49,6 +49,9 @@ export const onRouteChange = (params: { location: any, routes: any }) => {
         case "6": { document.title = "广告支出"; window.title = "广告支出" } break;
         default: return
       }
+    } else if (router.path == "/AdvertisingSpending") {
+      document.title = "交易明细";
+      window.title = "交易明细";
     }
     else {
       window.title = router.title || defaultTitle

@@ -56,30 +56,33 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 
 				const { coupons_name, return_money, total_num, pay_money, validity, description, image_url, total_fee } = this.props.couponForm
 
+				let returnMoney = return_money && Number(return_money)//市场价格
+				let totalNum = total_num && Number(total_num)//发放数量
+				let payMoney = pay_money && Number(pay_money)//购买价格
+				let Validity = validity && Number(validity)//有效期
+
 				!coupons_name || coupons_name.length < 1 ?
 					total.nameWrong = '请输入优惠券名称' : (
 						!/^[\u4e00-\u9fa5A-Za-z0-9-_!@#$%^&*()+=,./';:"?><\|！@#￥%……&*（）——：“”；》《，。、？|]*$/.test(coupons_name) ?
 							total.nameWrong = '优惠券名称中含有非法字符，请重新编辑。' : ''
 					)
 
-
-				!return_money || return_money.length < 1 ?
-					total.marketPrice = '请输入市场价格' : (
-						return_money == 0 ? total.marketPrice = '市场价格必须大于0' : ''
-					)
-
-				!total_num || total_num == '' ? total.issuedNumber = '请设置发放数量' : (
-					total_num == 0 ? total.issuedNumber = '发放数量必须大于0' : ''
+				total.marketPrice = !returnMoney && returnMoney !== 0 ? '请输入市场价格' : (
+					returnMoney == 0 ? '市场价格必须大于0' : ''
 				)
 
-				!pay_money || pay_money == '' ? total.buyingPrice = '请设置购买价格' : (
-					pay_money == 0 && pay_money <= return_money ? total.buyingPrice = '购买价格必须大于0元' : (
-						total.buyingPrice = pay_money > return_money && return_money ? '购买价格不可高于市场价格，请重新设置.' : ''
-					)
-        )
+				total.issuedNumber = !totalNum && totalNum !== 0 ? '请设置发放数量' : (
+					totalNum === 0 ? '发放数量必须大于0' : ''
+				)
 
-				!validity ? total.validity = '请设置优惠券有效期' : (
-					validity == 0 ? '优惠券有效期必须大于0' : ''
+				total.buyingPrice = !payMoney && payMoney !== 0 ? '请设置购买价格' : (
+					payMoney === 0 && payMoney <= returnMoney ? '购买价格必须大于0元' : (
+						payMoney > returnMoney && returnMoney || returnMoney === 0 ? '购买价格不可高于市场价格，请重新设置' : ''
+					)
+				)
+
+				total.validity = !Validity && Validity !== 0 ? '请设置优惠券有效期' : (
+					Validity === 0 ? '优惠券有效期必须大于0' : ''
 				)
 
 				!description[0] ? total.userNotice = '请设置使用须知' : (
@@ -98,31 +101,33 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 
 			if (type == 1) {//现金券判断
 				const { coupons_type, pay_money, return_money, total_fee, total_num, validity } = this.props.moneyForm
-				total.amountError = !return_money || return_money == '' ?
-					'请设置购买价格' : (
-						return_money <= 0 ? '购买价格必须大于0元' : ''
-					)
 
-				total.buyingPrice = !pay_money || pay_money == '' ?  '请设置购买价格' : (
-					pay_money == 0 && pay_money <= return_money ?  '购买价格必须大于0元' : (
-						 pay_money > return_money && return_money ? '购买价格不可高于优惠券面额，请重新设置.' : ''
+				let returnMoney = return_money && Number(return_money) 
+				let payMoney = pay_money && Number(pay_money) 
+				let totalFee = total_fee && Number(total_fee)
+				let Validity = validity && Number(validity)//有效期
+				let totalNum = total_num && Number(total_num)
+				
+				total.amountError = !returnMoney && returnMoney !== 0 ? '请设置购买价格' : (
+					returnMoney <= 0 ? '购买价格必须大于0元' : ''
+				)
+				total.buyingPrice =	!payMoney && payMoney !== 0 ? '请设置购买价格' : (
+					payMoney === 0 && payMoney <= returnMoney ? '购买价格必须大于0元' : (
+						payMoney > returnMoney && returnMoney ? '购买价格不可高于优惠券面额，请重新设置.' : ''
 					)
 				)
 
-				total.doorsill = !total_fee || total_fee == '' ?
-					'请设置使用门槛' : (
-						total_fee > return_money ? '使用门槛不可高于卡券面额，请重新设置' : ''
-					)
+				total.doorsill = !totalFee && totalFee !== 0 ? '请设置使用门槛' : (
+					totalFee > returnMoney ? '使用门槛不可高于卡券面额，请重新设置' : ''//如果returnMoney没有值？
+				)
+				
+				total.validity = !Validity && Validity !== 0 ? '请设置优惠券有效期' : (
+					Validity <= 0 ? '优惠券有效期必须大于0.' : ''
+				)
 
-				total.validity = !validity || validity == '' ?
-					'请设置优惠券有效期' : (
-						validity <= 0 ? '优惠券有效期必须大于0.' : ''
-					)
-
-				total.issuedNumber = !total_num || total_num == '' ?
-					'请设置发放数量' : (
-						total_num <= 0 ? '发放数量必须大于0.' : ''
-					)
+				total.issuedNumber = !totalNum && totalNum !== 0 ? '请设置发放数量' : (
+					totalNum <= 0 ? '发放数量必须大于0.' : ''
+				)
 
 			}
 
