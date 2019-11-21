@@ -53,7 +53,7 @@ export default class OrderDetail extends Component<any, State> {
 		return (
 			<div className={styles.page} style={{height:"auto",minHeight:"100%",paddingBottom:"20px"}}>
 				<WingBlank>
-					<div className="price">+{data.return_money}</div>
+					<div className="price">+{data.pay_money}</div>
 					<div className="trade">交易成功</div>
 					<div className="content">
 						<div className="box">

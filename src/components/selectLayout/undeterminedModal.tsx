@@ -68,7 +68,7 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 	/**渲染条件列表2 */
 	const undeterminedList2 = undetermined2 ? undetermined2.list.map((_: any, index: any) => (
 		<Flex
-			key={_._id}
+      key={_._id}
 			align="center"
 			justify="center"
 			onClick={handleClickUndetermined2(index, _)}
