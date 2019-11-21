@@ -1,85 +1,95 @@
-.page {
-  height: 100%;
+.trading_particulars{
+  padding-top: 60px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
   background-color: #fff;
-
-  :global {
-    .price {
-      padding-top: 66px;
-      color: #486dda;
-      font-size: 72px;
-      font-weight: 500;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .trade {
-      color: #333333;
-      text-align: center;
-      padding-top: 20px;
-    }
-
-    .label-title {
-      color: #333333;
-      font-weight: bold;
-      font-size: 30px;
-    }
-
-    .label {
-      color: #999;
-    }
-
-    .order-content {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      height: 66px;
-
-      .label {
-        color: #999;
-      }
-
-      .order_sn-box {
+  .box {
+    width: 100%;
+     ul {
+     list-style: none;
+     padding: 0;
+     
+     li {
+       display: flex;
+       justify-content: space-between;
+       font-size:30px;
+       font-family:Arial;
+       font-weight:400;
+       color:rgba(51,51,51,1);
+       display: flex;
+       justify-content: space-between;
+       padding: 22px 0;
+       padding-left: 46px;
+      padding-right: 56px;
+      div {
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-end;
       }
+      img {
+        transform: rotate(90deg);
+        margin-left: 15px;
+      }
+     }
+   }
+  }
+  .amounts{
+    font-size:72px;
+    font-family:Arial;
+    font-weight:bold;
+    color:rgba(72,109,218,1);
+    padding-bottom: 20px;
+    text-align: center;
+    
+  }
+  .amounts_result {
+    font-size:24px;
+    font-family:PingFang SC;
+    font-weight:400;
+    color:rgba(51,51,51,1);
+    text-align: center;
+  }
+
+  .my_flex{
+    padding-top: 60px;
+    .my_flex_title {
+      font-size:30px;
+      font-family:PingFang SC;
+      font-weight:bold;
+      color:rgba(51,51,51,1);
+      padding-left: 46px;
+      padding-bottom: 0;
     }
+   .border_bottom {
+     border-bottom: 1px solid rgba(240,242,245,1);
+   }
+  }
+  .my_flex div {
+    font-size:30px;
+    font-family:Arial;
+    font-weight:400;
+    color:rgba(51,51,51,1);
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 44px;
+  }
 
-    .content {
-      padding-top: 30px;
-
-      .box {
-        // padding: 40px 0;
-
-        &:last-child {
-          border-bottom: none;
+  .telescopic_title{
+    display: flex;
+    justify-content: space-between;
+  }
+  #telescopic_box{
+     padding: 22px 0;
+     div {
+      padding-left: 46px;
+      padding-right: 56px;
+      padding-bottom: 0;
+     }
+     ul {
+      margin-top: 20px;
+        li {
+          background-color: rgba(242,242,244,1);
         }
-
-        .am-flexbox {
-          height: 66px;
-
-          .am-flexbox-item {
-            text-align: right;
-          }
-        }
-      }
-
-      .showContentBtn-box {
-        width: 100%;
-        height: 66px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-end;
-        border-bottom: solid 1px #f0f2f5;
-
-        .showContentBtn {
-          color: #486dda;
-        }
-      }
-    }
+     }
+   
   }
 }
