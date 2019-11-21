@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { WingBlank, Flex, Toast, Icon } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
+import router from 'umi/router';
 
 
 export default class OrderDetail extends Component {
@@ -12,8 +13,9 @@ export default class OrderDetail extends Component {
 		showContent: false
 	};
 	componentDidMount = () => {
-		console.log( this.props.location.query)
-		this.getData();}
+		console.log(this.props.location.query)
+		this.getData();
+	}
 	getData = async () => {
 		Toast.loading('');
 		const res = await request({ url: 'v3/coupons/order_info/' + this.props.location.query.id });
@@ -22,6 +24,12 @@ export default class OrderDetail extends Component {
 			this.setState({ data: res.data });
 		}
 	};
+	changePage = () => {
+		// router.push({ pathname: '/activitys/payment/detail', query: { id: 430 } })//支付返券
+		// router.push({ pathname: '/activitys/group/details', query: { id: 1853, type: 3 } })//社区拼团
+		// router.push({ pathname: '/activitys/appreciation/details', query: { id: 1844, type: 1 } })//增值活动
+		// router.push({ pathname: './coupon/detail', state: { id } })//优惠券
+	}
 	showContent = () => { this.setState({ showContent: !this.state.showContent }) }
 	render() {
 		const data = this.state.data;
@@ -94,7 +102,7 @@ export default class OrderDetail extends Component {
 									<div className="label">核销时间</div>
 									<Flex.Item>2019/08/17</Flex.Item>
 								</Flex>
-								<div className='order-content'>
+								<div className='order-content' onClick={this.changePage.bind(this)}>
 									<div className="label">交易单号</div>
 									<div className="order_sn-box" style={{ color: '#486dda' }}>
 										<div>5466224548878</div>
