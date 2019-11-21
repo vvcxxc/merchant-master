@@ -8,6 +8,7 @@ import styles from './index.less';
 import router from 'umi/router';
 // import ShareThree from './components/share_three/index'
 import Propmpt from './prompt_box'
+import FiltrateLayout from '../../components/selectLayout';
 
 export default class MyIndex extends Component {
   state = {
@@ -81,6 +82,14 @@ export default class MyIndex extends Component {
   render() {
     const { title, select, list } = this.state
     return (
+      <FiltrateLayout
+        // undetermined={this.undetermined}
+        hasInsignificant={true}
+        // insignificant={list}
+        // onChange={this.handleLayoutChange}
+        greyBackground={true}
+      >
+        
       <div className={styles.my_dynamic} onClick={this.onclosePrompt}>
         <div className={styles.dynamic}>
           <div className={styles.time}>时间</div>
@@ -130,6 +139,7 @@ export default class MyIndex extends Component {
         }
         
       </div>
+        </FiltrateLayout>
     )
   }
 }
