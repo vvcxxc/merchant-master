@@ -1,4 +1,4 @@
-/**title: 个人中心 */
+/**title: 资金动态 */
 import React, { Component } from 'react';
 // import { Flex, WingBlank, Toast } from 'antd-mobile';
 import styles from './index.less';
@@ -8,6 +8,7 @@ import styles from './index.less';
 import router from 'umi/router';
 // import ShareThree from './components/share_three/index'
 import Propmpt from './prompt_box'
+import FiltrateLayout from '../../components/selectLayout';
 
 export default class MyIndex extends Component {
   state = {
@@ -78,58 +79,67 @@ export default class MyIndex extends Component {
   routerDetails = () => {
     // router.push({ pathname: './finance/prompt_box'})
   }
+
+  handleLayoutChange = () => {
+    
+  }
   render() {
     const { title, select, list } = this.state
+    const list2 = [
+      { name: '交易笔数', num: '100056' }, { name: '交易金额', num: '156.00' }]
     return (
-      <div className={styles.my_dynamic} onClick={this.onclosePrompt}>
-        <div className={styles.dynamic}>
-          <div className={styles.time}>时间</div>
-          <div className={styles.deal}>
-            <div><span>交易笔数</span><span>100056</span></div>
-          </div>
-        </div>
-
-        <div className={styles.userSelect}>
-          {
-            title && title.map((item: any, index: number) => {
-              return <div key={index} >
-                <div className={styles.balance} >
-                  <span onClick={this.userSelect.bind(this, index)}>{item.name}</span>
-                  <Propmpt
-                    left={item.left}
-                    value={item.des}
-                    go_right={item.go_right}
-                    index={index}
-                    show={item.show}       
-                    onClcik={this.allowShow.bind(this)}
-                 />
-              
-                </div>
-                <div className={styles.pice} onClick={this.userSelect.bind(this, index)}
-                  style={{ borderBottom: select == index ? '3px solid rgba(71,129,254,1)' : '' }}>
-                ￥{item.pice}
-                </div>
-              </div>
-            })
-          }
-        </div>
-
-        {
-          list && list.map((item: any, index: number) => {
-            return <div className={styles.list_data} key={index} onClick={this.routerDetails}>
-              <div className={styles.list_data_left}>
-                <img src={require('../../assets/red_query.png')} alt="" />
-              </div>
-              <div className={styles.list_data_right}>
-                <div className={styles.order}><span>{item.order}</span> <span>{item.pic}</span></div>
-                <div className={styles.order_time}><span>{item.time}</span> <span>{item.type}</span></div>
-                <div className={styles.border_one}></div>
-              </div>
-            </div>
-          })
-        }
+      <FiltrateLayout
+        hasInsignificant={true}
+        dateTitle='时间'
+        insignificant={list2}
+        onChange={this.handleLayoutChange}
+        greyBackground={false}
+      >
         
-      </div>
+        <div id={styles.my_dynamic} onClick={this.onclosePrompt}>
+
+            <div className={styles.userSelect}>
+              {
+                title && title.map((item: any, index: number) => {
+                  return <div key={index} >
+                    <div className={styles.balance} >
+                      <span onClick={this.userSelect.bind(this, index)}>{item.name}</span>
+                      <Propmpt
+                        left={item.left}
+                        value={item.des}
+                        go_right={item.go_right}
+                        index={index}
+                        show={item.show}
+                        onClcik={this.allowShow.bind(this)}
+                      />
+
+                    </div>
+                    <div className={styles.pice} onClick={this.userSelect.bind(this, index)}
+                      style={{ borderBottom: select == index ? '3px solid rgba(71,129,254,1)' : '' }}>
+                      ￥{item.pice}
+                    </div>
+                  </div>
+                })
+              }
+            </div>
+
+            {
+              list && list.map((item: any, index: number) => {
+                return <div className={styles.list_data} key={index} onClick={this.routerDetails}>
+                  <div className={styles.list_data_left}>
+                    <img src={require('../../assets/red_query.png')} alt="" />
+                  </div>
+                  <div className={styles.list_data_right}>
+                    <div className={styles.order}><span>{item.order}</span> <span>{item.pic}</span></div>
+                    <div className={styles.order_time}><span>{item.time}</span> <span>{item.type}</span></div>
+                    <div className={styles.border_one}></div>
+                  </div>
+                </div>
+              })
+            }
+
+          </div>
+        </FiltrateLayout>
     )
   }
 }

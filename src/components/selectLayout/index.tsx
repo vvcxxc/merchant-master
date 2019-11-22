@@ -23,7 +23,7 @@ interface Props {
   /**无关紧要的信息 值 */
   insignificant?: any;
   /**快速筛选条件列表 */
-  undetermined: Undetermined;
+  undetermined?: Undetermined;
   undetermined2?: any;
   /**备用筛选条件 */
   after?: After;
@@ -39,6 +39,7 @@ interface Props {
   changePlatType?: () => any;
   tab?: Array<object>;
   greyBackground?:Boolean;
+  dateTitle?: string
 }
 
 
@@ -76,6 +77,9 @@ export default class FiltrateLayout extends Component<Props> {
     title2: "月份"
   };
   componentDidMount() {
+    if(this.props.dateTitle){
+      this.setState({title2: this.props.dateTitle})
+    }
   }
   componentDidUpdate() {
     if (this.props.plat_type == 2) {
@@ -183,7 +187,7 @@ export default class FiltrateLayout extends Component<Props> {
         <div className={styles.filtrate}>
           <WingBlank>
             <Flex align="center">
-              {!!this.props.undetermined.list.length && filterButton}
+              {this.props.undetermined ? this.props.undetermined.list.length && filterButton : null}
               <Flex
                 style={{ width: 'auto' }}
                 align="center"
@@ -218,14 +222,19 @@ export default class FiltrateLayout extends Component<Props> {
           <WingBlank style={{ minHeight: '100%' }}>{this.props.children}</WingBlank>
         </Flex.Item>
 
-        <UndeterminedModal
-          show={this.state.hotShow}
-          onChange={this.hotChange}
-          undetermined={this.props.undetermined}
-          undetermined2={this.props.undetermined2}
-          after={this.props.after}
-          onHide={this.hotHide}
-        />
+
+        {
+          this.props.undetermined ? (
+            <UndeterminedModal
+            show={this.state.hotShow}
+            onChange={this.hotChange}
+            undetermined={this.props.undetermined}
+            undetermined2={this.props.undetermined2}
+            after={this.props.after}
+            onHide={this.hotHide}
+          />
+          ) : null
+        }
         <SelectDate
           show={this.state.timeShow}
           value={this.state.query.time}
