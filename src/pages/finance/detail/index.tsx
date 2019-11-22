@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styles from './index.less'
+import request from '@/services/request';
 
 
 export default class Details extends Component {
@@ -28,11 +29,21 @@ export default class Details extends Component {
     ]
   }
 
+
+  componentDidMount() {
+    request({
+      url: 'v3/coupons/order_info/'+this.props.location.query.id,
+      method: 'get',
+    }).then((res) => {
+      console.log(res)
+    })
+
+  }
   onclickList = (index: number) => {
     let data: any = this.state.data1
     data[index].show = data[index].show ? false : true
     this.setState({ data1: data })
-    
+
   }
 
 
@@ -78,7 +89,7 @@ export default class Details extends Component {
                         }
                       </ul> : null
                     }
-                    
+
                   </li>
               })
             }
