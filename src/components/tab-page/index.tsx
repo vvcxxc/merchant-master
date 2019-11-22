@@ -38,7 +38,7 @@ export default class TabPage extends Component<Props> {
 			<Flex className={styles.component} direction="column">
 				<div className="tab">
 					<WingBlank>
-						<Flex>{tabItems}</Flex>
+						<Flex justify='between'>{tabItems}</Flex>
 					</WingBlank>
 				</div>
 				<Flex.Item>{this.props.children}</Flex.Item>
