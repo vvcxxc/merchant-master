@@ -36,6 +36,7 @@ export default connect(({ ad, businessArea }: any) => ({ ad, businessArea }))(
 			if (window.location.href.includes('serviceCounter')
 				|| window.location.href.includes('register?phone=')
 				|| window.location.href.includes('dynamicFunds')
+				|| window.location.href.includes('AdvertisingSpending')
 			) {
 				this.setState({
 					showNav: false

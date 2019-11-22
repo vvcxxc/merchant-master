@@ -125,7 +125,7 @@ export default class OrderPage extends Component {
     ) : (
         <NoData type="finance" />
       );
-    const list = [{ name: '交易笔数', num: '10086' }, { name: '交易金额', num: '156.00' }]
+    const list = [{ name: '交易笔数', num: '未对接' }, { name: '交易金额', num: '未对接' }]
     return (
       <FiltrateLayout
         undetermined={this.undetermined}
