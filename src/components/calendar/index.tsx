@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import styles from './index.less'
 import moment from 'moment';
 import request from '@/services/request';
-import {  Toast } from 'antd-mobile';
+import { Toast } from 'antd-mobile';
 interface timestampType {
   start?: number,
   end?: number
 }
 interface Props {
   timestamp?: timestampType,//点击确定的时候会传递时间戳和日期
-  confirm: (startTime: number, endTime: number, startDay:number, endDay:number) => void,
+  confirm: (startTime: number, endTime: number, startDay: number, endDay: number) => void,
   show: boolean,
-  onClose:()=>void
+  onClose: () => void
 }
 
 
@@ -19,7 +19,6 @@ export default class Calendar extends Component<Props> {
 
   state = {
     weekTime: ['日', '一', '二', '三', '四', '五', '六'],
-    mounthTitle: ['一个月', '三个月', '半年', '一年'],
     showMounthTitle: 0,
     year: 0,      //显示的年
     mounth: 0,     //显示的月
@@ -72,7 +71,7 @@ export default class Calendar extends Component<Props> {
   //活动已经存在 
   forbidActivity = () => {
     console.time();
-    
+
     const { year, mounth } = this.state
     const res: any = request({
       url: 'v3/getActivityTimeByMonth',
@@ -106,12 +105,12 @@ export default class Calendar extends Component<Props> {
         if (saveArray.includes(filter.time)) return
         save.map((item: any, index: number) => {
           item.start <= filter.time && filter.time <= item.end ? saveArray.push(filter.time) : null
-         })
+        })
       })
       this.setState({ forbidData: saveArray })
       console.timeEnd()
     })
-   
+
   }
 
 
@@ -125,11 +124,11 @@ export default class Calendar extends Component<Props> {
     day ? this.setState({ day: day }) : null
     date.setDate(1)
     date.setMonth(mounth)
-   
+
     this.countTotalDay(year, mounth)//计算总天数
     this.locationEarly(year, mounth)//定位每月1号在周几
 
-    
+
   }
 
   //计算总天数
@@ -256,69 +255,21 @@ export default class Calendar extends Component<Props> {
     }
   }
 
-  monthThree = () => {//如何计算三月
-    if (this.state.mounth >= 9) {
-      this.setState({
-        mounth: this.state.mounth - 9,
-        year: this.state.year + 1
-      }, () => {
-        this.count(this.state.year, this.state.mounth)
-      })
-    } else {
-      this.setState({
-        mounth: this.state.mounth + 3
-      }, () => {
-        this.count(this.state.year, this.state.mounth)
-      })
-
-    }
-  }
-
-  monthSix = () => {
-    if (this.state.mounth >= 6) {
-      this.setState({
-        mounth: this.state.mounth - 6,
-        year: this.state.year + 1
-      }, () => {
-        this.count(this.state.year, this.state.mounth, this.state.day)
-      })
-    } else {
-      this.setState({
-        mounth: this.state.mounth + 6
-      }, () => {
-        this.count(this.state.year, this.state.mounth)
-      })
-
-    }
-  }
-
-  monthYear = () => {
-    this.setState({
-      mounth: this.state.mounth,
-      year: this.state.year + 1
-    }, () => {
-      this.count(this.state.year, this.state.mounth)
-    })
-  }
-
   //关闭日历
   closeCalendar = () => {
-    
+
     this.setState({
       startDay: 0,
       endDay: 0,
       startTime: 0,
-      endTime:0
+      endTime: 0
     })
     this.props.onClose()
   }
 
   //点击确定 组件消失
   onClickConfirm = () => {
-    
-    
     const { startTime, endTime, startDay, endDay } = this.state
-    console.log(startTime, endTime, startDay, endDay);
     if (!startTime && !endTime) {
       Toast.fail('活动时间不能为空')
       return
@@ -328,19 +279,19 @@ export default class Calendar extends Component<Props> {
       return
     }
     if (startTime == endTime) {
-      this.props.confirm((startTime / 1000), ((endTime+86400000-1000)/1000), startDay, endDay)
-      return 
+      this.props.confirm((startTime / 1000), ((endTime + 86400000 - 1000) / 1000), startDay, endDay)
+      return
     }
-    this.props.confirm((startTime/1000), ((endTime - 1000)/1000), startDay, endDay)
+    this.props.confirm((startTime / 1000), ((endTime - 1000) / 1000), startDay, endDay)
   }
 
 
   render() {
-    const { startTime, endTime, 
-       startDay, endDay, nowWeek, showMounthTitle, weekTime, totalDay, year, mounth,  forbidData } = this.state
+    const { startTime, endTime,
+      startDay, endDay, nowWeek, showMounthTitle, weekTime, totalDay, year, mounth, forbidData } = this.state
     return (
       <div className={styles.Page} style={{
-        display: this.props.show?'':'none'
+        display: this.props.show ? '' : 'none'
       }}>
         <div className={styles.calendar} >
           <div className={styles.title}>
@@ -366,16 +317,17 @@ export default class Calendar extends Component<Props> {
           </div>
           <div className={styles.header}>
             <div className={styles.headerTitle}>
-              <div onClick={this.monthBefore}>上个月</div>
-              <div className={styles.headerCenter}>{year}年{mounth !== 0 ? mounth + 1 : 1}月  </div>
-              <div onClick={this.monthNext}>下个月</div>
-            </div>
-            <div className={styles.headerContent}>
-              {
-                this.state.mounthTitle.map((item: string, index: number) => {
-                  return <div key={index} onClick={this.onClickMounthTitle.bind(this, index, item)} className={showMounthTitle === index ? styles.showMounthTitle : null}>{item}</div>
-                })
-              }
+              <ul>
+                <li onClick={this.monthBefore}>
+                  <img src={require('../../assets/right_back.png')} alt="" />
+                </li>
+                <li className={styles.headerCenter}>
+                  {year}年{mounth !== 0 ? mounth + 1 : 1}月
+                  </li>
+                <li onClick={this.monthNext}>
+                  <img src={require('../../assets/right_back.png')} alt="" />
+                </li>
+              </ul>
             </div>
           </div>
           <div className={styles.content}>
@@ -406,50 +358,50 @@ export default class Calendar extends Component<Props> {
                             backgroundColor: '#ccc'
                           }}>{item.title}</div>
                         </div>
-                        
+
                         <div className={styles.start_stop} style={{
                           bottom: -41 + '%',
                           left: 10 + '%',
-                          color:'#ccc'
+                          color: '#ccc'
                         }}>已有活动</div>
                       </div>
                       :
-                    <div
-                      key={index}
-                      className={styles.tallLight}
-                      onClick={
-                         this.onClickDate.bind(this, item.time, index)}
-                      style={{
-                        marginLeft: index == 0 ? nowWeek * 14 + 'vw' : 0 + 'px',
-                        backgroundColor: startTime < item.time && startTime && endTime && endTime > item.time ? '#e9eaf3' : '#fff'
-                      }}
-                    >
-                      {
-                        startTime == item.time && endTime && endTime != item.time ? <div className={styles.ball_right}></div> : null
-                      }
-                      {
-                        endTime == item.time && startTime && startTime != item.time ? <div className={styles.ball_left}></div> : null
-                      }
-                      <div className={styles.day} >
+                      <div
+                        key={index}
+                        className={styles.tallLight}
+                        onClick={
+                          this.onClickDate.bind(this, item.time, index)}
+                        style={{
+                          marginLeft: index == 0 ? nowWeek * 14 + 'vw' : 0 + 'px',
+                          backgroundColor: startTime < item.time && startTime && endTime && endTime > item.time ? '#e9eaf3' : '#fff'
+                        }}
+                      >
                         {
-                          startTime == item.time || endTime == item.time ? <div className={styles.ball} style={{
-                            backgroundColor: '#293186',
-                            color: '#fff'
-                          }}>{item.title}</div> : <div className={styles.ball}>{item.title}</div>
+                          startTime == item.time && endTime && endTime != item.time ? <div className={styles.ball_right}></div> : null
                         }
                         {
-                          startTime == item.time && endTime != item.time ? <div className={styles.start_stop}>起</div> : null
+                          endTime == item.time && startTime && startTime != item.time ? <div className={styles.ball_left}></div> : null
                         }
-                        {
-                          endTime == item.time && startTime != item.time ? <div className={styles.start_stop}>止</div> : null
-                        }
-                        {
-                          endTime == item.time && startTime == item.time ? <div className={styles.start_stop} style={{
-                            left: 30 + '%'
-                          }}>起/止</div> : null
-                        }
+                        <div className={styles.day} >
+                          {
+                            startTime == item.time || endTime == item.time ? <div className={styles.ball} style={{
+                              backgroundColor: '#293186',
+                              color: '#fff'
+                            }}>{item.title}</div> : <div className={styles.ball}>{item.title}</div>
+                          }
+                          {
+                            startTime == item.time && endTime != item.time ? <div className={styles.start_stop}>起</div> : null
+                          }
+                          {
+                            endTime == item.time && startTime != item.time ? <div className={styles.start_stop}>止</div> : null
+                          }
+                          {
+                            endTime == item.time && startTime == item.time ? <div className={styles.start_stop} style={{
+                              left: 30 + '%'
+                            }}>起/止</div> : null
+                          }
+                        </div>
                       </div>
-                    </div>
                   })
                 }
               </div>
