@@ -3,16 +3,18 @@
   height: 100%;
   position: relative;
 
+  .tranfromImg {
+    transform: rotate(180deg);
+    color: red;
+  }
 }
 
 .filtrate {
   height: 80px;
   width: 100%;
   background: linear-gradient(-28deg, rgba(72, 109, 218, 1) 0%, rgba(122, 88, 253, 1) 100%);
-
   div {
     height: 80px;
-
     span {
       color: #fff;
     }
@@ -20,14 +22,17 @@
 
   img {
     display: block;
-    width: 30px;
+    width:12px;
+    height:8px;
     margin: 0 24px 0 10px;
   }
 
   :global {
     .checked {
       span {
-        color: #21418a;
+        font-family:PingFangSCRegular;
+        font-weight:400;
+        color:rgba(210,228,250,1);
       }
     }
 
@@ -192,4 +197,6 @@
     }
   }
 }
+
+
 

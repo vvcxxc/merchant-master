@@ -121,8 +121,8 @@ export default connect(({ ad }: any) => ad)(
 		render() {
 			const form = <From onSuccess={this.handleSuccess} position={this.state.position} getIndex={this.handleIndexFromChild} editForm={this.state.data} type={this.props.location.query.type} userMoney={this.state.userMoney}/>;
 			// const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
-			const expenseCalendar = <ExpenseCalendar adId={this.state.adId} />;
-			const chart = <Chart adId={this.state.adId} />;
+			const expenseCalendar = <ExpenseCalendar adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId} />;
+			const chart = <Chart adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId} />;
 			return <AdLayout children={[form, expenseCalendar, chart]} value={this.props.location.query.value}/>;
 		}
 	}

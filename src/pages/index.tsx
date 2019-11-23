@@ -328,7 +328,9 @@ export default connect(({ app }: any) => app)(
                                     <div className="item_info">财务统计</div>
                                 </Flex>
                                 <Flex direction="column" justify="center" className={styles.fund_trends}>
-                                    <div className="item_info">资金动态</div>
+                                    <div className="item_info" onClick={() => {
+                                        router.push({ pathname:'/dynamicFunds'})
+                                    }}>资金动态</div>
                                 </Flex>
                                 <Flex direction="column" justify="center" className={styles.withdraw_record} onClick={() => router.push('/my/withdraw/list')}>
                                     <div className="item_info">提现记录</div>

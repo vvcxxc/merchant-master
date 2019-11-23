@@ -70,8 +70,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					});
 				}
 			} else {
-				if (value.split(".")[1] == undefined || (value.split(".")[1].length < 3 && value.split(".")[2] == undefined)) {
-					//涉及到金额的都用一位小数
+				if (value.split(".")[1] == undefined || (value.split(".")[1].length < 2 && value.split(".")[2] == undefined)) {
 					this.props.dispatch({
 						type: 'createCoupon/setCoupon',
 						payload: {

@@ -247,15 +247,6 @@ export default connect(({ activity }: any) => activity)(
         is_validity: '',
         is_image: '',
       }
-      // 名字的验证
-      if (activity_name) {
-        //验证输入的名字1-30个字符，可以为数字、字母、中文
-        let is_name = /^[\u4e00-\u9fa5A-Za-z0-9-_!@#$%^&*()+=,./';:"?><\|！@#￥%……&*（）——：“”；》《，。、？|]*$/.test(activity_name)
-        is_name ? rule.is_name = '' : rule.is_name ='优惠券名称中含有非法字符，请重新编辑'
-      } else {
-        // 请输入优惠券名称
-        rule.is_name = '请输入活动名'
-      }
 
       // 开团数量
       if (group_sum == 0) {

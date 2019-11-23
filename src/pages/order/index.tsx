@@ -12,8 +12,8 @@ import router from 'umi/router';
 import NoData from '@/components/no-data';
 
 const tabs = [
-  { title: '已核销', id: 1 },
-  { title: '未核销', id: 2 },
+  { title: '已核销', id: 2 },
+  { title: '未核销', id: 1 },
   { title: '已退款', id: 3 },
 ];
 export default class OrderPage extends Component {

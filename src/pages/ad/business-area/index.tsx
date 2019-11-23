@@ -51,8 +51,8 @@ export default class BusinessArea extends Component {
 	render() {
 		const form = <From editForm={this.state.data} onChange={this.handleFormChange} userMoney={this.state.userMoney} />;
 		// const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
-		const expenseCalendar = <ExpenseCalendar adId={this.state.adId} />;
-		const chart = <Chart adId={this.state.adId} />;
+		const expenseCalendar = <ExpenseCalendar adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId} />;
+		const chart = <Chart adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId} />;
 		return <AdLayout children={[form, expenseCalendar, chart]} value={this.props.location.query.value} />;
 	}
 }
