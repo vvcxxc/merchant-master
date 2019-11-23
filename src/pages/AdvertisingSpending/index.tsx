@@ -60,7 +60,7 @@ export default class OrderPage extends Component {
       data.data.map((item: any) => {
         let gg = 0
         item.map((item2: any) => {
-          gg += Number(item2.money)
+          gg = this.accAdd(gg, Number(item2.money));
         })
         item['gg'] = gg
       })
@@ -71,14 +71,12 @@ export default class OrderPage extends Component {
   };
 
   getData2 = async (query?: any) => {
-    Toast.loading('');
     const res = await request({
       url: 'v3/ads/statsSum',
       params: {
         ...query,
       }
     });
-    Toast.hide();
     if (res.code === 200) {
       console.log(res)
       this.setState({ sum_money: res.data.sum_money })
@@ -129,6 +127,36 @@ export default class OrderPage extends Component {
     router.push({ pathname, query })
   };
 
+  accAdd = (arg1: Number, arg2: Number) => {
+    var r1, r2, m, c;
+    try {
+      r1 = arg1.toString().split(".")[1].length;
+    } catch (e) {
+      r1 = 0;
+    }
+    try {
+      r2 = arg2.toString().split(".")[1].length;
+    } catch (e) {
+      r2 = 0;
+    }
+    c = Math.abs(r1 - r2);
+    m = Math.pow(10, Math.max(r1, r2));
+    if (c > 0) {
+      var cm = Math.pow(10, c);
+      if (r1 > r2) {
+        arg1 = Number(arg1.toString().replace(".", ""));
+        arg2 = Number(arg2.toString().replace(".", "")) * cm;
+      } else {
+        arg1 = Number(arg1.toString().replace(".", "")) * cm;
+        arg2 = Number(arg2.toString().replace(".", ""));
+      }
+    } else {
+      arg1 = Number(arg1.toString().replace(".", ""));
+      arg2 = Number(arg2.toString().replace(".", ""));
+    }
+    return (arg1 + arg2) / m;
+  }
+
   render() {
     let Ql = 0
     const financeList = this.state.list.length ? (
@@ -151,7 +179,7 @@ export default class OrderPage extends Component {
                   </div> : <div className={styles.AdvertisingContent}>
                       <div className={styles.AdvertisingName} >商圈广告消费</div>
                       <div className={styles.AdvertisingMoneyBox} >
-                        <div className={styles.AdvertisingMoney} >0</div>
+                        <div className={styles.AdvertisingMoney} >0.00</div>
                         <Icon type="right" color="#bcbcbc" />
                       </div>
                     </div>)
@@ -166,7 +194,7 @@ export default class OrderPage extends Component {
                   </div> : <div className={styles.AdvertisingContent}>
                       <div className={styles.AdvertisingName} >黄金广告消费</div>
                       <div className={styles.AdvertisingMoneyBox} >
-                        <div className={styles.AdvertisingMoney} >0</div>
+                        <div className={styles.AdvertisingMoney} >0.00</div>
                         <Icon type="right" color="#bcbcbc" />
                       </div>
                     </div>)
@@ -181,7 +209,7 @@ export default class OrderPage extends Component {
                   </div> : <div className={styles.AdvertisingContent} >
                       <div className={styles.AdvertisingName} >铂金广告消费</div>
                       <div className={styles.AdvertisingMoneyBox} >
-                        <div className={styles.AdvertisingMoney} >0</div>
+                        <div className={styles.AdvertisingMoney} >0.00</div>
                         <Icon type="right" color="#bcbcbc" />
                       </div>
                     </div>)
@@ -196,7 +224,7 @@ export default class OrderPage extends Component {
                   </div> : <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1, ad_id: item.ad_id, type: '钻石展位' } })} >
                       <div className={styles.AdvertisingName} >钻石广告消费</div>
                       <div className={styles.AdvertisingMoneyBox} >
-                        <div className={styles.AdvertisingMoney} >0</div>
+                        <div className={styles.AdvertisingMoney} >0.00</div>
                         <Icon type="right" color="#bcbcbc" />
                       </div>
                     </div>)
