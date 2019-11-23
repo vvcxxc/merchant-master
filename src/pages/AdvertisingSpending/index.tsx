@@ -16,22 +16,24 @@ import styles from './index.less';
 export default class OrderPage extends Component {
   state = {
     list: [],
+    last_page: 0,
     insignificant: 0,
-
+    sum_money: 0,
     page: 1,
     hasMore: true,
 
-    pay_status: '',   // 模糊查询筛选
-    date: undefined           // 模糊查询月份
+    pay_status: undefined,   // 模糊查询筛选
+    time: undefined,
+    end_time: undefined           // 模糊查询月份
   };
 
   undetermined = {
     title: '广告类型',
     list: [
-      { id: 1, label: '商圈广告' },
+      { id: 4, label: '商圈广告' },
       { id: 2, label: '黄金广告' },
       { id: 3, label: '铂金广告' },
-      { id: 4, label: '钻石广告' }
+      { id: 1, label: '钻石广告' }
     ]
   };
 
@@ -39,22 +41,48 @@ export default class OrderPage extends Component {
     // document.title="交易明细";
     // window.title="交易明细";
     this.getData();
+    this.getData2();
   }
 
   getData = async (query?: any) => {
-    // Toast.loading('');
-    // const res = await request({
-    //   url: 'v3/finance/merchant_bill', params: {
-    //     ...query,
-    //     page: this.state.page
-    //   }
-    // });
-    // Toast.hide();
-    // if (res.code === 200 && res.data.length != 0) {
-    //   this.setState({ list: this.state.list.concat(res.data), insignificant: res.total });
-    // } else if (res.code === 200 && res.data.length == 0) {
-    //   this.setState({ hasMore: false })
-    // }
+    Toast.loading('');
+    const res = await request({
+      url: 'v3/ads/stats',
+      params: {
+        ...query,
+        page: this.state.page
+      }
+    });
+    Toast.hide();
+    const { data, code } = res
+
+    if (code === 200 && data.data.length != 0) {
+      data.data.map((item: any) => {
+        let gg = 0
+        item.map((item2: any) => {
+          gg += Number(item2.money)
+        })
+        item['gg'] = gg
+      })
+      this.setState({ list: this.state.list.concat(data.data), last_page: res.data.last_page, })
+    } else if (res.code === 200 && res.data.data.length == 0) {
+      this.setState({ hasMore: false })
+    }
+  };
+
+  getData2 = async (query?: any) => {
+    Toast.loading('');
+    const res = await request({
+      url: 'v3/ads/statsSum',
+      params: {
+        ...query,
+      }
+    });
+    Toast.hide();
+    if (res.code === 200) {
+      console.log(res)
+      this.setState({ sum_money: res.data.sum_money })
+    }
   };
 
   handleLayoutChange = (query: any) => {
@@ -62,14 +90,19 @@ export default class OrderPage extends Component {
       page: 1,
       hasMore: true,
       list: [],
-      pay_status: query.hot.id || undefined,
-      type: query.hot._id,
-      date: query.time ? moment(query.time).unix() : undefined
+      position_id: query.hot.id || undefined,
+      start_time: query.time ? moment(query.time).unix() : undefined,
+      end_time: query.time ? moment(query.end_time).unix() : undefined
     }, () => {
       this.getData({
-        pay_status: query.hot.id || 0,
-        type: query.hot._id || undefined,
-        date: query.time ? moment(query.time).unix() : undefined
+        position_id: query.hot.id && query.hot.id != 0 ? query.hot.id : undefined,
+        start_time: query.time ? query.time : undefined,
+        end_time: query.end_time ? query.end_time : undefined
+      });
+      this.getData2({
+        position_id: query.hot.id && query.hot.id != 0 ? query.hot.id : undefined,
+        start_time: query.time ? query.time : undefined,
+        end_time: query.end_time ? query.end_time : undefined
       });
     })
 
@@ -81,8 +114,9 @@ export default class OrderPage extends Component {
         page: this.state.page + 1
       }, () => {
         this.getData({
-          pay_status: this.state.pay_status || undefined,
-          date: this.state.date
+          position_id: this.state.pay_status && this.state.pay_status != 0 ? this.state.pay_status : undefined,
+          start_time: this.state.time,
+          end_time: this.state.end_time
         })
       })
     }
@@ -95,27 +129,62 @@ export default class OrderPage extends Component {
   };
 
   render() {
+    let Ql = 0
     const financeList = this.state.list.length ? (
-      this.state.list.map((_: any) => (
-        <Flex className={styles.financeItem} key={_.id} >
-          <img src={_.small_icon} />
-          <Flex.Item className="content">
-            <div className="financenum">{_.order_sn}</div>
-            <div className="financetime">{_.create_time}</div>
-          </Flex.Item>
-          <div className="content-right">
-            <Flex.Item className="content">
-              <div className="financemoney">{_.money}</div>
-              <div className="financestatus">{_.msg}</div>
-            </Flex.Item>
-            <Icon type="right" color="#bcbcbc" />
+      this.state.list.map((_: any, index: number) => (
+        <div className={styles.AdvertisingSpendingList} key={index} >
+          <div className={styles.AdvertisingTitle} >
+            <div className={styles.AdvertisingDate} >{_[0].stat_date}</div>
+            <div className={styles.AdvertisingTotalMoney} >{_.gg}</div>
           </div>
-        </Flex>
+          {
+            _.map((item: any, index2: number) => (
+              <div key={index2}>
+                {
+                  item.position_id == 1 ? <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/business-area', query: { value: 1, ad_id: item.ad_id } })}>
+                    <div className={styles.AdvertisingName} >商圈广告消费</div>
+                    <div className={styles.AdvertisingMoneyBox} >
+                      <div className={styles.AdvertisingMoney} >{item.money}</div>
+                      <Icon type="right" color="#bcbcbc" />
+                    </div>
+                  </div> : null
+                }
+                {
+                  item.position_id == 2 ? <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1, ad_id: item.ad_id, type: '黄金展位' } })}>
+                    <div className={styles.AdvertisingName} >黄金广告消费</div>
+                    <div className={styles.AdvertisingMoneyBox} >
+                      <div className={styles.AdvertisingMoney} >{item.money}</div>
+                      <Icon type="right" color="#bcbcbc" />
+                    </div>
+                  </div> : null
+                }
+                {
+                  item.position_id == 3 ? <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1, ad_id: item.ad_id, type: '铂金展位' } })} >
+                    <div className={styles.AdvertisingName} >铂金广告消费</div>
+                    <div className={styles.AdvertisingMoneyBox} >
+                      <div className={styles.AdvertisingMoney} >{item.money}</div>
+                      <Icon type="right" color="#bcbcbc" />
+                    </div>
+                  </div> : null
+                }
+                {
+                  item.position_id == 4 ? <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1, ad_id: item.ad_id, type: '钻石展位' } })} >
+                    <div className={styles.AdvertisingName} >钻石广告消费</div>
+                    <div className={styles.AdvertisingMoneyBox} >
+                      <div className={styles.AdvertisingMoney} >{item.money}</div>
+                      <Icon type="right" color="#bcbcbc" />
+                    </div>
+                  </div> : null
+                }
+              </div>
+            ))
+          }
+        </div>
       ))
     ) : (
         <NoData type="finance" />
       );
-    const list = [{ name: '金额总计', num: '10086' }]
+    const list = [{ name: '金额总计', num: this.state.sum_money }]
     return (
       <FiltrateLayout
         undetermined={this.undetermined}
@@ -124,42 +193,9 @@ export default class OrderPage extends Component {
         onChange={this.handleLayoutChange}
         greyBackground={true}
       >
-        {/* {financeList} */}
+        {financeList}
 
-        <div className={styles.AdvertisingSpendingList} >
-          <div className={styles.AdvertisingTitle} >
-            <div className={styles.AdvertisingDate} >2019/11/17</div>
-            <div className={styles.AdvertisingTotalMoney} >98696</div>
-          </div>
-          <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/business-area', query: { value: 1 } })}>
-            <div className={styles.AdvertisingName} >商圈广告消费</div>
-            <div className={styles.AdvertisingMoneyBox} >
-              <div className={styles.AdvertisingMoney} >56</div>
-              <Icon type="right" color="#bcbcbc" />
-            </div>
-          </div>
-          <div className={styles.AdvertisingContent}  onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1 ,type:'黄金展位'} })}>
-            <div className={styles.AdvertisingName} >黄金广告消费</div>
-            <div className={styles.AdvertisingMoneyBox} >
-              <div className={styles.AdvertisingMoney} >56</div>
-              <Icon type="right" color="#bcbcbc" />
-            </div>
-          </div>
-          <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1 ,type:'铂金展位'} })} >
-            <div className={styles.AdvertisingName} >铂金广告消费</div>
-            <div className={styles.AdvertisingMoneyBox} >
-              <div className={styles.AdvertisingMoney} >56</div>
-              <Icon type="right" color="#bcbcbc" />
-            </div>
-          </div>
-          <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1,type:'钻石展位' } })} >
-            <div className={styles.AdvertisingName} >钻石广告消费</div>
-            <div className={styles.AdvertisingMoneyBox} >
-              <div className={styles.AdvertisingMoney} >56</div>
-              <Icon type="right" color="#bcbcbc" />
-            </div>
-          </div>
-        </div>
+
 
 
         {
