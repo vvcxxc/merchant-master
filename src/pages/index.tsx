@@ -37,6 +37,7 @@ export default connect(({ app }: any) => app)(
         };
 
         componentWillMount() {
+            console.log(this.props)
             // 给两个用于海报使用
             localStorage.setItem('QL_headImg', 'refresh')
             localStorage.setItem('QL_giftImg', 'refresh')
@@ -305,7 +306,7 @@ export default connect(({ app }: any) => app)(
                                     </div>
                                     <img src={require('@/assets/index/arrow_icon.png')} className={styles.arrow_icon} alt="" />
                                 </Flex>
-                                <div className={styles.today_income_money}>5000.00</div>
+                                <div className={styles.today_income_money}>{data.today_money}</div>
                             </div>
                             <div className={styles.divider}></div>
                             <div className={styles.business_num}>
@@ -315,7 +316,7 @@ export default connect(({ app }: any) => app)(
                                     </div>
                                     <img src={require('@/assets/index/arrow_icon.png')} className={styles.arrow_icon} alt="" />
                                 </Flex>
-                                <div className={styles.business_num_money}>500</div>
+                                <div className={styles.business_num_money}>{data.today_transaction_num}</div>
                             </div>
                         </Flex>
                     </div>
@@ -335,7 +336,7 @@ export default connect(({ app }: any) => app)(
                                 <Flex direction="column" justify="center" className={styles.verification_record} onClick={() => router.push('/verification')}>
                                     <div className="item_info">核销记录</div>
                                 </Flex>
-                                <Flex direction="column" justify="center" className={styles.ad_consume}  onClick={() => router.push('/AdvertisingSpending')}>
+                                <Flex direction="column" justify="center" className={styles.ad_consume} onClick={() => router.push('/AdvertisingSpending')}>
                                     <div className="item_info">广告消费</div>
                                 </Flex>
                                 <Flex direction="column" justify="center" className={styles.my_profit} onClick={() => router.push('/my/platformBenefit')}>
@@ -375,19 +376,19 @@ export default connect(({ app }: any) => app)(
                         <div className={styles.box_ad}>
                             <div className="title">广告管理</div>
                             <div className="inside">
-                                <Flex direction="column" justify="start" className="item_detail" onClick={this.toPage({name:"商圈广告"})}>
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.toPage({ name: "商圈广告" })}>
                                     <img src={require('@/assets/index/trade_area.png')} className="icon_img" alt="" />
                                     <div className="item_name">商圈广告</div>
                                 </Flex>
-                                <Flex direction="column" justify="start" className="item_detail" onClick={this.toPage({name:"黄金展位"})}>
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.toPage({ name: "黄金展位" })}>
                                     <img src={require('@/assets/index/gold.png')} className="icon_img" alt="" />
                                     <div className="item_name">黄金展位</div>
                                 </Flex>
-                                <Flex direction="column" justify="start" className="item_detail" onClick={this.toPage({name:"铂金展位"})}>
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.toPage({ name: "铂金展位" })}>
                                     <img src={require('@/assets/index/platinum.png')} className="icon_img" alt="" />
                                     <div className="item_name">铂金展位</div>
                                 </Flex>
-                                <Flex direction="column" justify="start" className="item_detail" onClick={this.toPage({name:"钻石展位"})}>
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.toPage({ name: "钻石展位" })}>
                                     <img src={require('@/assets/index/diamond.png')} className="icon_img" alt="" />
                                     <div className="item_name">钻石展位</div>
                                 </Flex>

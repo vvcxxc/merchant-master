@@ -118,7 +118,6 @@ export default connect(({ activity }: any) => activity)(
 					}
 				})
 				.catch(() => Toast.hide());
-			// }
 		};
 		/**
 		 * 设置tab高亮
