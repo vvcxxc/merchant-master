@@ -90,10 +90,11 @@ export default class OrderPage extends Component {
       page: 1,
       hasMore: true,
       list: [],
-      position_id: query.hot.id || undefined,
+      pay_status: query.hot.id || undefined,
       start_time: query.time ? moment(query.time).unix() : undefined,
       end_time: query.time ? moment(query.end_time).unix() : undefined
     }, () => {
+
       this.getData({
         position_id: query.hot.id && query.hot.id != 0 ? query.hot.id : undefined,
         start_time: query.time ? query.time : undefined,
@@ -141,40 +142,64 @@ export default class OrderPage extends Component {
             _.map((item: any, index2: number) => (
               <div key={index2}>
                 {
-                  item.position_id == 1 ? <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/business-area', query: { value: 1, ad_id: item.ad_id } })}>
+                  this.state.pay_status && this.state.pay_status != 4 ? null : (item.position_id == 4 ? <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/business-area', query: { value: 1, ad_id: item.ad_id } })}>
                     <div className={styles.AdvertisingName} >商圈广告消费</div>
                     <div className={styles.AdvertisingMoneyBox} >
                       <div className={styles.AdvertisingMoney} >{item.money}</div>
                       <Icon type="right" color="#bcbcbc" />
                     </div>
-                  </div> : null
+                  </div> : <div className={styles.AdvertisingContent}>
+                      <div className={styles.AdvertisingName} >商圈广告消费</div>
+                      <div className={styles.AdvertisingMoneyBox} >
+                        <div className={styles.AdvertisingMoney} >0</div>
+                        <Icon type="right" color="#bcbcbc" />
+                      </div>
+                    </div>)
                 }
                 {
-                  item.position_id == 2 ? <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1, ad_id: item.ad_id, type: '黄金展位' } })}>
+                  this.state.pay_status && this.state.pay_status != 2 ? null : (item.position_id == 2 ? <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1, ad_id: item.ad_id, type: '黄金展位' } })}>
                     <div className={styles.AdvertisingName} >黄金广告消费</div>
                     <div className={styles.AdvertisingMoneyBox} >
                       <div className={styles.AdvertisingMoney} >{item.money}</div>
                       <Icon type="right" color="#bcbcbc" />
                     </div>
-                  </div> : null
+                  </div> : <div className={styles.AdvertisingContent}>
+                      <div className={styles.AdvertisingName} >黄金广告消费</div>
+                      <div className={styles.AdvertisingMoneyBox} >
+                        <div className={styles.AdvertisingMoney} >0</div>
+                        <Icon type="right" color="#bcbcbc" />
+                      </div>
+                    </div>)
                 }
                 {
-                  item.position_id == 3 ? <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1, ad_id: item.ad_id, type: '铂金展位' } })} >
+                  this.state.pay_status && this.state.pay_status != 3 ? null : (item.position_id == 3 ? <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1, ad_id: item.ad_id, type: '铂金展位' } })} >
                     <div className={styles.AdvertisingName} >铂金广告消费</div>
                     <div className={styles.AdvertisingMoneyBox} >
                       <div className={styles.AdvertisingMoney} >{item.money}</div>
                       <Icon type="right" color="#bcbcbc" />
                     </div>
-                  </div> : null
+                  </div> : <div className={styles.AdvertisingContent} >
+                      <div className={styles.AdvertisingName} >铂金广告消费</div>
+                      <div className={styles.AdvertisingMoneyBox} >
+                        <div className={styles.AdvertisingMoney} >0</div>
+                        <Icon type="right" color="#bcbcbc" />
+                      </div>
+                    </div>)
                 }
                 {
-                  item.position_id == 4 ? <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1, ad_id: item.ad_id, type: '钻石展位' } })} >
+                  this.state.pay_status && this.state.pay_status != 1 ? null : (item.position_id == 1 ? <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1, ad_id: item.ad_id, type: '钻石展位' } })} >
                     <div className={styles.AdvertisingName} >钻石广告消费</div>
                     <div className={styles.AdvertisingMoneyBox} >
                       <div className={styles.AdvertisingMoney} >{item.money}</div>
                       <Icon type="right" color="#bcbcbc" />
                     </div>
-                  </div> : null
+                  </div> : <div className={styles.AdvertisingContent} onClick={() => router.push({ pathname: '/ad/other-page', query: { value: 1, ad_id: item.ad_id, type: '钻石展位' } })} >
+                      <div className={styles.AdvertisingName} >钻石广告消费</div>
+                      <div className={styles.AdvertisingMoneyBox} >
+                        <div className={styles.AdvertisingMoney} >0</div>
+                        <Icon type="right" color="#bcbcbc" />
+                      </div>
+                    </div>)
                 }
               </div>
             ))
