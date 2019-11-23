@@ -177,7 +177,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			);
 
 			return (
-				<div>
+				<div className={styles.discount_coupon}>
 					<CustomInput
 						showName='优惠券名称'
 						placeholder="请输入券的名称"
@@ -220,7 +220,10 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						error.userNotice ?
 							<div className={styles.groub_hint}>{error.userNotice}</div> : null
 					}
-					<List.Item arrow="horizontal">活动图片</List.Item>
+					<div id={styles.no_bottom_box} >
+						<List.Item >活动图片</List.Item>
+					</div>
+					{/* <div>活动图片</div> */}
 					<div className={styles.prompt}>温馨提示：请上传横向的图片; 建议图片比例为16:9。</div>
 					<Flex className={styles.img_box}>
 						<div className={styles.image}>

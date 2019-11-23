@@ -155,7 +155,7 @@ export default connect()(
 							<div className={styles.platform_revenu}>
 								<div className={styles.platform_revenu_wrap}>
 									<div className={styles.platform_revenu_title}>平台收益</div>
-									<div className={styles.platform_revenu_money}>{this.state.info.money}</div>
+									<div className={styles.platform_revenu_money}>{this.state.info.money ? this.state.info.money:'0.00'}</div>
 								</div>
 								<div className={styles.platform_revenu_btn}>
 									<div className={styles.platform_revenu_transfer_account} onClick={this.transferredBalance}>转到余额</div>
