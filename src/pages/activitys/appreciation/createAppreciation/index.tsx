@@ -285,15 +285,15 @@ export default connect(({ activity }: any) => activity)(
       })
 
       // 自定义名称
-      if (this.state.value == 1 && !activityName) {
-        this.setState({
-          ToastTipsActivity: "请输入活动名称"
-        })
-      } else if (this.state.value == 1 && !(/^[\u4e00-\u9fa5A-Za-z0-9-_!@#$%^&*()+=,./';:"?><\|！@#￥%……&*（）——：“”；》《，。、？|]*$/.test(activityName))) {
-        this.setState({
-          ToastTipsActivity: "优惠券名称中含有非法字符，请重新编辑"
-        })
-      }
+      // if (this.state.value == 1 && !activityName) {
+      //   this.setState({
+      //     ToastTipsActivity: "请输入活动名称"
+      //   })
+      // } else if (this.state.value == 1 && !(/^[\u4e00-\u9fa5A-Za-z0-9-_!@#$%^&*()+=,./';:"?><\|！@#￥%……&*（）——：“”；》《，。、？|]*$/.test(activityName))) {
+      //   this.setState({
+      //     ToastTipsActivity: "优惠券名称中含有非法字符，请重新编辑"
+      //   })
+      // }
 
       // 日期验证
       let startDate = new Date(start_date).getTime();
