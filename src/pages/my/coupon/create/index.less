@@ -3,10 +3,20 @@
 	background-color: #fff;
 	.prompt{
 		font-family:PingFang-SC-Medium;
-		// color:rgba(153,153,153,1);
 		color:red;
 		margin-top: 10px;
 		font-size: 24px;
+	}
+	.groub_hint {
+		position: relative;
+		margin-bottom: -20px;
+		height: 20px;
+		z-index: 10;
+		font-size:22px;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(210,40,75,1);
+		text-align: right;
 	}
 }
 
@@ -56,19 +66,10 @@
 		}
 	}
 }
-.groub_hint {
-  padding-top: 10px;
-  font-size:22px;
-  font-family:PingFang SC;
-  font-weight:500;
-  color:rgba(210,40,75,1);
-  text-align: right;
-  border-top: 1px solid red;
-}
+
 
 .img_box {
 	padding: 20px 0px;
-	// margin-bottom: 30px;
   .image {
     width: 176px;
     margin-right: 40px;
@@ -126,6 +127,15 @@
   :global .am-list-item {
 		padding-left: 0;
 	}
+	:global .am-list-item .am-list-line .am-list-extra{
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+	:global .am-list-item .am-list-line .am-list-content {
+		font-size: 28px !important;
+ 		color: #666666 !important;
+	}
+	  
 }
 
 

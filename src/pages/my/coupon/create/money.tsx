@@ -26,7 +26,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 		};
 
 		handleInput2 = (type: string) => (value: any) => {
-			if (value.split(".")[1] == undefined || (value.split(".")[1].length < 2 && value.split(".")[2] == undefined)) {
+			if (value.split(".")[1] == undefined || (value.split(".")[1].length < 3 && value.split(".")[2] == undefined)) {
 				this.props.dispatch({
 					type: 'createCoupon/setMoney',
 					payload: {
