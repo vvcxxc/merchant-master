@@ -58,18 +58,18 @@ export default class CreatePaymentReturn extends Component {
 	}
 
 	handleSubmit = async () => {
-		console.log(this.state.rules)
 		let rulesList = this.state.rules;
 		let indexList = [];
 		for (let i = 0; i < rulesList.length; i++) {
 			if (!rulesList[i].day ||
 				rulesList[i].day == "0" ||
+				Number(rulesList[i].day)<=0||
 				!rulesList[i].limit ||
 				rulesList[i].limit == "0" ||
 				!rulesList[i].money ||
 				rulesList[i].money == "0" ||
 				!rulesList[i].num ||
-				rulesList[i] == "0" ||
+				rulesList[i].num == "0" ||
 				!rulesList[i].returnMoney ||
 				rulesList[i].returnMoney == "0" ||
 				Number(rulesList[i].returnMoney) < Number(rulesList[i].limit)

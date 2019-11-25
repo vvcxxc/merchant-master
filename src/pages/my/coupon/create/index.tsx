@@ -122,11 +122,11 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				)
 				
 				total.validity = !Validity && Validity !== 0 ? '请设置优惠券有效期' : (
-					Validity <= 0 ? '优惠券有效期必须大于0.' : ''
+					Validity <= 0 ? '优惠券有效期必须大于0' : ''
 				)
 
 				total.issuedNumber = !totalNum && totalNum !== 0 ? '请设置发放数量' : (
-					totalNum <= 0 ? '发放数量必须大于0.' : ''
+					totalNum <= 0 ? '发放数量必须大于0' : ''
 				)
 
 			}

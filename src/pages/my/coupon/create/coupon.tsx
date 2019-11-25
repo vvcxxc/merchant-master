@@ -70,7 +70,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					});
 				}
 			} else {
-				if (value.split(".")[1] == undefined || (value.split(".")[1].length < 2 && value.split(".")[2] == undefined)) {
+				if (value.split(".")[1] == undefined || (value.split(".")[1].length < 3 && value.split(".")[2] == undefined)) {
 					this.props.dispatch({
 						type: 'createCoupon/setCoupon',
 						payload: {
@@ -157,6 +157,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					extra="元"
 					type="money"
 					showName='购买价格'
+					// value={String(this.props.pay_money || '')}
 					value={String(this.props.pay_money || '')}
 					onChange={this.handleInput('pay_money')}
 					error={error.buyingPrice}
@@ -176,7 +177,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			);
 
 			return (
-				<div>
+				<div className={styles.discount_coupon}>
 					<CustomInput
 						showName='优惠券名称'
 						placeholder="请输入券的名称"
@@ -191,6 +192,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						value={String(this.props.return_money || '')}
 						onChange={this.handleInput('return_money')}
 						error={error.marketPrice}
+						restrict={2}
 					/>
 					<CustomInput
 						extra="张"
@@ -203,9 +205,10 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					{priceInput}
 					<List.Item extra={DateInput}>优惠券有效期</List.Item>
 					{
-						error.validity ?
-							<div className={styles.groub_hint}>{error.validity}</div> : null
-					}
+						<div className={styles.groub_hint}
+							style={{ borderTop: error.validity ? '1px solid red' : '' }}
+						>{error.validity ? error.validity : null}</div> 
+				}
 					<List.Item
 						extra={<span>{
 								this.props.description && this.props.description .length != 0 ? '已设置' + this.props.description .length + '条规则' : '请设置使用须知'}
@@ -216,10 +219,14 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						使用须知
 					</List.Item>
 					{
-						error.userNotice ?
-							<div className={styles.groub_hint}>{error.userNotice}</div> : null
+						<div className={styles.groub_hint} 
+							style={{ borderTop: error.userNotice ? '1px solid red' : ''}}
+						>{error.userNotice ? error.userNotice : null}</div>
 					}
-					<List.Item arrow="horizontal">活动图片</List.Item>
+					<div id={styles.no_bottom_box} >
+						<List.Item >活动图片</List.Item>
+					</div>
+					{/* <div>活动图片</div> */}
 					<div className={styles.prompt}>温馨提示：请上传横向的图片; 建议图片比例为16:9。</div>
 					<Flex className={styles.img_box}>
 						<div className={styles.image}>
@@ -250,8 +257,12 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						</div>
 					</Flex>
 					{
-						error.activeImg ?
-							<div className={styles.groub_hint} style={{ marginBottom: '50px' }}>{error.activeImg}</div> : null
+						<div className={styles.groub_hint} style={{
+							marginBottom: '50px',
+							borderTop: error.activeImg? '1px solid red':''
+						}}>
+							{ error.activeImg ? error.activeImg : null }
+						</div>
 					}
 					{notice}
 				</div>

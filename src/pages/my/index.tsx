@@ -26,6 +26,7 @@ interface Info {
 	integral: number;
 	canInvite: number;
 	bank_count: number;
+	me_money: number;
 }
 
 export default connect()(
@@ -40,7 +41,8 @@ export default connect()(
 				wx_sign_url: '0',
 				integral: 0,
 				canInvite: 0,
-				bank_count: 1
+				bank_count: 1,
+				me_money: 0
 			},
 			showSharethree: false
 		};
@@ -145,7 +147,7 @@ export default connect()(
 							<div className={styles.count_balance}>
 								<div className={styles.count_balance_wrap}>
 									<div className={styles.count_balance_title}>账号余额</div>
-									<div className={styles.count_balance_money}>4000.00</div>
+									<div className={styles.count_balance_money}>{this.state.info.me_money}</div>
 								</div>
 								<div className={styles.count_balance_btn}>
 									<div className={styles.count_balance_invest} onClick={() => router.push('/my/rechange')}>充值</div>
@@ -155,7 +157,7 @@ export default connect()(
 							<div className={styles.platform_revenu}>
 								<div className={styles.platform_revenu_wrap}>
 									<div className={styles.platform_revenu_title}>平台收益</div>
-									<div className={styles.platform_revenu_money}>{this.state.info.money}</div>
+									<div className={styles.platform_revenu_money}>{this.state.info.money ? this.state.info.money:'0.00'}</div>
 								</div>
 								<div className={styles.platform_revenu_btn}>
 									<div className={styles.platform_revenu_transfer_account} onClick={this.transferredBalance}>转到余额</div>
@@ -210,6 +212,23 @@ export default connect()(
 						>
 							我的收款码
 						</Item>
+						<Item
+							arrow="horizontal"
+							thumb={require('@/assets/my/lucky_writeoff_record.png')}
+							multipleLine
+							onClick={this.pushPage('/verificationPrize')}
+							className={styles.my_items}
+						>
+							抽奖核销记录
+						</Item>
+						{/* <Item
+							arrow="horizontal"
+							thumb={require('@/assets/my/cloud_voice_box.png')}
+							multipleLine
+							className={styles.my_items}
+						>
+							我的云音箱
+						</Item> */}
 						{signCode}
 					</List>
 					<List className={styles.my_info_items}>
