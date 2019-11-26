@@ -24,7 +24,7 @@ export default class OrderPage extends Component {
     page: 1,
     hasMore: true,
 
-    pay_status: '1',   // 模糊查询筛选
+    pay_status: '2',   // 模糊查询筛选
     begin: undefined,           // 模糊查询月份
     end: undefined,
     amount: '',
@@ -42,10 +42,13 @@ export default class OrderPage extends Component {
   componentDidMount() {
     console.log('构建了')
     this.getData();
+    
   }
 
   getData = async (query?: any) => {
     Toast.loading('');
+    console.log(query,'query');
+    
     const res = await request({
       url: 'v3/coupons/order_list', params: {
         pay_status: this.state.pay_status,
@@ -63,15 +66,17 @@ export default class OrderPage extends Component {
   };
 
   handleLayoutChange = (query: any) => {
-    console.log(query)
+    // console.log(query)
+    let start = moment().add('month', 0).format('YYYY-MM') + '-01'
+    let end = moment(start).add('month', 1).add('days', -1).format('YYYY-MM-DD')
     this.setState({
       page: 1,
       hasMore: true,
       list: [],
       pay_status: query.tab_index || undefined,
       youhui_type: query.hot.id,
-      begin: query.time ? moment(query.time).unix() : undefined,
-      end: query.time ? moment(query.end_time).unix() : undefined,
+      begin: query.time ? moment(query.time).unix() : start,
+      end: query.time ? moment(query.end_time).unix() : end,
     }, () => {
       this.getData({
         pay_status: query.tab_index || 1,
