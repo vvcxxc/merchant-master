@@ -60,7 +60,7 @@ export default class MyIndex extends Component {
     let date = new Date()
     let begin_date = date.getFullYear() + '-' + date.getMonth() + '-' + 1
     date.setDate(0)
-    let end_date = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate()
+    let end_date = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate()
     this.setState({
       begin_date,
       end_date,
