@@ -211,7 +211,7 @@ export default class MyIndex extends Component {
                     <div className={styles.order}><span>{item.order_sn}</span> <span>{item.store_amount}</span></div>
                     <div className={styles.order_time}>
                       <span>{item.create_time}</span>
-                      <span>{item.type === 1 ? '线下扫码支付' :'购买优惠券'}</span></div>
+                      <span>{item.order_type === 1 ? '线下扫码支付' :'购买优惠券'}</span></div>
                     <div className={styles.border_one}></div>
                   </div>
                 </div>

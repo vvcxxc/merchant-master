@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import './index.less'
+import styles from  './index.less'
 export default class qlPage extends Component {
 
   render() {
     return (
-      <div>
-        <div className="flat_pattern">
+      <div className={styles.stereo_box}>
+        <div className={styles.flat_pattern}>
           <img src="https://img14.360buyimg.com/mobilecms/s280x280_jfs/t8284/363/1326459580/71585/6d3e8013/59b857f2N6ca75622.jpg.webp" alt="" />
         </div>
         
