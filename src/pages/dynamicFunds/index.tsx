@@ -58,9 +58,9 @@ export default class MyIndex extends Component {
   componentDidMount() {
     //当用户无操作，将当月开始结束时间传递过去
     let date = new Date()
-    let begin_date = date.getFullYear() + '-' + date.getMonth() + '-' + 1
+    let begin_date = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + 1
     date.setDate(0)
-    let end_date = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate()
+    let end_date = date.getFullYear() + '-' + (date.getMonth()+2) + '-' + date.getDate()
     this.setState({
       begin_date,
       end_date,
