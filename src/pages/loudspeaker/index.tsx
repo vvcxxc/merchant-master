@@ -8,6 +8,7 @@ import router from 'umi/router';
 export default class ApeakerInfo extends Component {
     state = {
         ApeakerInfoPageContentShow: false,
+        phone: '15478787878'
     }
 
     componentWillMount() {
@@ -128,7 +129,7 @@ export default class ApeakerInfo extends Component {
                             <div className={styles.ApeakerItemBoxCodeItemInfo} >测试播报</div>
                         </div> */}
                     </div>
-                    <a href="tel:15511112222">
+                    <a href={'tel:' + this.state.phone}>
                         <div className={styles.codeBoxBottom} > 客服电话-123654586</div>
                     </a>
                     {/* <div className={styles.codeBoxBottom} onClick={this.makePhoneCall.bind(this)}> 客服电话-123654586</div> */}
