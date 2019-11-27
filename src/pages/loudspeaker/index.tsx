@@ -8,7 +8,6 @@ import router from 'umi/router';
 export default class ApeakerInfo extends Component {
     state = {
         ApeakerInfoPageContentShow: false,
-        tel: 13445678909
     }
 
     componentWillMount() {
@@ -34,7 +33,7 @@ export default class ApeakerInfo extends Component {
                 timestamp: res.timestamp,
                 nonceStr: res.nonceStr,
                 signature: res.signature,
-                jsApiList: ['getLocation', 'openLocation', 'scanQRCode','makePhoneCall']
+                jsApiList: ['getLocation', 'openLocation', 'scanQRCode']
             });
         }).catch(err => {
             console.log(err)
@@ -51,14 +50,6 @@ export default class ApeakerInfo extends Component {
                 console.log(res);
             }
         })
-    }
-    makePhoneCall = () => {
-        wx.makePhoneCall({
-            phoneNumber: this.state.tel
-        })
-            .then((res: any) => {
-            })
-
     }
 
     render() {
@@ -137,7 +128,10 @@ export default class ApeakerInfo extends Component {
                             <div className={styles.ApeakerItemBoxCodeItemInfo} >测试播报</div>
                         </div> */}
                     </div>
-                    <div className={styles.codeBoxBottom} > 客服电话-123654586</div>
+                    <a href="tel:15511112222">
+                        <div className={styles.codeBoxBottom} > 客服电话-123654586</div>
+                    </a>
+                    {/* <div className={styles.codeBoxBottom} onClick={this.makePhoneCall.bind(this)}> 客服电话-123654586</div> */}
                 </div>
 
                 {/* <div className={styles.successInfoBox} >
