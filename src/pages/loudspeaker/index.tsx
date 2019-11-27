@@ -116,7 +116,7 @@ export default class ApeakerInfo extends Component {
                         </div> */}
                         <div className={styles.ApeakerItemBoxCodeItemBox} onClick={() => { router.push('/loudspeaker/apeakerInfo') }} >
                             <div className={styles.ApeakerItemBoxCodeItemImg} >
-                                <img src='http://oss.tdianyi.com/front/zByNFkmCDptdYB4nQ3dc5GNsFfSk2SDN.png' />
+                                <img src='http://oss.tdianyi.com/front/STxDe4XwRZFZdBzw6zrHTBYRjFGPC8zF.png' />
                             </div>
                             <div className={styles.ApeakerItemBoxCodeItemInfo} >购买音箱</div>
                         </div>
