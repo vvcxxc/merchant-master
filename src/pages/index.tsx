@@ -312,7 +312,7 @@ export default connect(({ app }: any) => app)(
                             <div className={styles.business_num}>
                                 <Flex>
                                     <div className={styles.business_num_title}>
-                                        交易笔数（元）
+                                        交易笔数（笔）
                                     </div>
                                     <img src={require('@/assets/index/arrow_icon.png')} className={styles.arrow_icon} alt="" />
                                 </Flex>
