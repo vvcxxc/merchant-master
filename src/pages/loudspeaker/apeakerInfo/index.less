@@ -1,0 +1,375 @@
+.ApeakerInfoPage {
+    height: calc(100vh - 88px);
+    width: 100%;
+    background-color: #f0f2f5;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    position: relative;
+
+    .ApeakerItemBox {
+        background-color: #fff;
+        border-bottom: 1px solid #f0f2f5;
+        width: 100%;
+        height: 145px;
+        padding: 0 90px 0 45px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        .ApeakerItemBoxTitle {
+            height: 50px;
+            width: 100%;
+            text-align: left;
+            font-size: 25px;
+        }
+
+        .ApeakerItemBoxInput {
+            height: 30px;
+            font-size: 30px;
+            color: #98a6ad;
+            width: 100%;
+            text-align: left;
+            font-size: 25px;
+        }
+
+        .ApeakerItemBoxIcon {
+            height: 45px;
+            width: 45px;
+            position: absolute;
+            right: 45px;
+            top: 50%;
+            margin-top: -22.5px;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+
+    .warps {
+        height: 20px;
+    }
+
+    .codeBox {
+        margin-top: 200px;
+        width: 100%;
+        height: 225px;
+
+
+        .codeBoxBottomContent {
+            height: 200px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-evenly;
+
+            .ApeakerItemBoxCodeItemBox {
+                width: 150px;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                .ApeakerItemBoxCodeItemImg {
+                    width: 100px;
+                    height: 100px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+
+                .ApeakerItemBoxCodeItemInfo {
+                    width: 100%;
+                    text-align: center;
+                    margin-top: 10px;
+                    font-size: 30px;
+                    color: #666666;
+                }
+
+            }
+        }
+
+        .codeBoxBottom {
+            height: 25px;
+            text-align: center;
+            color: #999999;
+            width: 100%;
+        }
+
+    }
+
+    .ApeakerInfoPageContent {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        background: rgba(0, 0, 0, .7);
+        left: 0;
+        top: 0;
+
+        .ApeakerInfoPageContentBox {
+            background: #fff;
+            border-radius: 30px;
+            width: 603px;
+            height: 358px;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            margin-top: -179px;
+            margin-left: -301.5px;
+
+            .ContentBoxTop {
+                height: 270px;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                .ContentBoxTopTitle {
+                    text-align: center;
+                    font-size: 36px;
+                    font-weight: bold;
+                    color: rgba(52, 58, 64, 1);
+                    height: 80px;
+                }
+
+                .ContentBoxTopInfo {
+                    width: 418px;
+                    text-align: center;
+                    line-height: 1.5;
+                    font-size: 30px;
+                    font-weight: 500;
+                    color: rgba(95, 102, 108, 1);
+                }
+
+            }
+
+            .ContentBoxBottom {
+                height: 88px;
+                border-top: 2px solid #f0f2f5;
+                color: #4264e0;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: row;
+
+                .ContentBoxBottomCancle {
+                    flex: 50%;
+                    height: 88px;
+                    line-height: 88px;
+                    text-align: center;
+                    box-sizing: border-box;
+                    border-right: 2px solid #f0f2f5;
+                    ;
+
+                }
+
+                .ContentBoxBottomSumbit {
+                    flex: 50%;
+                    height: 88px;
+                    line-height: 88px;
+                    text-align: center;
+
+
+                }
+            }
+        }
+    }
+
+    .successInfoBox {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: 366px;
+        height: 216px;
+        background: rgba(0, 0, 0, .7);
+        border-radius: 30px;
+        margin-left: -183px;
+        margin-top: -108px;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .successInfoBoxImg {
+            width: 56px;
+            height: 56px;
+        }
+
+        .successInfoBoxInfo {
+            height: 35px;
+            font-size: 34px;
+            margin-top: 30px;
+            color: #fff;
+        }
+    }
+
+
+    .ApeakerlogisticsContent {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        background: rgba(0, 0, 0, .7);
+        left: 0;
+        top: 0;
+
+        .ApeakerlogisticsContentBox {
+            width: 80%;
+            height: 80%;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+
+            .Apeakerlogisticspages {
+                background: #fff;
+                border-radius: 30px;
+                width: 100%;
+                height: 90%;
+                overflow: hidden;
+                padding-top: 230px;
+                box-sizing: border-box;
+                position: relative;
+
+                .ApeakerlogisticsContentBoxTop {
+                    height: 230px;
+                    width: 100%;
+                    background: linear-gradient(-30deg, rgba(72, 109, 218, 1) 0%, rgba(99, 74, 255, 1) 100%);
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+
+                    .topTitleBox {
+                        height: 95px;
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: flex-end;
+
+                        .topTitle {
+                            line-height: 1;
+                            font-size: 35px;
+                            color: #fff;
+                            font-weight: bold;
+                        }
+                    }
+
+                    .topInfoBox {
+                        height: 135px;
+                        width: 100%;
+                        padding: 0 35px;
+                        box-sizing: border-box;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: flex-start;
+
+                        img {
+                            width: 80px;
+                            height: 80px;
+                            margin-right: 25px;
+                        }
+
+                        .InfoContent {
+                            height: 80px;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            justify-content: space-between;
+                            font-size: 24px;
+                            color: #fff;
+                            padding: 6px 0;
+                            box-sizing: border-box;
+
+                            .InfoName {
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                }
+
+                .ApeakerlogisticsContentBoxBottom {
+                    height: 100%;
+                    border-top: 2px solid #f0f2f5;
+                    box-sizing: border-box;
+                    padding: 0 0 35px 30px;
+
+                    .BottomContent {
+                        width: 100%;
+                        height: 100%;
+                        padding-top: 35px;
+                        padding-right: 30px;
+                        box-sizing: border-box;
+                        overflow-y: scroll;
+                        overflow-x: hidden;
+
+                        .adderessItem {
+                            width: 100%;
+                            padding-left: 130px;
+                            box-sizing: border-box;
+                            position: relative;
+
+                            .adderessItemTime {
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: 130px;
+                                border-right: 2px dashed #dee1e4;
+                                height: 100%;
+
+                                .ItemTime,
+                                .ItemDate {
+                                    height: 25px;
+                                    font-size: 20px;
+                                    color: #666666;
+                                }
+
+                                img {
+                                    position: absolute;
+                                    top: 15px;
+                                    right: -22px;
+                                    width: 44px;
+                                    // height: 44px;
+                                    margin-top: -22px;
+                                }
+                            }
+
+
+                            .adderessItemMsg {
+                                padding: 0 0 60px 40px;
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            .ApeakerlogisticsIcon {
+                height: 10%;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-end;
+
+                img {
+                    width: 73px;
+                    height: 73px;
+                }
+            }
+        }
+    }
+
+
+
+
+}
