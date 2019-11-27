@@ -26,7 +26,11 @@ export default class qlPage extends Component {
   render() {
     return (
       <div id={styles.qilin} >
-        <div>音箱配送中，<span onClick={()=>{this.setState({ApeakerlogisticsContentShow:true})}}>查看物流</span></div>
+        <div className={styles.logistics}>音箱配送中，
+          <span onClick={() => { this.setState({ ApeakerlogisticsContentShow: true }) }}>
+            查看物流
+          </span>
+        </div>
         <WingBlank>
           <Carousel className="space-carousel"
             frameOverflow="visible"
