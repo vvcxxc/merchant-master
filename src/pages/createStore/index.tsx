@@ -83,7 +83,7 @@ export default connect(({ createStore }: any) => createStore)(
           detailAddress: Cookies.get("handleAddress") ? JSON.parse(Cookies.get("handleAddress")) : ""
         })
       }
- 
+
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -209,7 +209,7 @@ export default connect(({ createStore }: any) => createStore)(
     /**门牌号 */
     handleHouseNum = (e: any) => {
       if (this.getBytes(e.target.value) > 20) return
-      
+
       Cookies.set("handleHouseNum", JSON.stringify(e.target.value), { expires: 1 });
       this.setState({ house_num: e.target.value })
       this.props.dispatch({
@@ -383,7 +383,7 @@ export default connect(({ createStore }: any) => createStore)(
       //   }
       // })
       if (this.getBytes(e.target.value) > 60) return
-      
+
       let address = e.target.value;
       Cookies.set("handleDetailAddress", JSON.stringify(address), { expires: 1 });
       this.setState({
@@ -408,18 +408,6 @@ export default connect(({ createStore }: any) => createStore)(
       let { name, address, house_num, phone, manage_type, email, _code, store_door_header_img, store_img_one, store_img_two, location, code_id } = this.props;
       let total: any = {}
       total.name = !this.getBytes(name) ? '请输入门店名称' : ''
-      
-      // if (name && address && house_num && phone && manage_type && email && store_door_header_img && store_img_one && store_img_two) {
-      
-      //   if(!name){
-      //     Toast.fail('店铺名不能为空')
-      //     return
-      // }
-
-        // if(!address){
-        //   Toast.fail('门店定位不能为空')
-        //   return
-        // }
       total.address = !address ? '请点击获取门店位置信息' : ''
 
         // if(!detailAddress) {
@@ -436,26 +424,10 @@ export default connect(({ createStore }: any) => createStore)(
       total.email =new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$").test(email) ? '' :'请输入正确邮箱信息'
       //二维码
       total.code_id = code_id && code_id.length > 6 ?'请输入正确二维码序号':''
-      
+
       total.store_door_header_img = store_door_header_img.length < 1 ? '请上传商家门店照片' : ''
-      
+
       total.store_img = store_img_two.length < 1 || store_img_one.length<1 ?'请上传商家环境照片':''
-        // if(!house_num){
-        //   Toast.fail('门牌号不能为空')
-        //   return
-        // }
-        // if(!phone){
-        //   Toast.fail('门店电话不能为空')
-        //   return
-        // }
-        // if(!email){
-        //   Toast.fail('邮箱不能为空')
-        //   return
-        // }
-        // if(!store_door_header_img){
-        //   Toast.fail('门头照不能为空')
-        //   return
-        // }
       for (const key in total) {
         if (total[key]) {
           this.setState({ error: total })
@@ -463,20 +435,6 @@ export default connect(({ createStore }: any) => createStore)(
         }
         this.setState({ error: {} })
       }
-        // if(!store_img_one){
-        //   Toast.fail('环境照1不能为空')
-        //   return
-        // }
-        // if(!store_img_two){
-        //   Toast.fail('环境照2不能为空')
-        //   return
-        // }
-        // if(!location){
-        //   Toast.fail('地图定位失败')
-        //   return
-        // }
-      
-
         request({
           url: 'v3/stores',
           method: 'post',
