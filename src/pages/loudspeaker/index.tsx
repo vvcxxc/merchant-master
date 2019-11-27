@@ -7,7 +7,8 @@ import router from 'umi/router';
 
 export default class ApeakerInfo extends Component {
     state = {
-        ApeakerInfoPageContentShow: false
+        ApeakerInfoPageContentShow: false,
+        tel: 13445678909
     }
 
     componentWillMount() {
@@ -33,7 +34,7 @@ export default class ApeakerInfo extends Component {
                 timestamp: res.timestamp,
                 nonceStr: res.nonceStr,
                 signature: res.signature,
-                jsApiList: ['getLocation', 'openLocation', 'scanQRCode']
+                jsApiList: ['getLocation', 'openLocation', 'scanQRCode','makePhoneCall']
             });
         }).catch(err => {
             console.log(err)
@@ -51,6 +52,15 @@ export default class ApeakerInfo extends Component {
             }
         })
     }
+    makePhoneCall = () => {
+        wx.makePhoneCall({
+            phoneNumber: this.state.tel
+        })
+            .then((res: any) => {
+            })
+
+    }
+
     render() {
         return (
             <div className={styles.ApeakerInfoPage} >
