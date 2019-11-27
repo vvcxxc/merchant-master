@@ -82,7 +82,7 @@ export default connect(({ createStore }: any) => createStore)(
           detailAddress: Cookies.get("handleAddress") ? JSON.parse(Cookies.get("handleAddress")) : ""
         })
       }
- 
+
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
@@ -223,10 +223,11 @@ export default connect(({ createStore }: any) => createStore)(
 
     /**门店图片选择后 */
     Storechange = (files: any) => {
-      Toast.loading('')
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
+          console.log(222)
           Toast.hide()
           this.props.dispatch({
             type: 'createStore/setStore',
@@ -244,6 +245,7 @@ export default connect(({ createStore }: any) => createStore)(
           })
         })
       } else {
+        console.log(211)
         Toast.hide()
         Cookies.set("Storechange", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
@@ -257,7 +259,7 @@ export default connect(({ createStore }: any) => createStore)(
     }
     /**个人照1 */
     Mychange = (files: any) => {
-      Toast.loading('')
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -291,7 +293,7 @@ export default connect(({ createStore }: any) => createStore)(
     }
     /**个人照2 */
     Mychange2 = (files: any) => {
-      Toast.loading('')
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -566,7 +568,7 @@ export default connect(({ createStore }: any) => createStore)(
             <Flex className={styles.pushStore}>
               {
                 this.props.imgshow1 == true ? (
-                  <div className={styles.doorimg}><img src={"http://oss.tdianyi.com/" + this.props.store_door_header_img} /><div className={styles.close} onClick={this.closeStoreimgk}>{''}</div></div>
+                  <div className={styles.doorimg}><img src={"http://oss.tdianyi.com/" + this.props.store_door_header_img+"?x-oss-process=image/resize,m_fill,w_665,h_432"} /><div className={styles.close} onClick={this.closeStoreimgk}>{''}</div></div>
                 ) : (
                     <ImagePicker
                       style={{ width: '100%' }}
@@ -586,7 +588,7 @@ export default connect(({ createStore }: any) => createStore)(
             <Flex className={styles.imgSmall}>
               {
                 this.props.imgshow2 == true ? (
-                  <div className={styles.warpimg1} ><img src={"http://oss.tdianyi.com/" + this.props.store_img_one} /><div className={styles.close} onClick={this.closePerimg1}>{''}</div></div>
+                  <div className={styles.warpimg1} ><img src={"http://oss.tdianyi.com/" + this.props.store_img_one+'?x-oss-process=image/resize,m_fill,w_242,h_158'} /><div className={styles.close} onClick={this.closePerimg1}>{''}</div></div>
                 ) : (
                     <ImagePicker
                       files={my_files}
@@ -599,7 +601,7 @@ export default connect(({ createStore }: any) => createStore)(
               }
               {
                 this.props.imgshow3 == true ? (
-                  <div className={styles.warpimg1} onClick={() => { }}><img src={"http://oss.tdianyi.com/" + this.props.store_img_two} /><div className={styles.close} onClick={this.closePerimg2}>{''}</div></div>
+                  <div className={styles.warpimg1} onClick={() => { }}><img src={"http://oss.tdianyi.com/" + this.props.store_img_two+'?x-oss-process=image/resize,m_fill,w_242,h_158'} /><div className={styles.close} onClick={this.closePerimg2}>{''}</div></div>
                 ) : (
                     <ImagePicker
                       files={my_files2}
