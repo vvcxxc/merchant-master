@@ -26,7 +26,11 @@ export default class qlPage extends Component {
   render() {
     return (
       <div id={styles.qilin} >
-        <div>音箱配送中，<span onClick={() => { this.setState({ ApeakerlogisticsContentShow: true }) }}>查看物流</span></div>
+        <div className={styles.logistics}>音箱配送中，
+          <span onClick={() => { this.setState({ ApeakerlogisticsContentShow: true }) }}>
+            查看物流
+          </span>
+        </div>
         <WingBlank>
           <Carousel className="space-carousel"
             frameOverflow="visible"
@@ -47,7 +51,7 @@ export default class qlPage extends Component {
                 display: 'block',
                 position: 'relative',
                 top: this.state.slideIndex === index ? 0 : 70,
-                marginRight: this.state.slideIndex === index ? '100px' : '0px',
+                // marginRight: this.state.slideIndex === index ? '10px' : '0px',
               }}>
                 <CloudSpeakers height={this.state.slideIndex === index ? true : false}></CloudSpeakers>
               </div>
@@ -92,46 +96,6 @@ export default class qlPage extends Component {
                       <div className={styles.adderessItemMsg}>恐惧和孤独斯拉夫的疯狂进攻腊斯克附近的安康就是个的饭卡上更加反对开挂撒</div>
                     </div>
                     <div className={styles.adderessItem}>
-                      <div className={styles.adderessItemTime}>
-                        <div className={styles.ItemTime}>14:14:00</div>
-                        <div className={styles.ItemDate}>07-22</div>
-                        <img src='http://oss.tdianyi.com/front/e6HEEpibS3B28W4KpW6eyEhGQ7TYJn6M.png' />
-                      </div>
-                      <div className={styles.adderessItemMsg}>恐惧和孤独安康就是个的饭卡上更加反对开挂撒</div>
-                    </div>
-                    <div className={styles.adderessItem}>
-                      <div className={styles.adderessItemTime}>
-                        <div className={styles.ItemTime}>14:14:00</div>
-                        <div className={styles.ItemDate}>07-22</div>
-                        <img src='http://oss.tdianyi.com/front/e6HEEpibS3B28W4KpW6eyEhGQ7TYJn6M.png' />
-                      </div>
-                      <div className={styles.adderessItemMsg}>恐惧和孤独斯拉夫的疯狂进开挂撒</div>
-                    </div>
-                    <div className={styles.adderessItem}>
-                      <div className={styles.adderessItemTime}>
-                        <div className={styles.ItemTime}>14:14:00</div>
-                        <div className={styles.ItemDate}>07-22</div>
-                        <img src='http://oss.tdianyi.com/front/e6HEEpibS3B28W4KpW6eyEhGQ7TYJn6M.png' />
-                      </div>
-                      <div className={styles.adderessItemMsg}>恐惧和孤独斯拉夫的疯狂进攻腊斯克附近的安康就是个的饭卡上更加反对开挂撒</div>
-                    </div>
-                    <div className={styles.adderessItem}>
-                      <div className={styles.adderessItemTime}>
-                        <div className={styles.ItemTime}>14:14:00</div>
-                        <div className={styles.ItemDate}>07-22</div>
-                        <img src='http://oss.tdianyi.com/front/e6HEEpibS3B28W4KpW6eyEhGQ7TYJn6M.png' />
-                      </div>
-                      <div className={styles.adderessItemMsg}>恐惧和孤独斯拉夫的疯狂进攻腊斯克附近的安康就是个的饭卡上更加反对开挂撒</div>
-                    </div>
-                    <div className={styles.adderessItem}>
-                      <div className={styles.adderessItemTime}>
-                        <div className={styles.ItemTime}>14:14:00</div>
-                        <div className={styles.ItemDate}>07-22</div>
-                        <img src='http://oss.tdianyi.com/front/e6HEEpibS3B28W4KpW6eyEhGQ7TYJn6M.png' />
-                      </div>
-                      <div className={styles.adderessItemMsg}>恐惧和孤独斯拉夫的疯狂进攻腊斯克附近的安康就是个的饭卡上更加反对开挂撒</div>
-                    </div>
-                    <div className={styles.adderessItem}>
                       <div className={styles.adderessItemTime} style={{ borderRight: 'unset' }}>
                         <div className={styles.ItemTime}>14:14:00</div>
                         <div className={styles.ItemDate}>07-22</div>
@@ -151,6 +115,7 @@ export default class qlPage extends Component {
             </div>
           </div> : null
         }
+        <div className={styles.customer_service}>客服电话-123654586</div>
       </div>
     )
   }
