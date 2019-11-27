@@ -468,7 +468,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     id_front: files
       //   }
       // })
-      Toast.loading('');
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -544,7 +544,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     id_back: files
       //   }
       // })
-      Toast.loading('');
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -650,7 +650,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     bank_front: files
       //   }
       // })
-      Toast.loading('');
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -748,7 +748,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     bank_back: files
       //   }
       // })
-      Toast.loading('');
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -846,7 +846,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     license_img: files
       //   }
       // })
-      Toast.loading('');
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -1056,7 +1056,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     }
     selectImg = (files: any) => {
-      Toast.loading('');
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {

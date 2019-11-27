@@ -223,10 +223,11 @@ export default connect(({ createStore }: any) => createStore)(
 
     /**门店图片选择后 */
     Storechange = (files: any) => {
-      Toast.loading('')
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
+          console.log(222)
           Toast.hide()
           this.props.dispatch({
             type: 'createStore/setStore',
@@ -244,6 +245,7 @@ export default connect(({ createStore }: any) => createStore)(
           })
         })
       } else {
+        console.log(211)
         Toast.hide()
         Cookies.set("Storechange", JSON.stringify(""), { expires: 1 });
         this.props.dispatch({
@@ -257,7 +259,7 @@ export default connect(({ createStore }: any) => createStore)(
     }
     /**个人照1 */
     Mychange = (files: any) => {
-      Toast.loading('')
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -291,7 +293,7 @@ export default connect(({ createStore }: any) => createStore)(
     }
     /**个人照2 */
     Mychange2 = (files: any) => {
-      Toast.loading('')
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
