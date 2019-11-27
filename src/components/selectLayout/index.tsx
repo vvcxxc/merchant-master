@@ -3,8 +3,8 @@ import styles from './index.less';
 import { WingBlank, Flex, Tabs } from 'antd-mobile';
 import UndeterminedModal, { Undetermined, After } from './undeterminedModal';
 import SelectDate from './selectDate';
-import checkIcon from './icon-check.png';
-import icon from './icon.png';
+import checkIcon from '../../assets/icon-check.png'
+import icon from '../../assets/icon.png';
 import { Item } from 'rc-menu';
 
 //改前须知
@@ -142,6 +142,7 @@ export default class FiltrateLayout extends Component<Props> {
 
 
   render() {
+    const { hotCheck, hotShow, timeCheck, timeShow} = this.state
     const insignificant = this.props.hasInsignificant && (
       <Flex className={styles.header}>
         {
@@ -159,10 +160,10 @@ export default class FiltrateLayout extends Component<Props> {
         style={{ width: 'auto' }}
         align="center"
         onClick={this.handleHotClick}
-        className={this.state.hotCheck || this.state.hotShow ? 'checked' : ''}
+        className={this.state.hotCheck || this.state.hotShow ? '' : 'checked'}
       >
         <span>筛选</span>
-        <img src={this.state.hotCheck || this.state.hotShow ? checkIcon : icon} />
+        <img className={hotCheck || hotShow ? styles.tranfromImg : ''} src={icon} />
       </Flex>
     );
     const tabs =
@@ -181,7 +182,7 @@ export default class FiltrateLayout extends Component<Props> {
         <Flex>{tabs}</Flex>
       </Flex.Item>
     );
-    const datepng = this.state.timeCheck || this.state.timeShow ? checkIcon : icon;
+    // const datepng = this.state.timeCheck || this.state.timeShow ? checkIcon : icon;
     return (
       <Flex className={styles.wrap} direction="column">
         <div className={styles.filtrate}>
@@ -192,10 +193,13 @@ export default class FiltrateLayout extends Component<Props> {
                 style={{ width: 'auto' }}
                 align="center"
                 onClick={this.handleTimeClick}
-                className={this.state.timeCheck || this.state.timeShow ? 'checked' : ''}
+                className={this.state.timeCheck || this.state.timeShow ? '' : 'checked'}
               >
                 <span>{this.state.title2}</span>
-                <img src={datepng} />
+                {
+                  <img className={timeCheck || timeShow ? styles.tranfromImg:''} src={icon} />
+                }
+                
               </Flex>
               {tab}
             </Flex>

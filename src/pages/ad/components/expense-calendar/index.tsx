@@ -27,6 +27,7 @@ export default class ExpenseCalendar extends Component<Props> {
 	}
 
 	setLog = async () => {
+		console.log('this',this.props)
 		let Ad_Id = sessionStorage.getItem("adId");
 		const res = await request({ url: 'v3/ad_logs', params: { ad_id: this.props.adId || Number(Ad_Id), page: this.state.page } });
 		if (res.code === 200 && res.data.length != 0) {

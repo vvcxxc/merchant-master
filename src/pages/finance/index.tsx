@@ -55,8 +55,8 @@ export default class OrderPage extends Component {
 			params: {
 				type: this.state.type,
 				pay_type: this.state.payType,
-        date: this.state.date,
-        date2: this.state.date2,
+        start_time: this.state.date,
+        end_time: this.state.date2,
 				page: this.state.page
 			}
 		});
@@ -74,8 +74,8 @@ export default class OrderPage extends Component {
 			this.setState({
 				type: this.state.type,
 				pay_type: this.state.payType,
-        date: this.state.date,
-        date2: this.state.date2,
+        start_time: this.state.date,
+        end_time: this.state.date2,
 				page: this.state.page + 1
 			}, () => {
 				this.getData()

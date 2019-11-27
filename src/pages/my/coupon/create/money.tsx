@@ -57,7 +57,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 				<Flex>
 					购券日起
 				<InputItem
-						className="numberInput" 
+						className="numberInput"
 						extra="天可用"
 						type="money"
 						value={String(this.props.validity || '')}
@@ -76,7 +76,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						extra="元"
 						error={error.amountError}
 					/>
-					 {priceInput} 
+					{priceInput}
 					<CustomInput
 						showName='使用门槛'
 						type="money"
@@ -86,10 +86,10 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						error={error.doorsill}
 					/>
 					<List.Item extra={DateInput}>优惠券有效期</List.Item>
-					{
-						error.validity ?
-							<div className={styles.groub_hint} >{error.validity}</div> : null
-					}
+
+
+					<div className={styles.groub_hint} style={{ borderTop: error.validity ? '1px solid red' : '' }}>{error.validity?error.validity:''}</div>
+
 					<CustomInput
 						showName='发放数量'
 						type="money"
@@ -98,7 +98,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						onChange={this.handleInput('total_num')}
 						error={error.issuedNumber}
 					/>
-				
+
 				</div>
 			);
 		}
