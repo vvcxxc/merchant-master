@@ -58,9 +58,10 @@ export default class MyIndex extends Component {
   componentDidMount() {
     //当用户无操作，将当月开始结束时间传递过去
     let date = new Date()
-    let begin_date = date.getFullYear() + '-' + date.getMonth() + '-' + 1
+    let begin_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + 1
+    date.setMonth(date.getMonth() + 1)
     date.setDate(0)
-    let end_date = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate()
+    let end_date = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate()
     this.setState({
       begin_date,
       end_date,
@@ -210,7 +211,7 @@ export default class MyIndex extends Component {
                     <div className={styles.order}><span>{item.order_sn}</span> <span>{item.store_amount}</span></div>
                     <div className={styles.order_time}>
                       <span>{item.create_time}</span>
-                      <span>{item.type === 1 ? '线下扫码支付' :'购买优惠券'}</span></div>
+                      <span>{item.order_type === 1 ? '线下扫码支付' :'购买优惠券'}</span></div>
                     <div className={styles.border_one}></div>
                   </div>
                 </div>
