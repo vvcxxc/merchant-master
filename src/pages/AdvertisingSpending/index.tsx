@@ -39,7 +39,6 @@ export default class OrderPage extends Component {
   };
 
   componentDidMount() {
-    console.log('更新')
     // document.title="交易明细";
     // window.title="交易明细";
     this.getData();
@@ -57,7 +56,6 @@ export default class OrderPage extends Component {
     });
     Toast.hide();
     const { data, code } = res
-
     if (code === 200 && data.data.length != 0) {
       let tempList = this.state.qList;
       data.data.map((item: any) => {
@@ -66,7 +64,8 @@ export default class OrderPage extends Component {
           huangjin: 0,
           zuanshi: 0,
           bojin: 0,
-          gg: 0
+          gg: 0,
+          date: new Date(item[0].start_time * 1000).getFullYear() + '/' + (Number(new Date(item[0].start_time * 1000).getMonth()) + 1) + '/' + new Date(item[0].start_time * 1000).getDate()
         }
         item.map((item3: any) => {
           switch (item3.position_id) {
@@ -190,17 +189,17 @@ export default class OrderPage extends Component {
 
   render() {
     const financeList = this.state.list.length ? (
-      this.state.list.map((_: any, index: number) => (
+      this.state.qList.map((item: any, index: number) => (
         <div className={styles.AdvertisingSpendingList} key={index} >
           <div className={styles.AdvertisingTitle} >
-            <div className={styles.AdvertisingDate} >{new Date(_[0].start_time * 1000).getFullYear() + '/' + (Number(new Date(_[0].start_time * 1000).getMonth()) + 1) + '/' + new Date(_[0].start_time * 1000).getDate()}</div>
-            <div className={styles.AdvertisingTotalMoney} >{this.state.qList[index].gg}</div>
+            <div className={styles.AdvertisingDate} >{item.date}</div>
+            <div className={styles.AdvertisingTotalMoney} >{item.gg}</div>
           </div>
           {
             this.state.pay_status && this.state.pay_status != 4 ? null : <div className={styles.AdvertisingContent} >
               <div className={styles.AdvertisingName} >商圈广告消费</div>
               <div className={styles.AdvertisingMoneyBox} >
-                <div className={styles.AdvertisingMoney} >{this.state.qList[index].shangquan}</div>
+                <div className={styles.AdvertisingMoney} >{Number(item.shangquan)}</div>
                 <Icon type="right" color="#bcbcbc" />
               </div>
             </div>
@@ -209,7 +208,7 @@ export default class OrderPage extends Component {
             this.state.pay_status && this.state.pay_status != 2 ? null : <div className={styles.AdvertisingContent} >
               <div className={styles.AdvertisingName} >黄金广告消费</div>
               <div className={styles.AdvertisingMoneyBox} >
-                <div className={styles.AdvertisingMoney} >{this.state.qList[index].huangjin}</div>
+                <div className={styles.AdvertisingMoney} >{Number(item.huangjin)}</div>
                 <Icon type="right" color="#bcbcbc" />
               </div>
             </div>
@@ -218,7 +217,7 @@ export default class OrderPage extends Component {
             this.state.pay_status && this.state.pay_status != 3 ? null : <div className={styles.AdvertisingContent} >
               <div className={styles.AdvertisingName} >铂金广告消费</div>
               <div className={styles.AdvertisingMoneyBox} >
-                <div className={styles.AdvertisingMoney} >{this.state.qList[index].bojin}</div>
+                <div className={styles.AdvertisingMoney} >{Number(item.bojin)}</div>
                 <Icon type="right" color="#bcbcbc" />
               </div>
             </div>
@@ -228,7 +227,7 @@ export default class OrderPage extends Component {
               <div className={styles.AdvertisingContent}>
                 <div className={styles.AdvertisingName} >钻石广告消费</div>
                 <div className={styles.AdvertisingMoneyBox} >
-                  <div className={styles.AdvertisingMoney} >{this.state.qList[index].zuanshi}</div>
+                  <div className={styles.AdvertisingMoney} >{Number(item.zuanshi)}</div>
                   <Icon type="right" color="#bcbcbc" />
                 </div>
               </div>
