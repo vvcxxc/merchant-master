@@ -148,7 +148,7 @@ export default class qlPage extends Component {
           </div> : null
         }
         <a href={'tel:' + this.state.phone}>
-          <div className={styles.customer_service} >客服电话-123654586</div></a>
+      <div className={styles.customer_service} >客服电话-{this.state.phone}</div></a>
       </div>
     )
   }

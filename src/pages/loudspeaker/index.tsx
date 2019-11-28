@@ -158,7 +158,7 @@ export default class ApeakerInfo extends Component {
                             </div>
                     }
                     <a href={'tel:' + this.state.phone}>
-                        <div className={styles.codeBoxBottom} > 客服电话-123654586</div>
+                        <div className={styles.codeBoxBottom} > 客服电话-{this.state.phone}</div>
                     </a>
                 </div>
                 {/* <div className={styles.successInfoBox} >
