@@ -8,6 +8,15 @@ import router from 'umi/router';
 export default class ApeakerInfo extends Component {
     state = {
         ApeakerInfoPageContentShow: false,
+        phone: '15478787878',
+        serialNumber: '',
+        data: {
+            id: 0,
+            number: "",
+            bind_time: "",
+            status: "",
+            is_online: ""
+        }
     }
 
     componentWillMount() {
@@ -39,7 +48,16 @@ export default class ApeakerInfo extends Component {
             console.log(err)
         });
     }
-
+    componentDidMount() {
+        request({
+            url: 'api/v1/voice/device',
+            method: 'get',
+        }).then(res => {
+            res.code == 200 && this.setState({ data: res.data })
+        }).catch(err => {
+            console.log(err)
+        });
+    }
     BindScanQRCode = () => {
         wx.scanQRCode({
             needResult: 1,
@@ -51,94 +69,102 @@ export default class ApeakerInfo extends Component {
             }
         })
     }
+    changeCode = (e: any) => {
+        this.setState({ serialNumber: e.target.value })
+    }
 
     render() {
         return (
             <div className={styles.ApeakerInfoPage} >
                 <div className={styles.ApeakerItemBox} >
                     <div className={styles.ApeakerItemBoxTitle} >序列号</div>
-                    <input className={styles.ApeakerItemBoxInput} placeholder='请输入序列号' />
+                    {
+                        this.state.data.number ? <div className={styles.ApeakerItemBoxInput}  >{this.state.data.number}</div> :
+                            <input className={styles.ApeakerItemBoxInput} placeholder='请输入序列号' onChange={this.changeCode.bind(this)} />
+                    }
                     <div className={styles.ApeakerItemBoxIcon} onClick={this.BindScanQRCode.bind(this)} >
                         <img src='http://oss.tdianyi.com/front/dDcWJ6WfMQ56PyexPssd52sbCGkT43dw.png' />
-
                     </div>
-
                 </div>
                 <div className={styles.warps}></div>
                 <div className={styles.ApeakerItemBox} >
                     <div className={styles.ApeakerItemBoxTitle} >添加时间</div>
-                    <div className={styles.ApeakerItemBoxInput}  >无</div>
+                    <div className={styles.ApeakerItemBoxInput}  >{this.state.data.bind_time ? this.state.data.bind_time : '无'}</div>
                     <div className={styles.ApeakerItemBoxIcon}>
-                        <img src='http://oss.tdianyi.com/front/TXz66kWyHNxQzzYfpbJAtp4HxMzTQ33m.png' />
-                        {/* <img src='http://oss.tdianyi.com/front/rXZTZNnAaP4h8Qt7krf5aHBZCrARf8kh.png' /> */}
+                        {
+                            this.state.data.bind_time ? <img src='http://oss.tdianyi.com/front/rXZTZNnAaP4h8Qt7krf5aHBZCrARf8kh.png' /> :
+                                <img src='http://oss.tdianyi.com/front/TXz66kWyHNxQzzYfpbJAtp4HxMzTQ33m.png' />
+                        }
                     </div>
 
                 </div>
                 <div className={styles.ApeakerItemBox} >
                     <div className={styles.ApeakerItemBoxTitle} >在线状态</div>
-                    <div className={styles.ApeakerItemBoxInput}  >无</div>
+                    <div className={styles.ApeakerItemBoxInput}  >{this.state.data.is_online ? this.state.data.is_online : '无'}</div>
                     <div className={styles.ApeakerItemBoxIcon} >
-                        <img src='http://oss.tdianyi.com/front/NsfWM6CGezppjitEyzifxYXFQjFxaEMB.png' />
-                        {/* <img src='http://oss.tdianyi.com/front/aeGN6wNJZBt7cZW6bhjkr3ric44BR72Q.png' /> */}
+                        {
+                            this.state.data.is_online ? <img src='http://oss.tdianyi.com/front/aeGN6wNJZBt7cZW6bhjkr3ric44BR72Q.png' /> :
+                                <img src='http://oss.tdianyi.com/front/NsfWM6CGezppjitEyzifxYXFQjFxaEMB.png' />
+                        }
                     </div>
 
                 </div>
                 <div className={styles.ApeakerItemBox} >
                     <div className={styles.ApeakerItemBoxTitle} >设备状态</div>
-                    <div className={styles.ApeakerItemBoxInput}  >无</div>
+                    <div className={styles.ApeakerItemBoxInput}  >{this.state.data.status ? this.state.data.status : '无'}</div>
                     <div className={styles.ApeakerItemBoxIcon} >
-                        <img src='http://oss.tdianyi.com/front/tKWdw2xTWBRifwrxGJkQTAf64CxRR548.png' />
-                        {/* <img src='http://oss.tdianyi.com/front/nXdNXH3chEzxB3ttxx8nPY7drynkyzKa.png' /> */}
+                        {
+                            this.state.data.status ? <img src='http://oss.tdianyi.com/front/nXdNXH3chEzxB3ttxx8nPY7drynkyzKa.png' /> :
+                                <img src='http://oss.tdianyi.com/front/tKWdw2xTWBRifwrxGJkQTAf64CxRR548.png' />
+                        }
+
+
                     </div>
                 </div>
-
-
 
                 <div className={styles.codeBox} >
-                    <div className={styles.codeBoxBottomContent} >
-                        <div className={styles.ApeakerItemBoxCodeItemBox} >
-                            <div className={styles.ApeakerItemBoxCodeItemImg} >
-                                <img src='http://oss.tdianyi.com/front/SjSaW2XDbSpbw8RepZ8BeXxG4M8Nhrs7.png' />
+                    {
+                        this.state.data && this.state.data.id ? <div className={styles.codeBoxBottomContent} >
+                            <div className={styles.ApeakerItemBoxCodeItemBox} onClick={() => { this.setState({ ApeakerInfoPageContentShow: true }) }}>
+                                <div className={styles.ApeakerItemBoxCodeItemImg} >
+                                    <img src='http://oss.tdianyi.com/front/6tnnhaEWGAAsAFQTa3wPW8iTDMAasSyb.png' />
+                                </div>
+                                <div className={styles.ApeakerItemBoxCodeItemInfo} >解除绑定</div>
                             </div>
-                            <div className={styles.ApeakerItemBoxCodeItemInfo} >绑定音箱</div>
-                        </div>
-                        {/* <div className={styles.ApeakerItemBoxCodeItemBox} >
-                            <div className={styles.ApeakerItemBoxCodeItemImg} >
-                                <img src='http://oss.tdianyi.com/front/xhQDHWMkaET2Z48CsZKRQaaXQrJbhiFw.png' />
+
+                            <div className={styles.ApeakerItemBoxCodeItemBox} >
+                                <div className={styles.ApeakerItemBoxCodeItemImg} >
+                                    <img src='http://oss.tdianyi.com/front/SWQWsjBRz6SziJi4wmktp5Y2ActymrEk.png' />
+                                </div>
+                                <div className={styles.ApeakerItemBoxCodeItemInfo} >测试播报</div>
                             </div>
-                            <div className={styles.ApeakerItemBoxCodeItemInfo} >绑定音箱</div>
-                        </div>
-                        
-                        <div className={styles.ApeakerItemBoxCodeItemBox} onClick={()=>{this.setState({ApeakerInfoPageContentShow:true})}}>
-                            <div className={styles.ApeakerItemBoxCodeItemImg} >
-                                <img src='http://oss.tdianyi.com/front/6tnnhaEWGAAsAFQTa3wPW8iTDMAasSyb.png' />
+                        </div> : <div className={styles.codeBoxBottomContent} >
+                                <div className={styles.ApeakerItemBoxCodeItemBox} >
+                                    <div className={styles.ApeakerItemBoxCodeItemImg} >
+                                        {
+                                            this.state.serialNumber ? <img src='http://oss.tdianyi.com/front/xhQDHWMkaET2Z48CsZKRQaaXQrJbhiFw.png' /> :
+                                                <img src='http://oss.tdianyi.com/front/SjSaW2XDbSpbw8RepZ8BeXxG4M8Nhrs7.png' />
+                                        }
+
+                                    </div>
+                                    <div className={styles.ApeakerItemBoxCodeItemInfo} >绑定音箱</div>
+                                </div>
+                                <div className={styles.ApeakerItemBoxCodeItemBox} onClick={() => { router.push('/loudspeaker/apeakerInfo') }} >
+                                    <div className={styles.ApeakerItemBoxCodeItemImg} >
+                                        <img src='http://oss.tdianyi.com/front/STxDe4XwRZFZdBzw6zrHTBYRjFGPC8zF.png' />
+                                    </div>
+                                    <div className={styles.ApeakerItemBoxCodeItemInfo} >购买音箱</div>
+                                </div>
                             </div>
-                            <div className={styles.ApeakerItemBoxCodeItemInfo} >解除绑定</div>
-                        </div> */}
-                        <div className={styles.ApeakerItemBoxCodeItemBox} onClick={() => { router.push('/loudspeaker/apeakerInfo') }} >
-                            <div className={styles.ApeakerItemBoxCodeItemImg} >
-                                <img src='http://oss.tdianyi.com/front/STxDe4XwRZFZdBzw6zrHTBYRjFGPC8zF.png' />
-                            </div>
-                            <div className={styles.ApeakerItemBoxCodeItemInfo} >购买音箱</div>
-                        </div>
-                        {/* <div className={styles.ApeakerItemBoxCodeItemBox} >
-                            <div className={styles.ApeakerItemBoxCodeItemImg} >
-                                <img src='http://oss.tdianyi.com/front/SWQWsjBRz6SziJi4wmktp5Y2ActymrEk.png' />
-                            </div>
-                            <div className={styles.ApeakerItemBoxCodeItemInfo} >测试播报</div>
-                        </div> */}
-                    </div>
-                    <a href="tel:15511112222">
+                    }
+                    <a href={'tel:' + this.state.phone}>
                         <div className={styles.codeBoxBottom} > 客服电话-123654586</div>
                     </a>
-                    {/* <div className={styles.codeBoxBottom} onClick={this.makePhoneCall.bind(this)}> 客服电话-123654586</div> */}
                 </div>
-
                 {/* <div className={styles.successInfoBox} >
                     <img className={styles.successInfoBoxImg} src='http://oss.tdianyi.com/front/6FG62TJFciSbJr6A46zdmFwFMmzBABYa.png' />
                     <div className={styles.successInfoBoxInfo} >成功绑定</div>
                 </div> */}
-
                 {
                     this.state.ApeakerInfoPageContentShow ? <div className={styles.ApeakerInfoPageContent} >
                         <div className={styles.ApeakerInfoPageContentBox}>
