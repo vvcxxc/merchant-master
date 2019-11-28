@@ -1,3 +1,4 @@
+/**title: 我的云音箱 */
 import React, { Component } from 'react'
 import { Carousel, WingBlank } from 'antd-mobile';
 import styles from './index.less'
@@ -10,7 +11,8 @@ export default class qlPage extends Component {
     data: ['1', '2', '3'],
     slideIndex: 0,
     imgHeight: 'auto',
-    ApeakerlogisticsContentShow: false
+    ApeakerlogisticsContentShow: false,
+    phone:'tel:15478787878'
   }
 
   componentWillMount() {
@@ -29,7 +31,6 @@ export default class qlPage extends Component {
         url
       }
     }).then(res => {
-      console.log('diu', res);
       wx.config({
         debug: false,
         appId: res.appId,
@@ -39,7 +40,6 @@ export default class qlPage extends Component {
         jsApiList: ['makePhoneCall']
       });
     }).catch(err => {
-      console.log(err)
     });
   }
   componentDidMount() {
@@ -51,14 +51,7 @@ export default class qlPage extends Component {
   }
 
 
-  CustomerServicePhone = () => {
-    wx.makePhoneCall({
-      phoneNumber: 15678787877
-    })
-      .then((res: any) => {
-      })
-
-  }
+  
 
   render() {
     return (
@@ -157,7 +150,8 @@ export default class qlPage extends Component {
             </div>
           </div> : null
         }
-        <div className={styles.customer_service} onClick={this.CustomerServicePhone}>客服电话-123654586</div>
+        <a href={this.state.phone}>
+        <div className={styles.customer_service} >客服电话-123654586</div></a>
       </div>
     )
   }
