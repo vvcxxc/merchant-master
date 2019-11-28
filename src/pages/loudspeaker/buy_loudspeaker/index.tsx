@@ -135,7 +135,9 @@ export default class BuyLoudSpeaker extends Component {
   render() {
     const { list } = this.state
     const picker = this.state.is_show == true ? (
-      <div className={styles.picker}>
+      <div className={styles.picker} style={{
+        left: '0'
+        }}>
         <Flex className={styles.picker_buttons}>
           <span onClick={this.pickerCityClose}>取消</span>
           <span onClick={this.pickerCityOk}>完成</span>
@@ -188,7 +190,7 @@ export default class BuyLoudSpeaker extends Component {
         </Flex>
         <List.Item
           arrow="horizontal"
-          extra={<div>99998999989989898989789</div>}
+          extra={<div>后台接口未对接</div>}
           onClick={this.openMap}
         >
           所在地区
@@ -211,10 +213,7 @@ export default class BuyLoudSpeaker extends Component {
             {'设备协议'}
           </CheckboxItem>
         </div>
-
-        <div className={styles.In_box} >
           {picker}
-        </div>
 
         <div className={styles.buy_speakers_foot}>
           <div>￥<span>100.00</span></div>
