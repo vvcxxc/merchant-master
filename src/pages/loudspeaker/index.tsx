@@ -8,7 +8,7 @@ import router from 'umi/router';
 export default class ApeakerInfo extends Component {
     state = {
         ApeakerInfoPageContentShow: false,
-        phone: '15478787878',
+        phone: '020-80929539',
         serialNumber: '',
         data: {
             id: 0,

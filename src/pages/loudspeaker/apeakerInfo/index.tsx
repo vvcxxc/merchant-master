@@ -12,7 +12,7 @@ export default class qlPage extends Component {
     slideIndex: 0,
     imgHeight: 'auto',
     ApeakerlogisticsContentShow: false,
-    phone:'tel:15478787878'
+    phone: '020-80929539'
   }
 
   componentWillMount() {
@@ -51,7 +51,7 @@ export default class qlPage extends Component {
   }
 
 
-  
+
 
   render() {
     return (
@@ -90,7 +90,7 @@ export default class qlPage extends Component {
         </WingBlank> */}
         {
 
-            <CloudSpeakers height={true}></CloudSpeakers>
+          <CloudSpeakers height={true}></CloudSpeakers>
 
         }
 
@@ -138,9 +138,6 @@ export default class qlPage extends Component {
                       </div>
                       <div className={styles.adderessItemMsg}>恐惧和孤独斯拉夫的疯狂进攻腊斯克附近的安康就是个的饭卡上更加反对开挂撒</div>
                     </div>
-
-
-
                   </div>
                 </div>
               </div>
@@ -150,8 +147,8 @@ export default class qlPage extends Component {
             </div>
           </div> : null
         }
-        <a href={this.state.phone}>
-        <div className={styles.customer_service} >客服电话-123654586</div></a>
+        <a href={'tel:' + this.state.phone}>
+          <div className={styles.customer_service} >客服电话-123654586</div></a>
       </div>
     )
   }
