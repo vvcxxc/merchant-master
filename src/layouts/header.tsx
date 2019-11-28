@@ -61,7 +61,7 @@ export default connect(({ ad, businessArea }: any) => ({ ad, businessArea }))(
 			return (
 				<div style={{ width: '100%' }}>
 					<Flex className={styles.header} justify="center" style={{ display: this.state.showNav ? '' : 'none' }}>
-						<img onClick={this.goBack} src={require('./icon-back@2x.png')} className={styles.backImg} />
+						<img onClick={this.goBack} src={require('./icon-back@3x.png')} className={styles.backImg} />
 						{window.title}
 					</Flex>
 				</div>

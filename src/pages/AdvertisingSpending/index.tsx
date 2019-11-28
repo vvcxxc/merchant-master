@@ -91,7 +91,7 @@ export default class OrderPage extends Component {
         })
         tempList.push(item2);
       })
-      console.log(tempList)
+      // console.log(tempList)
       this.setState({ list: this.state.list.concat(data.data), last_page: res.data.last_page, qList: this.state.qList.concat(tempList) })
 
     } else if (res.code === 200 && res.data.data.length == 0) {
@@ -107,7 +107,7 @@ export default class OrderPage extends Component {
       }
     });
     if (res.code === 200) {
-      console.log(res)
+      // console.log(res)
       this.setState({ sum_money: res.data.sum_money })
     }
   };
