@@ -39,6 +39,7 @@ export default class OrderPage extends Component {
   };
 
   componentDidMount() {
+    console.log('更新')
     // document.title="交易明细";
     // window.title="交易明细";
     this.getData();
@@ -58,35 +59,32 @@ export default class OrderPage extends Component {
     const { data, code } = res
 
     if (code === 200 && data.data.length != 0) {
-      data.data.map((item0: any) => {
-        let gg = 0
-        item0.map((item2: any) => {
-          gg = this.accAdd(gg, Number(item2.money));
-        })
-        item0['gg'] = gg
-      })
-
       let tempList = this.state.qList;
       data.data.map((item: any) => {
         let item2 = {
           shangquan: 0,
           huangjin: 0,
           zuanshi: 0,
-          bojin: 0
+          bojin: 0,
+          gg: 0
         }
         item.map((item3: any) => {
           switch (item3.position_id) {
             case 4:
               item2.shangquan = item3.money;
+              item2.gg = this.accAdd(item2.gg, Number(item3.money));
               break;
             case 2:
               item2.huangjin = item3.money;
+              item2.gg = this.accAdd(item2.gg, Number(item3.money));
               break;
             case 3:
               item2.bojin = item3.money;
+              item2.gg = this.accAdd(item2.gg, Number(item3.money));
               break;
             case 1:
               item2.zuanshi = item3.money;
+              item2.gg = this.accAdd(item2.gg, Number(item3.money));
               break;
             default:
               break;
@@ -94,6 +92,7 @@ export default class OrderPage extends Component {
         })
         tempList.push(item2);
       })
+      console.log(tempList)
       this.setState({ list: this.state.list.concat(data.data), last_page: res.data.last_page, qList: this.state.qList.concat(tempList) })
 
     } else if (res.code === 200 && res.data.data.length == 0) {
@@ -119,7 +118,7 @@ export default class OrderPage extends Component {
       page: 1,
       hasMore: true,
       list: [],
-      qList:[],
+      qList: [],
       pay_status: query.hot.id || undefined,
       start_time: query.time ? moment(query.time).unix() : undefined,
       end_time: query.time ? moment(query.end_time).unix() : undefined
@@ -195,7 +194,7 @@ export default class OrderPage extends Component {
         <div className={styles.AdvertisingSpendingList} key={index} >
           <div className={styles.AdvertisingTitle} >
             <div className={styles.AdvertisingDate} >{new Date(_[0].start_time * 1000).getFullYear() + '/' + (Number(new Date(_[0].start_time * 1000).getMonth()) + 1) + '/' + new Date(_[0].start_time * 1000).getDate()}</div>
-            <div className={styles.AdvertisingTotalMoney} >{_.gg}</div>
+            <div className={styles.AdvertisingTotalMoney} >{this.state.qList[index].gg}</div>
           </div>
           {
             this.state.pay_status && this.state.pay_status != 4 ? null : <div className={styles.AdvertisingContent} >
