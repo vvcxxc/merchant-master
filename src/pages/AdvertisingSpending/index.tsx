@@ -16,6 +16,7 @@ import styles from './index.less';
 export default class OrderPage extends Component {
   state = {
     list: [],
+    qList: [],
     last_page: 0,
     insignificant: 0,
     sum_money: 0,
@@ -57,14 +58,44 @@ export default class OrderPage extends Component {
     const { data, code } = res
 
     if (code === 200 && data.data.length != 0) {
-      data.data.map((item: any) => {
+      data.data.map((item0: any) => {
         let gg = 0
-        item.map((item2: any) => {
+        item0.map((item2: any) => {
           gg = this.accAdd(gg, Number(item2.money));
         })
-        item['gg'] = gg
+        item0['gg'] = gg
       })
-      this.setState({ list: this.state.list.concat(data.data), last_page: res.data.last_page, })
+
+      let tempList = this.state.qList;
+      data.data.map((item: any) => {
+        let item2 = {
+          shangquan: 0,
+          huangjin: 0,
+          zuanshi: 0,
+          bojin: 0
+        }
+        item.map((item3: any) => {
+          switch (item3.position_id) {
+            case 4:
+              item2.shangquan = item3.money;
+              break;
+            case 2:
+              item2.huangjin = item3.money;
+              break;
+            case 3:
+              item2.bojin = item3.money;
+              break;
+            case 1:
+              item2.zuanshi = item3.money;
+              break;
+            default:
+              break;
+          }
+        })
+        tempList.push(item2);
+      })
+      this.setState({ list: this.state.list.concat(data.data), last_page: res.data.last_page, qList: this.state.qList.concat(tempList) })
+
     } else if (res.code === 200 && res.data.data.length == 0) {
       this.setState({ hasMore: false })
     }
@@ -88,6 +119,7 @@ export default class OrderPage extends Component {
       page: 1,
       hasMore: true,
       list: [],
+      qList:[],
       pay_status: query.hot.id || undefined,
       start_time: query.time ? moment(query.time).unix() : undefined,
       end_time: query.time ? moment(query.end_time).unix() : undefined
@@ -158,79 +190,49 @@ export default class OrderPage extends Component {
   }
 
   render() {
-    let Ql = 0
     const financeList = this.state.list.length ? (
       this.state.list.map((_: any, index: number) => (
         <div className={styles.AdvertisingSpendingList} key={index} >
           <div className={styles.AdvertisingTitle} >
-            <div className={styles.AdvertisingDate} >{_[0].stat_date}</div>
+            <div className={styles.AdvertisingDate} >{new Date(_[0].start_time * 1000).getFullYear() + '/' + (Number(new Date(_[0].start_time * 1000).getMonth()) + 1) + '/' + new Date(_[0].start_time * 1000).getDate()}</div>
             <div className={styles.AdvertisingTotalMoney} >{_.gg}</div>
           </div>
           {
-            _.map((item: any, index2: number) => (
-              <div key={index2}>
-                {
-                  this.state.pay_status && this.state.pay_status != 4 ? null : (item.position_id == 4 ? <div className={styles.AdvertisingContent} >
-                    <div className={styles.AdvertisingName} >商圈广告消费</div>
-                    <div className={styles.AdvertisingMoneyBox} >
-                      <div className={styles.AdvertisingMoney} >{item.money}</div>
-                      <Icon type="right" color="#bcbcbc" />
-                    </div>
-                  </div> : <div className={styles.AdvertisingContent}>
-                      <div className={styles.AdvertisingName} >商圈广告消费</div>
-                      <div className={styles.AdvertisingMoneyBox} >
-                        <div className={styles.AdvertisingMoney} >0.00</div>
-                        <Icon type="right" color="#bcbcbc" />
-                      </div>
-                    </div>)
-                }
-                {
-                  this.state.pay_status && this.state.pay_status != 2 ? null : (item.position_id == 2 ? <div className={styles.AdvertisingContent} >
-                    <div className={styles.AdvertisingName} >黄金广告消费</div>
-                    <div className={styles.AdvertisingMoneyBox} >
-                      <div className={styles.AdvertisingMoney} >{item.money}</div>
-                      <Icon type="right" color="#bcbcbc" />
-                    </div>
-                  </div> : <div className={styles.AdvertisingContent}>
-                      <div className={styles.AdvertisingName} >黄金广告消费</div>
-                      <div className={styles.AdvertisingMoneyBox} >
-                        <div className={styles.AdvertisingMoney} >0.00</div>
-                        <Icon type="right" color="#bcbcbc" />
-                      </div>
-                    </div>)
-                }
-                {
-                  this.state.pay_status && this.state.pay_status != 3 ? null : (item.position_id == 3 ? <div className={styles.AdvertisingContent} >
-                    <div className={styles.AdvertisingName} >铂金广告消费</div>
-                    <div className={styles.AdvertisingMoneyBox} >
-                      <div className={styles.AdvertisingMoney} >{item.money}</div>
-                      <Icon type="right" color="#bcbcbc" />
-                    </div>
-                  </div> : <div className={styles.AdvertisingContent} >
-                      <div className={styles.AdvertisingName} >铂金广告消费</div>
-                      <div className={styles.AdvertisingMoneyBox} >
-                        <div className={styles.AdvertisingMoney} >0.00</div>
-                        <Icon type="right" color="#bcbcbc" />
-                      </div>
-                    </div>)
-                }
-                {
-                  this.state.pay_status && this.state.pay_status != 1 ? null : (item.position_id == 1 ? <div className={styles.AdvertisingContent}>
-                    <div className={styles.AdvertisingName} >钻石广告消费</div>
-                    <div className={styles.AdvertisingMoneyBox} >
-                      <div className={styles.AdvertisingMoney} >{item.money}</div>
-                      <Icon type="right" color="#bcbcbc" />
-                    </div>
-                  </div> : <div className={styles.AdvertisingContent} >
-                      <div className={styles.AdvertisingName} >钻石广告消费</div>
-                      <div className={styles.AdvertisingMoneyBox} >
-                        <div className={styles.AdvertisingMoney} >0.00</div>
-                        <Icon type="right" color="#bcbcbc" />
-                      </div>
-                    </div>)
-                }
+            this.state.pay_status && this.state.pay_status != 4 ? null : <div className={styles.AdvertisingContent} >
+              <div className={styles.AdvertisingName} >商圈广告消费</div>
+              <div className={styles.AdvertisingMoneyBox} >
+                <div className={styles.AdvertisingMoney} >{this.state.qList[index].shangquan}</div>
+                <Icon type="right" color="#bcbcbc" />
               </div>
-            ))
+            </div>
+          }
+          {
+            this.state.pay_status && this.state.pay_status != 2 ? null : <div className={styles.AdvertisingContent} >
+              <div className={styles.AdvertisingName} >黄金广告消费</div>
+              <div className={styles.AdvertisingMoneyBox} >
+                <div className={styles.AdvertisingMoney} >{this.state.qList[index].huangjin}</div>
+                <Icon type="right" color="#bcbcbc" />
+              </div>
+            </div>
+          }
+          {
+            this.state.pay_status && this.state.pay_status != 3 ? null : <div className={styles.AdvertisingContent} >
+              <div className={styles.AdvertisingName} >铂金广告消费</div>
+              <div className={styles.AdvertisingMoneyBox} >
+                <div className={styles.AdvertisingMoney} >{this.state.qList[index].bojin}</div>
+                <Icon type="right" color="#bcbcbc" />
+              </div>
+            </div>
+          }
+          {
+            this.state.pay_status && this.state.pay_status != 1 ? null :
+              <div className={styles.AdvertisingContent}>
+                <div className={styles.AdvertisingName} >钻石广告消费</div>
+                <div className={styles.AdvertisingMoneyBox} >
+                  <div className={styles.AdvertisingMoney} >{this.state.qList[index].zuanshi}</div>
+                  <Icon type="right" color="#bcbcbc" />
+                </div>
+              </div>
           }
         </div>
       ))
