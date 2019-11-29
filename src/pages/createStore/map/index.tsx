@@ -109,6 +109,7 @@ export default connect(({ createStore }: any) => createStore)(
               };
               // console.log(this.props.address)
               // if (!this.props.address) {
+              console.log('this.props.address',this.props.address)
               if(!this.props.address) {
                 alert('123')
                 _this.setState({ location });
