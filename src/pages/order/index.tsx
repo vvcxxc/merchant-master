@@ -44,11 +44,12 @@ export default class OrderPage extends Component {
   }
 
   getData = async (query?: any) => {
+    console.log(query)
     Toast.loading('');
     let querys = {}
+    let begin = moment().add('month', 0).format('YYYY-MM') + '-01'
+    let end = moment(begin).add('month', 1).add('days', -1).format('YYYY-MM-DD')
     if (!query) {
-      let begin = moment().add('month', 0).format('YYYY-MM') + '-01'
-      let end = moment(begin).add('month', 1).add('days', -1).format('YYYY-MM-DD')
       querys = {
         begin: moment(begin).unix(),
         end: moment(end).unix()
@@ -60,6 +61,8 @@ export default class OrderPage extends Component {
       url: 'v3/coupons/order_list', params: {
         pay_status: this.state.pay_status,
         ...querys,
+        begin: querys.begin || moment(begin).unix(),
+        end: querys.end || moment(end).unix(),
         page: this.state.page,
       }
     });
