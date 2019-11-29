@@ -61,6 +61,7 @@ export default connect(({ createStore }: any) => createStore)(
     };
 
     componentDidMount() {
+      console.log('123xzt')
       axios({
         url: 'http://test.api.tdianyi.com/v3/district',
         method: 'get'
