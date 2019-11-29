@@ -100,6 +100,7 @@ export default connect(({ createStore }: any) => createStore)(
           wx.getLocation({
             type: 'wgs84',
             success: function (res: any) {
+              console.log('res',res);
               let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
               let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
               let location = {
@@ -109,7 +110,7 @@ export default connect(({ createStore }: any) => createStore)(
               // console.log(this.props.address)
               // if (!this.props.address) {
               if(!this.props.address) {
-                // alert('123')
+                alert('123')
                 _this.setState({ location });
                 _this.props.dispatch({
                   type: 'createStore/setStore',
