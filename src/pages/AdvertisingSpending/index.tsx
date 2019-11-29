@@ -70,19 +70,19 @@ export default class OrderPage extends Component {
         item.map((item3: any) => {
           switch (item3.position_id) {
             case 4:
-              item2.shangquan = item3.money;
+              item2.shangquan = this.toDecimal2(item3.money);
               item2.gg = this.accAdd(Number(item2.gg), Number(item3.money));
               break;
             case 2:
-              item2.huangjin = item3.money;
+              item2.huangjin = this.toDecimal2(item3.money);
               item2.gg = this.accAdd(Number(item2.gg), Number(item3.money));
               break;
             case 3:
-              item2.bojin = item3.money;
+              item2.bojin = this.toDecimal2(item3.money);
               item2.gg = this.accAdd(Number(item2.gg), Number(item3.money));
               break;
             case 1:
-              item2.zuanshi = item3.money;
+              item2.zuanshi = this.toDecimal2(item3.money);
               item2.gg = this.accAdd(Number(item2.gg), Number(item3.money));
               break;
             default:
@@ -107,8 +107,8 @@ export default class OrderPage extends Component {
       }
     });
     if (res.code === 200) {
-      // console.log(res)
-      this.setState({ sum_money: res.data.sum_money })
+      let sum_money = this.toDecimal2(res.data.sum_money);
+      this.setState({ sum_money: sum_money })
     }
   };
 
@@ -206,6 +206,11 @@ export default class OrderPage extends Component {
     return s;
   }
 
+  toSplit2 = (y: any) => {
+    let el = String(y);
+
+    return y;
+  }
   render() {
     const financeList = this.state.list.length ? (
       this.state.qList.map((item: any, index: number) => (
