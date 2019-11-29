@@ -25,6 +25,13 @@ export default class qlPage extends Component {
   render() {
     return (
       <div id={styles.qilin} >
+        <div style={{
+          background: 'rgba(255,231,225,1)',
+          
+        }}>
+          音箱配送中，
+          <span>查看物流</span>
+        </div>
         <WingBlank>
           <Carousel className="space-carousel"
             frameOverflow="visible"
