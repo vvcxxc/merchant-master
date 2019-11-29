@@ -76,7 +76,7 @@ export default withRouter(
 							<TabBarItem
 								icon={financeIcon}
 								selectedIcon={financeSelectIcon}
-								title="财务"
+								title="收款"
 								key={1}
 								selected={this.props.active === 1}
 								onPress={this.pushFinance}

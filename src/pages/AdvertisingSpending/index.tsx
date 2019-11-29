@@ -16,9 +16,10 @@ import styles from './index.less';
 export default class OrderPage extends Component {
   state = {
     list: [],
+    qList: [],
     last_page: 0,
     insignificant: 0,
-    sum_money: 0,
+    sum_money: '0.00',
     page: 1,
     hasMore: true,
 
@@ -55,16 +56,44 @@ export default class OrderPage extends Component {
     });
     Toast.hide();
     const { data, code } = res
-
     if (code === 200 && data.data.length != 0) {
+      let tempList = this.state.qList;
       data.data.map((item: any) => {
-        let gg = 0
-        item.map((item2: any) => {
-          gg = this.accAdd(gg, Number(item2.money));
+        let item2 = {
+          shangquan: '0.00',
+          huangjin: '0.00',
+          zuanshi: '0.00',
+          bojin: '0.00',
+          gg: '0.00',
+          date: new Date(item[0].start_time * 1000).getFullYear() + '/' + (Number(new Date(item[0].start_time * 1000).getMonth()) + 1) + '/' + new Date(item[0].start_time * 1000).getDate()
+        }
+        item.map((item3: any) => {
+          switch (item3.position_id) {
+            case 4:
+              item2.shangquan = this.toDecimal2(item3.money);
+              item2.gg = this.accAdd(Number(item2.gg), Number(item3.money));
+              break;
+            case 2:
+              item2.huangjin = this.toDecimal2(item3.money);
+              item2.gg = this.accAdd(Number(item2.gg), Number(item3.money));
+              break;
+            case 3:
+              item2.bojin = this.toDecimal2(item3.money);
+              item2.gg = this.accAdd(Number(item2.gg), Number(item3.money));
+              break;
+            case 1:
+              item2.zuanshi = this.toDecimal2(item3.money);
+              item2.gg = this.accAdd(Number(item2.gg), Number(item3.money));
+              break;
+            default:
+              break;
+          }
         })
-        item['gg'] = gg
+        tempList.push(item2);
       })
-      this.setState({ list: this.state.list.concat(data.data), last_page: res.data.last_page, })
+      // console.log(tempList)
+      this.setState({ list: this.state.list.concat(data.data), last_page: res.data.last_page, qList: this.state.qList.concat(tempList) })
+
     } else if (res.code === 200 && res.data.data.length == 0) {
       this.setState({ hasMore: false })
     }
@@ -78,8 +107,8 @@ export default class OrderPage extends Component {
       }
     });
     if (res.code === 200) {
-      console.log(res)
-      this.setState({ sum_money: res.data.sum_money })
+      let sum_money = this.toDecimal2(res.data.sum_money);
+      this.setState({ sum_money: sum_money })
     }
   };
 
@@ -88,6 +117,7 @@ export default class OrderPage extends Component {
       page: 1,
       hasMore: true,
       list: [],
+      qList: [],
       pay_status: query.hot.id || undefined,
       start_time: query.time ? moment(query.time).unix() : undefined,
       end_time: query.time ? moment(query.end_time).unix() : undefined
@@ -128,7 +158,7 @@ export default class OrderPage extends Component {
   };
 
   accAdd = (arg1: Number, arg2: Number) => {
-    var r1, r2, m, c;
+    var r1, r2, m, c, res;
     try {
       r1 = arg1.toString().split(".")[1].length;
     } catch (e) {
@@ -154,90 +184,78 @@ export default class OrderPage extends Component {
       arg1 = Number(arg1.toString().replace(".", ""));
       arg2 = Number(arg2.toString().replace(".", ""));
     }
-    return (arg1 + arg2) / m;
+    res = this.toDecimal2(String((arg1 + arg2) / m))
+    return res;
   }
 
+  toDecimal2 = (x: any) => {
+    var f = parseFloat(x);
+    if (isNaN(f)) {
+      return false;
+    }
+    var f = Math.round(x * 100) / 100;
+    var s = f.toString();
+    var rs = s.indexOf('.');
+    if (rs < 0) {
+      rs = s.length;
+      s += '.';
+    }
+    while (s.length <= rs + 2) {
+      s += '0';
+    }
+    return s;
+  }
   render() {
-    let Ql = 0
     const financeList = this.state.list.length ? (
-      this.state.list.map((_: any, index: number) => (
+      this.state.qList.map((item: any, index: number) => (
         <div className={styles.AdvertisingSpendingList} key={index} >
           <div className={styles.AdvertisingTitle} >
-            <div className={styles.AdvertisingDate} >{_[0].stat_date}</div>
-            <div className={styles.AdvertisingTotalMoney} >{_.gg}</div>
+            <div className={styles.AdvertisingDate} >{item.date}</div>
+            <div className={styles.AdvertisingTotalMoney} >￥{item.gg}</div>
           </div>
           {
-            _.map((item: any, index2: number) => (
-              <div key={index2}>
-                {
-                  this.state.pay_status && this.state.pay_status != 4 ? null : (item.position_id == 4 ? <div className={styles.AdvertisingContent} >
-                    <div className={styles.AdvertisingName} >商圈广告消费</div>
-                    <div className={styles.AdvertisingMoneyBox} >
-                      <div className={styles.AdvertisingMoney} >{item.money}</div>
-                      <Icon type="right" color="#bcbcbc" />
-                    </div>
-                  </div> : <div className={styles.AdvertisingContent}>
-                      <div className={styles.AdvertisingName} >商圈广告消费</div>
-                      <div className={styles.AdvertisingMoneyBox} >
-                        <div className={styles.AdvertisingMoney} >0.00</div>
-                        <Icon type="right" color="#bcbcbc" />
-                      </div>
-                    </div>)
-                }
-                {
-                  this.state.pay_status && this.state.pay_status != 2 ? null : (item.position_id == 2 ? <div className={styles.AdvertisingContent} >
-                    <div className={styles.AdvertisingName} >黄金广告消费</div>
-                    <div className={styles.AdvertisingMoneyBox} >
-                      <div className={styles.AdvertisingMoney} >{item.money}</div>
-                      <Icon type="right" color="#bcbcbc" />
-                    </div>
-                  </div> : <div className={styles.AdvertisingContent}>
-                      <div className={styles.AdvertisingName} >黄金广告消费</div>
-                      <div className={styles.AdvertisingMoneyBox} >
-                        <div className={styles.AdvertisingMoney} >0.00</div>
-                        <Icon type="right" color="#bcbcbc" />
-                      </div>
-                    </div>)
-                }
-                {
-                  this.state.pay_status && this.state.pay_status != 3 ? null : (item.position_id == 3 ? <div className={styles.AdvertisingContent} >
-                    <div className={styles.AdvertisingName} >铂金广告消费</div>
-                    <div className={styles.AdvertisingMoneyBox} >
-                      <div className={styles.AdvertisingMoney} >{item.money}</div>
-                      <Icon type="right" color="#bcbcbc" />
-                    </div>
-                  </div> : <div className={styles.AdvertisingContent} >
-                      <div className={styles.AdvertisingName} >铂金广告消费</div>
-                      <div className={styles.AdvertisingMoneyBox} >
-                        <div className={styles.AdvertisingMoney} >0.00</div>
-                        <Icon type="right" color="#bcbcbc" />
-                      </div>
-                    </div>)
-                }
-                {
-                  this.state.pay_status && this.state.pay_status != 1 ? null : (item.position_id == 1 ? <div className={styles.AdvertisingContent}>
-                    <div className={styles.AdvertisingName} >钻石广告消费</div>
-                    <div className={styles.AdvertisingMoneyBox} >
-                      <div className={styles.AdvertisingMoney} >{item.money}</div>
-                      <Icon type="right" color="#bcbcbc" />
-                    </div>
-                  </div> : <div className={styles.AdvertisingContent} >
-                      <div className={styles.AdvertisingName} >钻石广告消费</div>
-                      <div className={styles.AdvertisingMoneyBox} >
-                        <div className={styles.AdvertisingMoney} >0.00</div>
-                        <Icon type="right" color="#bcbcbc" />
-                      </div>
-                    </div>)
-                }
+            this.state.pay_status && this.state.pay_status != 4 ? null : <div className={styles.AdvertisingContent} >
+              <div className={styles.AdvertisingName} >商圈广告消费</div>
+              <div className={styles.AdvertisingMoneyBox} >
+                <div className={styles.AdvertisingMoney} >￥{item.shangquan}</div>
+                <Icon type="right" color="#bcbcbc" />
               </div>
-            ))
+            </div>
+          }
+          {
+            this.state.pay_status && this.state.pay_status != 2 ? null : <div className={styles.AdvertisingContent} >
+              <div className={styles.AdvertisingName} >黄金广告消费</div>
+              <div className={styles.AdvertisingMoneyBox} >
+                <div className={styles.AdvertisingMoney} >￥{item.huangjin}</div>
+                <Icon type="right" color="#bcbcbc" />
+              </div>
+            </div>
+          }
+          {
+            this.state.pay_status && this.state.pay_status != 3 ? null : <div className={styles.AdvertisingContent} >
+              <div className={styles.AdvertisingName} >铂金广告消费</div>
+              <div className={styles.AdvertisingMoneyBox} >
+                <div className={styles.AdvertisingMoney} >￥{item.bojin}</div>
+                <Icon type="right" color="#bcbcbc" />
+              </div>
+            </div>
+          }
+          {
+            this.state.pay_status && this.state.pay_status != 1 ? null :
+              <div className={styles.AdvertisingContent}>
+                <div className={styles.AdvertisingName} >钻石广告消费</div>
+                <div className={styles.AdvertisingMoneyBox} >
+                  <div className={styles.AdvertisingMoney} >￥{item.zuanshi}</div>
+                  <Icon type="right" color="#bcbcbc" />
+                </div>
+              </div>
           }
         </div>
       ))
     ) : (
         <NoData type="finance" />
       );
-    const list = [{ name: '金额总计', num: this.state.sum_money }]
+    const list = [{ name: '金额总计', num: '￥' + this.state.sum_money }]
     return (
       <FiltrateLayout
         undetermined={this.undetermined}
