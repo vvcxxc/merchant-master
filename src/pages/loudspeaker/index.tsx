@@ -53,6 +53,7 @@ export default class ApeakerInfo extends Component {
             url: 'api/v1/voice/device',
             method: 'get',
         }).then(res => {
+            console.log('deviceres:', res)
             res.code == 200 && this.setState({ data: res.data })
         }).catch(err => {
             console.log(err)
@@ -72,7 +73,16 @@ export default class ApeakerInfo extends Component {
     changeCode = (e: any) => {
         this.setState({ serialNumber: e.target.value })
     }
+    bindSpeaker = () => {
+        console.log('绑定音箱', this.state.serialNumber)
+    }
+    testSpeaker=()=>{
+        console.log('测试播报')
 
+    }
+    removeBind=()=>{
+        console.log('解除绑定')
+    }
     render() {
         return (
             <div className={styles.ApeakerInfoPage} >
@@ -132,14 +142,14 @@ export default class ApeakerInfo extends Component {
                                 <div className={styles.ApeakerItemBoxCodeItemInfo} >解除绑定</div>
                             </div>
 
-                            <div className={styles.ApeakerItemBoxCodeItemBox} >
+                            <div className={styles.ApeakerItemBoxCodeItemBox} onClick={this.testSpeaker.bind(this)} >
                                 <div className={styles.ApeakerItemBoxCodeItemImg} >
                                     <img src='http://oss.tdianyi.com/front/SWQWsjBRz6SziJi4wmktp5Y2ActymrEk.png' />
                                 </div>
                                 <div className={styles.ApeakerItemBoxCodeItemInfo} >测试播报</div>
                             </div>
                         </div> : <div className={styles.codeBoxBottomContent} >
-                                <div className={styles.ApeakerItemBoxCodeItemBox} >
+                                <div className={styles.ApeakerItemBoxCodeItemBox} onClick={this.bindSpeaker.bind(this)}>
                                     <div className={styles.ApeakerItemBoxCodeItemImg} >
                                         {
                                             this.state.serialNumber ? <img src='http://oss.tdianyi.com/front/xhQDHWMkaET2Z48CsZKRQaaXQrJbhiFw.png' /> :
@@ -158,7 +168,7 @@ export default class ApeakerInfo extends Component {
                             </div>
                     }
                     <a href={'tel:' + this.state.phone}>
-                        <div className={styles.codeBoxBottom} > 客服电话-{this.state.phone}</div>
+                        <div className={styles.codeBoxBottom} >客服电话-{this.state.phone}</div>
                     </a>
                 </div>
                 {/* <div className={styles.successInfoBox} >
@@ -173,8 +183,8 @@ export default class ApeakerInfo extends Component {
                                 <div className={styles.ContentBoxTopInfo}>解除设备后，您将无法接受收款语言提醒</div>
                             </div>
                             <div className={styles.ContentBoxBottom}>
-                                <div className={styles.ContentBoxBottomCancle}>取消</div>
-                                <div className={styles.ContentBoxBottomSumbit}>确认</div>
+                                <div className={styles.ContentBoxBottomCancle} onClick={()=>{this.setState({ApeakerInfoPageContentShow:false})}}>取消</div>
+                                <div className={styles.ContentBoxBottomSumbit} onClick={this.removeBind.bind(this)}>确认</div>
                             </div>
                         </div>
                     </div> : null

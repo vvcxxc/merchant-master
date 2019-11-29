@@ -19,7 +19,7 @@ export default class OrderPage extends Component {
     qList: [],
     last_page: 0,
     insignificant: 0,
-    sum_money: 0,
+    sum_money: '0.00',
     page: 1,
     hasMore: true,
 
@@ -60,30 +60,30 @@ export default class OrderPage extends Component {
       let tempList = this.state.qList;
       data.data.map((item: any) => {
         let item2 = {
-          shangquan: 0,
-          huangjin: 0,
-          zuanshi: 0,
-          bojin: 0,
-          gg: 0,
+          shangquan: '0.00',
+          huangjin: '0.00',
+          zuanshi: '0.00',
+          bojin: '0.00',
+          gg: '0.00',
           date: new Date(item[0].start_time * 1000).getFullYear() + '/' + (Number(new Date(item[0].start_time * 1000).getMonth()) + 1) + '/' + new Date(item[0].start_time * 1000).getDate()
         }
         item.map((item3: any) => {
           switch (item3.position_id) {
             case 4:
               item2.shangquan = item3.money;
-              item2.gg = this.accAdd(item2.gg, Number(item3.money));
+              item2.gg = this.accAdd(Number(item2.gg), Number(item3.money));
               break;
             case 2:
               item2.huangjin = item3.money;
-              item2.gg = this.accAdd(item2.gg, Number(item3.money));
+              item2.gg = this.accAdd(Number(item2.gg), Number(item3.money));
               break;
             case 3:
               item2.bojin = item3.money;
-              item2.gg = this.accAdd(item2.gg, Number(item3.money));
+              item2.gg = this.accAdd(Number(item2.gg), Number(item3.money));
               break;
             case 1:
               item2.zuanshi = item3.money;
-              item2.gg = this.accAdd(item2.gg, Number(item3.money));
+              item2.gg = this.accAdd(Number(item2.gg), Number(item3.money));
               break;
             default:
               break;
@@ -158,7 +158,7 @@ export default class OrderPage extends Component {
   };
 
   accAdd = (arg1: Number, arg2: Number) => {
-    var r1, r2, m, c;
+    var r1, r2, m, c, res;
     try {
       r1 = arg1.toString().split(".")[1].length;
     } catch (e) {
@@ -184,7 +184,26 @@ export default class OrderPage extends Component {
       arg1 = Number(arg1.toString().replace(".", ""));
       arg2 = Number(arg2.toString().replace(".", ""));
     }
-    return (arg1 + arg2) / m;
+    res = this.toDecimal2(String((arg1 + arg2) / m))
+    return res;
+  }
+
+  toDecimal2 = (x: any) => {
+    var f = parseFloat(x);
+    if (isNaN(f)) {
+      return false;
+    }
+    var f = Math.round(x * 100) / 100;
+    var s = f.toString();
+    var rs = s.indexOf('.');
+    if (rs < 0) {
+      rs = s.length;
+      s += '.';
+    }
+    while (s.length <= rs + 2) {
+      s += '0';
+    }
+    return s;
   }
 
   render() {
@@ -193,13 +212,13 @@ export default class OrderPage extends Component {
         <div className={styles.AdvertisingSpendingList} key={index} >
           <div className={styles.AdvertisingTitle} >
             <div className={styles.AdvertisingDate} >{item.date}</div>
-            <div className={styles.AdvertisingTotalMoney} >{item.gg}</div>
+            <div className={styles.AdvertisingTotalMoney} >￥{item.gg}</div>
           </div>
           {
             this.state.pay_status && this.state.pay_status != 4 ? null : <div className={styles.AdvertisingContent} >
               <div className={styles.AdvertisingName} >商圈广告消费</div>
               <div className={styles.AdvertisingMoneyBox} >
-                <div className={styles.AdvertisingMoney} >{Number(item.shangquan)}</div>
+                <div className={styles.AdvertisingMoney} >￥{item.shangquan}</div>
                 <Icon type="right" color="#bcbcbc" />
               </div>
             </div>
@@ -208,7 +227,7 @@ export default class OrderPage extends Component {
             this.state.pay_status && this.state.pay_status != 2 ? null : <div className={styles.AdvertisingContent} >
               <div className={styles.AdvertisingName} >黄金广告消费</div>
               <div className={styles.AdvertisingMoneyBox} >
-                <div className={styles.AdvertisingMoney} >{Number(item.huangjin)}</div>
+                <div className={styles.AdvertisingMoney} >￥{item.huangjin}</div>
                 <Icon type="right" color="#bcbcbc" />
               </div>
             </div>
@@ -217,7 +236,7 @@ export default class OrderPage extends Component {
             this.state.pay_status && this.state.pay_status != 3 ? null : <div className={styles.AdvertisingContent} >
               <div className={styles.AdvertisingName} >铂金广告消费</div>
               <div className={styles.AdvertisingMoneyBox} >
-                <div className={styles.AdvertisingMoney} >{Number(item.bojin)}</div>
+                <div className={styles.AdvertisingMoney} >￥{item.bojin}</div>
                 <Icon type="right" color="#bcbcbc" />
               </div>
             </div>
@@ -227,7 +246,7 @@ export default class OrderPage extends Component {
               <div className={styles.AdvertisingContent}>
                 <div className={styles.AdvertisingName} >钻石广告消费</div>
                 <div className={styles.AdvertisingMoneyBox} >
-                  <div className={styles.AdvertisingMoney} >{Number(item.zuanshi)}</div>
+                  <div className={styles.AdvertisingMoney} >￥{item.zuanshi}</div>
                   <Icon type="right" color="#bcbcbc" />
                 </div>
               </div>
@@ -237,7 +256,7 @@ export default class OrderPage extends Component {
     ) : (
         <NoData type="finance" />
       );
-    const list = [{ name: '金额总计', num: this.state.sum_money }]
+    const list = [{ name: '金额总计', num: '￥' + this.state.sum_money }]
     return (
       <FiltrateLayout
         undetermined={this.undetermined}
