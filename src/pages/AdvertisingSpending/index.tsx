@@ -205,12 +205,6 @@ export default class OrderPage extends Component {
     }
     return s;
   }
-
-  toSplit2 = (y: any) => {
-    let el = String(y);
-
-    return y;
-  }
   render() {
     const financeList = this.state.list.length ? (
       this.state.qList.map((item: any, index: number) => (
