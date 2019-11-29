@@ -61,7 +61,7 @@ export default connect(({ createStore }: any) => createStore)(
     };
 
     componentDidMount() {
-      console.log('123xzt')
+      // console.log('123xzt')
       axios({
         url: 'http://test.api.tdianyi.com/v3/district',
         method: 'get'
@@ -87,7 +87,7 @@ export default connect(({ createStore }: any) => createStore)(
       }).then(res => {
         let _this: any = this;
         wx.config({
-          debug: true,
+          debug: false,
           appId: res.appId,
           timestamp: res.timestamp,
           nonceStr: res.nonceStr,
@@ -101,8 +101,6 @@ export default connect(({ createStore }: any) => createStore)(
           wx.getLocation({
             type: 'wgs84',
             success: function (res: any) {
-              console.log('resxzt',res);
-              console.log('this.props.addressxzt',_this.props.address)
               let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
               let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
               let location = {
@@ -113,7 +111,7 @@ export default connect(({ createStore }: any) => createStore)(
               // if (!this.props.address) {
               
               if(!_this.props.address) {
-                alert('123')
+                // alert('123')
                 _this.setState({ location });
                 _this.props.dispatch({
                   type: 'createStore/setStore',
