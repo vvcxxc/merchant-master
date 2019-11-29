@@ -38,18 +38,19 @@ export default class PlatformBenefit extends Component {
 		time: '',
 		//是否重置
 		plat_type: 1,
-		listnone: false
+    listnone: false,
+    page: 1
 	};
 	componentDidMount = () => this.getData();
 	changePlatType = () => {
-		this.setState({ plat_type: 1 })
+		this.setState({ plat_type: 1, page: 1 })
 	}
 	handleTabChange = (index: number) => {
 		this.setState({ plat_type: 2 })
-		this.setState({ type: index, data: [] }, this.getData)
+		this.setState({ type: index, data: [], page: 1 }, this.getData)
 	};
 	handleChange = (query: any) => {
-		this.setState({ time: query.time }, this.getData);
+		this.setState({ time: query.time, page: 1 }, this.getData);
 	}
 	getData = async () => {
 		let url = '';
@@ -63,7 +64,10 @@ export default class PlatformBenefit extends Component {
 		Toast.loading('');
 		const res = await request({
 			url,
-			params: { date: this.state.time ? moment(this.state.time).unix() : undefined }
+			params: {
+        date: this.state.time ? moment(this.state.time).unix() : undefined,
+        page: this.state.page
+      }
 		});
 		Toast.hide();
 		if (res.code === 200) {
@@ -74,9 +78,15 @@ export default class PlatformBenefit extends Component {
 				temp=res.coupons_sum;
 			}else if(res.ad_sum||res.ad_sum==0){
 				temp=res.ad_sum;
-			}
+      }
+      let data = []
+      if(this.state.page > 1){
+        data = [...this.state.data, ...res.data]
+      }else {
+        data = res.data
+      }
 			this.setState({
-				data: res.data,
+				data,
 				total: temp,
 				invoice: res.invoice
 			}, () => {
@@ -87,7 +97,18 @@ export default class PlatformBenefit extends Component {
 				}
 			});
 		}
-	};
+  };
+
+  loadMore = () => {
+    if(!this.state.listnone){
+      this.setState({page:this.state.page + 1},()=>{
+        this.getData()
+      })
+    }else {
+
+    }
+    console.log(123)
+  }
 	render() {
 		let list;
 		if (this.state.type === 0) {
@@ -147,10 +168,15 @@ export default class PlatformBenefit extends Component {
 			>
 				<WingBlank>
 					{list}
-					<div style={{ height: "450px", width: "300px", position: "fixed", left: "50%", top: "40%", marginLeft: "-150px", display: "flex", flexDirection: "column", justifyContent: "space-between	", alignItems: "center", opacity: this.state.listnone ? 1 : 0 }}>
+          <div className={styles.loadingMore} onClick={this.loadMore}>
+            {
+              this.state.listnone ? '暂无更多数据' : '加载更多'
+            }
+          </div>
+					{/* <div style={{ height: "450px", width: "300px", position: "fixed", left: "50%", top: "40%", marginLeft: "-150px", display: "flex", flexDirection: "column", justifyContent: "space-between	", alignItems: "center", opacity: this.state.listnone ? 1 : 0 }}>
 						<img src={noneImg} style={{ width: "100%" }} />
 						<div style={{ width: "100%", color: "#999999", fontSize: "50px", textAlign: "center" }}>暂无交易信息</div>
-					</div>
+					</div> */}
 				</WingBlank>
 			</FiltrateLayout>
 		);
