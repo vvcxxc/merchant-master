@@ -1,4 +1,8 @@
 import * as Sentry from '@sentry/browser';
+
+import VConsole from 'vconsole';
+
+const vconsole = new VConsole();
 // ref: https://umijs.org/config/
 declare const Environment:string
 if (Environment == 'test' || Environment == 'release' || Environment == 'master'){

@@ -86,7 +86,7 @@ export default connect(({ createStore }: any) => createStore)(
       }).then(res => {
         let _this: any = this;
         wx.config({
-          debug: false,
+          debug: true,
           appId: res.appId,
           timestamp: res.timestamp,
           nonceStr: res.nonceStr,
