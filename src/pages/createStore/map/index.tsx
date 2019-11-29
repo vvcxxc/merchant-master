@@ -101,8 +101,8 @@ export default connect(({ createStore }: any) => createStore)(
           wx.getLocation({
             type: 'wgs84',
             success: function (res: any) {
-              console.log('res',res);
-              console.log('this.props.address',this.props.address)
+              console.log('resxzt',res);
+              console.log('this.props.addressxzt',_this.props.address)
               let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
               let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
               let location = {
