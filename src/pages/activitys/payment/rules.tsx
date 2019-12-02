@@ -114,7 +114,7 @@ export default class PaymentReturnRules extends Component<Props> {
 						this.props.isError && (!this.props.item.money || String(this.props.item.money) == '') ? <div className="errorLine" >请输入市场价格</div> : null
 					}
 					{
-						this.props.isError && String(this.props.item.money) == '0' ? <div className="errorLine" >满减活动的金额设置必须大于0元</div> : null
+						this.props.isError && Number(this.props.item.money) == 0 ? <div className="errorLine" >满减活动的金额设置必须大于0元</div> : null
 					}
 					<InputItem type="money" extra="元" onChange={this.handleChange2('returnMoney')} value={String(this.props.item.returnMoney || '')}
 					// onVirtualKeyboardConfirm={this.limitDenomination.bind(this)}//点击确定
@@ -124,7 +124,7 @@ export default class PaymentReturnRules extends Component<Props> {
 						this.props.isError && (!this.props.item.returnMoney || String(this.props.item.returnMoney) == '') ? <div className="errorLine" >请输入面额</div> : null
 					}
 					{
-						this.props.isError && String(this.props.item.returnMoney) == '0' ? <div className="errorLine" >面额必须大于0元</div> : null
+						this.props.isError && Number(this.props.item.returnMoney) == 0 ? <div className="errorLine" >面额必须大于0元</div> : null
 					}
 					<List.Item extra={limitInput}>使用门槛</List.Item>
 					{
@@ -138,7 +138,7 @@ export default class PaymentReturnRules extends Component<Props> {
 						this.props.isError && (!this.props.item.day || String(this.props.item.day) == '') ? <div className="errorLine" >请设置优惠券有效期</div> : null
 					}
 					{
-						this.props.isError && String(this.props.item.day) == '0' ? <div className="errorLine" >优惠券有效期必须大于0</div> : null
+						this.props.isError && Number(this.props.item.day) == 0 ? <div className="errorLine" >优惠券有效期必须大于0</div> : null
 					}
 					<InputItem type="money" extra="张" onChange={this.handleChange('num')} value={String(this.props.item.num || '')}
 					// onVirtualKeyboardConfirm={this.limmitInventory.bind(this)}//点击确定

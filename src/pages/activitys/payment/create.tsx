@@ -65,7 +65,7 @@ export default class CreatePaymentReturn extends Component {
 				rulesList[i].day == "0" ||
 				Number(rulesList[i].day)<=0||
 				!rulesList[i].limit ||
-				rulesList[i].limit == "0" ||
+				// rulesList[i].limit == "0" ||
 				!rulesList[i].money ||
 				rulesList[i].money == "0" ||
 				!rulesList[i].num ||

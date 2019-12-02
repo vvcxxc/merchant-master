@@ -4,6 +4,7 @@ import styles from './index.less';
 import router from 'umi/router';
 import Propmpt from './prompt_box'
 import FiltrateLayout from '../../components/selectLayout';
+import { Toast } from 'antd-mobile';
 import request from '@/services/request';
 import moment from 'moment';
 
@@ -49,10 +50,13 @@ export default class MyIndex extends Component {
     total_money: '',
     showMore:true,
     list: [
-      { order: '6908913456056', pic: '0.56', time: '2019/11/07', type: '购买优惠券' },
-      { order: '6908913456056', pic: '0.56', time: '2019/11/07', type: '购买优惠券' },
-      { order: '6908913456056', pic: '0.56', time: '2019/11/07', type: '购买优惠券' }
+      // { order: '6908913456056', pic: '0.56', time: '2019/11/07', type: '购买优惠券' },
+      // { order: '6908913456056', pic: '0.56', time: '2019/11/07', type: '购买优惠券' },
+      // { order: '6908913456056', pic: '0.56', time: '2019/11/07', type: '购买优惠券' }
     ],
+    totalData: [
+      
+    ]
   }
 
   componentDidMount() {
@@ -73,13 +77,16 @@ export default class MyIndex extends Component {
   }
 
   // 点击查看不同的列数据
-  userSelect = (index: any) => {
+  userSelect = async(index: any) => {
+   await Toast.loading('');
     const { page, begin_date, end_date } = this.state
     this.setState({
       from: index + 1,
       page:1
     }, () => {
+        
         this.getDataList({ begin_date, end_date, from: this.state.from, page })
+        Toast.hide();
     })
   }
 
@@ -127,11 +134,36 @@ export default class MyIndex extends Component {
   // 请求数据 赋值列表
   getDataList = (params: paramsType) => {
     request({
+      url: 'v3/finance/getStatements',
+      method: 'get',
+      params: {
+        begin_date: params.begin_date,
+        end_date: params.end_date
+      }
+    }).then(res => {
+      const { data, code } = res
+      if (code == 200) {
+        let titleData = this.state.title
+        titleData[0].pice = data.platform_total
+        titleData[1].pice = data.wx_total
+        titleData[2].pice = data.ali_total
+        this.setState({
+          title: titleData,
+          totalData: [
+            { name: '交易笔数', num: data.count },
+            { name: '交易金额', num: data.total_money }]
+        })
+      }
+    })
+
+    request({
       url: 'v3/finance/getOfflineOrder',
       method: 'get',
       params
     }).then(res => {
       const { code, data } = res
+      console.log(data);
+      
       if (code === 200) {
         this.setState({
           list: params.page > 1 ? [...this.state.list, ...data.offlineOrders.data]:data.offlineOrders.data,
@@ -139,12 +171,7 @@ export default class MyIndex extends Component {
           total: data.offlineOrders.total,//交易笔数
           
         })
-        let titleData = this.state.title
-        titleData[0].pice = data.platform_total
-        titleData[1].pice = data.wx_total
-        titleData[2].pice = data.ali_total
-        this.setState({ title: titleData})
-
+        
         if (data.offlineOrders.data.length<1) this.setState({showMore:false})
       }
 
@@ -163,14 +190,22 @@ export default class MyIndex extends Component {
   }
 
   render() {
-    const { title, list, total, total_money, showMore, from } = this.state
-    const list2 = [
-      { name: '交易笔数', num: total }, { name: '交易金额', num: total_money }]
+    const { title, list, total, total_money, showMore, from, totalData} = this.state
+    // const list2 = [
+    //   { name: '交易笔数', num: total }, { name: '交易金额', num: total_money }]
+    // 1收款  2订单   3充值， 4收益
+    const orderType:any = {
+      [1]: { value: '收款', id: styles.gathering },
+      [2]: { value: '订单', id: styles.order },
+      [3]: { value: '充值', id: styles.recharge },
+      [4]: { value: '收益', id: styles.earnings }
+      
+    }
     return (
       <FiltrateLayout
         hasInsignificant={true}
         dateTitle='时间'
-        insignificant={list2}
+        insignificant={totalData}
         onChange={this.handleLayoutChange}
         greyBackground={false}
       >
@@ -199,19 +234,28 @@ export default class MyIndex extends Component {
                   </div>
                 })
               }
-            </div>
+          </div>
 
             {
-              list && list.map((item: any, index: number) => {
+              list.length>0 && list.map((item: any, index: number) => {
                 return <div className={styles.list_data} key={index} onClick={this.routerDetails}>
-                  <div className={styles.list_data_left}>
-                    <img src={require('../../assets/red_query.png')} alt="" />
-                  </div>
+                  {
+                    from > 1 ? <div className={styles.list_data_left}></div> :
+                      <div className={styles.list_data_left}
+                        id={orderType[item.order_type].id}
+                      >
+                        </div>
+                  }
                   <div className={styles.list_data_right}>
                     <div className={styles.order}><span>{item.order_sn}</span> <span>{item.store_amount}</span></div>
                     <div className={styles.order_time}>
                       <span>{item.create_time}</span>
-                      <span>{item.order_type === 1 ? '线下扫码支付' :'购买优惠券'}</span></div>
+                      <span>
+                        {
+                          // from>1 ? (item.order_type === 1 ? '线下扫码支付' : '购买优惠券'):
+                            orderType[item.order_type].value
+                        }
+                      </span></div>
                     <div className={styles.border_one}></div>
                   </div>
                 </div>
