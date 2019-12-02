@@ -3,7 +3,8 @@ import router from 'umi/router';
 import styles from './index.less'
 
 interface Props {
-  height?:boolean
+  height?: boolean,
+  list:Array<Object>
 }
 export default class CloudSpeakers extends Component<Props> {
   //购买商品

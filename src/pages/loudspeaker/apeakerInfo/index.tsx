@@ -12,35 +12,36 @@ export default class qlPage extends Component {
     slideIndex: 0,
     imgHeight: 'auto',
     ApeakerlogisticsContentShow: false,
-    phone: '020-80929539'
+    phone: '020-80929539',
+    list:[]
   }
 
   componentWillMount() {
-    let userAgent = navigator.userAgent;
-    let isIos = userAgent.indexOf('iPhone') > -1;
-    let url: any;
-    if (isIos) {
-      url = sessionStorage.getItem('url');
-    } else {
-      url = location.href;
-    }
-    request({
-      url: 'wechat/getShareSign',
-      method: 'get',
-      params: {
-        url
-      }
-    }).then(res => {
-      wx.config({
-        debug: false,
-        appId: res.appId,
-        timestamp: res.timestamp,
-        nonceStr: res.nonceStr,
-        signature: res.signature,
-        jsApiList: ['makePhoneCall']
-      });
-    }).catch(err => {
-    });
+  //   let userAgent = navigator.userAgent;
+  //   let isIos = userAgent.indexOf('iPhone') > -1;
+  //   let url: any;
+  //   if (isIos) {
+  //     url = sessionStorage.getItem('url');
+  //   } else {
+  //     url = location.href;
+  //   }
+  //   request({
+  //     url: 'wechat/getShareSign',
+  //     method: 'get',
+  //     params: {
+  //       url
+  //     }
+  //   }).then(res => {
+  //     wx.config({
+  //       debug: false,
+  //       appId: res.appId,
+  //       timestamp: res.timestamp,
+  //       nonceStr: res.nonceStr,
+  //       signature: res.signature,
+  //       jsApiList: ['makePhoneCall']
+  //     });
+  //   }).catch(err => {
+  //   });
   }
   componentDidMount() {
     setTimeout(() => {
@@ -48,6 +49,21 @@ export default class qlPage extends Component {
         data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
       });
     }, 10000);
+
+    this.getListData()
+    
+  }
+
+  getListData = () => {
+    request({
+      url: 'api/v1/voice',
+      method: 'get',
+     
+    }).then(res => { 
+
+      console.log(res,'得到了');
+      
+    })
   }
 
 
@@ -90,7 +106,7 @@ export default class qlPage extends Component {
         </WingBlank> */}
         {
 
-          <CloudSpeakers height={true}></CloudSpeakers>
+          <CloudSpeakers height={true} list={}></CloudSpeakers>
 
         }
 
