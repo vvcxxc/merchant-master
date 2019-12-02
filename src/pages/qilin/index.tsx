@@ -1,22 +1,64 @@
 import React, { Component } from 'react'
-import styles from  './index.less'
+import { Carousel, WingBlank } from 'antd-mobile';
+import styles from './index.less'
+import CloudSpeakers from './component/cloud_speakers'
 export default class qlPage extends Component {
+
+  state = {
+    data: ['1','2','3'],
+    slideIndex: 0,
+    imgHeight:'auto'
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
+      });
+    }, 10000);
+  }
+
+  beforeChangeData = (form,to) => {
+    console.log('得到的',form,to);
+    
+  }
 
   render() {
     return (
-      <div className={styles.stereo_box}>
-        <div className={styles.flat_pattern}>
-          <img src="https://img14.360buyimg.com/mobilecms/s280x280_jfs/t8284/363/1326459580/71585/6d3e8013/59b857f2N6ca75622.jpg.webp" alt="" />
+      <div id={styles.qilin} >
+        <div style={{
+          background: 'rgba(255,231,225,1)',
+          
+        }}>
+          音箱配送中，
+          <span>查看物流</span>
         </div>
-        
-        <ul>
-          <li>小雅Nano智能音箱</li>
-          <li>产品功能介绍产品功能介绍产品功能 介绍产品功能介绍产品功能介绍品功 能介绍</li>
-          <li>
-            <span>￥100.00</span>
-            <span>购买音箱 拷贝 2</span>
-          </li>
-        </ul>
+        <WingBlank>
+          <Carousel className="space-carousel"
+            frameOverflow="visible"
+            dots={false}
+            // cellSpacing={10}
+            slideWidth={0.8}
+            autoplay
+            infinite
+            cellSpacing={40}
+            selectedIndex={0}//当前索引
+            swipeSpeed={22}
+            autoplayInterval={50000000}
+            beforeChange={this.beforeChangeData.bind(this)}
+            afterChange={index => this.setState({ slideIndex: index })}
+          >
+            {this.state.data.map((val, index) => (
+              <div key={val} style={{
+                  display: 'block',
+                  position: 'relative',
+                top: this.state.slideIndex === index ? 0 : 70,
+                marginRight: this.state.slideIndex === index ? '100px' : '0px',
+                }}>
+                <CloudSpeakers height={this.state.slideIndex === index ? true : false}></CloudSpeakers>
+              </div>
+            ))}
+          </Carousel>
+        </WingBlank>
       </div>
     )
   }
