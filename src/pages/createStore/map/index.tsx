@@ -61,6 +61,7 @@ export default connect(({ createStore }: any) => createStore)(
     };
 
     componentDidMount() {
+      console.log('as',this.props)
       axios({
         url: 'http://test.api.tdianyi.com/v3/district',
         method: 'get'
@@ -582,6 +583,7 @@ export default connect(({ createStore }: any) => createStore)(
           </WingBlank>
           <Flex direction='column'>
             <div className={styles.mapBox}>
+              {console.log('location',location)}
               <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
                 {
                   location ? (

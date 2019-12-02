@@ -84,6 +84,7 @@ export default class MapPage extends Component<Props> {
         url
       }
     }).then(res => {
+      console.log('res1',res)
       let _this = this;
       wx.config({
         debug: false,
@@ -92,14 +93,19 @@ export default class MapPage extends Component<Props> {
         nonceStr: res.nonceStr,
         signature: res.signature,
         jsApiList: [
+          "openLocation",
           "getLocation",
-          "openLocation"
         ]
       });
       wx.ready(() => {
+        console.log('resres',res)
         wx.getLocation({
           type: 'wgs84',
+          fail: function(err:any){
+            console.log(err)
+          },
           success: function (res: any) {
+            console.log('res',res)
             let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
             let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
             let location = {
