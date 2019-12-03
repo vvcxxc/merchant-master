@@ -120,16 +120,15 @@ export default class OrderPage extends Component {
       start_time: query.time ? moment(query.time).unix() : undefined,
       end_time: query.time ? moment(query.end_time).unix() : undefined
     }, () => {
-
       this.getData({
         position_id: query.hot.id && query.hot.id != 0 ? query.hot.id : undefined,
-        start_time: query.time ? query.time : undefined,
-        end_time: query.end_time ? query.end_time : undefined
+        start_time: query.time ? query.time + ' 0:0:0' : undefined,
+        end_time: query.end_time ? query.end_time + ' 23:59:59' : undefined
       });
       this.getData2({
         position_id: query.hot.id && query.hot.id != 0 ? query.hot.id : undefined,
-        start_time: query.time ? query.time : undefined,
-        end_time: query.end_time ? query.end_time : undefined
+        start_time: query.time ? query.time + ' 0:0:0' : undefined,
+        end_time: query.end_time ? query.end_time + ' 23:59:59' : undefined
       });
     })
 
@@ -142,8 +141,8 @@ export default class OrderPage extends Component {
       }, () => {
         this.getData({
           position_id: this.state.pay_status && this.state.pay_status != 0 ? this.state.pay_status : undefined,
-          start_time: this.state.time,
-          end_time: this.state.end_time
+          start_time: this.state.time + ' 0:0:0',
+          end_time: this.state.end_time + ' 23:59:59'
         })
       })
     }
