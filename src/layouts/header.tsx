@@ -35,8 +35,6 @@ export default connect(({ ad, businessArea }: any) => ({ ad, businessArea }))(
 			console.log('window', window.title)
 			if (window.location.href.includes('serviceCounter')
 				|| window.location.href.includes('register?phone=')
-				|| window.location.href.includes('dynamicFunds')
-				|| window.location.href.includes('AdvertisingSpending')
 				|| window.location.href.includes('loudspeaker')
 				|| window.location.href.includes('finance/detail')
 			) {
@@ -45,18 +43,6 @@ export default connect(({ ad, businessArea }: any) => ({ ad, businessArea }))(
 				})
 			}
 		}
-
-		componentWillReceiveProps() {
-			if (window.location.search.indexOf("value") > 0) {
-				document.title = "交易明细";
-				window.title = "交易明细";
-			}
-			// if (window.location.pathname.includes('AdvertisingSpending')) {
-			// 	console.log('sadasd')
-			// }
-			// console.log(this.props)
-		}
-
 
 		render() {
 			return (
