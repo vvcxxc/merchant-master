@@ -37,7 +37,6 @@ export default class Details extends Component {
           // ]
         },
         { order: '实付金额', value: res.data.store_amount },
-        { order: '交易单号', value: res.data.order_sn },
 
       ]
       this.setState({ data: data, data1: data1, store_amount: res.data.store_amount })
