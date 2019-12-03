@@ -64,8 +64,8 @@ export default class OrderPage extends Component {
     if (res.data.length != 0) {
       this.setState({ data: this.state.data.concat(res.data), transaction_number: res.transaction_number, transaction_amount: res.transaction_amount });
     } else if (res.data.length == 0) {
-      this.setState({ 
-        hasMore: false, 
+      this.setState({
+        hasMore: false,
         transaction_number: 0,
         transaction_amount: 0
       });
@@ -124,7 +124,7 @@ export default class OrderPage extends Component {
           <div className="content-right">
             <Flex.Item className="content">
               <div className="financemoney">{_.amount}</div>
-              <div className="financestatus">二维码收款</div>
+              <div className="financestatus">{_.order_type}</div>
             </Flex.Item>
             <Icon type="right" color="#bcbcbc" />
           </div>
