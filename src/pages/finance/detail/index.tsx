@@ -5,37 +5,42 @@ import request from '@/services/request';
 
 export default class Details extends Component {
   state = {
-    data: [
-      { order: '交易单号', value: '6908913456056' },
-      { order: '交易时间', value: '2019/11/07   14:25:16' },
-      { order: '交易类型', value: '二维码收款' },
-      { order: '支付类型', value: '微信' },
-    ],
-    data1: [
-      { order: '支付用户', value: '13456056716' },
-      { order: '订单金额', value: '30' },
-      {
-        order: '优惠总金额', value: '-10.00',
-        children: [
-          { order: '5555', value: '-6610.6666600' },
-          { order: '6666666', value: '-16660.00' }
-        ]
-      },
-      { order: '满30减10', value: '-10.00' },
-      { order: '满30减10', value: '-10.00' },
-      { order: '实付金额', value: '30' },
-      { order: '交易单号', value: '6908913456056' },
-
-    ]
+    data: [],
+    data1: [],
+    store_amount: ''
   }
 
 
   componentDidMount() {
     request({
-      url: 'v3/coupons/order_info/'+this.props.location.query.id,
+      url: 'v3/offline_order/info',
       method: 'get',
+      params: {
+        id: this.props.location.query.id
+      }
     }).then((res) => {
       console.log(res)
+      let data = [
+        { order: '交易单号', value: res.data.order_sn },
+        { order: '交易时间', value: res.data.create_time },
+        { order: '交易类型', value: res.data.order_type_name },
+        { order: '支付类型', value: res.data.pay_type_name },
+      ]
+      let data1 = [
+        { order: '支付用户', value: res.data.user_name },
+        { order: '订单金额', value: res.data.amount },
+        {
+          order: '优惠总金额', value: res.data.use_score,
+          // children: [
+          //   { order: '满30减10', value: '-10.00' },
+          //   { order: '满30减10', value: '-10.00' }
+          // ]
+        },
+        { order: '实付金额', value: res.data.store_amount },
+        { order: '交易单号', value: res.data.order_sn },
+
+      ]
+      this.setState({ data: data, data1: data1, store_amount: res.data.store_amount })
     })
 
   }
@@ -52,7 +57,7 @@ export default class Details extends Component {
     return (
       <div className={styles.trading_particulars}>
         <div className={styles.box}>
-          <div className={styles.amounts}> +100056</div>
+          <div className={styles.amounts}> +{this.state.store_amount}</div>
           <div className={styles.amounts_result}>交易成功</div>
           <ul> {
             data.map((item: any, index: number) => {
