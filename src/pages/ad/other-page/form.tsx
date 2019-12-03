@@ -161,6 +161,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						endTime: this.props.ad.endTime || undefined,
 						price: this.props.ad.price || '',
 						files: this.props.ad.files.length != 0 ? this.props.ad.files : [],
+						countMoney: this.props.userMoney
 					})
 				}
 			})

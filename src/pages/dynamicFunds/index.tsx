@@ -162,6 +162,8 @@ export default class MyIndex extends Component {
       params
     }).then(res => {
       const { code, data } = res
+      console.log(data);
+      
       if (code === 200) {
         this.setState({
           list: params.page > 1 ? [...this.state.list, ...data.offlineOrders.data]:data.offlineOrders.data,
@@ -191,11 +193,13 @@ export default class MyIndex extends Component {
     const { title, list, total, total_money, showMore, from, totalData} = this.state
     // const list2 = [
     //   { name: '交易笔数', num: total }, { name: '交易金额', num: total_money }]
+    // 1收款  2订单   3充值， 4收益
     const orderType:any = {
-      [0]: { value: '收益', id:styles.earnings},
       [1]: { value: '收款', id: styles.gathering },
-      [2]: { value: '充值', id: styles.recharge },
-      [3]: { value: '订单', id: styles.order },
+      [2]: { value: '订单', id: styles.order },
+      [3]: { value: '充值', id: styles.recharge },
+      [4]: { value: '收益', id: styles.earnings }
+      
     }
     return (
       <FiltrateLayout
@@ -237,7 +241,10 @@ export default class MyIndex extends Component {
                 return <div className={styles.list_data} key={index} onClick={this.routerDetails}>
                   {
                     from > 1 ? <div className={styles.list_data_left}></div> :
-                      <div className={styles.list_data_left} id={orderType[item.order_type].id }></div>
+                      <div className={styles.list_data_left}
+                        id={orderType[item.order_type].id}
+                      >
+                        </div>
                   }
                   <div className={styles.list_data_right}>
                     <div className={styles.order}><span>{item.order_sn}</span> <span>{item.store_amount}</span></div>
@@ -245,7 +252,7 @@ export default class MyIndex extends Component {
                       <span>{item.create_time}</span>
                       <span>
                         {
-                          from>1 ? (item.order_type === 1 ? '线下扫码支付' : '购买优惠券'):
+                          // from>1 ? (item.order_type === 1 ? '线下扫码支付' : '购买优惠券'):
                             orderType[item.order_type].value
                         }
                       </span></div>
