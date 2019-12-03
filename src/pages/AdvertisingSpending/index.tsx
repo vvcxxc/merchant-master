@@ -90,7 +90,7 @@ export default class OrderPage extends Component {
         tempList.push(item2);
       })
       // console.log(tempList)
-      this.setState({ list: this.state.list.concat(data.data), last_page: res.data.last_page, qList: this.state.qList.concat(tempList) })
+      this.setState({ list: this.state.list.concat(data.data), last_page: res.data.last_page, qList: tempList })
 
     } else if (res.code === 200 && res.data.data.length == 0) {
       this.setState({ hasMore: false })
