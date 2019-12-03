@@ -1,5 +1,5 @@
 /**
- * title: 交易明细
+ * title: 广告消费
  */
 
 import React, { Component } from 'react';
@@ -39,8 +39,6 @@ export default class OrderPage extends Component {
   };
 
   componentDidMount() {
-    // document.title="交易明细";
-    // window.title="交易明细";
     this.getData();
     this.getData2();
   }
@@ -92,7 +90,7 @@ export default class OrderPage extends Component {
         tempList.push(item2);
       })
       // console.log(tempList)
-      this.setState({ list: this.state.list.concat(data.data), last_page: res.data.last_page, qList: this.state.qList.concat(tempList) })
+      this.setState({ list: this.state.list.concat(data.data), last_page: res.data.last_page, qList: tempList })
 
     } else if (res.code === 200 && res.data.data.length == 0) {
       this.setState({ hasMore: false })

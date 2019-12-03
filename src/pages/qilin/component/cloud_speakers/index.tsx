@@ -1,16 +1,11 @@
-import React, { Component, useState } from 'react'
-import router from 'umi/router';
+import React, { Component,useState } from 'react'
 import styles from './index.less'
 
 interface Props {
-  height?: boolean,
-  list:Array<Object>
+  height?:boolean
 }
 export default class CloudSpeakers extends Component<Props> {
-  //购买商品
-  GoShop = () => {
-    router.push('/loudspeaker/buy_loudspeaker');
-  }
+
   render() {
     return (
       <div className={styles.stereo_box_list}>
@@ -23,7 +18,7 @@ export default class CloudSpeakers extends Component<Props> {
             <li>产品功能介绍产品功能介绍产品功能 介绍产品功能介绍产品功能介绍品功 能介绍</li>
             <li>
               <span>￥100.00</span>
-              <span onClick={this.GoShop}>购买音箱</span>
+              <span>购买音箱</span>
             </li>
           </ul>
         </div>

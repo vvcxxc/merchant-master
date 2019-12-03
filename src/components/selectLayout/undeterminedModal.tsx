@@ -89,8 +89,8 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 	/**父级点击事件 */
 	const maskClick = (e: any) => {
 		if (e.target.id === 'layoutModal') {
-			setChecked(-1);
-			set_Checked(-1)
+			// setChecked(-1);
+			// set_Checked(-1)
 			onHide();
 		}
 	};

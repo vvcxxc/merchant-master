@@ -90,7 +90,8 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 					coupon: this.props.businessArea.coupon,
 					startTime: this.props.businessArea.startTime,
 					endTime: this.props.businessArea.endTime,
-					price: this.props.businessArea.price
+					price: this.props.businessArea.price,
+					countMoney: this.props.userMoney
 				})
 			}
 			if (nextProps.hasCoupon) {

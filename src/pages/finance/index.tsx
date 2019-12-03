@@ -23,14 +23,13 @@ export default class OrderPage extends Component {
 
     pay_status: '',   // 模糊查询筛选
     date: undefined,         // 模糊查询月份，
-    date2: undefined,         
+    date2: undefined,
     type: undefined,
     payType: undefined,
     showNoData: false,
-    sum: 0,
     data: [],
-		platform: 0,
-		count: 0,
+    transaction_number: 0,
+    transaction_amount: 0,
   };
 
   undetermined = {
@@ -42,63 +41,72 @@ export default class OrderPage extends Component {
   undetermined2 = {
     title: '支付类型',
     list: [
-      { _id: 1, label: '微信' },
-      { _id: 2, label: '支付宝' }
+      { _id: 'wx', label: '微信' },
+      { _id: 'zfb', label: '支付宝' }
     ]
   };
 
-	componentDidMount = () => this.getData();
-	getData = async () => {
-		Toast.loading('');
-		const res = await request({
-			url: 'v3/finance/offline_order',
-			params: {
-				type: this.state.type,
-				pay_type: this.state.payType,
+  componentDidMount = () => this.getData();
+  getData = async () => {
+    Toast.loading('');
+    const res = await request({
+      url: 'v3/offline_order/list',
+      params: {
+        type: this.state.type,
+        from: this.state.payType,
         start_time: this.state.date,
         end_time: this.state.date2,
-				page: this.state.page
-			}
-		});
-		Toast.hide();
-		if (res.code === 200 && res.data.length != 0) {
-			this.setState({ data: this.state.data.concat(res.data), sum: res.sum, platform: res.platform, count: res.count });
-		} else if (res.code === 200 && res.data.length == 0) {
-			this.setState({ hasMore: false });
-			// this.setState({ hasMore: false , showNoData : true });
-		}
-	};
+        page: this.state.page
+      }
+    });
+    console.log(res)
+    Toast.hide();
+    if (res.data.length != 0) {
+      this.setState({ data: this.state.data.concat(res.data), transaction_number: res.transaction_number, transaction_amount: res.transaction_amount });
+    } else if (res.data.length == 0) {
+      this.setState({ 
+        hasMore: false, 
+        transaction_number: 0,
+        transaction_amount: 0
+      });
+    }
+  };
 
-	handleLoadMore = () => {
-		if (this.state.hasMore) {
-			this.setState({
-				type: this.state.type,
-				pay_type: this.state.payType,
+  handleLoadMore = () => {
+    if (this.state.hasMore) {
+      this.setState({
+        type: this.state.type,
+        pay_type: this.state.payType,
         start_time: this.state.date,
         end_time: this.state.date2,
-				page: this.state.page + 1
-			}, () => {
-				this.getData()
-			})
-		}
-	}
+        page: this.state.page + 1
+      }, () => {
+        this.getData()
+      })
+    }
+  }
 
 
-	handleChange = (query: any) => {
-    console.log(query)
-		this.setState({ date: query.time || undefined, date2: query.end_time || undefined, payType: query.hot._id }, ()=>{
-			this.getData()})
-		// 每次change时重置
-		this.setState({
-			showNoData: false,
-			data: [],
-			count: 0,
-			sum: 0,
-			platform: 0,
-			page: 1,
-			hasMore: true
-		});
-	};
+  handleChange = (query: any) => {
+    this.setState({
+      date: query.time || undefined,
+      date2: query.end_time || undefined,
+      payType: query.hot._id,
+      type: query.hot.id
+    }, () => {
+      this.getData()
+    })
+    // 每次change时重置
+    this.setState({
+      showNoData: false,
+      data: [],
+      count: 0,
+      sum: 0,
+      platform: 0,
+      page: 1,
+      hasMore: true
+    });
+  };
 
   pushPage = (_id: object, e: object) => {
     router.push({ pathname: '/finance/detail', query: { id: _id } })
@@ -115,7 +123,7 @@ export default class OrderPage extends Component {
           </Flex.Item>
           <div className="content-right">
             <Flex.Item className="content">
-              <div className="financemoney">{_.store_amount}</div>
+              <div className="financemoney">{_.amount}</div>
               <div className="financestatus">二维码收款</div>
             </Flex.Item>
             <Icon type="right" color="#bcbcbc" />
@@ -125,7 +133,7 @@ export default class OrderPage extends Component {
     ) : (
         <NoData type="finance" />
       );
-    const list = [{ name: '交易笔数', num: '未对接' }, { name: '交易金额', num: '未对接' }]
+    const list = [{ name: '交易笔数', num: this.state.transaction_number }, { name: '交易金额', num: this.state.transaction_amount }]
     return (
       <FiltrateLayout
         undetermined={this.undetermined}

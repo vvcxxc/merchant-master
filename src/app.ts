@@ -49,9 +49,6 @@ export const onRouteChange = (params: { location: any, routes: any }) => {
         case "6": { document.title = "广告支出"; window.title = "广告支出" } break;
         default: return
       }
-    } else if (router.path == "/AdvertisingSpending") {
-      document.title = "交易明细";
-      window.title = "交易明细";
     }
     else {
       window.title = router.title || defaultTitle
