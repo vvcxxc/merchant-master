@@ -221,7 +221,7 @@ export default connect()(
 						>
 							抽奖核销记录
 						</Item>
-						{/* <Item
+						<Item
 							arrow="horizontal"
 							thumb={require('@/assets/my/cloud_voice_box.png')}
 							multipleLine
@@ -229,7 +229,7 @@ export default connect()(
 							className={styles.my_items}
 						>
 							我的云音箱
-						</Item> */}
+						</Item>
 						{signCode}
 					</List>
 					<List className={styles.my_info_items}>
