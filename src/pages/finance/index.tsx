@@ -30,6 +30,7 @@ export default class OrderPage extends Component {
     data: [],
     transaction_number: 0,
     transaction_amount: 0,
+    order_num: 0
   };
 
   undetermined = {
@@ -46,7 +47,39 @@ export default class OrderPage extends Component {
     ]
   };
 
-  componentDidMount = () => this.getData();
+  componentDidMount = () => {
+    this.getOrderNumber();
+    this.getData();
+  };
+
+  getOrderNumber = async () => {
+    const res = await request({
+      url: 'v3/offline_order/new_order_number'
+    })
+    this.setState({
+      order_num: res
+    }, () => {
+      setTimeout(() => {
+        this.getOrderNumber()
+      }, 5000)
+    })
+  };
+
+  hanleRefresh = () => {
+    //  location.reload();
+    this.setState({
+      page: 1,
+      hasMore: true,
+      date: undefined,
+      date2: undefined,
+      payType: undefined,
+      type: undefined,
+      data: [],
+    }, () => {
+      this.getData()
+    })
+  }
+
   getData = async () => {
     Toast.loading('');
     const res = await request({
@@ -64,10 +97,10 @@ export default class OrderPage extends Component {
     if (res.data.length != 0) {
       this.setState({ data: this.state.data.concat(res.data), transaction_number: res.transaction_number, transaction_amount: res.transaction_amount });
     } else if (res.data.length == 0) {
-      this.setState({ 
-        hasMore: false, 
-        transaction_number: 0,
-        transaction_amount: 0
+      this.setState({
+        hasMore: false,
+        transaction_number: res.transaction_number,
+        transaction_amount: res.transaction_amount
       });
     }
   };
@@ -115,6 +148,7 @@ export default class OrderPage extends Component {
   render() {
     const financeList = this.state.data.length ? (
       this.state.data.map((_: any) => (
+
         <Flex className={styles.financeItem} key={_.id} onClick={this.pushPage.bind(this, _.id)}>
           <img src={_.small_icon} />
           <Flex.Item className="content">
@@ -131,8 +165,8 @@ export default class OrderPage extends Component {
         </Flex>
       ))
     ) : (
-        <NoData type="finance" />
-      );
+      <NoData type="finance" />
+    );
     const list = [{ name: '交易笔数', num: this.state.transaction_number }, { name: '交易金额', num: this.state.transaction_amount }]
     return (
       <FiltrateLayout
@@ -142,7 +176,13 @@ export default class OrderPage extends Component {
         insignificant={list}
         onChange={this.handleChange}
       >
-        {financeList}
+        <div className={styles.notice}>
+          <img src={require('@/assets/notice.png')} alt="" />
+          <div onClick={this.hanleRefresh.bind(this)}>当前有{this.state.order_num}条新订单，点击刷新</div>
+        </div>
+        <div className={styles.data_wrap}>
+          {financeList}
+        </div>
         <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
       </FiltrateLayout>
 
