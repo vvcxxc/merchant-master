@@ -39,8 +39,6 @@ export default class OrderPage extends Component {
   };
 
   componentDidMount() {
-    // document.title="交易明细";
-    // window.title="交易明细";
     this.getData();
     this.getData2();
   }

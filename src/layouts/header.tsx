@@ -44,18 +44,6 @@ export default connect(({ ad, businessArea }: any) => ({ ad, businessArea }))(
 			}
 		}
 
-		componentWillReceiveProps() {
-			if (window.location.search.indexOf("value") > 0) {
-				document.title = "交易明细";
-				window.title = "交易明细";
-			}
-			// if (window.location.pathname.includes('AdvertisingSpending')) {
-			// 	console.log('sadasd')
-			// }
-			// console.log(this.props)
-		}
-
-
 		render() {
 			return (
 				<div style={{ width: '100%' }}>
