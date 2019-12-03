@@ -1,5 +1,5 @@
 /**
- * title: 交易明细
+ * title: 广告消费
  */
 
 import React, { Component } from 'react';
