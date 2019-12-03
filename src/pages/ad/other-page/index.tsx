@@ -89,7 +89,7 @@ export default connect(({ ad }: any) => ad)(
 			});
 			this.setState({
 				userMoney: res.data.money
-			})
+      })
 		}
 
 		// setLog = async () => {
