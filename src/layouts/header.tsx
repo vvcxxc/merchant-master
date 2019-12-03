@@ -35,8 +35,6 @@ export default connect(({ ad, businessArea }: any) => ({ ad, businessArea }))(
 			console.log('window', window.title)
 			if (window.location.href.includes('serviceCounter')
 				|| window.location.href.includes('register?phone=')
-				|| window.location.href.includes('dynamicFunds')
-				|| window.location.href.includes('AdvertisingSpending')
 				|| window.location.href.includes('loudspeaker')
 				|| window.location.href.includes('finance/detail')
 			) {
