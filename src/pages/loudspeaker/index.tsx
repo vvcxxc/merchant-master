@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import request from '@/services/request';
+import { Toast } from 'antd-mobile';
 import wx from 'weixin-js-sdk';
 import router from 'umi/router';
 
@@ -74,13 +75,19 @@ export default class ApeakerInfo extends Component {
         this.setState({ serialNumber: e.target.value })
     }
     bindSpeaker = () => {
-        console.log('绑定音箱', this.state.serialNumber)
+        if (this.state.serialNumber) {
+            console.log(this.state.serialNumber)
+            console.log('绑定音箱', this.state.serialNumber)
+        } else {
+            Toast.fail('请输入序列号',1.5);
+        }
+
     }
-    testSpeaker=()=>{
+    testSpeaker = () => {
         console.log('测试播报')
 
     }
-    removeBind=()=>{
+    removeBind = () => {
         console.log('解除绑定')
     }
     render() {
@@ -183,7 +190,7 @@ export default class ApeakerInfo extends Component {
                                 <div className={styles.ContentBoxTopInfo}>解除设备后，您将无法接受收款语言提醒</div>
                             </div>
                             <div className={styles.ContentBoxBottom}>
-                                <div className={styles.ContentBoxBottomCancle} onClick={()=>{this.setState({ApeakerInfoPageContentShow:false})}}>取消</div>
+                                <div className={styles.ContentBoxBottomCancle} onClick={() => { this.setState({ ApeakerInfoPageContentShow: false }) }}>取消</div>
                                 <div className={styles.ContentBoxBottomSumbit} onClick={this.removeBind.bind(this)}>确认</div>
                             </div>
                         </div>
