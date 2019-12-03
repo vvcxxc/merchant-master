@@ -64,7 +64,11 @@ export default class OrderPage extends Component {
     if (res.data.length != 0) {
       this.setState({ data: this.state.data.concat(res.data), transaction_number: res.transaction_number, transaction_amount: res.transaction_amount });
     } else if (res.data.length == 0) {
-      this.setState({ hasMore: false });
+      this.setState({ 
+        hasMore: false, 
+        transaction_number: 0,
+        transaction_amount: 0
+      });
     }
   };
 
@@ -84,7 +88,6 @@ export default class OrderPage extends Component {
 
 
   handleChange = (query: any) => {
-    console.log(query)
     this.setState({
       date: query.time || undefined,
       date2: query.end_time || undefined,
