@@ -91,8 +91,8 @@ export default connect(({ orderList }: any) => orderList)(
           type: 'orderList/setList',
           payload: {
             list: this.props.list,
-            total: 0,
-            amount: 0
+            total: res.total,
+            amount: res.amount
           }
         })
       }
