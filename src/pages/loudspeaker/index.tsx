@@ -10,6 +10,7 @@ export default class ApeakerInfo extends Component {
     state = {
         ApeakerInfoPageContentShow: false,
         phone: '020-80929539',
+        alreadyBind: false,
         serialNumber: '',
         data: {
             id: 0,
@@ -55,7 +56,7 @@ export default class ApeakerInfo extends Component {
             method: 'get',
         }).then(res => {
             if (res.status_code == 200) {
-                this.setState({ data: res.data })
+                this.setState({ data: res.data, alreadyBind: true })
             } else {
                 Toast.fail(res.message, 1.5);
             }
@@ -91,9 +92,7 @@ export default class ApeakerInfo extends Component {
             }).then(res => {
                 if (res.status_code == 200) {
                     Toast.success(res.message, 1.5);
-                    setTimeout(() => {
-                        window.location.reload()
-                    }, 1500);
+                    this.setState({ alreadyBind: true })
                 } else {
                     Toast.fail(res.message, 1.5);
                 }
@@ -110,15 +109,14 @@ export default class ApeakerInfo extends Component {
 
     }
     removeBind = () => {
+        this.setState({ ApeakerInfoPageContentShow: false })
         request({
             url: 'api/v1/voice/device/unbind            ',
             method: 'put',
         }).then(res => {
             if (res.status_code == 200) {
                 Toast.success(res.message, 1.5);
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1500);
+                this.setState({ alreadyBind: false })
             } else {
                 Toast.fail(res.message, 1.5);
             }
@@ -132,7 +130,7 @@ export default class ApeakerInfo extends Component {
                 <div className={styles.ApeakerItemBox} >
                     <div className={styles.ApeakerItemBoxTitle} >序列号</div>
                     {
-                        this.state.data.number ? <div className={styles.ApeakerItemBoxInput}>{this.state.data.number}</div> :
+                        this.state.alreadyBind ? <div className={styles.ApeakerItemBoxInput}>{this.state.data.number}</div> :
                             <input className={styles.ApeakerItemBoxInput} placeholder='请输入序列号' onChange={this.changeCode.bind(this)} />
                     }
                     <div className={styles.ApeakerItemBoxIcon} onClick={this.BindScanQRCode.bind(this)} >
@@ -177,7 +175,7 @@ export default class ApeakerInfo extends Component {
 
                 <div className={styles.codeBox} >
                     {
-                        this.state.data && this.state.data.id ? <div className={styles.codeBoxBottomContent} >
+                        this.state.alreadyBind ? <div className={styles.codeBoxBottomContent} >
                             <div className={styles.ApeakerItemBoxCodeItemBox} onClick={() => { this.setState({ ApeakerInfoPageContentShow: true }) }}>
                                 <div className={styles.ApeakerItemBoxCodeItemImg} >
                                     <img src='http://oss.tdianyi.com/front/6tnnhaEWGAAsAFQTa3wPW8iTDMAasSyb.png' />
