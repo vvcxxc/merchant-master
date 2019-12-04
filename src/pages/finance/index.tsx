@@ -176,6 +176,10 @@ export default class OrderPage extends Component {
       <FiltrateLayout
         undetermined={this.undetermined}
         undetermined2={this.undetermined2}
+        idSelect={1}
+        _idSelect={'wx'}
+        timeSelect={'2019-12-3'}
+        endTimeSelect={'2019-12-9'}
         hasInsignificant={true}
         insignificant={list}
         onChange={this.handleChange}
