@@ -163,7 +163,7 @@ export default class OrderPage extends Component {
           <div className="content-right">
             <Flex.Item className="content">
               <div className="financemoney">{_.amount}</div>
-              <div className="financestatus">二维码收款</div>
+      <div className="financestatus">{_.order_type}</div>
             </Flex.Item>
             <Icon type="right" color="#bcbcbc" />
           </div>

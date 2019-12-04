@@ -1,6 +1,7 @@
 /**title: 我的云音箱 */
 import React, { Component } from 'react';
 import styles from './index.less';
+import speakersRequest from '@/services/speakersRequest';
 import request from '@/services/request';
 import { Toast } from 'antd-mobile';
 import wx from 'weixin-js-sdk';
@@ -10,6 +11,7 @@ export default class ApeakerInfo extends Component {
     state = {
         ApeakerInfoPageContentShow: false,
         phone: '020-80929539',
+        alreadyBind: false,
         serialNumber: '',
         data: {
             id: 0,
@@ -50,12 +52,20 @@ export default class ApeakerInfo extends Component {
         });
     }
     componentDidMount() {
-        request({
+        this.getData();
+    }
+    getData = () => {
+        speakersRequest({
             url: 'api/v1/voice/device',
             method: 'get',
         }).then(res => {
-            console.log('deviceres:', res)
-            res.code == 200 && this.setState({ data: res.data })
+            if (res.status_code == 200 && res.data.number) {
+                this.setState({ data: res.data, alreadyBind: true })
+            } else if (res.status_code == 200) {
+                this.setState({ data: res.data })
+            } else {
+                Toast.fail(res.message, 1.5);
+            }
         }).catch(err => {
             console.log(err)
         });
@@ -72,23 +82,53 @@ export default class ApeakerInfo extends Component {
         })
     }
     changeCode = (e: any) => {
+        console.log(e.target.value)
         this.setState({ serialNumber: e.target.value })
     }
     bindSpeaker = () => {
         if (this.state.serialNumber) {
-            console.log(this.state.serialNumber)
-            console.log('绑定音箱', this.state.serialNumber)
+            // pZnnQ1yaq2pIQqTlboxV
+            // YX1000002
+            speakersRequest({
+                url: 'api/v1/voice/device/bind',
+                method: 'post',
+                params: {
+                    number: this.state.serialNumber
+                }
+            }).then(res => {
+                if (res.status_code == 200) {
+                    Toast.success(res.message, 1.5);
+                    this.setState({ alreadyBind: true }, () => {
+                        this.getData();
+                    })
+                } else {
+                    Toast.fail(res.message, 1.5);
+                }
+            }).catch(err => {
+                console.log(err)
+            });
         } else {
-            Toast.fail('请输入序列号',1.5);
+            Toast.fail('请输入序列号', 1.5);
         }
-
     }
     testSpeaker = () => {
         console.log('测试播报')
-
     }
     removeBind = () => {
-        console.log('解除绑定')
+        this.setState({ ApeakerInfoPageContentShow: false })
+        speakersRequest({
+            url: 'api/v1/voice/device/unbind            ',
+            method: 'put',
+        }).then(res => {
+            if (res.status_code == 200) {
+                Toast.success(res.message, 1.5);
+                this.setState({ alreadyBind: false, data: [] })
+            } else {
+                Toast.fail(res.message, 1.5);
+            }
+        }).catch(err => {
+            console.log(err)
+        });
     }
     render() {
         return (
@@ -96,7 +136,7 @@ export default class ApeakerInfo extends Component {
                 <div className={styles.ApeakerItemBox} >
                     <div className={styles.ApeakerItemBoxTitle} >序列号</div>
                     {
-                        this.state.data.number ? <div className={styles.ApeakerItemBoxInput}  >{this.state.data.number}</div> :
+                        this.state.alreadyBind ? <div className={styles.ApeakerItemBoxInput}>{this.state.data.number}</div> :
                             <input className={styles.ApeakerItemBoxInput} placeholder='请输入序列号' onChange={this.changeCode.bind(this)} />
                     }
                     <div className={styles.ApeakerItemBoxIcon} onClick={this.BindScanQRCode.bind(this)} >
@@ -141,7 +181,7 @@ export default class ApeakerInfo extends Component {
 
                 <div className={styles.codeBox} >
                     {
-                        this.state.data && this.state.data.id ? <div className={styles.codeBoxBottomContent} >
+                        this.state.alreadyBind ? <div className={styles.codeBoxBottomContent} >
                             <div className={styles.ApeakerItemBoxCodeItemBox} onClick={() => { this.setState({ ApeakerInfoPageContentShow: true }) }}>
                                 <div className={styles.ApeakerItemBoxCodeItemImg} >
                                     <img src='http://oss.tdianyi.com/front/6tnnhaEWGAAsAFQTa3wPW8iTDMAasSyb.png' />
