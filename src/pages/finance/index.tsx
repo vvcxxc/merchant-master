@@ -12,7 +12,7 @@ import router from 'umi/router';
 import NoData from '@/components/no-data';
 import { Item } from 'rc-menu';
 
-
+let timer: any;
 export default class OrderPage extends Component {
   state = {
     list: [],
@@ -59,7 +59,8 @@ export default class OrderPage extends Component {
     this.setState({
       order_num: res
     }, () => {
-      setTimeout(() => {
+      if (timer) { clearTimeout(timer) }
+      timer = setTimeout(() => {
         this.getOrderNumber()
       }, 5000)
     })
@@ -144,6 +145,9 @@ export default class OrderPage extends Component {
   pushPage = (_id: object, e: object) => {
     router.push({ pathname: '/finance/detail', query: { id: _id } })
   };
+  componentWillUnmount() {
+    clearTimeout(timer)
+  }
 
   render() {
     const financeList = this.state.data.length ? (
