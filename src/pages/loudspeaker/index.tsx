@@ -1,7 +1,8 @@
 /**title: 我的云音箱 */
 import React, { Component } from 'react';
 import styles from './index.less';
-import request from '@/services/speakersRequest';
+import speakersRequest from '@/services/speakersRequest';
+import request from '@/services/request';
 import { Toast } from 'antd-mobile';
 import wx from 'weixin-js-sdk';
 import router from 'umi/router';
@@ -50,7 +51,7 @@ export default class ApeakerInfo extends Component {
         });
     }
     componentDidMount() {
-        request({
+        speakersRequest({
             url: 'api/v1/voice/device',
             method: 'get',
         }).then(res => {
@@ -82,7 +83,7 @@ export default class ApeakerInfo extends Component {
         if (this.state.serialNumber) {
             // pZnnQ1yaq2pIQqTlboxV
             // YX1000002
-            request({
+            speakersRequest({
                 url: 'api/v1/voice/device/bind',
                 method: 'post',
                 params: {
@@ -110,7 +111,7 @@ export default class ApeakerInfo extends Component {
 
     }
     removeBind = () => {
-        request({
+        speakersRequest({
             url: 'api/v1/voice/device/unbind            ',
             method: 'put',
         }).then(res => {
