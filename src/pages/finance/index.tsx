@@ -18,6 +18,7 @@ interface Props {
   dispatch: any,
   details: any
 }
+let timer: any;
 export default connect(({ finance }: any) => finance)(
 // export default
   class OrderPage extends Component<Props> {
@@ -79,7 +80,8 @@ export default connect(({ finance }: any) => finance)(
     this.setState({
       order_num: res
     }, () => {
-      setTimeout(() => {
+      if (timer) { clearTimeout(timer) }
+      timer = setTimeout(() => {
         this.getOrderNumber()
       }, 5000)
     })
@@ -182,6 +184,9 @@ export default connect(({ finance }: any) => finance)(
   pushPage = (_id: object, e: object) => {
     router.push({ pathname: '/finance/detail', query: { id: _id } })
   };
+  componentWillUnmount() {
+    clearTimeout(timer)
+  }
 
   render() {
     const financeList = this.state.data.length ? (
@@ -214,6 +219,10 @@ export default connect(({ finance }: any) => finance)(
       <FiltrateLayout
         undetermined={this.undetermined}
         undetermined2={this.undetermined2}
+        idSelect={1}
+        _idSelect={'wx'}
+        timeSelect={'2019-12-3'}
+        endTimeSelect={'2019-12-9'}
         hasInsignificant={true}
         insignificant={list}
         onChange={this.handleChange}

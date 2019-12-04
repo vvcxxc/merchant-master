@@ -29,7 +29,7 @@ export default class OrderDetail extends Component<any, State> {
   }
 
   orderSnGo = () => {
-    let { youhui_type, id } = this.state.data;
+    let { youhui_type, id, order_id } = this.state.data;
     if (youhui_type == 0) {
       router.push({
         pathname: '/verification/success',
@@ -37,12 +37,12 @@ export default class OrderDetail extends Component<any, State> {
           youhui_log_id: id
         }
       })
-    }else if (youhui_type == 1) {
+    }else if (youhui_type == 1 && order_id) {
       // 现金券
       router.push({
         pathname: '/finance/detail',
         query: {
-          id: id
+          id: order_id
         }
       })
     }
@@ -166,7 +166,7 @@ export default class OrderDetail extends Component<any, State> {
                   <Flex justify='between'>
                     <div className="label" style={{ width: 300 }}>交易单号</div>
                     {
-                      data.channel_order_sn ? <Flex style={{ color: '#486DDA' }} justify='end' onClick={this.orderSnGo}>{data.channel_order_sn}<Icon type='right' /></Flex> : null
+                      data.order_sn ? <Flex style={{ color: '#486DDA' }} justify='end' onClick={this.orderSnGo}>{data.order_sn}<Icon type='right' /></Flex> : null
                     }
 
                   </Flex>
