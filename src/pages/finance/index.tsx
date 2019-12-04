@@ -62,7 +62,7 @@ export default class OrderPage extends Component {
     }, () => {
       setTimeout(() => {
         this.getOrderNumber()
-      }, 500000)
+      }, 5000)
     })
   };
 
