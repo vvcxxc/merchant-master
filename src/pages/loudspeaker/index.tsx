@@ -11,6 +11,7 @@ export default class ApeakerInfo extends Component {
     state = {
         ApeakerInfoPageContentShow: false,
         phone: '020-80929539',
+        alreadyBind: false,
         serialNumber: '',
         data: {
             id: 0,
@@ -51,11 +52,16 @@ export default class ApeakerInfo extends Component {
         });
     }
     componentDidMount() {
+        this.getData();
+    }
+    getData = () => {
         speakersRequest({
             url: 'api/v1/voice/device',
             method: 'get',
         }).then(res => {
-            if (res.status_code == 200) {
+            if (res.status_code == 200 && res.data.number) {
+                this.setState({ data: res.data, alreadyBind: true, serialNumber: res.data.number })
+            } else if (res.status_code == 200) {
                 this.setState({ data: res.data })
             } else {
                 Toast.fail(res.message, 1.5);
@@ -92,9 +98,9 @@ export default class ApeakerInfo extends Component {
             }).then(res => {
                 if (res.status_code == 200) {
                     Toast.success(res.message, 1.5);
-                    setTimeout(() => {
-                        window.location.reload()
-                    }, 1500);
+                    this.setState({ alreadyBind: true }, () => {
+                        this.getData();
+                    })
                 } else {
                     Toast.fail(res.message, 1.5);
                 }
@@ -104,22 +110,19 @@ export default class ApeakerInfo extends Component {
         } else {
             Toast.fail('请输入序列号', 1.5);
         }
-
     }
     testSpeaker = () => {
         console.log('测试播报')
-
     }
     removeBind = () => {
+        this.setState({ ApeakerInfoPageContentShow: false })
         speakersRequest({
-            url: 'api/v1/voice/device/unbind            ',
+            url: 'api/v1/voice/device/unbind',
             method: 'put',
         }).then(res => {
             if (res.status_code == 200) {
                 Toast.success(res.message, 1.5);
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1500);
+                this.setState({ alreadyBind: false, data: [], serialNumber: '' })
             } else {
                 Toast.fail(res.message, 1.5);
             }
@@ -133,7 +136,7 @@ export default class ApeakerInfo extends Component {
                 <div className={styles.ApeakerItemBox} >
                     <div className={styles.ApeakerItemBoxTitle} >序列号</div>
                     {
-                        this.state.data.number ? <div className={styles.ApeakerItemBoxInput}>{this.state.data.number}</div> :
+                        this.state.alreadyBind && this.state.serialNumber ? <div className={styles.ApeakerItemBoxInput}>{this.state.serialNumber}</div> :
                             <input className={styles.ApeakerItemBoxInput} placeholder='请输入序列号' onChange={this.changeCode.bind(this)} />
                     }
                     <div className={styles.ApeakerItemBoxIcon} onClick={this.BindScanQRCode.bind(this)} >
@@ -178,7 +181,7 @@ export default class ApeakerInfo extends Component {
 
                 <div className={styles.codeBox} >
                     {
-                        this.state.data && this.state.data.id ? <div className={styles.codeBoxBottomContent} >
+                        this.state.alreadyBind ? <div className={styles.codeBoxBottomContent} >
                             <div className={styles.ApeakerItemBoxCodeItemBox} onClick={() => { this.setState({ ApeakerInfoPageContentShow: true }) }}>
                                 <div className={styles.ApeakerItemBoxCodeItemImg} >
                                     <img src='http://oss.tdianyi.com/front/6tnnhaEWGAAsAFQTa3wPW8iTDMAasSyb.png' />

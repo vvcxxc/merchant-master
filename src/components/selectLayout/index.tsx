@@ -199,7 +199,7 @@ export default class FiltrateLayout extends Component<Props> {
                 {
                   <img className={timeCheck || timeShow ? styles.tranfromImg:''} src={icon} />
                 }
-                
+
               </Flex>
               {tab}
             </Flex>
