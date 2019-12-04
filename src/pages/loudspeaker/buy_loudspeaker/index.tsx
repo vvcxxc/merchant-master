@@ -1,31 +1,44 @@
 /**title: 购买云音箱 */
 import React, { Component } from 'react';
-import { Flex, Checkbox, WingBlank, Button, Icon, InputItem, PickerView, List } from 'antd-mobile';
+import { Flex, Checkbox, WingBlank, Button, Icon, InputItem, PickerView, List, Toast } from 'antd-mobile';
 import request from '@/services/request';
 import wx from 'weixin-js-sdk';
 import router from 'umi/router';
 import MapPage from '@/components/map/index';
 import axios from 'axios';
 import styles from './index.less';
+import speakersRequest from '@/services/speakersRequest'
 import { spawn } from 'child_process';
 
+interface stateType {
+  is_map: boolean,
+  city_list: any,
+  is_show: boolean,
+  checked: boolean,
+  shopInfo: any,
+  customer_name: string,
+  customer_phone: string,
+  customer_area: Array<string>,
+  customer_address: string,
+  show_customer_area:string
+}
 export default class BuyLoudSpeaker extends Component {
 
-  state = {
-    list: [
-      { value: '设备型号', color: '#e3eaef' },
-      { value: '设备信息设备信息设备信息', color: '#fff' },
-      { value: '￥100.00', color: '#fff' }
-    ],
-    detailAddress: '',
+  state: stateType = {
     is_map: false,
     city_list: [],
-    value: ['广东省', '广州市', '天河区'],
     is_show: false,
-    checked: false
+    checked: false,
+    shopInfo: {},//购买商品所有信息
+    customer_name: '',
+    customer_phone: '',
+    customer_area: ['广东省', '广州市', '天河区'],
+    customer_address: '',
+    show_customer_area:''
   }
 
   componentDidMount() {
+    this.getListData()
     axios({
       url: 'http://test.api.tdianyi.com/v3/district',
       method: 'get'
@@ -36,8 +49,18 @@ export default class BuyLoudSpeaker extends Component {
     });
   }
 
-  handleChange = () => {
-
+  getListData = () => {
+    speakersRequest({
+      url: 'api/v1/voice',
+      method: 'get'
+    }).then(res => {
+      const { data, status_code } = res
+      if (status_code === 200 || status_code === 304) {
+        this.setState({
+          shopInfo: data[0]
+        })
+      }
+    })
   }
 
   /**显示地区筛选 */
@@ -45,20 +68,27 @@ export default class BuyLoudSpeaker extends Component {
     this.setState({ is_show: true });
   }
 
-  pickerCityClose = () => {
-    this.setState({ is_show: false, value: [] });
-  }
+ 
   pickerCityOpen = () => {
     this.setState({ is_show: true })
   }
+
+  // 地区选择滑动赋值
   handleChangeCity = (e: any) => {
-    this.setState({ value: e })
+    this.setState({ customer_area: e })
   }
 
+  //确认选择地区
   pickerCityOk = () => {
-    console.log(this.state.value, 'value');
-
+    const { customer_area } = this.state
     this.setState({ is_show: false })
+    this.setState({
+      show_customer_area: customer_area[0] + ' ' + customer_area[1] + ' ' + customer_area[2]
+    })
+  }
+  //取消选择地区
+  pickerCityClose = () => {
+    this.setState({ is_show: false, customer_area: [],show_customer_area:'' });
   }
 
   onChange = () => {
@@ -77,15 +107,15 @@ export default class BuyLoudSpeaker extends Component {
   }
 
   payment() {
-    let _type:number;
+    let _type: number;
     let browserType = this.getBrowserType();
     if (browserType == 'wechat') {
       _type = 1;
     } else if (browserType == 'alipay') {
       _type = 2;
-    } 
+    }
     let datas = {
-        //传递给后台的数据
+      //传递给后台的数据
     }
     //请求支付属性
     request({
@@ -108,7 +138,7 @@ export default class BuyLoudSpeaker extends Component {
             function (res) {
               //微信支付成功
               if (res.err_msg == "get_brand_wcpay_request:ok") {
-               
+
               } else {
                 //微信支付失败
               }
@@ -121,7 +151,7 @@ export default class BuyLoudSpeaker extends Component {
           }, res => {
             //支付宝支付成功
             if (res.resultCode === "9000") {
-            
+
             } else {
               //支付宝支付失败
             }
@@ -132,21 +162,62 @@ export default class BuyLoudSpeaker extends Component {
       })
   }
 
+  //传递用户购买信息给后台
+  buyShop = () => {
+    const { customer_address,
+      show_customer_area,
+      customer_name, customer_phone,shopInfo } = this.state
+    if (!customer_address || !show_customer_area || !customer_name || !customer_phone) {
+      Toast.fail('收货信息未填写完整')
+      return
+    }
+    speakersRequest({
+      url: 'api/v1/voice/buy',
+      method: 'post',
+      params: {
+        name: customer_name,
+        phone: customer_phone,
+        area: show_customer_area,
+        address: customer_address,
+        voice_box_id:shopInfo.id
+      }
+    }).then(res => {
+      const { data, status_code } = res
+    })
+  }
+
+  //输入用户姓名
+  inputCustomer_name = (e:any) => {
+    this.setState({ customer_name: e.target.value})
+  }
+  //输入用户电话
+  inputCustomer_phone = (e:any) => {
+    this.setState({ customer_phone: e.target.value })
+  }
+  //输入用户详细地址
+  inputCustomer_address = (e:any) => {
+    this.setState({ customer_address: e.target.value })
+  }
+
+  stopPassing = (e:any) => {
+    e.stopPropagation()
+  }
+
   render() {
-    const { list } = this.state
+    const { shopInfo, customer_area, show_customer_area} = this.state
     const picker = this.state.is_show == true ? (
-      <div className={styles.picker} style={{
-        left: '0'
-        }}>
-        <Flex className={styles.picker_buttons}>
-          <span onClick={this.pickerCityClose}>取消</span>
-          <span onClick={this.pickerCityOk}>完成</span>
-        </Flex>
-        <PickerView
-          onChange={this.handleChangeCity}
-          data={this.state.city_list}
-          value={this.state.value}
-        />
+      <div className={styles.picker_box} onClick = {this.pickerCityClose}>
+        <div className={styles.picker} onClick={this.stopPassing.bind(this)}>
+          <Flex className={styles.picker_buttons}>
+            <span onClick={this.pickerCityClose}>取消</span>
+            <span onClick={this.pickerCityOk}>完成</span>
+          </Flex>
+          <PickerView
+            onChange={this.handleChangeCity}
+            data={this.state.city_list}
+            value={this.state.customer_area}
+          />
+        </div>
       </div>
     ) : (
         ''
@@ -158,14 +229,11 @@ export default class BuyLoudSpeaker extends Component {
 
         <div className={styles.equipment}>
           <div className={styles.equipment_left}>
-            <img src={require('../../../assets/share1.png')} alt="" />
+            <img src={shopInfo.image} alt="" />
           </div>
           <ul className={styles.equipment_right}>
-            {
-              list.map((value, index) => {
-                return <li key={index} style={{ color: value.color }}>{value.value}</li>
-              })
-            }
+            <li>{shopInfo.name}</li>
+            <li><span>￥</span>{shopInfo.price}</li>
           </ul>
         </div>
 
@@ -175,8 +243,8 @@ export default class BuyLoudSpeaker extends Component {
           <input
             type="text"
             placeholder='请填写收货人姓名'
-            value={this.state.detailAddress}
-            onChange={this.handleChange.bind(this)}
+            value={this.state.customer_name}
+            onChange={this.inputCustomer_name}
           />
         </Flex>
         <Flex className={styles.inputWrap}>
@@ -184,13 +252,13 @@ export default class BuyLoudSpeaker extends Component {
           <input
             type="text"
             placeholder='请填写收货人手机号'
-            value={this.state.detailAddress}
-            onChange={this.handleChange.bind(this)}
+            value={this.state.customer_phone}
+            onChange={this.inputCustomer_phone}
           />
         </Flex>
         <List.Item
           arrow="horizontal"
-          extra={<div>后台接口未对接</div>}
+          extra={<div>{show_customer_area}</div>}
           onClick={this.openMap}
         >
           所在地区
@@ -200,11 +268,12 @@ export default class BuyLoudSpeaker extends Component {
           <input
             type="text"
             placeholder='街道、楼牌号等'
-            value={this.state.detailAddress}
-            onChange={this.handleChange.bind(this)}
+            value={this.state.customer_address}
+            onChange={this.inputCustomer_address}
           />
         </Flex>
-        <div className={styles.check_equipment}>
+        {/* 暂时注释，等待提供协约信息 */}
+        {/* <div className={styles.check_equipment}>
           <CheckboxItem
             key={this.state.checked}
             onChange={() => this.onChange}
@@ -212,12 +281,12 @@ export default class BuyLoudSpeaker extends Component {
           >
             {'设备协议'}
           </CheckboxItem>
-        </div>
-          {picker}
+        </div> */}
+        {picker}
 
         <div className={styles.buy_speakers_foot}>
-          <div>￥<span>100.00</span></div>
-          <span className={styles.onclick_box}>
+          <div>￥<span>{shopInfo.price}</span></div>
+          <span onClick={this.buyShop} className={styles.onclick_box}>
             确认
           </span>
         </div>

@@ -6,6 +6,8 @@ import { WingBlank, Flex } from 'antd-mobile';
 interface Props {
 	undetermined: any;
 	undetermined2?: any;
+	idSelect?: any;
+	_idSelect?: any;
 	onChange: (id: number | string, _id: number | string | undefined) => any;
 	onHide: () => any;
 	show: boolean /**后备条件 */;
@@ -32,9 +34,9 @@ interface Item {
 }
 
 /**条件模态框口 */
-export default function UndeterminedModal({ undetermined, undetermined2, onChange, show, after, onHide }: Props) {
-	const [checked, setChecked,] = useState();
-	const [_checked, set_Checked] = useState();
+export default function UndeterminedModal({ undetermined, undetermined2, idSelect, _idSelect, onChange, show, after, onHide }: Props) {
+	const [checked, setChecked,] = useState(idSelect?idSelect:undefined);
+	const [_checked, set_Checked] = useState(_idSelect?_idSelect:undefined);
 	const { small_box2, small_box } = styles
 	/**点击某个条件时 */
 	const handleClickUndetermined = (index: number, item: Item): any => () => {
@@ -69,7 +71,7 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 	/**渲染条件列表2 */
 	const undeterminedList2 = undetermined2 ? undetermined2.list.map((_: any, index: any) => (
 		<Flex
-      key={_._id}
+			key={_._id}
 			align="center"
 			justify="center"
 			onClick={handleClickUndetermined2(index, _)}
@@ -105,7 +107,7 @@ export default function UndeterminedModal({ undetermined, undetermined2, onChang
 
 				<WingBlank>
 					<div className="title">{undetermined.title}</div>
-					<div className="undetermined-list" style={{ paddingBottom:undetermined2?'unset':'0.9rem'}}>{undeterminedList}</div>
+					<div className="undetermined-list" style={{ paddingBottom: undetermined2 ? 'unset' : '0.9rem' }}>{undeterminedList}</div>
 					{afterContext}
 				</WingBlank>
 				{

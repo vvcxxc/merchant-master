@@ -263,9 +263,6 @@ export default class OrderPage extends Component {
       >
         {financeList}
 
-
-
-
         {
           this.state.list.length > 1 ? <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p> : null
         }

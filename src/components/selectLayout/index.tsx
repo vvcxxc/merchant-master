@@ -25,6 +25,10 @@ interface Props {
   /**快速筛选条件列表 */
   undetermined?: Undetermined;
   undetermined2?: any;
+  idSelect?: any;
+  _idSelect?: any;
+  timeSelect?: any;
+  endTimeSelect?: any;
   /**备用筛选条件 */
   after?: After;
   tabs?: string[];
@@ -38,7 +42,7 @@ interface Props {
   plat_type?: number;
   changePlatType?: () => any;
   tab?: Array<object>;
-  greyBackground?:Boolean;
+  greyBackground?: Boolean;
   dateTitle?: string
 }
 
@@ -77,8 +81,8 @@ export default class FiltrateLayout extends Component<Props> {
     title2: "月份"
   };
   componentDidMount() {
-    if(this.props.dateTitle){
-      this.setState({title2: this.props.dateTitle})
+    if (this.props.dateTitle) {
+      this.setState({ title2: this.props.dateTitle })
     }
   }
   componentDidUpdate() {
@@ -142,7 +146,7 @@ export default class FiltrateLayout extends Component<Props> {
 
 
   render() {
-    const { hotCheck, hotShow, timeCheck, timeShow} = this.state
+    const { hotCheck, hotShow, timeCheck, timeShow } = this.state
     const insignificant = this.props.hasInsignificant && (
       <Flex className={styles.header}>
         {
@@ -197,7 +201,7 @@ export default class FiltrateLayout extends Component<Props> {
               >
                 <span>{this.state.title2}</span>
                 {
-                  <img className={timeCheck || timeShow ? styles.tranfromImg:''} src={icon} />
+                  <img className={timeCheck || timeShow ? styles.tranfromImg : ''} src={icon} />
                 }
 
               </Flex>
@@ -222,27 +226,29 @@ export default class FiltrateLayout extends Component<Props> {
           ) : null
         }
 
-        <Flex.Item className={styles.content} style={{background:this.props.greyBackground?'#f2f2f2':'#fff'}}>
+        <Flex.Item className={styles.content} style={{ background: this.props.greyBackground ? '#f2f2f2' : '#fff' }}>
           <WingBlank style={{ minHeight: '100%' }}>{this.props.children}</WingBlank>
         </Flex.Item>
-
-
         {
           this.props.undetermined ? (
             <UndeterminedModal
-            show={this.state.hotShow}
-            onChange={this.hotChange}
-            undetermined={this.props.undetermined}
-            undetermined2={this.props.undetermined2}
-            after={this.props.after}
-            onHide={this.hotHide}
-          />
+              show={this.state.hotShow}
+              onChange={this.hotChange}
+              undetermined={this.props.undetermined}
+              undetermined2={this.props.undetermined2}
+              idSelect={this.props.idSelect}
+              _idSelect={this.props._idSelect}
+              after={this.props.after}
+              onHide={this.hotHide}
+            />
           ) : null
         }
         <SelectDate
           show={this.state.timeShow}
           value={this.state.query.time}
           end_time={this.state.query.end_time}
+          timeSelect={this.props.timeSelect}
+          endTimeSelect={this.props.endTimeSelect}
           onHide={this.timeHide}
           onChange={this.timeChange}
         />
