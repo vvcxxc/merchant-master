@@ -11,9 +11,17 @@ import moment from 'moment';
 import router from 'umi/router';
 import NoData from '@/components/no-data';
 import { Item } from 'rc-menu';
+import { connect } from 'dva';
 
-
-export default class OrderPage extends Component {
+interface Props {
+  location: any,
+  dispatch: any,
+  details: any
+}
+let timer: any;
+export default connect(({ finance }: any) => finance)(
+// export default
+  class OrderPage extends Component<Props> {
   state = {
     list: [],
     insignificant: 0,
@@ -47,9 +55,22 @@ export default class OrderPage extends Component {
     ]
   };
 
-  componentDidMount = () => {
-    this.getOrderNumber();
-    this.getData();
+    componentDidMount = () => {
+      const { Finance } = this.props
+      this.getOrderNumber();
+      this.getData();
+    // this.props.Finance.ListData ?
+    // if (Finance.ListData) {
+    //   this.setState({
+    //     data: Finance.ListData,
+    //     // page:
+    //     // end_time
+    //     // start_time
+    //     // from
+    //     // type
+    //     })
+    //   }
+    // this.getData();
   };
 
   getOrderNumber = async () => {
@@ -59,7 +80,8 @@ export default class OrderPage extends Component {
     this.setState({
       order_num: res
     }, () => {
-      setTimeout(() => {
+      if (timer) { clearTimeout(timer) }
+      timer = setTimeout(() => {
         this.getOrderNumber()
       }, 5000)
     })
@@ -92,10 +114,28 @@ export default class OrderPage extends Component {
         page: this.state.page
       }
     });
-    console.log(res)
+
+    
+
+    console.log(this.props);
+    
+
     Toast.hide();
     if (res.data.length != 0) {
       this.setState({ data: this.state.data.concat(res.data), transaction_number: res.transaction_number, transaction_amount: res.transaction_amount });
+
+      this.props.dispatch({
+        type: 'finance/setFinance',
+        payload: {
+          ListData: this.state.data
+          // page: this.state.page,
+          // end_time: this.state.date2,
+          // start_time: this.state.date,
+          // from: this.state.payType,
+          // type: this.state.type
+        }
+      })
+
     } else if (res.data.length == 0) {
       this.setState({
         hasMore: false,
@@ -144,6 +184,9 @@ export default class OrderPage extends Component {
   pushPage = (_id: object, e: object) => {
     router.push({ pathname: '/finance/detail', query: { id: _id } })
   };
+  componentWillUnmount() {
+    clearTimeout(timer)
+  }
 
   render() {
     const financeList = this.state.data.length ? (
@@ -195,4 +238,4 @@ export default class OrderPage extends Component {
 
     );
   }
-}
+  })
