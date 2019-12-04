@@ -75,6 +75,7 @@ export default class OrderPage extends Component {
   };
 
   handleLayoutChange = (query: any) => {
+    console.log(query)
     let start = moment().add('month', 0).format('YYYY-MM') + '-01'
     let end = moment(start).add('month', 1).add('days', -1).format('YYYY-MM-DD')
     this.setState({
@@ -87,7 +88,7 @@ export default class OrderPage extends Component {
       end: query.time ? moment(query.end_time).unix() : moment(end).unix(),
     }, () => {
       this.getData({
-        pay_status: query.tab_index || 1,
+        pay_status: query.tab_index || 2,
         youhui_type: query.hot.id,
         begin: query.time ? moment(query.time).unix() : undefined,
         end: query.time ? moment(query.end_time).unix() : undefined,

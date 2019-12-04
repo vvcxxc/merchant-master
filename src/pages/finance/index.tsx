@@ -26,12 +26,11 @@ export default class OrderPage extends Component {
     date2: undefined,
     type: undefined,
     payType: undefined,
-    user_sub: undefined,
     showNoData: false,
     data: [],
     transaction_number: 0,
     transaction_amount: 0,
-    order_num: 0,
+    order_num: 0
   };
 
   undetermined = {
@@ -75,7 +74,6 @@ export default class OrderPage extends Component {
       date2: undefined,
       payType: undefined,
       type: undefined,
-      user_sub: 1,
       data: [],
     }, () => {
       this.getData();
@@ -91,7 +89,6 @@ export default class OrderPage extends Component {
         from: this.state.payType,
         start_time: this.state.date,
         end_time: this.state.date2,
-        user_sub: this.state.user_sub,
         page: this.state.page
       }
     });
@@ -115,7 +112,6 @@ export default class OrderPage extends Component {
         pay_type: this.state.payType,
         start_time: this.state.date,
         end_time: this.state.date2,
-        user_sub: undefined,
         page: this.state.page + 1
       }, () => {
         this.getData()
@@ -129,8 +125,7 @@ export default class OrderPage extends Component {
       date: query.time || undefined,
       date2: query.end_time || undefined,
       payType: query.hot._id,
-      type: query.hot.id,
-      user_sub: undefined
+      type: query.hot.id
     }, () => {
       this.getData()
     })
@@ -163,7 +158,7 @@ export default class OrderPage extends Component {
           <div className="content-right">
             <Flex.Item className="content">
               <div className="financemoney">{_.amount}</div>
-      <div className="financestatus">{_.order_type}</div>
+              <div className="financestatus">二维码收款</div>
             </Flex.Item>
             <Icon type="right" color="#bcbcbc" />
           </div>
