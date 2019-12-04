@@ -117,12 +117,12 @@ export default class ApeakerInfo extends Component {
     removeBind = () => {
         this.setState({ ApeakerInfoPageContentShow: false })
         speakersRequest({
-            url: 'api/v1/voice/device/unbind            ',
+            url: 'api/v1/voice/device/unbind',
             method: 'put',
         }).then(res => {
             if (res.status_code == 200) {
                 Toast.success(res.message, 1.5);
-                this.setState({ alreadyBind: false, data: [] })
+                this.setState({ alreadyBind: false, data: [], serialNumber: '' })
             } else {
                 Toast.fail(res.message, 1.5);
             }
