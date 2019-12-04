@@ -8,7 +8,14 @@ const model: Model = {
   state: {
     list: [],
     total: 0,
-    amount: 0
+    amount: 0,
+    query: {
+      pay_status: 2,
+      begin: undefined,           // 模糊查询月份
+      end: undefined,
+      youhui_type: undefined,
+      page: 1
+    }
   },
   reducers: {
     setList(state, {payload}) {
@@ -23,6 +30,14 @@ const model: Model = {
         list: [],
         // total: '0',
         // amount: '0'
+      }
+    },
+    setQuery(state,{payload}) {
+      return {
+        ...state,
+        query:{
+          ...payload
+        }
       }
     }
   }

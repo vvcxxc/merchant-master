@@ -47,31 +47,36 @@ export default connect(({ orderList }: any) => orderList)(
     }
 
     getData = async (query?: any) => {
-      console.log(query)
-      Toast.loading('');
-      let querys = {}
+      // Toast.loading('');
+      console.log(moment(1575129600 * 1000).format('YYYY-MM-DD'))
+      let params = {}
       let begin = moment().add('month', 0).format('YYYY-MM') + '-01'
       let end = moment(begin).add('month', 1).add('days', -1).format('YYYY-MM-DD')
-      if (!query) {
-        querys = {
+      if (query){
+        // 条件查询
+        if(query.begin){
+          params = query
+        }else{
+          params = {
+            ...query,
+            begin: moment(begin).unix(),
+            end: moment(end).unix()
+          }
+        }
+      }else{
+        // 初始化
+        params = {
+          ...this.props.query,
           begin: moment(begin).unix(),
           end: moment(end).unix()
         }
-      } else {
-        querys = query
       }
       const res = await request({
-        url: 'v3/coupons/order_list', params: {
-          pay_status: this.state.pay_status,
-          ...querys,
-          begin: querys.begin || moment(begin).unix(),
-          end: querys.end || moment(end).unix(),
-          page: this.state.page,
-        }
+        url: 'v3/coupons/order_list',
+        params
       });
       Toast.hide();
       if (res.code === 200 && res.data.length != 0) {
-        // this.setState({ list: this.state.list.concat(res.data), total: res.total, amount: res.amount });
         this.props.dispatch({
           type: 'orderList/setList',
           payload: {
@@ -96,24 +101,22 @@ export default connect(({ orderList }: any) => orderList)(
     handleLayoutChange = (query: any) => {
       // 先清空list列表
       this.props.dispatch({type: 'orderList/reset'})
-      let start = moment().add('month', 0).format('YYYY-MM') + '-01'
-      let end = moment(start).add('month', 1).add('days', -1).format('YYYY-MM-DD')
-      this.setState({
-        page: 1,
-        hasMore: true,
-        list: [],
-        pay_status: query.tab_index || undefined,
-        youhui_type: query.hot.id,
-        begin: query.time ? moment(query.time).unix() : moment(start).unix(),
-        end: query.time ? moment(query.end_time).unix() : moment(end).unix(),
-      }, () => {
-        this.getData({
-          pay_status: query.tab_index || 2,
+      this.props.dispatch ({
+        type: 'orderList/setQuery',
+        payload: {
+          pay_status: query.tab_index,
           youhui_type: query.hot.id,
           begin: query.time ? moment(query.time).unix() : undefined,
           end: query.time ? moment(query.end_time).unix() : undefined,
-        });
+          page: 1
+        }
       })
+      this.getData({
+        pay_status: query.tab_index || 2,
+        youhui_type: query.hot.id,
+        begin: query.time ? moment(query.time).unix() : undefined,
+        end: query.time ? moment(query.end_time).unix() : undefined,
+      });
 
     };
 
@@ -124,20 +127,46 @@ export default connect(({ orderList }: any) => orderList)(
 
     handleLoadMore = () => {
       if (this.state.hasMore) {
-        console.log(this.state)
-        this.setState({
-          page: this.state.page + 1
-        }, () => {
-          this.getData({
-            pay_status: this.state.pay_status,
-            begin: this.state.begin,
-            end: this.state.end,
-            page: this.state.page,
-            youhui_type: this.state.youhui_type
-          })
+        // console.log(this.state)
+        // this.setState({
+        //   page: this.state.page + 1
+        // }, () => {
+        //   this.getData({
+        //     pay_status: this.state.pay_status,
+        //     begin: this.state.begin,
+        //     end: this.state.end,
+        //     page: this.state.page,
+        //     youhui_type: this.state.youhui_type
+        //   })
+        // })
+        this.getData({
+          pay_status: this.props.query.pay_status,
+          begin: this.props.query.begin,
+          end: this.props.query.end,
+          page: this.props.query.page + 1,
+          youhui_type: this.props.query.youhui_type
+        })
+        this.props.dispatch ({
+          type: 'orderList/setQuery',
+          payload: {
+            ...this.props.query,
+            page: this.props.query.page + 1
+          }
         })
       }
 
+    }
+
+    tabIndex = (index: number) => {
+      switch(index){
+        case 1:
+          return 1
+          break
+        case 2:
+          return 0
+        case 3:
+          return 2
+      }
     }
 
 
@@ -173,6 +202,9 @@ export default connect(({ orderList }: any) => orderList)(
           insignificant={list}
           onChange={this.handleLayoutChange}
           tab={tabs}
+          timeSelect={this.props.query.begin ? moment(this.props.query.begin * 1000).format() : undefined}
+          idSelect={this.props.query.youhui_type}
+          tabIn={this.tabIndex(this.props.query.pay_status)}
         >
           {orderList}
 
