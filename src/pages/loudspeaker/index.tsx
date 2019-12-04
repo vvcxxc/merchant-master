@@ -1,7 +1,8 @@
 /**title: 我的云音箱 */
 import React, { Component } from 'react';
 import styles from './index.less';
-import request from '@/services/speakersRequest';
+import speakersRequest from '@/services/speakersRequest';
+import request from '@/services/request';
 import { Toast } from 'antd-mobile';
 import wx from 'weixin-js-sdk';
 import router from 'umi/router';
@@ -51,12 +52,17 @@ export default class ApeakerInfo extends Component {
         });
     }
     componentDidMount() {
-        request({
+        this.getData();
+    }
+    getData = () => {
+        speakersRequest({
             url: 'api/v1/voice/device',
             method: 'get',
         }).then(res => {
-            if (res.status_code == 200) {
+            if (res.status_code == 200 && res.data.number) {
                 this.setState({ data: res.data, alreadyBind: true })
+            } else if (res.status_code == 200) {
+                this.setState({ data: res.data })
             } else {
                 Toast.fail(res.message, 1.5);
             }
@@ -83,7 +89,7 @@ export default class ApeakerInfo extends Component {
         if (this.state.serialNumber) {
             // pZnnQ1yaq2pIQqTlboxV
             // YX1000002
-            request({
+            speakersRequest({
                 url: 'api/v1/voice/device/bind',
                 method: 'post',
                 params: {
@@ -92,7 +98,9 @@ export default class ApeakerInfo extends Component {
             }).then(res => {
                 if (res.status_code == 200) {
                     Toast.success(res.message, 1.5);
-                    this.setState({ alreadyBind: true })
+                    this.setState({ alreadyBind: true }, () => {
+                        this.getData();
+                    })
                 } else {
                     Toast.fail(res.message, 1.5);
                 }
@@ -102,21 +110,19 @@ export default class ApeakerInfo extends Component {
         } else {
             Toast.fail('请输入序列号', 1.5);
         }
-
     }
     testSpeaker = () => {
         console.log('测试播报')
-
     }
     removeBind = () => {
         this.setState({ ApeakerInfoPageContentShow: false })
-        request({
+        speakersRequest({
             url: 'api/v1/voice/device/unbind            ',
             method: 'put',
         }).then(res => {
             if (res.status_code == 200) {
                 Toast.success(res.message, 1.5);
-                this.setState({ alreadyBind: false })
+                this.setState({ alreadyBind: false, data: [] })
             } else {
                 Toast.fail(res.message, 1.5);
             }
