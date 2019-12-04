@@ -36,7 +36,7 @@ export default class Details extends Component {
           //   { order: '满30减10', value: '-10.00' }
           // ]
         },
-        { order: '实付金额', value: res.data.store_amount },
+        { order: '实收金额', value: res.data.store_amount },
 
       ]
       this.setState({ data: data, data1: data1, store_amount: res.data.store_amount })
