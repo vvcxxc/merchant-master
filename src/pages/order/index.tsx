@@ -72,7 +72,6 @@ export default connect(({ orderList }: any) => orderList)(
       Toast.hide();
       if (res.code === 200 && res.data.length != 0) {
         // this.setState({ list: this.state.list.concat(res.data), total: res.total, amount: res.amount });
-        console.log([...this.props.list,...res.data],'rqw')
         this.props.dispatch({
           type: 'orderList/setList',
           payload: {
@@ -82,11 +81,21 @@ export default connect(({ orderList }: any) => orderList)(
           }
         })
       } else if (res.code === 200 && res.data.length == 0) {
-        this.setState({ hasMore: false, total: res.total, amount: res.amount })
+        this.setState({ hasMore: false })
+        this.props.dispatch({
+          type: 'orderList/setList',
+          payload: {
+            list: this.props.list,
+            total: 0,
+            amount: 0
+          }
+        })
       }
     };
 
     handleLayoutChange = (query: any) => {
+      // 先清空list列表
+      this.props.dispatch({type: 'orderList/reset'})
       let start = moment().add('month', 0).format('YYYY-MM') + '-01'
       let end = moment(start).add('month', 1).add('days', -1).format('YYYY-MM-DD')
       this.setState({

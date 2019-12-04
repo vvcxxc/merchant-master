@@ -7,14 +7,22 @@ const model: Model = {
   namespace: 'orderList',
   state: {
     list: [],
-    total: '',
-    amount: ''
+    total: 0,
+    amount: 0
   },
   reducers: {
     setList(state, {payload}) {
       return {
         ...state,
         ...payload
+      }
+    },
+    reset(state){
+      return {
+        ...state,
+        list: [],
+        // total: '0',
+        // amount: '0'
       }
     }
   }
