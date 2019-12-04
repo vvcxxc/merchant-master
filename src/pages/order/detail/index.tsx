@@ -78,7 +78,7 @@ export default class OrderDetail extends Component<any, State> {
         return '秒杀'
         break
       case 3:
-        return '正常购买'
+        return '店内发券'
         break
       case 4:
         return '增值'
@@ -165,7 +165,10 @@ export default class OrderDetail extends Component<any, State> {
                   </Flex>
                   <Flex justify='between'>
                     <div className="label" style={{ width: 300 }}>交易单号</div>
-                    <Flex style={{ color: '#486DDA' }} justify='end' onClick={this.orderSnGo}>{data.channel_order_sn}<Icon type='right' /></Flex>
+                    {
+                      data.channel_order_sn ? <Flex style={{ color: '#486DDA' }} justify='end' onClick={this.orderSnGo}>{data.channel_order_sn}<Icon type='right' /></Flex> : null
+                    }
+
                   </Flex>
                   {/* <Flex>
 								<div className="label">交易金额</div>
