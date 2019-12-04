@@ -147,23 +147,27 @@ export default class OrderPage extends Component {
 
   render() {
     const financeList = this.state.data.length ? (
-      this.state.data.map((_: any) => (
-
-        <Flex className={styles.financeItem} key={_.id} onClick={this.pushPage.bind(this, _.id)}>
-          <img src={_.small_icon} />
-          <Flex.Item className="content">
-            <div className="financenum">{_.order_sn}</div>
-            <div className="financetime">{_.create_time}</div>
-          </Flex.Item>
-          <div className="content-right">
-            <Flex.Item className="content">
-              <div className="financemoney">{_.amount}</div>
-              <div className="financestatus">二维码收款</div>
-            </Flex.Item>
-            <Icon type="right" color="#bcbcbc" />
-          </div>
-        </Flex>
-      ))
+      <div>
+        {
+          this.state.data.map((_: any) => (
+            <Flex className={styles.financeItem} key={_.id} onClick={this.pushPage.bind(this, _.id)}>
+              <img src={_.small_icon} />
+              <Flex.Item className="content">
+                <div className="financenum">{_.order_sn}</div>
+                <div className="financetime">{_.create_time}</div>
+              </Flex.Item>
+              <div className="content-right">
+                <Flex.Item className="content">
+                  <div className="financemoney">{_.amount}</div>
+                  <div className="financestatus">二维码收款</div>
+                </Flex.Item>
+                <Icon type="right" color="#bcbcbc" />
+              </div>
+            </Flex>
+          ))
+        }
+        <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
+      </div>
     ) : (
         <NoData type="finance" />
       );
@@ -183,7 +187,6 @@ export default class OrderPage extends Component {
         <div className={styles.data_wrap}>
           {financeList}
         </div>
-        <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
       </FiltrateLayout>
 
     );
