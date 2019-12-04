@@ -41,7 +41,6 @@ export default class MyIndex extends Component {
         show: false
       },
     ],
-    // select: 0,
     begin_date: '',
     end_date: '',
     from: 1,
@@ -50,9 +49,6 @@ export default class MyIndex extends Component {
     total_money: '',
     showMore:true,
     list: [
-      // { order: '6908913456056', pic: '0.56', time: '2019/11/07', type: '购买优惠券' },
-      // { order: '6908913456056', pic: '0.56', time: '2019/11/07', type: '购买优惠券' },
-      // { order: '6908913456056', pic: '0.56', time: '2019/11/07', type: '购买优惠券' }
     ],
     totalData: [
       
@@ -191,14 +187,11 @@ export default class MyIndex extends Component {
 
   render() {
     const { title, list, total, total_money, showMore, from, totalData} = this.state
-    // const list2 = [
-    //   { name: '交易笔数', num: total }, { name: '交易金额', num: total_money }]
-    // 1收款  2订单   3充值， 4收益
     const orderType:any = {
       [1]: { value: '收款', id: styles.gathering },
       [2]: { value: '订单', id: styles.order },
-      [3]: { value: '充值', id: styles.recharge },
-      [4]: { value: '收益', id: styles.earnings }
+      [15]: { value: '充值', id: styles.recharge },
+      [14]: { value: '收益', id: styles.earnings }
       
     }
     return (
@@ -252,7 +245,6 @@ export default class MyIndex extends Component {
                       <span>{item.create_time}</span>
                       <span>
                         {
-                          // from>1 ? (item.order_type === 1 ? '线下扫码支付' : '购买优惠券'):
                             orderType[item.order_type].value
                         }
                       </span></div>
