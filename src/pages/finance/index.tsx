@@ -26,10 +26,12 @@ export default class OrderPage extends Component {
     date2: undefined,
     type: undefined,
     payType: undefined,
+    user_sub: undefined,
     showNoData: false,
     data: [],
     transaction_number: 0,
     transaction_amount: 0,
+    order_num: 0,
   };
 
   undetermined = {
@@ -46,7 +48,40 @@ export default class OrderPage extends Component {
     ]
   };
 
-  componentDidMount = () => this.getData();
+  componentDidMount = () => {
+    this.getOrderNumber();
+    this.getData();
+  };
+
+  getOrderNumber = async () => {
+    const res = await request({
+      url: 'v3/offline_order/new_order_number'
+    })
+    this.setState({
+      order_num: res
+    }, () => {
+      setTimeout(() => {
+        this.getOrderNumber()
+      }, 500000)
+    })
+  };
+
+  hanleRefresh = () => {
+    //  location.reload();
+    this.setState({
+      page: 1,
+      hasMore: true,
+      date: undefined,
+      date2: undefined,
+      payType: undefined,
+      type: undefined,
+      user_sub: 1,
+      data: [],
+    }, () => {
+      this.getData();
+    })
+  }
+
   getData = async () => {
     Toast.loading('');
     const res = await request({
@@ -56,6 +91,7 @@ export default class OrderPage extends Component {
         from: this.state.payType,
         start_time: this.state.date,
         end_time: this.state.date2,
+        user_sub: this.state.user_sub,
         page: this.state.page
       }
     });
@@ -64,10 +100,10 @@ export default class OrderPage extends Component {
     if (res.data.length != 0) {
       this.setState({ data: this.state.data.concat(res.data), transaction_number: res.transaction_number, transaction_amount: res.transaction_amount });
     } else if (res.data.length == 0) {
-      this.setState({ 
-        hasMore: false, 
-        transaction_number: 0,
-        transaction_amount: 0
+      this.setState({
+        hasMore: false,
+        transaction_number: res.transaction_number,
+        transaction_amount: res.transaction_amount
       });
     }
   };
@@ -79,6 +115,7 @@ export default class OrderPage extends Component {
         pay_type: this.state.payType,
         start_time: this.state.date,
         end_time: this.state.date2,
+        user_sub: undefined,
         page: this.state.page + 1
       }, () => {
         this.getData()
@@ -92,7 +129,8 @@ export default class OrderPage extends Component {
       date: query.time || undefined,
       date2: query.end_time || undefined,
       payType: query.hot._id,
-      type: query.hot.id
+      type: query.hot.id,
+      user_sub: undefined
     }, () => {
       this.getData()
     })
@@ -115,6 +153,7 @@ export default class OrderPage extends Component {
   render() {
     const financeList = this.state.data.length ? (
       this.state.data.map((_: any) => (
+
         <Flex className={styles.financeItem} key={_.id} onClick={this.pushPage.bind(this, _.id)}>
           <img src={_.small_icon} />
           <Flex.Item className="content">
@@ -124,7 +163,7 @@ export default class OrderPage extends Component {
           <div className="content-right">
             <Flex.Item className="content">
               <div className="financemoney">{_.amount}</div>
-              <div className="financestatus">二维码收款</div>
+      <div className="financestatus">{_.order_type}</div>
             </Flex.Item>
             <Icon type="right" color="#bcbcbc" />
           </div>
@@ -142,7 +181,13 @@ export default class OrderPage extends Component {
         insignificant={list}
         onChange={this.handleChange}
       >
-        {financeList}
+        <div className={styles.notice}>
+          <img src={require('@/assets/notice.png')} alt="" />
+          <div onClick={this.hanleRefresh.bind(this)}>当前有{this.state.order_num}条新订单，点击刷新</div>
+        </div>
+        <div className={styles.data_wrap}>
+          {financeList}
+        </div>
         <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
       </FiltrateLayout>
 

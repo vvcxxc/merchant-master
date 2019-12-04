@@ -5,6 +5,7 @@ import styles from './index.less'
 import CloudSpeakers from './component/cloud_speakers'
 import wx from 'weixin-js-sdk';
 import request from '@/services/request';
+import speakersRequest from '@/services/speakersRequest'
 export default class qlPage extends Component {
 
   state = {
@@ -55,7 +56,7 @@ export default class qlPage extends Component {
   }
 
   getListData = () => {
-    request({
+    speakersRequest({
       url: 'api/v1/voice',
       method: 'get',
      
