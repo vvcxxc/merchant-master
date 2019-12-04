@@ -26,11 +26,12 @@ export default class OrderPage extends Component {
     date2: undefined,
     type: undefined,
     payType: undefined,
+    user_sub: undefined,
     showNoData: false,
     data: [],
     transaction_number: 0,
     transaction_amount: 0,
-    order_num: 0
+    order_num: 0,
   };
 
   undetermined = {
@@ -74,9 +75,10 @@ export default class OrderPage extends Component {
       date2: undefined,
       payType: undefined,
       type: undefined,
+      user_sub: 1,
       data: [],
     }, () => {
-      this.getData()
+      this.getData();
     })
   }
 
@@ -89,6 +91,7 @@ export default class OrderPage extends Component {
         from: this.state.payType,
         start_time: this.state.date,
         end_time: this.state.date2,
+        user_sub: this.state.user_sub,
         page: this.state.page
       }
     });
@@ -112,6 +115,7 @@ export default class OrderPage extends Component {
         pay_type: this.state.payType,
         start_time: this.state.date,
         end_time: this.state.date2,
+        user_sub: undefined,
         page: this.state.page + 1
       }, () => {
         this.getData()
@@ -125,7 +129,8 @@ export default class OrderPage extends Component {
       date: query.time || undefined,
       date2: query.end_time || undefined,
       payType: query.hot._id,
-      type: query.hot.id
+      type: query.hot.id,
+      user_sub: undefined
     }, () => {
       this.getData()
     })
@@ -165,8 +170,8 @@ export default class OrderPage extends Component {
         </Flex>
       ))
     ) : (
-      <NoData type="finance" />
-    );
+        <NoData type="finance" />
+      );
     const list = [{ name: '交易笔数', num: this.state.transaction_number }, { name: '交易金额', num: this.state.transaction_amount }]
     return (
       <FiltrateLayout
