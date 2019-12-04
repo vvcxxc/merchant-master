@@ -14,7 +14,7 @@ export default class qlPage extends Component {
     imgHeight: 'auto',
     ApeakerlogisticsContentShow: false,
     phone: '020-80929539',
-    list:[]
+    list:{}
   }
 
   componentWillMount() {
@@ -45,13 +45,14 @@ export default class qlPage extends Component {
   //   });
   }
   componentDidMount() {
+    this.getListData()
     setTimeout(() => {
       this.setState({
         data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
       });
     }, 10000);
 
-    this.getListData()
+    
     
   }
 
@@ -61,9 +62,12 @@ export default class qlPage extends Component {
       method: 'get',
      
     }).then(res => { 
-
-      console.log(res,'得到了');
-      
+      const { data, status_code } = res
+      if (status_code === 200) {
+        this.setState({
+          list: data[0]
+        })
+      }
     })
   }
 
@@ -71,13 +75,17 @@ export default class qlPage extends Component {
 
 
   render() {
+    const { list } = this.state
     return (
       <div id={styles.qilin} >
-        <div className={styles.logistics}>音箱配送中，
+        {
+          list.is_buy === 1 ? <div className={styles.logistics}>音箱配送中，
           <span onClick={() => { this.setState({ ApeakerlogisticsContentShow: true }) }}>
-            查看物流
+              查看物流
           </span>
-        </div>
+          </div>:null
+        }
+        
         {/* <WingBlank>
           <Carousel className="space-carousel"
             frameOverflow="visible"
@@ -107,7 +115,7 @@ export default class qlPage extends Component {
         </WingBlank> */}
         {
 
-          <CloudSpeakers height={true} list={}></CloudSpeakers>
+          <CloudSpeakers height={true} list={list}></CloudSpeakers>
 
         }
 

@@ -60,7 +60,7 @@ export default class ApeakerInfo extends Component {
             method: 'get',
         }).then(res => {
             if (res.status_code == 200 && res.data.number) {
-                this.setState({ data: res.data, alreadyBind: true })
+                this.setState({ data: res.data, alreadyBind: true, serialNumber: res.data.number })
             } else if (res.status_code == 200) {
                 this.setState({ data: res.data })
             } else {
@@ -136,7 +136,7 @@ export default class ApeakerInfo extends Component {
                 <div className={styles.ApeakerItemBox} >
                     <div className={styles.ApeakerItemBoxTitle} >序列号</div>
                     {
-                        this.state.alreadyBind ? <div className={styles.ApeakerItemBoxInput}>{this.state.data.number}</div> :
+                        this.state.alreadyBind && this.state.serialNumber ? <div className={styles.ApeakerItemBoxInput}>{this.state.serialNumber}</div> :
                             <input className={styles.ApeakerItemBoxInput} placeholder='请输入序列号' onChange={this.changeCode.bind(this)} />
                     }
                     <div className={styles.ApeakerItemBoxIcon} onClick={this.BindScanQRCode.bind(this)} >

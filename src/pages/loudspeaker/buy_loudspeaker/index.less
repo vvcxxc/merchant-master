@@ -44,6 +44,7 @@
       padding-top: 30px;
       bottom: 0;
       left:0;
+      // z-index: 2;
       justify-content: space-between;
       align-items: center;
       background-color: #fff;
@@ -91,34 +92,36 @@
       height: 108px;
       width: 108px;
       margin:0px  16px 0px 32px;
+      overflow: hidden;
       img {
         height: 100%;
       }
     }
-    ul {
+    .equipment_right {
+      height: 100%;
       padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
       li:nth-child(1){
-        font-size:28px;
+        font-size:27px;
         font-family:PingFang SC;
         font-weight:500;
         color:rgba(255,255,255,1);
       }
       li:nth-child(2){
-        font-size:22px;
-        font-family:PingFang SC;
-        font-weight:400;
-        color:rgba(255,255,255,1);
-      }
-      li:nth-child(3){
         font-size:28px;
         font-family:PingFang SC;
         font-weight:bold;
         color:rgba(255,255,255,1);
+        span {
+          font-size: 20px;
+          font-weight: normal;
+        }
       }
     }
   }
 
-  // .receiving_infor{
     .info_title {
       margin-top: 48px;
       margin-bottom: 20px;
@@ -155,9 +158,18 @@ ul li {
   list-style: none;
 }
 
-
+.picker_box {
+  position: fixed;
+  z-index: 99;
+  top:0;
+  left:0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,.4);
+}
 .picker {
-  z-index: 99999;
+  z-index: 999;
+  left:0;
   .picker_buttons {
     width: 100%;
     box-sizing: border-box;

@@ -2,9 +2,18 @@ import React, { Component, useState } from 'react'
 import router from 'umi/router';
 import styles from './index.less'
 
+interface listType {
+  describe: string,
+  id: number,
+  image: string,
+  name: string | number,
+  price: string | number,
+  stock: number,
+  
+}
 interface Props {
   height?: boolean,
-  list:Array<Object>
+  list: any
 }
 export default class CloudSpeakers extends Component<Props> {
   //购买商品
@@ -12,18 +21,26 @@ export default class CloudSpeakers extends Component<Props> {
     router.push('/loudspeaker/buy_loudspeaker');
   }
   render() {
+    const { list } = this.props
+    console.log(list,'list');
+    
     return (
       <div className={styles.stereo_box_list}>
         <div className={styles.stereo_box}>
           <div className={this.props.height ? styles.flat_pattern : styles.short_flat_pattern}>
-            <img src="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=672c24dc057b020808c938e352d9f25f/d8f9d72a6059252ddd00117d3b9b033b5bb5b9b7.jpg" alt="" />
+            <img src={list.image} alt="" />
           </div>
           <ul>
-            <li>小雅Nano智能音箱</li>
-            <li>产品功能介绍产品功能介绍产品功能 介绍产品功能介绍产品功能介绍品功 能介绍</li>
+            <li>{list.name}</li>
+            <li>{list.describe}</li>
             <li>
-              <span>￥100.00</span>
-              <span onClick={this.GoShop}>购买音箱</span>
+              <span>￥{list.price}</span>
+              {
+                list.is_buy === 1 ? <span id={styles.no_inventory}>已购买</span> : (
+                  list.stock > 0 ?
+                    < span onClick={this.GoShop}>购买音箱</span> : <span id={styles.no_inventory}>已售完</span>
+                )
+              }
             </li>
           </ul>
         </div>

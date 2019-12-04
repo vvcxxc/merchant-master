@@ -29,7 +29,7 @@ export default class OrderDetail extends Component<any, State> {
   }
 
   orderSnGo = () => {
-    let { youhui_type, id } = this.state.data;
+    let { youhui_type, id, order_id } = this.state.data;
     if (youhui_type == 0) {
       router.push({
         pathname: '/verification/success',
@@ -37,12 +37,12 @@ export default class OrderDetail extends Component<any, State> {
           youhui_log_id: id
         }
       })
-    }else if (youhui_type == 1) {
+    }else if (youhui_type == 1 && order_id) {
       // 现金券
       router.push({
         pathname: '/finance/detail',
         query: {
-          id: id
+          id: order_id
         }
       })
     }
@@ -63,6 +63,37 @@ export default class OrderDetail extends Component<any, State> {
         break
       case 4:
         return '已过期'
+        break
+      default:
+        return ''
+    }
+  }
+
+  source = (source: any) => {
+    switch (source) {
+      case 1:
+        return '零元购'
+        break
+      case 2:
+        return '秒杀'
+        break
+      case 3:
+        return '店内发券'
+        break
+      case 4:
+        return '增值'
+        break
+      case 5:
+        return '团购'
+        break
+      case 6:
+        return '抽奖'
+        break
+      case 7:
+        return '兑换'
+        break
+      case 8:
+        return '返券'
         break
       default:
         return ''
@@ -101,11 +132,11 @@ export default class OrderDetail extends Component<any, State> {
               </Flex>
               <Flex>
                 <div className="label">商品类型</div>
-                <Flex.Item>{data.youhui_type === 0 ? '兑换' : '优惠'}券</Flex.Item>
+                <Flex.Item>{data.youhui_type === 0 ? '兑换' : '现金'}券</Flex.Item>
               </Flex>
               <Flex>
                 <div className="label">商品来源</div>
-                <Flex.Item></Flex.Item>
+                <Flex.Item>{this.source(data.source)}</Flex.Item>
               </Flex>
               <Flex justify='end' onClick={this.moreData}>
                 <div className='order_btn'>查看该订单使用情况</div>
@@ -134,7 +165,10 @@ export default class OrderDetail extends Component<any, State> {
                   </Flex>
                   <Flex justify='between'>
                     <div className="label" style={{ width: 300 }}>交易单号</div>
-                    <Flex style={{ color: '#486DDA' }} justify='end' onClick={this.orderSnGo}>{data.channel_order_sn}<Icon type='right' /></Flex>
+                    {
+                      data.order_sn ? <Flex style={{ color: '#486DDA' }} justify='end' onClick={this.orderSnGo}>{data.order_sn}<Icon type='right' /></Flex> : null
+                    }
+
                   </Flex>
                   {/* <Flex>
 								<div className="label">交易金额</div>

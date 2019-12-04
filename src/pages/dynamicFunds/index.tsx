@@ -23,14 +23,16 @@ export default class MyIndex extends Component {
         des: '结算到商家平台账户内, 需要手动进行提现',
         left: -14.5,
         go_right: 15.2,
-        show:false
+        show: false,
+        index:1
       },
       {
         name: '商家微信',
         pice: '50.00',
         des: '结算到商家开通微信商户账户里。',
         left: -23, go_right: 23.8,
-        show:false
+        show: false,
+        index: 3
       },
       {
         name: '商家支付宝',
@@ -38,10 +40,10 @@ export default class MyIndex extends Component {
         des: '结算到商家开通支付宝商户账户里。',
         left: -43,
         go_right: 44,
-        show: false
+        show: false,
+        index: 2
       },
     ],
-    // select: 0,
     begin_date: '',
     end_date: '',
     from: 1,
@@ -50,9 +52,6 @@ export default class MyIndex extends Component {
     total_money: '',
     showMore:true,
     list: [
-      // { order: '6908913456056', pic: '0.56', time: '2019/11/07', type: '购买优惠券' },
-      // { order: '6908913456056', pic: '0.56', time: '2019/11/07', type: '购买优惠券' },
-      // { order: '6908913456056', pic: '0.56', time: '2019/11/07', type: '购买优惠券' }
     ],
     totalData: [
       
@@ -77,11 +76,12 @@ export default class MyIndex extends Component {
   }
 
   // 点击查看不同的列数据
-  userSelect = async(index: any) => {
+  userSelect = async (index: any) => {
+
    await Toast.loading('');
     const { page, begin_date, end_date } = this.state
     this.setState({
-      from: index + 1,
+      from: index ,
       page:1
     }, () => {
         
@@ -162,8 +162,6 @@ export default class MyIndex extends Component {
       params
     }).then(res => {
       const { code, data } = res
-      console.log(data);
-      
       if (code === 200) {
         this.setState({
           list: params.page > 1 ? [...this.state.list, ...data.offlineOrders.data]:data.offlineOrders.data,
@@ -191,14 +189,21 @@ export default class MyIndex extends Component {
 
   render() {
     const { title, list, total, total_money, showMore, from, totalData} = this.state
-    // const list2 = [
-    //   { name: '交易笔数', num: total }, { name: '交易金额', num: total_money }]
-    // 1收款  2订单   3充值， 4收益
     const orderType:any = {
       [1]: { value: '收款', id: styles.gathering },
       [2]: { value: '订单', id: styles.order },
-      [3]: { value: '充值', id: styles.recharge },
-      [4]: { value: '收益', id: styles.earnings }
+      [15]: { value: '充值', id: styles.recharge },
+      [14]: { value: '收益', id: styles.earnings },
+      [3]: { value: '其他', id: styles.earnings },
+      [4]: { value: '其他', id: styles.earnings },
+      [5]: { value: '其他', id: styles.earnings },
+      [6]: { value: '其他', id: styles.earnings },
+      [7]: { value: '其他', id: styles.earnings },
+      [8]: { value: '其他', id: styles.earnings },
+      [9]: { value: '其他', id: styles.earnings },
+      [10]: { value: '其他', id: styles.earnings },
+      [11]: { value: '其他', id: styles.earnings },
+      [12]: { value: '其他', id: styles.earnings },
       
     }
     return (
@@ -214,9 +219,9 @@ export default class MyIndex extends Component {
             <div className={styles.userSelect}>
               {
                 title && title.map((item: any, index: number) => {
-                  return <div key={index} >
+                  return <div key={item.index} >
                     <div className={styles.balance} >
-                      <span onClick={this.userSelect.bind(this, index)}>{item.name}</span>
+                      <span onClick={this.userSelect.bind(this, item.index)}>{item.name}</span>
                       <Propmpt
                         left={item.left}
                         value={item.des}
@@ -227,8 +232,8 @@ export default class MyIndex extends Component {
                       />
 
                     </div>
-                    <div className={styles.pice} onClick={this.userSelect.bind(this, index)}
-                      style={{ borderBottom: from == index+1 ? '3px solid rgba(71,129,254,1)' : '' }}>
+                    <div className={styles.pice} onClick={this.userSelect.bind(this, item.index)}
+                      style={{ borderBottom: from == item.index ? '3px solid rgba(71,129,254,1)' : '' }}>
                       ￥{item.pice}
                     </div>
                   </div>
@@ -252,7 +257,6 @@ export default class MyIndex extends Component {
                       <span>{item.create_time}</span>
                       <span>
                         {
-                          // from>1 ? (item.order_type === 1 ? '线下扫码支付' : '购买优惠券'):
                             orderType[item.order_type].value
                         }
                       </span></div>

@@ -21,7 +21,7 @@ const host = window.speaker_api ? window.speaker_api : 'http://test.api.voice.td
  *
  * 必要参数参考axios
  */
-export default function request(options: Options) {
+export default function speakersRequest(options: Options) {
   const token = localStorage.getItem('token');
   options.headers = { ...options.headers, Authorization: token };
   options.url = options.host ? options.host + options.url : host + options.url;

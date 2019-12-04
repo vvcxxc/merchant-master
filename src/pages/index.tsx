@@ -37,7 +37,7 @@ export default connect(({ app }: any) => app)(
         };
 
         componentWillMount() {
-            console.log(this.props)
+            // console.log(this.props)
             // 给两个用于海报使用
             localStorage.setItem('QL_headImg', 'refresh')
             localStorage.setItem('QL_giftImg', 'refresh')
