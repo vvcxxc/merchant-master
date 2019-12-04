@@ -25,10 +25,12 @@ interface Props {
   /**快速筛选条件列表 */
   undetermined?: Undetermined;
   undetermined2?: any;
+  // 筛选条件
   idSelect?: any;
   _idSelect?: any;
   timeSelect?: any;
   endTimeSelect?: any;
+  tabIn?: any;
   /**备用筛选条件 */
   after?: After;
   tabs?: string[];
@@ -138,7 +140,6 @@ export default class FiltrateLayout extends Component<Props> {
    * tab onChange回调
    */
   tabChange = (title: any, idx: any) => {
-    console.log(title)
     this.setState({ query: { ...this.state.query, tab_index: title.id } }, () => {
       this.props.onChange && this.props.onChange(this.state.query)
     })
@@ -217,7 +218,7 @@ export default class FiltrateLayout extends Component<Props> {
             <div style={{ width: '100%' }}>
               <Tabs
                 tabs={this.props.tab}
-                initialPage={this.state.query.tab_index}
+                initialPage={this.props.tabIn || this.state.query.tab_index}
                 onChange={this.tabChange}
                 tabBarUnderlineStyle={{ height: '.03rem', width: '1.03rem', background: '#5BA2FA', marginLeft: '.75rem' }}
                 tabBarTextStyle={{ fontSize: '.32rem', color: '#333' }}
