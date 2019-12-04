@@ -30,7 +30,8 @@ export default class OrderPage extends Component {
     data: [],
     transaction_number: 0,
     transaction_amount: 0,
-    order_num: 0
+    order_num: 0,
+    isHaveData: false
   };
 
   undetermined = {
@@ -95,12 +96,18 @@ export default class OrderPage extends Component {
     console.log(res)
     Toast.hide();
     if (res.data.length != 0) {
-      this.setState({ data: this.state.data.concat(res.data), transaction_number: res.transaction_number, transaction_amount: res.transaction_amount });
+      this.setState({
+        data: this.state.data.concat(res.data),
+        transaction_number: res.transaction_number,
+        transaction_amount: res.transaction_amount,
+        isHaveData: res.total == 0 ? false : true
+      });
     } else if (res.data.length == 0) {
       this.setState({
         hasMore: false,
         transaction_number: res.transaction_number,
-        transaction_amount: res.transaction_amount
+        transaction_amount: res.transaction_amount,
+        isHaveData: res.total == 0 ? false : true
       });
     }
   };
@@ -176,10 +183,14 @@ export default class OrderPage extends Component {
         insignificant={list}
         onChange={this.handleChange}
       >
-        <div className={styles.notice}>
-          <img src={require('@/assets/notice.png')} alt="" />
-          <div onClick={this.hanleRefresh.bind(this)}>当前有{this.state.order_num}条新订单，点击刷新</div>
-        </div>
+        {
+          this.state.isHaveData ? (
+            <div className={styles.notice}>
+              <img src={require('@/assets/notice.png')} alt="" />
+              <div onClick={this.hanleRefresh.bind(this)}>当前有{this.state.order_num}条新订单，点击刷新</div>
+            </div>
+          ) : ""
+        }
         <div className={styles.data_wrap}>
           {financeList}
         </div>
