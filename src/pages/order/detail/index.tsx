@@ -38,7 +38,13 @@ export default class OrderDetail extends Component<any, State> {
         }
       })
     }else if (youhui_type == 1) {
-
+      // 现金券
+      router.push({
+        pathname: 'finance/detail',
+        query: {
+          id: id
+        }
+      })
     }
   }
 
