@@ -9,7 +9,11 @@ import axios from 'axios';
 import styles from './index.less';
 import speakersRequest from '@/services/speakersRequest'
 import { spawn } from 'child_process';
-
+import Cookies from 'js-cookie';
+declare global {
+  interface Window { open_id: string; pay_url: string; Url: string }
+}
+const open_id = window.open_id ? window.open_id : 'test_open_id';
 interface stateType {
   is_map: boolean,
   city_list: any,
@@ -106,7 +110,7 @@ export default class BuyLoudSpeaker extends Component {
     }
   }
 
-  payment() {
+  payment = (data:any)=> {
     let _type: number;
     let browserType = this.getBrowserType();
     if (browserType == 'wechat') {
@@ -114,14 +118,23 @@ export default class BuyLoudSpeaker extends Component {
     } else if (browserType == 'alipay') {
       _type = 2;
     }
-    let datas = {
-      //传递给后台的数据
-    }
+
+    let openid = Cookies.get(open_id)
+
+    // let datas = {
+    //   //传递给后台的数据
+    // }
     //请求支付属性
-    request({
-      url: 'v1/youhui/wxXcxuWechatPay',
+    // request({
+    //   url: 'v1/youhui/wxXcxuWechatPay',
+    //   method: "POST",
+    //   data: JSON.stringify(datas)
+    // })/api/v1/voice/pay
+    
+    speakersRequest({
+      url: 'api/v1/voice/pay',
       method: "POST",
-      data: JSON.stringify(datas)
+      data
     })
       .then((res: any) => {
         if (_type == 1) {
@@ -183,6 +196,9 @@ export default class BuyLoudSpeaker extends Component {
       }
     }).then(res => {
       const { data, status_code } = res
+      console.log(res,'res');
+      
+      this.payment({ order_num: data.order_num})
     })
   }
 
