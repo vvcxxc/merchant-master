@@ -25,10 +25,8 @@ export default connect(({ finance }: any) => finance)(
   state = {
     list: [],
     insignificant: 0,
-
     page: 1,
     hasMore: true,
-
     pay_status: '',   // 模糊查询筛选
     date: undefined,         // 模糊查询月份，
     date2: undefined,

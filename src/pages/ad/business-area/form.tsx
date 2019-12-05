@@ -260,7 +260,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 				moment.unix(this.state.endTime || 0).format('YYYY.MM.DD')
 				: '广告投放时长';
 			return (
-				<div>
+				<div className={styles.ad_wrap}>
 					<div className={((this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1)) ? styles.ad_status_isPut : this.state.is_pause == 1 ? styles.ad_status_ispause : (this.state.is_pause == 0 && this.state.check_status == 2) ? styles.ad_status_isFail : ''}>
 						{
 							// this.state.ad_status == 0 ? ' 暂未投放': 
