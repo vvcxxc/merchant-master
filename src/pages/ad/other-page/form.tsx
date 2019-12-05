@@ -459,7 +459,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 				/>
 			);
 			return (
-				<div>
+				<div className={styles.ad_wrap}>
 					{
 						// 钻石展位不展示推广
 						this.props.type != "钻石展位" ? (<SelectAdType value={this.state.formType} onChange={this.handleChangeType} adStatus={this.props.ad.adStatus} />) : null
