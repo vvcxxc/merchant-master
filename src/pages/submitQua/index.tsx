@@ -484,7 +484,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     id_front: files
       //   }
       // })
-      Toast.loading('');
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -560,7 +560,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     id_back: files
       //   }
       // })
-      Toast.loading('');
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -666,7 +666,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     bank_front: files
       //   }
       // })
-      Toast.loading('');
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -764,7 +764,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     bank_back: files
       //   }
       // })
-      Toast.loading('');
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -862,7 +862,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     license_img: files
       //   }
       // })
-      Toast.loading('');
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -1255,7 +1255,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     }
     selectImg = (files: any) => {
-      Toast.loading('');
+      Toast.loading('',100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -1368,7 +1368,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     render() {
       const idFront = this.props.is_id_front == true ? (
-        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_front_img} alt="" /><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
+        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_front_img+'?x-oss-process=image/resize,m_fill,w_209,h_149'} alt="" /><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.front_img}
@@ -1380,7 +1380,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         );
       const idBack = this.props.is_id_back == true ? (
-        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_back_img} /><div className={styles.close} onClick={this.closeIDBack}>{''}</div></div>
+        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_back_img+'?x-oss-process=image/resize,m_fill,w_209,h_149'} /><div className={styles.close} onClick={this.closeIDBack}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.back_img}
@@ -1392,7 +1392,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         )
       const idHand = this.props.is_id_hand == true ? (
-        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.hand_hold_id_img} /><div className={styles.close} onClick={this.closeIDHand}>{''}</div></div>
+        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.hand_hold_id_img+'?x-oss-process=image/resize,m_fill,w_209,h_149'} /><div className={styles.close} onClick={this.closeIDHand}>{''}</div></div>
       ) : (
           //809
           <ImagePicker
@@ -1406,7 +1406,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         )
       const bankFront = this.props.is_bank_front == true ? (
-        <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/" + this.props.bank_card_front_img} /><div className={styles.close} onClick={this.closeBankFront}>{''}</div></div>
+        <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/" + this.props.bank_card_front_img+'?x-oss-process=image/resize,m_fill,w_324,h_203'} /><div className={styles.close} onClick={this.closeBankFront}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.bank_front}
@@ -1418,7 +1418,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         )
       const bankBack = this.props.is_bank_back == true ? (
-        <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/" + this.props.bank_card_back_img} /><div className={styles.close} onClick={this.closeBankBack}>{''}</div></div>
+        <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/" + this.props.bank_card_back_img+'?x-oss-process=image/resize,m_fill,w_324,h_203'} /><div className={styles.close} onClick={this.closeBankBack}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.bank_back}
@@ -1430,7 +1430,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         )
       const License = this.props.is_license == true ? (
-        <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/" + this.props.three_certs_in_one_img} /><div className={styles.close} onClick={this.closeLicense}>{''}</div></div>
+        <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/" + this.props.three_certs_in_one_img+'?x-oss-process=image/resize,m_fill,w_669,h_438'} /><div className={styles.close} onClick={this.closeLicense}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.license}

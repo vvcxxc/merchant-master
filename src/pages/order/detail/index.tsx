@@ -29,8 +29,8 @@ export default class OrderDetail extends Component<any, State> {
   }
 
   orderSnGo = () => {
-    let { youhui_type, id, order_id } = this.state.data;
-    if (youhui_type == 0) {
+    let { youhui_type, id, order_id, use_status } = this.state.data;
+    if (youhui_type == 0 && use_status != '未核销') {
       router.push({
         pathname: '/verification/success',
         query: {
@@ -104,7 +104,7 @@ export default class OrderDetail extends Component<any, State> {
     const data = this.state.data;
     return (
       <div className={styles.page} style={{ height: "auto", minHeight: "100%", paddingBottom: "20px" }}>
-        <WingBlank>
+        <WingBlank style={{padding: '0 .1rem'}}>
           <div className="price">+{data.pay_money}</div>
           <div className="trade">交易成功</div>
           <div className="content">

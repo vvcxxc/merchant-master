@@ -59,7 +59,7 @@ export default connect(({ finance }: any) => finance)(
       const { Finance } = this.props
       const { type, payType, date, date2, page } = this.state
       this.getOrderNumber();
-      
+
       if (Finance.end_time ||  Finance.payType || Finance.start_time || Finance.type) {
 
         this.setState({
@@ -237,7 +237,7 @@ export default connect(({ finance }: any) => finance)(
           {
 
 
-            
+
             this.state.isHaveData ? (
               <div className={styles.notice}>
                 <img src={require('@/assets/notice.png')} alt="" />

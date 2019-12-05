@@ -61,9 +61,8 @@ export default connect(({ createStore }: any) => createStore)(
     };
 
     componentDidMount() {
-      console.log('as',this.props)
       axios({
-        url: 'http://test.api.tdianyi.com/v3/district',
+        url: 'http://api.tdianyi.com/v3/district',
         method: 'get'
       }).then(res => {
         this.setState({
@@ -109,7 +108,8 @@ export default connect(({ createStore }: any) => createStore)(
               };
               // console.log(this.props.address)
               // if (!this.props.address) {
-              if(!this.props.address) {
+
+              if(!_this.props.address) {
                 // alert('123')
                 _this.setState({ location });
                 _this.props.dispatch({

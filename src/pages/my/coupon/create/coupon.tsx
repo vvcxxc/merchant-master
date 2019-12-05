@@ -40,11 +40,11 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			validity: '',//有效期错误
 			userNotice: '',//使用须知
 			noticeDetails: '',//须知详情
-			activeImg :''//活动图片
-    };
-    componentDidMount(){
-      console.log(this.props)
-    }
+			activeImg: ''//活动图片
+		};
+		componentDidMount() {
+			console.log(this.props)
+		}
 
 		handleNoticeChange = (notice: any[], keys: string) => {
 			this.setState({ keys });
@@ -81,15 +81,17 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			}
 		};
 		handleInput2 = (type: string) => (value: any) => {//发放数量的输入
-			this.props.dispatch({
-				type: 'createCoupon/setCoupon',
-				payload: {
-					//handleInput2只可以整数
-					[type]: type === 'coupons_name' ? value : parseInt(value)
+			if (value.length <= 6) {
+				this.props.dispatch({
+					type: 'createCoupon/setCoupon',
+					payload: {
+						//handleInput2只可以整数
+						[type]: type === 'coupons_name' ? value : parseInt(value)
 
-				}
-			});
-			if (parseInt(value)) this.setState({ error_total_num:true})
+					}
+				});
+				if (parseInt(value)) this.setState({ error_total_num: true })
+			}
 		};
 
 		uploadImage = (type: any) => (files: any[], operationType: string, index?: number): void => {
@@ -106,7 +108,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					Toast.hide();
 					if (res.status === 'ok') {
 						if (type === 'files') {
-							this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { image: res.data.path,  image_url: [...(this.props.image_url || []), res.data.path] } });
+							this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { image: res.data.path, image_url: [...(this.props.image_url || []), res.data.path] } });
 						} else {
 							this.props.dispatch({
 								type: 'createCoupon/setCoupon',
@@ -198,6 +200,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						extra="张"
 						type="money"
 						showName='发放数量'
+						integer={6}
 						value={String(this.props.total_num || '')}
 						onChange={this.handleInput2('total_num')}
 						error={error.issuedNumber}
@@ -207,11 +210,11 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					{
 						<div className={styles.groub_hint}
 							style={{ borderTop: error.validity ? '1px solid red' : '' }}
-						>{error.validity ? error.validity : null}</div> 
-				}
+						>{error.validity ? error.validity : null}</div>
+					}
 					<List.Item
 						extra={<span>{
-								this.props.description && this.props.description .length != 0 ? '已设置' + this.props.description .length + '条规则' : '请设置使用须知'}
+							this.props.description && this.props.description.length != 0 ? '已设置' + this.props.description.length + '条规则' : '请设置使用须知'}
 						</span>}
 						arrow="horizontal"
 						onClick={this.handleShowNotice}
@@ -219,8 +222,8 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						使用须知
 					</List.Item>
 					{
-						<div className={styles.groub_hint} 
-							style={{ borderTop: error.userNotice ? '1px solid red' : ''}}
+						<div className={styles.groub_hint}
+							style={{ borderTop: error.userNotice ? '1px solid red' : '' }}
 						>{error.userNotice ? error.userNotice : null}</div>
 					}
 					<div id={styles.no_bottom_box} >
@@ -259,9 +262,9 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					{
 						<div className={styles.groub_hint} style={{
 							marginBottom: '50px',
-							borderTop: error.activeImg? '1px solid red':''
+							borderTop: error.activeImg ? '1px solid red' : ''
 						}}>
-							{ error.activeImg ? error.activeImg : null }
+							{error.activeImg ? error.activeImg : null}
 						</div>
 					}
 					{notice}

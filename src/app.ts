@@ -8,6 +8,11 @@ if (Environment == 'test' || Environment == 'release' || Environment == 'master'
   });
 }
 import Vconsole from 'vconsole'
+if(Environment != 'master'){
+  // if(process.env.NODE_ENV != '')
+  const vConsole = new Vconsole()
+
+}
 
 declare global {
   interface Window {
@@ -23,8 +28,7 @@ export const dva = {
   }
 };
 
-// if(process.env.NODE_ENV != '')
-const vConsole = new Vconsole()
+
 
 /**路由变化 */
 export const onRouteChange = (params: { location: any, routes: any }) => {
