@@ -38,7 +38,6 @@ export default class ApeakerInfo extends Component {
                 url
             }
         }).then(res => {
-            console.log('diu', res);
             wx.config({
                 debug: false,
                 appId: res.appId,
@@ -48,7 +47,6 @@ export default class ApeakerInfo extends Component {
                 jsApiList: ['getLocation', 'openLocation', 'scanQRCode']
             });
         }).catch(err => {
-            console.log(err)
         });
     }
     componentDidMount() {

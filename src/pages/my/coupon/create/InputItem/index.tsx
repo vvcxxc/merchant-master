@@ -10,7 +10,8 @@ interface Props {
   type?: any,
   showName?: string,
   placeholder?: any,
-  restrict?: number //小数点后个数限制
+  restrict?: number //小数点后个数限制,
+  integer?: number //整数类型（天，张）的位数
 }
 
 export default class CustomInput extends Component<Props> {
@@ -22,10 +23,19 @@ export default class CustomInput extends Component<Props> {
     this.setState({ value: this.props.value })
   }
   handleInput2 = (type: string) => (value: any) => {
-    if (value.split(".")[1] == undefined || (value.split(".")[1].length < 3 && value.split(".")[2] == undefined)) {
-      this.setState({ value })
+    if (this.props.integer) {
+      if (value.length <= this.props.integer) {
+        this.setState({ value: parseInt(value) })
+      }
+      this.props.onChange(value)
+
+    } else {
+      if (value.split(".")[1] == undefined || (value.split(".")[1].length < 3 && value.split(".")[2] == undefined)) {
+        this.setState({ value })
+      }
+      this.props.onChange(value)
     }
-    this.props.onChange(value)
+
   }
 
   render() {
