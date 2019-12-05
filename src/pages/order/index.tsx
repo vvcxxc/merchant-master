@@ -48,7 +48,6 @@ export default connect(({ orderList }: any) => orderList)(
 
     getData = async (query?: any) => {
       // Toast.loading('');
-      console.log(moment(1575129600 * 1000).format('YYYY-MM-DD'))
       let params = {}
       let begin = moment().add('month', 0).format('YYYY-MM') + '-01'
       let end = moment(begin).add('month', 1).add('days', -1).format('YYYY-MM-DD')
@@ -114,7 +113,6 @@ export default connect(({ orderList }: any) => orderList)(
 
       if(!query.end_time && !query.time && !query.hot.id){
         // 重置
-        console.log('123123123')
         this.getData({
           pay_status: query.tab_index || 2,
           youhui_type: query.hot.id,
@@ -143,18 +141,6 @@ export default connect(({ orderList }: any) => orderList)(
 
     handleLoadMore = () => {
       if (this.state.hasMore) {
-        // console.log(this.state)
-        // this.setState({
-        //   page: this.state.page + 1
-        // }, () => {
-        //   this.getData({
-        //     pay_status: this.state.pay_status,
-        //     begin: this.state.begin,
-        //     end: this.state.end,
-        //     page: this.state.page,
-        //     youhui_type: this.state.youhui_type
-        //   })
-        // })
         this.getData({
           pay_status: this.props.query.pay_status,
           begin: this.props.query.begin,
