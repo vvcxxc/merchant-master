@@ -252,7 +252,7 @@ export default class MyIndex extends Component {
                         </div>
                   }
                   <div className={styles.list_data_right}>
-                    <div className={styles.order}><span>{item.order_sn}</span> <span>{item.store_amount}</span></div>
+                    <div className={styles.order}><span>{item.order_sn}</span> <span>{item.amount}</span></div>
                     <div className={styles.order_time}>
                       <span>{item.create_time}</span>
                       <span>
