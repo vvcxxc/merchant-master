@@ -11,6 +11,7 @@ import Vconsole from 'vconsole'
 if(Environment != 'master'){
   // if(process.env.NODE_ENV != '')
   const vConsole = new Vconsole()
+
 }
 
 declare global {
