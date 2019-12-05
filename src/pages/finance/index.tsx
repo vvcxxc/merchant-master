@@ -60,8 +60,9 @@ export default connect(({ finance }: any) => finance)(
       const { type, payType, date, date2, page } = this.state
       this.getOrderNumber();
 
-      if (Finance.end_time ||  Finance.payType || Finance.start_time || Finance.type) {
-
+      if (Finance.end_time || Finance.payType || Finance.start_time || Finance.type || Finance.page>1) {
+        console.log('1');
+        
         this.setState({
           data: Finance.ListData,
           type: Finance.type ? Finance.type : type,
@@ -74,6 +75,8 @@ export default connect(({ finance }: any) => finance)(
           transaction_amount: Finance.transaction_amount
         })
       } else {
+        console.log(2);
+        
         this.getData();
       }
 
