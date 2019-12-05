@@ -111,12 +111,28 @@ export default connect(({ orderList }: any) => orderList)(
           page: 1
         }
       })
-      this.getData({
-        pay_status: query.tab_index || 2,
-        youhui_type: query.hot.id,
-        begin: query.time ? moment(query.time).unix() : undefined,
-        end: query.time ? moment(query.end_time).unix() : undefined,
-      });
+
+      if(!query.end_time && !query.time && !query.hot.id){
+        // 重置
+        console.log('123123123')
+        this.getData({
+          pay_status: query.tab_index || 2,
+          youhui_type: query.hot.id,
+          begin: query.time ? moment(query.time).unix() : undefined,
+          end: query.time ? moment(query.end_time).unix() : undefined,
+        });
+        return
+      }else {
+        // 筛选
+        this.getData({
+          pay_status: query.tab_index || 2,
+          youhui_type: query.hot.id || this.props.query.youhui_type,
+          begin: query.time ? moment(query.time).unix() : undefined,
+          end: query.time ? moment(query.end_time).unix() : undefined,
+        });
+      }
+
+
 
     };
 
@@ -203,6 +219,7 @@ export default connect(({ orderList }: any) => orderList)(
           onChange={this.handleLayoutChange}
           tab={tabs}
           timeSelect={this.props.query.begin ? moment(this.props.query.begin * 1000).format() : undefined}
+          endTimeSelect={this.props.query.end ? moment(this.props.query.end * 1000).format() : undefined}
           idSelect={this.props.query.youhui_type}
           tabIn={this.tabIndex(this.props.query.pay_status)}
         >
