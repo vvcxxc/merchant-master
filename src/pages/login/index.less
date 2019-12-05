@@ -3,12 +3,15 @@
   height: 100%;
   box-sizing: border-box;
   background-color: #fff;
+
   :global {
     .tab {
       margin: 120px 0;
       color: #999999;
+
       .tab-item {
         margin-right: 40px;
+
         &:after {
           content: '';
           display: block;
@@ -17,8 +20,10 @@
           margin-left: 5%;
           margin: 10px;
         }
+
         &.active {
           color: #21418a;
+
           &:after {
             background: #21418a;
           }
@@ -35,9 +40,11 @@
 .inputWrap {
   height: 108px;
   border-bottom: 2px solid #999;
+
   div {
     width: 100%;
   }
+
   :global {
     .phone-prefix {
       width: 107px;
@@ -48,6 +55,10 @@
       line-height: 58px;
       margin-right: 24px;
     }
+    .am-list-item.am-input-item{
+      box-sizing: border-box;
+    }
+
     .send-code {
       width: 175px;
       height: 58px;
@@ -60,7 +71,21 @@
   }
 }
 
+.errorLine {
+  border-top: 1px solid #d2284b;
+  position: relative;
+  margin-bottom: -0.2rem;
+  height: 0.2rem;
+  z-index: 10;
+  font-size: 0.22rem;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #d2284b;
+  text-align: right;
+}
+
 .warring {
   color: #999;
   margin-top: 18px;
 }
+

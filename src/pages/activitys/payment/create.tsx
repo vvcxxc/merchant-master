@@ -12,7 +12,11 @@ export default class CreatePaymentReturn extends Component {
 		rules: [{}],
 		start_date: '',
 		end_date: '',
-		showSelectTime: false
+		showStartTime: 0,
+		showEndtTime: 0,
+		showSelectTime: false,
+		indexList: [],
+		timeSelect: false
 	};
 	handleShowSelectTime = () => { this.setState({ showSelectTime: true }) };
 	//关闭时间选择
@@ -43,36 +47,68 @@ export default class CreatePaymentReturn extends Component {
 	}
 
 	handleSubmit = async () => {
-		if (!this.state.start_date || !this.state.end_date) {
-			Toast.fail('没有选择活动时间');
-			return;
-		}
-
-		let rulesData: any = this.state.rules[0];
-		if (!this.limitData(rulesData.money)) {
-			Toast.fail('返券需大于0元');
-			return;
-		}
-
-		if (!this.limitData(rulesData.returnMoney)) {
-			Toast.fail('面额需大于0元');
-			return;
-		}
-
-		if (rulesData.limit) {
-			if (rulesData.limit.substr(0, 1) === '.' || Number(rulesData.limit) < 0) {
-				Toast.fail('使用门槛不能低于0元');
-				return
+		let rulesList = this.state.rules;
+		let indexList = [];
+		for (let i = 0; i < rulesList.length; i++) {
+			if (!rulesList[i].day ||
+				rulesList[i].day == "0" ||
+				Number(rulesList[i].day)<=0||
+				!rulesList[i].limit ||
+				// rulesList[i].limit == "0" ||
+				!rulesList[i].money ||
+				rulesList[i].money == "0" ||
+				!rulesList[i].num ||
+				rulesList[i].num == "0" ||
+				!rulesList[i].returnMoney ||
+				rulesList[i].returnMoney == "0" ||
+				Number(rulesList[i].returnMoney) < Number(rulesList[i].limit)
+			) {
+				indexList.push(i);
 			}
-		} else {
-			Toast.fail('使用门槛不能低于0元');
-			return
 		}
-
-		if (!this.limitData(rulesData.num)) {
-			Toast.fail('库存数量需大于0');
+		this.setState({ indexList: indexList })
+		let timeSelectBool;
+		if (!this.state.start_date || !this.state.end_date) {
+			timeSelectBool = true;
+			this.setState({ timeSelect: true })
+		} else {
+			timeSelectBool = false;
+			this.setState({ timeSelect: false })
+		}
+		console.log(indexList, timeSelectBool)
+		if (indexList.length > 0 || timeSelectBool == true) {
 			return;
 		}
+		// if (!this.state.start_date || !this.state.end_date) {
+		// 	Toast.fail('没有选择活动时间');
+		// 	return;
+		// }
+
+		// let rulesData: any = this.state.rules[0];
+		// if (!this.limitData(rulesData.money)) {
+		// 	Toast.fail('返券需大于0元');
+		// 	return;
+		// }
+
+		// if (!this.limitData(rulesData.returnMoney)) {
+		// 	Toast.fail('面额需大于0元');
+		// 	return;
+		// }
+
+		// if (rulesData.limit) {
+		// 	if (rulesData.limit.substr(0, 1) === '.' || Number(rulesData.limit) < 0) {
+		// 		Toast.fail('使用门槛不能低于0元');
+		// 		return
+		// 	}
+		// } else {
+		// 	Toast.fail('使用门槛不能低于0元');
+		// 	return
+		// }
+
+		// if (!this.limitData(rulesData.num)) {
+		// 	Toast.fail('库存数量需大于0');
+		// 	return;
+		// }
 
 		Toast.loading('');
 		let rules: any = {};
@@ -114,10 +150,38 @@ export default class CreatePaymentReturn extends Component {
 		rules.splice(rules.length - 1, 1);
 		this.setState({ rules });
 	};
+
+	// 日历组件中获取 开始和结束时间
+	// start_endTime = (date: any) => {
+	// this.setState({ showSelectTime: false })
+	// if (!date.startTime)return
+	// this.setState({ start_date: date.startTime, end_date: date.endTime })
+	// this.setState({ showStartTime: date.showStartTime, showEndtTime: date.showEndtTime })
+	// }
+
+	// 从新组件得到毫秒数目
+	getCalendar = (start: number, end: number, startDay: number, endDay: number) => {
+		// console.log(start, end,'开始到结束');
+		this.setState({
+			start_date: start,
+			end_date: end,
+			showSelectTime: false,
+			showStartTime: startDay,
+			showEndtTime: endDay
+		}, this.closeModal)
+		// this.setState({ showSelectTime: true })
+	}
+
 	render() {
 		const rules = this.state.rules.map((_, index) => (
-			<div key={' '}>
-				<PaymentReturnRules item={_} index={index} key={index} onChange={this.handleRuleChange} />
+			<div key={index}>
+				<PaymentReturnRules
+					item={_}
+					index={index}
+					key={index}
+					onChange={this.handleRuleChange}
+					isError={this.state.indexList.indexOf(index) >= 0 ? true : false}
+				/>
 				{index !== this.state.rules.length - 1 && <div className="line" />}
 			</div>
 		));
@@ -127,8 +191,8 @@ export default class CreatePaymentReturn extends Component {
 				<div className="delete">删除</div>
 			</Flex>
 		);
-		const { start_date, end_date, } = this.state;
-		const time = start_date ? new Date(start_date).getFullYear() + '-' + (new Date(start_date).getMonth() + 1) + '-' + new Date(start_date).getDate() + '至' + new Date(end_date).getFullYear() + '-' + (new Date(end_date).getMonth() + 1) + '-' + new Date(end_date).getDate() : '';
+		const { start_date, end_date, showStartTime, showEndtTime } = this.state;
+		const time = !showStartTime && !showEndtTime ? null : showStartTime + '至' + showEndtTime
 		return (
 			<div className={styles.page}>
 				<List className="topForm">
@@ -142,6 +206,14 @@ export default class CreatePaymentReturn extends Component {
 						</Flex>
 					</WingBlank>
 				</List>
+				{
+					this.state.timeSelect && (!this.state.start_date && !this.state.end_date) ?
+						<div className="errorLine-box" ><div className="errorLine" >请选择活动时间后重新提交</div></div> : null
+				}
+				{
+					this.state.timeSelect && ((this.state.start_date && !this.state.end_date) || (!this.state.start_date && this.state.end_date)) ?
+						<div className="errorLine-box" ><div className="errorLine" >未设置开始时间/结束时间/,无法提交</div></div> : null
+				}
 				<div className="line" />
 				{rules}
 				{this.state.rules.length > 1 && deleteBtn}
@@ -160,7 +232,16 @@ export default class CreatePaymentReturn extends Component {
 					show={this.state.showSelectTime}
 					onClose={this.closeModal}
 					onConfirm={this.handleSelectTime}
-				/>
+				/> */}
+				{/* <SelectCalendar */}
+				{/* show={this.state.showSelectTime}
+					choose={this.start_endTime.bind(this)}/> */}
+				{/* <CreateCalendar/> */}
+				{/* <Calendar
+					show={this.state.showSelectTime}
+					confirm={this.getCalendar}
+					onClose={this.closeCalendar}
+				/> */}
 			</div>
 		);
 	}

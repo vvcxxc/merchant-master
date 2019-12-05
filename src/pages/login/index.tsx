@@ -34,30 +34,9 @@ export default connect(({ activity }: any) => activity)(
 			/**密码 */
 			password: '',
 			/**发送验证码之后的倒计时 */
-			remainingTime: 0
+			remainingTime: 0,
 		};
 		componentDidMount() {
-			
-			// console.log('99999');
-			// localStorage.setItem('QL_poster', 'true')
-			/**获取oss */
-			// request({
-			// 	url: 'api/v2/up',
-			// 	method: 'get'
-			// }).then(res => {
-			// 	let { data } = res;
-			// 	let oss_data = {
-			// 		policy: data.policy,
-			// 		OSSAccessKeyId: data.accessid,
-			// 		success_action_status: 200, //让服务端返回200,不然，默认会返回204
-			// 		signature: data.signature,
-			// 		callback: data.callback,
-			// 		host: data.host,
-			// 		key: data.dir
-			// 	};
-
-			// 	window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
-      // });
       Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
         let { data } = res.data;
           let oss_data = {
@@ -70,8 +49,8 @@ export default connect(({ activity }: any) => activity)(
             key: data.dir
           };
 
-          window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
-      })
+				window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
+			})
 		}
 		/**设置手机号 */
 		handleSetMobile = (value: any) => {
@@ -109,37 +88,36 @@ export default connect(({ activity }: any) => activity)(
 		submit = () => {
 			const api = this.state.tab === 1 ? 'v3/login' : 'v3/captcha_login';
 			const { mobile, code, account_name, password, tab } = this.state;
-			if (this.fixLogin()) {
-				Toast.loading('登录中', 20);
-				request({
-					url: api,
-					method: 'post',
-					data: {
-						phone: tab === 0 ? mobile : undefined,
-						code: tab === 0 ? code : undefined,
-						account_name: tab === 1 ? account_name : undefined,
-						password: tab === 1 ? password : undefined
+			// if (this.fixLogin()) {
+			Toast.loading('登录中', 20);
+			request({
+				url: api,
+				method: 'post',
+				data: {
+					phone: tab === 0 ? mobile : undefined,
+					code: tab === 0 ? code : undefined,
+					account_name: tab === 1 ? account_name : undefined,
+					password: tab === 1 ? password : undefined
+				}
+			})
+				.then((res: any) => {
+					Toast.hide();
+					if (res.code === 200) {
+						localStorage.setItem('token', 'Bearer ' + res.data.token);
+						this.props.dispatch(routerRedux.push({ pathname: '/' }));
+						// 授权（暂未完善）
+						let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
+						url = encodeURIComponent(url);
+						let urls =
+							'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
+							url +
+							'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
+						return (window.location.href = urls);
+					} else {
+						Toast.fail(res.data, 1.5);
 					}
 				})
-					.then((res: any) => {
-						Toast.hide();
-						if (res.code === 200) {
-							localStorage.setItem('token', 'Bearer ' + res.data.token);
-							this.props.dispatch(routerRedux.push({ pathname: '/' }));
-								// 授权（暂未完善）
-								let url = Url + 'wechat/wxoauth?code_id=0&from=' + from;
-								url = encodeURIComponent(url);
-								let urls =
-									'http://wxauth.tdianyi.com/index.html?appid=wxecdd282fde9a9dfd&redirect_uri=' +
-									url +
-									'&response_type=code&scope=snsapi_userinfo&connect_redirect=1&state=STATE&state=STATE';
-								return (window.location.href = urls);
-						} else {
-							Toast.fail(res.data, 1.5);
-						}
-					})
-					.catch(() => Toast.hide());
-			}
+				.catch(() => Toast.hide());
 		};
 		/**
 		 * 设置tab高亮
@@ -152,7 +130,7 @@ export default connect(({ activity }: any) => activity)(
 				if (this.state.mobile) {
 					Toast.loading('');
 
-					if(!window.navigator.onLine) {
+					if (!window.navigator.onLine) {
 						Toast.fail('短信发送失败，请稍后重试')
 						return;
 					}
@@ -215,35 +193,35 @@ export default connect(({ activity }: any) => activity)(
 						</Flex>
 					</div>
 				) : (
-					<div>
-						<Flex className={styles.inputWrap}>
-							<div className="phone-prefix">+86</div>
-							<Flex.Item>
-								<InputItem
-									type="phone"
-									style={{ width: '100%' }}
-									placeholder="请填写手机号"
-									onChange={this.handleSetMobile}
-									clear
-								/>
-							</Flex.Item>
-						</Flex>
-						<Flex className={styles.inputWrap}>
-							<Flex.Item>
-								<InputItem
-									value={this.state.code}
-									style={{ width: '100%' }}
-									placeholder="请填写短信验证码"
-									onChange={this.handleSetCode}
-									clear
-								/>
-							</Flex.Item>
-							<div className="send-code" onClick={this.sendCode}>
-								{this.state.remainingTime === 0 ? '发送验证码' : this.state.remainingTime + 's'}
-							</div>
-						</Flex>
-					</div>
-				);
+						<div>
+							<Flex className={styles.inputWrap}>
+								<div className="phone-prefix">+86</div>
+								<Flex.Item>
+									<InputItem
+										type="phone"
+										style={{ width: '100%' }}
+										placeholder="请填写手机号"
+										onChange={this.handleSetMobile}
+										clear
+									/>
+								</Flex.Item>
+							</Flex>
+							<Flex className={styles.inputWrap}>
+								<Flex.Item>
+									<InputItem
+										value={this.state.code}
+										style={{ width: '100%' }}
+										placeholder="请填写短信验证码"
+										onChange={this.handleSetCode}
+										clear
+									/>
+								</Flex.Item>
+								<div className="send-code" onClick={this.sendCode}>
+									{this.state.remainingTime === 0 ? '发送验证码' : this.state.remainingTime + 's'}
+								</div>
+							</Flex>
+						</div>
+					);
 			return (
 				<div className={styles.page}>
 					<WingBlank>

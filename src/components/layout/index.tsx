@@ -81,7 +81,7 @@ export default class FiltrateLayout extends Component<Props> {
 	handleTimeClick = () => this.setState({ timeShow: !this.state.timeShow, hotShow: false });
 
 	hotChange = (id: any, _id: any) => {
-		//handleQueryChange2，3在支付渠道详情，	
+		//handleQueryChange2，3在支付渠道详情，
 		if (id ==="") {//重置:underfind=>""=>underfind
 			this.setState({ hotShow: false, query: { ...this.state.query, hot: { id:undefined, _id }, resetBool: true } }, () => {
 				this.handleQueryChange();

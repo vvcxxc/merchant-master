@@ -1,30 +1,67 @@
 .page {
-	height: 100%;
-	background-color: #fff;
-	:global {
-		.notice {
-			width: 100%;
-			height: 90px;
-			justify-content: space-between;
-			border-bottom: 1px solid #ddd;
-		  
-			.icon_right {
-			  height: 30px;
-			}
-		  }
-		.rules {
-			padding-top: 20px;
-		}
-		.tip {
-			font-size: 24px;
-			font-weight: 400;
-			color: rgba(153, 153, 153, 1);
-			line-height: 34px;
-			text-align: center;
-			margin-top: 48px;
-		}
-		.btn {
-			margin-top: 158px;
-		}
-	}
+    height: 100%;
+    background-color: #fff;
+
+    :global {
+        .notice {
+            width: 100%;
+            height: 90px;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+
+            .icon_right {
+                height: 30px;
+            }
+        }
+
+        .groub_hint {
+            position: relative;
+            margin-bottom: -20px;
+            height: 20px;
+            z-index: 10;
+            font-size: 22px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: rgba(210, 40, 75, 1);
+            text-align: right;
+        }
+
+        // .errorLine {
+        // 	border-top: 1px solid #d2284b;
+        //     position: relative;
+        //     margin-bottom: -0.2rem;
+        //     height: 0.2rem;
+        //     z-index: 10;
+        //     font-size: 0.22rem;
+        //     font-family: PingFang SC;
+        //     font-weight: 500;
+        //     color: #d2284b;
+        //     text-align: right;
+        // }
+        .errorLine {
+            border-top: 1px solid #d2284b;
+            width: 100%;
+            text-align: right;
+            line-height: 1;
+            font-size: 22px;
+            color: #d2284b;
+        }
+
+        .rules {
+            padding-top: 20px;
+        }
+
+        .tip {
+            font-size: 24px;
+            font-weight: 400;
+            color: rgba(153, 153, 153, 1);
+            line-height: 34px;
+            text-align: center;
+            margin-top: 48px;
+        }
+
+        .btn {
+            margin-top: 158px;
+        }
+    }
 }
