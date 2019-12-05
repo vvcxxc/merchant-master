@@ -29,8 +29,8 @@ export default class OrderDetail extends Component<any, State> {
   }
 
   orderSnGo = () => {
-    let { youhui_type, id, order_id } = this.state.data;
-    if (youhui_type == 0) {
+    let { youhui_type, id, order_id, use_status } = this.state.data;
+    if (youhui_type == 0 && use_status != '未核销') {
       router.push({
         pathname: '/verification/success',
         query: {
