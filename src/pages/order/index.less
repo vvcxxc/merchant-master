@@ -1,48 +1,63 @@
-.orderItem {
-  height: 136px;
-  img {
-    width: 80px;
-    height: 80px;
-    border-radius: 10px;
-    margin-right: 20px;
-  }
+.orderListPage {
+  height: auto;
+  width: 100%;
+  min-height: 100vh;
+  background: rgb(242, 242, 242);
 
-  :global {
-    .ordernum {
-      line-height: 1;
-      margin-bottom: 20px;
+  .orderItem {
+    height: 136px;
+
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      margin-right: 20px;
     }
-    .content {
-      border-bottom: 1px solid #F0F2F5;
-      height: 100%;
-      width: 590px;
-      .content_main {
-        width: 460px;
-      }
-    }
-    .time {
-      line-height: 1;
-      color: #999;
-    }
-    .content_right {
-      .money {
+
+    :global {
+      .ordernum {
         line-height: 1;
-        text-align: right;
         margin-bottom: 20px;
       }
-      .name {
-        // line-height: 1;
-        color: #999;
-        text-align: right;
+
+      .content {
+        border-bottom: 1px solid #F0F2F5;
+        height: 100%;
+        width: 590px;
+
+        .content_main {
+          width: 460px;
+        }
       }
 
-    }
-    .right_back{
-      width: 40px;
-      img {
-        margin-left: 22px;
-        width: 13px;
-        height: 24px;
+      .time {
+        line-height: 1;
+        color: #999;
+      }
+
+      .content_right {
+        .money {
+          line-height: 1;
+          text-align: right;
+          margin-bottom: 20px;
+        }
+
+        .name {
+          // line-height: 1;
+          color: #999;
+          text-align: right;
+        }
+
+      }
+
+      .right_back {
+        width: 40px;
+
+        img {
+          margin-left: 22px;
+          width: 13px;
+          height: 24px;
+        }
       }
     }
   }
