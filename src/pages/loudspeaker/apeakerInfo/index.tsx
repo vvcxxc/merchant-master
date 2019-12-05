@@ -1,81 +1,101 @@
 /**title: 我的云音箱 */
 import React, { Component } from 'react'
-import { Carousel, WingBlank } from 'antd-mobile';
+// import { Carousel, WingBlank } from 'antd-mobile';
 import styles from './index.less'
 import CloudSpeakers from './component/cloud_speakers'
-import wx from 'weixin-js-sdk';
+// import wx from 'weixin-js-sdk';
 import request from '@/services/request';
 import speakersRequest from '@/services/speakersRequest'
-export default class qlPage extends Component {
 
-  state = {
+interface stateType {
+  data?: Array<string>,
+  slideIndex: number,
+  imgHeight: string,
+  ApeakerlogisticsContentShow: boolean,
+  phone: string,
+  list: any,
+  logisticsList:any
+}
+
+export default class qlPage extends Component<stateType> {
+  state: stateType = {
     data: ['1', '2', '3'],
     slideIndex: 0,
     imgHeight: 'auto',
     ApeakerlogisticsContentShow: false,
     phone: '020-80929539',
-    list:{}
+    list: {},
+    logisticsList: []
   }
 
-  componentWillMount() {
-  //   let userAgent = navigator.userAgent;
-  //   let isIos = userAgent.indexOf('iPhone') > -1;
-  //   let url: any;
-  //   if (isIos) {
-  //     url = sessionStorage.getItem('url');
-  //   } else {
-  //     url = location.href;
-  //   }
-  //   request({
-  //     url: 'wechat/getShareSign',
-  //     method: 'get',
-  //     params: {
-  //       url
-  //     }
-  //   }).then(res => {
-  //     wx.config({
-  //       debug: false,
-  //       appId: res.appId,
-  //       timestamp: res.timestamp,
-  //       nonceStr: res.nonceStr,
-  //       signature: res.signature,
-  //       jsApiList: ['makePhoneCall']
-  //     });
-  //   }).catch(err => {
-  //   });
-  }
   componentDidMount() {
     this.getListData()
-    setTimeout(() => {
-      this.setState({
-        data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
-      });
-    }, 10000);
-
-    
-    
+    // setTimeout(() => {
+    //   this.setState({
+    //     data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
+    //   });
+    // }, 10000);
   }
 
+  //请求列表商品数据
   getListData = () => {
     speakersRequest({
       url: 'api/v1/voice',
       method: 'get',
-     
-    }).then(res => { 
+
+    }).then(res => {
       const { data, status_code } = res
       if (status_code === 200) {
         this.setState({
           list: data[0]
         })
+        this.getLogisticsData(data[0].id)
       }
     })
   }
 
+  //请求商品物流信息
+  getLogisticsData = (voice_box_id: number) => {
+    speakersRequest({
+      url: 'api/v1/voice/logistics',
+      method: 'get',
+      params: {
+        voice_box_id
+      }
+    }).then(res => {
+      const { data, status_code } = res
+      if (status_code === 200) {
+        let mylistData: any = data
+        data.logs.map((item:any,index:number) => {
+          mylistData.logs[index]['myHours'] = this.handlingTimeHours(item.time*1000)
+          mylistData.logs[index]['myMonth'] = this.handlingTimeMonth(item.time*1000)
+        })
+        this.setState({
+          logisticsList: mylistData
+        })
+      }
+    })
+  }
 
+  //处理时间 返回小时分钟
+  handlingTimeHours = (time: number | string) => {
+    let date = new Date(time)
+    let getHours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+    let getMinutes =  date.getMinutes() < 10  ?  '0'+date.getMinutes()  : date.getMinutes()
+    let getSeconds = date.getSeconds() < 10 ?  '0' + date.getSeconds() : date.getSeconds()
+    return getHours + ':' + getMinutes + ':' + getSeconds
+  }
 
+  // 处理时间 返回月份日份
+  handlingTimeMonth = (time: number | string) => {
+    let date = new Date(time)
+    let getMonth = date.getMonth() + 1 < 10 ? '0' +( date.getMonth() + 1) : date.getMonth() + 1
+    let getDate = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+    return getMonth + '-' + getDate
+  }
 
   render() {
-    const { list } = this.state
+    const { list, logisticsList, ApeakerlogisticsContentShow } = this.state
     return (
       <div id={styles.qilin} >
         {
@@ -83,44 +103,11 @@ export default class qlPage extends Component {
           <span onClick={() => { this.setState({ ApeakerlogisticsContentShow: true }) }}>
               查看物流
           </span>
-          </div>:null
+          </div> : null
         }
-        
-        {/* <WingBlank>
-          <Carousel className="space-carousel"
-            frameOverflow="visible"
-            dots={false}
-            // cellSpacing={10}
-            slideWidth={0.8}
-            autoplay
-            infinite
-            cellSpacing={40}
-            selectedIndex={0}//当前索引
-            swipeSpeed={22}
-            autoplayInterval={50000000}
-            // beforeChange={this.beforeChangeData.bind(this)}
-            afterChange={index => this.setState({ slideIndex: index })}
-          >
-            {this.state.data.map((val, index) => (
-              <div key={val} style={{
-                display: 'block',
-                position: 'relative',
-                top: this.state.slideIndex === index ? 0 : 70,
-                // marginRight: this.state.slideIndex === index ? '10px' : '0px',
-              }}>
-                <CloudSpeakers height={this.state.slideIndex === index ? true : false}></CloudSpeakers>
-              </div>
-            ))}
-          </Carousel>
-        </WingBlank> */}
-        {
-
           <CloudSpeakers height={true} list={list}></CloudSpeakers>
-
-        }
-
         {
-          this.state.ApeakerlogisticsContentShow ? <div className={styles.ApeakerlogisticsContent} >
+          ApeakerlogisticsContentShow ? <div className={styles.ApeakerlogisticsContent} >
             <div className={styles.ApeakerlogisticsContentBox}>
               <div className={styles.Apeakerlogisticspages}>
                 <div className={styles.ApeakerlogisticsContentBoxTop}>
@@ -128,41 +115,33 @@ export default class qlPage extends Component {
                     <div className={styles.topTitle}>运输中</div>
                   </div>
                   <div className={styles.topInfoBox}>
-                    <img src='http://oss.tdianyi.com/front/nXdNXH3chEzxB3ttxx8nPY7drynkyzKa.png' />
+                    <img src={list.image} alt=""/>
                     <div className={styles.InfoContent}>
-                      <div className={styles.InfoName}>小雅Nano智能音箱</div>
-                      <div className={styles.InfoNumber}>顺丰快递：2345325436436543</div>
-
+                      <div className={styles.InfoName}>{list.name}</div>
+                      <div className={styles.InfoNumber}>
+                        {logisticsList.company}{':'}{logisticsList.number}
+                      </div>
                     </div>
-
-
                   </div>
-
                 </div>
                 <div className={styles.ApeakerlogisticsContentBoxBottom}>
                   <div className={styles.BottomContent}>
-                    <div className={styles.adderessItem}>
-                      <div className={styles.adderessItemTime}>
-                        <img src='http://oss.tdianyi.com/front/eB6jeH3JGxcmmxttRwXRhdfMKkY4DnAE.png' />
-                      </div>
-                      <div className={styles.adderessItemMsg}>恐惧和孤独斯拉夫的疯狂进攻腊斯克附对开挂撒</div>
-                    </div>
-                    <div className={styles.adderessItem}>
-                      <div className={styles.adderessItemTime}>
-                        <div className={styles.ItemTime}>14:14:00</div>
-                        <div className={styles.ItemDate}>07-22</div>
-                        <img src='http://oss.tdianyi.com/front/hFbrGPSpa4BT6dcxPiwXTmZp6FhhTcNA.png' />
-                      </div>
-                      <div className={styles.adderessItemMsg}>恐惧和孤独斯拉夫的疯狂进攻腊斯克附近的安康就是个的饭卡上更加反对开挂撒</div>
-                    </div>
-                    <div className={styles.adderessItem}>
-                      <div className={styles.adderessItemTime} style={{ borderRight: 'unset' }}>
-                        <div className={styles.ItemTime}>14:14:00</div>
-                        <div className={styles.ItemDate}>07-22</div>
-                        <img src='http://oss.tdianyi.com/front/e6HEEpibS3B28W4KpW6eyEhGQ7TYJn6M.png' />
-                      </div>
-                      <div className={styles.adderessItemMsg}>恐惧和孤独斯拉夫的疯狂进攻腊斯克附近的安康就是个的饭卡上更加反对开挂撒</div>
-                    </div>
+                    {
+                      logisticsList.logs && logisticsList.logs.map((item:any,index:number) => {
+                        return <div className={styles.adderessItem} key={item.time}>
+                          <div className={styles.adderessItemTime} style={{ borderRight: index == logisticsList.logs.length - 1 ? 'none' :'0.02rem dashed #dee1e4'}}>
+                            <div className={styles.ItemTime}>{item.myHours}</div>
+                            <div className={styles.ItemDate}>{item.myMonth}</div>
+                            {
+                              !index ? <img src='http://oss.tdianyi.com/front/eB6jeH3JGxcmmxttRwXRhdfMKkY4DnAE.png' /> : (
+                                index !== logisticsList.logs.length - 1 ? <img src='http://oss.tdianyi.com/front/hFbrGPSpa4BT6dcxPiwXTmZp6FhhTcNA.png' />:<img src='http://oss.tdianyi.com/front/e6HEEpibS3B28W4KpW6eyEhGQ7TYJn6M.png' />
+                              )
+                            }
+                          </div>
+                          <div className={styles.adderessItemMsg}>{item.status}</div>
+                        </div>
+                      })
+                    }
                   </div>
                 </div>
               </div>
@@ -171,9 +150,9 @@ export default class qlPage extends Component {
               </div>
             </div>
           </div> : null
-        }
+          }
         <a href={'tel:' + this.state.phone}>
-      <div className={styles.customer_service} >客服电话-{this.state.phone}</div></a>
+          <div className={styles.customer_service} >客服电话-{this.state.phone}</div></a>
       </div>
     )
   }
