@@ -75,8 +75,8 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				)
 
 				total.buyingPrice = !payMoney && payMoney !== 0 && this.state.showPrice ? '请设置购买价格' : (
-					payMoney === 0 && payMoney <= returnMoney ? '购买价格必须大于0元' : (
-						payMoney > returnMoney && returnMoney || returnMoney === 0 ? '购买价格不可高于市场价格，请重新设置' : ''
+					payMoney === 0 && payMoney <= returnMoney && this.state.showPrice ? '购买价格必须大于0元' : (
+						(payMoney > returnMoney && returnMoney || returnMoney === 0) && this.state.showPrice ? '购买价格不可高于市场价格，请重新设置' : ''
 					)
 				)
 
