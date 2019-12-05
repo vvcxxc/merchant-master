@@ -36,7 +36,7 @@ export default class Details extends Component {
           //   { order: '满30减10', value: '-10.00' }
           // ]
         },
-        { order: '交易手续费', value: '' },
+        { order: '交易手续费', value: res.data.service_amount },
         { order: '实收金额', value: res.data.store_amount },
 
       ]
