@@ -50,7 +50,6 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 
 			const { type } = this.state
 			let total: any = {}
-
 			//这里触发校验函数
 			if (type === 0) {//优惠券判断
 
@@ -75,9 +74,9 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					totalNum === 0 ? '发放数量必须大于0' : ''
 				)
 
-				total.buyingPrice = !payMoney && payMoney !== 0 ? '请设置购买价格' : (
-					payMoney === 0 && payMoney <= returnMoney ? '购买价格必须大于0元' : (
-						payMoney > returnMoney && returnMoney || returnMoney === 0 ? '购买价格不可高于市场价格，请重新设置' : ''
+				total.buyingPrice = !payMoney && payMoney !== 0 && this.state.showPrice ? '请设置购买价格' : (
+					payMoney === 0 && payMoney <= returnMoney && this.state.showPrice ? '购买价格必须大于0元' : (
+						(payMoney > returnMoney && returnMoney || returnMoney === 0) && this.state.showPrice ? '购买价格不可高于市场价格，请重新设置' : ''
 					)
 				)
 
@@ -102,16 +101,16 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			if (type == 1) {//现金券判断
 				const { coupons_type, pay_money, return_money, total_fee, total_num, validity } = this.props.moneyForm
 
-				let returnMoney = return_money && Number(return_money) 
-				let payMoney = pay_money && Number(pay_money) 
+				let returnMoney = return_money && Number(return_money)
+				let payMoney = pay_money && Number(pay_money)
 				let totalFee = total_fee && Number(total_fee)
 				let Validity = validity && Number(validity)//有效期
 				let totalNum = total_num && Number(total_num)
-				
+
 				total.amountError = !returnMoney && returnMoney !== 0 ? '请设置购买价格' : (
 					returnMoney <= 0 ? '购买价格必须大于0元' : ''
 				)
-				total.buyingPrice =	!payMoney && payMoney !== 0 ? '请设置购买价格' : (
+				total.buyingPrice = !payMoney && payMoney !== 0 ? '请设置购买价格' : (
 					payMoney === 0 && payMoney <= returnMoney ? '购买价格必须大于0元' : (
 						payMoney > returnMoney && returnMoney ? '购买价格不可高于优惠券面额，请重新设置.' : ''
 					)
@@ -120,7 +119,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				total.doorsill = !totalFee && totalFee !== 0 ? '请设置使用门槛' : (
 					totalFee > returnMoney ? '使用门槛不可高于卡券面额，请重新设置' : ''//如果returnMoney没有值？
 				)
-				
+
 				total.validity = !Validity && Validity !== 0 ? '请设置优惠券有效期' : (
 					Validity <= 0 ? '优惠券有效期必须大于0' : ''
 				)
@@ -130,9 +129,11 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				)
 
 			}
+			console.log('2498')
 
 			switch (type) {
 				case 1:
+					console.log(324)
 					this.setState({ errorTwo: total })
 					for (let key in total) {
 						if (total[key]) {
@@ -146,6 +147,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				default:
 					this.setState({ error: total })
 					for (let key in total) {
+						console.log(total[key])
 						if (total[key]) {
 							this.setState({ error: total })
 							return
@@ -154,7 +156,6 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					}
 					break;
 			}
-
 
 			Toast.loading('');
 			const res = this.state.type === 0 ? await this.postCoupon() : await this.postMoney();

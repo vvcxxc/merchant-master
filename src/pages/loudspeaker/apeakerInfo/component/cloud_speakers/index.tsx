@@ -22,8 +22,6 @@ export default class CloudSpeakers extends Component<Props> {
   }
   render() {
     const { list } = this.props
-    console.log(list,'list');
-    
     return (
       <div className={styles.stereo_box_list}>
         <div className={styles.stereo_box}>

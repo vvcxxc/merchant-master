@@ -94,6 +94,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						showName='发放数量'
 						type="money"
 						extra="张"
+						integer={6}
 						value={String(this.props.total_num || '')}
 						onChange={this.handleInput('total_num')}
 						error={error.issuedNumber}

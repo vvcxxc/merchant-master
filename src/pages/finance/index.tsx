@@ -16,7 +16,8 @@ import { connect } from 'dva';
 interface Props {
   location: any,
   dispatch: any,
-  details: any
+  details: any,
+  Finance:any
 }
 let timer: any;
 export default connect(({ finance }: any) => finance)(
@@ -25,10 +26,8 @@ export default connect(({ finance }: any) => finance)(
     state = {
       list: [],
       insignificant: 0,
-
       page: 1,
       hasMore: true,
-
       pay_status: '',   // 模糊查询筛选
       date: undefined,         // 模糊查询月份，
       date2: undefined,
@@ -58,20 +57,29 @@ export default connect(({ finance }: any) => finance)(
 
     componentDidMount = () => {
       const { Finance } = this.props
+      const { type, payType, date, date2, page } = this.state
       this.getOrderNumber();
-      this.getData();
-      // this.props.Finance.ListData ?
-      // if (Finance.ListData) {
-      //   this.setState({
-      //     data: Finance.ListData,
-      //     // page:
-      //     // end_time
-      //     // start_time
-      //     // from
-      //     // type
-      //     })
-      //   }
-      // this.getData();
+
+      if (Finance.end_time || Finance.payType || Finance.start_time || Finance.type || Finance.page>1) {
+        console.log('1');
+        
+        this.setState({
+          data: Finance.ListData,
+          type: Finance.type ? Finance.type : type,
+          payType: Finance.payType ? Finance.payType : payType,
+          date: Finance.start_time ? Finance.start_time : date,
+          date2: Finance.end_time ? Finance.end_time : date2,
+          page: Finance.page ? Finance.page : page,
+          isHaveData: Finance.isHaveData,
+          transaction_number: Finance.transaction_number,
+          transaction_amount: Finance.transaction_amount
+        })
+      } else {
+        console.log(2);
+        
+        this.getData();
+      }
+
     };
 
     getOrderNumber = async () => {
@@ -117,10 +125,6 @@ export default connect(({ finance }: any) => finance)(
       });
 
 
-
-      console.log(this.props);
-
-
       Toast.hide();
       if (res.data.length != 0) {
         this.setState({ data: this.state.data.concat(res.data), transaction_number: res.transaction_number, transaction_amount: res.transaction_amount, isHaveData: res.total == 0 ? false : true });
@@ -128,12 +132,15 @@ export default connect(({ finance }: any) => finance)(
         this.props.dispatch({
           type: 'finance/setFinance',
           payload: {
-            ListData: this.state.data
-            // page: this.state.page,
-            // end_time: this.state.date2,
-            // start_time: this.state.date,
-            // from: this.state.payType,
-            // type: this.state.type
+            ListData: this.state.data,
+            page: this.state.page,
+            end_time: this.state.date2,
+            start_time: this.state.date,
+            payType: this.state.payType,
+            type: this.state.type,
+            isHaveData: res.total == 0 ? false : true,
+            transaction_number: res.transaction_number,
+            transaction_amount: res.transaction_amount
           }
         })
 
@@ -217,19 +224,23 @@ export default connect(({ finance }: any) => finance)(
           <NoData type="finance" />
         );
       const list = [{ name: '交易笔数', num: this.state.transaction_number }, { name: '交易金额', num: this.state.transaction_amount }]
+      const { payType, type, start_time, end_time } = this.props.Finance
       return (
         <FiltrateLayout
           undetermined={this.undetermined}
           undetermined2={this.undetermined2}
-          idSelect={1}
-          _idSelect={'wx'}
-          timeSelect={'2019-12-3'}
-          endTimeSelect={'2019-12-9'}
+          idSelect={type ? type : undefined}
+          _idSelect={payType ? payType : undefined}
+          timeSelect={start_time ? start_time:undefined}
+          endTimeSelect={end_time ? end_time:undefined}
           hasInsignificant={true}
           insignificant={list}
           onChange={this.handleChange}
         >
           {
+
+
+
             this.state.isHaveData ? (
               <div className={styles.notice}>
                 <img src={require('@/assets/notice.png')} alt="" />

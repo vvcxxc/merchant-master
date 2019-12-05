@@ -7,10 +7,6 @@ import moment from 'moment';
 import request from '@/services/request';
 import router from 'umi/router';
 import SelectTime from '@/components/select-time';
-import SelectCalendar from '@/components/calendar'
-// import CreateCalendar from '@/components/calendarTwo'
-import Calendar from '@/components/calendar'
-
 export default class CreatePaymentReturn extends Component {
 	state = {
 		rules: [{}],
@@ -22,20 +18,13 @@ export default class CreatePaymentReturn extends Component {
 		indexList: [],
 		timeSelect: false
 	};
-	// handleShowSelectTime = () => { this.setState({ showSelectTime: true }) };
-	// 显示日历
-	handleShowSelectTime = () => {
-		this.setState({ showSelectTime: true })
-	}
-	closeCalendar = () => {
-		this.setState({ showSelectTime: false })
-	}
+	handleShowSelectTime = () => { this.setState({ showSelectTime: true }) };
 	//关闭时间选择
 	closeModal = () => this.setState({ showSelectCoupon: false, showSelectTime: false, showSelectActivity: false });
-	// handleSelectTime = (time: any) => {
-	// 	console.log(time);
-	// 	this.setState({ start_date: new Date(time.startTime).toString(), end_date: new Date(time.endTime).toString() }, this.closeModal)
-	// };
+	handleSelectTime = (time: any) => {
+		console.log(time);
+		this.setState({ start_date: new Date(time.startTime).toString(), end_date: new Date(time.endTime).toString() }, this.closeModal)
+	};
 	handleRuleChange = (index: number, item: any) => {
 		const rules = [...this.state.rules];
 		rules.splice(index, 1, item);
@@ -131,18 +120,18 @@ export default class CreatePaymentReturn extends Component {
 			rules['total_num' + (index + 1)] = _.num * 1;
 			rules['total_fee' + (index + 1)] = _.limit * 1;
 		});
-		// let a = moment(this.state.start_date).startOf('day')
-		// let activity_begin_time = moment(a._d).format('X')
-		// let b = moment(this.state.end_date).endOf('day')
-		// let activity_end_time = moment(b).format('X');
+		let a = moment(this.state.start_date).startOf('day')
+		let activity_begin_time = moment(a._d).format('X')
+		let b = moment(this.state.end_date).endOf('day')
+		let activity_end_time = moment(b).format('X');
 		// console.log(activity_begin_time, activity_end_time)
 		const res = await request({
 			url: 'v3/return_coupons',
 			method: 'post',
 			data: {
 				coupon_sum: this.state.rules.length,
-				activity_begin_time: this.state.start_date,
-				activity_end_time: this.state.end_date,
+				activity_begin_time,
+				activity_end_time,
 				...rules
 			}
 		});
@@ -165,7 +154,7 @@ export default class CreatePaymentReturn extends Component {
 	// 日历组件中获取 开始和结束时间
 	// start_endTime = (date: any) => {
 	// this.setState({ showSelectTime: false })
-	// if (!date.startTime)return 
+	// if (!date.startTime)return
 	// this.setState({ start_date: date.startTime, end_date: date.endTime })
 	// this.setState({ showStartTime: date.showStartTime, showEndtTime: date.showEndtTime })
 	// }
@@ -239,7 +228,7 @@ export default class CreatePaymentReturn extends Component {
 				</WingBlank>
 
 
-				{/* <SelectTime
+				<SelectTime
 					show={this.state.showSelectTime}
 					onClose={this.closeModal}
 					onConfirm={this.handleSelectTime}
@@ -248,11 +237,11 @@ export default class CreatePaymentReturn extends Component {
 				{/* show={this.state.showSelectTime}
 					choose={this.start_endTime.bind(this)}/> */}
 				{/* <CreateCalendar/> */}
-				<Calendar
+				{/* <Calendar
 					show={this.state.showSelectTime}
 					confirm={this.getCalendar}
 					onClose={this.closeCalendar}
-				/>
+				/> */}
 			</div>
 		);
 	}
