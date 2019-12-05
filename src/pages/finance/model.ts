@@ -6,7 +6,10 @@ export interface Finance {
   end_time: string | number,
   start_time: string | number,
   from: string | number,
-  type: string | number
+  type: string | number,
+  isHaveData: boolean,
+  transaction_amount:string | number,
+  transaction_number: string | number
 }
 
 const model: Model = {
@@ -18,7 +21,10 @@ const model: Model = {
       end_time:'',
       start_time:"",
       payType:"",
-      type:""
+      type: "",
+      isHaveData: false,
+      transaction_number: 0,
+      transaction_amount:0
     }
   },
   reducers: {
