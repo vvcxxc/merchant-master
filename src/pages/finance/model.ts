@@ -14,11 +14,11 @@ const model: Model = {
   state: {
     Finance: {
       ListData: [],
-      // page:'',
-      // end_time:'',
-      // start_time:"",
-      // from:"",
-      // type:""
+      page:'',
+      end_time:'',
+      start_time:"",
+      payType:"",
+      type:""
     }
   },
   reducers: {

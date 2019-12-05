@@ -57,8 +57,28 @@ export default connect(({ finance }: any) => finance)(
 
     componentDidMount = () => {
       const { Finance } = this.props
+      const { type, payType, date, date2, page } = this.state
       this.getOrderNumber();
-      this.getData();
+      // this.getData();
+      console.log(this.props.Finance);
+      if (this.props.Finance.ListData) {
+        console.log(1);
+        
+        this.setState({
+          data: Finance.ListData,
+          type: Finance.type ? Finance.type : type,
+          payType: Finance.payType ? Finance.payType : payType,
+          date: Finance.start_time ? Finance.start_time : date,
+          date2: Finance.end_time ? Finance.end_time : date2,
+          page: Finance.page ? Finance.page : page,
+        })
+      } else {
+        this.getData();
+        console.log(2);
+        
+      }
+      
+      
     // this.props.Finance.ListData ?
     // if (Finance.ListData) {
     //   this.setState({
@@ -108,7 +128,7 @@ export default connect(({ finance }: any) => finance)(
       url: 'v3/offline_order/list',
       params: {
         type: this.state.type,
-        from: this.state.payType,
+        payType: this.state.payType,
         start_time: this.state.date,
         end_time: this.state.date2,
         page: this.state.page
@@ -117,7 +137,7 @@ export default connect(({ finance }: any) => finance)(
 
     
 
-    console.log(this.props);
+    // console.log(this.props);
     
 
     Toast.hide();
@@ -127,12 +147,12 @@ export default connect(({ finance }: any) => finance)(
       this.props.dispatch({
         type: 'finance/setFinance',
         payload: {
-          ListData: this.state.data
-          // page: this.state.page,
-          // end_time: this.state.date2,
-          // start_time: this.state.date,
-          // from: this.state.payType,
-          // type: this.state.type
+          ListData: this.state.data,
+          page: this.state.page,
+          end_time: this.state.date2,
+          start_time: this.state.date,
+          from: this.state.payType,
+          type: this.state.type
         }
       })
 
