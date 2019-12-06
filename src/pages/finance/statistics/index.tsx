@@ -116,7 +116,7 @@ export default class FinanceStatistis extends Component {
 							</AreaChart>
 						</ResponsiveContainer>
 					</Box>
-					<Box title="营业收入" lookMore={true} onClickMore={this.hanldeLookMore('/my/benefit')}>
+					<Box title="营业收入" lookMore={true} onClickMore={this.hanldeLookMore('/finance')}>
 						<Flex className="incomeBox">
 							<Flex.Item>
 								<div className="small-title">线下收银</div>
@@ -141,7 +141,7 @@ export default class FinanceStatistis extends Component {
 							</Flex.Item>
 						</Flex>
 					</Box>
-					<Box title="支付渠道" lookMore={true} onClickMore={this.hanldeLookMore('/my/channel')}>
+					<Box title="支付渠道" >
 						<Flex align="end" style={{ padding: 50 }}>
 							<Flex.Item>
 								<div className="pie-chart">
