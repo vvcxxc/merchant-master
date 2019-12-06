@@ -361,7 +361,7 @@ export default connect(({ app }: any) => app)(
                                     <div className={styles.today_income_title}>
                                         今日收入（元）
                                     </div>
-                                    <img src={require('@/assets/index/arrow_icon.png')} className={styles.arrow_icon} alt="" />
+                                    {/* <img src={require('@/assets/index/arrow_icon.png')} className={styles.arrow_icon} alt="" /> */}
                                 </Flex>
                                 <div className={styles.today_income_money}>{data.today_money}</div>
                             </div>
@@ -371,7 +371,7 @@ export default connect(({ app }: any) => app)(
                                     <div className={styles.business_num_title}>
                                         交易笔数（笔）
                                     </div>
-                                    <img src={require('@/assets/index/arrow_icon.png')} className={styles.arrow_icon} alt="" />
+                                    {/* <img src={require('@/assets/index/arrow_icon.png')} className={styles.arrow_icon} alt="" /> */}
                                 </Flex>
                                 <div className={styles.business_num_money}>{data.today_transaction_num}</div>
                             </div>
