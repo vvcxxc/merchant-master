@@ -110,7 +110,7 @@ export default class BuyLoudSpeaker extends Component {
     }
   }
 
-  payment = (data:any)=> {
+  payment = (orderNum: any) => {
     let _type: number;
     let browserType = this.getBrowserType();
     if (browserType == 'wechat') {
@@ -119,22 +119,14 @@ export default class BuyLoudSpeaker extends Component {
       _type = 2;
     }
 
-    let openid = Cookies.get(open_id)
-
-    // let datas = {
-    //   //传递给后台的数据
-    // }
-    //请求支付属性
-    // request({
-    //   url: 'v1/youhui/wxXcxuWechatPay',
-    //   method: "POST",
-    //   data: JSON.stringify(datas)
-    // })/api/v1/voice/pay
-    
+    let openId = Cookies.get(open_id)
     speakersRequest({
       url: 'api/v1/voice/pay',
       method: "POST",
-      data
+      data: {
+        order_num: orderNum,
+        openid: openId
+      }
     })
       .then((res: any) => {
         if (_type == 1) {
@@ -151,7 +143,7 @@ export default class BuyLoudSpeaker extends Component {
             function (res) {
               //微信支付成功
               if (res.err_msg == "get_brand_wcpay_request:ok") {
-
+                Toast.success('支付成功')
               } else {
                 //微信支付失败
               }
@@ -164,7 +156,7 @@ export default class BuyLoudSpeaker extends Component {
           }, res => {
             //支付宝支付成功
             if (res.resultCode === "9000") {
-
+              Toast.success('支付成功')
             } else {
               //支付宝支付失败
             }
@@ -196,9 +188,7 @@ export default class BuyLoudSpeaker extends Component {
       }
     }).then(res => {
       const { data, status_code } = res
-      console.log(res,'res');
-      
-      this.payment({ order_num: data.order_num})
+      this.payment( data.order_num)
     })
   }
 
