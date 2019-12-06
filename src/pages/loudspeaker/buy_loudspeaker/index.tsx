@@ -34,11 +34,11 @@ export default class BuyLoudSpeaker extends Component {
     is_show: false,
     checked: false,
     shopInfo: {},//购买商品所有信息
-    customer_name: '',
-    customer_phone: '',
+    customer_name: '收货人',
+    customer_phone: '13898989898',
     customer_area: ['广东省', '广州市', '天河区'],
     customer_address: '',
-    show_customer_area:''
+    show_customer_area:'寄到'
   }
 
   componentDidMount() {
@@ -119,7 +119,7 @@ export default class BuyLoudSpeaker extends Component {
       _type = 2;
     }
 
-    let openid = Cookies.get(open_id)
+    let openId = Cookies.get(open_id)
 
     // let datas = {
     //   //传递给后台的数据
@@ -136,7 +136,7 @@ export default class BuyLoudSpeaker extends Component {
       method: "POST",
       data: {
         order_num,
-        openid
+        openid: openId
       }
     })
       .then((res: any) => {
