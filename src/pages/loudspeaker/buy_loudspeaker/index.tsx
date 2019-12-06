@@ -110,7 +110,7 @@ export default class BuyLoudSpeaker extends Component {
     }
   }
 
-  payment = (data:any)=> {
+  payment = (order_num:any)=> {
     let _type: number;
     let browserType = this.getBrowserType();
     if (browserType == 'wechat') {
@@ -134,7 +134,10 @@ export default class BuyLoudSpeaker extends Component {
     speakersRequest({
       url: 'api/v1/voice/pay',
       method: "POST",
-      data
+      data: {
+        order_num,
+        openid
+      }
     })
       .then((res: any) => {
         if (_type == 1) {
@@ -196,8 +199,6 @@ export default class BuyLoudSpeaker extends Component {
       }
     }).then(res => {
       const { data, status_code } = res
-      console.log(res,'res');
-      
       this.payment({ order_num: data.order_num})
     })
   }
