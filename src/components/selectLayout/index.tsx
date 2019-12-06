@@ -49,11 +49,6 @@ interface Props {
 }
 
 
-const tabar = [
-  { title: '已核销' },
-  { title: '未核销' },
-  { title: '已退款' },
-];
 /**筛选列表页组件
  *
  * 筛选条件只包含基础选项和时间筛选
@@ -151,8 +146,8 @@ export default class FiltrateLayout extends Component<Props> {
     const insignificant = this.props.hasInsignificant && (
       <Flex className={styles.header}>
         {
-          this.props.insignificant.map((item: any) => (
-            <Flex className={styles.header_item} justify='center'>
+          this.props.insignificant.map((item: any,index:any) => (
+            <Flex className={styles.header_item} justify='center' key={index}>
               <div className={styles.item_title}>{item.name}</div>
               <div className={styles.item_num}>{item.num}</div>
             </Flex>
