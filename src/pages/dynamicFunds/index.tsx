@@ -256,7 +256,7 @@ export default class MyIndex extends Component {
                       <span>{item.create_time}</span>
                       <span>
                         {
-                           item.order_type
+                           item.type
                         }
                       </span></div>
                     <div className={styles.border_one}></div>
