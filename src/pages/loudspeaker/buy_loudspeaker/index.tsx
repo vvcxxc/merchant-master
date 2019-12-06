@@ -135,7 +135,7 @@ export default class BuyLoudSpeaker extends Component {
       url: 'api/v1/voice/pay',
       method: "POST",
       data: {
-        order_num,
+        order_num: order_num,
         openid: openId
       }
     })
