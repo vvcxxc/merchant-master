@@ -33,10 +33,10 @@ let startY = 0;
 let endX = 0;
 let endY = 0;
 
-// document.body.addEventListener('touchmove', function (e) {
-//     var e = e || window.event;
-//     e.preventDefault();
-// }, { passive: false })
+window.onbeforeunload = function () {
+    window.sessionStorage.removeItem('storage_x');
+    window.sessionStorage.removeItem('storage_y');
+}
 
 export default connect(({ app }: any) => app)(
     class IndexPage extends Component<Props> {
@@ -47,15 +47,6 @@ export default connect(({ app }: any) => app)(
             payment_status: {},
             reason: '',
             is_show: false,
-
-
-            // x: 40, // right
-            // y: 120, // bottom
-            // startX: 0,
-            // startY: 0,
-            // endX: 0,
-            // endY: 0
-
         };
 
         componentWillMount() {
@@ -123,6 +114,13 @@ export default connect(({ app }: any) => app)(
         }
 
         componentDidMount() {
+
+            let verification = document.querySelector('#verification');
+            let storageX = window.sessionStorage.getItem('storage_x');
+            let storageY = window.sessionStorage.getItem('storage_y');
+            verification.style.right = storageX + 'px';
+            verification.style.bottom = storageY + 'px';
+
             let openId = Cookies.get(open_id);
             if (process.env.NODE_ENV != 'development') {
                 if (!openId) {
@@ -282,56 +280,7 @@ export default connect(({ app }: any) => app)(
                 </Flex>
             ) : null;
 
-
-        // handleTouchMove = (e: any) => {
-        //     let eleWidth = parseInt(window.getComputedStyle(document.querySelector('#verification'), null).width);
-        //     let eleHeight = parseInt(window.getComputedStyle(document.querySelector('#verification'), null).height);
-        //     let x = e.touches[0].pageX;
-        //     let y = e.touches[0].pageY;
-        //     let verification = document.querySelector('#verification');
-
-        //     verification.style.position = "fixed";
-        //     verification.style.zIndex = 9999;
-
-
-        //     verification.style.left = (x - eleWidth / 2) + 'px';
-        //     verification.style.top = (y - eleHeight / 2) + 'px';
-
-        //     if (verification.offsetLeft <= 0) {
-        //         verification.style.left = 0;
-        //         if (x > 0) {
-        //             verification.style.left = (x - eleWidth / 2) + 'px';
-        //         }
-        //     } else if (verification.offsetLeft + eleWidth >= window.innerWidth) {
-        //         verification.style.left = verification.offsetLeft + 'px';
-        //         if ((x + eleWidth / 2) < window.innerWidth) {
-        //             verification.style.left = (x - eleWidth / 2) + 'px';
-        //         }
-        //     } else if (verification.offsetTop <= 0) {
-        //         verification.style.top = 0;
-        //         if (y > 0) {
-        //             verification.style.top = (y - eleHeight / 2) + 'px';
-        //         }
-        //     } else if (verification.offsetTop + eleHeight >= window.innerHeight) {
-        //         verification.style.top = verification.offsetTop + 'px';
-        //         if ((y + eleHeight / 2) < window.innerHeight) {
-        //             verification.style.top = (y - eleHeight / 2) + 'px';
-        //         }
-        //     } else {
-        //         verification.style.left = (x - eleWidth / 2) + 'px';
-        //         verification.style.top = (y - eleHeight / 2) + 'px';
-        //     }
-
-
-
-        // }
-
-
         handleTouchStart = (e: any) => {
-            // this.setState({
-            //     startX: e.touches[0].pageX,
-            //     startY: e.touches[0].pageY
-            // })
             startX = e.touches[0].pageX;
             startY = e.touches[0].pageY;
         }
@@ -352,29 +301,21 @@ export default connect(({ app }: any) => app)(
             if (y < 0) { y = 0; }
             verification.style.right = x + 'px';
             verification.style.bottom = y + 'px';
-            // this.setState({
-            //     endX: x,
-            //     endY: y
-            // })
             endX = x;
             endY = y;
             e.preventDefault();
         }
 
         handleTouchEnd = (e: any) => {
-            // this.setState({
-            //     x: this.state.endX,
-            //     y: this.state.endY,
-            //     startX: 0,
-            //     startY: 0
-            // })
             ox = endX;
             oy = endY;
             startX = 0;
             startY = 0;
 
-        }
+            window.sessionStorage.setItem('storage_x', ox);
+            window.sessionStorage.setItem('storage_y', oy);
 
+        }
         render() {
             const { data } = this.props;
             const mapIcons = (list: Array<any>) =>
@@ -529,6 +470,7 @@ export default connect(({ app }: any) => app)(
                         onTouchMove={this.handleTouchMove.bind(this)}
                         onTouchEnd={this.handleTouchEnd.bind(this)}
                         id="verification"
+                        style={{ touchAction: "none" }}
                     >
                         <img src={verificationImage} />
                         核销
