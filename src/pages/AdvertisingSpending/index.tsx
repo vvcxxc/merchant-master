@@ -215,7 +215,7 @@ export default class OrderPage extends Component {
               <div className={styles.AdvertisingName} >商圈广告消费</div>
               <div className={styles.AdvertisingMoneyBox} >
                 <div className={styles.AdvertisingMoney} >￥{item.shangquan}</div>
-                <Icon type="right" color="#bcbcbc" />
+                {/* <Icon type="right" color="#bcbcbc" /> */}
               </div>
             </div>
           }
@@ -224,7 +224,7 @@ export default class OrderPage extends Component {
               <div className={styles.AdvertisingName} >黄金广告消费</div>
               <div className={styles.AdvertisingMoneyBox} >
                 <div className={styles.AdvertisingMoney} >￥{item.huangjin}</div>
-                <Icon type="right" color="#bcbcbc" />
+                {/* <Icon type="right" color="#bcbcbc" /> */}
               </div>
             </div>
           }
@@ -233,7 +233,7 @@ export default class OrderPage extends Component {
               <div className={styles.AdvertisingName} >铂金广告消费</div>
               <div className={styles.AdvertisingMoneyBox} >
                 <div className={styles.AdvertisingMoney} >￥{item.bojin}</div>
-                <Icon type="right" color="#bcbcbc" />
+                {/* <Icon type="right" color="#bcbcbc" /> */}
               </div>
             </div>
           }
@@ -243,7 +243,7 @@ export default class OrderPage extends Component {
                 <div className={styles.AdvertisingName} >钻石广告消费</div>
                 <div className={styles.AdvertisingMoneyBox} >
                   <div className={styles.AdvertisingMoney} >￥{item.zuanshi}</div>
-                  <Icon type="right" color="#bcbcbc" />
+                  {/* <Icon type="right" color="#bcbcbc" /> */}
                 </div>
               </div>
           }
