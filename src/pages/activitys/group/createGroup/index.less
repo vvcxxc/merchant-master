@@ -38,10 +38,14 @@
   .am-list-body {
     border-top: 0;
     border-bottom: 0;
+    .am-list-item.am-input-item {
+      padding-left: 0;
+    }
   }
 }
 
 .activity_name :global {
+
   .am-list-line {
     // border-bottom: none !important;
   }
@@ -74,9 +78,10 @@
   // border-bottom: 1px solid #ddd;
   width: 100%;
   overflow: hidden;
+
   p {
     height: 100%;
-    width:100%;
+    width: 100%;
     margin-top: 0;
     color: #999;
     font-size: 24px;
@@ -375,10 +380,12 @@
   color: #d2284b;
   text-align: right;
 }
+
 .main {
   position: relative;
   z-index: 5;
 }
+
 .buttons {
   position: relative;
   z-index: 6;

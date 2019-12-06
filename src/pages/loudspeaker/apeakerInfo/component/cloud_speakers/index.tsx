@@ -33,13 +33,12 @@ export default class CloudSpeakers extends Component<Props> {
             <li>{list.describe}</li>
             <li>
               <span>￥{list.price}</span>
-              < span onClick={this.GoShop}>购买音箱</span>
-              {/* {
+              {
                 list.is_buy === 1 ? <span id={styles.no_inventory}>已购买</span> : (
                   list.stock > 0 ?
                     < span onClick={this.GoShop}>购买音箱</span> : <span id={styles.no_inventory}>已售完</span>
                 )
-              } */}
+              }
             </li>
           </ul>
         </div>
