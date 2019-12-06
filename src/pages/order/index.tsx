@@ -41,7 +41,7 @@ export default connect(({ orderList }: any) => orderList)(
       ]
     };
     componentDidMount() {
-      if(this.props.list.length == 0){
+      if (this.props.list.length == 0) {
         this.getData();
       }
     }
@@ -51,18 +51,18 @@ export default connect(({ orderList }: any) => orderList)(
       let params = {}
       let begin = moment().add('month', 0).format('YYYY-MM') + '-01'
       let end = moment(begin).add('month', 1).add('days', -1).format('YYYY-MM-DD')
-      if (query){
+      if (query) {
         // 条件查询
-        if(query.begin){
+        if (query.begin) {
           params = query
-        }else{
+        } else {
           params = {
             ...query,
             begin: moment(begin).unix(),
             end: moment(end).unix()
           }
         }
-      }else{
+      } else {
         // 初始化
         params = {
           ...this.props.query,
@@ -79,7 +79,7 @@ export default connect(({ orderList }: any) => orderList)(
         this.props.dispatch({
           type: 'orderList/setList',
           payload: {
-            list: [...this.props.list,...res.data],
+            list: [...this.props.list, ...res.data],
             total: res.total,
             amount: res.amount
           }
@@ -99,8 +99,8 @@ export default connect(({ orderList }: any) => orderList)(
 
     handleLayoutChange = (query: any) => {
       // 先清空list列表
-      this.props.dispatch({type: 'orderList/reset'})
-      this.props.dispatch ({
+      this.props.dispatch({ type: 'orderList/reset' })
+      this.props.dispatch({
         type: 'orderList/setQuery',
         payload: {
           pay_status: query.tab_index,
@@ -111,7 +111,7 @@ export default connect(({ orderList }: any) => orderList)(
         }
       })
 
-      if(!query.end_time && !query.time && !query.hot.id){
+      if (!query.end_time && !query.time && !query.hot.id) {
         // 重置
         this.getData({
           pay_status: query.tab_index || 2,
@@ -120,7 +120,7 @@ export default connect(({ orderList }: any) => orderList)(
           end: query.time ? moment(query.end_time).unix() : undefined,
         });
         return
-      }else {
+      } else {
         // 筛选
         this.getData({
           pay_status: query.tab_index || 2,
@@ -148,7 +148,7 @@ export default connect(({ orderList }: any) => orderList)(
           page: this.props.query.page + 1,
           youhui_type: this.props.query.youhui_type
         })
-        this.props.dispatch ({
+        this.props.dispatch({
           type: 'orderList/setQuery',
           payload: {
             ...this.props.query,
@@ -160,7 +160,7 @@ export default connect(({ orderList }: any) => orderList)(
     }
 
     tabIndex = (index: number) => {
-      switch(index){
+      switch (index) {
         case 1:
           return 1
           break
@@ -209,8 +209,9 @@ export default connect(({ orderList }: any) => orderList)(
           idSelect={this.props.query.youhui_type}
           tabIn={this.tabIndex(this.props.query.pay_status)}
         >
-          {orderList}
-
+          <div className={styles.orderListPage} >
+            {orderList}
+          </div>
           <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
         </FiltrateLayout>
 
