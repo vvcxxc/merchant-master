@@ -136,7 +136,6 @@ export default class MyIndex extends Component {
       this.getDataList({ begin_date, end_date, from, page })//请求数据
     })
   }
-  // }
 
   // 请求数据 赋值列表
   getDataList = (params: paramsType) => {
