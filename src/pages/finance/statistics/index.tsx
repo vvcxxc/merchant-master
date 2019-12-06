@@ -111,7 +111,8 @@ export default class FinanceStatistis extends Component {
 								<CartesianGrid strokeDasharray="3 3" />
 								<XAxis dataKey="day" padding={{ left: 20, right: 10 }} label={{ position: 'bottom' }} />
 								<YAxis label={{ color: '#ccc' }} />
-								<Tooltip />
+								<Tooltip
+                />
 								<Area type="monotone" dataKey="value" stroke="#21418A" strokeWidth={6} fill="#Ff6654" />
 							</AreaChart>
 						</ResponsiveContainer>
