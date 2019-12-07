@@ -252,32 +252,35 @@ export default connect(({ createStore }: any) => createStore)(
     }
 
     chooseOne = async (item: any, idx: any) => {
-      await this.setState({
-        index: idx,
-        active_best_style: {},
-        addressItem: item
-      })
-      let location = {
-        longitude: item.location.lng,
-        latitude: item.location.lat
-      }
-      let name = item.name;
-      let province = this.state.city[0];
-      let address = item.address;
-      let city = this.state.city_name;
-      let Address = province + city + address + name;
-      // Cookies.set("handleAddress", JSON.stringify(Address), { expires: 1 });
-      // Cookies.set("handleLocation", JSON.stringify(location), { expires: 1 });
-      this.props.dispatch({
-        type: 'createStore/setStore',
-        payload: {
-          location,
-          address: Address,
-          map: {
-            address: Address
-          }
+      console.log(item)
+      if(item.name){
+        await this.setState({
+          index: idx,
+          active_best_style: {},
+          addressItem: item
+        })
+        let location = {
+          longitude: item.location.lng,
+          latitude: item.location.lat
         }
-      })
+        let name = item.name;
+        let province = this.state.city[0];
+        let address = item.address;
+        let city = this.state.city_name;
+        let Address = province + city + address + name;
+        // Cookies.set("handleAddress", JSON.stringify(Address), { expires: 1 });
+        // Cookies.set("handleLocation", JSON.stringify(location), { expires: 1 });
+        this.props.dispatch({
+          type: 'createStore/setStore',
+          payload: {
+            location,
+            address: Address,
+            map: {
+              address: Address
+            }
+          }
+        })
+      }
     }
     chooseBest = async () => {
       await this.setState({
@@ -289,18 +292,21 @@ export default connect(({ createStore }: any) => createStore)(
       })
       let location = this.state.location;
       let address = this.state.address;
+      if(location && address){
+        this.props.dispatch({
+          type: 'createStore/setStore',
+          payload: {
+            location,
+            address,
+            map: {
+              address
+            }
+          }
+        })
+      }
       // Cookies.set("handleAddress", JSON.stringify(address), { expires: 1 });
       // Cookies.set("handleLocation", JSON.stringify(location), { expires: 1 });
-      this.props.dispatch({
-        type: 'createStore/setStore',
-        payload: {
-          location,
-          address,
-          map: {
-            address
-          }
-        }
-      })
+
 
       // router.push('/createStore')
     }
@@ -549,14 +555,14 @@ export default connect(({ createStore }: any) => createStore)(
       ) : (
           <Flex justify='around' style={{ color: '#999' }}>"{this.state.search_words}"无搜索结果，请确认您填写的地址</Flex>
         )
-      const searchList = this.state.searchList.map((item, idx) => {
+      const searchList = this.state.searchList.length ? this.state.searchList.map((item, idx) => {
         return (
           <div className={styles.list_item} key={idx} onClick={this.chooseOne.bind(this, item, idx)} style={idx == this.state.index ? this.state.active_style : {}}>
             <p className={styles.name}>{item.name}</p>
             <p className={styles.address}>{item.address}</p>
           </div>
         )
-      })
+      }) : null
 
 
       const map = this.state.is_map == true ? (
