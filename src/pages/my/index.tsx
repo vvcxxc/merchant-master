@@ -82,18 +82,18 @@ export default connect()(
 					} else {
 						info = message;
 					}
-					if (data[0]) {
+					if (res.code == 200) {
 						let resetData = Object.assign({}, this.state.info, { money: Number(0.0000).toFixed(4) })
 						this.setState({
 							info: resetData
 						})
-						Toast.success(info, 1);
+						Toast.success(info, 1.5);
 					} else {
-						Toast.fail(info, 1);
+						Toast.fail(info, 1.5);
 					}
 				});
 			} else {
-				Toast.fail('暂无平台收益', 1);
+				Toast.fail('暂无平台收益', 1.5);
 			}
 		};
 
