@@ -580,8 +580,7 @@ export default connect(({ activity }: any) => activity)(
               {/* <img src={require('./image/tip.png')}/>创建必读 */}
             </Flex>
           </WingBlank>
-          <Flex className={styles.buttons}>
-            {/* <div className={styles.button1} onClick={() => { router.push('/activitys/group/createGroup/activitygroup') }}>预览</div> */}
+          <Flex>
             <div className={styles.button2} onClick={this.confirm} style={{ width: "100%", left: "0" }}>确认发布</div>
           </Flex>
           <SelectTime
