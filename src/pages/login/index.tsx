@@ -258,6 +258,7 @@ export default connect(({ activity }: any) => activity)(
 										style={{ width: '100%' }}
 										placeholder="请填写短信验证码"
 										onChange={this.handleSetCode}
+										maxLength={6}
 										clear
 									/>
 								</Flex.Item>
