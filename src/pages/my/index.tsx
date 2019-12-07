@@ -70,7 +70,9 @@ export default connect()(
 		/**转到余额 */
 		transferredBalance = () => {
 			let money = Number(this.state.info.money);
-			if (money > 0) {
+			console.log('info',this.state.info.money)
+
+			// if (money > 0) {
 				request({
 					url: 'api/merchant/staff/earnings_go_balance',
 					method: 'post'
@@ -83,18 +85,22 @@ export default connect()(
 						info = message;
 					}
 					if (res.code == 200) {
-						let resetData = Object.assign({}, this.state.info, { money: Number(0.0000).toFixed(4) })
-						this.setState({
-							info: resetData
-						})
+
+
+
+
+						// let resetData = Object.assign({}, this.state.info, { money: Number(0.0000).toFixed(4) })
+						// this.setState({
+						// 	info: resetData
+						// })
 						Toast.success(info, 1.5);
 					} else {
 						Toast.fail(info, 1.5);
 					}
 				});
-			} else {
-				Toast.fail('暂无平台收益', 1.5);
-			}
+			// } else {
+			// 	Toast.fail('暂无平台收益', 1.5);
+			// }
 		};
 
 		//点击转发

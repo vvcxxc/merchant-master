@@ -98,7 +98,7 @@ export default connect(({ activity }: any) => activity)(
 				this.setState({ errorMobile: false });
 				haveError = false;
 			}
-			if (this.state.tab == 0 && !this.state.code) {
+			if (this.state.tab == 0 && (!this.state.code || this.state.code.length != 6)) {
 				this.setState({ errorCode: true });
 				haveError = true;
 			} else {
@@ -266,7 +266,7 @@ export default connect(({ activity }: any) => activity)(
 								</div>
 							</Flex>
 							{
-								this.state.errorCode ? <div className={styles.errorLine}>请输入正确的数字验证码</div> : null
+								this.state.errorCode ? <div className={styles.errorLine}>请输入正确的六位数数字验证码</div> : null
 							}
 						</div>
 					);
