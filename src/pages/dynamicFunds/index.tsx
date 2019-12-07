@@ -120,10 +120,16 @@ export default class MyIndex extends Component {
   routerDetails = () => {
   }
 
-  handleLayoutChange = (data:any) => {
+  handleLayoutChange = (data: any) => {
+    let date = new Date()
+    let begin_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + 1
+    date.setMonth(date.getMonth() + 1)
+    date.setDate(0)
+    let end_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+
     this.setState({
-      begin_date: data.time,
-      end_date: data.end_time,
+      begin_date: data.time ? data.time : begin_date,
+      end_date: data.end_time ? data.end_time:end_date,
       page:1
     }, () => {
         const { begin_date, end_date, from ,page} = this.state
