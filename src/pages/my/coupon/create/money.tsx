@@ -67,7 +67,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 			);
 
 			return (
-				<div>
+				<div>                                                                                                                                                                                                                                                                                         
 					<CustomInput
 						value={String(this.props.return_money || '')}
 						type="money"
