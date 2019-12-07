@@ -83,7 +83,10 @@ export default connect()(
 						info = message;
 					}
 					if (res.code == 200) {
-						let resetData = Object.assign({}, this.state.info, { money: Number(Number(this.state.info.money) % 100).toFixed(4), me_money: Number(Number(this.state.info.me_money) - Number(this.state.info.me_money) % 100).toFixed(4) })
+						let resetData = Object.assign({}, this.state.info, {
+							me_money: Number(Number(this.state.info.me_money) + Number(this.state.info.money) - Number(Number(this.state.info.money) % 100)).toFixed(4),
+							money: Number(Number(this.state.info.money) % 100).toFixed(4)
+						})
 						this.setState({
 							info: resetData
 						})
