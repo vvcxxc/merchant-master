@@ -127,7 +127,6 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				)
 
 			}
-			console.log('2498')
 
 			switch (type) {
 				case 1:
