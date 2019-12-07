@@ -46,8 +46,6 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			);
 
 		handleSubmit = async () => {
-
-
 			const { type } = this.state
 			let total: any = {}
 			//这里触发校验函数
@@ -110,9 +108,9 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				total.amountError = !returnMoney && returnMoney !== 0 ? '请设置购买价格' : (
 					returnMoney <= 0 ? '购买价格必须大于0元' : ''
 				)
-				total.buyingPrice = !payMoney && payMoney !== 0 ? '请设置购买价格' : (
-					payMoney === 0 && payMoney <= returnMoney ? '购买价格必须大于0元' : (
-						payMoney > returnMoney && returnMoney ? '购买价格不可高于优惠券面额，请重新设置.' : ''
+				total.buyingPrice = !payMoney && payMoney !== 0 && this.state.showPrice ? '请设置购买价格' : (
+					payMoney === 0 && payMoney <= returnMoney && this.state.showPrice ? '购买价格必须大于0元' : (
+						payMoney > returnMoney && returnMoney && this.state.showPrice ? '购买价格不可高于优惠券面额，请重新设置.' : ''
 					)
 				)
 
