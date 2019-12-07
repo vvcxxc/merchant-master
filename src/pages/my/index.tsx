@@ -76,14 +76,20 @@ export default connect()(
 					method: 'post'
 				}).then(res => {
 					let { data, message } = res;
+					let info;
+					if (res.data && res.data[0]) {
+						info = res.data[0];
+					} else {
+						info = message;
+					}
 					if (data[0]) {
 						let resetData = Object.assign({}, this.state.info, { money: Number(0.0000).toFixed(4) })
 						this.setState({
 							info: resetData
 						})
-						Toast.success(message, 1);
+						Toast.success(info, 1);
 					} else {
-						Toast.fail(message, 1);
+						Toast.fail(info, 1);
 					}
 				});
 			} else {
@@ -157,7 +163,7 @@ export default connect()(
 							<div className={styles.platform_revenu}>
 								<div className={styles.platform_revenu_wrap}>
 									<div className={styles.platform_revenu_title}>平台收益</div>
-									<div className={styles.platform_revenu_money}>{this.state.info.money ? this.state.info.money:'0.00'}</div>
+									<div className={styles.platform_revenu_money}>{this.state.info.money ? this.state.info.money : '0.00'}</div>
 								</div>
 								<div className={styles.platform_revenu_btn}>
 									<div className={styles.platform_revenu_transfer_account} onClick={this.transferredBalance}>转到余额</div>
