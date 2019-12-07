@@ -83,6 +83,14 @@ export default connect()(
 						info = message;
 					}
 					if (res.code == 200) {
+						console.log('原余额', this.state.info.me_money)
+						console.log('原收益', this.state.info.money)
+						console.log('少了的部分', Number(this.state.info.money) - Number(Number(this.state.info.money) % 100))
+						console.log('后收益', Number(Number(this.state.info.money) % 100))
+						console.log('后收益转四位', Number(Number(this.state.info.money) % 100).toFixed(4))
+						console.log('后余额', Number(Number(this.state.info.me_money) + Number(this.state.info.money) - Number(Number(this.state.info.money) % 100)))
+						console.log('后余额转四位', Number(Number(this.state.info.me_money) + Number(this.state.info.money) - Number(Number(this.state.info.money) % 100)).toFixed(4))
+
 						let resetData = Object.assign({}, this.state.info, {
 							me_money: Number(Number(this.state.info.me_money) + Number(this.state.info.money) - Number(Number(this.state.info.money) % 100)).toFixed(4),
 							money: Number(Number(this.state.info.money) % 100).toFixed(4)
