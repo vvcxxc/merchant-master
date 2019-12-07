@@ -136,7 +136,6 @@ export default class MyIndex extends Component {
       this.getDataList({ begin_date, end_date, from, page })//请求数据
     })
   }
-  // }
 
   // 请求数据 赋值列表
   getDataList = (params: paramsType) => {
@@ -197,20 +196,13 @@ export default class MyIndex extends Component {
   render() {
     const { title, list, total, total_money, showMore, from, totalData} = this.state
     const orderType:any = {
+      // [1]: { value: '收款', id: styles.gathering },
+      // [2]: { value: '订单', id: styles.order },
+      // [15]: { value: '充值', id: styles.recharge },
+      // [14]: { value: '收益', id: styles.earnings },
       [1]: { value: '收款', id: styles.gathering },
-      [2]: { value: '订单', id: styles.order },
       [15]: { value: '充值', id: styles.recharge },
-      [14]: { value: '收益', id: styles.earnings },
-      [3]: { value: '其他', id: styles.earnings },
-      [4]: { value: '其他', id: styles.earnings },
-      [5]: { value: '其他', id: styles.earnings },
-      [6]: { value: '其他', id: styles.earnings },
-      [7]: { value: '其他', id: styles.earnings },
-      [8]: { value: '其他', id: styles.earnings },
-      [9]: { value: '其他', id: styles.earnings },
-      [10]: { value: '其他', id: styles.earnings },
-      [11]: { value: '其他', id: styles.earnings },
-      [12]: { value: '其他', id: styles.earnings },
+      [16]: { value: '收益', id: styles.earnings }
     }
     return (
       <FiltrateLayout
