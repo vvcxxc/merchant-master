@@ -581,7 +581,6 @@ export default connect(({ activity }: any) => activity)(
             </Flex>
           </WingBlank>
           <Flex>
-            {/* <div className={styles.button1} onClick={()=>{router.push('/activitys/appreciation/createAppreciation/appreciation')}}>预览</div> */}
             <div className={styles.button2} onClick={this.confirm} style={{ width: "100%", left: "0" }}>确认发布</div>
           </Flex>
           <SelectTime
