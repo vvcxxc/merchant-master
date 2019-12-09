@@ -209,7 +209,7 @@ export default connect(({ finance }: any) => finance)(
                 </Flex.Item>
                 <div className="content-right">
                   <Flex.Item className="content">
-                    <div className="financemoney">{_.amount}</div>
+                    <div className="financemoney">{_.store_amount}</div>
                     <div className="financestatus">二维码收款</div>
                   </Flex.Item>
                   <Icon type="right" color="#bcbcbc" />
