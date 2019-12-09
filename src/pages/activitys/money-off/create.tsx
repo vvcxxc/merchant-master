@@ -56,7 +56,7 @@ export default class CreateMoneyOff extends Component {
 		}
 		this.setState({ indexList: indexList })
 		let timeSelectBool;
-		if (!this.state.start_date || !this.state.end_date) {
+		if (!this.state.start_date || !this.state.end_date || this.state.start_date == this.state.end_date) {
 			timeSelectBool = true;
 			this.setState({ timeSelect: true })
 		} else {
@@ -127,9 +127,9 @@ export default class CreateMoneyOff extends Component {
 					{
 						this.state.timeSelect && ((this.state.start_date && !this.state.end_date) || (!this.state.start_date && this.state.end_date)) ? <div className="errorLine" >未设置开始时间/结束时间/,无法提交</div> : null
 					}
-
-
-
+					{
+						this.state.timeSelect && (this.state.start_date == this.state.end_date) ? <div className="errorLine" >开始时间和结束时间不能为同一天</div> : null
+					}
 
 					<div className="rules">{rules}</div>
 					<div className="tip">点击+创建新的信息</div>
