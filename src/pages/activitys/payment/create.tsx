@@ -56,7 +56,7 @@ export default class CreatePaymentReturn extends Component {
 				!rulesList[i].limit ||
 				// rulesList[i].limit == "0" ||
 				!rulesList[i].money ||
-				rulesList[i].money == "0" ||
+				Number(rulesList[i].money)  < 1  ||
 				!rulesList[i].num ||
 				rulesList[i].num == "0" ||
 				!rulesList[i].returnMoney ||
