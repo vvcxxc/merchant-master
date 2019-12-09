@@ -210,7 +210,6 @@ export default class MyIndex extends Component {
       [10]: { value: '其他', id: styles.earnings },
       [11]: { value: '其他', id: styles.earnings },
       [12]: { value: '其他', id: styles.earnings },
-      
     }
     return (
       <FiltrateLayout
@@ -263,7 +262,7 @@ export default class MyIndex extends Component {
                       <span>{item.create_time}</span>
                       <span>
                         {
-                            orderType[item.order_type].value
+                           item.type
                         }
                       </span></div>
                     <div className={styles.border_one}></div>
