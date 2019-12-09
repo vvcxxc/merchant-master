@@ -300,6 +300,7 @@ export default connect(({ register }: any) => register)(
                 placeholder="请输入验证码"
                 value={this.props.code}
                 onChange={this.handleCode}
+                maxLength={6}
                 clear
               />
               {button}

@@ -121,13 +121,19 @@ export default class MyIndex extends Component {
   }
 
   handleLayoutChange = (data:any) => {
+    let date = new Date()
+    let begin_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + 1
+    date.setMonth(date.getMonth() + 1)
+    date.setDate(0)
+    let end_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+
     this.setState({
-      begin_date: data.time,
-      end_date: data.end_time,
-      page:1
+      begin_date: data.time ? data.time : begin_date,
+      end_date: data.end_time ? data.end_time : end_date,
+      page: 1
     }, () => {
-        const { begin_date, end_date, from ,page} = this.state
-        this.getDataList({ begin_date, end_date, from, page })//请求数据
+      const { begin_date, end_date, from, page } = this.state
+      this.getDataList({ begin_date, end_date, from, page })//请求数据
     })
   }
 
@@ -190,20 +196,13 @@ export default class MyIndex extends Component {
   render() {
     const { title, list, total, total_money, showMore, from, totalData} = this.state
     const orderType:any = {
+      // [1]: { value: '收款', id: styles.gathering },
+      // [2]: { value: '订单', id: styles.order },
+      // [15]: { value: '充值', id: styles.recharge },
+      // [14]: { value: '收益', id: styles.earnings },
       [1]: { value: '收款', id: styles.gathering },
-      [2]: { value: '订单', id: styles.order },
       [15]: { value: '充值', id: styles.recharge },
-      [14]: { value: '收益', id: styles.earnings },
-      [3]: { value: '其他', id: styles.earnings },
-      [4]: { value: '其他', id: styles.earnings },
-      [5]: { value: '其他', id: styles.earnings },
-      [6]: { value: '其他', id: styles.earnings },
-      [7]: { value: '其他', id: styles.earnings },
-      [8]: { value: '其他', id: styles.earnings },
-      [9]: { value: '其他', id: styles.earnings },
-      [10]: { value: '其他', id: styles.earnings },
-      [11]: { value: '其他', id: styles.earnings },
-      [12]: { value: '其他', id: styles.earnings },
+      [16]: { value: '收益', id: styles.earnings }
     }
     return (
       <FiltrateLayout
@@ -213,8 +212,7 @@ export default class MyIndex extends Component {
         onChange={this.handleLayoutChange}
         greyBackground={false}
       >
-        
-        <div id={styles.my_dynamic} onClick={this.onclosePrompt}>
+        <div id={styles.my_dynamic} onClick={this.onclosePrompt} className={styles.bgcontent}>
             <div className={styles.userSelect}>
               {
                 title && title.map((item: any, index: number) => {
@@ -268,7 +266,7 @@ export default class MyIndex extends Component {
             showMore ? <div className={styles.moreData} onClick={this.getMoreData}> 点击加载更多</div> : <div className={styles.moreData}> 无更多数据</div>
           }
 
-          </div>
+        </div>
         </FiltrateLayout>
     )
   }

@@ -35,19 +35,23 @@ export default connect(({ activity }: any) => activity)(
 			password: '',
 			/**发送验证码之后的倒计时 */
 			remainingTime: 0,
+			errorMobile: false,
+			errorCode: false,
+			errorAccountName: false,
+			errorPassword: false
 		};
 		componentDidMount() {
-      Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
-        let { data } = res.data;
-          let oss_data = {
-            policy: data.policy,
-            OSSAccessKeyId: data.accessid,
-            success_action_status: 200, //让服务端返回200,不然，默认会返回204
-            signature: data.signature,
-            callback: data.callback,
-            host: data.host,
-            key: data.dir
-          };
+			Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
+				let { data } = res.data;
+				let oss_data = {
+					policy: data.policy,
+					OSSAccessKeyId: data.accessid,
+					success_action_status: 200, //让服务端返回200,不然，默认会返回204
+					signature: data.signature,
+					callback: data.callback,
+					host: data.host,
+					key: data.dir
+				};
 
 				window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
 			})
@@ -86,6 +90,38 @@ export default connect(({ activity }: any) => activity)(
 		};
 		/**登录 */
 		submit = () => {
+			let haveError;
+			if (this.state.tab == 0 && !(/^1[3456789]\d{9}$/.test(this.state.mobile))) {
+				this.setState({ errorMobile: true });
+				haveError = true;
+			} else {
+				this.setState({ errorMobile: false });
+				haveError = false;
+			}
+			if (this.state.tab == 0 && (!this.state.code || this.state.code.length != 6)) {
+				this.setState({ errorCode: true });
+				haveError = true;
+			} else {
+				this.setState({ errorCode: false });
+				haveError = false;
+			}
+			if (this.state.tab == 1 && !this.state.account_name) {
+				this.setState({ errorAccountName: true });
+				haveError = true;
+			} else {
+				this.setState({ errorAccountName: false });
+				haveError = false;
+			}
+			if (this.state.tab == 1 && !this.state.password) {
+				this.setState({ errorPassword: true });
+				haveError = true;
+			} else {
+				this.setState({ errorPassword: false });
+				haveError = false;
+			}
+			if (haveError) {
+				return;
+			}
 			const api = this.state.tab === 1 ? 'v3/login' : 'v3/captcha_login';
 			const { mobile, code, account_name, password, tab } = this.state;
 			// if (this.fixLogin()) {
@@ -176,6 +212,9 @@ export default connect(({ activity }: any) => activity)(
 								clear
 							/>
 						</Flex>
+						{
+							this.state.errorAccountName ? <div className={styles.errorLine}>请输入正确的用户名</div> : null
+						}
 						<Flex className={styles.inputWrap}>
 							<InputItem
 								value={this.state.password}
@@ -186,6 +225,9 @@ export default connect(({ activity }: any) => activity)(
 								clear
 							/>
 						</Flex>
+						{
+							this.state.errorPassword ? <div className={styles.errorLine}>请输入正确的密码</div> : null
+						}
 						<Flex justify="end">
 							<span className={styles.warring} onClick={this.pushPage('/login/forgetpassword')}>
 								忘记密码？
@@ -206,6 +248,9 @@ export default connect(({ activity }: any) => activity)(
 									/>
 								</Flex.Item>
 							</Flex>
+							{
+								this.state.errorMobile ? <div className={styles.errorLine}>请输入正确11位手机号码</div> : null
+							}
 							<Flex className={styles.inputWrap}>
 								<Flex.Item>
 									<InputItem
@@ -213,6 +258,7 @@ export default connect(({ activity }: any) => activity)(
 										style={{ width: '100%' }}
 										placeholder="请填写短信验证码"
 										onChange={this.handleSetCode}
+										maxLength={6}
 										clear
 									/>
 								</Flex.Item>
@@ -220,6 +266,9 @@ export default connect(({ activity }: any) => activity)(
 									{this.state.remainingTime === 0 ? '发送验证码' : this.state.remainingTime + 's'}
 								</div>
 							</Flex>
+							{
+								this.state.errorCode ? <div className={styles.errorLine}>请输入正确的六位数数字验证码</div> : null
+							}
 						</div>
 					);
 			return (
