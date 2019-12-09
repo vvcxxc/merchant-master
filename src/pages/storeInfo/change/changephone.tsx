@@ -169,7 +169,7 @@ export default class ChangePhone extends Component {
           当前手机号：{this.state.old_phone}
         </Flex>
         <Flex className={styles.inputRow}>
-          <InputItem type="text" placeholder="请输入验证码" value={this.state.code1} onChange={this.handleCode1} clear />
+          <InputItem type="text" placeholder="请输入验证码" value={this.state.code1} onChange={this.handleCode1} maxLength={6} clear />
           {code}
         </Flex>
         {
@@ -200,7 +200,7 @@ export default class ChangePhone extends Component {
             this.state.errorPhone2 ? <div className={styles.errorLine}>请输入正确11位手机号码</div> : null
           }
           <Flex className={styles.inputRow}>
-            <InputItem type="text" placeholder="请输入验证码" value={this.state.code2} onChange={this.handleCode2} />
+            <InputItem type="text" placeholder="请输入验证码" value={this.state.code2} maxLength={6} onChange={this.handleCode2} />
             {codes}
           </Flex>
           {

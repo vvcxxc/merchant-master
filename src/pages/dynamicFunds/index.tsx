@@ -212,8 +212,7 @@ export default class MyIndex extends Component {
         onChange={this.handleLayoutChange}
         greyBackground={false}
       >
-        
-        <div id={styles.my_dynamic} onClick={this.onclosePrompt}>
+        <div id={styles.my_dynamic} onClick={this.onclosePrompt} className={styles.bgcontent}>
             <div className={styles.userSelect}>
               {
                 title && title.map((item: any, index: number) => {
@@ -267,7 +266,7 @@ export default class MyIndex extends Component {
             showMore ? <div className={styles.moreData} onClick={this.getMoreData}> 点击加载更多</div> : <div className={styles.moreData}> 无更多数据</div>
           }
 
-          </div>
+        </div>
         </FiltrateLayout>
     )
   }
