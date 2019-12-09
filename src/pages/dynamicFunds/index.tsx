@@ -202,7 +202,8 @@ export default class MyIndex extends Component {
       // [14]: { value: '收益', id: styles.earnings },
       [1]: { value: '收款', id: styles.gathering },
       [15]: { value: '充值', id: styles.recharge },
-      [16]: { value: '收益', id: styles.earnings }
+      [16]: { value: '收益', id: styles.earnings },
+      [17]: { value: '订单', id: styles.order}
     }
     return (
       <FiltrateLayout
