@@ -7,6 +7,15 @@ export default class ActivityList extends Component {
     list: []
   }
   render (){
+    const Model = (
+      <div className={styles.model}>
+        <div className={styles.model_main}>
+          <div className={styles.model_title}>温馨提示</div>
+          <div className={styles.model_text}>本次活动，每个商家最多可发布10张卡券</div>
+          <div className={styles.model_bottom}>确定</div>
+        </div>
+      </div>
+    )
     return (
       <div className={styles.listPage}>
 
@@ -29,7 +38,7 @@ export default class ActivityList extends Component {
             </div>
           )
         }
-
+        {Model}
         <div className={styles.issue}>
           <Flex justify='center' align='center' style={{height: '100%'}}>
             <img src={require('@/assets/add.png')}/>
