@@ -192,7 +192,8 @@ export default class CreatePaymentReturn extends Component {
 			</Flex>
 		);
 		const { start_date, end_date, showStartTime, showEndtTime } = this.state;
-		const time = !showStartTime && !showEndtTime ? null : showStartTime + '至' + showEndtTime
+		// const time = !showStartTime && !showEndtTime ? null : showStartTime + '至' + showEndtTime
+		const time = start_date ? new Date(start_date).getFullYear() + '-' + (new Date(start_date).getMonth() + 1) + '-' + new Date(start_date).getDate() + '至' + new Date(end_date).getFullYear() + '-' + (new Date(end_date).getMonth() + 1) + '-' + new Date(end_date).getDate() : '';
 		return (
 			<div className={styles.page}>
 				<List className="topForm">
