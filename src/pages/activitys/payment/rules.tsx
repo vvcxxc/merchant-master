@@ -111,44 +111,45 @@ export default class PaymentReturnRules extends Component<Props> {
 				<WingBlank>
 					<List.Item extra={moneyInput} >返券条件</List.Item>
 					{
-						this.props.isError && (!this.props.item.money || String(this.props.item.money) == '') ? <div className="errorLine" >请输入市场价格</div> : null
+						this.props.isError && (!this.props.item.money || String(this.props.item.money) == '') ? <div className="errorLine" >请输入市场价格</div> : (
+							this.props.isError && Number(this.props.item.money) < 1 ? <div className="errorLine" >满减活动的金额设置必须大于或等于1元</div> : null
+						)
 					}
-					{
-						this.props.isError && Number(this.props.item.money) == 0 ? <div className="errorLine" >满减活动的金额设置必须大于0元</div> : null
-					}
+
 					<InputItem type="money" extra="元" onChange={this.handleChange2('returnMoney')} value={String(this.props.item.returnMoney || '')}
 					// onVirtualKeyboardConfirm={this.limitDenomination.bind(this)}//点击确定
 					// onBlur={this.limitDenomination.bind(this)} //失去焦点触发
 					>面额</InputItem>
 					{
-						this.props.isError && (!this.props.item.returnMoney || String(this.props.item.returnMoney) == '') ? <div className="errorLine" >请输入面额</div> : null
+						this.props.isError && (!this.props.item.returnMoney || String(this.props.item.returnMoney) == '') ? <div className="errorLine" >请输入面额</div> : (
+							this.props.isError && Number(this.props.item.returnMoney) == 0 ? <div className="errorLine" >面额必须大于0元</div> : null
+						)
 					}
-					{
-						this.props.isError && Number(this.props.item.returnMoney) == 0 ? <div className="errorLine" >面额必须大于0元</div> : null
-					}
+
 					<List.Item extra={limitInput}>使用门槛</List.Item>
 					{
-						this.props.isError && (!this.props.item.limit || String(this.props.item.limit) == '') ? <div className="errorLine" >请设置使用门槛</div> : null
+						this.props.isError && (!this.props.item.limit || String(this.props.item.limit) == '') ? <div className="errorLine" >请设置使用门槛</div> : (
+							this.props.isError && Number(this.props.item.limit) > Number(this.props.item.returnMoney) ? <div className="errorLine" >使用门槛不可高于卡券面额，请重新设置</div> : null
+						)
 					}
-					{
-						this.props.isError && Number(this.props.item.limit) > Number(this.props.item.returnMoney) ? <div className="errorLine" >使用门槛不可高于卡券面额，请重新设置</div> : null
-					}
+
 					<List.Item extra={dateInput}>优惠券有效期</List.Item>
 					{
-						this.props.isError && (!this.props.item.day || String(this.props.item.day) == '') ? <div className="errorLine" >请设置优惠券有效期</div> : null
+						this.props.isError && (!this.props.item.day || String(this.props.item.day) == '') ? <div className="errorLine" >请设置优惠券有效期</div> : (
+							this.props.isError && Number(this.props.item.day) == 0 ? <div className="errorLine" >优惠券有效期必须大于0</div> : null
+
+						)
 					}
-					{
-						this.props.isError && Number(this.props.item.day) == 0 ? <div className="errorLine" >优惠券有效期必须大于0</div> : null
-					}
+
 					<InputItem type="money" extra="张" onChange={this.handleChange('num')} value={String(this.props.item.num || '')}
 					// onVirtualKeyboardConfirm={this.limmitInventory.bind(this)}//点击确定
 					// onBlur={this.limmitInventory.bind(this)} //失去焦点触发
 					>库存数量</InputItem>
 					{
-						this.props.isError && (!this.props.item.num || String(this.props.item.num) == '') ? <div className="errorLine" >请设置发放数量</div> : null
-					}
-					{
-						this.props.isError && String(this.props.item.num) == '0' ? <div className="errorLine" >发放数量必须大于0</div> : null
+						this.props.isError && (!this.props.item.num || String(this.props.item.num) == '') ? <div className="errorLine" >请设置发放数量</div> : (
+							this.props.isError && String(this.props.item.num) == '0' ? <div className="errorLine" >发放数量必须大于0</div> : null
+
+						)
 					}
 				</WingBlank>
 			</List>
