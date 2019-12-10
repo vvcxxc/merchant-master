@@ -108,7 +108,8 @@ export default connect(({ createStore }: any) => createStore)(
               };
               // console.log(this.props.address)
               // if (!this.props.address) {
-              if(!this.props.address) {
+
+              if(!_this.props.address) {
                 // alert('123')
                 _this.setState({ location });
                 _this.props.dispatch({
@@ -132,7 +133,7 @@ export default connect(({ createStore }: any) => createStore)(
                       city: [res.province, res.city, res.district],
                       district: result.regeocode.addressComponent.district,
                       address: result.regeocode.formattedAddress || '未知地点',
-                      city_name: result.regeocode.addressComponent.city
+                      city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province
                     });
                   } else {
                     _this.setState({
@@ -251,32 +252,35 @@ export default connect(({ createStore }: any) => createStore)(
     }
 
     chooseOne = async (item: any, idx: any) => {
-      await this.setState({
-        index: idx,
-        active_best_style: {},
-        addressItem: item
-      })
-      let location = {
-        longitude: item.location.lng,
-        latitude: item.location.lat
-      }
-      let name = item.name;
-      let province = this.state.city[0];
-      let address = item.address;
-      let city = this.state.city_name;
-      let Address = province + city + address + name;
-      // Cookies.set("handleAddress", JSON.stringify(Address), { expires: 1 });
-      // Cookies.set("handleLocation", JSON.stringify(location), { expires: 1 });
-      this.props.dispatch({
-        type: 'createStore/setStore',
-        payload: {
-          location,
-          address: Address,
-          map: {
-            address: Address
-          }
+      console.log(item)
+      if(item.name){
+        await this.setState({
+          index: idx,
+          active_best_style: {},
+          addressItem: item
+        })
+        let location = {
+          longitude: item.location.lng,
+          latitude: item.location.lat
         }
-      })
+        let name = item.name;
+        let province = this.state.city[0];
+        let address = item.address;
+        let city = this.state.city_name;
+        let Address = province + city + address + name;
+        // Cookies.set("handleAddress", JSON.stringify(Address), { expires: 1 });
+        // Cookies.set("handleLocation", JSON.stringify(location), { expires: 1 });
+        this.props.dispatch({
+          type: 'createStore/setStore',
+          payload: {
+            location,
+            address: Address,
+            map: {
+              address: Address
+            }
+          }
+        })
+      }
     }
     chooseBest = async () => {
       await this.setState({
@@ -288,18 +292,21 @@ export default connect(({ createStore }: any) => createStore)(
       })
       let location = this.state.location;
       let address = this.state.address;
+      if(location && address){
+        this.props.dispatch({
+          type: 'createStore/setStore',
+          payload: {
+            location,
+            address,
+            map: {
+              address
+            }
+          }
+        })
+      }
       // Cookies.set("handleAddress", JSON.stringify(address), { expires: 1 });
       // Cookies.set("handleLocation", JSON.stringify(location), { expires: 1 });
-      this.props.dispatch({
-        type: 'createStore/setStore',
-        payload: {
-          location,
-          address,
-          map: {
-            address
-          }
-        }
-      })
+
 
       // router.push('/createStore')
     }
@@ -325,7 +332,9 @@ export default connect(({ createStore }: any) => createStore)(
           city: [res.province, res.city, res.district],
           district: result.regeocode.addressComponent.district,
           address: result.regeocode.formattedAddress || '未知地点',
-          city_name: result.regeocode.addressComponent.city
+          city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province,
+          // 选择地点后回到地图
+          is_map: true
         }, () => {
           let address = this.state.city[0] + this.state.city[1] + item.address + item.name;
           // this.props.onChange(location,address);
@@ -342,7 +351,7 @@ export default connect(({ createStore }: any) => createStore)(
               }
             }
           })
-          router.push('/createStore')
+          // router.push('/createStore')
         });
       })
 
@@ -350,7 +359,11 @@ export default connect(({ createStore }: any) => createStore)(
 
 
     clickAddress = () => {
-      this.setState({ is_map: !this.state.is_map })
+      this.setState({ is_map: !this.state.is_map }, () => {
+        if(!this.state.is_map) {
+          this.refs.searchREF.focus()
+        }
+      })
     }
 
     handleSaveAddress = () => {
@@ -483,7 +496,6 @@ export default connect(({ createStore }: any) => createStore)(
           })
         },
         click: (e: any) => {
-          console.log(e)
           this.setState({
             location: {
               longitude: e.lnglat.lng,
@@ -502,6 +514,7 @@ export default connect(({ createStore }: any) => createStore)(
           const lnglat = e.lnglat;
           _this.geocoder && _this.geocoder.getAddress(lnglat, (status: any, result: any) => {
             if (status === 'complete') {
+              console.log(result)
               if (result.regeocode) {
                 _this.createSearch(result);
                 let res = result.regeocode.addressComponent
@@ -512,7 +525,7 @@ export default connect(({ createStore }: any) => createStore)(
                   city: [res.province, res.city, res.district],
                   district: result.regeocode.addressComponent.district,
                   address: result.regeocode.formattedAddress || '未知地点',
-                  city_name: result.regeocode.addressComponent.city
+                  city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province
                 });
               } else {
                 _this.setState({
@@ -542,14 +555,14 @@ export default connect(({ createStore }: any) => createStore)(
       ) : (
           <Flex justify='around' style={{ color: '#999' }}>"{this.state.search_words}"无搜索结果，请确认您填写的地址</Flex>
         )
-      const searchList = this.state.searchList.map((item, idx) => {
+      const searchList = this.state.searchList.length ? this.state.searchList.map((item, idx) => {
         return (
           <div className={styles.list_item} key={idx} onClick={this.chooseOne.bind(this, item, idx)} style={idx == this.state.index ? this.state.active_style : {}}>
             <p className={styles.name}>{item.name}</p>
             <p className={styles.address}>{item.address}</p>
           </div>
         )
-      })
+      }) : null
 
 
       const map = this.state.is_map == true ? (
@@ -565,14 +578,9 @@ export default connect(({ createStore }: any) => createStore)(
               </div>
 
               <Flex className={styles.inputBox} >
-                {/* <div className={styles.inputIcon}><img src={require('./icon-map.png')} /></div> */}
                 <Flex onClick={this.clickAddress} style={{ display: 'flex', justifyContent: 'center' }}>
                   <Icon type='search' color='#000' size='xxs' className={styles.search_icon} />
                   <span className={styles.search_address}>搜索地址</span>
-                  {/* <Icon type='search' color='#000' size='xxs'/> */}
-                  {/* <InputItem
-                        placeholder='搜索地址'
-                      /> */}
                 </Flex>
               </Flex>
 
@@ -581,8 +589,8 @@ export default connect(({ createStore }: any) => createStore)(
           </WingBlank>
           <Flex direction='column'>
             <div className={styles.mapBox}>
+              {console.log('location',location)}
               <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
-                {/* <Marker position={location} /> */}
                 {
                   location ? (
                     <Marker position={location} />
@@ -593,7 +601,6 @@ export default connect(({ createStore }: any) => createStore)(
             {picker}
             <div className={styles.searchList}>
               <div className={styles.list_item} onClick={this.chooseBest} style={this.state.active_best_style}>
-                {/* <p className={styles.name} style={{color: '#FF6654'}}>{this.state.address}</p> */}
                 <p className={styles.name}>{this.state.address}</p>
                 <p className={styles.address}>{this.state.district}</p>
                 <div className={styles.iconMap}><img src={require("./iconMap.png")} /></div>
@@ -616,31 +623,40 @@ export default connect(({ createStore }: any) => createStore)(
                 </div>
 
                 <Flex className={styles.inputBox_search}>
-                  {/* <div className={styles.inputIcon}><img src={require('./icon-map.png')} /></div> */}
                   <Flex>
                     <InputItem
                       placeholder='搜索地址'
                       style={{ textAlign: 'center' }}
                       onChange={this.search}
+                      ref="searchREF"
                     />
-                    {/* </InputItem> */}
                   </Flex>
                 </Flex>
                 <div className={styles.search_close} onClick={this.clickAddress}>取消</div>
               </Flex>
             </WingBlank>
+            {/* <Flex direction='column'>
+              <div className={styles.mapBox}>
+                <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
+                  {
+                    location ? (
+                      <Marker position={location} />
+                    ) : null
+                  }
+                </Map>
+              </div>
+              {picker}
+              <div className={styles.searchList}>
+                <div className={styles.list_item} onClick={this.chooseBest} style={this.state.active_best_style}>
+                  <p className={styles.name}>{this.state.address}</p>
+                  <p className={styles.address}>{this.state.district}</p>
+                  <div className={styles.iconMap}><img src={require("./iconMap.png")} /></div>
+                </div>
+                {searchList}
+              </div>
+            </Flex> */}
             <div className={styles.list}>
               {is_sear}
-            </div>
-            <div style={{ display: 'none' }}>
-              <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
-                {/* <Marker position={location} /> */}
-                {
-                  location ? (
-                    <Marker position={location} />
-                  ) : null
-                }
-              </Map>
             </div>
             {picker}
           </div>

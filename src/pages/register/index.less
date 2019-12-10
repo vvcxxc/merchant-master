@@ -1,9 +1,11 @@
 .wrap {
   background: #fff;
+
   &.active {
     color: #21418a;
   }
-  .footer{
+
+  .footer {
     text-align: center;
     margin-top: 27px;
     color: #999;
@@ -13,6 +15,7 @@
 .inputWrap {
   height: 108px;
   border-bottom: 1px solid #999;
+
   .sendCode {
     width: 175px;
     height: 58px;
@@ -24,6 +27,7 @@
     font-size: 26px;
     padding: 0 23px;
   }
+
   .doneSend {
     width: 175px;
     height: 58px;
@@ -37,6 +41,20 @@
     padding: 0 23px;
   }
 }
+
+.errorLine {
+  border-top: 1px solid #d2284b;
+  position: relative;
+  margin-bottom: -0.2rem;
+  height: 0.2rem;
+  z-index: 10;
+  font-size: 0.22rem;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #d2284b;
+  text-align: right;
+}
+
 input::-webkit-input-placeholder {
   color: #999999;
 }

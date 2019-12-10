@@ -10,6 +10,7 @@ import Cookies from 'js-cookie';
 export default connect(({ createStore }: any) => createStore)(
   class CreateStore extends Component<any> {
     state = {
+      error:{},//表单校验报错
       /**店铺名 */
       name: '',
       /**店铺地址 */
@@ -58,16 +59,16 @@ export default connect(({ createStore }: any) => createStore)(
     };
 
     componentDidMount() {
-      console.log(Cookies.get('handleAddress'))
-      console.log(Cookies.get('handleDetailAddress'))
+      // console.log(Cookies.get('handleAddress'))
+      // console.log(Cookies.get('handleDetailAddress'))
       if((Cookies.get('handleAddress') && Cookies.get('handleDetailAddress') )) {
         if((Cookies.get('handleAddress') != Cookies.get('handleDetailAddress'))) {
-          console.log('执行不等于')
+          // console.log('执行不等于')
           this.setState({
             detailAddress: Cookies.get("handleDetailAddress") ? JSON.parse(Cookies.get("handleDetailAddress")) : ""
           })
         }else {
-          console.log('执行等于')
+          // console.log('执行等于')
           this.setState({
             detailAddress: Cookies.get("handleDetailAddress") ? JSON.parse(Cookies.get("handleDetailAddress")) : ""
           })
@@ -75,7 +76,7 @@ export default connect(({ createStore }: any) => createStore)(
 
 
       }else {
-        console.log('执行2')
+        // console.log('执行2')
         this.setState({
           // detailAddress: Cookies.get("handleDetailAddress") ? JSON.parse(Cookies.get("handleDetailAddress")) :
           //                 Cookies.get("handleAddress") ? JSON.parse(Cookies.get("handleAddress")) : ""
@@ -141,7 +142,8 @@ export default connect(({ createStore }: any) => createStore)(
 
     /**设置门店名 */
     handleName = (e: any) => {
-      console.log(this.props)
+      if(this.getBytes(e.target.value) > 30) return
+      // console.log(this.props)
       Cookies.set("handleName", JSON.stringify(e.target.value), { expires: 1 });
       // console.log(Cookies.get("storeinfo"));
       this.props.dispatch({
@@ -206,6 +208,8 @@ export default connect(({ createStore }: any) => createStore)(
 
     /**门牌号 */
     handleHouseNum = (e: any) => {
+      if (this.getBytes(e.target.value) > 20) return
+
       Cookies.set("handleHouseNum", JSON.stringify(e.target.value), { expires: 1 });
       this.setState({ house_num: e.target.value })
       this.props.dispatch({
@@ -380,6 +384,8 @@ export default connect(({ createStore }: any) => createStore)(
       //     address
       //   }
       // })
+      if (this.getBytes(e.target.value) > 60) return
+
       let address = e.target.value;
       Cookies.set("handleDetailAddress", JSON.stringify(address), { expires: 1 });
       this.setState({
@@ -388,55 +394,49 @@ export default connect(({ createStore }: any) => createStore)(
     }
 
 
+   getBytes =(str:string)=> {
+     let num = 0
+     for (let i = 0; i < str.length; i++) {
+     /*字符串的charCodeAt()方法获取对应的ASCII码值
+     汉字的ASCII大于255,其它的ASCII编码值在0-255之间*/
+       str.charCodeAt(i) > 255 ? num += 2 : num += 1;
+    }
+    return num;
+  }
+
     createStore = () => {
-      // console.log(Cookies.get("handleDetailAddress"))
+
       let detailAddress = Cookies.get("handleDetailAddress");
-      let { name, address, house_num, phone, manage_type, email, _code, store_door_header_img, store_img_one, store_img_two, location } = this.props;
-      // console.log(address,detailAddress)
-      // if (name && address && house_num && phone && manage_type && email && store_door_header_img && store_img_one && store_img_two) {
-        if(!name){
-          Toast.fail('店铺名不能为空')
-          return
-        }
-        if(!address){
-          Toast.fail('门店定位不能为空')
-          return
-        }
-        if(!detailAddress) {
-          Toast.fail('详细地址不能为空')
-          return
-        }
+      let { name, address, house_num, phone, manage_type, email, _code, store_door_header_img, store_img_one, store_img_two, location, code_id } = this.props;
+      let total: any = {}
+      total.name = !this.getBytes(name) ? '请输入门店名称' : ''
+      total.address = !address ? '请点击获取门店位置信息' : ''
 
-        if(!house_num){
-          Toast.fail('门牌号不能为空')
-          return
-        }
-        if(!phone){
-          Toast.fail('门店电话不能为空')
-          return
-        }
-        if(!email){
-          Toast.fail('邮箱不能为空')
-          return
-        }
-        if(!store_door_header_img){
-          Toast.fail('门头照不能为空')
-          return
-        }
-        if(!store_img_one){
-          Toast.fail('环境照1不能为空')
-          return
-        }
-        if(!store_img_two){
-          Toast.fail('环境照2不能为空')
-          return
-        }
-        if(!location){
-          Toast.fail('地图定位失败')
-          return
-        }
+        // if(!detailAddress) {
+        //   Toast.fail('详细地址不能为空')
+        //   return
+        // }
+      total.detailAddress = !detailAddress ? '请输入商家门店地址信息' : ''
 
+      total.phone =
+        !/^1[3456789]\d{9}$/.test(phone) || !/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(phone) ?
+        '请输入正确11位手机号码或7-8位座机号码' : ''
+      // return
+      total.manage_type = !manage_type ? '请选择商家品类信息' : ''
+      total.email =new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$").test(email) ? '' :'请输入正确邮箱信息'
+      //二维码
+      total.code_id = code_id && code_id.length > 6 ?'请输入正确二维码序号':''
 
+      total.store_door_header_img = store_door_header_img.length < 1 ? '请上传商家门店照片' : ''
+
+      total.store_img = store_img_two.length < 1 || store_img_one.length<1 ?'请上传商家环境照片':''
+      for (const key in total) {
+        if (total[key]) {
+          this.setState({ error: total })
+          return
+        }
+        this.setState({ error: {} })
+      }
         request({
           url: 'v3/stores',
           method: 'post',
@@ -476,6 +476,7 @@ export default connect(({ createStore }: any) => createStore)(
       window.location.href = 'https://xiaokefu.com.cn/s/9196ogf3'
     }
     render() {
+      const { error }= this.state
       const { files, my_files, my_files2 } = this.props;
       // const map = this.state.is_map == true ? (
       //   <MapPage onChange={this.mapChange}/>
@@ -494,6 +495,10 @@ export default connect(({ createStore }: any) => createStore)(
                 onChange={this.handleName}
               />
             </Flex>
+            {
+              error.name ?
+                <div className={styles.groub_hint}>{error.name}</div> : null
+            }
             <Flex className={styles.inputWrap} onClick={this.openMap}>
               <span>门店定位</span>
               <input
@@ -504,6 +509,10 @@ export default connect(({ createStore }: any) => createStore)(
               />
               <Icon type='right' />
             </Flex>
+            {
+              error.address ?
+                <div className={styles.groub_hint}>{error.address}</div> : null
+            }
             <Flex className={styles.inputWrap}>
               <span>详细地址</span>
               <input
@@ -513,6 +522,10 @@ export default connect(({ createStore }: any) => createStore)(
                 onChange={this.handleChange.bind(this)}
               />
             </Flex>
+            {
+              error.detailAddress ?
+                <div className={styles.groub_hint}>{error.detailAddress}</div> : null
+            }
             <Flex className={styles.inputWrap}>
               <span>门牌号</span>
               <input
@@ -531,6 +544,10 @@ export default connect(({ createStore }: any) => createStore)(
                 onChange={this.handlePhone}
               />
             </Flex>
+            {
+              error.phone ?
+                <div className={styles.groub_hint}>{error.phone}</div> : null
+            }
             <Flex className={styles.inputWrap}>
               <Picker
                 className={styles.picker}
@@ -543,6 +560,10 @@ export default connect(({ createStore }: any) => createStore)(
                 <List.Item arrow="horizontal">经营品类</List.Item>
               </Picker>
             </Flex>
+            {
+              error.manage_type ?
+                <div className={styles.groub_hint}>{error.manage_type}</div> : null
+            }
             <Flex className={styles.inputWrap}>
               <span>邮箱</span>
               <input
@@ -552,6 +573,10 @@ export default connect(({ createStore }: any) => createStore)(
                 onChange={this.handleEmail}
               />
             </Flex>
+            {
+              error.email ?
+                <div className={styles.groub_hint}>{error.email}</div> : null
+            }
             <Flex className={styles.inputWrap}>
               <span>二维码序号</span>
               <input
@@ -561,6 +586,10 @@ export default connect(({ createStore }: any) => createStore)(
                 onChange={this.handleCode}
               />
             </Flex>
+            {
+              error.code_id ?
+                <div className={styles.groub_hint}>{error.code_id}</div> : null
+            }
             <Flex className={styles.imgWrap}>
               <div className={styles.imgTitle}>上传门头照</div>
               <div className={styles.example} onClick={this.toExample}>查看示例</div>
@@ -582,6 +611,10 @@ export default connect(({ createStore }: any) => createStore)(
                   )
               }
             </Flex>
+            {
+              error.store_door_header_img ?
+                <div className={styles.groub_hint}>{error.store_door_header_img}</div> : null
+            }
             <Flex className={styles.imgWrap}>
               <div className={styles.imgTitle}>上传环境照</div>
             </Flex>
@@ -614,6 +647,10 @@ export default connect(({ createStore }: any) => createStore)(
               }
 
             </Flex>
+            {
+              error.store_img ?
+                <div className={styles.groub_hint}>{error.store_img}</div> : null
+            }
             <Button type="primary" style={{ marginTop: 60, paddingBottom: 60 }} onClick={this.createStore}>
               确认创建
                 </Button>

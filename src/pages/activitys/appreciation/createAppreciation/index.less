@@ -183,6 +183,10 @@
 .input_Box :global {
   .am-list-body {
     border-top: 0;
+
+    .am-list-item.am-input-item {
+      padding-left: 0;
+    }
   }
 }
 
@@ -328,13 +332,15 @@
   border-bottom: 1px solid #ddd;
   color: #666666;
   font-size: 0.28rem;
-  .icon_right_box{
+
+  .icon_right_box {
     display: flex;
     flex-direction: row;
     align-items: center;
-    color: #999; 
+    color: #999;
+
     .icon_right {
-    height: 30px;
+      height: 30px;
     }
   }
 }
@@ -442,4 +448,18 @@
   .am-image-picker-list .am-flexbox .am-flexbox-item {
     overflow-y: visible;
   }
+}
+
+.toast_tips {
+  border-top: 2px solid #d2284b;
+  position: relative;
+  margin-bottom: -0.2rem;
+  height: 0.2rem;
+  z-index: 10;
+  font-size: 0.22rem;
+  line-height: 1.2;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #d2284b;
+  text-align: right;
 }

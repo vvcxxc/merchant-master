@@ -13,7 +13,13 @@ import { connect } from 'dva';
 // export default class Register extends Component {
 export default connect(({ register }: any) => register)(
   class Register extends Component<any> {
-    
+
+    state = {
+      errorMobile: false,
+      errorCode: false,
+      errorAccountName: false,
+      errorPassword: false
+    }
     componentDidMount() {
       /**获取oss */
       //   request({
@@ -166,33 +172,61 @@ export default connect(({ register }: any) => register)(
      * 注册
      */
     register = () => {
-      const { username, phone, password, code, inviter_phone } = this.props;
-      if (username && phone && password && code) {
-        request({
-          url: 'v3/register',
-          method: 'post',
-          data: {
-            user_name: username,
-            password,
-            user_phone: phone,
-            verify_code: code,
-            invite_phone: inviter_phone
-          },
-        }).then(res => {
-          let { code, data } = res;
-          if (code == 200) {
-            Toast.success('注册成功', 2, () => {
-              localStorage.setItem('token', 'Bearer ' + res.data.token);
-              router.push('/createStore');
-            })
-
-          } else {
-            Toast.fail(data)
-          }
-        });
+      let haveError = false;
+      if (!(/^1[3456789]\d{9}$/.test(this.props.phone))) {
+        this.setState({ errorMobile: true });
       } else {
-        Toast.fail('请将信息填写完整', 2)
+        this.setState({ errorMobile: false });
+        haveError = false;
       }
+      if (!this.props.code || this.props.code.length != 6) {
+        this.setState({ errorCode: true });
+        haveError = true;
+      } else {
+        this.setState({ errorCode: false });
+      }
+      if (!this.props.username) {
+        this.setState({ errorAccountName: true });
+        haveError = true;
+      } else {
+        this.setState({ errorAccountName: false });
+      }
+      if (!this.props.password || this.props.password.length < 6) {
+        this.setState({ errorPassword: true });
+        haveError = true;
+      } else {
+        this.setState({ errorPassword: false });
+      }
+      if (haveError) {
+        return;
+      }
+      const { username, phone, password, code, inviter_phone } = this.props;
+      // if (username && phone && password && code) {
+      request({
+        url: 'v3/register',
+        method: 'post',
+        data: {
+          user_name: username,
+          password,
+          user_phone: phone,
+          verify_code: code,
+          invite_phone: inviter_phone
+        },
+      }).then(res => {
+        let { code, data } = res;
+        if (code == 200) {
+          Toast.success('注册成功', 2, () => {
+            localStorage.setItem('token', 'Bearer ' + res.data.token);
+            router.push('/createStore');
+          })
+
+        } else {
+          Toast.fail(data)
+        }
+      });
+      // } else {
+      //   Toast.fail('请将信息填写完整', 2)
+      // }
     }
 
     componentWillUnmount() {
@@ -231,6 +265,9 @@ export default connect(({ register }: any) => register)(
                 clear
               />
             </Flex>
+            {
+              this.state.errorAccountName ? <div className={styles.errorLine}>请输入用户名</div> : null
+            }
             <Flex className={styles.inputWrap}>
               <InputItem
                 style={{ width: '100%' }}
@@ -241,6 +278,9 @@ export default connect(({ register }: any) => register)(
                 clear
               />
             </Flex>
+            {
+              this.state.errorMobile ? <div className={styles.errorLine}>请输入正确的11位手机号码</div> : null
+            }
             <Flex className={styles.inputWrap}>
               <InputItem
                 style={{ width: '100%' }}
@@ -251,16 +291,23 @@ export default connect(({ register }: any) => register)(
                 clear
               />
             </Flex>
+            {
+              this.state.errorPassword ? <div className={styles.errorLine}>请输入不少于6位的密码</div> : null
+            }
             <Flex className={styles.inputWrap}>
               <InputItem
                 style={{ width: '100%' }}
                 placeholder="请输入验证码"
                 value={this.props.code}
                 onChange={this.handleCode}
+                maxLength={6}
                 clear
               />
               {button}
             </Flex>
+            {
+              this.state.errorCode ? <div className={styles.errorLine}>请输入正确6位数字验证码</div> : null
+            }
             {inviter}
             <WingBlank size="sm">
               <Button type="primary" style={{ marginTop: 60 }} onClick={this.register}>
@@ -268,8 +315,8 @@ export default connect(({ register }: any) => register)(
           </Button>
             </WingBlank>
             <Flex.Item className={styles.footer}>
-              点击“注册”即同意<span style={{ color: '#21418A' }} 
-              onClick={()=>{router.push('/login/register/agreement')}}
+              点击“注册”即同意<span style={{ color: '#21418A' }}
+                onClick={() => { router.push('/login/register/agreement') }}
               >《小熊敬礼服务及隐私条款》</span>
             </Flex.Item>
           </WingBlank>

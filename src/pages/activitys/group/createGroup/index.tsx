@@ -9,6 +9,7 @@ import SelectTime from '@/components/select-time';
 import router from 'umi/router';
 import { connect } from 'dva';
 import ad_intro2 from '@/assets/ad/ad_intro2.png'
+import PaymentReturnRules from '../../payment/rules';
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
@@ -20,10 +21,19 @@ export default connect(({ activity }: any) => activity)(
       showSelectTime: false,
       startTime: undefined,
       endTime: undefined,
-      prompt: false
+      prompt: false,
+      rule: {
+        is_name: '',
+        is_date: '',
+        is_old: '',
+        is_new: '',
+        is_people: '',
+        is_num: '',
+        is_validity: '',
+        is_image: '',
+      }
     };
     componentDidMount() {
-
       if (this.props.Group.gift_id) {
         this.setState({ is_gift: true })
       }
@@ -43,6 +53,7 @@ export default connect(({ activity }: any) => activity)(
       });
     };
     startChange = (value: any) => {
+      console.log(value)
       this.props.dispatch({
         type: 'activity/setGroup',
         payload: {
@@ -136,12 +147,6 @@ export default connect(({ activity }: any) => activity)(
     }
     /**选择图片 */
     changeCover = (files: any) => {
-      // this.props.dispatch({
-      //   type: 'activity/setGroup',
-      //   payload: {
-      //     cover_img: files
-      //   }
-      // });
       Toast.loading('')
       if (files[0]) {
         let img = files[0].url;
@@ -168,12 +173,6 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     changeDescribe1 = (files: any) => {
-      // this.props.dispatch({
-      //   type: 'activity/setGroup',
-      //   payload: {
-      //     describe_img1: files
-      //   }
-      // });
       Toast.loading('')
       if (files[0]) {
         let img = files[0].url;
@@ -200,12 +199,6 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     changeDescribe2 = (files: any) => {
-      // this.props.dispatch({
-      //   type: 'activity/setGroup',
-      //   payload: {
-      //     describe_img2: files
-      //   }
-      // });
       Toast.loading('')
       if (files[0]) {
         let img = files[0].url;
@@ -244,44 +237,74 @@ export default connect(({ activity }: any) => activity)(
     /**确认发布 */
     confirm = async () => {
       let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name } = this.props.Group;
+      let rule = {
+        is_name: '',
+        is_date: '',
+        is_old: '',
+        is_new: '',
+        is_people: '',
+        is_num: '',
+        is_validity: '',
+        is_image: '',
+      }
 
+      // 开团数量
       if (group_sum == 0) {
-        Toast.fail('开团数量不能为0', 2);
-        return;
+        rule.is_num = '开团数量必须大于0'
+      } else if (group_sum == '') {
+        rule.is_num = '请设置开团数量'
       }
-      // if (validity == 0) {
-      //   Toast.fail('有效期不能为0', 2);
-      //   return;
-      // }
+
+      // 有效期的验证
+      if (validity == 0) {
+        rule.is_validity = '优惠券有效期必须大于0'
+      } else if (validity == '') {
+        rule.is_validity = '请设置优惠券有效期'
+      }
+
+      // 拼团人数的验证
       if (group_number == 0) {
-        Toast.fail('成团人数不能为0', 2);
-        return;
+        rule.is_people = '拼团人数必须大于0'
+      } else if (group_number == '') {
+        rule.is_people = '请设置拼团人数'
       }
 
-      // 价格验证
-      if (Number(participation_money) >= Number(old_price)) {
-        Toast.fail('拼团价格必须低于商品原价，请重新设置', 2);
-        return;
-      }
-
-      // 有效期验证
-      if (validity < 1) {
-        Toast.fail('有效期至少为一天', 2);
-        return;
+      // 拼团原价验证
+      if (old_price == 0) {
+        rule.is_old = '商品原价必须大于0'
+      } else if (old_price == '') {
+        rule.is_old = '请输入商品原价'
       }
 
 
-      if (description.length < 1) {
-        Toast.fail('使用须知不能为空', 2);
-        return;
+      // 拼团价格验证
+      if (participation_money == 0) {
+        rule.is_new = '拼团价格必须大于0'
+      } else if (participation_money == '') {
+        rule.is_new = '拼团价格不能为空'
+      } else if (Number(participation_money) > Number(old_price)) {
+        rule.is_new = '拼团价格不可高于商品原价'
+      }
+
+      // 图片验证
+      if (!image || !image_url1 || !image_url2) {
+        rule.is_image = '请上传图片完整后再重新提交'
       }
 
       // 日期验证
       let startDate = new Date(start_date).getTime();
       let endDate = new Date(end_date).getTime();
       if (startDate > endDate) {
-        Toast.fail('起始日期应大于结束日期', 2);
-        return;
+        rule.is_date = '开始时间不能大于结束时间'
+      } else if (start_date == undefined || '') {
+        rule.is_date = '未设置开始时间，无法提交'
+      } else if (end_date == undefined || '') {
+        rule.is_date = '未设置结束时间，无法提交'
+      }
+
+      if (rule.is_validity || rule.is_people || rule.is_old || rule.is_num || rule.is_new || rule.is_name || rule.is_image || rule.is_date) {
+        this.setState({ rule })
+        return
       }
 
       let a = moment(start_date).startOf('day')
@@ -337,8 +360,8 @@ export default connect(({ activity }: any) => activity)(
               Toast.hide();
             })
           }
-        }else{
-          Toast.fail(message,2)
+        } else {
+          Toast.fail(message, 2)
         }
       } else {
         Toast.fail('请将信息填写完整', 2);
@@ -393,38 +416,18 @@ export default connect(({ activity }: any) => activity)(
         );
       const time = start_date ? new Date(start_date).getFullYear() + '-' + (new Date(start_date).getMonth() + 1) + '-' + new Date(start_date).getDate() + '至' + new Date(end_date).getFullYear() + '-' + (new Date(end_date).getMonth() + 1) + '-' + new Date(end_date).getDate() : '';
 
+      const { rule } = this.state;
+
       return (
         <div style={{ width: '100%', height: 'auto', minHeight: '100%', background: '#fff', overflow: 'hidden', }}>
           {/* <div style={{ display }}> */}
-          <WingBlank>
+          <WingBlank className={styles.main}>
             <Flex className={styles.title}><div>活动设置</div></Flex>
             <List className={styles.input_Box}>
-              {/* <Flex className={styles.pickerDate}>
-                <DatePicker
-                  mode="date"
-                  title="起始日期"
-                  extra="Optional"
-                  value={start_date}
-                  onChange={this.startChange}
-                >
-                  <List.Item arrow="horizontal">起始日期</List.Item>
-                </DatePicker>
-              </Flex>
-              <Flex className={styles.pickerDate}>
-                <DatePicker
-                  mode="date"
-                  title="结束日期"
-                  extra="Optional"
-                  value={end_date}
-                  onChange={this.endChange}
-                >
-                  <List.Item arrow="horizontal">结束日期</List.Item>
-                </DatePicker>
-              </Flex> */}
               <InputItem className={styles.activity_name} placeholder="请输入活动名称" value={activity_name} onChange={this.handleName} clear>
                 活动名称
               </InputItem>
-
+              {rule.is_name ? <div className={styles.error}>{rule.is_name}</div> : null}
               <Flex className={styles.notice} onClick={this.handleShowSelectTime}>
                 <div style={{ color: "#666666" }}>活动时间</div>
                 <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
@@ -432,36 +435,27 @@ export default connect(({ activity }: any) => activity)(
                   <Icon type="right" color='#999' className={styles.icon_right} />
                 </div>
               </Flex>
+              {rule.is_date ? <div className={styles.error}>{rule.is_date}</div> : null}
 
               {/* <Flex className={styles.notice} onClick={this.toSetting}><div style={{ color: "#666666" }}>商品设置</div><div><Icon type="right" color='#999' className={styles.icon_right} /></div></Flex> */}
-
-              {/* <div className={styles.cover_box}>
-                <div>活动封面图</div>
-                <div className={styles.cover_img}>
-                  <ImagePicker
-                    className={styles.upload_img}
-                    files={cover_img}
-                    multiple={false}
-                    length={1}
-                    selectable={cover_img.length < 1}
-                    onChange={this.changeCover}
-                  />
-                </div>
-              </div> */}
 
               <InputItem type={'money'} className={styles.textShort} value={old_price} onChange={this.handleOldPrice} extra='元'>
                 商品原价
               </InputItem>
+              {rule.is_old ? <div className={styles.error}>{rule.is_old}</div> : null}
               <InputItem type={'money'} className={styles.textShort} value={participation_money} onChange={this.handleNewPrice} extra='元'>
                 拼团价格
               </InputItem>
+              {rule.is_new ? <div className={styles.error}>{rule.is_new}</div> : null}
               <InputItem type={'money'} className={styles.textShort} value={group_number} onChange={this.handleNum} extra='人'>
                 成团人数
               </InputItem>
+              {rule.is_people ? <div className={styles.error}>{rule.is_people}</div> : null}
               <InputItem className={styles.activity_name} placeholder="请输入团数" value={group_sum} onChange={this.handleSum} type={'money'}>
                 开团数量
                 <img src={ad_intro2} onClick={() => { this.setState({ prompt: !this.state.prompt }) }} />
               </InputItem>
+              {rule.is_num ? <div className={styles.error}>{rule.is_num}</div> : null}
               <div className={styles.activity_gropNum_msg} style={{ height: this.state.prompt ? 'auto' : '0px' }}>
                 <p>
                   拼团数量*拼团人数=活动商品数量
@@ -471,6 +465,7 @@ export default connect(({ activity }: any) => activity)(
               <InputItem type={'money'} className={styles.textLong} value={validity} onChange={this.handleValidity} extra='天可用'>
                 有效期<span className={styles.left_text}>拼团成功后</span>
               </InputItem>
+              {rule.is_validity ? <div className={styles.error}>{rule.is_validity}</div> : null}
             </List>
             <Flex className={styles.notice} onClick={this.toNotice}>
               <div style={{ color: "#666666" }}>使用规则</div>
@@ -481,6 +476,7 @@ export default connect(({ activity }: any) => activity)(
                 <Icon type="right" color='#999' className={styles.icon_right} />
               </div>
             </Flex>
+
 
             {/* <Flex className={styles.radio1}>
               <div className={styles.radioFlex}>
@@ -565,7 +561,7 @@ export default connect(({ activity }: any) => activity)(
                 <div className={styles.describe}></div>
               </div>
             </Flex>
-
+            {rule.is_image ? <div className={styles.error}>{rule.is_image}</div> : null}
             <div className={styles.gift}>
               <Flex className={styles.title}><div>礼品设置</div></Flex>
               <div className={styles.gift_Box}>
@@ -585,7 +581,6 @@ export default connect(({ activity }: any) => activity)(
             </Flex>
           </WingBlank>
           <Flex>
-            {/* <div className={styles.button1} onClick={() => { router.push('/activitys/group/createGroup/activitygroup') }}>预览</div> */}
             <div className={styles.button2} onClick={this.confirm} style={{ width: "100%", left: "0" }}>确认发布</div>
           </Flex>
           <SelectTime
@@ -594,11 +589,6 @@ export default connect(({ activity }: any) => activity)(
             onConfirm={this.handleSelectTime}
           />
         </div>
-
-        // {chooseGift}
-
-        // {payment}
-        // </div>
       )
     }
   })

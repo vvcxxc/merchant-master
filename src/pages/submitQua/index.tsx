@@ -119,7 +119,23 @@ export default connect(({ submitQua }: any) => submitQua)(
         '恒丰银行',
         '邮政储蓄银行',
       ],
-      prompt: false
+      prompt: false,
+
+
+      ToastTipsLegalIDImg: "",
+      ToastTipsContactName: "",
+      ToastTipsLegalIdNo: "",
+      ToastTipsIDDate: "",
+      ToastTipsBankCardImg: "",
+      ToastTipsBankAccountName: "",
+      ToastTipsBankAccountNo: "",
+      ToastTipsSettleBank: "",
+      ToastTipsBankName: "",
+      ToastTipsBusinessImg: "",
+      ToastTipsBusinessNo: "",
+      ToastTipsCornBusName: "",
+      ToastTipsLegalName: "",
+      ToastTipsBusinessDate: "",
     };
 
 
@@ -990,7 +1006,7 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
 
     /**保存或者提交 */
-    submit = (type: number) => () => {
+    submit = (type: number) => async () => {
       // if (this.props.bankShow) {
       //   //清除，以免这次保存下次直接提交
       //   Cookies.set("_handleBankName", JSON.stringify(""), { expires: 1 });
@@ -1007,11 +1023,194 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     return
       //   }
       // }
-      if (this.props.bankShow) {
-        Toast.fail('未选择支行', 1);
-        return
-      }
+
+      // if (this.props.bankShow) {
+      //   Toast.fail('未选择支行', 1);
+      //   return
+      // }
+
+      await this.setState({
+        ToastTipsLegalIDImg: "",
+        ToastTipsContactName: "",
+        ToastTipsLegalIdNo: "",
+        ToastTipsIDDate: "",
+        ToastTipsBankCardImg: "",
+        ToastTipsBankAccountName: "",
+        ToastTipsBankAccountNo: "",
+        ToastTipsSettleBank: "",
+        ToastTipsBankName: "",
+        ToastTipsBusinessImg: "",
+        ToastTipsBusinessNo: "",
+        ToastTipsCornBusName: "",
+        ToastTipsLegalName: "",
+        ToastTipsBusinessDate: "",
+      })
+
       const { legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.props;
+      // 身份证照片
+      if (!legal_id_front_img || !legal_id_back_img || !hand_hold_id_img) {
+        this.setState({
+          ToastTipsLegalIDImg: "请上传身份证正反面图片"
+        })
+      }
+      // 身份证姓名
+      if (!(/^[\u4E00-\u9FA5]{1,}$/.test(contact_name))) {
+        this.setState({
+          ToastTipsContactName: "请输入用户身份证姓名"
+        })
+      }
+      // 身份证号
+      if (!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/).test(legal_id_no)) {
+        this.setState({
+          ToastTipsLegalIdNo: "请输入正确身份证号码"
+        })
+      }
+      const nowTimeStamp = Date.now();
+      const now = new Date(nowTimeStamp);
+      const nowTime = moment(now).unix();
+      const dateTime = moment(date).unix();
+
+      const nowYear = moment(now).year();
+      const nowMonth = moment(now).month() + 1;
+      const nowDay = moment(now).date();
+
+      const dateYear = moment(date).year();
+      const dateMonth = moment(date).month() + 1;
+      const dateDay = moment(date).date();
+      if (!date) {
+        this.setState({
+          ToastTipsIDDate: "请输入正确有效期"
+        })
+      } else if (dateTime < nowTime) {
+        if (nowYear == dateYear && nowMonth == dateMonth && nowDay == dateDay) {
+        } else {
+          this.setState({
+            ToastTipsIDDate: "请输入正确有效期"
+          })
+        }
+      }
+
+      // 银行卡照片
+      if (!bank_card_front_img || !bank_card_back_img) {
+        this.setState({
+          ToastTipsBankCardImg: "请上传银行卡正反面图片"
+        })
+      }
+
+      // 开户人
+      if (!(/^[\u4E00-\u9FA5]{1,}$/.test(settle_bank_account_name))) {
+        this.setState({
+          ToastTipsBankAccountName: "请输入开户人姓名"
+        })
+      }
+
+      // 银行号
+      if (!(/^\d{16,19}$/).test(settle_bank_account_no)) {
+        this.setState({
+          ToastTipsBankAccountNo: "请输入正确16-19位数字银行卡账号"
+        })
+      }
+
+      // 开户行
+      if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(settle_bank))) {
+        this.setState({
+          ToastTipsSettleBank: "请输入正确开户银行卡名称"
+        })
+      }
+
+      // 支行
+      if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(bank_name))) {
+        this.setState({
+          ToastTipsBankName: "请输入正确开户支行名称"
+        })
+      }
+
+      // 营业执照
+      if (!three_certs_in_one_img) {
+        this.setState({
+          ToastTipsBusinessImg: "请上传商家营业执照图片"
+        })
+      }
+
+      // 营业执照注册号
+      if (!(/^[a-zA-Z0-9]{15}$/.test(three_certs_in_one_no))) {
+        this.setState({
+          ToastTipsBusinessNo: "请输入正确15位营业执照号码"
+        })
+      }
+
+      // 执照名称
+      if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(corn_bus_name))) {
+        this.setState({
+          ToastTipsCornBusName: "请输入正确营业执照名称"
+        })
+      }
+
+
+      // 执照法人
+      if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(legal_name))) {
+        this.setState({
+          ToastTipsLegalName: "请输入用户法人姓名"
+        })
+      }
+
+      // 营业执照有效期
+      const businessNowTimeStamp = Date.now();
+      const businessNow = new Date(businessNowTimeStamp);
+      const businessNowTime = moment(businessNow).unix();
+      const businessDateTime = moment(three_certs_in_one_valid_date).unix();
+
+      const businessNowYear = moment(businessNow).year();
+      const businessNowMonth = moment(businessNow).month() + 1;
+      const businessNowDay = moment(businessNow).date();
+      const businessDateYear = moment(three_certs_in_one_valid_date).year();
+      const businessDateMonth = moment(three_certs_in_one_valid_date).month() + 1;
+      const businessDateDay = moment(three_certs_in_one_valid_date).date();
+      if (!three_certs_in_one_valid_date) {
+        this.setState({
+          ToastTipsBusinessDate: "请输入正确有效期"
+        })
+      } else if (businessDateTime < businessNowTime) {
+        if (businessNowYear == businessDateYear && businessNowMonth == businessDateMonth && businessNowDay == businessDateDay) {
+        } else {
+          this.setState({
+            ToastTipsBusinessDate: "请输入正确有效期"
+          })
+        }
+      }
+
+      const {
+        ToastTipsLegalIDImg,
+        ToastTipsContactName,
+        ToastTipsLegalIdNo,
+        ToastTipsIDDate,
+        ToastTipsBankCardImg,
+        ToastTipsBankAccountName,
+        ToastTipsBankAccountNo,
+        ToastTipsSettleBank,
+        ToastTipsBankName,
+        ToastTipsBusinessImg,
+        ToastTipsBusinessNo,
+        ToastTipsCornBusName,
+        ToastTipsLegalName,
+        ToastTipsBusinessDate
+      } = this.state;      
+      if(
+        ToastTipsLegalIDImg ||
+        ToastTipsContactName || 
+        ToastTipsLegalIdNo ||
+        ToastTipsIDDate || 
+        ToastTipsBankCardImg ||
+        ToastTipsBankAccountName || 
+        ToastTipsBankAccountNo || 
+        ToastTipsSettleBank || 
+        ToastTipsBankName || 
+        ToastTipsBusinessImg || 
+        ToastTipsBusinessNo || 
+        ToastTipsCornBusName || 
+        ToastTipsLegalName || 
+        ToastTipsBusinessDate
+      ) return;
       let data = {
         legal_id_back_img,
         legal_id_front_img,
@@ -1246,7 +1445,22 @@ export default connect(({ submitQua }: any) => submitQua)(
       // const chooseTime = this.state.is_show == true ? (<ChooseDate type={this.state.type} choose_date={this.state.choose_date} onChange={this.timeChange}/>) : ('');
 
 
-
+      const {
+        ToastTipsLegalIDImg,
+        ToastTipsContactName,
+        ToastTipsLegalIdNo,
+        ToastTipsIDDate,
+        ToastTipsBankCardImg,
+        ToastTipsBankAccountName,
+        ToastTipsBankAccountNo,
+        ToastTipsSettleBank,
+        ToastTipsBankName,
+        ToastTipsBusinessImg,
+        ToastTipsBusinessNo,
+        ToastTipsCornBusName,
+        ToastTipsLegalName,
+        ToastTipsBusinessDate,
+      } = this.state
 
       return (
         <div style={{ width: '100%', height: 'auto', background: '#fff' }} id="box0" className={styles.submitQua}>
@@ -1262,6 +1476,14 @@ export default connect(({ submitQua }: any) => submitQua)(
                 {idBack}
                 {idHand}
               </Flex>
+              {
+                ToastTipsLegalIDImg ? (
+                  <Flex justify="end" className={styles.toast_tips_img}>
+                    <span>{ToastTipsLegalIDImg}</span>
+                  </Flex>
+                ) : ""
+              }
+
               <Modal
                 className={styles.id_modal}
                 visible={this.state.modal1}
@@ -1290,7 +1512,21 @@ export default connect(({ submitQua }: any) => submitQua)(
               </Modal>
               <List>
                 <InputItem placeholder='请输入姓名' value={this.props.contact_name} onChange={this.handleName} clear>姓名</InputItem>
+                {
+                  ToastTipsContactName ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsContactName}</span>
+                    </Flex>
+                  ) : ""
+                }
                 <InputItem placeholder='请输入身份证号' onChange={this.handleID} value={this.props.legal_id_no} clear>身份证号</InputItem>
+                {
+                  ToastTipsLegalIdNo ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsLegalIdNo}</span>
+                    </Flex>
+                  ) : ""
+                }
                 <InputItem
                   placeholder='请选择身份证有效期'
                   editable={false}
@@ -1304,6 +1540,13 @@ export default connect(({ submitQua }: any) => submitQua)(
                     className={styles.youxiao}
                   />
                 </InputItem>
+                {
+                  ToastTipsIDDate ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsIDDate}</span>
+                    </Flex>
+                  ) : ""
+                }
               </List>
 
 
@@ -1329,14 +1572,49 @@ export default connect(({ submitQua }: any) => submitQua)(
                 {bankFront}
                 {bankBack}
               </Flex>
+              {
+                ToastTipsBankCardImg ? (
+                  <Flex justify="end" className={styles.toast_tips_img}>
+                    <span>{ToastTipsBankCardImg}</span>
+                  </Flex>
+                ) : ""
+              }
               <div className={styles.bank_toast}>温馨提示：1.请上传清晰的图片，银行卡号不可遮蔽。2.暂不支持部分银行卡。</div>
               <List>
                 <InputItem ref="bank1" placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name} clear>开户人</InputItem>
+                {
+                  ToastTipsBankAccountName ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsBankAccountName}</span>
+                    </Flex>
+                  ) : ""
+                }
                 <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum} clear>银行卡号</InputItem>
+                {
+                  ToastTipsBankAccountNo ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsBankAccountNo}</span>
+                    </Flex>
+                  ) : ""
+                }
                 <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank} clear>开户行</InputItem>
+                {
+                  ToastTipsSettleBank ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsSettleBank}</span>
+                    </Flex>
+                  ) : ""
+                }
                 <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} onBlur={() => {
                   setTimeout(() => { this.props.dispatch({ type: 'submitQua/setQua', payload: { bankShow: false } }) }, 300)
                 }} clear>支行</InputItem>
+                {
+                  ToastTipsBankName ? (
+                    <Flex justify="end" className={styles.toast_tips}>
+                      <span>{ToastTipsBankName}</span>
+                    </Flex>
+                  ) : ""
+                }
 
                 <div className={styles.bankMsg} style={{ display: this.props.bankShow && this.props.bank_disable ? "block" : "none" }}>
                   <div className={styles.bankMsg_box} >
@@ -1359,10 +1637,45 @@ export default connect(({ submitQua }: any) => submitQua)(
               <Flex className={styles.license_img}>
                 {License}
               </Flex>
+              {
+                ToastTipsBusinessImg ? (
+                  <Flex justify="end" className={styles.toast_tips_img}>
+                    <span>{ToastTipsBusinessImg}</span>
+                  </Flex>
+                ) : ""
+              }
               <InputItem placeholder='同统一社会信用代码' value={this.props.three_certs_in_one_no} onChange={this.handleLicenseNUm} clear>注册号</InputItem>
+              {
+                ToastTipsBusinessNo ? (
+                  <Flex justify="end" className={styles.toast_tips}>
+                    <span>{ToastTipsBusinessNo}</span>
+                  </Flex>
+                ) : ""
+              }
               <InputItem placeholder='无执照名称可填写经营者名称' value={this.props.corn_bus_name} onChange={this.handleLicenseName} clear>执照名称</InputItem>
+              {
+                ToastTipsCornBusName ? (
+                  <Flex justify="end" className={styles.toast_tips}>
+                    <span>{ToastTipsCornBusName}</span>
+                  </Flex>
+                ) : ""
+              }
               <InputItem placeholder='请输入法人姓名' value={this.props.legal_name} onChange={this.handleLegalName} clear>法人姓名</InputItem>
+              {
+                ToastTipsLegalName ? (
+                  <Flex justify="end" className={styles.toast_tips}>
+                    <span>{ToastTipsLegalName}</span>
+                  </Flex>
+                ) : ""
+              }
               <InputItem placeholder='有效期' editable={false} value={this.props.three_certs_in_one_valid_date} onClick={this.chooseDate(2)} clear>有效期<Icon type='right' className={styles.youxiao} /></InputItem>
+              {
+                ToastTipsBusinessDate ? (
+                  <Flex justify="end" className={styles.toast_tips}>
+                    <span>{ToastTipsBusinessDate}</span>
+                  </Flex>
+                ) : ""
+              }
             </WingBlank>
             <Flex className={styles.buttons}>
               <div className={styles.save} onClick={this.submit(1)}>保存</div>
@@ -1370,7 +1683,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             </Flex>
           </div>
           <div className={styles.service} onClick={this.service}>
-            <img src={require('@/assets/service.png')}/>
+            <img src={require('@/assets/service.png')} />
           </div>
         </div>
       )

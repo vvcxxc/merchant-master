@@ -4,128 +4,217 @@
 
 import React, { Component } from 'react';
 import styles from './index.less';
-import { WingBlank, Flex, Toast } from 'antd-mobile';
-import FiltrateLayout from '../../components/layout';
+import { WingBlank, Flex, Toast, Tabs } from 'antd-mobile';
+import FiltrateLayout from '../../components/selectLayout';
 import request from '@/services/request';
 import moment from 'moment';
 import router from 'umi/router';
 import NoData from '@/components/no-data';
+import { connect } from 'dva';
+const tabs = [
+  { title: '已核销', id: 2 },
+  { title: '未核销', id: 1 },
+  { title: '已退款', id: 3 },
+];
+export default connect(({ orderList }: any) => orderList)(
+  class OrderPage extends Component<any> {
+    state = {
+      list: [],
+      total: 0,
 
-export default class OrderPage extends Component {
-	state = {
-		list: [],
-		insignificant: 0,
+      page: 1,
+      hasMore: true,
 
-		page : 1,
-		hasMore : true,
-
-		pay_status : '' ,   // 模糊查询筛选
-		date : undefined           // 模糊查询月份
-	};
-
-
-	undetermined = [
-		{
-			id: 0,
-			label: '所有订单'
-		},
-		{ id: 1, label: '已支付' },
-		{ id: 2, label: '已使用' },
-		{ id: 3, label: '已退款' },
-		{ id: 4, label: '已过期' }
-	];
-	undetermined2 = [
-		{
-			_id: 'today',
-			label: '今日',
-			time:'today'
-		},
-		{ _id: 'yestoday', label: '昨日', time:'yestoday' },
-		{ _id: 'thisweek', label: '本周', time: 'thisweek'},
-		{ _id: 'thismonth', label: '本月', time: 'thismonth' }
-	]
-
-	componentDidMount() {
-		this.getData();
-	}
-
-	getData = async (query?: any) => {
-		Toast.loading('');
-		const res = await request({ url: 'v3/coupons/order_list', params: {
-			...query,
-			page : this.state.page
-		} });
-		Toast.hide();
-		if (res.code === 200 && res.data.length != 0) {
-			this.setState({ list: this.state.list.concat(res.data), insignificant: res.total });
-		}else if (res.code === 200 && res.data.length == 0) {
-			this.setState({ hasMore : false})
-		}
-	};
-
-	handleLayoutChange = (query: any) => {
-		this.setState({
-			page : 1,
-			hasMore : true,
-			list : [],
-			pay_status: query.hot.id || undefined,
-			type: query.hot._id,
-			date : query.time ? moment(query.time).unix() : undefined
-		},() => {
-			this.getData({
-				pay_status: query.hot.id || 0,
-				type: query.hot._id || undefined,
-				date: query.time ? moment(query.time).unix() : undefined
-			});
-		})
-
-	};
-
-	handleClickOrder = (id: any) => () => {
-		router.push({ pathname: '/order/detail', query: { id } });
-	};
+      pay_status: '2',   // 模糊查询筛选
+      begin: undefined,           // 模糊查询月份
+      end: undefined,
+      amount: '',
+      youhui_type: undefined
+    };
 
 
-	handleLoadMore = () => {
-		if(this.state.hasMore) {
-			this.setState({
-				page : this.state.page + 1
-			},() => {
-				this.getData({
-					pay_status : this.state.pay_status || undefined,
-					date : this.state.date
-				})
-			})
-		}
+    undetermined = {
+      title: '订单类型',
+      list: [
+        { id: 1, label: '现金券' },
+        { id: 0, label: '兑换券' },
+      ]
+    };
+    componentDidMount() {
+      if (this.props.list.length == 0) {
+        this.getData();
+      }
+    }
 
-	}
+    getData = async (query?: any) => {
+      // Toast.loading('');
+      let params = {}
+      let begin = moment().add('month', 0).format('YYYY-MM') + '-01'
+      let end = moment(begin).add('month', 1).add('days', -1).format('YYYY-MM-DD')
+      if (query) {
+        // 条件查询
+        if (query.begin) {
+          params = query
+        } else {
+          params = {
+            ...query,
+            begin: moment(begin).unix(),
+            end: moment(end).unix()
+          }
+        }
+      } else {
+        // 初始化
+        params = {
+          ...this.props.query,
+          begin: moment(begin).unix(),
+          end: moment(end).unix()
+        }
+      }
+      const res = await request({
+        url: 'v3/coupons/order_list',
+        params
+      });
+      Toast.hide();
+      if (res.code === 200 && res.data.length != 0) {
+        this.props.dispatch({
+          type: 'orderList/setList',
+          payload: {
+            list: [...this.props.list, ...res.data],
+            total: res.total,
+            amount: res.amount
+          }
+        })
+      } else if (res.code === 200 && res.data.length == 0) {
+        this.setState({ hasMore: false })
+        this.props.dispatch({
+          type: 'orderList/setList',
+          payload: {
+            list: this.props.list,
+            total: res.total,
+            amount: res.amount
+          }
+        })
+      }
+    };
 
-	render() {
-		const orderList = this.state.list.length ? (
-			this.state.list.map((_: any) => (
-				<Flex key={_.id} className={styles.orderItem} onClick={this.handleClickOrder(_.id)}>
-					<img src={_.small_icon} />
-					<Flex.Item className="content">
-						<div className="ordernum">{_.youhui_sn}</div>
-						<div className="time">{_.create_time}</div>
-					</Flex.Item>
-					<div className="status">{_.status_msg}</div>
-				</Flex>
-			))
-		) : (
-			<NoData type="order" />
-		);
-		return (
-			<FiltrateLayout
-				undetermined={this.undetermined}
-				undetermined2={this.undetermined2}
-				hasInsignificant={true}
-				insignificant={`${this.state.insignificant}笔交易`}
-				onChange={this.handleLayoutChange}
-			>
-				{orderList}
-				<p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
-			</FiltrateLayout>
-		);
-	}
-}
+    handleLayoutChange = (query: any) => {
+      // 先清空list列表
+      this.props.dispatch({ type: 'orderList/reset' })
+      this.props.dispatch({
+        type: 'orderList/setQuery',
+        payload: {
+          pay_status: query.tab_index,
+          youhui_type: query.hot.id,
+          begin: query.time ? moment(query.time).unix() : undefined,
+          end: query.time ? moment(query.end_time).unix() : undefined,
+          page: 1
+        }
+      })
+
+      if (!query.end_time && !query.time && !query.hot.id) {
+        // 重置
+        this.getData({
+          pay_status: query.tab_index || 2,
+          youhui_type: query.hot.id,
+          begin: query.time ? moment(query.time).unix() : undefined,
+          end: query.time ? moment(query.end_time).unix() : undefined,
+        });
+        return
+      } else {
+        // 筛选
+        this.getData({
+          pay_status: query.tab_index || 2,
+          youhui_type: query.hot.id || this.props.query.youhui_type,
+          begin: query.time ? moment(query.time).unix() : undefined,
+          end: query.time ? moment(query.end_time).unix() : undefined,
+        });
+      }
+
+
+
+    };
+
+    handleClickOrder = (id: any) => () => {
+      router.push({ pathname: '/order/detail', query: { id } });
+    };
+
+
+    handleLoadMore = () => {
+      if (this.state.hasMore) {
+        this.getData({
+          pay_status: this.props.query.pay_status,
+          begin: this.props.query.begin,
+          end: this.props.query.end,
+          page: this.props.query.page + 1,
+          youhui_type: this.props.query.youhui_type
+        })
+        this.props.dispatch({
+          type: 'orderList/setQuery',
+          payload: {
+            ...this.props.query,
+            page: this.props.query.page + 1
+          }
+        })
+      }
+
+    }
+
+    tabIndex = (index: number) => {
+      switch (index) {
+        case 1:
+          return 1
+          break
+        case 2:
+          return 0
+        case 3:
+          return 2
+      }
+    }
+
+
+
+    render() {
+      const orderList = this.props.list.length ? (
+        this.props.list.map((_: any, index) => (
+          <Flex className={styles.orderItem} key={index} onClick={this.handleClickOrder(_.id)}>
+            <img src={require('@/assets/index/in_store_return.png')} />
+            <Flex className="content">
+              <div className='content_main'>
+                <div className="ordernum">{_.youhui_sn}</div>
+                <div className="time">{_.create_time}</div>
+              </div>
+              <div className='content_right'>
+                <div className="money">{_.money}</div>
+                <div className="name">{_.youhui_type == 1 ? '现金券' : '兑换券'}</div>
+              </div>
+              <div className='right_back'>
+                <img src={require('@/assets/right_back.png')} />
+              </div>
+            </Flex>
+          </Flex>
+        ))
+      ) : (
+          <NoData type="order" />
+        );
+      const list = [{ name: '交易笔数', num: this.props.total }, { name: '交易金额', num: this.props.amount }]
+      return (
+        <FiltrateLayout
+          undetermined={this.undetermined}
+          hasInsignificant={true}
+          insignificant={list}
+          onChange={this.handleLayoutChange}
+          tab={tabs}
+          timeSelect={this.props.query.begin ? moment(this.props.query.begin * 1000).format() : undefined}
+          endTimeSelect={this.props.query.end ? moment(this.props.query.end * 1000).format() : undefined}
+          idSelect={this.props.query.youhui_type}
+          tabIn={this.tabIndex(this.props.query.pay_status)}
+        >
+          <div className={styles.orderListPage} >
+            {orderList}
+          </div>
+          <p style={{ textAlign: "center" }} onClick={this.handleLoadMore.bind(this)}>{this.state.hasMore ? "点击加载更多" : "已经到达底线了"}</p>
+        </FiltrateLayout>
+
+      );
+    }
+  })

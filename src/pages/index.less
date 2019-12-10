@@ -1,5 +1,5 @@
 .page {
-	background: #ededed;
+	background: #f7f6fb;
 	height: 100%;
 }
 .header_title {
@@ -43,40 +43,40 @@
 	}
 }
 
-.content {
-	margin-top: -72px;
-	padding-bottom: 200px;
-}
+// .content {
+// 	margin-top: -50px;
+// 	padding-bottom: 200px;
+// }
 
-.box {
-	background: #fff;
-	border-radius: 10px;
-	margin-bottom: 20px;
-	padding-bottom: 14px;
-	:global {
-		.title {
-			padding: 18px 20px;
-			font-size: 32px;
-			font-weight: bold;
-		}
-		.inside {
-			display: grid;
-			grid-template-columns: 1fr 1fr 1fr 1fr;
-			grid-row-gap: 14px;
-		}
-		.icon {
-			width: 68px;
-			height: 68px;
-			border-radius: 10px;
-		}
-		.label {
-			font-size: 26px;
-			font-weight: 400;
-			color: #666;
-			line-height: 48px;
-		}
-	}
-}
+// .box {
+// 	background: #fff;
+// 	border-radius: 10px;
+// 	margin-bottom: 20px;
+// 	padding-bottom: 14px;
+// 	:global {
+// 		.title {
+// 			padding: 18px 20px;
+// 			font-size: 32px;
+// 			font-weight: bold;
+// 		}
+// 		.inside {
+// 			display: grid;
+// 			grid-template-columns: 1fr 1fr 1fr 1fr;
+// 			grid-row-gap: 14px;
+// 		}
+// 		.icon {
+// 			width: 68px;
+// 			height: 68px;
+// 			border-radius: 10px;
+// 		}
+// 		.label {
+// 			font-size: 26px;
+// 			font-weight: 400;
+// 			color: #666;
+// 			line-height: 48px;
+// 		}
+// 	}
+// }
 
 .verification {
 	width: 96px !important;
@@ -87,7 +87,9 @@
 	right: 40px;
 	bottom: 120px;
 	font-size: 22px;
-	color: #fff;
+    color: #fff;
+    z-index: 99998;
+    box-shadow: 0 0 0.6em rgba(0, 0, 0, 0.4);
 	img {
 		width: 48px;
 		height: 48px;
@@ -101,7 +103,7 @@
 	height: 100%;
 	position: absolute;
 	background: rgba(250, 250, 250, 0.9);
-	z-index: 9999;
+	z-index: 99999;
 	:global {
 		.icons {
 			width: 100%;
@@ -122,3 +124,162 @@
 		}
 	}
 }
+
+
+.benefit_info {
+    background: url('../assets/index/banner.png') no-repeat center top;
+    background-size: 100% 100%;
+    color: #fff;
+    padding: 50px 10px 108px 10px;
+    font-size: 28px;
+    .today_income {
+        .today_income_money {
+            margin-top: 20px;
+            font-size: 48px;
+        }
+    }
+    .divider {
+        width: 1px;
+        height: 80px;
+        background: #fff;
+        border: 1px solid #fff;
+    }
+    .business_num {
+        .business_num_money{
+            margin-top: 20px;
+            font-size: 48px;
+        }
+    }
+}
+.arrow_icon {
+    width: 15px;
+    height: 15px;
+}
+
+.content {
+	margin-top: -50px;
+	// padding-bottom: 160px;
+}
+
+.box {
+	background: #fff;
+	border-radius: 10px;
+    margin-bottom: 20px;
+    .financial_statistics {
+        color: #fff;
+        font-size: 30px;
+        background: url('../assets/index/financial.png') no-repeat center top;
+        background-size: 100% 100%;
+    }
+    .fund_trends {
+        color: #fff;
+        font-size: 30px;
+        background: url('../assets/index/fund.png') no-repeat center top;
+        background-size: 100% 100%;
+    }
+    .withdraw_record {
+        color: #fff;
+        font-size: 30px;
+        background: url('../assets/index/withdraw.png') no-repeat center top;
+        background-size: 100% 100%;
+    }
+    .verification_record {
+        color: #fff;
+        font-size: 30px;
+        background: url('../assets/index/verification.png') no-repeat center top;
+        background-size: 100% 100%;
+    }
+    .ad_consume {
+        color: #fff;
+        font-size: 30px;
+        background: url('../assets/index/ad.png') no-repeat center top;
+        background-size: 100% 100%;
+    }
+    .my_profit {
+        color: #fff;
+        font-size: 30px;
+        background: url('../assets/index/profit.png') no-repeat center top;
+        background-size: 100% 100%;
+    }
+	:global {
+		.title {
+			padding: 36px 20px;
+			font-size: 32px;
+			font-weight: bold;
+		}
+		.icon {
+            width: 68px;
+			height: 68px;
+			border-radius: 10px;
+		}
+		.label {
+            font-size: 26px;
+			font-weight: 400;
+			color: #666;
+			line-height: 48px;
+        }
+        
+        .inside {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .inside>div {
+            width: 33%;
+        }
+        .item_info {
+            height: 135px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        
+        .item_detail {
+            height: 166px;
+
+        }
+        .icon_img {
+            width: 90px;
+            height: 90px;
+        }
+        .item_name {
+            margin-top: 10px;
+        }
+
+    }
+    
+}
+
+.box_ad {
+	background: #fff;
+	border-radius: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 43px;
+    .ad_management {
+        height: 166px;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+    }
+	:global {
+		.title {
+			padding: 36px 20px;
+			font-size: 32px;
+			font-weight: bold;
+		}
+        .inside {
+            display: flex;
+            flex: 1 1 1 1;
+        }
+        .icon_img {
+            width: 90px;
+            height: 90px;
+        }
+        .item_name {
+           margin-top: 10px;
+        }
+    }
+    
+}
+

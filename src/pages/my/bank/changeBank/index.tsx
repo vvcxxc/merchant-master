@@ -29,11 +29,34 @@ export default class ChangeBank extends Component {
     animating_id: false,
     /**验证码 */
     is_ok: true,
-    wait: ''
+    wait: '',
+    //旧数据 用户以前的银行卡照片
+    card_front: '',
+    card_back:''
   };
   /**
    * 改变值
   */
+  componentDidMount() {
+    // request()'api/merchant/staff/userBankinfo'
+    request({
+      url: 'api/merchant/staff/userBankInfo',
+      method: 'get'
+    }).then(res => { 
+      const { data } = res
+      this.setState({
+        bank_user: data.bank_user,
+        bank_name: data.bank_name,
+        subbranch: data.subbranch,
+        bank_card_front_img: data.bank_card_front_img.split('http://oss.tdianyi.com/')[1],
+        bank_card_back_img: data.bank_card_back_img.split('http://oss.tdianyi.com/')[1],
+        bank_info: data.bank_info,
+        card_front: data.bank_card_front_img.split('http://oss.tdianyi.com/')[1],
+        card_back:data.bank_card_back_img.split('http://oss.tdianyi.com/')[1]
+        // bank_front: [data.bank_card_back_img]
+      })
+    })
+  }
   handleUser = (e: any) => {
     this.setState({bank_user: e})
   }
@@ -163,6 +186,8 @@ export default class ChangeBank extends Component {
 
   /**更新 */
   update = () => {
+    // console.log(this.state.bank_front,'898989');
+    
     let { bank_user, bank_name, subbranch, verification, bank_info, bank_card_front_img, bank_card_back_img } = this.state;
     request({
       url: 'api/merchant/staff/add/bank',
@@ -188,6 +213,25 @@ export default class ChangeBank extends Component {
     })
   }
 
+  card_img_box = (e:any) => {
+    
+  }
+
+  //删除旧数据 的两张图片
+  deleteCardFront = () => {
+    this.setState({
+      card_front: '',
+      bank_card_front_img:''
+    })
+  }
+
+  deleteCard_back = () => {
+    this.setState({
+      card_back: '',
+      bank_card_back_img:''
+    })
+  }
+
 
   render (){
     const button =
@@ -197,18 +241,36 @@ export default class ChangeBank extends Component {
         <div className={styles.doneSend}>{this.state.wait}秒</div>
       );
     return (
-      <div style={{width: '100%', height: '100%', background: '#fff'}}>
+      <div style={{ width: '100%', height: '100%', background: '#fff' }}>
+       
         <WingBlank>
           <Flex className={styles.title}>银行卡认证</Flex>
           <Flex className={styles.bank_img}>
-            <ImagePicker
-              className={styles.bank_front}
-              multiple={false}
-              length={1}
-              selectable={this.state.bank_front.length < 1}
-              files={this.state.bank_front}
-              onChange={this.changeFront}
-            />
+            <div className={styles.card_img_box}>
+              {
+                this.state.card_front ? <div className={styles.img_box}>
+                  <div className={styles.border_error} onClick={this.deleteCardFront}>
+                    <img src={require('../../../../assets/error.png')} alt="" /></div>
+                  <img src={'http://oss.tdianyi.com/' + this.state.card_front} alt=""  /> 
+                </div>: null
+              }
+              <ImagePicker
+                className={styles.bank_front}
+                multiple={false}
+                length={1}
+                selectable={this.state.bank_front.length < 1}
+                files={this.state.bank_front}
+                onChange={this.changeFront}
+              />
+              
+            </div>
+            <div className={styles.card_img_box} >
+              {
+                this.state.card_back ? <div className={styles.img_box}> 
+                  <div onClick={this.deleteCard_back} className={styles.border_error}><img src={require('../../../../assets/error.png')} alt="" /></div>
+                  <img src={'http://oss.tdianyi.com/' + this.state.card_back} alt="" />
+                </div> : null
+              }
             <ImagePicker
               className={styles.bank_back}
               multiple={false}
@@ -217,6 +279,7 @@ export default class ChangeBank extends Component {
               files={this.state.bank_back}
               onChange={this.changeBack}
             />
+            </div>
           </Flex>
           <List className={styles.input_box}>
             <InputItem placeholder='请输入开户人姓名' value={this.state.bank_user} onChange={this.handleUser}>开户人</InputItem>

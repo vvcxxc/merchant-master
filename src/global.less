@@ -2,7 +2,7 @@ html,
 body,
 #root {
 	height: 100%;
-	background: #ededed;
+	background:#f7f6fb;
 	color: #333;
 	> .am-flexbox {
 		> .am-flexbox-item,
@@ -15,6 +15,8 @@ body,
 body {
 	margin: 0;
 }
+
+// .verification { touch-action: none; }
 
 a {
 	color: #21418a;
@@ -41,8 +43,8 @@ input {
 // }
 
 .am-tab-bar-bar .am-tab-bar-tab-icon img {
-	width: 68px;
-	height: 68px;
+	width: 60px;
+	height: 60px;
 }
 
 .am-tab-bar {
@@ -55,17 +57,14 @@ input {
 	width: 100%;
 }
 
-.am-list-item {
-	padding-left: 0 !important;
-}
 .am-list-body div:not(:last-child) .am-list-line,
 .am-list-item.am-list-item-middle .am-list-line {
 	padding-right: 0 !important;
 }
 
 .am-list-item .am-list-line .am-list-content {
-	font-size: 28px !important;
-	color: #666666 !important;
+	font-size: 30px !important;
+	color: #333333 !important;
 }
 
 .am-list-item .am-input-label {
@@ -109,4 +108,9 @@ input {
 
 .am-list-item .am-input-label.am-input-label-5{
 	width: auto !important;
+}
+
+.am-list-body {
+	background-color:transparent !important;
+	border-bottom: none !important;
 }

@@ -12,9 +12,11 @@ export default class BusinessArea extends Component {
 	state = {
 		data: {},
 		// log: {},
-		adId : null // 广告ID 
+		adId: null, // 广告ID 
+		userMoney: 0
 	};
 	componentDidMount() {
+		this.getMoney();
 		this.getDetail();
 	}
 	getDetail = async () => {
@@ -25,11 +27,20 @@ export default class BusinessArea extends Component {
 		if (res.code === 200 && res.data.id) {
 			this.setState({
 				data: res.data,
-				adId : res.data.id
+				adId: res.data.id
 			});
+			// sessionStorage.setItem("adId", res.data.id);
 			// this.setLog(res.data.id);
 		}
 	};
+	getMoney = async () => {
+		const res = await request({
+			url: "v3/finance/index"
+		});
+		this.setState({
+			userMoney: res.data.money
+		})
+	}
 	// setLog = async (id: string) => {
 	// 	const res = await request({ url: 'v3/ad_logs', params: { ad_id: id } });
 	// 	if (res.code === 200) {
@@ -38,10 +49,10 @@ export default class BusinessArea extends Component {
 	// };
 	handleFormChange = () => this.getDetail();
 	render() {
-		const form = <From editForm={this.state.data} onChange={this.handleFormChange}/>;
+		const form = <From editForm={this.state.data} onChange={this.handleFormChange} userMoney={this.state.userMoney} />;
 		// const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
-		const expenseCalendar = <ExpenseCalendar adId={this.state.adId} />;
-		const chart = <Chart adId={this.state.adId} />;
-		return <AdLayout children={[form, expenseCalendar, chart]} />;
+		const expenseCalendar = <ExpenseCalendar adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId} />;
+		const chart = <Chart adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId} />;
+		return <AdLayout children={[form, expenseCalendar, chart]} value={this.props.location.query.value} />;
 	}
 }

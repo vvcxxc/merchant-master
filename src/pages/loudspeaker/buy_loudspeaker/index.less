@@ -1,0 +1,188 @@
+.buy_speakers{
+    padding: 0 39px;
+    background-color: #fff;
+    .check_equipment {
+      display: flex;
+      justify-content: flex-end;
+      background-color: #fff;
+      :global{
+        .am-list-item .am-list-thumb:first-child {
+          margin-right: 9px;
+        }
+        .am-list-item .am-list-line .am-list-content{
+          font-size:24px !important;
+          font-family:PingFang SC;
+          font-weight:400;
+          color:rgba(102,102,102,1) !important;
+        }
+      }
+    }
+
+    :global{
+    .am-list-item {
+      padding-left: 0;
+    }
+    .am-list-item .am-list-line .am-list-extra{
+      flex-basis:73%;
+      text-align: left;
+    }
+    .am-checkbox{
+      vertical-align:top;
+    }
+    .am-list-thumb{
+      margin-right:0px ;
+    }
+    
+  }
+
+  .buy_speakers_foot{
+      width: 100vw;
+      display: flex;
+      position: fixed;
+      // bottom: 70px;
+      padding-bottom: 50px;
+      padding-top: 30px;
+      bottom: 0;
+      left:0;
+      // z-index: 2;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      div {
+        font-size: 25px;
+        font-family:PingFang SC;
+        font-weight:bold;
+        color:rgba(255,102,84,1);
+        line-height:34px;
+        margin-left: 43px;
+        span {
+          font-size:30px;
+          font-weight:bold;
+        }
+      }
+      .onclick_box {
+        margin-right: 40px;
+        padding: 30px 80px;
+        font-size:30px;
+        font-family:PingFang SC;
+        font-weight:500;
+        color:rgba(255,255,255,1);
+        background:linear-gradient(-30deg,rgba(100,74,255,1) 0%,rgba(72,109,218,1) 100%);
+        border-radius:44px;
+        box-shadow:0px 4px 20px 2px rgba(76,104,222,0.15);
+        }
+      
+    }
+  .buy_title{
+    padding-top: 49px;
+    margin-bottom: 28px;
+    font-size:32px;
+    font-family:PingFang SC;
+    font-weight:bold;
+    color:rgba(51,51,51,1);
+  }
+
+  .equipment{
+    display: flex;
+    align-items: center;
+    background:linear-gradient(0deg,rgba(72,109,218,1) 0%,rgba(100,74,255,1) 100%);
+    box-shadow:0px 2px 12px 1px rgba(0, 0, 0, 0.09);
+    border-radius:10px;
+    .equipment_left{
+      height: 108px;
+      width: 108px;
+      margin:0px  16px 0px 32px;
+      overflow: hidden;
+      img {
+        height: 100%;
+      }
+    }
+    .equipment_right {
+      height: 100%;
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      li:nth-child(1){
+        font-size:27px;
+        font-family:PingFang SC;
+        font-weight:500;
+        color:rgba(255,255,255,1);
+      }
+      li:nth-child(2){
+        font-size:28px;
+        font-family:PingFang SC;
+        font-weight:bold;
+        color:rgba(255,255,255,1);
+        span {
+          font-size: 20px;
+          font-weight: normal;
+        }
+      }
+    }
+  }
+
+    .info_title {
+      margin-top: 48px;
+      margin-bottom: 20px;
+      font-size:32px;
+      font-family:PingFang SC;
+      font-weight:bold;
+      color:rgba(51,51,51,1);
+    }
+  
+    .inputWrap {
+      display: flex;
+      justify-content: space-between;
+      height: 108px;
+      border-bottom: 1px solid rgba(238,238,238,1);
+      background-color: #fff;
+      span {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        font-size:28px;
+        font-family:PingFang SC;
+        font-weight:500;
+        color:rgba(51,51,51,1);
+        
+      }
+      input {
+        height: 100%;
+        width: 80%;
+      }
+    }
+}
+
+ul li {
+  list-style: none;
+}
+
+.picker_box {
+  position: fixed;
+  z-index: 99;
+  top:0;
+  left:0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,.4);
+}
+.picker {
+  z-index: 999;
+  left:0;
+  .picker_buttons {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 30px;
+    height: 80px;
+    font-size: 30px;
+    color: #0177FB;
+    font-weight: 500;
+    background: #f5f5f5;
+    justify-content: space-between;
+  }
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+}
