@@ -29,20 +29,21 @@ export default connect(({ ad, businessArea }: any) => ({ ad, businessArea }))(
 					type: 'businessArea/resetAllData',
 				})
 			}
-		};
+    };
 		componentWillMount() {
 			// console.log(this.props)
-			// console.log('window', window.title)
 			if (window.location.href.includes('serviceCounter')
 				|| window.location.href.includes('register?phone=')
 				|| window.location.href.includes('loudspeaker')
-				|| window.location.href.includes('finance/detail')
+        || window.location.href.includes('finance/detail')
+        || window.location.href.includes('order/detail')
 			) {
 				this.setState({
 					showNav: false
 				})
 			}
-		}
+    }
+
 
 		render() {
 			return (
