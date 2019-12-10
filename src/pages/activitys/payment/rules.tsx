@@ -128,9 +128,7 @@ export default class PaymentReturnRules extends Component<Props> {
 
 					<List.Item extra={limitInput}>使用门槛</List.Item>
 					{
-						this.props.isError && (!this.props.item.limit || String(this.props.item.limit) == '') ? <div className="errorLine" >请设置使用门槛</div> : (
-							this.props.isError && Number(this.props.item.limit) > Number(this.props.item.returnMoney) ? <div className="errorLine" >使用门槛不可高于卡券面额，请重新设置</div> : null
-						)
+						this.props.isError && (!this.props.item.limit || String(this.props.item.limit) == '') ? <div className="errorLine" >请设置使用门槛</div> : null
 					}
 
 					<List.Item extra={dateInput}>优惠券有效期</List.Item>
