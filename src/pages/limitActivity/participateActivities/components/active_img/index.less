@@ -1,0 +1,90 @@
+ .active_image {
+    width:90vw;
+    background-color: #fff;
+    position: relative;
+    border-radius: 10px;
+    &_title {
+      padding-top: 29px;
+      padding-left: 41px;
+      padding-right: 41px;
+      font-size:26px;
+      font-family:PingFang SC;
+      font-weight:400;
+      color:rgba(0,0,0,1);
+    }
+
+    .cover_img{
+      margin: 26px 0px;
+      padding: 0 41px;
+    }
+
+    .describe {
+      position: absolute;
+      bottom:9vw;
+      left: 36vw;
+      font-size:26px;
+      font-family:PingFang SC;
+      font-weight:400;
+      color:rgba(153,153,153,1);
+      pointer-events: none;
+    }
+
+    .add_active_img{
+      position: absolute;
+      top: 18vw;
+      left: 39vw;
+      height: 90px;
+      width: 90px;
+      background-image: url('../../../../../assets/join_active.png');
+      background-repeat: no-repeat;
+      background-size: 600px;
+      background-position: -395px 12px;
+      pointer-events: none;
+    }
+
+  }
+
+.upload_img :global {
+  .am-image-picker-list {
+    padding: 0;
+    margin-bottom: 0;
+	}
+	.am-flexbox-item {
+    width: 630px !important;
+    height: 217px;
+    
+    input {
+      width: 100%;
+    }
+  }
+
+  .am-image-picker-list .am-flexbox .am-flexbox-item {
+    margin-right: 0;
+  }
+
+  .am-image-picker-list .am-image-picker-upload-btn {
+    // background: url('../../../../../assets/join_active.png') no-repeat;
+    background:rgba(246,246,246,1) !important;
+    background-size: 100%;
+  }
+
+  .am-image-picker-list .am-flexbox .am-flexbox-item {
+    // overflow-y: visible;
+  }
+  .am-image-picker-list .am-flexbox .am-flexbox-item:after{
+    // padding-bottom: 0;
+  }
+
+   .am-image-picker-list .am-flexbox .am-flexbox-item {
+    
+  }
+  .am-image-picker-list{
+    height: 217px;
+    // overflow-y: visible;
+    overflow-y: hidden;
+    // overflow:hidden ;
+    
+  }
+	
+	
+}

@@ -97,6 +97,9 @@ export default connect(({ finance }: any) => finance)(
     };
 
     hanleRefresh = () => {
+      router.push({ pathname: '/limitActivity/participateActivities', query: { type: 2 } })
+      
+      return 
       //  location.reload();
       this.setState({
         page: 1,
