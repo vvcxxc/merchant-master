@@ -17,7 +17,7 @@ interface Props {
   location: any,
   dispatch: any,
   details: any,
-  Finance:any
+  Finance: any
 }
 let timer: any;
 export default connect(({ finance }: any) => finance)(
@@ -60,9 +60,9 @@ export default connect(({ finance }: any) => finance)(
       const { type, payType, date, date2, page } = this.state
       this.getOrderNumber();
 
-      if (Finance.end_time || Finance.payType || Finance.start_time || Finance.type || Finance.page>1) {
+      if (Finance.end_time || Finance.payType || Finance.start_time || Finance.type || Finance.page > 1) {
         console.log('1');
-        
+
         this.setState({
           data: Finance.ListData,
           type: Finance.type ? Finance.type : type,
@@ -76,7 +76,7 @@ export default connect(({ finance }: any) => finance)(
         })
       } else {
         console.log(2);
-        
+
         this.getData();
       }
 
@@ -87,7 +87,8 @@ export default connect(({ finance }: any) => finance)(
         url: 'v3/offline_order/new_order_number'
       })
       this.setState({
-        order_num: res
+        order_num: res,
+        isHaveData: res == 0 ? false : true
       }, () => {
         if (timer) { clearTimeout(timer) }
         timer = setTimeout(() => {
@@ -130,7 +131,7 @@ export default connect(({ finance }: any) => finance)(
 
       Toast.hide();
       if (res.data.length != 0) {
-        this.setState({ data: this.state.data.concat(res.data), transaction_number: res.transaction_number, transaction_amount: res.transaction_amount, isHaveData: res.total == 0 ? false : true });
+        this.setState({ data: this.state.data.concat(res.data), transaction_number: res.transaction_number, transaction_amount: res.transaction_amount });
 
         this.props.dispatch({
           type: 'finance/setFinance',
@@ -141,7 +142,6 @@ export default connect(({ finance }: any) => finance)(
             start_time: this.state.date,
             payType: this.state.payType,
             type: this.state.type,
-            isHaveData: res.total == 0 ? false : true,
             transaction_number: res.transaction_number,
             transaction_amount: res.transaction_amount
           }
@@ -152,7 +152,6 @@ export default connect(({ finance }: any) => finance)(
           hasMore: false,
           transaction_number: res.transaction_number,
           transaction_amount: res.transaction_amount,
-          isHaveData: res.total == 0 ? false : true
         });
       }
     };
@@ -213,7 +212,7 @@ export default connect(({ finance }: any) => finance)(
                 </Flex.Item>
                 <div className="content-right">
                   <Flex.Item className="content">
-                    <div className="financemoney">{_.amount}</div>
+                    <div className="financemoney">{_.store_amount}</div>
                     <div className="financestatus">二维码收款</div>
                   </Flex.Item>
                   <Icon type="right" color="#bcbcbc" />
@@ -234,8 +233,8 @@ export default connect(({ finance }: any) => finance)(
           undetermined2={this.undetermined2}
           idSelect={type ? type : undefined}
           _idSelect={payType ? payType : undefined}
-          timeSelect={start_time ? start_time:undefined}
-          endTimeSelect={end_time ? end_time:undefined}
+          timeSelect={start_time ? start_time : undefined}
+          endTimeSelect={end_time ? end_time : undefined}
           hasInsignificant={true}
           insignificant={list}
           onChange={this.handleChange}
@@ -251,7 +250,7 @@ export default connect(({ finance }: any) => finance)(
               </div>
             ) : ""
           }
-          <div className={styles.data_wrap}>
+          <div className={this.state.isHaveData ? styles.data_wrap : ""}>
             {financeList}
           </div>
         </FiltrateLayout>
