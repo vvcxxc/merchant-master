@@ -112,7 +112,7 @@ export default class PaymentReturnRules extends Component<Props> {
 					<List.Item extra={moneyInput} >返券条件</List.Item>
 					{
 						this.props.isError && (!this.props.item.money || String(this.props.item.money) == '') ? <div className="errorLine" >请输入市场价格</div> : (
-							this.props.isError && Number(this.props.item.money) <= 0 ? <div className="errorLine" >满减活动的金额设置必须大于0元</div> : null
+							this.props.isError && Number(this.props.item.money) <= 0 ? <div className="errorLine" >支付返券活动的金额设置必须大于0元</div> : null
 						)
 					}
 
