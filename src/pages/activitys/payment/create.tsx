@@ -52,11 +52,11 @@ export default class CreatePaymentReturn extends Component {
 		for (let i = 0; i < rulesList.length; i++) {
 			if (!rulesList[i].day ||
 				rulesList[i].day == "0" ||
-				Number(rulesList[i].day)<=0||
+				Number(rulesList[i].day) <= 0 ||
 				!rulesList[i].limit ||
 				// rulesList[i].limit == "0" ||
 				!rulesList[i].money ||
-				Number(rulesList[i].money)  < 1  ||
+				Number(rulesList[i].money) <= 0 ||
 				!rulesList[i].num ||
 				rulesList[i].num == "0" ||
 				!rulesList[i].returnMoney ||
