@@ -61,8 +61,6 @@ export default connect(({ finance }: any) => finance)(
       this.getOrderNumber();
 
       if (Finance.end_time || Finance.payType || Finance.start_time || Finance.type || Finance.page > 1) {
-        console.log('1');
-
         this.setState({
           data: Finance.ListData,
           type: Finance.type ? Finance.type : type,
@@ -75,8 +73,6 @@ export default connect(({ finance }: any) => finance)(
           transaction_amount: Finance.transaction_amount
         })
       } else {
-        console.log(2);
-
         this.getData();
       }
 
@@ -98,10 +94,6 @@ export default connect(({ finance }: any) => finance)(
     };
 
     hanleRefresh = () => {
-      router.push({ pathname: '/limitActivity/participateActivities', query: { type: 2 } })
-      
-      return 
-      //  location.reload();
       this.setState({
         page: 1,
         hasMore: true,
@@ -240,9 +232,6 @@ export default connect(({ finance }: any) => finance)(
           onChange={this.handleChange}
         >
           {
-
-
-
             this.state.isHaveData ? (
               <div className={styles.notice}>
                 <img src={require('@/assets/notice.png')} alt="" />

@@ -23,15 +23,26 @@
   }
 
   .foot {
-    position: fixed;
-    bottom: 40px;
-    display: flex;
+    padding-bottom: 40px;
     span {
-      background-image: url('../../../assets/join_active.png');
-      background-size:  460px;
-      background-repeat: no-repeat;
-      background-position:-150px -13px ;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width:672px;
+      height:85px;
+      border:2px solid rgba(91,162,250,1);
+      border-radius:43px;
     }
+
+    span:nth-child(1){
+      margin-bottom: 30px;
+      color:rgba(255,255,255,1);
+      background:rgba(91,162,250,1);
+    }
+    span:nth-child(2){
+      color:#6AA4F6;
+    }
+
   }
 
 }

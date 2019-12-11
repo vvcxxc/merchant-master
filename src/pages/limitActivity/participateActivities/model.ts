@@ -17,7 +17,8 @@ export interface participateActive{
   shop_number: string | number,
   shop_useRules: string | number,
   /* 活动图片 */
-  imgUrl:Array<any>
+  imgUrl: Array<any>,
+  description:Array<any>
 }
 
 const model: Model = {
@@ -39,7 +40,8 @@ const model: Model = {
     shop_number: '',
     shop_useRules: '', 
     /**活动图片 */
-    imgUrl:[]
+    imgUrl: [],
+    description:[]//使用须知数据
   },
   reducers: {
     setParticipateActive(state, { payload }) {
