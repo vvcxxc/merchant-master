@@ -62,7 +62,7 @@ export default class MapPage extends Component<Props> {
 
   componentDidMount() {
     axios({
-      url: 'http://test.api.tdianyi.com/v3/district',
+      url: 'http://api.tdianyi.com/v3/district',
       method: 'get'
     }).then(res => {
       this.setState({

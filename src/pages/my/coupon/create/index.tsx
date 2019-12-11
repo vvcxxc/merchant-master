@@ -114,9 +114,9 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					)
 				)
 
-				total.doorsill = !totalFee && totalFee !== 0 ? '请设置使用门槛' : (
-					totalFee > returnMoney ? '使用门槛不可高于卡券面额，请重新设置' : ''//如果returnMoney没有值？
-				)
+				// total.doorsill = !totalFee && totalFee !== 0 ? '请设置使用门槛' : (
+				// 	totalFee > returnMoney ? '使用门槛不可高于卡券面额，请重新设置' : ''//如果returnMoney没有值？
+				// )
 
 				total.validity = !Validity && Validity !== 0 ? '请设置优惠券有效期' : (
 					Validity <= 0 ? '优惠券有效期必须大于0' : ''

@@ -142,15 +142,15 @@ export default connect()(
 						</WingBlank>
 					</div> */}
 					<div className={styles.head_info_content}>
-						<Flex justify="between" className={styles.head_info_wrap}>
-							<div className={styles.head_info}>
+						<Flex justify="between" className={styles.head_info_wrap} align='center'>
+							<Flex className={styles.head_info} align='center'>
 								<img src={this.state.info.preview} alt="" className="userImg" />
 								<div className={styles.user_info}>
 									<div className={styles.user_name}>{this.state.info.name}</div>
-									<div className={styles.last_login_time}>上次登录前天</div>
+									{/* <div className={styles.last_login_time}>上次登录前天</div> */}
 								</div>
-							</div>
-							<img src={require('@/assets/my/arrow_icon.png')} alt="" className={styles.arrow_icon} />
+							</Flex>
+							{/* <img src={require('@/assets/my/arrow_icon.png')} alt="" className={styles.arrow_icon} /> */}
 						</Flex>
 						<div className={styles.user_money}>
 							<div className={styles.count_balance}>
@@ -230,7 +230,7 @@ export default connect()(
 						>
 							抽奖核销记录
 						</Item>
-						<Item
+						{/* <Item
 							arrow="horizontal"
 							thumb={require('@/assets/my/cloud_voice_box.png')}
 							multipleLine
@@ -238,7 +238,7 @@ export default connect()(
 							className={styles.my_items}
 						>
 							我的云音箱
-						</Item>
+						</Item> */}
 						{signCode}
 					</List>
 					<List className={styles.my_info_items}>
