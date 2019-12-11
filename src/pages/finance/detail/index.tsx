@@ -1,3 +1,4 @@
+/**title: 交易明细 */
 import React, { Component } from 'react'
 import styles from './index.less'
 import request from '@/services/request';

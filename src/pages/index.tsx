@@ -92,25 +92,25 @@ export default connect(({ app }: any) => app)(
             } else {
                 url = location.href;
             }
-            // request({
-            //     url: 'wechat/getShareSign',
-            //     method: 'get',
-            //     params: {
-            //         url
-            //     }
-            // }).then(res => {
-            //     let _this = this;
-            //     wx.config({
-            //         debug: false,
-            //         appId: res.appId,
-            //         timestamp: res.timestamp,
-            //         nonceStr: res.nonceStr,
-            //         signature: res.signature,
-            //         jsApiList: ['getLocation', 'openLocation', 'scanQRCode']
-            //     });
-            // }).catch(err => {
-            //     console.log(err)
-            // });
+            request({
+                url: 'wechat/getShareSign',
+                method: 'get',
+                params: {
+                    url
+                }
+            }).then(res => {
+                let _this = this;
+                wx.config({
+                    debug: false,
+                    appId: res.appId,
+                    timestamp: res.timestamp,
+                    nonceStr: res.nonceStr,
+                    signature: res.signature,
+                    jsApiList: ['getLocation', 'openLocation', 'scanQRCode']
+                });
+            }).catch(err => {
+                console.log(err)
+            });
         }
 
         componentDidMount() {

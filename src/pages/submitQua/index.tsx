@@ -1133,9 +1133,9 @@ export default connect(({ submitQua }: any) => submitQua)(
       }
 
       // 营业执照注册号
-      if (!(/^[a-zA-Z0-9]{15}$/.test(three_certs_in_one_no))) {
+      if (!(/^[a-zA-Z0-9]{1,18}$/.test(three_certs_in_one_no))) {
         this.setState({
-          ToastTipsBusinessNo: "请输入正确15位营业执照号码"
+          ToastTipsBusinessNo: "请输入正确18位营业执照号码"
         })
       }
 
@@ -1194,21 +1194,21 @@ export default connect(({ submitQua }: any) => submitQua)(
         ToastTipsCornBusName,
         ToastTipsLegalName,
         ToastTipsBusinessDate
-      } = this.state;      
+      } = this.state;
       if(
         ToastTipsLegalIDImg ||
-        ToastTipsContactName || 
+        ToastTipsContactName ||
         ToastTipsLegalIdNo ||
-        ToastTipsIDDate || 
+        ToastTipsIDDate ||
         ToastTipsBankCardImg ||
-        ToastTipsBankAccountName || 
-        ToastTipsBankAccountNo || 
-        ToastTipsSettleBank || 
-        ToastTipsBankName || 
-        ToastTipsBusinessImg || 
-        ToastTipsBusinessNo || 
-        ToastTipsCornBusName || 
-        ToastTipsLegalName || 
+        ToastTipsBankAccountName ||
+        ToastTipsBankAccountNo ||
+        ToastTipsSettleBank ||
+        ToastTipsBankName ||
+        ToastTipsBusinessImg ||
+        ToastTipsBusinessNo ||
+        ToastTipsCornBusName ||
+        ToastTipsLegalName ||
         ToastTipsBusinessDate
       ) return;
       let data = {

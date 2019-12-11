@@ -5,6 +5,7 @@ import styles from './index.less';
 import { WingBlank, Flex, InputItem, Button, Toast } from 'antd-mobile';
 import request from '@/services/request';
 import Cookies from 'js-cookie';
+import router from 'umi/router';
 declare global {
   interface Window { open_id: string; pay_url: string; Url: string }
 }
@@ -46,7 +47,9 @@ export default class Rechange extends Component {
             ``;
             if (res.err_msg == 'get_brand_wcpay_request:ok') {
               // '支付成功'
-              Toast.success('充值成功', 1.5);
+              Toast.success('充值成功', 1.5,()=>{
+                router.push('/my')
+              });
             } else {
               Toast.fail('充值失败', 1.5);
             }
