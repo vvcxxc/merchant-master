@@ -147,6 +147,7 @@ export default class ForgetPassword extends Component {
               placeholder="请输入验证码"
               onChange={this.handleCode}
               value={this.state.code}
+              maxLength={6}
               clear
             />
             {button}
