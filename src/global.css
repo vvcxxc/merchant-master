@@ -48,7 +48,8 @@ input {
 }
 .am-list-body div:not(:last-child) .am-list-line,
 .am-list-item.am-list-item-middle .am-list-line {
-  padding-right: 0 !important;
+  padding-right: 20px !important;
+  box-sizing: border-box;
 }
 .am-list-item .am-list-line .am-list-content {
   font-size: 28px !important;
