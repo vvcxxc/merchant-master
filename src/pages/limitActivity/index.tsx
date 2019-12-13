@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Tabs, WhiteSpace, Badge, Toast } from 'antd-mobile';
 import request from '@/services/request';
 import Styles from './index.less';
+import router from 'umi/router';
 
 const tabs = [
     { title: "招募中" },
@@ -46,7 +47,12 @@ class LimitActivity extends Component {
             Toast.hide();
         })
     }
-
+    goToActivityList = (id: Number | String) => {
+        router.push({
+            pathname: '/limitActivity/activityList',
+            query: { id: id }
+        })
+    }
     render() {
         return (
             <div className={Styles.limit_activity_wrap}>
@@ -62,7 +68,7 @@ class LimitActivity extends Component {
 
                     <div className={Styles.tab_recruit_wrap}>
                         {
-                            this.state.data1.map((item: any, index: any) => {
+                            this.state.data1.length > 0 ? this.state.data1.map((item: any, index: any) => {
                                 return (
                                     <div className={Styles.content_wrap} key={item.id}>
                                         <div className={Styles.content_header}>
@@ -74,17 +80,17 @@ class LimitActivity extends Component {
                                         </div>
                                         <div className={Styles.content_info}>
                                             <div className={Styles.content_tips}>您已发布{item.youhui_count}项优化信息</div>
-                                            <div className={Styles.content_btn}>{item.youhui_count == 0 ? '立即参与' : '查看'}</div>
+                                            <div className={Styles.content_btn} onClick={this.goToActivityList.bind(this, item.id)}>{item.youhui_count == 0 ? '立即参与' : '查看'}</div>
                                         </div>
                                     </div>
                                 )
-                            })
+                            }) : <div style={{ textAlign: 'center' }}>暂无数据</div>
                         }
                     </div>
 
                     <div className={Styles.tab_complete_wrap}>
                         {
-                            this.state.data0.map((item: any, index: any) => {
+                            this.state.data0.length > 0 ? this.state.data0.map((item: any, index: any) => {
                                 return (
                                     <div className={Styles.content_wrap} key={item.id}>
                                         <div className={Styles.complete_container}>
@@ -99,18 +105,18 @@ class LimitActivity extends Component {
                                         <div className={Styles.content_info}>
                                             <div className={Styles.content_tips}>您已发布{item.youhui_count}项优化信息</div>
                                             {
-                                                item.youhui_count != 0 ? <div className={Styles.content_btn}>查看</div> : null
+                                                item.youhui_count != 0 ? <div className={Styles.content_btn} onClick={this.goToActivityList.bind(this, item.id)}>查看</div> : null
                                             }
                                         </div>
                                     </div>
                                 )
-                            })
+                            }) : <div style={{ textAlign: 'center' }}>暂无数据</div>
                         }
                     </div>
 
                     <div className={Styles.tab_partake_wrap}>
                         {
-                            this.state.data2.map((item: any, index: any) => {
+                            this.state.data2.length > 0 ? this.state.data2.map((item: any, index: any) => {
                                 return (
                                     <div className={Styles.content_wrap} key={item.id}>
                                         <div className={Styles.partake_container}>
@@ -127,14 +133,11 @@ class LimitActivity extends Component {
                                         </div>
                                     </div>
                                 )
-                            })
+                            }) : <div style={{ textAlign: 'center' }}>暂无数据</div>
                         }
                     </div>
 
                 </Tabs>
-                {
-                    this.state.data.length == 0 ? <div style={{textAlign:"center"}}>暂无内容~</div> : null
-                }
             </div>
         )
     }
