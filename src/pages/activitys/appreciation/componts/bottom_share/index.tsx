@@ -111,7 +111,7 @@ export default class BottomShare extends Component<Props>{
             title:  meta.title,
             desc: meta.text,
             // link: Url+'#/pages/activity/pages/detail/detail?id=' + meta.id + '&type=5&activity_id=' + meta.activity_id + '&gift_id=' + meta.gift_id,
-            link: Url+'#/pages/activity/group/index?id='+meta.id+'&type=5&gift_id='+meta.gift_id+'&activity_id='+ meta.activity_id,
+            link: Url+'pages/activity/group/index?id='+meta.id+'&type=5&gift_id='+meta.gift_id+'&activity_id='+ meta.activity_id,
             imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
             success: function () {
               //成功后触发
@@ -125,7 +125,7 @@ export default class BottomShare extends Component<Props>{
             title: meta.title,
             desc: meta.text,
             // link: Url +'#/pages/activity/pages/detail/detail?id=' + meta.id + '&type=1&activity_id=' + meta.activity_id + '&gift_id=' + meta.gift_id,
-            link: Url +'#/pages/activity/appreciation/index?id='+meta.id+'&type=1&gift_id='+meta.gift_id+'&activity_id='+meta.activity_id,
+            link: Url +'pages/activity/appreciation/index?id='+meta.id+'&type=1&gift_id='+meta.gift_id+'&activity_id='+meta.activity_id,
             imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
             success: function () {
               //成功后触发
@@ -139,7 +139,7 @@ export default class BottomShare extends Component<Props>{
           wx.updateAppMessageShareData({
             title:  meta.storeName + '正在派发' + meta.return_money+'元兑换券，手慢无，速抢！',
             desc: '拼手速的时候来了，超值兑换券限量抢购，手慢就没了！速速戳进来一起领取！',
-            link: Url + '#/business-pages/ticket-buy/index?id=' + meta.id,
+            link: Url + 'business-pages/ticket-buy/index?id=' + meta.id,
             imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
             success: function () {
               //成功后触发
@@ -151,7 +151,7 @@ export default class BottomShare extends Component<Props>{
             wx.updateAppMessageShareData({
               title: '嘘，这里有一张' + meta.return_money+'元现金券，悄悄领了，别声张！',
               desc:  meta.storeName+'又搞活动啦，是好友我才偷偷告诉你，现金券数量有限，领券要快姿势要帅！',
-              link: Url + '#/business-pages/ticket-buy/index?id=' + meta.id,
+              link: Url + 'business-pages/ticket-buy/index?id=' + meta.id,
               imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
               success: function () {
                 //成功后触发
