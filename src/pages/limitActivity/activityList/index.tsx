@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import router from 'umi/router';
-import {Flex} from 'antd-mobile'
+import { Flex } from 'antd-mobile'
 import Item from './item'
 import request from '@/services/request';
 import styles from './index.less';
@@ -13,7 +13,7 @@ export default class ActivityList extends Component {
     is_model: false, // 显示弹框
     page: 0,
     hint: '',//提示
-    recruit_activity_id:7
+    recruit_activity_id: 7
   }
 
   componentDidMount() {
@@ -26,15 +26,15 @@ export default class ActivityList extends Component {
       url: 'api/merchant/youhui/cardVoucherActivityList',
       method: 'get',
       params: {
-        recruit_activity_id: recruit_activity_id,
-        page: page+1
+        recruit_activity_id: this.props.location.query.id,
+        page: page + 1
       }
     }).then(res => {
       const { code, data } = res
       switch (code) {
         case 200:
           page ? this.setState({ list: [...this.state.list, ...data.data.data] }) : this.setState({ list: data.data.data, max_num: data.card_num, num: data.data.total })
-          page ? !data.data.data.length && this.setState({ hint: '无更多数据' }) : this.state.list.length &&  this.setState({ hint: '点击加载更多' })
+          page ? !data.data.data.length && this.setState({ hint: '无更多数据' }) : this.state.list.length && this.setState({ hint: '点击加载更多' })
           break;
 
         default:
@@ -46,12 +46,12 @@ export default class ActivityList extends Component {
 
   // 发布活动
   issue = () => {
-    const { num, max_num, recruit_activity_id} = this.state
-    if (num >= max_num){
-      this.setState({is_model: true})
+    const { num, max_num, recruit_activity_id } = this.state
+    if (num >= max_num) {
+      this.setState({ is_model: true })
     } else {
       //跳转发布卡券页面
-      router.push({ pathname: '/limitActivity/participateActivities', query: {  recruit_activity_id } })
+      router.push({ pathname: '/limitActivity/participateActivities', query: { recruit_activity_id } })
     }
   }
 
@@ -68,7 +68,7 @@ export default class ActivityList extends Component {
         <div className={styles.model_main}>
           <div className={styles.model_title}>温馨提示</div>
           <div className={styles.model_text}>本次活动，每个商家最多可发布{max_num}}张卡券</div>
-          <div className={styles.model_bottom} onClick={()=>this.setState({is_model: false})}>确定</div>
+          <div className={styles.model_bottom} onClick={() => this.setState({ is_model: false })}>确定</div>
         </div>
       </div>
     )
@@ -82,23 +82,23 @@ export default class ActivityList extends Component {
               </Flex>
               <div className={styles.list}>
                 {
-                  list && list.map((item:any) => {
-                    return <Item info={item} key={item.id}/>
+                  list && list.map((item: any) => {
+                    return <Item info={item} key={item.id} />
                   })
                 }
               </div>
             </div>
           ) : (
-            <div className={styles.no_data}>
-              <div className={styles.no_data_main}>
-                <img src={require('@/assets/no-coupon.png')}/>
-                <div>您还未发布卡券，赶紧添加吧!</div>
+              <div className={styles.no_data}>
+                <div className={styles.no_data_main}>
+                  <img src={require('@/assets/no-coupon.png')} />
+                  <div>您还未发布卡券，赶紧添加吧!</div>
+                </div>
               </div>
-            </div>
-          )
+            )
         }
         {
-           <div className={styles.more_data} onClick={this.getMoreData} >{hint}</div>
+          <div className={styles.more_data} onClick={this.getMoreData} >{hint}</div>
         }
         {is_model ? Model : null}
         <div className={styles.issueBox}>
@@ -108,7 +108,7 @@ export default class ActivityList extends Component {
               发布我的卡券
           </Flex>
           </div>
-       </div>
+        </div>
       </div>
     )
   }

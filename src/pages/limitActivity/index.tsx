@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Tabs, WhiteSpace, Badge, Toast } from 'antd-mobile';
 import request from '@/services/request';
 import Styles from './index.less';
+import router from 'umi/router';
 
 const tabs = [
     { title: "招募中" },
@@ -46,7 +47,12 @@ class LimitActivity extends Component {
             Toast.hide();
         })
     }
-
+    goToActivityList = (id: Number | String) => {
+        router.push({
+            pathname: '/limitActivity/activityList',
+            query: { id: id }
+        })
+    }
     render() {
         return (
             <div className={Styles.limit_activity_wrap}>
@@ -74,7 +80,7 @@ class LimitActivity extends Component {
                                         </div>
                                         <div className={Styles.content_info}>
                                             <div className={Styles.content_tips}>您已发布{item.youhui_count}项优化信息</div>
-                                            <div className={Styles.content_btn}>{item.youhui_count == 0 ? '立即参与' : '查看'}</div>
+                                            <div className={Styles.content_btn} onClick={this.goToActivityList.bind(this, item.id)}>{item.youhui_count == 0 ? '立即参与' : '查看'}</div>
                                         </div>
                                     </div>
                                 )
@@ -99,7 +105,7 @@ class LimitActivity extends Component {
                                         <div className={Styles.content_info}>
                                             <div className={Styles.content_tips}>您已发布{item.youhui_count}项优化信息</div>
                                             {
-                                                item.youhui_count != 0 ? <div className={Styles.content_btn}>查看</div> : null
+                                                item.youhui_count != 0 ? <div className={Styles.content_btn} onClick={this.goToActivityList.bind(this, item.id)}>查看</div> : null
                                             }
                                         </div>
                                     </div>
@@ -133,7 +139,7 @@ class LimitActivity extends Component {
 
                 </Tabs>
                 {
-                    this.state.data.length == 0 ? <div style={{textAlign:"center"}}>暂无内容~</div> : null
+                    this.state.data.length == 0 ? <div style={{ textAlign: "center" }}>暂无内容~</div> : null
                 }
             </div>
         )
