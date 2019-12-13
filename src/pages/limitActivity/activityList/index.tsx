@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import router from 'umi/router';
 import {Flex} from 'antd-mobile'
 import Item from './item'
+import { Toast } from 'antd-mobile';
 import request from '@/services/request';
 import styles from './index.less';
 
@@ -20,6 +21,7 @@ export default class ActivityList extends Component {
     this.getListData()
   }
 
+  //请求列表数据
   getListData = () => {
     const { page, recruit_activity_id } = this.state
     request({
@@ -60,6 +62,29 @@ export default class ActivityList extends Component {
     this.setState({ page: this.state.page + 1 }, this.getListData)
   }
 
+  //删除数据
+  deleteListData = (youhui_id: Number | string) => {
+    request({
+      url: 'api/merchant/youhui/delCardVoucherActivity',
+      method: 'post',
+      data: {
+        youhui_id
+      }
+    }).then(res => {
+      const { code, data, message } = res
+      switch (code) {
+        case 200:
+          this.setState({ list: this.state.list.filter((item: any) => item.id !== youhui_id) })
+          Toast.success(message)
+          break;
+        default:
+          Toast.success(message)
+          break;
+      }
+    })
+
+  }
+
 
   render() {
     const { is_model, list, max_num, hint } = this.state
@@ -83,7 +108,7 @@ export default class ActivityList extends Component {
               <div className={styles.list}>
                 {
                   list && list.map((item:any) => {
-                    return <Item info={item} key={item.id}/>
+                    return <Item info={item} key={item.id} delete={this.deleteListData}/>
                   })
                 }
               </div>

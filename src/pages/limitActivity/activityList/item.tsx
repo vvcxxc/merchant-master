@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
+import router from 'umi/router';
 import styles from './index.less'
 import { Flex } from 'antd-mobile'
 
@@ -10,10 +11,12 @@ interface dataType {
   publish_wait: Number | string,//0:待审核 1:已审核 2:拒绝
   already_distributed: Number | string,//已派发
   already_used: Number | string,//已使用
+ 
 }
 
  declare interface props {
-  info: dataType
+   info: dataType,
+   delete: (id: Number|string) => void
 }
 
 const youhuiType = {
@@ -21,14 +24,21 @@ const youhuiType = {
   [1]: '现金券'
 }
 
-const publishType = {
-  [0]: '待审核',
-  [1]: '已审核',
-  [2]:'拒绝'
+const publishType:any = {
+  0: '待审核',
+  1: '已审核',
+  2:'拒绝'
 }
 
 export default function Item(props: props) {
   const { info } = props
+
+  // const deleteListData = (e:any) => {
+  //   console.log(e.target.alt, 'gbibibibi');
+  //   this.props.delete()
+    
+
+  // }
 
   return (
     <Flex className={styles.item}>
@@ -46,11 +56,15 @@ export default function Item(props: props) {
                 <span>已使用：{info.already_used}</span>
               </div>
             </div>
-            <div className={styles.cancel}><img src={require('../../../assets/quxiao.png')}/></div>
+            <div className={styles.cancel}><img onClick={() => {
+              props.delete(info.id)
+            }} src={require('../../../assets/quxiao.png')}/></div>
           </Flex>
         </div>
         <Flex justify='end'>
-          <Flex className={styles.editor} justify='center'>编辑</Flex>
+          <Flex className={styles.editor} justify='center' onClick={() => {
+            router.push({ pathname: '/limitActivity/participateActivities', query: { recruit_activity_id:7, youhui_id:info.id } })
+          }}>编辑</Flex>
           <Flex className={styles.browse} justify='center'>浏览</Flex>
         </Flex>
       </div>

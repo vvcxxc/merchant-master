@@ -26,6 +26,17 @@ export default connect(({ participateActive }: any) => participateActive)(
 
     componentDidMount() {
       
+      
+      if (this.props.location.query.youhui_id) {
+        this.updateListData()
+      } else {
+        this.addListData()
+      }
+
+    }
+
+    //添加数据 
+    addListData = () => {
       request({
         url: 'api/merchant/youhui/addCardVoucherActivity',
         method: 'get',
@@ -34,8 +45,6 @@ export default connect(({ participateActive }: any) => participateActive)(
         }
       }).then((res) => {
         const { code, data } = res
-        console.log(data);
-        
         this.setState({
           rules: data.rules,
           start_date: data.start_date,
@@ -43,10 +52,33 @@ export default connect(({ participateActive }: any) => participateActive)(
           listImg: data.cover_image
         })
       })
-      
+
       const { cardVoucherType } = this.props
       cardVoucherType && this.setState({ cardVoucherType })
+    }
 
+    updateListData = () => {
+      request({
+        url: 'api/merchant/youhui/editCardVoucherActivity',
+        method: 'get',
+        params: {
+          recruit_activity_id: this.props.location.query.recruit_activity_id,
+          youhui_id: this.props.location.query.youhui_id
+        }
+      }).then((res) => {
+        const { code, data } = res
+        console.log(data,'data');
+        
+        // this.setState({
+        //   rules: data.rules,
+        //   start_date: data.start_date,
+        //   end_date: data.end_date,
+        //   listImg: data.cover_image
+        // })
+      })
+
+      const { cardVoucherType } = this.props
+      cardVoucherType && this.setState({ cardVoucherType })
     }
 
     // 卡券类型切换
@@ -78,36 +110,7 @@ export default connect(({ participateActive }: any) => participateActive)(
       // router.push({ pathname: '/limitActivity/activityList' })
     }
 
-    //提交活动
-    addActive = () => {
-      request({
-        url: 'api/merchant/youhui/subAddCardVoucherActivity',
-        method: 'post',
-        params: {
-          recruit_activity_id: this.props.location.query.recruit_activity_id,
-          // coupons_type,//	卷类型：兑换卷0/ 现金卷1	
-          // coupons_name,//	优惠卷名称	
-          // description,//	使用须知	 
-          // image,//	活动图片首张图		
-          // image_url,//	图片详情	
-          // return_money,//	市场价	
-          // total_num,//	发放数量		
-          // validity,//	有效期	   	
-          // total_fee,//	使用门槛
-        }
-      }).then((res) => {
-        const { code, data } = res
-        console.log(data);
-
-        this.setState({
-          rules: data.rules,
-          start_date: data.start_date,
-          end_date: data.end_date,
-          listImg: data.cover_image
-        })
-      })
-      
-    }
+   
 
     render() {
       const { cardVoucherType, rules, start_date, end_date, listImg,submit } = this.state

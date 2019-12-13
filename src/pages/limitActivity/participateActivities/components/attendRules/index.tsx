@@ -11,7 +11,7 @@ export default function AttendRules(data: rulesType) {
         <div>参与规则</div>
         <ul>
           {
-          data && data.data.map((item:any,index:number) => {
+          data.data && data.data.map((item:any,index:number) => {
               return <li key={item}>{index+1}.{item}</li>
             })
           }

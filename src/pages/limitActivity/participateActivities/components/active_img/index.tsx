@@ -13,10 +13,24 @@ export default connect(({ participateActive }: any) => participateActive)(
     componentDidMount() {
       const { imgUrl } = this.props.shop
       if (this.props.listImg) {
-        this.setState({ imgUrl: this.props.listImg})
+        this.setState({ imgUrl: this.props.listImg })
+        this.props.dispatch({
+          type: 'participateActive/setShop',
+          payload: {
+            imgUrl: this.props.listImg
+          }
+        });
       }
       console.log(this.props,'898989');
-      if (imgUrl && imgUrl.length) this.setState({ imgUrl})
+      if (imgUrl && imgUrl.length) {
+        this.setState({ imgUrl })
+        this.props.dispatch({
+          type: 'participateActive/setShop',
+          payload: {
+            imgUrl
+          }
+        });
+      }
     }
 
   //此函数负责 显示 上传 删除 

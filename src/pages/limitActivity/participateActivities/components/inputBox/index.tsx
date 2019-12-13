@@ -37,13 +37,10 @@ export default connect(({ participateActive }: any) => participateActive)(
 
     componentWillReceiveProps(value1: any, value2: any) {
       if (value1.sumbit) {
-        this.setState({ sumbit: true})
-        // if (!this.state.sumbit) {
-          this.addActive()
-        // }
-        // console.log(1);
+        console.log(1);
         
-        // this.setState({ sumbit:true})
+        this.setState({ sumbit: true})
+          this.addActive()
       } else {
         
       }
@@ -171,42 +168,37 @@ export default connect(({ participateActive }: any) => participateActive)(
 
     //提交活动
     addActive = () => {
-      this.setState({ sumbit: false })
-      const { cash_denomination, cash_threshold, cash_validTime, cash_number, cardVoucherType} = this.state
-      !cash_denomination ? Toast.fail('请输入卡券面额') : null
-      !cash_threshold ? Toast.fail('请输入卡券使用门槛') : null
-      !cash_validTime ? Toast.fail('请输入卡券有效期') : null
-      !cash_number ? Toast.fail('请输入卡券数量') : null
-
-      if (!cash_denomination || cash_threshold || !cash_validTime || !cash_number) return 
-
+      const { cash_denomination, cash_threshold, cash_validTime, cash_number, cardVoucherType, shop_name, shop_originalCost, shop_validTime, shop_number} = this.state
+      // !cash_denomination ? Toast.fail('请输入卡券面额') : null
+      // !cash_threshold ? Toast.fail('请输入卡券使用门槛') : null
+      // !cash_validTime ? Toast.fail('请输入卡券有效期') : null
+      // !cash_number ? Toast.fail('请输入卡券数量') : null
+      // if (!cash_denomination || cash_threshold || !cash_validTime || !cash_number) return 
       let meta = {
-        coupons_type: !cardVoucherType?1:0 ,
+        coupons_type: 1 ,
         return_money: cash_denomination ,
         total_fee: cash_threshold ,
         validity: cash_validTime,
         total_num: cash_number
       }
 
-      console.log();
-      
-      
-      
+      let meta2 = {
+        coupons_type: 0,
+        coupons_name: shop_name,//优惠卷名称
+        return_money: shop_originalCost,//商品原价
+        validity: shop_validTime,//有效期
+        total_num:shop_number,//卡券数量
+        description: this.props.shop.description,
+        image: this.props.shop.imgUrl,
+        image_url: this.props.shop.imgUrl
+      }
+      let data = !cardVoucherType ? meta : meta2 
       request({
         url: 'api/merchant/youhui/subAddCardVoucherActivity',
         method: 'post',
-        params: {
+        data: {
           recruit_activity_id:7,
-          ...meta
-          // coupons_type,//	卷类型：兑换卷0/ 现金卷1 false	
-          // coupons_name,//	优惠卷名称	
-          // description,//	使用须知	 
-          // image,//	活动图片首张图		
-          // image_url,//	图片详情	
-          // return_money,//	市场价	
-          // total_num,//	卡券数量		
-          // validity,//	有效期	   	
-          // total_fee,//	使用门槛
+          ...data
         }
       }).then((res) => {
         const { code, data, message } = res
@@ -219,11 +211,9 @@ export default connect(({ participateActive }: any) => participateActive)(
           })
           Toast.success(message)
         } else {
-          console.log(11);
           Toast.fail(message)
         }
 
-        
       })
 
     }
