@@ -1,27 +1,18 @@
 import React, { Component } from 'react'
 import SelectTime from '@/components/select-time';
+import { Toast } from 'antd-mobile';
+import request from '@/services/request';
 import router from 'umi/router';
 import { connect } from 'dva';
 import styles from './index.less'
 
-interface Props {
-  onChangeType: (data: boolean) => void
-}
-interface stateType {
-  list: Array<any>,
-
-}
-// createCoupon
 export default connect(({ participateActive }: any) => participateActive)(
   class InputBox extends Component<any> {
     state = {
-      list: [
-
-      ],
-      /**显示选择时间 */
-      showSelectTime: false,
-      startTime: '',
-      endTime: '',
+      // startTime: '',
+      // endTime: '',
+      start_date: '',
+      end_date:'',
       activeTime: '',//活动时间
       cardVoucherType: false,//卡券类型
       //现金券
@@ -35,66 +26,55 @@ export default connect(({ participateActive }: any) => participateActive)(
       shop_validTime: '',//有效期
       shop_number: '',
 
-      description: []//使用须知数据  已设置1条规则
+      description: [],//使用须知数据  已设置1条规则
+      sumbit:false
     }
 
     componentDidMount() {
-      console.log(this.props, 'props');
-      this.setState({ ...this.props })
+      const { shop, cash, cardVoucherType, end_date, start_date } = this.props
+      this.setState({ ...shop, ...cash, cardVoucherType, end_date, start_date})
+    }
+
+    componentWillReceiveProps(value1: any, value2: any) {
+      if (value1.sumbit) {
+        this.setState({ sumbit: true})
+        // if (!this.state.sumbit) {
+          this.addActive()
+        // }
+        // console.log(1);
+        
+        // this.setState({ sumbit:true})
+      } else {
+        
+      }
+      console.log(value1.sumbit, value2,'6555');
+      
     }
 
     onclange = () => {
-      document.documentElement.scrollTop = 0//已知问题，点击输入框之后，再让输入框失去焦点， 就会导致页面整体往上移动，不会还原
+      //解决输入框失去焦点的问题
+      document.documentElement.scrollTop = 0
     }
 
-    //打开时间选择
-    handleShowSelectTime = () => {
-
-      this.setState({ showSelectTime: true })
-    };
-
-    //关闭时间选择
-    closeModal = () => this.setState({
-      showSelectTime: false
-    });
-
-    handleSelectTime = (time: any) => {
-
-      this.props.dispatch({
-        type: 'participateActive/setParticipateActive',
-        payload: {
-          startTime: time.startTime,
-          endTime: time.endTime,
-          activeTime: time.startTime + '至' + time.endTime
-        }
-      });
-
-      this.setState({ ...time, activeTime: time.startTime + '至' + time.endTime }, this.closeModal)
-
-    };
-
-    //卡券类型  
+    //卡券类型  现金false 商品true
     inputCardVoucherType = (cardVoucherType: boolean) => {
+      console.log(cardVoucherType,'hhhh');
+      
       this.setState({ cardVoucherType })
       this.props.dispatch({
-        type: 'participateActive/setParticipateActive',
-        payload: {
-          cardVoucherType
-        }
+        type: 'participateActive/setActiveType',
+        payload: cardVoucherType
       });
       this.props.onChangeType(cardVoucherType)
-
     }
-    /* 
-    现金券数据
-    */
-    //面额输入
+
+    /*  现金券    面额输入*/
     inputCashDenomination = (e: any) => {
       this.setState({
         cash_denomination: e.target.value
       })
       this.props.dispatch({
-        type: 'participateActive/setParticipateActive',
+        type: 'participateActive/setCash',
         payload: {
           cash_denomination: e.target.value
         }
@@ -107,7 +87,7 @@ export default connect(({ participateActive }: any) => participateActive)(
         cash_threshold: e.target.value
       })
       this.props.dispatch({
-        type: 'participateActive/setParticipateActive',
+        type: 'participateActive/setCash',
         payload: {
           cash_threshold: e.target.value
         }
@@ -120,7 +100,7 @@ export default connect(({ participateActive }: any) => participateActive)(
         cash_validTime: e.target.value
       })
       this.props.dispatch({
-        type: 'participateActive/setParticipateActive',
+        type: 'participateActive/setCash',
         payload: {
           cash_validTime: e.target.value
         }
@@ -133,7 +113,7 @@ export default connect(({ participateActive }: any) => participateActive)(
         cash_number: e.target.value
       })
       this.props.dispatch({
-        type: 'participateActive/setParticipateActive',
+        type: 'participateActive/setCash',
         payload: {
           cash_number: e.target.value
         }
@@ -146,18 +126,19 @@ export default connect(({ participateActive }: any) => participateActive)(
         shop_name: e.target.value
       })
       this.props.dispatch({
-        type: 'participateActive/setParticipateActive',
+        type: 'participateActive/setShop',
         payload: {
           shop_name: e.target.value
         }
       });
     }
+
     inputShopOriginalCost = (e: any) => {
       this.setState({
         shop_originalCost: e.target.value
       })
       this.props.dispatch({
-        type: 'participateActive/setParticipateActive',
+        type: 'participateActive/setShop',
         payload: {
           shop_originalCost: e.target.value
         }
@@ -169,7 +150,7 @@ export default connect(({ participateActive }: any) => participateActive)(
         shop_validTime: e.target.value
       })
       this.props.dispatch({
-        type: 'participateActive/setParticipateActive',
+        type: 'participateActive/setShop',
         payload: {
           shop_validTime: e.target.value
         }
@@ -181,33 +162,84 @@ export default connect(({ participateActive }: any) => participateActive)(
         shop_number: e.target.value
       })
       this.props.dispatch({
-        type: 'participateActive/setParticipateActive',
+        type: 'participateActive/setShop',
         payload: {
           shop_number: e.target.value
         }
       });
     }
 
+    //提交活动
+    addActive = () => {
+      this.setState({ sumbit: false })
+      const { cash_denomination, cash_threshold, cash_validTime, cash_number, cardVoucherType} = this.state
+      !cash_denomination ? Toast.fail('请输入卡券面额') : null
+      !cash_threshold ? Toast.fail('请输入卡券使用门槛') : null
+      !cash_validTime ? Toast.fail('请输入卡券有效期') : null
+      !cash_number ? Toast.fail('请输入卡券数量') : null
+
+      if (!cash_denomination || cash_threshold || !cash_validTime || !cash_number) return 
+
+      let meta = {
+        coupons_type: !cardVoucherType?1:0 ,
+        return_money: cash_denomination ,
+        total_fee: cash_threshold ,
+        validity: cash_validTime,
+        total_num: cash_number
+      }
+
+      console.log();
+      
+      
+      
+      request({
+        url: 'api/merchant/youhui/subAddCardVoucherActivity',
+        method: 'post',
+        params: {
+          recruit_activity_id:7,
+          ...meta
+          // coupons_type,//	卷类型：兑换卷0/ 现金卷1 false	
+          // coupons_name,//	优惠卷名称	
+          // description,//	使用须知	 
+          // image,//	活动图片首张图		
+          // image_url,//	图片详情	
+          // return_money,//	市场价	
+          // total_num,//	卡券数量		
+          // validity,//	有效期	   	
+          // total_fee,//	使用门槛
+        }
+      }).then((res) => {
+        const { code, data, message } = res
+        if (code === 200) {
+          this.setState({
+            cash_denomination: '',
+            cash_threshold: '',
+            cash_validTime: '',
+            cash_number:''
+          })
+          Toast.success(message)
+        } else {
+          console.log(11);
+          Toast.fail(message)
+        }
+
+        
+      })
+
+    }
+
 
     handleShowNotice = () => router.push({ pathname: '/activitys/notice', query: { type: 4 } })
 
-    //     < List.Item
-    //   extra = {< span > {
-    //     this.props.description && this.props.description.length != 0 ? '已设置' + this.props.description.length + '条规则' : '请设置使用须知'
-    //   }
-    // 					</span>}
-    // arrow = "horizontal"
-    // 					onClick = { this.handleShowNotice }
-
     render() {
-      const { activeTime, cardVoucherType } = this.state
-      const { description } = this.props
+      const { activeTime, cardVoucherType, start_date, end_date } = this.state
+      const { description } = this.props.shop
       return (
         <div className={styles.inputBox}>
           <ul>
-            <li onClick={this.handleShowSelectTime}>
+            <li>
               <div>活动时间</div>
-              <div>{activeTime}</div>
+              <div>{this.props.start_date+'至'+this.props.end_date}</div>
             </li>
             <li >
               <div>选择卡券类型</div>
@@ -277,7 +309,6 @@ export default connect(({ participateActive }: any) => participateActive)(
                     onChange={this.inputShopOriginalCost}
                     onBlur={this.onclange} />
                 </li>
-
                 <li>
                   <div>卡券有效期</div>
                   <input
@@ -287,7 +318,6 @@ export default connect(({ participateActive }: any) => participateActive)(
                     onChange={this.inputShopValidTime}
                     onBlur={this.onclange} />
                 </li>
-
                 <li >
                   <div>卡券数量</div>
                   <input
@@ -297,30 +327,17 @@ export default connect(({ participateActive }: any) => participateActive)(
                     onChange={this.inputShopNumber}
                     onBlur={this.onclange} />
                 </li>
-                <li style={{ border: 'none' }}>
-                  <div>使用规则</div>
-                  <div onClick={this.handleShowNotice}>
-
+                
+                <li style={{ border: 'none' }} onClick={this.handleShowNotice}>
+                  <div>使用须知</div>
+                  <div >
                     {
-                      description.length ? '已设置' + description.length + '条规则' : '请设置使用规则'
+                      description && description.length ? '已设置' + description.length + '条规则' : '请设置使用规则'
                     }
                   </div>
-
                 </li>
               </ul>
           }
-
-
-
-          <SelectTime
-            show={this.state.showSelectTime}
-            onClose={this.closeModal}
-            onConfirm={this.handleSelectTime}
-          />
-          <div onClick={() => router.push({ pathname: '/finance', query: { type: 2 } })}>
-            gggggg
-        </div>
-
         </div>
       )
     }

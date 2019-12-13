@@ -1,53 +1,86 @@
 import { Model } from 'dva'
 
-export interface participateActive{
-  startTime: string | number,
-  endTime: string | number,
-  activeTime: string | number,
-  cardVoucherType: boolean,//卡券类型
-  /**现金券 */
-  cash_denomination: string | number,
-  cash_threshold: string | number,
-  cash_validTime: string | number,
-  cash_number: string | number,
-  /**商品券 */
-  shop_name: string | number,
-  shop_originalCost: string | number,
-  shop_validTime: string | number,
-  shop_number: string | number,
-  shop_useRules: string | number,
-  /* 活动图片 */
-  imgUrl: Array<any>,
-  description:Array<any>
-}
-
 const model: Model = {
   namespace: 'participateActive',
   state: {
-    startTime: '',
-    endTime: '',
-    activeTime: '',//活动时间
-    cardVoucherType: false,//卡券类型
+    /* 活动时间 */
+    active: {
+      startTime: '',
+      endTime: '',
+      activeTime: '',
+    },
+    /* 卡券类型 */
+    cardVoucherType: false,
     /**现金券 */
-    cash_denomination: '',//卡券面额
-    cash_threshold: '',//使用门槛
-    cash_validTime: '',
-    cash_number: '',
+    cash: {
+      cash_denomination: '',
+      cash_threshold: '',
+      cash_validTime: '',
+      cash_number: ''
+    },
     /**商品券 */
-    shop_name: '',
-    shop_originalCost: '',//原价
-    shop_validTime: '',//有效期
-    shop_number: '',
-    shop_useRules: '', 
-    /**活动图片 */
-    imgUrl: [],
-    description:[]//使用须知数据
+    shop: {
+      shop_name: '',
+      shop_originalCost: '',
+      shop_validTime: '',
+      shop_number: '',
+      // shop_useRules: '',
+      imgUrl: '',
+      description: []
+    }
   },
   reducers: {
-    setParticipateActive(state, { payload }) {
+    setActiveTime(state, { payload }) {//设置活动时间
       return {
         ...state,
-        ...payload
+        active: {
+          ...state.active,
+          ...payload
+        }
+      }
+    },
+    setCash(state, { payload }) {//设置现金券数据
+      return {
+        ...state,
+        cash: {
+          ...state.cash,
+          ...payload
+        }
+      }
+    },
+    setShop(state, { payload }) {//设置商品券数据
+      return {
+        ...state,
+        shop: {
+          ...state.shop,
+          ...payload
+        }
+      }
+    },
+    setActiveType(state, { payload }) {//设置卡券类型
+      return {
+        ...state,
+        cardVoucherType: payload
+      }
+    },
+    //清除现金券数据
+    clearCash(state, { payload }) { 
+      return {
+        ...state,
+        cash: {
+          // ...state.cash,
+          // ...{}
+        }
+      }
+    },
+    //清除商品券数据
+    clearShop(state, { payload }) {
+      return {
+        ...state,
+        shop: {
+          // ...state.shop,
+          // ...{}
+        }
       }
     }
   }

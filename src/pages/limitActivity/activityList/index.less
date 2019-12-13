@@ -14,7 +14,7 @@
   }
   .list {
     width: 100%;
-    padding: 0 34px 0 44px;
+    padding: 0 34px 100px 44px;
     box-sizing: border-box;
   }
   .no_data {
@@ -35,9 +35,20 @@
       }
     }
   }
-  .issue {
+  .issueBox{
     position: fixed;
-    bottom: 40px;
+    bottom: 0;
+    width: 100vw;
+    height:156px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // background-color: red;
+    background-color: #fff;
+  }
+  .issue {
+    
+    // bottom: 40px;
     width:672px;
     height:85px;
     background:rgba(91,162,250,1);
@@ -95,6 +106,14 @@
       }
     }
   }
+}
+
+.more_data {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 240px;
+  color:#aaa;
+  background: #FAFAFA;
 }
 
 .item {
