@@ -45,7 +45,7 @@ export default class ShareThree extends Component<Props> {
         wx.updateAppMessageShareData({
           title: '发现一家你喜欢的店铺'+this.props.info.name+'，速来围观！',
           desc: '刚刚发现了这家店铺' + this.props.info.name +'，活动多多，优惠空前，你绝对喜欢，快点进来看看！',
-          link: 'http://test.mall.tdianyi.com/#/pages/business/index?id=' + this.props.info.id,
+          link: 'http://mall.tdianyi.com/pages/business/index?id=' + this.props.info.id,
           imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png',
           success: function () {
             //成功后触发
@@ -53,7 +53,7 @@ export default class ShareThree extends Component<Props> {
         })
       })
     })
-    
+
   }
   //点击 转发朋友圈
   circleData = () => {
@@ -113,7 +113,7 @@ export default class ShareThree extends Component<Props> {
   render() {
     return (
       <div className={styles.share_} style={{ display: this.props.show ? '' : 'none' }} onClick={this.keep_outOnclick}>
-        
+
         <div className={styles.keep_shareBox} style={{ display: !this.state.showBottom ? '' : 'none' }}>
           <img className={styles.share_arrow} src={require('../../../../assets/jiantou.png')} />
           <div
