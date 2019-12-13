@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Tabs, WhiteSpace, Badge } from 'antd-mobile';
-
+import { Tabs, WhiteSpace, Badge, Toast } from 'antd-mobile';
+import request from '@/services/request';
 import Styles from './index.less';
 
 const tabs = [
@@ -9,8 +9,44 @@ const tabs = [
     { title: "已参与" },
 ];
 
-
 class LimitActivity extends Component {
+    state = {
+        data: [],
+        data0: [],//1招募中 0已结束 2已参与
+        data1: [],
+        data2: []
+    }
+    componentDidMount() {
+        this.redirectIdx(0);
+    }
+    redirectIdx = (idx: Number) => {
+        if (idx == 0) { this.state.data1.length == 0 && this.getData(1); }//1招募中
+        else if (idx == 1) { this.state.data0.length == 0 && this.getData(0); }//0已结束 
+        else if (idx == 2) { this.state.data2.length == 0 && this.getData(2); }
+    }
+
+    getData = (type: Number) => {
+        Toast.loading('');
+        request({
+            url: 'v3/recruitActivities',
+            params: { status: type }
+        }).then(res => {
+            Toast.hide();
+            if (type == 0) {//0已结束 
+                let data0 = this.state.data0.concat(res.data);
+                this.setState({ data0: data0, data: data0 });
+            } else if (type == 1) {//1招募中
+                let data1 = this.state.data1.concat(res.data);
+                this.setState({ data1: data1, data: data1 });
+            } else if (type == 2) {
+                let data2 = this.state.data2.concat(res.data);
+                this.setState({ data2: data2, data: data2 })
+            }
+        }).catch(err => {
+            Toast.hide();
+        })
+    }
+
     render() {
         return (
             <div className={Styles.limit_activity_wrap}>
@@ -20,144 +56,85 @@ class LimitActivity extends Component {
                     tabBarInactiveTextColor="#AAAAAA"
                     // tabBarUnderlineStyle={{width: '20%',height:"15px",backgroundColor:"#5BA2FA",margin: '0 auto'}}
                     tabBarUnderlineStyle={{ height: '.03rem', width: '1.03rem', background: '#5BA2FA', marginLeft: '.75rem' }}
-                    onChange={(tab, index) => { console.log('onChange', index, tab); }}
-                    onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
+                    // onChange={(tab, index) => { console.log('onChange', index, tab); }}
+                    onTabClick={(tab, index) => { this.redirectIdx(index) }}
                 >
+
                     <div className={Styles.tab_recruit_wrap}>
-                        <div className={Styles.content_wrap}>
-                            <div className={Styles.content_header}>
-                                <div className={Styles.content_title}>《10月份鹰潭地区免费推广活动》</div>
-                                <div className={Styles.content_countdown}>招募倒计时：3天</div>
-                            </div>
-                            <div className={Styles.content_desc} style={{ WebkitBoxOrient: 'vertical' }}>
-                                活动简介：平台免费给商家引流，发布你的优惠券，我们将以支付作为出口派送给本地消费者很多很多
-                            </div>
-                            <div className={Styles.content_info}>
-                                <div className={Styles.content_tips}>您已发布3项优化信息</div>
-                                <div className={Styles.content_btn}>查看</div>
-                            </div>
-                        </div>
-                        <div className={Styles.content_wrap}>
-                            <div className={Styles.content_header}>
-                                <div className={Styles.content_title}>《10月份鹰潭地区免费推广活动》</div>
-                                <div className={Styles.content_countdown}>招募倒计时：3天</div>
-                            </div>
-                            <div className={Styles.content_desc} style={{ WebkitBoxOrient: 'vertical' }}>
-                                活动简介：平台免费给商家引流，发布你的优惠券，我们将以支付作为出口派送给本地消费者很多很多
-                            </div>
-                            <div className={Styles.content_info}>
-                                <div className={Styles.content_tips}>您已发布3项优化信息</div>
-                                <div className={Styles.content_btn}>查看</div>
-                            </div>
-                        </div>
-                        <div className={Styles.content_wrap}>
-                            <div className={Styles.content_header}>
-                                <div className={Styles.content_title}>《10月份鹰潭地区免费推广活动》</div>
-                                <div className={Styles.content_countdown}>招募倒计时：3天</div>
-                            </div>
-                            <div className={Styles.content_desc} style={{ WebkitBoxOrient: 'vertical' }}>
-                                活动简介：平台免费给商家引流，发布你的优惠券，我们将以支付作为出口派送给本地消费者很多很多
-                            </div>
-                            <div className={Styles.content_info}>
-                                <div className={Styles.content_tips}>您已发布3项优化信息</div>
-                                <div className={Styles.content_btn}>查看</div>
-                            </div>
-                        </div>
+                        {
+                            this.state.data1.map((item: any, index: any) => {
+                                return (
+                                    <div className={Styles.content_wrap} key={item.id}>
+                                        <div className={Styles.content_header}>
+                                            <div className={Styles.content_title}>{item.name}</div>
+                                            <div className={Styles.content_countdown}>招募倒计时：{item.last_day}天</div>
+                                        </div>
+                                        <div className={Styles.content_desc} style={{ WebkitBoxOrient: 'vertical' }}>
+                                            活动简介：{item.introduce}
+                                        </div>
+                                        <div className={Styles.content_info}>
+                                            <div className={Styles.content_tips}>您已发布{item.youhui_count}项优化信息</div>
+                                            <div className={Styles.content_btn}>{item.youhui_count == 0 ? '立即参与' : '查看'}</div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
 
                     <div className={Styles.tab_complete_wrap}>
-                        <div className={Styles.content_wrap}>
-                            <div className={Styles.complete_container}>
-                                <div className={Styles.content_header}>
-                                    <div className={Styles.content_title}>《10月份鹰潭地区免费推广活动》</div>
-                                    <div className={Styles.content_complete}>已结束</div>
-                                </div>
-                                <div className={Styles.content_desc}>
-                                    活动发布时间：2019-10-10至2019-11-11
-                                </div>
-                            </div>
-                            <div className={Styles.content_info}>
-                                <div className={Styles.content_tips}>您已发布3项优化信息</div>
-                                <div className={Styles.content_btn}>查看</div>
-                            </div>
-                        </div>
-                        <div className={Styles.content_wrap}>
-                            <div className={Styles.complete_container}>
-                                <div className={Styles.content_header}>
-                                    <div className={Styles.content_title}>《10月份鹰潭地区免费推广活动》</div>
-                                    <div className={Styles.content_complete}>已结束</div>
-                                </div>
-                                <div className={Styles.content_desc}>
-                                    活动发布时间：2019-10-10至2019-11-11
-                                </div>
-                            </div>
-                            <div className={Styles.content_info}>
-                                <div className={Styles.content_tips}>您已发布3项优化信息</div>
-                                <div className={Styles.content_btn}>查看</div>
-                            </div>
-                        </div>
-                        <div className={Styles.content_wrap}>
-                            <div className={Styles.complete_container}>
-                                <div className={Styles.content_header}>
-                                    <div className={Styles.content_title}>《10月份鹰潭地区免费推广活动》</div>
-                                    <div className={Styles.content_complete}>已结束</div>
-                                </div>
-                                <div className={Styles.content_desc}>
-                                    活动发布时间：2019-10-10至2019-11-11
-                                </div>
-                            </div>
-                            <div className={Styles.content_info}>
-                                <div className={Styles.content_tips}>您已发布3项优化信息</div>
-                                <div className={Styles.content_btn}>查看</div>
-                            </div>
-                        </div>
+                        {
+                            this.state.data0.map((item: any, index: any) => {
+                                return (
+                                    <div className={Styles.content_wrap} key={item.id}>
+                                        <div className={Styles.complete_container}>
+                                            <div className={Styles.content_header}>
+                                                <div className={Styles.content_title}>{item.name}</div>
+                                                <div className={Styles.content_complete}>已结束</div>
+                                            </div>
+                                            <div className={Styles.content_desc}>
+                                                活动发布时间：{item.start_date}至{item.end_date}
+                                            </div>
+                                        </div>
+                                        <div className={Styles.content_info}>
+                                            <div className={Styles.content_tips}>您已发布{item.youhui_count}项优化信息</div>
+                                            {
+                                                item.youhui_count != 0 ? <div className={Styles.content_btn}>查看</div> : null
+                                            }
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
 
                     <div className={Styles.tab_partake_wrap}>
-                        <div className={Styles.content_wrap}>
-                            <div className={Styles.partake_container}>
-                                <div className={Styles.content_header}>
-                                    <div className={Styles.content_title}>《10月份鹰潭地区免费推广活动》</div>
-                                    <div className={Styles.content_partake}>已参与</div>
-                                </div>
-                                <div className={Styles.content_desc}>
-                                    活动发布时间：2019-10-10至2019-11-11
-                                </div>
-                            </div>
-                            <div className={Styles.content_info}>
-                                <div className={Styles.content_tips}>您已发布3项优化信息</div>
-                            </div>
-                        </div>
-                        <div className={Styles.content_wrap}>
-                            <div className={Styles.partake_container}>
-                                <div className={Styles.content_header}>
-                                    <div className={Styles.content_title}>《10月份鹰潭地区免费推广活动》</div>
-                                    <div className={Styles.content_partake}>已参与</div>
-                                </div>
-                                <div className={Styles.content_desc}>
-                                    活动发布时间：2019-10-10至2019-11-11
-                                </div>
-                            </div>
-                            <div className={Styles.content_info}>
-                                <div className={Styles.content_tips}>您已发布3项优化信息</div>
-                            </div>
-                        </div>
-                        <div className={Styles.content_wrap}>
-                            <div className={Styles.partake_container}>
-                                <div className={Styles.content_header}>
-                                    <div className={Styles.content_title}>《10月份鹰潭地区免费推广活动》</div>
-                                    <div className={Styles.content_partake}>已参与</div>
-                                </div>
-                                <div className={Styles.content_desc}>
-                                    活动发布时间：2019-10-10至2019-11-11
-                                </div>
-                            </div>
-                            <div className={Styles.content_info}>
-                                <div className={Styles.content_tips}>您已发布3项优化信息</div>
-                            </div>
-                        </div>
+                        {
+                            this.state.data2.map((item: any, index: any) => {
+                                return (
+                                    <div className={Styles.content_wrap} key={item.id}>
+                                        <div className={Styles.partake_container}>
+                                            <div className={Styles.content_header}>
+                                                <div className={Styles.content_title}>{item.name}</div>
+                                                <div className={Styles.content_partake}>已参与</div>
+                                            </div>
+                                            <div className={Styles.content_desc}>
+                                                活动发布时间：{item.start_date}至{item.end_date}
+                                            </div>
+                                        </div>
+                                        <div className={Styles.content_info}>
+                                            <div className={Styles.content_tips}>您已发布{item.youhui_count}项优化信息</div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
+
                 </Tabs>
+                {
+                    this.state.data.length == 0 ? <div style={{textAlign:"center"}}>暂无内容~</div> : null
+                }
             </div>
         )
     }
