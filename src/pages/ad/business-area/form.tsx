@@ -301,11 +301,12 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 										广告投放时长
 								</List.Item>
 									{
-										this.state.timeErr && !this.state.startTime && !this.state.endTime ? <div className={styles.errorLine}>请选择活动时间后重新提交</div> : null
+										this.state.timeErr && !this.state.startTime && !this.state.endTime ? <div className={styles.errorLine}>请选择活动时间后重新提交</div> : (
+											this.state.timeErr && ((!this.state.startTime && this.state.endTime) || (this.state.startTime && !this.state.endTime)) ? <div className={styles.errorLine}>未设置开始时间/结束时间/,无法提交</div> : null
+
+										)
 									}
-									{
-										this.state.timeErr && ((!this.state.startTime && this.state.endTime) || (this.state.startTime && !this.state.endTime)) ? <div className={styles.errorLine}>未设置开始时间/结束时间/,无法提交</div> : null
-									}
+
 									<InputItem
 										extra="元"
 										value={this.state.price}
@@ -322,11 +323,12 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 										</span>
 									</InputItem>
 									{
-										this.state.priceErr && !this.state.price ? <div className={styles.errorLine}>账号余额低于每日最低预算，请充值后重新投放</div> : null
+										this.state.priceErr && !this.state.price ? <div className={styles.errorLine}>账号余额低于每日最低预算，请充值后重新投放</div> : (
+											this.state.priceErr && Number(this.state.price) <= 1.1 ? <div className={styles.errorLine}>每日投放预算不可低于1.1元</div> : null
+
+										)
 									}
-									{
-										this.state.priceErr && Number(this.state.price) <= 1.1 ? <div className={styles.errorLine}>每日投放预算不可低于1.1元</div> : null
-									}
+
 
 								</List>
 								<WhiteSpace size="lg" />
