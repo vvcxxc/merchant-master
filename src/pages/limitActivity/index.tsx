@@ -68,7 +68,7 @@ class LimitActivity extends Component {
 
                     <div className={Styles.tab_recruit_wrap}>
                         {
-                            this.state.data1.map((item: any, index: any) => {
+                            this.state.data1.length > 0 ? this.state.data1.map((item: any, index: any) => {
                                 return (
                                     <div className={Styles.content_wrap} key={item.id}>
                                         <div className={Styles.content_header}>
@@ -84,13 +84,13 @@ class LimitActivity extends Component {
                                         </div>
                                     </div>
                                 )
-                            })
+                            }) : <div style={{ textAlign: 'center' }}>暂无数据</div>
                         }
                     </div>
 
                     <div className={Styles.tab_complete_wrap}>
                         {
-                            this.state.data0.map((item: any, index: any) => {
+                            this.state.data0.length > 0 ? this.state.data0.map((item: any, index: any) => {
                                 return (
                                     <div className={Styles.content_wrap} key={item.id}>
                                         <div className={Styles.complete_container}>
@@ -110,13 +110,13 @@ class LimitActivity extends Component {
                                         </div>
                                     </div>
                                 )
-                            })
+                            }) : <div style={{ textAlign: 'center' }}>暂无数据</div>
                         }
                     </div>
 
                     <div className={Styles.tab_partake_wrap}>
                         {
-                            this.state.data2.map((item: any, index: any) => {
+                            this.state.data2.length > 0 ? this.state.data2.map((item: any, index: any) => {
                                 return (
                                     <div className={Styles.content_wrap} key={item.id}>
                                         <div className={Styles.partake_container}>
@@ -133,14 +133,11 @@ class LimitActivity extends Component {
                                         </div>
                                     </div>
                                 )
-                            })
+                            }) : <div style={{ textAlign: 'center' }}>暂无数据</div>
                         }
                     </div>
 
                 </Tabs>
-                {
-                    this.state.data.length == 0 ? <div style={{ textAlign: "center" }}>暂无内容~</div> : null
-                }
             </div>
         )
     }
