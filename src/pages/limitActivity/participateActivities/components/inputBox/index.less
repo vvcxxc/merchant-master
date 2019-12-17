@@ -1,0 +1,80 @@
+.inputBox {
+  width: 90vw;
+  border-radius: 10px;
+  background-color: #fff;
+   ul {
+     margin: 0 15px;
+     list-style: none;
+     
+     li{
+      display: flex;
+      font-size:26px;
+      font-family:PingFang SC;
+      font-weight:400;
+      border-bottom: 1PX solid rgba(234,234,234,1);
+      input {
+        height: 90px;
+        width: 70%;
+      }
+      div:nth-child(1){
+        margin: 30px 0;
+        margin-right: 40px;
+        color:rgba(0,0,0,1);
+      }
+       div:nth-child(2){
+        padding: 30px 0px;
+        color:rgba(155,155,155,1);
+      }
+
+       div:nth-child(3){
+        padding: 30px 0px;
+        color:rgba(155,155,155,1);
+      }
+      span {
+        display: inline-block;
+        height: 30px;
+        width: 30px;
+        background-image: url('../../../../../assets/join_active.png');
+        background-size:  460px;
+        background-repeat: no-repeat;
+        background-position:-150px -13px ;
+      }
+      .useInfo{
+        flex: 2;
+        div {
+          margin: 0;
+          padding: 0;
+          font-size:26px;
+          font-family:PingFang SC;
+          font-weight:400;
+          color:rgba(155,155,155,1);
+        }
+      }
+
+      .cash_coupon {//现金券
+        margin-right: 31px;
+        display: flex;
+        align-items: center;
+      }
+      .selected{
+         background-position:-227px -13px ;
+      }
+
+      .coupons{//商品券
+        display: flex;
+        align-items: center;
+      }
+
+     }
+     
+   }
+
+
+   input[type=number]::-webkit-inner-spin-button,  
+    input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
+        appearance: none; 
+        margin: 0; 
+    }
+
+}

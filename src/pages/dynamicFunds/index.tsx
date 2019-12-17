@@ -54,7 +54,7 @@ export default class MyIndex extends Component {
     list: [
     ],
     totalData: [
-      
+
     ]
   }
 
@@ -84,7 +84,7 @@ export default class MyIndex extends Component {
       from: index ,
       page:1
     }, () => {
-        
+
         this.getDataList({ begin_date, end_date, from: this.state.from, page })
         Toast.hide();
     })
@@ -113,7 +113,7 @@ export default class MyIndex extends Component {
     this.setState({
       title
     })
-    
+
   }
 
   // 跳转详情
@@ -173,9 +173,9 @@ export default class MyIndex extends Component {
           list: params.page > 1 ? [...this.state.list, ...data.offlineOrders.data]:data.offlineOrders.data,
           total_money: data.total_money,//交易金额
           total: data.offlineOrders.total,//交易笔数
-          
+
         })
-        
+
         if (data.offlineOrders.data.length<1) this.setState({showMore:false})
       }
 
@@ -190,7 +190,7 @@ export default class MyIndex extends Component {
     }, () => {
         this.getDataList({ begin_date, end_date, from, page:this.state.page })
     })
-    
+
   }
 
   render() {

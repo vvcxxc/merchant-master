@@ -503,7 +503,6 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 									{
 										this.state.timeErr && !this.state.startTime && !this.state.endTime ? <div className={styles.errorLine} >请选择活动时间后重新提交</div> : (
 											this.state.timeErr && ((this.state.startTime && !this.state.endTime) || (!this.state.startTime && this.state.endTime)) ? <div className={styles.errorLine} >未设置开始时间/结束时间/,无法提交</div> : null
-
 										)
 									}
 
@@ -526,9 +525,9 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 									{
 										this.state.priceErr && !this.state.price ? <div className={styles.errorLine} >账号余额低于每日最低预算，请充值后重新投放</div> : (
 											this.state.priceErr && this.state.price && Number(this.state.price) < 1.1 ? <div className={styles.errorLine} >每日投放预算不可低于1.1元</div> : null
-
 										)
 									}
+
 
 								</List>
 								<div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -541,7 +540,8 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 									</div>
 								</div>
 								{imagePicker}
-								{this.state.edit &&
+								{
+									this.state.edit &&
 									<div className={styles.bannerBox}>
 										<img className={styles.banner} src={this.state.banner} />
 									</div>

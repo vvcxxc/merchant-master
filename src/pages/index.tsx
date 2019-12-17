@@ -426,9 +426,9 @@ export default connect(({ app }: any) => app)(
                                     <img src={require('@/assets/index/full_scale_activities.png')} className="icon_img" alt="" />
                                     <div className="item_name">满减活动</div>
                                 </Flex>
-                                <Flex direction="column" justify="start" className="item_detail">
-                                    <img src={require('@/assets/index/expect_more.png')} className="icon_img" alt="" />
-                                    <div className="item_name">期待更多</div>
+                                <Flex direction="column" justify="start" className="item_detail" onClick={this.pushPage('/limitActivity')}>
+                                    <img src={require('@/assets/limit_activities.png')} className="icon_img" alt="" />
+                                    <div className="item_name">限时活动</div>
                                 </Flex>
                             </div>
                         </div>

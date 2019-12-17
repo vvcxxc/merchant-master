@@ -7,7 +7,7 @@ import { DraggableArea } from 'react-draggable-tags';
 import { connect } from 'dva'
 import router from 'umi/router';
 // export default connect(({ activity }: any) => activity,({ createCoupon }: any) => createCoupon)(
-export default connect(({ activity, createCoupon}: any) => ({activity,createCoupon}))(
+export default connect(({ activity, createCoupon, participateActive }: any) => ({ activity, createCoupon, participateActive}))(
   class Notice extends Component<any> {
     state = {
       /**推荐列表 */
@@ -27,14 +27,27 @@ export default connect(({ activity, createCoupon}: any) => ({activity,createCoup
     componentDidMount() {
       let type = this.props.location.query.type;
       let notice_list = [];
-      if (type == 1) {
-        notice_list = this.props.activity.Group.description;
-      } else if (type == 2) {
-        notice_list = this.props.activity.Appreciation.description;
-      } else if (type == 3) {
-        console.log(this.props)
-        notice_list = this.props.createCoupon.couponForm.description
+
+      switch (type) {
+        case 1:
+          notice_list = this.props.activity.Group.description;
+          break;
+        case 2:
+          notice_list = this.props.activity.Appreciation.description;
+          break;
+        case 3:
+          notice_list = this.props.createCoupon.couponForm.description
+          break;
+        case 4:
+          notice_list = this.props.participateActive.shop.description
+          break;
+        case 5:
+          notice_list = this.props.participateActive.updateShop.description
+          break;
+        default:
+          break;
       }
+
       let drag_list = [];
       if (notice_list) {
         for (let i = 0; i < notice_list.length; i++) {
@@ -45,6 +58,7 @@ export default connect(({ activity, createCoupon}: any) => ({activity,createCoup
           drag_list.push(list);
         }
       }
+
       this.setState({
         drag_list
       })
@@ -169,11 +183,26 @@ export default connect(({ activity, createCoupon}: any) => ({activity,createCoup
           }
         });
       }
+      else if (type == 4) {
+        this.props.dispatch({
+          type: 'participateActive/setShop',
+          payload: {
+            description
+          }
+        });
+      }
+      else if (type == 5) {
+        this.props.dispatch({
+          type: 'participateActive/setUpdateShop',
+          payload: {
+            description
+          }
+        });
+      }
       router.goBack()
     }
     
     handleChangeBlur = (e) => {
-      console.log('失焦')
       window.scrollTo(0, 0)
     }
 
