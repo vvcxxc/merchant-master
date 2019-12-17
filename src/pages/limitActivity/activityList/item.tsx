@@ -32,7 +32,9 @@ const publishType:any = {
 }
 
 export default function Item(props: props) {
-  const { info, activity_id} = props
+  const { info, activity_id } = props
+  console.log(activity_id,'gggg');
+  
   return (
     <Flex className={styles.item}>
       <Flex className={styles.item_left} justify='around' align='center'>
@@ -56,7 +58,7 @@ export default function Item(props: props) {
         <Flex justify='end'>
           {
             info.publish_wait === 2 ? <Flex className={styles.editor} justify='center' onClick={() => {
-              router.push({ pathname: '/limitActivity/participateActivities', query: { recruit_activity_id: 7, youhui_id: info.id } })
+              router.push({ pathname: '/limitActivity/participateActivities', query: { recruit_activity_id: activity_id, youhui_id: info.id } })
             }}>编辑</Flex>:null
           }
           

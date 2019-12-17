@@ -14,11 +14,12 @@ export default class ActivityList extends Component {
     is_model: false, // 显示弹框
     page: 0,
     hint: '',//提示
-    recruit_activity_id: 7
+    recruit_activity_id: ''
   }
 
   componentDidMount() {
     this.getListData()
+    // this.setState({})
   }
 
   //请求列表数据
@@ -53,7 +54,7 @@ export default class ActivityList extends Component {
       this.setState({ is_model: true })
     } else {
       //跳转发布卡券页面
-      router.push({ pathname: '/limitActivity/participateActivities', query: { recruit_activity_id } })
+      router.push({ pathname: '/limitActivity/participateActivities', query: { recruit_activity_id: this.props.location.query.id } })
     }
   }
 

@@ -118,7 +118,11 @@ export default connect(({ participateActive }: any) => participateActive)(
           }
          
           Toast.success(message, 1, () => {
-            router.push({ pathname:'/limitActivity/activityList'})
+            // router.push({ pathname:'/limitActivity/activityList'})
+            router.push({
+              pathname: '/limitActivity/activityList',
+              query: { id: this.props.recruit_activity_id }
+            })
           })
         } else {
           Toast.fail(message)
