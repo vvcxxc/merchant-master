@@ -22,7 +22,7 @@ class LimitActivity extends Component {
     }
     redirectIdx = (idx: Number) => {
         if (idx == 0) { this.state.data1.length == 0 && this.getData(1); }//1招募中
-        else if (idx == 1) { this.state.data0.length == 0 && this.getData(0); }//0已结束 
+        else if (idx == 1) { this.state.data0.length == 0 && this.getData(0); }//0已结束
         else if (idx == 2) { this.state.data2.length == 0 && this.getData(2); }
     }
 
@@ -33,7 +33,7 @@ class LimitActivity extends Component {
             params: { status: type }
         }).then(res => {
             Toast.hide();
-            if (type == 0) {//0已结束 
+            if (type == 0) {//0已结束
                 let data0 = this.state.data0.concat(res.data);
                 this.setState({ data0: data0, data: data0 });
             } else if (type == 1) {//1招募中
@@ -103,7 +103,7 @@ class LimitActivity extends Component {
                                             </div>
                                         </div>
                                         <div className={Styles.content_info}>
-                                            <div className={Styles.content_tips}>您已发布{item.youhui_count}项优化信息</div>
+                                            <div className={Styles.content_tips}>您已发布{item.youhui_count}项优惠信息</div>
                                             {
                                                 item.youhui_count != 0 ? <div className={Styles.content_btn} onClick={this.goToActivityList.bind(this, item.id)}>查看</div> : null
                                             }
