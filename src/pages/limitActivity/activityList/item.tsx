@@ -32,14 +32,6 @@ const publishType:any = {
 
 export default function Item(props: props) {
   const { info } = props
-
-  // const deleteListData = (e:any) => {
-  //   console.log(e.target.alt, 'gbibibibi');
-  //   this.props.delete()
-    
-
-  // }
-
   return (
     <Flex className={styles.item}>
       <Flex className={styles.item_left} justify='around' align='center'>
@@ -56,16 +48,22 @@ export default function Item(props: props) {
                 <span>已使用：{info.already_used}</span>
               </div>
             </div>
-            <div className={styles.cancel}><img onClick={() => {
-              props.delete(info.id)
-            }} src={require('../../../assets/quxiao.png')}/></div>
+            <div className={styles.cancel}>
+              <img onClick={() => {props.delete(info.id)}} src={require('../../../assets/quxiao.png')}/></div>
           </Flex>
         </div>
         <Flex justify='end'>
-          <Flex className={styles.editor} justify='center' onClick={() => {
-            router.push({ pathname: '/limitActivity/participateActivities', query: { recruit_activity_id:7, youhui_id:info.id } })
-          }}>编辑</Flex>
-          <Flex className={styles.browse} justify='center'>浏览</Flex>
+          {
+            info.publish_wait === 2 ? <Flex className={styles.editor} justify='center' onClick={() => {
+              router.push({ pathname: '/limitActivity/participateActivities', query: { recruit_activity_id: 7, youhui_id: info.id } })
+            }}>编辑</Flex>:null
+          }
+          
+          <Flex className={styles.browse} justify='center' onClick={() => {
+            router.push({
+              pathname: '/limitActivity/participateActivities', query: { recruit_activity_id: 7, youhui_id: info.id,look:1 }
+            })
+          }}>浏览</Flex>
         </Flex>
       </div>
     </Flex>

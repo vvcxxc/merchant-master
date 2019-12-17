@@ -41,6 +41,9 @@ export default connect(({ activity, createCoupon, participateActive }: any) => (
         case 4:
           notice_list = this.props.participateActive.shop.description
           break;
+        case 5:
+          notice_list = this.props.participateActive.updateShop.description
+          break;
         default:
           break;
       }
@@ -183,6 +186,14 @@ export default connect(({ activity, createCoupon, participateActive }: any) => (
       else if (type == 4) {
         this.props.dispatch({
           type: 'participateActive/setShop',
+          payload: {
+            description
+          }
+        });
+      }
+      else if (type == 5) {
+        this.props.dispatch({
+          type: 'participateActive/setUpdateShop',
           payload: {
             description
           }

@@ -28,22 +28,65 @@ export default connect(({ participateActive }: any) => participateActive)(
     }
 
     componentDidMount() {
-      const { coupons_type, shop, cash, active, list } = this.props
+      const { list } = this.props
+      const { updateCash, updateShop } = this.props
       this.setState({
-        coupons_type,
-        shop,
-        cash,
-        ...active,
-        ...list
+        coupons_type: list.youhui_type,
+          end_date: list.end_date,
+          start_date: list.start_date,
       })
+      
+      if (!list.youhui_type) {//商品券
+        
+        if (updateShop.description && !updateShop.description.length) {
+          let data = this.state.shop
+          this.setState({
+            shop: {//不变 商品卷0/现金卷1
+              coupons_name: list.name,
+              return_money: list.return_money,
+              validity: list.expire_day,
+              total_num: list.total_num,
+              description: list.description
+            }
+          })
+          this.props.dispatch({
+            type: 'participateActive/setUpdateShop',
+            payload: {
+              coupons_name: list.name,
+              return_money: list.return_money,
+              validity: list.expire_day,
+              total_num: list.total_num,
+              description: list.description,
+            }
+          });
+        } else {
+          this.setState({
+            shop: { ...updateShop }
+          })
+        }
+
+      } else {
+        this.setState({
+          cash: {
+            return_money: list.return_money,
+            total_fee: list.total_fee,
+            validity: list.expire_day,
+            total_num: list.total_num
+          }
+          
+        })
+      }
       
     }
 
 
     componentWillReceiveProps(value1: any, value2: any) {
-      if (value1.sumbit) {
+
+      if (value1.again) {
+        console.log(this.props,'prosps');
+        
         this.props.submit(false)
-        this.addActive()
+        this.submiAgain()
       }
     }
 
@@ -51,14 +94,14 @@ export default connect(({ participateActive }: any) => participateActive)(
     onclange = () => {
       document.documentElement.scrollTop = 0
     }
-    //卡券类型  现金1 商品0
+    //卡券类型  现金false 商品true
     inputCardVoucherType = (coupons_type: number) => {
-      this.setState({ coupons_type })
-      this.props.dispatch({
-        type: 'participateActive/setActiveType',
-        payload: coupons_type
-      });
-      this.props.onChangeType(coupons_type)
+      // this.setState({ coupons_type })
+      // this.props.dispatch({
+      //   type: 'participateActive/setActiveType',
+      //   payload: coupons_type
+      // });
+      // this.props.onChangeType(coupons_type)
     }
 
     //现金券input输入
@@ -67,7 +110,7 @@ export default connect(({ participateActive }: any) => participateActive)(
         cash:{...this.state.cash,[type]: e.target.value}
       })
       this.props.dispatch({
-        type: 'participateActive/setCash',
+        type: 'participateActive/setUpdateCash',
         payload: {
           [type]: e.target.value
         }
@@ -80,71 +123,63 @@ export default connect(({ participateActive }: any) => participateActive)(
         shop: { ...this.state.shop, [type]: e.target.value}
       })
       this.props.dispatch({
-        type: 'participateActive/setShop',
+        type: 'participateActive/setUpdateShop',
         payload: {
           [type]: e.target.value
         }
       });
     }
 
-    //提交活动
-    addActive = () => {
-      const { coupons_type, cash, shop } = this.state
-      let value = !coupons_type ? { ...shop, image_url: this.props.cover_image, image: this.props.cover_image } : cash
+
+    
+
+   
+
+    submiAgain = () => {
+      const { coupons_type,cash } = this.state
+      const { updateShop } = this.props
+      let meta = !coupons_type ? updateShop : cash
+      console.log(meta,'meta');
       request({
-        url: 'api/merchant/youhui/subAddCardVoucherActivity',
+        url: 'api/merchant/youhui/subEditCardVoucherActivity',
         method: 'post',
         data: {
-          coupons_type,
           recruit_activity_id: 7,
-          ...value
+          youhui_id:this.props.list.id,
+          ...meta,
+          coupons_type
+          
         }
       }).then((res) => {
         const { code, data, message } = res
         if (code === 200) {
           if (!coupons_type) {
-            this.setState({ shop: {} })
             this.props.dispatch({
-              type: 'participateActive/clearShop',
-              payload: {}
-            });
-          } else {
-            this.setState({ cash: {} })
-            this.props.dispatch({
-              type: 'participateActive/clearCash',
+              type: 'participateActive/clearUpdateShop',
               payload: {}
             });
           }
-         
-          Toast.success(message, 1, () => {
-            router.push({ pathname:'/limitActivity/activityList'})
-          })
+          Toast.success(message, 0.8)
+          router.push({ pathname: '/limitActivity/activityList' })
         } else {
           Toast.fail(message)
         }
-      })
 
+      })
     }
 
-   
 
-    //获取使用须知
-    handleShowNotice = () => router.push({ pathname: '/activitys/notice', query: { type: 4 } })
+    handleShowNotice = () => router.push({ pathname: '/activitys/notice', query: { type: 5 } })
 
     render() {
-      const { coupons_type, start_date, end_date, cash,shop } = this.state
-      const { description } = this.props.shop
+      const { coupons_type, start_date, end_date, cash, shop } = this.state
+      // const { updateShop } = this.props
+      const { updateCash, updateShop } = this.props
       const { list } = this.props
-      const chooseCardType = <li >
-        <div>选择卡券类型</div>
-        <div className={styles.cash_coupon} onClick={this.inputCardVoucherType.bind(this, 1)}>
-          <span className={coupons_type ? styles.selected : ''}></span>现金券
-            </div>
-        <div className={styles.coupons} onClick={this.inputCardVoucherType.bind(this, 0)}>
-          <span className={!coupons_type ? styles.selected : ''}></span>商品券
-            </div>
-      </li>
-      // const cardType = <li><div>选择卡券类型</div><div>{!list.youhui_type ? '商品券' : '现金券'}</div></li>
+      
+
+      let description = updateShop.description && updateShop.description.length ? updateShop.description: this.props.list.description
+      const cardType = <li><div>选择卡券类型</div><div>{!list.youhui_type ? '商品券' : '现金券'}</div></li>
       return (
         <div className={styles.inputBox}>
           <ul>
@@ -152,7 +187,7 @@ export default connect(({ participateActive }: any) => participateActive)(
               <div>活动时间</div>
               <div>{start_date + '至' + end_date}</div>
             </li>
-            { chooseCardType}
+            {cardType}
           </ul>
           {
             coupons_type ? <ul>
@@ -235,7 +270,7 @@ export default connect(({ participateActive }: any) => participateActive)(
                   <div>使用须知</div>
                   <div className={styles.useInfo}>
                     {
-                       description && description.map((item: string, index: number) => {
+                      description&& description.map((item: string, index: number) => {
                         return <div key={item}>{index + 1}.{item}</div>
                       })
                     }

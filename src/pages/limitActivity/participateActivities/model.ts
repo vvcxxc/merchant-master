@@ -5,29 +5,49 @@ const model: Model = {
   state: {
     /* 活动时间 */
     active: {
-      startTime: '',
-      endTime: '',
-      activeTime: '',
+      start_date: '',
+      end_date: ''
     },
     /* 卡券类型 */
-    cardVoucherType: false,
+    coupons_type: 1,
     /**现金券 */
     cash: {
-      cash_denomination: '',
-      cash_threshold: '',
-      cash_validTime: '',
-      cash_number: ''
+      return_money: '',
+      total_fee: '',
+      validity: '',
+      total_num: ''
     },
     /**商品券 */
     shop: {
-      shop_name: '',
-      shop_originalCost: '',
-      shop_validTime: '',
-      shop_number: '',
-      // shop_useRules: '',
-      imgUrl: '',
+      coupons_name: '',
+      return_money: '',
+      validity: '',
+      total_num: '',
+      cover_image: '',
       description: []
-    }
+    },
+    //编辑现金券
+    updateCash: {
+      return_money: '',
+      total_fee: '',
+      validity: '',
+      total_num: ''
+    },
+    updateShop: {
+      coupons_name: '',
+      return_money: '',
+      validity: '',
+      total_num: '',
+      image_url: '',
+      image:'',
+      description: []
+    },
+    // inputList: {
+    //   end_date: '',
+    //   description: [],
+    //   name: '',
+    //   return_money:''
+    // }
   },
   reducers: {
     setActiveTime(state, { payload }) {//设置活动时间
@@ -60,7 +80,7 @@ const model: Model = {
     setActiveType(state, { payload }) {//设置卡券类型
       return {
         ...state,
-        cardVoucherType: payload
+        coupons_type: payload
       }
     },
     //清除现金券数据
@@ -68,8 +88,6 @@ const model: Model = {
       return {
         ...state,
         cash: {
-          // ...state.cash,
-          // ...{}
         }
       }
     },
@@ -78,11 +96,41 @@ const model: Model = {
       return {
         ...state,
         shop: {
-          // ...state.shop,
-          // ...{}
         }
       }
-    }
+    } ,
+    setUpdateCash(state, { payload }) {//设置商品券数据
+      return {
+        ...state,
+        updateCash: {
+          ...state.updateCash,
+          ...payload
+        }
+      }
+    },
+    setUpdateShop(state, { payload }) {//设置商品券数据
+      return {
+        ...state,
+        updateShop: {
+          ...state.updateShop,
+          ...payload
+        }
+      }
+    },
+    clearUpdateCash(state, { payload }) {
+      return {
+        ...state,
+        updateCash: {
+        }
+      }
+    },
+    clearUpdateShop(state, { payload }) {
+      return {
+        ...state,
+        updateShop: {
+        }
+      }
+    },
   }
 }
 
