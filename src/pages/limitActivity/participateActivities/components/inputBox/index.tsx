@@ -29,6 +29,7 @@ export default connect(({ participateActive }: any) => participateActive)(
 
     componentDidMount() {
       const { coupons_type, shop, cash, active, list } = this.props
+      
       this.setState({
         coupons_type,
         shop,
@@ -96,7 +97,7 @@ export default connect(({ participateActive }: any) => participateActive)(
         method: 'post',
         data: {
           coupons_type,
-          recruit_activity_id: 7,
+          recruit_activity_id: this.props.recruit_activity_id,
           ...value
         }
       }).then((res) => {

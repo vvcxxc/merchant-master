@@ -100,7 +100,6 @@ export default connect(({ participateActive }: any) => participateActive)(
 
 
     uploadImg = (cover_image: string) => {
-      // console.log(data,'dddddd');
       this.setState({ cover_image })
       this.state.update && this.props.dispatch({
         type: 'participateActive/setUpdateShop',
@@ -123,16 +122,7 @@ export default connect(({ participateActive }: any) => participateActive)(
       }).then((res) => {
         const { code, data, message } = res
         if (code === 200) {
-          // console.log(res);
-          this.setState({ inputList: data, bigImg: data.activity_img, })
-          // this.setState({
-          //   rules: data.rules,
-          //   inputList: data,
-          //   bigImg: data.cover_image,
-          //   listImg: data.image,
-          //   coupons_type: this.props.coupons_type
-          // })
-          // Toast.success(message)
+          this.setState({ inputList: data, bigImg: data.activity_img})
         } else {
           Toast.fail(message)
         }
@@ -157,7 +147,8 @@ export default connect(({ participateActive }: any) => participateActive)(
             <InputUpdateBox
               again={this.state.again}
               list={inputList}
-              listImg={this.state.cover_image}
+                listImg={this.state.cover_image}
+                recruit_activity_id={this.props.location.query.recruit_activity_id}
               submit={() => { this.setState({ again: false }) }}
             />:null
           }
@@ -166,7 +157,8 @@ export default connect(({ participateActive }: any) => participateActive)(
             <InputBox onChangeType={this.onChangeType}
               list={inputList}
               sumbit={submit}
-              cover_image={cover_image}
+                cover_image={cover_image}
+                recruit_activity_id={this.props.location.query.recruit_activity_id}
               submit={() => { this.setState({ submit: false }) }}
             />:null
           }

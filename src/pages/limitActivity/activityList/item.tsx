@@ -16,6 +16,7 @@ interface dataType {
 
  declare interface props {
    info: dataType,
+   activity_id:any,
    delete: (id: Number|string) => void
 }
 
@@ -31,7 +32,7 @@ const publishType:any = {
 }
 
 export default function Item(props: props) {
-  const { info } = props
+  const { info, activity_id} = props
   return (
     <Flex className={styles.item}>
       <Flex className={styles.item_left} justify='around' align='center'>
@@ -61,7 +62,7 @@ export default function Item(props: props) {
           
           <Flex className={styles.browse} justify='center' onClick={() => {
             router.push({
-              pathname: '/limitActivity/participateActivities', query: { recruit_activity_id: 7, youhui_id: info.id,look:1 }
+              pathname: '/limitActivity/participateActivities', query: { recruit_activity_id: activity_id, youhui_id: info.id,look:1 }
             })
           }}>浏览</Flex>
         </Flex>

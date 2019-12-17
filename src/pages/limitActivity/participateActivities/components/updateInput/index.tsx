@@ -83,8 +83,7 @@ export default connect(({ participateActive }: any) => participateActive)(
     componentWillReceiveProps(value1: any, value2: any) {
 
       if (value1.again) {
-        console.log(this.props,'prosps');
-        
+
         this.props.submit(false)
         this.submiAgain()
       }
@@ -96,12 +95,6 @@ export default connect(({ participateActive }: any) => participateActive)(
     }
     //卡券类型  现金false 商品true
     inputCardVoucherType = (coupons_type: number) => {
-      // this.setState({ coupons_type })
-      // this.props.dispatch({
-      //   type: 'participateActive/setActiveType',
-      //   payload: coupons_type
-      // });
-      // this.props.onChangeType(coupons_type)
     }
 
     //现金券input输入
@@ -144,7 +137,7 @@ export default connect(({ participateActive }: any) => participateActive)(
         url: 'api/merchant/youhui/subEditCardVoucherActivity',
         method: 'post',
         data: {
-          recruit_activity_id: 7,
+          recruit_activity_id: this.props.recruit_activity_id,
           youhui_id:this.props.list.id,
           ...meta,
           coupons_type
