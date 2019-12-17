@@ -92,7 +92,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 
 		};
 		UNSAFE_componentWillReceiveProps(nextProps: any) {
-			console.log('nextProps',nextProps)
+			console.log('nextProps', nextProps)
 			// 为了防止切换时没数据而保持渲染所以每次切换时先清除数据
 			this.setState({
 				coupon: {
@@ -365,15 +365,15 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 		handleCheckImage = async (files: any[], operationType: string) => {
 			if (operationType === 'add' && files.length) {
 				Toast.loading('上传图片中');
-				this.setState({ uploadIng: true },()=>{console.log('开始上传')})
+				this.setState({ uploadIng: true }, () => { console.log('开始上传') })
 				const res = await oss(files[0].url);
 				Toast.hide();
 				if (res.status === 'ok') {
-					this.setState({ uploadIng: false },()=>{console.log('上传好了')})
+					this.setState({ uploadIng: false }, () => { console.log('上传好了') })
 					files.splice(0, 1, { ...files[0], path: res.data.path });
 					this.setState({ files });
 				} else {
-					this.setState({ uploadIng: false },()=>{console.log('上传好了')})
+					this.setState({ uploadIng: false }, () => { console.log('上传好了') })
 					this.setState({ files: [] });
 					Toast.fail('上传图片失败');
 				}
@@ -501,11 +501,12 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 										广告投放时长
 								</List.Item>
 									{
-										this.state.timeErr && !this.state.startTime && !this.state.endTime ? <div className={styles.errorLine} >请选择活动时间后重新提交</div> : null
+										this.state.timeErr && !this.state.startTime && !this.state.endTime ? <div className={styles.errorLine} >请选择活动时间后重新提交</div> : (
+											this.state.timeErr && ((this.state.startTime && !this.state.endTime) || (!this.state.startTime && this.state.endTime)) ? <div className={styles.errorLine} >未设置开始时间/结束时间/,无法提交</div> : null
+
+										)
 									}
-									{
-										this.state.timeErr && ((this.state.startTime && !this.state.endTime) || (!this.state.startTime && this.state.endTime)) ? <div className={styles.errorLine} >未设置开始时间/结束时间/,无法提交</div> : null
-									}
+
 									<InputItem
 										value={this.state.price}
 										extra="元"
@@ -523,10 +524,10 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 										</span>
 									</InputItem>
 									{
-										this.state.priceErr && !this.state.price ? <div className={styles.errorLine} >账号余额低于每日最低预算，请充值后重新投放</div> : null
-									}
-									{
-										this.state.priceErr && this.state.price && Number(this.state.price) < 1.1 ? <div className={styles.errorLine} >每日投放预算不可低于1.1元</div> : null
+										this.state.priceErr && !this.state.price ? <div className={styles.errorLine} >账号余额低于每日最低预算，请充值后重新投放</div> : (
+											this.state.priceErr && this.state.price && Number(this.state.price) < 1.1 ? <div className={styles.errorLine} >每日投放预算不可低于1.1元</div> : null
+
+										)
 									}
 
 								</List>
@@ -554,11 +555,12 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 									) : ''
 								}
 								{
-									this.state.imageErr && this.state.uploadIng == false && this.state.files.length == 0 ? <div className={styles.errorLine} >请上传广告图片后再重新提交</div> : null
+									this.state.imageErr && this.state.uploadIng == false && this.state.files.length == 0 ? <div className={styles.errorLine} >请上传广告图片后再重新提交</div> : (
+										this.state.imageErr && this.state.uploadIng == true ? <div className={styles.errorLine} >图片上传中，请等待图片上传完毕</div> : null
+
+									)
 								}
-								{
-									this.state.imageErr && this.state.uploadIng == true ? <div className={styles.errorLine} >图片上传中，请等待图片上传完毕</div> : null
-								}
+
 								<WhiteSpace size="lg" />
 								{
 									this.state.is_pause == 1 ? (
