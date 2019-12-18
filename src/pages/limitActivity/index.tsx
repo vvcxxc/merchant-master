@@ -79,7 +79,7 @@ class LimitActivity extends Component {
                                             活动简介：{item.introduce}
                                         </div>
                                         <div className={Styles.content_info}>
-                                            <div className={Styles.content_tips}>您已发布{item.youhui_count}项优化信息</div>
+                                            <div className={Styles.content_tips}>您已发布{item.youhui_count}项优惠信息</div>
                                             <div className={Styles.content_btn} onClick={this.goToActivityList.bind(this, item.id)}>{item.youhui_count == 0 ? '立即参与' : '查看'}</div>
                                         </div>
                                     </div>

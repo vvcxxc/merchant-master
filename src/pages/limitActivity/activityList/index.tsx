@@ -75,7 +75,7 @@ export default class ActivityList extends Component {
       const { code, data, message } = res
       switch (code) {
         case 200:
-          this.setState({ list: this.state.list.filter((item: any) => item.id !== youhui_id) })
+          this.setState({ page: 1 }, ()=> this.getListData)
           Toast.success(message)
           break;
         default:
