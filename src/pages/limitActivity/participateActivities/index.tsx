@@ -50,7 +50,7 @@ export default connect(({ participateActive }: any) => participateActive)(
       }).then((res) => {
         const { code, data } = res
         console.log(data);
-        
+
         this.setState({
           rules: data.rules,
           inputList: data,
@@ -174,17 +174,17 @@ export default connect(({ participateActive }: any) => participateActive)(
           {
             !query.look ? <AttendRules data={rules} />:null
           }
-          
+
           {
             query.look?
             <div className={styles.foot} style={{marginTop:'0.4rem'}}>
-              <span onClick={() => { router.push({ pathname: '/limitActivity/activityList' }) }}>返回卡券列表</span>
+              <span onClick={() => { router.goBack() }}>返回卡券列表</span>
               </div> : <div className={styles.foot}>
                 {
                   query.youhui_id ?
                     <span onClick={() => { this.setState({ again: true }) }}>重新提交</span> : <span onClick={() => { this.setState({ submit: true }) }}>提交活动</span>
                 }
-                <span>取消</span>
+                <span onClick={()=>router.goBack()}>取消</span>
               </div>
           }
         </div>

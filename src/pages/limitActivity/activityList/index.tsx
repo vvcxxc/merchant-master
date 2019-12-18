@@ -25,6 +25,7 @@ export default class ActivityList extends Component {
   //请求列表数据
   getListData = () => {
     const { page, recruit_activity_id } = this.state
+    console.log(page)
     request({
       url: 'api/merchant/youhui/cardVoucherActivityList',
       method: 'get',
@@ -75,7 +76,7 @@ export default class ActivityList extends Component {
       const { code, data, message } = res
       switch (code) {
         case 200:
-          this.setState({ page: 1 }, ()=> this.getListData)
+          this.setState({ page: 0 }, this.getListData)
           Toast.success(message)
           break;
         default:
