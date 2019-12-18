@@ -155,7 +155,7 @@ export default connect()(
 						<div className={styles.user_money}>
 							<div className={styles.count_balance}>
 								<div className={styles.count_balance_wrap}>
-									<div className={styles.count_balance_title}>账号余额</div>
+									<div className={styles.count_balance_title}>账户余额</div>
 									<div className={styles.count_balance_money}>{this.state.info.me_money}</div>
 								</div>
 								<div className={styles.count_balance_btn}>
