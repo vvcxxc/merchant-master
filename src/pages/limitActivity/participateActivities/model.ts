@@ -27,7 +27,6 @@ const model: Model = {
       image: '',
       description: []
     },
-    shop_image_url: '',
     //编辑现金券
     updateCash: {
       return_money: '',
@@ -59,12 +58,6 @@ const model: Model = {
           ...state.active,
           ...payload
         }
-      }
-    },
-    setAddImg(state, { payload }) {//设置活动时间
-      return {
-        ...state,
-        shop_image_url: payload
       }
     },
     setCash(state, { payload }) {//设置现金券数据
