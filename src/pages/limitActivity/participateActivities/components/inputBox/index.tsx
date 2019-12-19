@@ -91,7 +91,8 @@ export default connect(({ participateActive }: any) => participateActive)(
     //提交活动
     addActive = () => {
       const { coupons_type, cash, shop } = this.state
-      let value = !coupons_type ? { ...shop, image_url: this.props.cover_image, image: this.props.cover_image } : cash
+      const { image_url } = this.props.shop
+      let value = !coupons_type ? { ...shop, image_url, image: image_url } : cash
       request({
         url: 'api/merchant/youhui/subAddCardVoucherActivity',
         method: 'post',
@@ -118,7 +119,6 @@ export default connect(({ participateActive }: any) => participateActive)(
           }
          
           Toast.success(message, 1, () => {
-            // router.push({ pathname:'/limitActivity/activityList'})
             router.push({
               pathname: '/limitActivity/activityList',
               query: { id: this.props.recruit_activity_id }

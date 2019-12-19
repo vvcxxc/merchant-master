@@ -81,9 +81,7 @@ export default connect(({ participateActive }: any) => participateActive)(
 
 
     componentWillReceiveProps(value1: any, value2: any) {
-
       if (value1.again) {
-
         this.props.submit(false)
         this.submiAgain()
       }
@@ -123,16 +121,12 @@ export default connect(({ participateActive }: any) => participateActive)(
       });
     }
 
-
-    
-
    
 
     submiAgain = () => {
       const { coupons_type,cash } = this.state
       const { updateShop } = this.props
       let meta = !coupons_type ? updateShop : cash
-      console.log(meta,'meta');
       request({
         url: 'api/merchant/youhui/subEditCardVoucherActivity',
         method: 'post',

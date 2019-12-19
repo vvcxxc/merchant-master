@@ -11,49 +11,44 @@ export default connect(({ participateActive }: any) => participateActive)(
       cover_image: ''
     }
     componentDidMount() {
-      if (this.props.update) {
-        const { cover_image } = this.props.updateShop
-        if (this.props.listImg) {
-          this.setState({ cover_image: this.props.listImg })
-          // this.props.dispatch({
-          //   type: 'participateActive/setUpdateShop',
-          //   payload: {
-          //     cover_image: this.props.listImg
-          //   }
-          // });
-        }
-        if (cover_image && cover_image.length) {
-          this.setState({ cover_image })
-          // this.props.dispatch({
-          //   type: 'participateActive/setUpdateShop',
-          //   payload: {
-          //     cover_image
-          //   }
-          // });
-        }
-      // }
+
+      // console.log(this.props,'jjjjjjj');
+      // if (this.props.update) {
         
-      } else {
-        const { cover_image } = this.props.shop
-        if (this.props.listImg) {
-          this.setState({ cover_image: this.props.listImg })
-          this.props.dispatch({
-            type: 'participateActive/setShop',
-            payload: {
-              cover_image: this.props.listImg
-            }
-          });
-        }
-        if (cover_image && cover_image.length) {
-          this.setState({ cover_image })
-          this.props.dispatch({
-            type: 'participateActive/setShop',
-            payload: {
-              cover_image
-            }
-          });
-        }
-      }
+      // }
+      this.setState({
+        cover_image: this.props.listImg
+      })
+      
+      // if (this.props.update) {
+      //   const { cover_image } = this.props.updateShop
+      //   if (this.props.listImg) {
+      //     this.setState({ cover_image: this.props.listImg })
+      //   }
+      //   if (cover_image && cover_image.length) {
+      //     this.setState({ cover_image })
+      //   }
+      // } else {
+      //   const { cover_image } = this.props.shop
+      //   if (this.props.listImg) {
+      //     this.setState({ cover_image: this.props.listImg })
+      //     // this.props.dispatch({
+      //     //   type: 'participateActive/setShop',
+      //     //   payload: {
+      //     //     cover_image: this.props.listImg
+      //     //   }
+      //     // });
+      //   }
+      //   if (cover_image && cover_image.length) {
+      //     this.setState({ cover_image })
+      //     // this.props.dispatch({
+      //     //   type: 'participateActive/setShop',
+      //     //   payload: {
+      //     //     cover_image
+      //     //   }
+      //     // });
+      //   }
+      // }
       
      
     }
@@ -64,50 +59,17 @@ export default connect(({ participateActive }: any) => participateActive)(
         Toast.loading('上传图片中');
         upload(files[files.length - 1].url).then(res => {//此函数上传图片给阿里云
           if (res.status === 'ok') {
+            console.log(2);
             Toast.hide();
-            this.setState({ cover_image: res.data.path })
             this.props.uploadImg(res.data.path)
-            if (this.props.update) {
-              // this.props.dispatch({
-              //   type: 'participateActive/setUpdateShop',
-              //   payload: {
-              //     cover_image: res.data.path
-              //   }
-              // });
-            } else {
-              this.props.dispatch({
-                type: 'participateActive/setShop',
-                payload: {
-                  cover_image: res.data.path
-                }
-              });
-            }
-           
+            this.setState({ cover_image: res.data.path })
           }
           Toast.hide();
         });
       } else if (operationType === 'remove') {//删除图片
+        console.log(3);
         this.props.uploadImg('')
-        this.setState({
-          cover_image: ''
-        })
-        if (this.props.update) {
-          // this.props.dispatch({
-          //   type: 'participateActive/setUpdateShop',
-          //   payload: {
-          //     image_url: '',
-          //     image: '',
-          //   }
-          // });
-        } else {
-          this.props.dispatch({
-            type: 'participateActive/setShop',
-            payload: {
-              cover_image:''
-            }
-          });
-        }
-
+        this.setState({ cover_image: ''})
       }
     };
 

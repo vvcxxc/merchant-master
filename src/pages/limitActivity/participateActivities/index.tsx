@@ -41,6 +41,8 @@ export default connect(({ participateActive }: any) => participateActive)(
 
     //请求列表数据 -添加活动
     addListData = () => {
+      console.log(this.props,'nnnn');
+      
       request({
         url: 'api/merchant/youhui/addCardVoucherActivity',
         method: 'get',
@@ -49,13 +51,19 @@ export default connect(({ participateActive }: any) => participateActive)(
         }
       }).then((res) => {
         const { code, data } = res
-        console.log(data);
-
+         // this.props.dispatch({
+        //   type: 'participateActive/setShop',
+        //   payload: {
+        //     // cover_image,
+        //     // image_url: cover_image,
+        //     image: cover_image
+        //   }
+        // });
         this.setState({
           rules: data.rules,
           inputList: data,
           bigImg: data.cover_image,
-          listImg:  data.image,
+          cover_image:this.props.shop.image_url.length ? this.props.shop.image_url : '',
           coupons_type: this.props.coupons_type
         })
       })
@@ -72,20 +80,24 @@ export default connect(({ participateActive }: any) => participateActive)(
         }
       }).then((res) => {
         const { code, data } = res
-        this.state.update && this.props.dispatch({
+         this.props.dispatch({
           type: 'participateActive/setUpdateShop',
           payload: {
             image_url: data.image,
             image: data.image
           }
         });
+        console.log(data, 'kekeks');
+
         this.setState({
           coupons_type: data.youhui_type,
           inputList: data,
           rules: data.rules,
           bigImg: data.cover_image,
-          cover_image: this.props.updateShop.image_url.length ? this.props.updateShop.image_url : data.image,
-          update: true
+          cover_image://如果缓存里面有，就用缓存的，如果没有，就用后台返回的
+            this.props.updateShop.image_url.length ? this.props.updateShop.image_url : data.image,//
+          update: true,
+          listImg: data.image,
         })
       })
 
@@ -101,13 +113,26 @@ export default connect(({ participateActive }: any) => participateActive)(
 
     uploadImg = (cover_image: string) => {
       this.setState({ cover_image })
-      this.state.update && this.props.dispatch({
-        type: 'participateActive/setUpdateShop',
-        payload: {
-          image_url: cover_image,
-          image: cover_image
-        }
-      });
+      //判断 处于什么条件下， 给图片赋值
+      
+      if (!this.state.update) {
+        this.props.dispatch({
+          type: 'participateActive/setShop',
+          payload: {
+            image_url: cover_image
+          }
+        });
+      } else {//添加页面
+        
+        this.props.dispatch({
+          type: 'participateActive/setUpdateShop',
+          payload: {
+            image_url: cover_image,
+            image: cover_image
+          }
+        });
+        console.log('添加页面', cover_image);
+      }
     }
 
     //请求浏览数据
