@@ -11,7 +11,7 @@ interface dataType {
   publish_wait: Number | string,//0:待审核 1:已审核 2:拒绝
   already_distributed: Number | string,//已派发
   already_used: Number | string,//已使用
- 
+  use_sum:Number
 }
 
  declare interface props {
@@ -48,7 +48,7 @@ export default function Item(props: props) {
               <div className={styles.status}>{publishType[info.publish_wait]}</div>
               <div>
                 <span>已派发：{info.already_distributed}</span>
-                <span>已使用：{info.already_used}</span>
+                <span>已使用：{info.use_sum}</span>
               </div>
             </div>
             <div className={styles.cancel}>
