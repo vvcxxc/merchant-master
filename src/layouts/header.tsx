@@ -12,11 +12,17 @@ export default connect(({ ad, businessArea }: any) => ({ ad, businessArea }))(
 		}
 		goBack = () => {
 			let url = window.location.href;
+			
+			if (url.indexOf('limitActivity/activityList?id') !== -1) {
+				router.push({ pathname:'/limitActivity'})
+			} else {
+				router.goBack()
+			}
 			// if(url.includes('rechange')){
 			//   router.push('/')
 			//   return
 			// }
-			router.goBack()
+			
 
 			// 判断路由广告路由返回时数据清掉
 			if (url.includes('ad/other-page')) {

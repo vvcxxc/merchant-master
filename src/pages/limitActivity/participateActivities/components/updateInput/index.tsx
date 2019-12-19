@@ -153,7 +153,7 @@ export default connect(({ participateActive }: any) => participateActive)(
             });
           }
           Toast.success(message, 0.8)
-          router.push({ pathname: '/limitActivity/activityList' })
+          router.push({ pathname: '/limitActivity/activityList', query: { id: this.props.recruit_activity_id }})
         } else {
           Toast.fail(message)
         }
@@ -196,7 +196,8 @@ export default connect(({ participateActive }: any) => participateActive)(
               <li>
                 <div>使用门槛</div>
                 <input
-                  type="number" pattern="[0-9]*"
+                  // type="number"
+                  pattern="[0-9]*"
                   placeholder={'请输入使用门槛(元）'}
                   value={cash.total_fee}
                   onChange={this.inputCashList('total_fee')}

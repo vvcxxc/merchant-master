@@ -2,8 +2,7 @@ import React from 'react'
 import styles from './index.less'
 
 export default function name(params: any) {
-  console.log(params,'jkjkjkj');
-  
+
   return (
     <div className={styles.inputBox_two}>
       {
@@ -53,8 +52,8 @@ export default function name(params: any) {
             <li style={{ border: 'none', color: '#000000', paddingTop: '0.3rem', paddingBottom: '0rem' }}>
               卡券信息</li>
             <li>
-              <div>卡券名称</div>
-              <div>{params.list.name}</div>
+              <div>卡券面额</div>
+              <div>{params.list.return_money}</div>
             </li>
             <li>
               <div>发布时间</div>
