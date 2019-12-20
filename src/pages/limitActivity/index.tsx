@@ -22,8 +22,8 @@ class LimitActivity extends Component {
     }
     redirectIdx = (idx: Number) => {
         if (idx == 0) { this.state.data1.length == 0 && this.getData(1); }//1招募中
-        else if (idx == 1) { this.state.data0.length == 0 && this.getData(0); }//0已结束
-        else if (idx == 2) { this.state.data2.length == 0 && this.getData(2); }
+        else if (idx == 1) { this.state.data0.length == 0 && this.getData(2); }//0已结束
+        else if (idx == 2) { this.state.data2.length == 0 && this.getData(3); }
     }
 
     getData = (type: Number) => {
@@ -33,13 +33,13 @@ class LimitActivity extends Component {
             params: { status: type }
         }).then(res => {
             Toast.hide();
-            if (type == 0) {//0已结束
+            if (type == 2) {//已结束
                 let data0 = this.state.data0.concat(res.data);
                 this.setState({ data0: data0, data: data0 });
             } else if (type == 1) {//1招募中
                 let data1 = this.state.data1.concat(res.data);
                 this.setState({ data1: data1, data: data1 });
-            } else if (type == 2) {
+            } else if (type == 3) {
                 let data2 = this.state.data2.concat(res.data);
                 this.setState({ data2: data2, data: data2 })
             }

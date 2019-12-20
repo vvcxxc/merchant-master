@@ -97,36 +97,138 @@ export default connect(({ participateActive }: any) => participateActive)(
 
     //现金券input输入
     inputCashList = (type: string) => (e: any) => {
-      this.setState({
-        cash:{...this.state.cash,[type]: e.target.value}
-      })
-      this.props.dispatch({
-        type: 'participateActive/setUpdateCash',
-        payload: {
-          [type]: e.target.value
-        }
-      });
+
+      if (type == 'return_money' || type == 'total_fee') {
+        let onlyTwo = /^(0|[1-9]\d*)(\.\d{1,2})?/
+        this.setState({
+          shop: {
+            ...this.state.shop, [type]:
+              e.target.value && e.target.value.match(onlyTwo)[0]
+          }
+        })
+        this.props.dispatch({
+          type: 'participateActive/setUpdateCash',
+          payload: {
+            [type]: e.target.value && e.target.value.match(onlyTwo)[0]
+          }
+        });
+      } else {
+        this.setState({
+          shop: {
+            ...this.state.shop,
+            [type]: type == 'validity' || type == 'total_num' ?
+              e.target.value && parseInt(e.target.value) : e.target.value//有效期和卡券数量整数限制
+          }
+        })
+        this.props.dispatch({
+          type: 'participateActive/setUpdateCash',
+          payload: {
+            [type]:
+              type == 'validity' || type == 'total_num' ?
+                e.target.value && parseInt(e.target.value) : e.target.value
+          }
+        });
+      }
+      // this.setState({
+      //   cash:{...this.state.cash,[type]: e.target.value}
+      // })
+      // this.props.dispatch({
+      //   type: 'participateActive/setUpdateCash',
+      //   payload: {
+      //     [type]: e.target.value
+      //   }
+      // });
     }
 
     //商品券输入
     inputShopList = (type: string) => (e: any) => {
-      this.setState({
-        shop: { ...this.state.shop, [type]: e.target.value}
-      })
-      this.props.dispatch({
-        type: 'participateActive/setUpdateShop',
-        payload: {
-          [type]: e.target.value
-        }
-      });
+      // this.setState({
+      //   shop: { ...this.state.shop, [type]: e.target.value}
+      // })
+      // this.props.dispatch({
+      //   type: 'participateActive/setUpdateShop',
+      //   payload: {
+      //     [type]: e.target.value
+      //   }
+      // });
+
+      if (type == 'return_money' || type == 'total_fee') {
+        let onlyTwo = /^(0|[1-9]\d*)(\.\d{1,2})?/
+        this.setState({
+          shop: {
+            ...this.state.shop, [type]:
+              e.target.value && e.target.value.match(onlyTwo)[0]
+          }
+        })
+        this.props.dispatch({
+          type: 'participateActive/setUpdateShop',
+          payload: {
+            [type]: e.target.value && e.target.value.match(onlyTwo)[0]
+          }
+        });
+      } else {
+        this.setState({
+          shop: {
+            ...this.state.shop,
+            [type]: type == 'validity' || type == 'total_num' ?
+              e.target.value && parseInt(e.target.value) : e.target.value//有效期和卡券数量整数限制
+          }
+        })
+        this.props.dispatch({
+          type: 'participateActive/setUpdateShop',
+          payload: {
+            [type]:
+              type == 'validity' || type == 'total_num' ?
+                e.target.value && parseInt(e.target.value) : e.target.value
+          }
+        });
+      }
+
     }
 
+    //前端校验
+    verifyRules = (data: any, coupons_type: number) => {
+      const error = []
+      if (!coupons_type) {//商品券
+        data.coupons_name.length > 30 && error.push('名称最多可输入30个字符，请重新设置。')
+        !data.coupons_name && error.push('请设置卡券名称')
+
+        !(data.return_money > 0 && data.return_money < 10000) &&
+          error.push('原价设置不符规则，请输入大于0且小于1万的数额.')
+
+        !(data.validity > 0 && data.validity < 365) &&
+          error.push('有效期设置不符规则，请输入大于0且小于365的数额')
+
+        !(data.total_num > 0 && data.total_num < 100000) &&
+          error.push('数量设置不符规则，请输入大于0且小于10万的数额')
+
+        !data.description.length &&
+          error.push('请设置使用须知')
+        !data.image.length &&
+          error.push('请上传商品图片')
+      } else {
+        !(data.return_money > 0 && data.return_money < 10000) &&
+          error.push('面额设置不符规则，请输入大于0且小于1万的数额.')
+        !(data.total_fee > 0 && data.total_fee < 100000) &&
+          error.push('门槛设置不符规则，请输入大于0且小于10万的数额。')
+
+        !(data.validity > 0 && data.validity < 365) &&
+          error.push('有效期设置不符规则，请输入大于0且小于365的数额')
+
+        !(data.total_num > 0 && data.total_num < 100000) &&
+          error.push('数量设置不符规则，请输入大于0且小于10万的数额')
+      }
+
+      error[0] && Toast.fail(error[0])
+      return error[0] ? false : true
+    }
    
 
     submiAgain = () => {
       const { coupons_type,cash } = this.state
       const { updateShop } = this.props
       let meta = !coupons_type ? updateShop : cash
+      if (!this.verifyRules(meta, coupons_type)) return
       request({
         url: 'api/merchant/youhui/subEditCardVoucherActivity',
         method: 'post',
