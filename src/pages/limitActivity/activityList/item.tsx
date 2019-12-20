@@ -43,8 +43,7 @@ export default function Item(props: props) {
           <Flex justify='between'>
             <div className={styles.item_info}>
               <div className={styles.name}>
-                {/* {info.name}{youhuiType[info.youhui_type]} */}
-                票价爱福23232323克斯的323232323福克323232323232323232323232323232323232323232斯打434232323232322323232323开附件是代理方式打开了十九我是我是我是我是我是
+                {info.name}{youhuiType[info.youhui_type]}
               </div>
               <div className={styles.status}>{publishType[info.publish_wait]}</div>
               <div>
