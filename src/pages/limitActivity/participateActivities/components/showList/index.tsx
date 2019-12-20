@@ -28,15 +28,15 @@ export default function name(params: any) {
           </li>
           <li>
             <div>商品原价</div>
-            <div>{params.list.return_money}</div>
+            <div>{params.list.return_money}{'元'}</div>
           </li>
           <li>
             <div>卡券数量</div>
-            <div>{params.list.total_num}</div>
+            <div>{params.list.total_num}{'张'}</div>
           </li>
           <li>
             <div>卡券有效期</div>
-            <div>{params.list.expire_day}</div>
+            <div>{'领券后'}{params.list.expire_day}{'天有效'}</div>
           </li>
           <li >
             <div>使用须知</div>
@@ -53,7 +53,7 @@ export default function name(params: any) {
               卡券信息</li>
             <li>
               <div>卡券面额</div>
-              <div>{params.list.return_money}</div>
+              <div>{params.list.return_money}{'元'}</div>
             </li>
             <li>
               <div>发布时间</div>
@@ -65,15 +65,15 @@ export default function name(params: any) {
             </li>
             <li>
               <div>使用门槛</div>
-              <div>{params.list.total_fee}</div>
+              <div>{'满'}{params.list.total_fee}{'元可用'}</div>
             </li>
             <li>
               <div>卡券有效期</div>
-              <div>{params.list.expire_day}</div>
+              <div>{'领券后'}{params.list.expire_day}{'天有效'}</div>
             </li>
             <li>
               <div>卡券数量</div>
-              <div>{params.list.total_num}</div>
+              <div>{params.list.total_num}{'张'}</div>
             </li>
           </ul>
       }
