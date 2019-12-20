@@ -144,7 +144,11 @@
         font-size: 30px;
         color: #000;
         font-weight: bold;
-      }
+        width: 370px;
+        text-overflow: ellipsis; /* 文本溢出时显示省略号来代表被修剪的文本 */
+        white-space: nowrap; /* 段落中的文本不进行换行 */
+        overflow: hidden; /* 溢出部分隐藏 */
+    }
       .status {
         padding: 5px 0;
       }

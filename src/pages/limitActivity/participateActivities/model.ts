@@ -21,6 +21,7 @@ const model: Model = {
     shop: {
       coupons_name: '',
       return_money: '',
+      // validity: '',
       validity: '',
       total_num: '',
       image_url: '',

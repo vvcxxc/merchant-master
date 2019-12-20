@@ -169,15 +169,15 @@ export default connect(({ participateActive }: any) => participateActive)(
       const cardType = <li><div>选择卡券类型</div><div>{!list.youhui_type ? '商品券' : '现金券'}</div></li>
       return (
         <div className={styles.inputBox}>
-          <ul>
-            <li>
-              <div>活动时间</div>
-              <div>{start_date + '至' + end_date}</div>
-            </li>
-            {cardType}
-          </ul>
+          <div className={styles.refuse_reason}>{list.reason}</div>
+
           {
             coupons_type ? <ul>
+              <li>
+                <div>活动时间</div>
+                <div>{start_date + '至' + end_date}</div>
+              </li>
+              {cardType}
               <li>
                 <div>卡券面额</div>
                 <input
@@ -202,7 +202,7 @@ export default connect(({ participateActive }: any) => participateActive)(
                 <div>卡券有效期</div>
                 <input
                   type="number" pattern="[0-9]*"
-                  placeholder={'请输入卡券有效期'}
+                  placeholder={'领券后*天可用(天)'}
                   value={cash.validity}
                   onChange={this.inputCashList('validity')}
                   onBlur={this.onclange} />
@@ -218,6 +218,11 @@ export default connect(({ participateActive }: any) => participateActive)(
                   onBlur={this.onclange} />
               </li>
             </ul> : <ul>
+                <li>
+                  <div>活动时间</div>
+                  <div>{start_date + '至' + end_date}</div>
+                </li>
+                {cardType}
                 <li>
                   <div>卡券名称</div>
                   <input
@@ -239,7 +244,7 @@ export default connect(({ participateActive }: any) => participateActive)(
                   <div>卡券有效期</div>
                   <input
                     type="number" pattern="[0-9]*"
-                    placeholder={'请输入卡券有效期'}
+                    placeholder={'领券后*天可用(天)'}
                     value={shop.validity}
                     onChange={this.inputShopList('validity')}
                     onBlur={this.onclange} />

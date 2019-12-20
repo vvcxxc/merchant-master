@@ -41,8 +41,7 @@ export default connect(({ participateActive }: any) => participateActive)(
 
     //请求列表数据 -添加活动
     addListData = () => {
-      console.log(this.props,'nnnn');
-      
+
       request({
         url: 'api/merchant/youhui/addCardVoucherActivity',
         method: 'get',
@@ -51,14 +50,6 @@ export default connect(({ participateActive }: any) => participateActive)(
         }
       }).then((res) => {
         const { code, data } = res
-         // this.props.dispatch({
-        //   type: 'participateActive/setShop',
-        //   payload: {
-        //     // cover_image,
-        //     // image_url: cover_image,
-        //     image: cover_image
-        //   }
-        // });
         this.setState({
           rules: data.rules,
           inputList: data,
@@ -87,8 +78,6 @@ export default connect(({ participateActive }: any) => participateActive)(
             image: data.image
           }
         });
-        console.log(data, 'kekeks');
-
         this.setState({
           coupons_type: data.youhui_type,
           inputList: data,
@@ -131,7 +120,6 @@ export default connect(({ participateActive }: any) => participateActive)(
             image: cover_image
           }
         });
-        console.log('添加页面', cover_image);
       }
     }
 

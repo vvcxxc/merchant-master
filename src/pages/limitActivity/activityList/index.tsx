@@ -25,7 +25,6 @@ export default class ActivityList extends Component {
   //请求列表数据
   getListData = () => {
     const { page, recruit_activity_id } = this.state
-    console.log(page)
     request({
       url: 'api/merchant/youhui/cardVoucherActivityList',
       method: 'get',
