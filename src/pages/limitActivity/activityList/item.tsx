@@ -43,7 +43,7 @@ export default function Item(props: props) {
           <Flex justify='between'>
             <div className={styles.item_info}>
               <div className={styles.name}>
-                {info.name}{youhuiType[info.youhui_type]}
+                {info.name}
               </div>
               <div className={styles.status}>{publishType[info.publish_wait]}</div>
               <div>

@@ -129,7 +129,7 @@ class LimitActivity extends Component {
                                             </div>
                                         </div>
                                         <div className={Styles.content_info}>
-                                            <div className={Styles.content_tips}>您已发布{item.youhui_count}项优化信息</div>
+                                            <div className={Styles.content_tips}>您已发布{item.youhui_count}项优惠信息</div>
                                         </div>
                                     </div>
                                 )

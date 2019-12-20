@@ -77,7 +77,7 @@ export default connect(({ participateActive }: any) => participateActive)(
       const { cover_image } = this.state
       return (
         <div className={styles.imgbox}>
-          <div className={styles.set_prompt}>{'*请上传横行的图片，建议图片比例16:9'}</div>
+          <div className={styles.set_prompt}><span>*</span>{'请上传横行的图片，建议图片比例16:9'}</div>
           <div className={styles.active_image}>
             <div className={styles.active_image_title}>设置活动图片</div>
             <div className={styles.cover_img}>
