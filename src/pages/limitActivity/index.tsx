@@ -58,10 +58,10 @@ class LimitActivity extends Component {
             <div className={Styles.limit_activity_wrap}>
                 <Tabs tabs={tabs}
                     initialPage={0}
-                    tabBarActiveTextColor="#5BA2FA"
+                    tabBarActiveTextColor="#6AA4F6"
                     tabBarInactiveTextColor="#AAAAAA"
                     // tabBarUnderlineStyle={{width: '20%',height:"15px",backgroundColor:"#5BA2FA",margin: '0 auto'}}
-                    tabBarUnderlineStyle={{ height: '.03rem', width: '1.03rem', background: '#5BA2FA', marginLeft: '.75rem' }}
+                    tabBarUnderlineStyle={{ height: '.07rem', width: '1.03rem', background: '#6AA4F6', marginLeft: '.75rem', border: 'none', borderRadius: '8px' }}
                     // onChange={(tab, index) => { console.log('onChange', index, tab); }}
                     onTabClick={(tab, index) => { this.redirectIdx(index) }}
                 >
