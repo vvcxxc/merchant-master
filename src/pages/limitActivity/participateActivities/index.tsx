@@ -28,7 +28,8 @@ export default connect(({ participateActive }: any) => participateActive)(
       again: false,
       update: false,
       showList: 1,
-      bigImg:''
+      bigImg: '',
+      is_model:false
     }
     componentDidMount() {
       const { look, youhui_id } = this.props.location.query
@@ -144,11 +145,25 @@ export default connect(({ participateActive }: any) => participateActive)(
     }
 
     render() {
-      const { coupons_type, rules, submit, cover_image, inputList, again, update,bigImg } = this.state
+      const { coupons_type, rules, submit, cover_image, inputList, again, update, bigImg, is_model} = this.state
       const { query } = this.props.location
+
+      const Model = (
+        <div className={styles.model}>
+          <div className={styles.model_main}>
+            <img onClick={() => this.setState({ is_model: false})} src={require('../../../assets/quxiao.png')} alt="" />
+            <div className={styles.model_title}>
+              温馨提示
+               </div>
+            <div className={styles.model_text}>重新提交后，需要再次审核</div>
+            <div className={styles.model_bottom} onClick={() => this.setState({ is_model: false, again: true })}>确定</div>
+          </div>
+        </div>
+      )
 
       return (
         <div className={styles.participateActivities}>
+          { is_model && Model}
           <div className={styles.activity_big_img}>
             <img src={'http://oss.tdianyi.com/' + bigImg} alt="" />
           </div>
@@ -195,7 +210,7 @@ export default connect(({ participateActive }: any) => participateActive)(
               </div> : <div className={styles.foot}>
                 {
                   query.youhui_id ?
-                    <span onClick={() => { this.setState({ again: true }) }}>重新提交</span> : <span onClick={() => { this.setState({ submit: true }) }}>提交活动</span>
+                    <span onClick={() => { this.setState({ is_model: true }) }}>重新提交</span> : <span onClick={() => { this.setState({ submit: true }) }}>提交活动</span>
                 }
                 <span onClick={()=>router.goBack()}>取消</span>
               </div>
