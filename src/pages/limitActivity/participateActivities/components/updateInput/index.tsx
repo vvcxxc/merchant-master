@@ -101,8 +101,8 @@ export default connect(({ participateActive }: any) => participateActive)(
       if (type == 'return_money' || type == 'total_fee') {
         let onlyTwo = /^(0|[1-9]\d*)(\.\d{1,2})?/
         this.setState({
-          shop: {
-            ...this.state.shop, [type]:
+          cash: {
+            ...this.state.cash, [type]:
               e.target.value && e.target.value.match(onlyTwo)[0]
           }
         })
@@ -114,8 +114,8 @@ export default connect(({ participateActive }: any) => participateActive)(
         });
       } else {
         this.setState({
-          shop: {
-            ...this.state.shop,
+          cash: {
+            ...this.state.cash,
             [type]: type == 'validity' || type == 'total_num' ?
               e.target.value && parseInt(e.target.value) : e.target.value//有效期和卡券数量整数限制
           }

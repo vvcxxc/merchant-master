@@ -3,6 +3,7 @@ import router from 'umi/router';
 import { Flex } from 'antd-mobile'
 import Item from './item'
 import { Toast } from 'antd-mobile';
+import moment from 'moment';
 import request from '@/services/request';
 import styles from './index.less';
 
@@ -37,7 +38,9 @@ export default class ActivityList extends Component {
       const { code, data } = res
       switch (code) {
         case 200:
-          this.setState({ end_time: new Date(data.recruit_activity_end_date + ' 23:59:59').getTime()})
+          this.setState({
+            end_time: moment(data.recruit_activity_end_date + ' 23:59:59').unix() 
+          })
           page ? this.setState({ list: [...this.state.list, ...data.data.data] }) : this.setState({ list: data.data.data, max_num: data.card_num, num: data.data.total })
           page ? !data.data.data.length && this.setState({ hint: '无更多数据' }) : this.state.list.length && this.setState({ hint: '点击加载更多' })
           break;
@@ -130,16 +133,17 @@ export default class ActivityList extends Component {
         }
         {is_model ? Model : null}
         {
-          new Date().getTime() < end_time ? <div className={styles.issueBox} style={{ backgroundColor: list.length > 4 ? '#fff' : '' }}>
+          new Date().getTime()/1000 < end_time ?
+            <div className={styles.issueBox} style={{ backgroundColor: list.length > 4 ? '#fff' : '' }}>
             <div className={styles.issue} onClick={this.issue}>
               <Flex justify='center' align='center' style={{ height: '100%' }}>
                 <img src={require('@/assets/add.png')} />
                 发布我的卡券
           </Flex>
             </div>
-          </div>:null
-        }
-       
+          </div> :null
+      }
+     
       </div>
     )
   }

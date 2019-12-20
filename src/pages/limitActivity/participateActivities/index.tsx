@@ -215,6 +215,9 @@ export default connect(({ participateActive }: any) => participateActive)(
                 <span onClick={()=>router.goBack()}>取消</span>
               </div>
           }
+          {
+            
+          }
         </div>
       )
     }
