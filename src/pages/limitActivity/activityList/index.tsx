@@ -127,7 +127,7 @@ export default class ActivityList extends Component {
           <div className={styles.more_data} onClick={this.getMoreData} >{hint}</div>
         }
         {is_model ? Model : null}
-        <div className={styles.issueBox}>
+        <div className={styles.issueBox} style={{ backgroundColor:list.length>4? '#fff':''}}>
           <div className={styles.issue} onClick={this.issue}>
             <Flex justify='center' align='center' style={{ height: '100%' }}>
               <img src={require('@/assets/add.png')} />
