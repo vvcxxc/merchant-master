@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import router from 'umi/router';
 import styles from './index.less'
-import { Flex } from 'antd-mobile'
+import { Flex, Toast } from 'antd-mobile'
 
 interface dataType {
   recruit_activity_id: Number | string,//招募活动id
@@ -11,13 +11,15 @@ interface dataType {
   publish_wait: Number | string,//0:待审核 1:已审核 2:拒绝
   already_distributed: Number | string,//已派发
   already_used: Number | string,//已使用
-  use_sum:Number
+  use_sum: Number,
+ 
 }
 
  declare interface props {
    info: dataType,
    activity_id:any,
-   delete: (id: Number|string) => void
+   delete: (id: Number | string) => void,
+   delte_ok: Number
 }
 
 const youhuiType = {
@@ -32,7 +34,7 @@ const publishType:any = {
 }
 
 export default function Item(props: props) {
-  const { info, activity_id } = props
+  const { info, activity_id, delte_ok } = props
   return (
     <Flex className={styles.item}>
       <Flex className={styles.item_left} justify='around' align='center'>
@@ -52,7 +54,9 @@ export default function Item(props: props) {
               </div>
             </div>
             <div className={styles.cancel}>
-              <img onClick={() => {props.delete(info.id)}} src={require('../../../assets/quxiao.png')}/></div>
+              <img onClick={() => {
+                delte_ok == 1 ? props.delete(info.id):Toast.fail('活动已结束,卡券无法删除')
+              }} src={require('../../../assets/quxiao.png')} /></div>
           </Flex>
         </div>
         <Flex justify='end'>
