@@ -116,7 +116,7 @@ export default class ActivityList extends Component {
               <div className={styles.list}>
                 {
                   list && list.map((item: any) => {
-                    return <Item info={item} key={item.id} activity_id={this.props.location.query.id} delete={this.deleteListData} />
+                    return <Item info={item} key={item.id} delte_ok={Number(status)} activity_id={this.props.location.query.id} delete={this.deleteListData} />
                   })
                 }
               </div>
