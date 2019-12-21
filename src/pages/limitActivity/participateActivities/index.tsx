@@ -55,7 +55,7 @@ export default connect(({ participateActive }: any) => participateActive)(
           rules: data.rules,
           inputList: data,
           bigImg: data.cover_image,
-          cover_image:this.props.shop.image_url.length ? this.props.shop.image_url : '',
+          cover_image: this.props.shop.image_url && this.props.shop.image_url.length ? this.props.shop.image_url : '',
           coupons_type: this.props.coupons_type
         })
       })
@@ -85,7 +85,7 @@ export default connect(({ participateActive }: any) => participateActive)(
           rules: data.rules,
           bigImg: data.cover_image,
           cover_image://如果缓存里面有，就用缓存的，如果没有，就用后台返回的
-            this.props.updateShop.image_url.length ? this.props.updateShop.image_url : data.image,//
+            this.props.updateShop.image_url&& this.props.updateShop.image_url.length ? this.props.updateShop.image_url : data.image,//
           update: true,
           listImg: data.image,
         })
@@ -168,10 +168,10 @@ export default connect(({ participateActive }: any) => participateActive)(
             <img src={'http://oss.tdianyi.com/' + bigImg} alt="" />
           </div>
           {
-            query.look && Object.keys(inputList).length? <ShowList list={inputList}/>:null
+            query.look && inputList && Object.keys(inputList).length? <ShowList list={inputList}/>:null
           }
           {
-            !query.look&& query.youhui_id && Object.keys(inputList).length ?
+            !query.look && query.youhui_id && inputList && Object.keys(inputList).length ?
             <InputUpdateBox
               again={this.state.again}
               list={inputList}
@@ -181,7 +181,7 @@ export default connect(({ participateActive }: any) => participateActive)(
             />:null
           }
           {
-            !query.look && !query.youhui_id &&Object.keys(inputList).length?
+            !query.look && !query.youhui_id && inputList &&Object.keys(inputList).length?
             <InputBox onChangeType={this.onChangeType}
               list={inputList}
               sumbit={submit}
