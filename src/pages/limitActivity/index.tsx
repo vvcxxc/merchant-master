@@ -22,8 +22,8 @@ class LimitActivity extends Component {
     }
     redirectIdx = (idx: Number) => {
         if (idx == 0) { this.getData(1); }//1招募中
-        else if (idx == 1) {  this.getData(2); }//0已结束
-        else if (idx == 2) {  this.getData(3); }
+        else if (idx == 1) { this.getData(2); }//0已结束
+        else if (idx == 2) { this.getData(3); }
     }
 
     getData = (type: Number) => {
@@ -63,7 +63,7 @@ class LimitActivity extends Component {
                     // tabBarUnderlineStyle={{width: '20%',height:"15px",backgroundColor:"#5BA2FA",margin: '0 auto'}}
                     tabBarUnderlineStyle={{ height: '.07rem', width: '1.03rem', background: '#6AA4F6', marginLeft: '.75rem', border: 'none', borderRadius: '8px' }}
                     onChange={(tab, index) => { this.redirectIdx(index) }}
-                    // onTabClick={(tab, index) => { this.redirectIdx(index) }}
+                // onTabClick={(tab, index) => { this.redirectIdx(index) }}
                 >
 
                     <div className={Styles.tab_recruit_wrap}>

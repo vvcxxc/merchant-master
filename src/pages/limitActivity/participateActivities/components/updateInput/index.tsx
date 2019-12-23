@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import SelectTime from '@/components/select-time';
 import { Toast } from 'antd-mobile';
-import request from '@/services/request';
+import request from '@/services/active_request';
 import router from 'umi/router';
 import { connect } from 'dva';
 import styles from './index.less'
