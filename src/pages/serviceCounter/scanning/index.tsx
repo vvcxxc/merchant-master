@@ -15,7 +15,7 @@ interface ShopMessage {
 declare global {
   interface Window { service_url: string; }
 }
-const service_url = window.service_url ? window.service_url : "http://mall.tdianyi.com/#/pages/mycardticket/index"
+const service_url = window.service_url ? window.service_url : "http://mall.tdianyi.com/pages/mycardticket/index"
 export default class ServiceCounter extends Component{
 
   state = {

@@ -86,7 +86,7 @@ export default class ShareThree extends Component<Props> {
         wx.updateTimelineShareData({
           title: '发现一家你喜欢的店铺(' + this.props.info.name  + ')，速来围观！',
           desc: '刚刚发现了这家店铺(' + this.props.info.name  + ')，活动多多，优惠空前，你绝对喜欢，快点进来看看！',
-          link: 'http://test.mall.tdianyi.com/#/pages/business/index?id=' + this.props.info.id,
+          link: 'http://test.mall.tdianyi.com/pages/business/index?id=' + this.props.info.id,
           imgUrl: 'http://oss.tdianyi.com/front/ir5pyrKzEGGwrS5GpHpNKXzctn5W4bXb.png', // 分享图标
           success: function () {
             // 设置成功
