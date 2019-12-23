@@ -29,7 +29,7 @@ const config: IConfig = {
     "window.url": "http://release.api.tdianyi.com/",
     "window.from": "http://release.supplierv2.tdianyi.com/",
     "window.pay_url": "http://release.api.tdianyi.com/payCentre/toSupplierWxPay",
-    "window.service_url": "http://test.mall.tdianyi.com/#/pages/mycardticket/index",
+    "window.service_url": "http://test.mall.tdianyi.com/pages/mycardticket/index",
     "Environment": "release"
   },
   chainWebpack: function (config, { webpack }) {
