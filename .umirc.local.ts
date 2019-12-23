@@ -10,7 +10,7 @@ const config: IConfig = {
     "window.from": "http://test.supplierv2.tdianyi.com/",
     "window.pay_url": "http://test.api.tdianyi.com/payCentre/toSupplierWxPay",
     "window.shareLink": "http://test.mall.tdianyi.com/",
-    "window.service_url": "http://test.mall.tdianyi.com/#/pages/mycardticket/index",
+    "window.service_url": "http://test.mall.tdianyi.com/pages/mycardticket/index",
     "Environment": "test"
   },
 }
