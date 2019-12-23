@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Tabs, WhiteSpace, Badge, Toast } from 'antd-mobile';
-import request from '@/services/active_request';
+import request from '@/services/request';
 import Styles from './index.less';
 import router from 'umi/router';
 

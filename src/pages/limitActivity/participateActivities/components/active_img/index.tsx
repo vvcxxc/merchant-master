@@ -49,7 +49,7 @@ export default connect(({ participateActive }: any) => participateActive)(
                 className={styles.upload_img}
                 multiple={false}
                 length={1}
-                files={cover_image ? [{ url: 'http://oss.tdianyi.com/' + cover_image }] : []}
+                files={cover_image.length ? [{ url: 'http://oss.tdianyi.com/' + cover_image }] : []}
                 onChange={this.uploadImage()}
                 selectable={!Boolean(this.props.temp_url1) || this.props.temp_url1.length < 1}
               />

@@ -16,7 +16,8 @@ export default class ActivityList extends Component {
     page: 0,
     hint: '',//提示
     recruit_activity_id: '',
-    end_time:0
+    end_time: 0,
+    status:''
   }
 
   componentDidMount() {
@@ -39,7 +40,8 @@ export default class ActivityList extends Component {
       switch (code) {
         case 200:
           this.setState({
-            end_time: moment(data.recruit_activity_end_date + ' 23:59:59').unix() 
+            end_time: moment(data.recruit_activity_end_date + ' 23:59:59').unix(),
+            status: data.status
           })
           page ? this.setState({ list: [...this.state.list, ...data.data.data] }) : this.setState({ list: data.data.data, max_num: data.card_num, num: data.data.total })
           page ? !data.data.data.length && this.setState({ hint: '无更多数据' }) : this.state.list.length && this.setState({ hint: '点击加载更多' })
@@ -93,7 +95,7 @@ export default class ActivityList extends Component {
 
 
   render() {
-    const { is_model, list, max_num, hint, end_time } = this.state
+    const { is_model, list, max_num, hint, end_time, status } = this.state
     const Model = (
       <div className={styles.model}>
         <div className={styles.model_main}>
@@ -113,8 +115,8 @@ export default class ActivityList extends Component {
               </Flex>
               <div className={styles.list}>
                 {
-                  list && list.map((item:any) => {
-                    return <Item info={item} key={item.id} activity_id={this.props.location.query.id} delete={this.deleteListData}/>
+                  list && list.map((item: any) => {
+                    return <Item info={item} key={item.id} delte_ok={Number(status)} activity_id={this.props.location.query.id} delete={this.deleteListData} />
                   })
                 }
               </div>
@@ -133,17 +135,17 @@ export default class ActivityList extends Component {
         }
         {is_model ? Model : null}
         {
-          new Date().getTime()/1000 < end_time ?
+          new Date().getTime() / 1000 < end_time && Number(status)==1 ?
             <div className={styles.issueBox} style={{ backgroundColor: list.length > 4 ? '#fff' : '' }}>
-            <div className={styles.issue} onClick={this.issue}>
-              <Flex justify='center' align='center' style={{ height: '100%' }}>
-                <img src={require('@/assets/add.png')} />
-                发布我的卡券
+              <div className={styles.issue} onClick={this.issue}>
+                <Flex justify='center' align='center' style={{ height: '100%' }}>
+                  <img src={require('@/assets/add.png')} />
+                  发布我的卡券
           </Flex>
-            </div>
-          </div> :null
-      }
-     
+              </div>
+            </div> : null
+        }
+
       </div>
     )
   }
