@@ -9,7 +9,7 @@ import InputUpdateBox from './components/updateInput'
 import AttendRules from './components/attendRules'//参与规则
 import UploadPictures from './components/active_img'
 import ShowList from './components/showList'
-import request from '@/services/active_request';
+import request from '@/services/request';
 import router from 'umi/router';
 import upload from '@/services/oss';
 import styles from './index.less'

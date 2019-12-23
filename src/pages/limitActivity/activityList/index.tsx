@@ -4,7 +4,7 @@ import { Flex } from 'antd-mobile'
 import Item from './item'
 import { Toast } from 'antd-mobile';
 import moment from 'moment';
-import request from '@/services/active_request';
+import request from '@/services/request';
 import styles from './index.less';
 
 export default class ActivityList extends Component {
