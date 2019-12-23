@@ -251,7 +251,7 @@ export default connect(({ participateActive }: any) => participateActive)(
               <li>
                 <div>卡券面额</div>
                 <input
-                  type="number"
+                  // type="number"
                   placeholder={'请输入面额'}
                   value={cash.return_money}
                   onChange={this.inputCashList('return_money')}
@@ -298,7 +298,8 @@ export default connect(({ participateActive }: any) => participateActive)(
                 <li>
                   <div>商品原价</div>
                   <input
-                    type="number" pattern="[0-9]*"
+                    // type="number"
+                    // pattern="[0-9]*"
                     placeholder={'请输入商品原价'}
                     value={shop.return_money}
                     onChange={this.inputShopList('return_money')}
