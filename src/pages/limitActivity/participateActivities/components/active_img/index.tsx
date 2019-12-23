@@ -11,46 +11,10 @@ export default connect(({ participateActive }: any) => participateActive)(
       cover_image: ''
     }
     componentDidMount() {
-
-      // console.log(this.props,'jjjjjjj');
-      // if (this.props.update) {
-        
-      // }
       this.setState({
         cover_image: this.props.listImg
       })
       
-      // if (this.props.update) {
-      //   const { cover_image } = this.props.updateShop
-      //   if (this.props.listImg) {
-      //     this.setState({ cover_image: this.props.listImg })
-      //   }
-      //   if (cover_image && cover_image.length) {
-      //     this.setState({ cover_image })
-      //   }
-      // } else {
-      //   const { cover_image } = this.props.shop
-      //   if (this.props.listImg) {
-      //     this.setState({ cover_image: this.props.listImg })
-      //     // this.props.dispatch({
-      //     //   type: 'participateActive/setShop',
-      //     //   payload: {
-      //     //     cover_image: this.props.listImg
-      //     //   }
-      //     // });
-      //   }
-      //   if (cover_image && cover_image.length) {
-      //     this.setState({ cover_image })
-      //     // this.props.dispatch({
-      //     //   type: 'participateActive/setShop',
-      //     //   payload: {
-      //     //     cover_image
-      //     //   }
-      //     // });
-      //   }
-      // }
-      
-     
     }
 
     //此函数负责 显示 上传 删除 
