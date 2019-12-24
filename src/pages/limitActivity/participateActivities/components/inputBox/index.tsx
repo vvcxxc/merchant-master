@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import SelectTime from '@/components/select-time';
 import { Toast } from 'antd-mobile';
-import request from '@/services/active_request';
+import request from '@/services/request';
 import router from 'umi/router';
 import { connect } from 'dva';
 import styles from './index.less'
@@ -64,7 +64,23 @@ export default connect(({ participateActive }: any) => participateActive)(
 
     //现金券input输入
     inputCashList = (type: string) => (e: any) => {
-      if (type == 'return_money' || type == 'total_fee') {
+      if(type == 'return_money'){///^\d*(\.?\d{0,2})/g
+        this.setState({
+          cash: {
+            ...this.state.cash, [type]:
+              e.target.value &&  e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+          }
+        })
+        this.props.dispatch({
+          type: 'participateActive/setCash',
+          payload: {
+            [type]: e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+          }
+        });
+        return
+      }
+
+      if ( type == 'total_fee') {
         let onlyTwo = /^(0|[1-9]\d*)(\.\d{1,2})?/
         this.setState({
           cash: {
@@ -96,13 +112,29 @@ export default connect(({ participateActive }: any) => participateActive)(
           }
         });
       }
-     
+
     }
 
     //商品券输入
     inputShopList = (type: string) => (e: any) => {
 
-      if (type == 'return_money' || type == 'total_fee') {
+      if(type == 'return_money'){///^\d*(\.?\d{0,2})/g
+      this.setState({
+        shop: {
+          ...this.state.cash, [type]:
+            e.target.value &&  e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+        }
+      })
+      this.props.dispatch({
+        type: 'participateActive/setShop',
+        payload: {
+          [type]: e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+        }
+      });
+      return
+    }
+
+      if ( type == 'total_fee') {
         let onlyTwo = /^(0|[1-9]\d*)(\.\d{1,2})?/
         this.setState({
           shop: {

@@ -9,7 +9,7 @@ import InputUpdateBox from './components/updateInput'
 import AttendRules from './components/attendRules'//参与规则
 import UploadPictures from './components/active_img'
 import ShowList from './components/showList'
-import request from '@/services/active_request';
+import request from '@/services/request';
 import router from 'umi/router';
 import upload from '@/services/oss';
 import styles from './index.less'
@@ -104,7 +104,7 @@ export default connect(({ participateActive }: any) => participateActive)(
     uploadImg = (cover_image: string) => {
       this.setState({ cover_image })
       //判断 处于什么条件下， 给图片赋值
-      
+
       if (!this.state.update) {
         this.props.dispatch({
           type: 'participateActive/setShop',
@@ -113,7 +113,7 @@ export default connect(({ participateActive }: any) => participateActive)(
           }
         });
       } else {//添加页面
-        
+
         this.props.dispatch({
           type: 'participateActive/setUpdateShop',
           payload: {
@@ -216,7 +216,7 @@ export default connect(({ participateActive }: any) => participateActive)(
               </div>
           }
           {
-            
+
           }
         </div>
       )

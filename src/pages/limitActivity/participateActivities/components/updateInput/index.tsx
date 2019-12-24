@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import SelectTime from '@/components/select-time';
 import { Toast } from 'antd-mobile';
-import request from '@/services/active_request';
+import request from '@/services/request';
 import router from 'umi/router';
 import { connect } from 'dva';
 import styles from './index.less'
@@ -35,9 +35,9 @@ export default connect(({ participateActive }: any) => participateActive)(
           end_date: list.end_date,
           start_date: list.start_date,
       })
-      
+
       if (!list.youhui_type) {//商品券
-        
+
         if (updateShop.description && !updateShop.description.length) {
           let data = this.state.shop
           this.setState({
@@ -73,10 +73,10 @@ export default connect(({ participateActive }: any) => participateActive)(
             validity: list.expire_day,
             total_num: list.total_num
           }
-          
+
         })
       }
-      
+
     }
 
 
@@ -98,7 +98,24 @@ export default connect(({ participateActive }: any) => participateActive)(
     //现金券input输入
     inputCashList = (type: string) => (e: any) => {
 
-      if (type == 'return_money' || type == 'total_fee') {
+      if(type == 'return_money'){///^\d*(\.?\d{0,2})/g
+      this.setState({
+        cash: {
+          ...this.state.cash, [type]:
+            e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+        }
+      })
+      this.props.dispatch({
+        type: 'participateActive/setUpdateCash',
+        payload: {
+          [type]: e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+        }
+      });
+
+      return
+    }
+
+      if ( type == 'total_fee') {
         let onlyTwo = /^(0|[1-9]\d*)(\.\d{1,2})?/
         this.setState({
           cash: {
@@ -152,7 +169,24 @@ export default connect(({ participateActive }: any) => participateActive)(
       //   }
       // });
 
-      if (type == 'return_money' || type == 'total_fee') {
+      if(type == 'return_money'){///^\d*(\.?\d{0,2})/g
+      this.setState({
+        shop: {
+          ...this.state.cash, [type]:
+            e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+        }
+      })
+      this.props.dispatch({
+        type:'participateActive/setUpdateShop',
+        payload: {
+          [type]: e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+        }
+      });
+
+      return
+    }
+
+      if ( type == 'total_fee') {
         let onlyTwo = /^(0|[1-9]\d*)(\.\d{1,2})?/
         this.setState({
           shop: {
@@ -222,7 +256,7 @@ export default connect(({ participateActive }: any) => participateActive)(
       error[0] && Toast.fail(error[0])
       return error[0] ? false : true
     }
-   
+
 
     submiAgain = () => {
       const { coupons_type,cash } = this.state
@@ -237,7 +271,7 @@ export default connect(({ participateActive }: any) => participateActive)(
           youhui_id:this.props.list.id,
           ...meta,
           coupons_type
-          
+
         }
       }).then((res) => {
         const { code, data, message } = res
@@ -265,7 +299,7 @@ export default connect(({ participateActive }: any) => participateActive)(
       // const { updateShop } = this.props
       const { updateCash, updateShop } = this.props
       const { list } = this.props
-      
+
 
       let description = updateShop.description && updateShop.description.length ? updateShop.description: this.props.list.description
       const cardType = <li><div>选择卡券类型</div><div>{!list.youhui_type ? '商品券' : '现金券'}</div></li>
