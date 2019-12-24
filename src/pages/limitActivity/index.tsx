@@ -58,6 +58,7 @@ class LimitActivity extends Component {
             <div className={Styles.limit_activity_wrap}>
                 <Tabs tabs={tabs}
                     initialPage={0}
+                    swipeable={false}
                     tabBarActiveTextColor="#6AA4F6"
                     tabBarInactiveTextColor="#AAAAAA"
                     // tabBarUnderlineStyle={{width: '20%',height:"15px",backgroundColor:"#5BA2FA",margin: '0 auto'}}
