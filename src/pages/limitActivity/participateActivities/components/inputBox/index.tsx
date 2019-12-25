@@ -171,7 +171,7 @@ export default connect(({ participateActive }: any) => participateActive)(
     verifyRules = (data: any, coupons_type: number) => {
       const error = []
       if (!coupons_type) {//商品券
-        data.coupons_name.length > 30 && error.push('名称最多可输入30个字符，请重新设置。')
+        data.coupons_name && data.coupons_name.length > 30 && error.push('名称最多可输入30个字符，请重新设置。')
         !data.coupons_name && error.push('请设置卡券名称')
 
         !(data.return_money > 0 && data.return_money < 10000) &&
@@ -183,8 +183,9 @@ export default connect(({ participateActive }: any) => participateActive)(
         !(data.total_num > 0 && data.total_num < 100000) &&
           error.push('数量设置不符规则，请输入大于0且小于10万的数额')
 
-        !data.description.length &&
+        data.description && !data.description.length &&
           error.push('请设置使用须知')
+        !data.description && error.push('请设置使用须知')
         !data.image.length &&
           error.push('请上传商品图片')
       } else {

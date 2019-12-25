@@ -146,29 +146,10 @@ export default connect(({ participateActive }: any) => participateActive)(
           }
         });
       }
-      // this.setState({
-      //   cash:{...this.state.cash,[type]: e.target.value}
-      // })
-      // this.props.dispatch({
-      //   type: 'participateActive/setUpdateCash',
-      //   payload: {
-      //     [type]: e.target.value
-      //   }
-      // });
     }
 
     //商品券输入
     inputShopList = (type: string) => (e: any) => {
-      // this.setState({
-      //   shop: { ...this.state.shop, [type]: e.target.value}
-      // })
-      // this.props.dispatch({
-      //   type: 'participateActive/setUpdateShop',
-      //   payload: {
-      //     [type]: e.target.value
-      //   }
-      // });
-
       if(type == 'return_money'){///^\d*(\.?\d{0,2})/g
       this.setState({
         shop: {
@@ -236,8 +217,12 @@ export default connect(({ participateActive }: any) => participateActive)(
         !(data.total_num > 0 && data.total_num < 100000) &&
           error.push('数量设置不符规则，请输入大于0且小于10万的数额')
 
-        !data.description.length &&
+        // !data.description.length &&
+        //   error.push('请设置使用须知')
+        data.description && !data.description.length &&
           error.push('请设置使用须知')
+        !data.description && error.push('请设置使用须知')
+        
         !data.image.length &&
           error.push('请上传商品图片')
       } else {
