@@ -64,107 +64,109 @@ export default connect(({ participateActive }: any) => participateActive)(
 
     //现金券input输入
     inputCashList = (type: string) => (e: any) => {
-      if(type == 'return_money'){///^\d*(\.?\d{0,2})/g
-        this.setState({
-          cash: {
-            ...this.state.cash, [type]:
-              e.target.value &&  e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
-          }
-        })
-        this.props.dispatch({
-          type: 'participateActive/setCash',
-          payload: {
-            [type]: e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
-          }
-        });
-        return
-      }
-
-      if ( type == 'total_fee') {
-        let onlyTwo = /^(0|[1-9]\d*)(\.\d{1,2})?/
-        this.setState({
-          cash: {
-            ...this.state.cash, [type]:
-              e.target.value &&  e.target.value.match(onlyTwo)[0]
-          }
-        })
-        this.props.dispatch({
-          type: 'participateActive/setCash',
-          payload: {
-            [type]: e.target.value && e.target.value.match(onlyTwo)[0]
-          }
-        });
-      } else {
-        this.setState({
-          cash: {
-            ...this.state.cash, [type]:
-              type == 'validity' || type == 'total_num' ?
+      let money = /^\d*(\.?\d{0,2})/g;//金额限制
+      switch (type) {
+        case 'return_money':
+          this.setState({
+            cash: {
+              ...this.state.cash, [type]:
+                e.target.value && e.target.value.match(money)[0]
+            }
+          })
+          this.props.dispatch({
+            type: 'participateActive/setCash',
+            payload: {
+              [type]: e.target.value && e.target.value.match(money)[0]
+            }
+          });
+          break;
+        case 'total_fee':
+          this.setState({
+            cash: {
+              ...this.state.cash, [type]:
+                e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+            }
+          })
+          this.props.dispatch({
+            type: 'participateActive/setCash',
+            payload: {
+              [type]: e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+            }
+          });
+          break;
+        default:
+          this.setState({
+            cash: {
+              ...this.state.cash, [type]:
+                type == 'validity' || type == 'total_num' ?
+                  e.target.value && parseInt(e.target.value) :
+                  e.target.value//有效期和卡券数量整数限制
+            }
+          })
+          this.props.dispatch({
+            type: 'participateActive/setCash',
+            payload: {
+              [type]: type == 'validity' || type == 'total_num' ?
                 e.target.value && parseInt(e.target.value) :
                 e.target.value//有效期和卡券数量整数限制
-          }
-        })
-        this.props.dispatch({
-          type: 'participateActive/setCash',
-          payload: {
-            [type]: type == 'validity' || type == 'total_num' ?
-              e.target.value && parseInt(e.target.value) :
-              e.target.value//有效期和卡券数量整数限制
-          }
-        });
+            }
+          });
+          break;
       }
-
     }
 
     //商品券输入
     inputShopList = (type: string) => (e: any) => {
-
-      if(type == 'return_money'){///^\d*(\.?\d{0,2})/g
-      this.setState({
-        shop: {
-          ...this.state.cash, [type]:
-            e.target.value &&  e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
-        }
-      })
-      this.props.dispatch({
-        type: 'participateActive/setShop',
-        payload: {
-          [type]: e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
-        }
-      });
-      return
-    }
-
-      if ( type == 'total_fee') {
-        let onlyTwo = /^(0|[1-9]\d*)(\.\d{1,2})?/
-        this.setState({
-          shop: {
+      let money = /^\d*(\.?\d{0,2})/g;//金额限制
+      switch (type) {
+        case 'return_money':
+          this.setState({
+            shop: {
+              ...this.state.shop, [type]:
+                e.target.value && e.target.value.match(money)[0]
+            }
+          })
+          this.props.dispatch({
+            type: 'participateActive/setShop',
+            payload: {
+              [type]: e.target.value && e.target.value.match(money)[0]
+            }
+          });
+          break;
+        case 'total_fee':
+          this.setState({
+            shop: {
+              ...this.state.shop, [type]:
+                e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+            }
+          })
+          this.props.dispatch({
+            type: 'participateActive/setShop',
+            payload: {
+              [type]: e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+            }
+          });
+          break;
+        default:
+          this.setState({
+            shop: {
             ...this.state.shop, [type]:
-              e.target.value && e.target.value.match(onlyTwo)[0]
-          }
-        })
-        this.props.dispatch({
-          type: 'participateActive/setShop',
-          payload: {
-            [type]: e.target.value && e.target.value.match(onlyTwo)[0]
-          }
-        });
-      } else {
-        this.setState({
-          shop: {
-            ...this.state.shop,
-            [type]: type == 'validity' || type == 'total_num' ?
-              e.target.value && parseInt(e.target.value) : e.target.value//有效期和卡券数量整数限制
-          }
-        })
-        this.props.dispatch({
-          type: 'participateActive/setShop',
-          payload: {
-            [type]:
-              type == 'validity' || type == 'total_num' ?
-                e.target.value && parseInt(e.target.value) : e.target.value
-          }
-        });
+                type == 'validity' || type == 'total_num' ?
+                  e.target.value && parseInt(e.target.value) :
+                  e.target.value//有效期和卡券数量整数限制
+            }
+          })
+          this.props.dispatch({
+            type: 'participateActive/setShop',
+            payload: {
+              [type]: type == 'validity' || type == 'total_num' ?
+                e.target.value && parseInt(e.target.value) :
+                e.target.value//有效期和卡券数量整数限制
+            }
+          });
+          break;
       }
+
     }
 
     //前端校验

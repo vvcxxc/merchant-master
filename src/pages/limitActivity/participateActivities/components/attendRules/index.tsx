@@ -12,7 +12,7 @@ export default function AttendRules(data: rulesType) {
         <ul>
           {
           data.data && data.data.map((item:any,index:number) => {
-              return <li key={item}>{index+1}.{item}</li>
+              return <li key={index}>{index+1}.{item}</li>
             })
           }
         </ul>

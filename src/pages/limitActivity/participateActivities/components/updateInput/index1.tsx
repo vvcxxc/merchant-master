@@ -13,17 +13,17 @@ export default connect(({ participateActive }: any) => participateActive)(
       start_date: '',
       end_date: '',
       cash: {
-        return_money: '',
+        return_money:'',
         total_fee: '',
         validity: '',
         total_num: ''
       },
       shop: {
-        coupons_name: '',//卡卷名称
+        coupons_name:'',//卡卷名称
         return_money: '',//商品原价
         validity: '',//有效期
         total_num: '',//卡券数量
-        description: []//使用须知
+        description:[]//使用须知
       }
     }
 
@@ -32,8 +32,8 @@ export default connect(({ participateActive }: any) => participateActive)(
       const { updateCash, updateShop } = this.props
       this.setState({
         coupons_type: list.youhui_type,
-        end_date: list.end_date,
-        start_date: list.start_date,
+          end_date: list.end_date,
+          start_date: list.start_date,
       })
 
       if (!list.youhui_type) {//商品券
@@ -97,111 +97,108 @@ export default connect(({ participateActive }: any) => participateActive)(
 
     //现金券input输入
     inputCashList = (type: string) => (e: any) => {
-      let money = /^\d*(\.?\d{0,2})/g;
-      let onlyTwo = /^(0|[1-9]\d*)(\.\d{1,2})?/
-      switch (type) {
-        case 'return_money':
-          this.setState({
-            cash: {
-              ...this.state.cash, [type]:
-                e.target.value && e.target.value.match(money)[0]
-            }
-          })
-          this.props.dispatch({
-            type: 'participateActive/setUpdateCash',
-            payload: {
-              [type]: e.target.value && e.target.value.match(money)[0]
-            }
-          });
-          break;
-        case 'total_fee':
-          this.setState({
-            cash: {
-              ...this.state.cash, [type]:
-                e.target.value && e.target.value.match(onlyTwo)[0]
-            }
-          })
-          this.props.dispatch({
-            type: 'participateActive/setUpdateCash',
-            payload: {
-              [type]: e.target.value && e.target.value.match(onlyTwo)[0]
-            }
-          });
-          break;
-        default:
-          this.setState({
-            cash: {
-              ...this.state.cash,
-              [type]: type == 'validity' || type == 'total_num' ?
-                e.target.value && parseInt(e.target.value) : e.target.value//有效期和卡券数量整数限制
-            }
-          })
-          this.props.dispatch({
-            type: 'participateActive/setUpdateCash',
-            payload: {
-              [type]:
-                type == 'validity' || type == 'total_num' ?
-                  e.target.value && parseInt(e.target.value) : e.target.value
-            }
-          });
 
-          break;
+      if(type == 'return_money'){///^\d*(\.?\d{0,2})/g
+      this.setState({
+        cash: {
+          ...this.state.cash, [type]:
+            e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+        }
+      })
+      this.props.dispatch({
+        type: 'participateActive/setUpdateCash',
+        payload: {
+          [type]: e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+        }
+      });
+
+      return
+    }
+
+      if ( type == 'total_fee') {
+        let onlyTwo = /^(0|[1-9]\d*)(\.\d{1,2})?/
+        this.setState({
+          cash: {
+            ...this.state.cash, [type]:
+              e.target.value && e.target.value.match(onlyTwo)[0]
+          }
+        })
+        this.props.dispatch({
+          type: 'participateActive/setUpdateCash',
+          payload: {
+            [type]: e.target.value && e.target.value.match(onlyTwo)[0]
+          }
+        });
+      } else {
+        this.setState({
+          cash: {
+            ...this.state.cash,
+            [type]: type == 'validity' || type == 'total_num' ?
+              e.target.value && parseInt(e.target.value) : e.target.value//有效期和卡券数量整数限制
+          }
+        })
+        this.props.dispatch({
+          type: 'participateActive/setUpdateCash',
+          payload: {
+            [type]:
+              type == 'validity' || type == 'total_num' ?
+                e.target.value && parseInt(e.target.value) : e.target.value
+          }
+        });
       }
-
     }
 
     //商品券输入
     inputShopList = (type: string) => (e: any) => {
+      if(type == 'return_money'){///^\d*(\.?\d{0,2})/g
+      this.setState({
+        shop: {
+          ...this.state.cash, [type]:
+            e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+        }
+      })
+      this.props.dispatch({
+        type:'participateActive/setUpdateShop',
+        payload: {
+          [type]: e.target.value && e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]
+        }
+      });
 
-      let money = /^\d*(\.?\d{0,2})/g;
-      let onlyTwo = /^(0|[1-9]\d*)(\.\d{1,2})?/
-      switch (type) {
-        case 'return_money':
-          this.setState({
-            shop: {
-              ...this.state.shop, [type]:
-                e.target.value && e.target.value.match(money)[0]
-            }
-          })
-          this.props.dispatch({
-            type: 'participateActive/setUpdateShop',
-            payload: {
-              [type]: e.target.value && e.target.value.match(money)[0]
-            }
-          });
-          break;
-        case 'total_fee':
-          this.setState({
-            shop: {
-              ...this.state.shop, [type]:
-                e.target.value && e.target.value.match(onlyTwo)[0]
-            }
-          })
-          this.props.dispatch({
-            type: 'participateActive/setUpdateShop',
-            payload: {
-              [type]: e.target.value && e.target.value.match(onlyTwo)[0]
-            }
-          });
-          break;
-        default:
-          this.setState({
-            shop: {
-              ...this.state.shop,
-              [type]: type == 'validity' || type == 'total_num' ?
-                e.target.value && parseInt(e.target.value) : e.target.value//有效期和卡券数量整数限制
-            }
-          })
-          this.props.dispatch({
-            type: 'participateActive/setUpdateShop',
-            payload: {
-              [type]:
-                type == 'validity' || type == 'total_num' ?
-                  e.target.value && parseInt(e.target.value) : e.target.value
-            }
-          });
-          break;
+      return
+    }
+
+      if ( type == 'total_fee') {
+        let onlyTwo = /^(0|[1-9]\d*)(\.\d{1,2})?/
+        this.setState({
+          shop: {
+            ...this.state.shop, [type]:
+              e.target.value && e.target.value.match(onlyTwo)[0]
+          }
+        })
+        this.props.dispatch({
+          type: 'participateActive/setUpdateShop',
+          payload: {
+            [type]: e.target.value && e.target.value.match(onlyTwo)[0]
+          }
+        });
+      } else {
+        this.setState({
+          shop: {
+            ...this.state.shop,
+            [type]: type == 'validity' || type == 'total_num' ?
+              e.target.value && parseInt(e.target.value) : e.target.value//有效期和卡券数量整数限制
+          }
+        })
+        this.props.dispatch({
+          type: 'participateActive/setUpdateShop',
+          payload: {
+            [type]:
+              type == 'validity' || type == 'total_num' ?
+                e.target.value && parseInt(e.target.value) : e.target.value
+          }
+        });
       }
+
     }
 
     //前端校验
@@ -220,8 +217,12 @@ export default connect(({ participateActive }: any) => participateActive)(
         !(data.total_num > 0 && data.total_num < 100000) &&
           error.push('数量设置不符规则，请输入大于0且小于10万的数额')
 
-        !data.description.length &&
+        // !data.description.length &&
+        //   error.push('请设置使用须知')
+        data.description && !data.description.length &&
           error.push('请设置使用须知')
+        !data.description && error.push('请设置使用须知')
+        
         !data.image.length &&
           error.push('请上传商品图片')
       } else {
@@ -243,7 +244,7 @@ export default connect(({ participateActive }: any) => participateActive)(
 
 
     submiAgain = () => {
-      const { coupons_type, cash } = this.state
+      const { coupons_type,cash } = this.state
       const { updateShop } = this.props
       let meta = !coupons_type ? updateShop : cash
       if (!this.verifyRules(meta, coupons_type)) return
@@ -252,7 +253,7 @@ export default connect(({ participateActive }: any) => participateActive)(
         method: 'post',
         data: {
           recruit_activity_id: this.props.recruit_activity_id,
-          youhui_id: this.props.list.id,
+          youhui_id:this.props.list.id,
           ...meta,
           coupons_type
 
@@ -267,7 +268,7 @@ export default connect(({ participateActive }: any) => participateActive)(
             });
           }
           Toast.success(message, 0.8)
-          router.push({ pathname: '/limitActivity/activityList', query: { id: this.props.recruit_activity_id } })
+          router.push({ pathname: '/limitActivity/activityList', query: { id: this.props.recruit_activity_id }})
         } else {
           Toast.fail(message)
         }
@@ -285,14 +286,14 @@ export default connect(({ participateActive }: any) => participateActive)(
       const { list } = this.props
 
 
-      let description = updateShop.description && updateShop.description.length ? updateShop.description : this.props.list.description
+      let description = updateShop.description && updateShop.description.length ? updateShop.description: this.props.list.description
       const cardType = <li><div>选择卡券类型</div><div>{!list.youhui_type ? '商品券' : '现金券'}</div></li>
       return (
         <div className={styles.inputBox}>
           <div className={styles.refuse_reason} >
             <div style={{ WebkitBoxOrient: "vertical" }}>
               {list.reason}
-            </div>
+           </div>
           </div>
 
           {
@@ -387,7 +388,7 @@ export default connect(({ participateActive }: any) => participateActive)(
                   <div>使用须知</div>
                   <div className={styles.useInfo}>
                     {
-                      description && description.map((item: string, index: number) => {
+                      description&& description.map((item: string, index: number) => {
                         return <div key={item}>{index + 1}.{item}</div>
                       })
                     }
