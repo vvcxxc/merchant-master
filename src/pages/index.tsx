@@ -204,6 +204,7 @@ export default connect(({ app }: any) => app)(
                     let res = JSON.parse(resultStr);
                     if (res.verificationType && res.verificationType == "Prize") {
                         //核销奖品
+                        console.log(res)
                         request({
                             url: 'v3/activity/verification',
                             method: 'PUT',
