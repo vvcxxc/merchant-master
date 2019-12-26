@@ -171,9 +171,10 @@ export default connect(({ participateActive }: any) => participateActive)(
 
     //前端校验
     verifyRules = (data: any, coupons_type: number) => {
+      console.log(data,'data')
       const error = []
       if (!coupons_type) {//商品券
-        data.coupons_name.length > 30 && error.push('名称最多可输入30个字符，请重新设置。')
+        data.coupons_name && data.coupons_name.length > 30 && error.push('名称最多可输入30个字符，请重新设置。')
         !data.coupons_name && error.push('请设置卡券名称')
 
         !(data.return_money > 0 && data.return_money < 10000) &&
@@ -187,8 +188,10 @@ export default connect(({ participateActive }: any) => participateActive)(
 
         !data.description.length &&
           error.push('请设置使用须知')
-        !data.image.length &&
-          error.push('请上传商品图片')
+        
+        !data.image && error.push('请上传商品图片')
+
+        data.image && !data.image.length &&  error.push('请上传商品图片')
       } else {
         !(data.return_money > 0 && data.return_money < 10000) &&
           error.push('面额设置不符规则，请输入大于0且小于1万的数额.')
