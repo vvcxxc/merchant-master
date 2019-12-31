@@ -212,7 +212,7 @@ export default connect(({ app }: any) => app)(
                             }
                         }).then(res => {
                             if (res.code == 200) {
-                                Toast.success(res.message, 2, () => {
+                                Toast.success(res.message , 2, () => {
                                     router.push({
                                         pathname: '/verificationPrize',
                                     })
