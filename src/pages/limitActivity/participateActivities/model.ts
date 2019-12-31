@@ -90,6 +90,10 @@ const model: Model = {
       return {
         ...state,
         cash: {
+          return_money: '',
+          total_fee: '',
+          validity: '',
+          total_num: ''
         }
       }
     },
@@ -98,6 +102,14 @@ const model: Model = {
       return {
         ...state,
         shop: {
+          coupons_name: '',
+          return_money: '',
+          // validity: '',
+          validity: '',
+          total_num: '',
+          image_url: '',
+          image: '',
+          description: []
         }
       }
     } ,
@@ -123,6 +135,10 @@ const model: Model = {
       return {
         ...state,
         updateCash: {
+          return_money: '',
+          total_fee: '',
+          validity: '',
+          total_num: ''
         }
       }
     },
@@ -130,6 +146,13 @@ const model: Model = {
       return {
         ...state,
         updateShop: {
+          coupons_name: '',
+          return_money: '',
+          validity: '',
+          total_num: '',
+          image_url: '',
+          image: '',
+          description: []
         }
       }
     },
