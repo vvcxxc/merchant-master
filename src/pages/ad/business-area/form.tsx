@@ -56,7 +56,8 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 			//校验规则
 			couponErr: false,
 			timeErr: false,
-			priceErr: false
+			priceErr: false,
+			haveChangeMoney:false
 		};
 
 		componentDidMount = () => {
@@ -105,7 +106,11 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 		showModal = () => this.setState({ showSelectCoupon: true });
 		handleSelectCoupon = (coupon: any) => this.setState({ coupon }, this.closeModal);
 		handleChangePrice = (price: any) => {
-			this.setState({ price: price ? Number(price) : '' })
+			if (price.indexOf(".") == -1) {
+				this.setState({ price, haveChangeMoney: true })
+			} else if (this.state.haveChangeMoney == false) {
+				this.setState({ price: '', haveChangeMoney: true })
+			}
 		};
 		handleChangeTime = (time: any) => this.setState({ time });
 		handleShowSelectTime = () => this.setState({ showSelectTime: true });

@@ -88,7 +88,8 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			imageErr: false,
 			uploadIng: false,
 
-			countMoney: 0
+			countMoney: 0,
+			haveChangeMoney: false
 
 		};
 		UNSAFE_componentWillReceiveProps(nextProps: any) {
@@ -182,7 +183,11 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			}
 		};
 		handleChangePrice = (price: any) => {
-			this.setState({ price: price ? Number(price) : '' })
+			if (price.indexOf(".") == -1) {
+				this.setState({ price, haveChangeMoney: true })
+			} else if (this.state.haveChangeMoney == false) {
+				this.setState({ price: '', haveChangeMoney: true })
+			}
 		};
 		handleShowSelectTime = () => this.setState({ showSelectTime: true });
 		handleSelectTime = (time: any) => this.setState({ ...time }, this.closeModal);
