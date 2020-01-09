@@ -105,9 +105,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 		showModal = () => this.setState({ showSelectCoupon: true });
 		handleSelectCoupon = (coupon: any) => this.setState({ coupon }, this.closeModal);
 		handleChangePrice = (price: any) => {
-			if (price.split(".")[1] == undefined || (price.split(".")[1].length <= 2 && price.split(".")[2] == undefined)) {
-				this.setState({ price })
-			}
+			this.setState({ price: Number(price) })
 		};
 		handleChangeTime = (time: any) => this.setState({ time });
 		handleShowSelectTime = () => this.setState({ showSelectTime: true });
