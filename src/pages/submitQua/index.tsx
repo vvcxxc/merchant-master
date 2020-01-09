@@ -352,6 +352,15 @@ export default connect(({ submitQua }: any) => submitQua)(
       });
       router.push('/submitQua/example/license')
     }
+    toBankLicenseExample = () => {
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          date_back: true
+        }
+      });
+      router.push('/submitQua/example/bankLicense')
+    }
     /**姓名输入 */
     handleName = (e: any) => {
       Cookies.set("_handleName", JSON.stringify(e), { expires: 1 });
@@ -1759,6 +1768,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
                     <Flex className={styles.bank_title}>
                       <div className={styles.sfz_left}>银行开户许可证</div>
+                      <div className={styles.sfz_right} onClick={this.toBankLicenseExample}>查看示例</div>
                     </Flex>
                     <Flex className={styles.license_img}>
                       {BankLicense}
