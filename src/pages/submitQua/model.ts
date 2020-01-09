@@ -1,7 +1,7 @@
 import { Model } from 'dva';
 
 interface SubmitQua {
-  bankShow:boolean,
+  bankShow: boolean,
   id_back: any[];
   id_front: any[];
   id_hand: any[];
@@ -32,6 +32,9 @@ interface SubmitQua {
   is_bank_front: boolean,
   is_bank_back: boolean,
   is_license: boolean,
+  Banklicense_img: any[];//银行许可证
+  Bank_license_imgUrl: string,
+  Bank_is_license: boolean,
 }
 
 const model: Model = {
@@ -67,9 +70,12 @@ const model: Model = {
     is_bank_front: false,
     is_bank_back: false,
     is_license: false,
-    date_back:false,
-    bank_disable:false,
-    bankShow:false
+    date_back: false,
+    bank_disable: false,
+    bankShow: false,
+    Banklicense_img: [],
+    Bank_license_imgUrl: '',
+    Bank_is_license: false
   },
   reducers: {
     setQua(state, { payload }) {

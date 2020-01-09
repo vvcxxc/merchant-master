@@ -121,7 +121,6 @@ export default connect(({ submitQua }: any) => submitQua)(
       ],
       prompt: false,
 
-
       ToastTipsLegalIDImg: "",
       ToastTipsContactName: "",
       ToastTipsLegalIdNo: "",
@@ -136,23 +135,16 @@ export default connect(({ submitQua }: any) => submitQua)(
       ToastTipsCornBusName: "",
       ToastTipsLegalName: "",
       ToastTipsBusinessDate: "",
+      ToastTipsBankLicense: ""
     };
 
 
 
     componentDidMount() {
+      console.log(this.props.location.query.dredgeType)
       function getCaption(str: string) {
         return str.split('http://oss.tdianyi.com/')[1]
       }
-
-
-
-      // if (Cookies.get("_bank3disable") && JSON.parse(Cookies.get("_bank3disable")) == true) {
-      //   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
-      // }
-
-
-
       // 暂时
       Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
         let { data } = res.data;
@@ -173,7 +165,7 @@ export default connect(({ submitQua }: any) => submitQua)(
         method: 'get'
       }).then(res => {
         let { data } = res;
-        let { contact_name, legal_id_no, legal_id_valid_date, settle_bank_account_name, settle_bank_account_no, settle_bank, three_certs_in_one_no, corn_bus_name, legal_name, three_certs_in_one_valid_date, bank_name, legal_id_front_img, legal_id_back_img, hand_hold_id_img, bank_card_front_img, bank_card_back_img, three_certs_in_one_img } = data;
+        let { contact_name, legal_id_no, legal_id_valid_date, settle_bank_account_name, settle_bank_account_no, settle_bank, three_certs_in_one_no, corn_bus_name, legal_name, three_certs_in_one_valid_date, bank_name, legal_id_front_img, legal_id_back_img, hand_hold_id_img, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, Bank_license_imgUrl } = data;
         if (three_certs_in_one_valid_date[0] == 0) {
           three_certs_in_one_valid_date = '长期'
         }
@@ -181,7 +173,6 @@ export default connect(({ submitQua }: any) => submitQua)(
           three_certs_in_one_valid_date = '长期'
         }
 
-        let arr = (this.props.contact_name || this.props.legal_id_no || this.props.date || this.props.settle_bank_account_name || this.props.settle_bank_account_no || this.props.settle_bank || this.props.three_certs_in_one_no || this.props.corn_bus_name || this.props.legal_name || this.props.three_certs_in_one_valid_date || this.props.bank_name || this.props.legal_id_front_img || this.props.legal_id_back_img || this.props.hand_hold_id_img || this.props.bank_card_front_img || this.props.bank_card_back_img || this.props.three_certs_in_one_img)
         if (this.props.date_back == false) {
           this.props.dispatch({
             type: 'submitQua/setQua',
@@ -225,26 +216,25 @@ export default connect(({ submitQua }: any) => submitQua)(
               three_certs_in_one_img: Cookies.get("_changeLicense") ? JSON.parse(Cookies.get("_changeLicense")) : getCaption(three_certs_in_one_img),
 
 
+              Bank_license_imgUrl: Cookies.get("_changeBankLicense") ? JSON.parse(Cookies.get("_changeBankLicense")) : getCaption(Bank_license_imgUrl),
+
+
               is_id_front: (Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) != "") ? true : ((Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) == "") ? false : (legal_id_front_img != "" ? true : false)),
               is_id_back: (Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) != "") ? true : ((Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) == "") ? false : (legal_id_back_img != "" ? true : false)),
               is_id_hand: (Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) != "") ? true : ((Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) == "") ? false : (hand_hold_id_img != "" ? true : false)),
               is_bank_front: (Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) != "") ? true : ((Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) == "") ? false : (bank_card_front_img != "" ? true : false)),
               is_bank_back: (Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) != "") ? true : ((Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) == "") ? false : (bank_card_back_img != "" ? true : false)),
               is_license: (Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) != "") ? true : ((Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) == "") ? false : (three_certs_in_one_img != "" ? true : false)),
+              Bank_is_license: (Cookies.get("_changeBankLicense") && JSON.parse(Cookies.get("_changeBankLicense")) != "") ? true : ((Cookies.get("_changeBankLicense") && JSON.parse(Cookies.get("_changeBankLicense")) == "") ? false : (three_certs_in_one_img != "" ? true : false)),
 
-              // is_id_front: (legal_id_front_img != "" || Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) != "") ? true : false,
-              // is_id_back: (legal_id_back_img != "" || Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) != "") ? true : false,
-              // is_id_hand: (hand_hold_id_img != "" || Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) != "") ? true : false,
-              // is_bank_front: (bank_card_front_img != "" || Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) != "") ? true : false,
-              // is_bank_back: (bank_card_back_img != "" || Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) != "") ? true : false,
-              // is_license: (three_certs_in_one_img != "" || Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) != "") ? true : false,
               modal1img: [],
               id_back: [],
               id_front: [],
               id_hand: [],
               bank_front: [],
               bank_back: [],
-              license_img: []
+              license_img: [],
+              Banklicense_img: []
             }
           })
 
@@ -484,7 +474,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     id_front: files
       //   }
       // })
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -560,7 +550,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     id_back: files
       //   }
       // })
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -666,7 +656,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     bank_front: files
       //   }
       // })
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -764,7 +754,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     bank_back: files
       //   }
       // })
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -862,7 +852,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     license_img: files
       //   }
       // })
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -921,7 +911,42 @@ export default connect(({ submitQua }: any) => submitQua)(
         })
       }
     }
-
+    //银行许可证
+    changeBankLicense = (files: any) => {
+      // this.props.dispatch({
+      //   type: 'submitQua/setQua',
+      //   payload: {
+      //     license_img: files
+      //   }
+      // })
+      Toast.loading('', 100)
+      if (files[0]) {
+        let img = files[0].url;
+        upload(img).then(res => {
+          Toast.hide();
+          let Bank_license_imgUrl = res.data.path;
+          Cookies.set("_changeBankLicense", JSON.stringify(res.data.path), { expires: 1 });
+          this.props.dispatch({
+            type: 'submitQua/setQua',
+            payload: {
+              Banklicense_img: files,
+              Bank_license_imgUrl
+            }
+          })
+          console.log(Bank_license_imgUrl, '8888')
+        });
+      } else {
+        Toast.hide();
+        Cookies.set("_changeBankLicense", JSON.stringify(""), { expires: 1 });
+        this.props.dispatch({
+          type: 'submitQua/setQua',
+          payload: {
+            Banklicense_img: files,
+            Bank_license_imgUrl: ''
+          }
+        })
+      }
+    }
 
     /**选择有效期 */
     chooseDate = (type: number) => () => {
@@ -1004,6 +1029,16 @@ export default connect(({ submitQua }: any) => submitQua)(
         }
       })
     }
+    closeBankLicense = () => {
+      Cookies.set("_changeBankLicense", JSON.stringify(""), { expires: 1 });
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          Bank_is_license: false,
+          Bank_license_imgUrl: ''
+        }
+      })
+    }
 
     /**保存或者提交 */
     submit = (type: number) => async () => {
@@ -1044,9 +1079,10 @@ export default connect(({ submitQua }: any) => submitQua)(
         ToastTipsCornBusName: "",
         ToastTipsLegalName: "",
         ToastTipsBusinessDate: "",
+        ToastTipsBankLicense: ""
       })
 
-      const { legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.props;
+      const { legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank, Bank_license_imgUrl } = this.props;
       // 身份证照片
       if (!legal_id_front_img || !legal_id_back_img || !hand_hold_id_img) {
         this.setState({
@@ -1153,6 +1189,11 @@ export default connect(({ submitQua }: any) => submitQua)(
           ToastTipsLegalName: "请输入用户法人姓名"
         })
       }
+      if (!Bank_license_imgUrl) {
+        this.setState({
+          ToastTipsBankLicense: "请上传银行开户许可证图片"
+        })
+      }
 
       // 营业执照有效期
       const businessNowTimeStamp = Date.now();
@@ -1178,6 +1219,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           })
         }
       }
+      console.log('77777777')
 
       const {
         ToastTipsLegalIDImg,
@@ -1193,9 +1235,11 @@ export default connect(({ submitQua }: any) => submitQua)(
         ToastTipsBusinessNo,
         ToastTipsCornBusName,
         ToastTipsLegalName,
-        ToastTipsBusinessDate
+        ToastTipsBusinessDate,
+        ToastTipsBankLicense
       } = this.state;
-      if(
+
+      if (this.props.location.query.dredgeType == 2 && (
         ToastTipsLegalIDImg ||
         ToastTipsContactName ||
         ToastTipsLegalIdNo ||
@@ -1209,8 +1253,23 @@ export default connect(({ submitQua }: any) => submitQua)(
         ToastTipsBusinessNo ||
         ToastTipsCornBusName ||
         ToastTipsLegalName ||
-        ToastTipsBusinessDate
-      ) return;
+        ToastTipsBusinessDate ||
+        ToastTipsBankLicense
+      )) { return; }
+      else if (
+        ToastTipsLegalIDImg ||
+        ToastTipsContactName ||
+        ToastTipsLegalIdNo ||
+        ToastTipsIDDate ||
+        ToastTipsBankCardImg ||
+        ToastTipsBankAccountName ||
+        ToastTipsBankAccountNo ||
+        ToastTipsSettleBank ||
+        ToastTipsBankName
+      ) {
+        return;
+      }
+
       let data = {
         legal_id_back_img,
         legal_id_front_img,
@@ -1229,8 +1288,11 @@ export default connect(({ submitQua }: any) => submitQua)(
         legal_name,
         bank_name,
         settle_bank,
-        confirm_step: type
+        confirm_step: type,
+        merchant_property: this.props.location.query.dredgeType,
+        bank_opening_permit: Bank_license_imgUrl
       }
+      console.log('09999999')
 
       request({
         url: 'v3/payment_profiles',
@@ -1255,7 +1317,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     }
     selectImg = (files: any) => {
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -1368,7 +1430,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     render() {
       const idFront = this.props.is_id_front == true ? (
-        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_front_img+'?x-oss-process=image/resize,m_fill,w_209,h_149'} alt="" /><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
+        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_front_img + '?x-oss-process=image/resize,m_fill,w_209,h_149'} alt="" /><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.front_img}
@@ -1380,7 +1442,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         );
       const idBack = this.props.is_id_back == true ? (
-        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_back_img+'?x-oss-process=image/resize,m_fill,w_209,h_149'} /><div className={styles.close} onClick={this.closeIDBack}>{''}</div></div>
+        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_back_img + '?x-oss-process=image/resize,m_fill,w_209,h_149'} /><div className={styles.close} onClick={this.closeIDBack}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.back_img}
@@ -1392,7 +1454,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         )
       const idHand = this.props.is_id_hand == true ? (
-        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.hand_hold_id_img+'?x-oss-process=image/resize,m_fill,w_209,h_149'} /><div className={styles.close} onClick={this.closeIDHand}>{''}</div></div>
+        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.hand_hold_id_img + '?x-oss-process=image/resize,m_fill,w_209,h_149'} /><div className={styles.close} onClick={this.closeIDHand}>{''}</div></div>
       ) : (
           //809
           <ImagePicker
@@ -1406,7 +1468,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         )
       const bankFront = this.props.is_bank_front == true ? (
-        <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/" + this.props.bank_card_front_img+'?x-oss-process=image/resize,m_fill,w_324,h_203'} /><div className={styles.close} onClick={this.closeBankFront}>{''}</div></div>
+        <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/" + this.props.bank_card_front_img + '?x-oss-process=image/resize,m_fill,w_324,h_203'} /><div className={styles.close} onClick={this.closeBankFront}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.bank_front}
@@ -1418,7 +1480,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         )
       const bankBack = this.props.is_bank_back == true ? (
-        <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/" + this.props.bank_card_back_img+'?x-oss-process=image/resize,m_fill,w_324,h_203'} /><div className={styles.close} onClick={this.closeBankBack}>{''}</div></div>
+        <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/" + this.props.bank_card_back_img + '?x-oss-process=image/resize,m_fill,w_324,h_203'} /><div className={styles.close} onClick={this.closeBankBack}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.bank_back}
@@ -1430,7 +1492,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         )
       const License = this.props.is_license == true ? (
-        <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/" + this.props.three_certs_in_one_img+'?x-oss-process=image/resize,m_fill,w_669,h_438'} /><div className={styles.close} onClick={this.closeLicense}>{''}</div></div>
+        <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/" + this.props.three_certs_in_one_img + '?x-oss-process=image/resize,m_fill,w_669,h_438'} /><div className={styles.close} onClick={this.closeLicense}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.license}
@@ -1439,6 +1501,19 @@ export default connect(({ submitQua }: any) => submitQua)(
             length={1}
             selectable={this.props.license_img.length < 1}
             onChange={this.changeLicense}
+          />
+        )
+
+      const BankLicense = this.props.Bank_is_license == true ? (
+        <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/" + this.props.Bank_license_imgUrl + '?x-oss-process=image/resize,m_fill,w_669,h_438'} /><div className={styles.close} onClick={this.closeBankLicense}>{''}</div></div>
+      ) : (
+          <ImagePicker
+            className={styles.license}
+            files={this.props.Banklicense_img}
+            multiple={false}
+            length={1}
+            selectable={this.props.Banklicense_img.length < 1}
+            onChange={this.changeBankLicense}
           />
         )
 
@@ -1460,6 +1535,7 @@ export default connect(({ submitQua }: any) => submitQua)(
         ToastTipsCornBusName,
         ToastTipsLegalName,
         ToastTipsBusinessDate,
+        ToastTipsBankLicense
       } = this.state
 
       return (
@@ -1615,7 +1691,6 @@ export default connect(({ submitQua }: any) => submitQua)(
                     </Flex>
                   ) : ""
                 }
-
                 <div className={styles.bankMsg} style={{ display: this.props.bankShow && this.props.bank_disable ? "block" : "none" }}>
                   <div className={styles.bankMsg_box} >
                     <ul className={styles.bankMsg_box_ul}>
@@ -1629,52 +1704,75 @@ export default connect(({ submitQua }: any) => submitQua)(
                     </ul>
                   </div>
                 </div>
+                <div className={styles.whiteContent} style={{ display: this.props.bankShow && this.props.bank_disable ? "block" : "none" }} ></div>
+
               </List>
-              <Flex className={styles.bank_title}>
-                <div className={styles.sfz_left}>营业执照</div>
-                <div className={styles.sfz_right} onClick={this.toLicenseExample}>查看示例</div>
-              </Flex>
-              <Flex className={styles.license_img}>
-                {License}
-              </Flex>
               {
-                ToastTipsBusinessImg ? (
-                  <Flex justify="end" className={styles.toast_tips_img}>
-                    <span>{ToastTipsBusinessImg}</span>
-                  </Flex>
-                ) : ""
-              }
-              <InputItem placeholder='同统一社会信用代码' value={this.props.three_certs_in_one_no} onChange={this.handleLicenseNUm} clear>注册号</InputItem>
-              {
-                ToastTipsBusinessNo ? (
-                  <Flex justify="end" className={styles.toast_tips}>
-                    <span>{ToastTipsBusinessNo}</span>
-                  </Flex>
-                ) : ""
-              }
-              <InputItem placeholder='无执照名称可填写经营者名称' value={this.props.corn_bus_name} onChange={this.handleLicenseName} clear>执照名称</InputItem>
-              {
-                ToastTipsCornBusName ? (
-                  <Flex justify="end" className={styles.toast_tips}>
-                    <span>{ToastTipsCornBusName}</span>
-                  </Flex>
-                ) : ""
-              }
-              <InputItem placeholder='请输入法人姓名' value={this.props.legal_name} onChange={this.handleLegalName} clear>法人姓名</InputItem>
-              {
-                ToastTipsLegalName ? (
-                  <Flex justify="end" className={styles.toast_tips}>
-                    <span>{ToastTipsLegalName}</span>
-                  </Flex>
-                ) : ""
-              }
-              <InputItem placeholder='有效期' editable={false} value={this.props.three_certs_in_one_valid_date} onClick={this.chooseDate(2)} clear>有效期<Icon type='right' className={styles.youxiao} /></InputItem>
-              {
-                ToastTipsBusinessDate ? (
-                  <Flex justify="end" className={styles.toast_tips}>
-                    <span>{ToastTipsBusinessDate}</span>
-                  </Flex>
-                ) : ""
+                this.props.location.query.dredgeType == 2 ?
+                  <div>
+                    <Flex className={styles.bank_title}>
+                      <div className={styles.sfz_left}>营业执照</div>
+                      <div className={styles.sfz_right} onClick={this.toLicenseExample}>查看示例</div>
+                    </Flex>
+                    <Flex className={styles.license_img}>
+                      {License}
+                    </Flex>
+                    {
+                      ToastTipsBusinessImg ? (
+                        <Flex justify="end" className={styles.toast_tips_img}>
+                          <span>{ToastTipsBusinessImg}</span>
+                        </Flex>
+                      ) : ""
+                    }
+                    <InputItem placeholder='同统一社会信用代码' value={this.props.three_certs_in_one_no} onChange={this.handleLicenseNUm} clear>注册号</InputItem>
+                    {
+                      ToastTipsBusinessNo ? (
+                        <Flex justify="end" className={styles.toast_tips}>
+                          <span>{ToastTipsBusinessNo}</span>
+                        </Flex>
+                      ) : ""
+                    }
+                    <InputItem placeholder='无执照名称可填写经营者名称' value={this.props.corn_bus_name} onChange={this.handleLicenseName} clear>执照名称</InputItem>
+                    {
+                      ToastTipsCornBusName ? (
+                        <Flex justify="end" className={styles.toast_tips}>
+                          <span>{ToastTipsCornBusName}</span>
+                        </Flex>
+                      ) : ""
+                    }
+                    <InputItem placeholder='请输入法人姓名' value={this.props.legal_name} onChange={this.handleLegalName} clear>法人姓名</InputItem>
+                    {
+                      ToastTipsLegalName ? (
+                        <Flex justify="end" className={styles.toast_tips}>
+                          <span>{ToastTipsLegalName}</span>
+                        </Flex>
+                      ) : ""
+                    }
+                    <InputItem placeholder='有效期' editable={false} value={this.props.three_certs_in_one_valid_date} onClick={this.chooseDate(2)} clear>有效期<Icon type='right' className={styles.youxiao} /></InputItem>
+                    {
+                      ToastTipsBusinessDate ? (
+                        <Flex justify="end" className={styles.toast_tips}>
+                          <span>{ToastTipsBusinessDate}</span>
+                        </Flex>
+                      ) : ""
+                    }
+
+                    <Flex className={styles.bank_title}>
+                      <div className={styles.sfz_left}>银行开户许可证</div>
+                    </Flex>
+                    <Flex className={styles.license_img}>
+                      {BankLicense}
+                    </Flex>
+                    {
+                      ToastTipsBankLicense ? (
+                        <Flex justify="end" className={styles.toast_tips}>
+                          <span>{ToastTipsBankLicense}</span>
+                        </Flex>
+                      ) : ""
+                    }
+                  </div> : null
+
+
               }
             </WingBlank>
             <Flex className={styles.buttons}>
