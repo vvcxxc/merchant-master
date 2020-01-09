@@ -182,7 +182,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			}
 		};
 		handleChangePrice = (price: any) => {
-			this.setState({ price: Number(price) })
+			this.setState({ price: price ? Number(price) : '' })
 		};
 		handleShowSelectTime = () => this.setState({ showSelectTime: true });
 		handleSelectTime = (time: any) => this.setState({ ...time }, this.closeModal);
