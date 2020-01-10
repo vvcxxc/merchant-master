@@ -56,7 +56,8 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 			//校验规则
 			couponErr: false,
 			timeErr: false,
-			priceErr: false
+			priceErr: false,
+			haveChangeMoney:false
 		};
 
 		componentDidMount = () => {
@@ -105,8 +106,10 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 		showModal = () => this.setState({ showSelectCoupon: true });
 		handleSelectCoupon = (coupon: any) => this.setState({ coupon }, this.closeModal);
 		handleChangePrice = (price: any) => {
-			if (price.split(".")[1] == undefined || (price.split(".")[1].length <= 2 && price.split(".")[2] == undefined)) {
-				this.setState({ price })
+			if (price.indexOf(".") == -1) {
+				this.setState({ price, haveChangeMoney: true })
+			} else if (this.state.haveChangeMoney == false) {
+				this.setState({ price: '', haveChangeMoney: true })
 			}
 		};
 		handleChangeTime = (time: any) => this.setState({ time });
@@ -263,7 +266,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 				<div className={styles.ad_wrap}>
 					<div className={((this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1)) ? styles.ad_status_isPut : this.state.is_pause == 1 ? styles.ad_status_ispause : (this.state.is_pause == 0 && this.state.check_status == 2) ? styles.ad_status_isFail : ''}>
 						{
-							// this.state.ad_status == 0 ? ' 暂未投放': 
+							// this.state.ad_status == 0 ? ' 暂未投放':
 							(this.state.is_pause == 0 && this.state.check_status == 0) ? ' 审核中'
 								: (this.state.is_pause == 0 && this.state.check_status == 1) ? ' 已投放'
 									: (this.state.is_pause == 1) ? ' 已暂停'
@@ -316,7 +319,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 										每日预算
 									<span className={styles.budget_info}>
 											{
-												(this.state.is_pause == -1) ? '最低预算1.1元，建议预算1.1元'
+												(this.state.is_pause == -1) ? '最低预算2元'
 													: (this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元，低于1.1元广告将暂停`
 														: (this.state.is_pause == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元` : ''
 											}
@@ -324,7 +327,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 									</InputItem>
 									{
 										this.state.priceErr && !this.state.price ? <div className={styles.errorLine}>账号余额低于每日最低预算，请充值后重新投放</div> : (
-											this.state.priceErr && Number(this.state.price) <= 1.1 ? <div className={styles.errorLine}>每日投放预算不可低于1.1元</div> : null
+											this.state.priceErr && Number(this.state.price) <= 2 ? <div className={styles.errorLine}>每日投放预算不可低于2元</div> : null
 
 										)
 									}

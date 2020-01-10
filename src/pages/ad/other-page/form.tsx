@@ -88,7 +88,8 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			imageErr: false,
 			uploadIng: false,
 
-			countMoney: 0
+			countMoney: 0,
+			haveChangeMoney: false
 
 		};
 		UNSAFE_componentWillReceiveProps(nextProps: any) {
@@ -182,8 +183,10 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			}
 		};
 		handleChangePrice = (price: any) => {
-			if (price.split(".")[1] == undefined || (price.split(".")[1].length <= 2 && price.split(".")[2] == undefined)) {
-				this.setState({ price })
+			if (price.indexOf(".") == -1) {
+				this.setState({ price, haveChangeMoney: true })
+			} else if (this.state.haveChangeMoney == false) {
+				this.setState({ price: '', haveChangeMoney: true })
 			}
 		};
 		handleShowSelectTime = () => this.setState({ showSelectTime: true });
@@ -516,7 +519,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 										每日预算
 										<span className={styles.budget_info}>
 											{
-												(this.state.is_pause == -1) ? '最低预算1.1元，建议预算101元'
+												(this.state.is_pause == -1) ? '最低预算2元，建议预算101元'
 													: (this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元，低于1.1元广告将暂停`
 														: (this.state.is_pause == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元` : ''
 											}
@@ -524,7 +527,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 									</InputItem>
 									{
 										this.state.priceErr && !this.state.price ? <div className={styles.errorLine} >账号余额低于每日最低预算，请充值后重新投放</div> : (
-											this.state.priceErr && this.state.price && Number(this.state.price) < 1.1 ? <div className={styles.errorLine} >每日投放预算不可低于1.1元</div> : null
+											this.state.priceErr && this.state.price && Number(this.state.price) <= 2 ? <div className={styles.errorLine} >每日投放预算不可低于2元</div> : null
 										)
 									}
 
