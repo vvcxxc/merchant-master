@@ -92,7 +92,7 @@ export default class Success extends Component {
           </Flex>
           <Flex justify='around' className={styles.infos}>
             <div className={styles.user_info}>
-              <img src={data.user_images} className={styles.user_img} />
+              <img src='http://oss.tdianyi.com/front/ek7cPQsFbEt7DXT7E7B6Xaf62a46SCXw.png' className={styles.user_img} />
               <span className={styles.name}>{data.user_name}</span>
               <span className={styles.number}>券码：{data.youhui_sn}</span>
             </div>
