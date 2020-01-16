@@ -19,7 +19,7 @@ export default class VerificationItem extends Component<Item> {
 		// console.log(this.props,'8989898');
 		return (
 			<Flex className={styles.item} >
-				<img src={this.props.avatar} className="img" alt="" />
+				<img src='http://oss.tdianyi.com/front/ek7cPQsFbEt7DXT7E7B6Xaf62a46SCXw.png' className="img" alt="" />
 				<Flex.Item>
 					<Flex className="title">
 						{this.props.prize_name}
