@@ -209,3 +209,62 @@
         }
     }
 }
+
+.freeze_record {
+    min-height: 100vh;
+    padding: 0 15px;
+    box-sizing: border-box;
+    .freeze_title {
+        display: flex;
+        // justify-content: space-around;
+        padding: 30px 0;
+        // border-top: 1px solid #ccc;
+        color: #333333;
+        font-size: 28px;
+        text-align: center;
+        .freeze_time::after {
+            content: "";
+            display: inline-block;
+            margin-left: 10px;
+            margin-bottom: -5px;
+            width: 0; 
+            height: 0;
+            border-width: 10px;
+            border-style: solid;
+            border-color:#999999 transparent transparent transparent;
+        }
+        .freeze_date {
+            flex: 3;
+        }
+        .freeze_money {
+            flex: 3;
+        }
+        .remaining_balance_money {
+            flex: 3;
+        }
+        .surplus_already_money {
+            flex: 4;
+        }
+    }
+    .data_item {
+        display: flex;
+        text-align: center;
+        border-top: 1px solid #ccc;
+        padding: 40px 0;
+        color: #333333;
+        font-size: 24px;
+        .data_time {
+            flex: 3;
+        }
+        .data_freeze_money {
+            flex: 3;
+        }
+        .data_remaining_balance_money {
+            flex: 3;
+        }
+        .data_surplus_already_money {
+            flex: 4;
+        }
+    }
+    
+}
