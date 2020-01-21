@@ -9,14 +9,16 @@ import request from '@/services/request';
 import moment from 'moment';
 
 interface paramsType {
-  begin_date: number |string ,//开始
+  begin_date: number | string,//开始
   end_date: number | string,//结束时间
   from: number,//区分类型
-  page:number//页码
+  page: number//页码
 }
 export default class MyIndex extends Component {
   state = {
-    title: [
+    title: [],
+    titleType: 0,
+    title0: [
       {
         name: '平台余额',
         pice: '50.00',
@@ -24,7 +26,7 @@ export default class MyIndex extends Component {
         left: -14.5,
         go_right: 15.2,
         show: false,
-        index:1
+        index: 1
       },
       {
         name: '商家微信',
@@ -44,13 +46,28 @@ export default class MyIndex extends Component {
         index: 2
       },
     ],
+    title1: [
+      {
+        name: '平台余额',
+        pice: '50.00',
+        des: '结算到商家平台账户内, 需要手动进行提现',
+        left: -14.5,
+        go_right: 15.2,
+        show: false,
+        index: 1
+      },
+    ],
+    payments: [
+      { name: '收入', type: 0 },
+      { name: '支出', type: 1 }
+    ],
     begin_date: '',
     end_date: '',
     from: 1,
     page: 1,
     total: '',
     total_money: '',
-    showMore:true,
+    showMore: true,
     list: [
     ],
     totalData: [
@@ -64,39 +81,40 @@ export default class MyIndex extends Component {
     let begin_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + 1
     date.setMonth(date.getMonth() + 1)
     date.setDate(0)
-    let end_date = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate()
+    let end_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
     this.setState({
       begin_date,
       end_date,
       page: 1,
-      from:1
+      from: 1
     })
     const { from, page } = this.state
-    this.getDataList({ begin_date, end_date, from, page})//请求数据
+    this.getDataList({ begin_date, end_date, from, page })//请求数据
   }
 
   // 点击查看不同的列数据
   userSelect = async (index: any) => {
 
-   await Toast.loading('');
+    await Toast.loading('');
     const { page, begin_date, end_date } = this.state
     this.setState({
-      from: index ,
-      page:1
+      from: index,
+      page: 1
     }, () => {
 
-        this.getDataList({ begin_date, end_date, from: this.state.from, page })
-        Toast.hide();
+      this.getDataList({ begin_date, end_date, from: this.state.from, page })
+      Toast.hide();
     })
   }
 
-  getNewTitle = (_:any) => {
+  getNewTitle = (_: any) => {
     return this.state.title.map((item: any, index: number) => {
-      if ( _ !== index) item.show = false
+      if (_ !== index) item.show = false
       return item
     })
   }
   allowShow = (_: number) => {
+    console.log(_, '766')
     let title = this.getNewTitle(_)
     title[_].show = !title[_].show
     this.setState({
@@ -105,8 +123,8 @@ export default class MyIndex extends Component {
 
   }
 
-  onclosePrompt = (time?:any) => {
-    let title = this.state.title.map((item: any,index:number) => {
+  onclosePrompt = (time?: any) => {
+    let title = this.state.title.map((item: any, index: number) => {
       item.show = false
       return item
     })
@@ -120,7 +138,7 @@ export default class MyIndex extends Component {
   routerDetails = () => {
   }
 
-  handleLayoutChange = (data:any) => {
+  handleLayoutChange = (data: any) => {
     let date = new Date()
     let begin_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + 1
     date.setMonth(date.getMonth() + 1)
@@ -136,6 +154,19 @@ export default class MyIndex extends Component {
       this.getDataList({ begin_date, end_date, from, page })//请求数据
     })
   }
+  changeHeaderTab = (query: any) => {
+    console.log('kkk', query);
+    let group;
+    if (query == 0) {
+      group = this.state.title0;
+      this.getDataList({ begin_date: this.state.begin_date, end_date: this.state.end_date, from: 1, page: 1 })//请求数据
+    } else {
+      group = this.state.title1;
+      console.log('lalala')
+      this.getDataList({ begin_date: this.state.begin_date, end_date: this.state.end_date, from: 4, page: 1 })//请求数据
+    }
+    this.setState({ titleType: query, title: group, page: 1, from: 1 })
+  }
 
   // 请求数据 赋值列表
   getDataList = (params: paramsType) => {
@@ -148,13 +179,26 @@ export default class MyIndex extends Component {
       }
     }).then(res => {
       const { data, code } = res
-      if (code == 200) {
-        let titleData = this.state.title
+      if (code == 200 && this.state.titleType == 0) {
+        //收入
+        let titleData = this.state.title0
         titleData[0].pice = data.platform_total
         titleData[1].pice = data.wx_total
         titleData[2].pice = data.ali_total
         this.setState({
           title: titleData,
+          title0: titleData,
+          totalData: [
+            { name: '交易笔数', num: data.count },
+            { name: '交易金额', num: data.total_money }]
+        })
+      } else if (code == 200 && this.state.titleType == 1) {
+        //支出
+        let titleData = this.state.title1
+        titleData[0].pice = data.platform_total
+        this.setState({
+          title: titleData,
+          title1: titleData,
           totalData: [
             { name: '交易笔数', num: data.count },
             { name: '交易金额', num: data.total_money }]
@@ -170,13 +214,13 @@ export default class MyIndex extends Component {
       const { code, data } = res
       if (code === 200) {
         this.setState({
-          list: params.page > 1 ? [...this.state.list, ...data.offlineOrders.data]:data.offlineOrders.data,
+          list: params.page > 1 ? [...this.state.list, ...data.offlineOrders.data] : data.offlineOrders.data,
           total_money: data.total_money,//交易金额
           total: data.offlineOrders.total,//交易笔数
 
         })
 
-        if (data.offlineOrders.data.length<1) this.setState({showMore:false})
+        if (data.offlineOrders.data.length < 1) this.setState({ showMore: false })
       }
 
     })
@@ -186,16 +230,16 @@ export default class MyIndex extends Component {
   getMoreData = () => {
     const { begin_date, end_date, from, page } = this.state
     this.setState({
-      page:page+1
+      page: page + 1
     }, () => {
-        this.getDataList({ begin_date, end_date, from, page:this.state.page })
+      this.getDataList({ begin_date, end_date, from, page: this.state.page })
     })
 
   }
 
   render() {
-    const { title, list, total, total_money, showMore, from, totalData} = this.state
-    const orderType:any = {
+    const { title, list, total, total_money, showMore, from, totalData } = this.state
+    const orderType: any = {
       // [1]: { value: '收款', id: styles.gathering },
       // [2]: { value: '订单', id: styles.order },
       // [15]: { value: '充值', id: styles.recharge },
@@ -203,7 +247,7 @@ export default class MyIndex extends Component {
       [1]: { value: '收款', id: styles.gathering },
       [15]: { value: '充值', id: styles.recharge },
       [16]: { value: '收益', id: styles.earnings },
-      [17]: { value: '订单', id: styles.order}
+      [17]: { value: '订单', id: styles.order }
     }
     return (
       <FiltrateLayout
@@ -212,63 +256,66 @@ export default class MyIndex extends Component {
         insignificant={totalData}
         onChange={this.handleLayoutChange}
         greyBackground={false}
+        hasHeaderTab={true}
+        headerTab={this.state.payments}
+        changeHeaderTab={this.changeHeaderTab}
       >
         <div id={styles.my_dynamic} onClick={this.onclosePrompt} className={styles.bgcontent}>
-            <div className={styles.userSelect}>
-              {
-                title && title.map((item: any, index: number) => {
-                  return <div key={item.index} >
-                    <div className={styles.balance} >
-                      <span onClick={this.userSelect.bind(this, item.index)}>{item.name}</span>
-                      <Propmpt
-                        left={item.left}
-                        value={item.des}
-                        go_right={item.go_right}
-                        index={index}
-                        show={item.show}
-                        onClcik={this.allowShow.bind(this)}
-                      />
-
-                    </div>
-                    <div className={styles.pice} onClick={this.userSelect.bind(this, item.index)}
-                      style={{ borderBottom: from == item.index ? '3px solid rgba(71,129,254,1)' : '' }}>
-                      ￥{item.pice}
-                    </div>
-                  </div>
-                })
-              }
-          </div>
-
+          <div className={styles.userSelect}>
             {
-              list.length>0 && list.map((item: any, index: number) => {
-                return <div className={styles.list_data} key={index} onClick={this.routerDetails}>
-                  {
-                    from > 1 ? <div className={styles.list_data_left}></div> :
-                      <div className={styles.list_data_left}
-                        id={orderType[item.order_type].id}
-                      >
-                        </div>
-                  }
-                  <div className={styles.list_data_right}>
-                    <div className={styles.order}><span>{item.order_sn}</span> <span>{item.amount}</span></div>
-                    <div className={styles.order_time}>
-                      <span>{item.create_time}</span>
-                      <span>
-                        {
-                           item.type
-                        }
-                      </span></div>
-                    <div className={styles.border_one}></div>
+              title && title.map((item: any, index: number) => {
+                return <div key={item.index} className={styles.balanceBox} >
+                  <div className={styles.balance} >
+                    <span onClick={this.userSelect.bind(this, item.index)}>{item.name}</span>
+                    <Propmpt
+                      left={item.left}
+                      value={item.des}
+                      go_right={item.go_right}
+                      index={index}
+                      show={item.show}
+                      onClcik={this.allowShow.bind(this)}
+                    />
+
+                  </div>
+                  <div className={styles.pice} onClick={this.userSelect.bind(this, item.index)}
+                    style={{ borderBottom: from == item.index ? '3px solid rgba(71,129,254,1)' : '' }}>
+                    ￥{item.pice}
                   </div>
                 </div>
               })
+            }
+          </div>
+
+          {
+            list.length > 0 && list.map((item: any, index: number) => {
+              return <div className={styles.list_data} key={index} onClick={this.routerDetails}>
+                {
+                  from > 1 ? <div className={styles.list_data_left}></div> :
+                    <div className={styles.list_data_left}
+                      id={orderType[item.order_type].id}
+                    >
+                    </div>
+                }
+                <div className={styles.list_data_right}>
+                  <div className={styles.order}><span>{item.order_sn}</span> <span>{item.amount}</span></div>
+                  <div className={styles.order_time}>
+                    <span>{item.create_time}</span>
+                    <span>
+                      {
+                        item.type
+                      }
+                    </span></div>
+                  <div className={styles.border_one}></div>
+                </div>
+              </div>
+            })
           }
           {
             showMore ? <div className={styles.moreData} onClick={this.getMoreData}> 点击加载更多</div> : <div className={styles.moreData}> 无更多数据</div>
           }
 
         </div>
-        </FiltrateLayout>
+      </FiltrateLayout>
     )
   }
 }
