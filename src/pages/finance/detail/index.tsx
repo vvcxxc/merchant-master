@@ -32,10 +32,9 @@ export default class Details extends Component {
         { order: '订单金额', value: res.data.amount },
         {
           order: '优惠总金额', value: res.data.use_score,
-          // children: [
-          //   { order: '满30减10', value: '-10.00' },
-          //   { order: '满30减10', value: '-10.00' }
-          // ]
+          children: res.data.youhui_name && res.data.youhui_money ? [
+            { order: res.data.youhui_name, value: res.data.youhui_money }
+          ] : undefined
         },
         { order: '交易手续费', value: res.data.service_amount },
         { order: '实收金额', value: res.data.store_amount },
