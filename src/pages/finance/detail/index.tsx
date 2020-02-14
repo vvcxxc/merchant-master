@@ -25,7 +25,7 @@ export default class Details extends Component {
       let youhuiList = [];
       let youhui_sum = 0;
       if (res.data.youhui_name && res.data.youhui_money) { youhuiList.push({ order: res.data.youhui_name, value: Number(res.data.youhui_money).toFixed(2) }); youhui_sum = youhui_sum + Number(res.data.youhui_money) };
-      if (res.data.use_score) { youhuiList.push({ order: '现金券', value: Number(res.data.use_score).toFixed(2) }); youhui_sum = youhui_sum + Number(res.data.use_score) };
+      if (Number(res.data.use_score)) { youhuiList.push({ order: '现金券', value: Number(res.data.use_score).toFixed(2) }); youhui_sum = youhui_sum + Number(res.data.use_score) };
       let data = [
         { order: '交易单号', value: res.data.order_sn },
         { order: '交易时间', value: res.data.create_time },
