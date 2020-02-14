@@ -24,9 +24,8 @@ export default class Details extends Component {
       console.log(res);
       let youhuiList = [];
       let youhui_sum = 0;
-      if (res.data.youhui_name && res.data.youhui_money) { youhuiList.push({ order: res.data.youhui_name, value: res.data.youhui_money }); youhui_sum = youhui_sum + Number(res.data.youhui_money) };
-      if (res.data.use_score) { youhuiList.push({ order: '现金券', value: res.data.use_score }); youhui_sum = youhui_sum + Number(res.data.use_score) };
-      console.log('youhui_sum',youhui_sum)
+      if (res.data.youhui_name && res.data.youhui_money) { youhuiList.push({ order: res.data.youhui_name, value: Number(res.data.youhui_money).toFixed(2) }); youhui_sum = youhui_sum + Number(res.data.youhui_money) };
+      if (res.data.use_score) { youhuiList.push({ order: '现金券', value: Number(res.data.use_score).toFixed(2) }); youhui_sum = youhui_sum + Number(res.data.use_score) };
       let data = [
         { order: '交易单号', value: res.data.order_sn },
         { order: '交易时间', value: res.data.create_time },
@@ -37,7 +36,7 @@ export default class Details extends Component {
         { order: '支付用户', value: res.data.user_name },
         { order: '订单金额', value: res.data.amount },
         {
-          order: '优惠总金额', value: youhui_sum,
+          order: '优惠总金额', value: youhui_sum.toFixed(2),
           children: youhuiList.length > 0 ? youhuiList : undefined
         },
         { order: '交易手续费', value: res.data.service_amount },
