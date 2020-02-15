@@ -8,7 +8,8 @@ export default class Details extends Component {
   state = {
     data: [],
     data1: [],
-    store_amount: ''
+    store_amount: '',
+    youhui: {}
   }
 
 
@@ -20,7 +21,10 @@ export default class Details extends Component {
         id: this.props.location.query.id
       }
     }).then((res) => {
-      console.log(res)
+      let sum = 0;
+      if (res.data.youhui_info.length > 0) {
+        for (let i in res.data.youhui_info) { sum = sum + Number(res.data.youhui_info[i].youhui_money) }
+      }
       let data = [
         { order: '交易单号', value: res.data.order_sn },
         { order: '交易时间', value: res.data.create_time },
@@ -31,17 +35,16 @@ export default class Details extends Component {
         { order: '支付用户', value: res.data.user_name },
         { order: '订单金额', value: res.data.amount },
         {
-          order: '优惠总金额', value: res.data.use_score,
-          // children: [
-          //   { order: '满30减10', value: '-10.00' },
-          //   { order: '满30减10', value: '-10.00' }
-          // ]
+          order: '优惠总金额', value: '-' + String(sum.toFixed(2)),
+          children: res.data.youhui_info.length > 0 ? res.data.youhui_info : undefined
         },
         { order: '交易手续费', value: res.data.service_amount },
         { order: '实收金额', value: res.data.store_amount },
-
       ]
-      this.setState({ data: data, data1: data1, store_amount: res.data.store_amount })
+      let youhui = res.data.youhui_name && res.data.youhui_money ? [
+        { order: res.data.youhui_name, value: res.data.youhui_money }
+      ] : undefined;
+      this.setState({ data: data, data1: data1, store_amount: res.data.store_amount, youhui: youhui })
     })
 
   }
@@ -88,8 +91,8 @@ export default class Details extends Component {
                         {
                           item.children.map((item2: any, index: number) => {
                             return <li key={index}>
-                              <span>{item2.order}</span>
-                              <span>{item2.value}</span>
+                              <span>{item2.youhui_name}</span>
+                              <span>{'-' + String(Number(item2.youhui_money).toFixed(2))}</span>
                             </li>
                           })
                         }
