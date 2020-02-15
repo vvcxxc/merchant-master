@@ -36,7 +36,7 @@ export default class Details extends Component {
         { order: '订单金额', value: res.data.amount },
         {
           order: '优惠总金额', value: '-' + String(sum.toFixed(2)),
-          children: res.data.youhui_info
+          children: res.data.youhui_info.length > 0 ? res.data.youhui_info : undefined
         },
         { order: '交易手续费', value: res.data.service_amount },
         { order: '实收金额', value: res.data.store_amount },
