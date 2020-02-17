@@ -12,7 +12,6 @@ export default class Details extends Component {
     youhui: {}
   }
 
-
   componentDidMount() {
     request({
       url: 'v3/offline_order/info',
