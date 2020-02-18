@@ -153,25 +153,35 @@ export default connect()(
 							{/* <img src={require('@/assets/my/arrow_icon.png')} alt="" className={styles.arrow_icon} /> */}
 						</Flex>
 						<div className={styles.user_money}>
-							<div className={styles.count_balance}>
-								<div className={styles.count_balance_wrap}>
-									<div className={styles.count_balance_title}>账户余额</div>
-									<div className={styles.count_balance_money}>{this.state.info.me_money}</div>
+							<div className={styles.top_box}>
+								<div className={styles.count_balance}>
+									<div className={styles.count_balance_wrap}>
+										<div className={styles.count_balance_title}>账户余额</div>
+										<div className={styles.count_balance_money}>{this.state.info.me_money}</div>
+									</div>
+									<div className={styles.count_balance_btn}>
+										<div className={styles.count_balance_invest} onClick={() => router.push('/my/rechange')}>充值</div>
+										<div className={styles.count_balance_withdraw} onClick={() => router.push('/my/withdraw')}>提现</div>
+									</div>
 								</div>
-								<div className={styles.count_balance_btn}>
-									<div className={styles.count_balance_invest} onClick={() => router.push('/my/rechange')}>充值</div>
-									<div className={styles.count_balance_withdraw} onClick={() => router.push('/my/withdraw')}>提现</div>
+								<div className={styles.platform_revenu}>
+									<div className={styles.platform_revenu_wrap}>
+										<div className={styles.platform_revenu_title}>平台收益</div>
+										<div className={styles.platform_revenu_money}>{this.state.info.money ? this.state.info.money : '0.00'}</div>
+									</div>
+									<div className={styles.platform_revenu_btn}>
+										<div className={styles.platform_revenu_transfer_account} onClick={this.transferredBalance}>转到余额</div>
+									</div>
 								</div>
 							</div>
-							<div className={styles.platform_revenu}>
-								<div className={styles.platform_revenu_wrap}>
-									<div className={styles.platform_revenu_title}>平台收益</div>
-									<div className={styles.platform_revenu_money}>{this.state.info.money ? this.state.info.money : '0.00'}</div>
+							<div className={styles.freeze_box}>
+								<div className={styles.freeze_left}>
+									<div className={styles.freeze_title}>冻结金额</div>
+									<div className={styles.freeze_num}>4000.00</div>
 								</div>
-								<div className={styles.platform_revenu_btn}>
-									<div className={styles.platform_revenu_transfer_account} onClick={this.transferredBalance}>转到余额</div>
-								</div>
+								<div className={styles.freeze_right} onClick={() => router.push('/my/freezeMoney')} >查看</div>
 							</div>
+
 						</div>
 						<div className={styles.user_bank_gift}>
 							<div className={styles.user_bank} onClick={() => router.push('/my/bank')}>
