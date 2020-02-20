@@ -31,6 +31,7 @@ export default class FreezeMoney extends Component {
     handleChange = (query: any) => {
         console.log(query)
     };
+
     render() {
         const list = [{ name: '冻结中金额', num: 1000.00 }]
 
@@ -44,7 +45,7 @@ export default class FreezeMoney extends Component {
                 greyBackground={true}
             >
                 <div className={styles.freezeMoney}>
-                    <div className={styles.FreezeItem}>
+                    <div className={styles.FreezeItem} >
                         <div className={styles.itemLeft}>
                             <div className={styles.itemLeftTop}>
                                 <div className={styles.itemTitle}>邮费冻结</div>

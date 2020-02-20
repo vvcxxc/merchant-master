@@ -149,10 +149,10 @@ export default class OrderPage extends Component {
 
   }
 
-  pushPage = (pathname: string, query: object, e: object) => {
-    console.log(pathname, query);
-    router.push({ pathname, query })
+  pushPage = () => {
+    router.push('/AdvertisingSpending/detail');
   };
+
 
   accAdd = (arg1: Number, arg2: Number) => {
     var r1, r2, m, c, res;
@@ -208,7 +208,9 @@ export default class OrderPage extends Component {
         <div className={styles.AdvertisingSpendingList} key={index} >
           <div className={styles.AdvertisingTitle} >
             <div className={styles.AdvertisingDate} >{item.date}</div>
-            <div className={styles.AdvertisingTotalMoney} >￥{item.gg}</div>
+            <div className={styles.AdvertisingTotalMoney} onClick={this.pushPage.bind(this)} >￥{item.gg}
+              <Icon type="right" color="#bcbcbc" />
+            </div>
           </div>
           {
             this.state.pay_status && this.state.pay_status != 4 ? null : <div className={styles.AdvertisingContent} >
