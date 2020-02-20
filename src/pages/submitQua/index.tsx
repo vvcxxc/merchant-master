@@ -1072,7 +1072,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //   Toast.fail('未选择支行', 1);
       //   return
       // }
-
+      let is_existence = this.props.location.query.is_existence;
       await this.setState({
         ToastTipsLegalIDImg: "",
         ToastTipsContactName: "",
@@ -1228,8 +1228,6 @@ export default connect(({ submitQua }: any) => submitQua)(
           })
         }
       }
-      console.log('77777777')
-
       const {
         ToastTipsLegalIDImg,
         ToastTipsContactName,
@@ -1248,34 +1246,49 @@ export default connect(({ submitQua }: any) => submitQua)(
         ToastTipsBankLicense
       } = this.state;
 
-      if (this.props.location.query.dredgeType == 2 && (
-        ToastTipsLegalIDImg ||
-        ToastTipsContactName ||
-        ToastTipsLegalIdNo ||
-        ToastTipsIDDate ||
-        ToastTipsBankCardImg ||
-        ToastTipsBankAccountName ||
-        ToastTipsBankAccountNo ||
-        ToastTipsSettleBank ||
-        ToastTipsBankName ||
-        ToastTipsBusinessImg ||
-        ToastTipsBusinessNo ||
-        ToastTipsCornBusName ||
-        ToastTipsLegalName ||
-        ToastTipsBusinessDate ||
-        ToastTipsBankLicense
-      )) { return; }
+      if (this.props.location.query.dredgeType == 2 &&
+        !this.props.location.query.is_existence
+        && (
+          ToastTipsLegalIDImg ||
+          ToastTipsContactName ||
+          ToastTipsLegalIdNo ||
+          ToastTipsIDDate ||
+          ToastTipsBankCardImg ||
+          ToastTipsBankAccountName ||
+          ToastTipsBankAccountNo ||
+          ToastTipsSettleBank ||
+          ToastTipsBankName ||
+          ToastTipsBusinessImg ||
+          ToastTipsBusinessNo ||
+          ToastTipsCornBusName ||
+          ToastTipsLegalName ||
+          ToastTipsBusinessDate ||
+          ToastTipsBankLicense
+        )) { return; }
       else if (
-        ToastTipsLegalIDImg ||
-        ToastTipsContactName ||
-        ToastTipsLegalIdNo ||
-        ToastTipsIDDate ||
-        ToastTipsBankCardImg ||
-        ToastTipsBankAccountName ||
-        ToastTipsBankAccountNo ||
-        ToastTipsSettleBank ||
-        ToastTipsBankName
+        this.props.location.query.dredgeType != 2 && (
+          ToastTipsLegalIDImg ||
+          ToastTipsContactName ||
+          ToastTipsLegalIdNo ||
+          ToastTipsIDDate ||
+          ToastTipsBankCardImg ||
+          ToastTipsBankAccountName ||
+          ToastTipsBankAccountNo ||
+          ToastTipsSettleBank ||
+          ToastTipsBankName
+        )
       ) {
+        return;
+      } else if (this.props.location.query.dredgeType == 2 &&
+        this.props.location.query.is_existence
+        && (
+          ToastTipsBusinessImg ||
+          ToastTipsBusinessNo ||
+          ToastTipsCornBusName ||
+          ToastTipsLegalName ||
+          ToastTipsBusinessDate ||
+          ToastTipsBankLicense
+        )) {
         return;
       }
 
@@ -1299,7 +1312,8 @@ export default connect(({ submitQua }: any) => submitQua)(
         settle_bank,
         confirm_step: type,
         merchant_property: this.props.location.query.dredgeType,
-        bank_opening_permit: Bank_license_imgUrl
+        bank_opening_permit: Bank_license_imgUrl,
+        is_existence: is_existence
       }
       console.log('09999999')
 
@@ -1551,171 +1565,180 @@ export default connect(({ submitQua }: any) => submitQua)(
         <div style={{ width: '100%', height: 'auto', background: '#fff' }} id="box0" className={styles.submitQua}>
           <div>
             <WingBlank>
-              <Flex className={styles.sfz_title}>
-                <div className={styles.sfz_left}>身份证</div>
-                <div className={styles.sfz_right} onClick={this.toIdCardExample}>查看示例</div>
-              </Flex>
-              <Flex style={{ marginTop: '23px' }}>请上传经营者身份证</Flex>
-              <Flex className={styles.sfz_img}>
-                {idFront}
-                {idBack}
-                {idHand}
-              </Flex>
-              {
-                ToastTipsLegalIDImg ? (
-                  <Flex justify="end" className={styles.toast_tips_img}>
-                    <span>{ToastTipsLegalIDImg}</span>
-                  </Flex>
-                ) : ""
-              }
 
-              <Modal
-                className={styles.id_modal}
-                visible={this.state.modal1}
-                transparent
-                maskClosable={true}
-                onClose={this.onClose('modal1')}
-                wrapProps={{ onTouchStart: this.onWrapTouchStart }}
-              >
-                <div style={{ height: "5.625rem" }}>
-                  <div style={{ width: "100%", paddingBottom: "0", height: "auto" }}>
-                    <img style={{ height: "100%", width: "100%" }} src={require('./model.png')} />
-                  </div>
-                  <div style={{ width: "100%", position: "relative" }}>
-                    <div style={{ width: "100%", lineHeight: "1", paddingTop: "0.12rem", color: "#21418a", fontSize: "0.3rem", textAlign: "center" }}>知道了</div>
-                    <div className={styles.imgpickerBox} >
-                      <ImagePicker
-                        multiple={false}
-                        length={1}
-                        onChange={this.selectImg}
-                      // onAddImageClick={this.handleAddImageClick}
+              {
+                this.props.location.query.dredgeType != 2 || (!this.props.location.query.is_existence && this.props.location.query.dredgeType == 2) ? <div>
+
+
+                  <Flex className={styles.sfz_title}>
+                    <div className={styles.sfz_left}>身份证</div>
+                    <div className={styles.sfz_right} onClick={this.toIdCardExample}>查看示例</div>
+                  </Flex>
+                  <Flex style={{ marginTop: '23px' }}>请上传经营者身份证</Flex>
+                  <Flex className={styles.sfz_img}>
+                    {idFront}
+                    {idBack}
+                    {idHand}
+                  </Flex>
+                  {
+                    ToastTipsLegalIDImg ? (
+                      <Flex justify="end" className={styles.toast_tips_img}>
+                        <span>{ToastTipsLegalIDImg}</span>
+                      </Flex>
+                    ) : ""
+                  }
+
+                  <Modal
+                    className={styles.id_modal}
+                    visible={this.state.modal1}
+                    transparent
+                    maskClosable={true}
+                    onClose={this.onClose('modal1')}
+                    wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+                  >
+                    <div style={{ height: "5.625rem" }}>
+                      <div style={{ width: "100%", paddingBottom: "0", height: "auto" }}>
+                        <img style={{ height: "100%", width: "100%" }} src={require('./model.png')} />
+                      </div>
+                      <div style={{ width: "100%", position: "relative" }}>
+                        <div style={{ width: "100%", lineHeight: "1", paddingTop: "0.12rem", color: "#21418a", fontSize: "0.3rem", textAlign: "center" }}>知道了</div>
+                        <div className={styles.imgpickerBox} >
+                          <ImagePicker
+                            multiple={false}
+                            length={1}
+                            onChange={this.selectImg}
+                          // onAddImageClick={this.handleAddImageClick}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                  </Modal>
+                  <List>
+                    <InputItem placeholder='请输入姓名' value={this.props.contact_name} onChange={this.handleName} clear>姓名</InputItem>
+                    {
+                      ToastTipsContactName ? (
+                        <Flex justify="end" className={styles.toast_tips}>
+                          <span>{ToastTipsContactName}</span>
+                        </Flex>
+                      ) : ""
+                    }
+                    <InputItem placeholder='请输入身份证号' onChange={this.handleID} value={this.props.legal_id_no} clear>身份证号</InputItem>
+                    {
+                      ToastTipsLegalIdNo ? (
+                        <Flex justify="end" className={styles.toast_tips}>
+                          <span>{ToastTipsLegalIdNo}</span>
+                        </Flex>
+                      ) : ""
+                    }
+                    <InputItem
+                      placeholder='请选择身份证有效期'
+                      editable={false}
+                      value={this.props.date}
+                      onClick={this.chooseDate(1)}
+                      clear
+                    >
+                      有效期
+                  <Icon
+                        type='right'
+                        className={styles.youxiao}
                       />
+                    </InputItem>
+                    {
+                      ToastTipsIDDate ? (
+                        <Flex justify="end" className={styles.toast_tips}>
+                          <span>{ToastTipsIDDate}</span>
+                        </Flex>
+                      ) : ""
+                    }
+                  </List>
+
+
+                  <Flex className={styles.bank_title}>
+                    <div className={styles.sfz_left}>银行卡认证</div>
+                    <div className={styles.sfz_right} onClick={this.toBankExample}>查看示例</div>
+                  </Flex>
+
+                  <div className={styles.radioScope}>
+                    <div className={styles.radioTitle}>
+                      推荐使用银行
+                  <img src={ad_intro2} onClick={() => { this.setState({ prompt: !this.state.prompt }) }} />
                     </div>
                   </div>
-                </div>
-
-              </Modal>
-              <List>
-                <InputItem placeholder='请输入姓名' value={this.props.contact_name} onChange={this.handleName} clear>姓名</InputItem>
-                {
-                  ToastTipsContactName ? (
-                    <Flex justify="end" className={styles.toast_tips}>
-                      <span>{ToastTipsContactName}</span>
-                    </Flex>
-                  ) : ""
-                }
-                <InputItem placeholder='请输入身份证号' onChange={this.handleID} value={this.props.legal_id_no} clear>身份证号</InputItem>
-                {
-                  ToastTipsLegalIdNo ? (
-                    <Flex justify="end" className={styles.toast_tips}>
-                      <span>{ToastTipsLegalIdNo}</span>
-                    </Flex>
-                  ) : ""
-                }
-                <InputItem
-                  placeholder='请选择身份证有效期'
-                  editable={false}
-                  value={this.props.date}
-                  onClick={this.chooseDate(1)}
-                  clear
-                >
-                  有效期
-                  <Icon
-                    type='right'
-                    className={styles.youxiao}
-                  />
-                </InputItem>
-                {
-                  ToastTipsIDDate ? (
-                    <Flex justify="end" className={styles.toast_tips}>
-                      <span>{ToastTipsIDDate}</span>
-                    </Flex>
-                  ) : ""
-                }
-              </List>
-
-
-              <Flex className={styles.bank_title}>
-                <div className={styles.sfz_left}>银行卡认证</div>
-                <div className={styles.sfz_right} onClick={this.toBankExample}>查看示例</div>
-              </Flex>
-
-              <div className={styles.radioScope}>
-                <div className={styles.radioTitle}>
-                  推荐使用银行
-                  <img src={ad_intro2} onClick={() => { this.setState({ prompt: !this.state.prompt }) }} />
-                </div>
-              </div>
-              <div className={styles.radio0_space} style={{ height: this.state.prompt ? "auto" : 0 }}>
-                <div className={styles.radio0_msg}>
-                  <p>
-                    银行列表：工商银行，建设银行，农业银行，中国银行，交通银行，招商银行，中信银行，兴业银行，民生银行，浦发银行，光大银行，广发银行，华夏银行，平安银行，浙商银行，渤海银行，恒丰银行，邮政储蓄银行。
+                  <div className={styles.radio0_space} style={{ height: this.state.prompt ? "auto" : 0 }}>
+                    <div className={styles.radio0_msg}>
+                      <p>
+                        银行列表：工商银行，建设银行，农业银行，中国银行，交通银行，招商银行，中信银行，兴业银行，民生银行，浦发银行，光大银行，广发银行，华夏银行，平安银行，浙商银行，渤海银行，恒丰银行，邮政储蓄银行。
                     </p>
-                </div>
-              </div>
-              <Flex className={styles.bank_img}>
-                {bankFront}
-                {bankBack}
-              </Flex>
-              {
-                ToastTipsBankCardImg ? (
-                  <Flex justify="end" className={styles.toast_tips_img}>
-                    <span>{ToastTipsBankCardImg}</span>
-                  </Flex>
-                ) : ""
-              }
-              <div className={styles.bank_toast}>温馨提示：1.请上传清晰的图片，银行卡号不可遮蔽。2.暂不支持部分银行卡。</div>
-              <List>
-                <InputItem ref="bank1" placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name} clear>开户人</InputItem>
-                {
-                  ToastTipsBankAccountName ? (
-                    <Flex justify="end" className={styles.toast_tips}>
-                      <span>{ToastTipsBankAccountName}</span>
-                    </Flex>
-                  ) : ""
-                }
-                <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum} clear>银行卡号</InputItem>
-                {
-                  ToastTipsBankAccountNo ? (
-                    <Flex justify="end" className={styles.toast_tips}>
-                      <span>{ToastTipsBankAccountNo}</span>
-                    </Flex>
-                  ) : ""
-                }
-                <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank} clear>开户行</InputItem>
-                {
-                  ToastTipsSettleBank ? (
-                    <Flex justify="end" className={styles.toast_tips}>
-                      <span>{ToastTipsSettleBank}</span>
-                    </Flex>
-                  ) : ""
-                }
-                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} onBlur={() => {
-                  setTimeout(() => { this.props.dispatch({ type: 'submitQua/setQua', payload: { bankShow: false } }) }, 300)
-                }} clear>支行</InputItem>
-                {
-                  ToastTipsBankName ? (
-                    <Flex justify="end" className={styles.toast_tips}>
-                      <span>{ToastTipsBankName}</span>
-                    </Flex>
-                  ) : ""
-                }
-                <div className={styles.bankMsg} style={{ display: this.props.bankShow && this.props.bank_disable ? "block" : "none" }}>
-                  <div className={styles.bankMsg_box} >
-                    <ul className={styles.bankMsg_box_ul}>
-                      {
-                        this.state.bankList != [] ? this.state.bankList.map((item: any, index) => {
-                          return (
-                            <li key={index} className={styles.bankMsg_box_li} onClick={this.chooseOne}>{item.name}</li>
-                          )
-                        }) : null
-                      }
-                    </ul>
+                    </div>
                   </div>
-                </div>
-                <div className={styles.whiteContent} style={{ display: this.props.bankShow && this.props.bank_disable ? "block" : "none" }} ></div>
+                  <Flex className={styles.bank_img}>
+                    {bankFront}
+                    {bankBack}
+                  </Flex>
+                  {
+                    ToastTipsBankCardImg ? (
+                      <Flex justify="end" className={styles.toast_tips_img}>
+                        <span>{ToastTipsBankCardImg}</span>
+                      </Flex>
+                    ) : ""
+                  }
+                  <div className={styles.bank_toast}>温馨提示：1.请上传清晰的图片，银行卡号不可遮蔽。2.暂不支持部分银行卡。</div>
+                  <List>
+                    <InputItem ref="bank1" placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name} clear>开户人</InputItem>
+                    {
+                      ToastTipsBankAccountName ? (
+                        <Flex justify="end" className={styles.toast_tips}>
+                          <span>{ToastTipsBankAccountName}</span>
+                        </Flex>
+                      ) : ""
+                    }
+                    <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum} clear>银行卡号</InputItem>
+                    {
+                      ToastTipsBankAccountNo ? (
+                        <Flex justify="end" className={styles.toast_tips}>
+                          <span>{ToastTipsBankAccountNo}</span>
+                        </Flex>
+                      ) : ""
+                    }
+                    <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank} clear>开户行</InputItem>
+                    {
+                      ToastTipsSettleBank ? (
+                        <Flex justify="end" className={styles.toast_tips}>
+                          <span>{ToastTipsSettleBank}</span>
+                        </Flex>
+                      ) : ""
+                    }
+                    <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} onBlur={() => {
+                      setTimeout(() => { this.props.dispatch({ type: 'submitQua/setQua', payload: { bankShow: false } }) }, 300)
+                    }} clear>支行</InputItem>
+                    {
+                      ToastTipsBankName ? (
+                        <Flex justify="end" className={styles.toast_tips}>
+                          <span>{ToastTipsBankName}</span>
+                        </Flex>
+                      ) : ""
+                    }
+                    <div className={styles.bankMsg} style={{ display: this.props.bankShow && this.props.bank_disable ? "block" : "none" }}>
+                      <div className={styles.bankMsg_box} >
+                        <ul className={styles.bankMsg_box_ul}>
+                          {
+                            this.state.bankList != [] ? this.state.bankList.map((item: any, index) => {
+                              return (
+                                <li key={index} className={styles.bankMsg_box_li} onClick={this.chooseOne}>{item.name}</li>
+                              )
+                            }) : null
+                          }
+                        </ul>
+                      </div>
+                    </div>
+                    <div className={styles.whiteContent} style={{ display: this.props.bankShow && this.props.bank_disable ? "block" : "none" }} ></div>
+                  </List>
+                </div> : null
+              }
 
-              </List>
+
+
               {
                 this.props.location.query.dredgeType == 2 ?
                   <div>

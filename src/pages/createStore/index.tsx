@@ -405,7 +405,6 @@ export default connect(({ createStore }: any) => createStore)(
     }
 
     createStore = () => {
-
       let detailAddress = Cookies.get("handleDetailAddress");
       let { name, address, house_num, phone, manage_type, email, _code, store_door_header_img, store_img_one, store_img_two, location, code_id } = this.props;
       let total: any = {}
@@ -460,8 +459,9 @@ export default connect(({ createStore }: any) => createStore)(
       }).then(res => {
         let { code, data } = res;
         if (code == 200) {
+          let is_existence = data.is_existence ? data.is_existence : 0;
           Toast.success(data, 2, () => {
-            router.push('/choiceSubmitQua');
+            router.push({ pathname: '/choiceSubmitQua', query: { is_existence: is_existence } })
           })
         } else {
           Toast.fail(data)

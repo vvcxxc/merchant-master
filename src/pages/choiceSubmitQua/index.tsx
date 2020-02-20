@@ -12,7 +12,7 @@ export default class choiceSubmitQua extends Component {
   state = {};
   selsetItem = (type: Number) => {
     //1个人 2企业 3个体工商户 4事业单位
-    router.push({ pathname: '/submitQua', query: { dredgeType: type } })
+    router.push({ pathname: '/submitQua', query: { dredgeType: type, is_existence: this.props.location.query.is_existence } })
   }
   render() {
     return (
