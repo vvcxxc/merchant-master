@@ -59,14 +59,16 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 			priceErr: false,
 			haveChangeMoney: false,
 			// 温馨提示
-			isShow: false
+			isShow: false,
+			lockMoney: 0
 		};
 
 		componentDidMount = () => {
-			this.UNSAFE_componentWillReceiveProps(this.props)
+			this.UNSAFE_componentWillReceiveProps(this.props);
 		}
 
 		UNSAFE_componentWillReceiveProps(nextProps: Props) {
+			// console.log('nextProps',nextProps)
 			if (nextProps.editForm.id) {
 				this.setState({
 					id: nextProps.editForm.id,
@@ -86,7 +88,8 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 					paused_status: nextProps.editForm.paused_status,
 					is_pause: nextProps.editForm.is_pause,
 					check_status: nextProps.editForm.check_status,
-					countMoney: nextProps.userMoney
+					countMoney: nextProps.userMoney,
+					lockMoney: nextProps.editForm.today_lock_surplus_money
 				});
 			} else {
 				this.setState({
@@ -372,13 +375,13 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 										</div>
 									) : ''
 								}
-			
-								{/* <div className={styles.freeze_wrap} style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+								<div className={styles.freeze_wrap} style={{ display: 'flex', justifyContent: 'space-between' }}>
 									<div style={{ display: 'flex', alignItems: 'flex-end' }}>
 										<div className={styles.freeze_money}>冻结金额</div>
 										< img src={require('@/assets/ad/ad_question.png')} style={{ marginRight: '15px' }} className={styles.ad_question} onClick={this.handleClickAdQuestion} />
 									</div>
-									<div className={styles.freeze_value}>￥99.00</div>
+									<div className={styles.freeze_value}>￥{this.state.lockMoney}</div>
 								</div>
 								{
 									this.state.isShow ? (
@@ -388,7 +391,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 											<div className={styles.tips_item}>2.停止广告投放，剩余的冻结金额即会返还至账户金额</div>
 										</div>
 									) : ""
-								} */}
+								}
 
 							</Flex.Item>
 
