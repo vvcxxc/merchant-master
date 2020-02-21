@@ -457,14 +457,14 @@ export default connect(({ createStore }: any) => createStore)(
           code_id: _code
         }
       }).then(res => {
-        let { code, data } = res;
+        let { code, data, message } = res;
         if (code == 200) {
           let is_existence = data.is_existence ? data.is_existence : 0;
-          Toast.success(data, 2, () => {
+          Toast.success(data.msg, 2, () => {
             router.push({ pathname: '/choiceSubmitQua', query: { is_existence: is_existence } })
           })
         } else {
-          Toast.fail(data)
+          Toast.fail(data.msg)
         }
       })
       // } else {
