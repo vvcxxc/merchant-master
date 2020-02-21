@@ -124,7 +124,7 @@ export default connect(({ ad }: any) => ad)(
 			// const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
 			const expenseCalendar = <ExpenseCalendar adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId} />;
 			const chart = <Chart adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId} />;
-			const freezeRecord = <FreezeRecord />
+			const freezeRecord = <FreezeRecord adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId}/>
 			return <AdLayout children={[form, expenseCalendar, chart, freezeRecord]} value={this.props.location.query.value} />;
 		}
 	}
