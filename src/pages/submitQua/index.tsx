@@ -179,8 +179,8 @@ export default connect(({ submitQua }: any) => submitQua)(
             type: 'submitQua/setQua',
             payload: {
               dredgeType: this.props.location.query.dredgeType,
-              is_existence: this.props.location.query.is_existence
-              
+              is_existence: this.props.location.query.is_existence,
+
               // contact_name: contact_name != "" ? contact_name : (Cookies.get("_handleName") ? JSON.parse(Cookies.get("_handleName")) : ""),
               // legal_id_no: legal_id_no != "" ? legal_id_no : (Cookies.get("_legal_id_no") ? JSON.parse(Cookies.get("_legal_id_no")) : ""),
               // date: legal_id_valid_date != "" ? legal_id_valid_date : (Cookies.get("_date") ? JSON.parse(Cookies.get("_date")) : ""),
@@ -1076,7 +1076,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //   Toast.fail('未选择支行', 1);
       //   return
       // }
-      let is_existence = this.props.location.query.is_existence;
+      let is_existence = this.props.is_existence;
       await this.setState({
         ToastTipsLegalIDImg: "",
         ToastTipsContactName: "",
@@ -1252,8 +1252,8 @@ export default connect(({ submitQua }: any) => submitQua)(
         // ToastTipsBankLicense
       } = this.state;
 
-      if (this.props.location.query.dredgeType == 2 &&
-        !this.props.location.query.is_existence
+      if (this.props.dredgeType == 2 &&
+        !this.props.is_existence
         && (
           ToastTipsLegalIDImg ||
           ToastTipsContactName ||
@@ -1272,7 +1272,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           //  ||ToastTipsBankLicense
         )) { return; }
       else if (
-        this.props.location.query.dredgeType != 2 && (
+        this.props.dredgeType != 2 && (
           ToastTipsLegalIDImg ||
           ToastTipsContactName ||
           ToastTipsLegalIdNo ||
@@ -1285,8 +1285,8 @@ export default connect(({ submitQua }: any) => submitQua)(
         )
       ) {
         return;
-      } else if (this.props.location.query.dredgeType == 2 &&
-        this.props.location.query.is_existence
+      } else if (this.props.dredgeType == 2 &&
+        this.props.is_existence
         && (
           ToastTipsBusinessImg ||
           ToastTipsBusinessNo ||
@@ -1317,7 +1317,7 @@ export default connect(({ submitQua }: any) => submitQua)(
         bank_name,
         settle_bank,
         confirm_step: type,
-        merchant_property: this.props.location.query.dredgeType,
+        merchant_property: this.props.dredgeType,
         // bank_opening_permit: Bank_license_imgUrl,
         is_existence: is_existence
       }
@@ -1572,7 +1572,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             <WingBlank>
 
               {
-                this.props.location.query.dredgeType != 2 || (!this.props.location.query.is_existence && this.props.location.query.dredgeType == 2) ? <div>
+                this.props.dredgeType != 2 || (!this.props.is_existence && this.props.dredgeType == 2) ? <div>
 
 
                   <Flex className={styles.sfz_title}>
@@ -1745,7 +1745,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
               {
-                this.props.location.query.dredgeType == 2 ?
+                this.props.dredgeType == 2 ?
                   <div>
                     <Flex className={styles.bank_title}>
                       <div className={styles.sfz_left}>营业执照</div>
