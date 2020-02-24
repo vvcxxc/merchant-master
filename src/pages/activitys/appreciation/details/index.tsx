@@ -139,11 +139,17 @@ export default connect(({ activity }: any) => activity)(
             //购买券的价格
             pay_money: data.appreciation_info.pay_money,
             //礼品小图
-            git_img: data.appreciation_info.images[0],
+            git_img: data.appreciation_gif_info.gif_pic,
+              // data.appreciation_info.images[0],
             link: data.appreciation_info.link,
             activity_name: data.appreciation_info.activity_name,
             total_fee: data.appreciation_info.total_fee,//使用门槛
-            use_tim: data.appreciation_coupons_info.use_tim
+            use_tim: data.appreciation_coupons_info.use_tim,
+            gif_name: data.appreciation_gif_info.gif_name,
+            gif_money: data.appreciation_gif_info.gif_integral
+              // gif_pic
+
+              // gif_integral
           }
         })
 

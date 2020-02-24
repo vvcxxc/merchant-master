@@ -89,13 +89,15 @@ export default class PosterTwo extends Component<any> {
             list.gift_id ? <ul className={styles.gift_box}>
               <li className={styles.left}>
                 <span className={styles.giving}>赠</span>
-                <img src={list.shop_door_header_img} alt="" />
+                <img src={list.git_img} alt="" />
               </li>
               <li className={styles.right}>
                 <div>
-                  <div>{list.name}</div>
+                  <div>{list.gif_name}</div>
                 </div>
-                <div className={styles.price}>￥<span>{list.pay_money}</span></div>
+                <div className={styles.price}>￥<span>{list.gif_money
+                  // pay_money
+                }</span></div>
               </li>
             </ul> : null
           }
