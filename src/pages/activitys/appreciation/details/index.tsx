@@ -372,7 +372,7 @@ export default connect(({ activity }: any) => activity)(
             {button}
           </WingBlank>
           {
-            this.state.poster_youhui_type ? <PosterGeneral
+            !this.state.poster_youhui_type ? <PosterGeneral
               show={this.state.spell_group}
               list={this.state.posterData}
               close={() => this.setState({ spell_group: false })}

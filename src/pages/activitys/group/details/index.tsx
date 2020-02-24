@@ -123,19 +123,6 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
         }
       })
 
-      // this.createHeadImg(data.supplier.shop_door_header_img)
-      // if (data.group_gif_info.gift_id != 0) {
-      //   this.createGiftImg(data.group_gif_info.gif_pic)
-      // }
-
-      // this.createHeadImg(data.supplier.shop_door_header_img + '?x-oss-process=image/format,jpg/resize,m_pad,h_160,w_160/quality,q_90'
-      // )
-      // this.createHeadImg(data.supplier.shop_door_header_img + '?x-oss-process=image/format,jpg/resize,m_pad,h_180,w_180/quality,q_90'
-      // )
-      // if (data.group_gif_info.gift_id != 0) {
-      //   this.createGiftImg(data.group_gif_info.gif_pic + '?x-oss-process=image/format,jpg/resize,m_pad,w_300,h_130/quality,q_90')
-      // }
-
       this.setState({
         dataEchart: [
           res.data.group_count.coupons_number,
@@ -195,56 +182,6 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
   closeShare = (close: boolean) => {
     this.setState({ showShare: false })
   }
-
-  // 创建图片
-  // createHeadImg = (imgData: string) => {
-  //   let tempImage2 = new Image();// 礼品图片
-  //   tempImage2.crossOrigin = ""
-  //   tempImage2.src = this.judgeNetwork(imgData);
-  //   tempImage2.onload = () => {
-  //     this.props.dispatch({
-  //       type: 'activity/setDetails',
-  //       payload: {
-  //         headImg: this.getBase64Image2(tempImage2)
-  //       }
-  //     });
-  //   }
-  // }
-
-  // createGiftImg = (imgData: string) => {
-  //   let tempImage2 = new Image();// 礼品图片
-  //   tempImage2.crossOrigin = ""
-  //   tempImage2.src = this.judgeNetwork(imgData);
-  //   tempImage2.onload = () => {
-  //     this.props.dispatch({
-  //       type: 'activity/setDetails',
-  //       payload: {
-  //         giftImg: this.getBase64Image2(tempImage2)
-  //       }
-  //     });
-  //   }
-  // }
-
-  // 转换图片
-  // getBase64Image2 = (img: any) => {
-  //   var canvas: any = document.createElement("canvas");
-  //   canvas.width = img.width;
-  //   canvas.height = img.height;
-  //   var ctx = canvas.getContext("2d");
-  //   ctx.drawImage(img, 0, 0, img.width, img.height);
-  //   var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
-  //   var dataURL = canvas.toDataURL("image/" + ext);
-  //   return dataURL;
-  // }
-
-  // 用来给域里面添加 ‘ \ ’
-  // judgeNetwork = (Network: string) => {
-  //   if (Network.split('com', 2)[1].slice(0, 1) == '/') {
-  //     return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
-  //   } else {
-  //     return Network
-  //   }
-  // }
 
   // 点击查看详情
   lookDetail = () => {
