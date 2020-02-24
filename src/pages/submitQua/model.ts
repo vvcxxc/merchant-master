@@ -35,6 +35,8 @@ interface SubmitQua {
   Banklicense_img: any[];//银行许可证
   Bank_license_imgUrl: string,
   Bank_is_license: boolean,
+  dredgeType: string | number,
+  is_existence: string | number,
 }
 
 const model: Model = {
@@ -75,7 +77,10 @@ const model: Model = {
     bankShow: false,
     Banklicense_img: [],
     Bank_license_imgUrl: '',
-    Bank_is_license: false
+    Bank_is_license: false,
+    dredgeType: 2,
+    is_existence: 0
+
   },
   reducers: {
     setQua(state, { payload }) {
