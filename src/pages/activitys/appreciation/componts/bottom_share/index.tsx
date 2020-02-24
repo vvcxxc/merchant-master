@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Posters from '@/pages/activitys/appreciation/componts/posters'
+// import Posters from '@/pages/activitys/appreciation/componts/posters'y
 import styles from './index.less'
 import request from '@/services/request';
 import wx from "weixin-js-sdk";
