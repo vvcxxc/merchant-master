@@ -144,7 +144,6 @@ export default connect(({ submitQua }: any) => submitQua)(
       return str.split('http://oss.tdianyi.com/')[1]
     }
     componentDidMount() {
-      console.log(this.props.location.query.dredgeType)
       // 暂时
       Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
         let { data } = res.data;
@@ -179,6 +178,9 @@ export default connect(({ submitQua }: any) => submitQua)(
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
+              dredgeType: this.props.location.query.dredgeType,
+              is_existence: this.props.location.query.is_existence
+              
               // contact_name: contact_name != "" ? contact_name : (Cookies.get("_handleName") ? JSON.parse(Cookies.get("_handleName")) : ""),
               // legal_id_no: legal_id_no != "" ? legal_id_no : (Cookies.get("_legal_id_no") ? JSON.parse(Cookies.get("_legal_id_no")) : ""),
               // date: legal_id_valid_date != "" ? legal_id_valid_date : (Cookies.get("_date") ? JSON.parse(Cookies.get("_date")) : ""),
@@ -317,7 +319,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             type: 'submitQua/setQua',
             payload: {
               date_back: false,
-              bankShow: false
+              bankShow: false,
             }
           })
           return
