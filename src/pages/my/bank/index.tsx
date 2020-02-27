@@ -47,7 +47,8 @@ export default class MyBank extends Component {
               <span>储蓄卡</span>
             </div>
             <div
-              // onClick={() => router.push('/my/bank/verifyBank')}
+              onClick={() =>
+                router.push('/my/bank/verifyBank')} 
             >去验证</div>
           </Flex>
           <Flex className={styles.bank_num_title}>卡号</Flex>
