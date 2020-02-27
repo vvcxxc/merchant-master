@@ -1,0 +1,233 @@
+.creatStorePage {
+    height: auto;
+    min-height: 100vh;
+    width: 100vw;
+    padding: 15px 70px;
+    box-sizing: border-box;
+    background: #fff;
+
+    .inputItem {
+        height: 100px;
+        width: 100%;
+        border-bottom: 1.5px solid #dde2e5;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        .inputTitle {
+            height: 30px;
+            width: 175px;
+            color: #000;
+            font-size: 30px;
+            line-height: 1;
+        }
+
+        .inputBox {
+            height: 50px;
+            width: calc(100% - 175px);
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            border: none;
+        }
+
+        .inputBox::-webkit-input-placeholder {
+            color: #98A6AD;
+            font-size: 30px;
+            text-align: left;
+        }
+    }
+
+    .selectItem {
+        height: 100px;
+        width: 100%;
+        border-bottom: 1.5px solid #dde2e5;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        position: relative;
+
+        .selectTitle {
+            height: 30px;
+            width: 175px;
+            color: #000;
+            font-size: 30px;
+            line-height: 1;
+        }
+
+        .unSelectBox {
+            height: 50px;
+            width: calc(100% - 175px);
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            border: none;
+            color: #000;
+            font-size: 30px;
+            line-height: 1;
+        }
+
+        .selectBox {
+            height: 50px;
+            width: calc(100% - 175px);
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            border: none;
+            color: #98A6AD;
+            font-size: 30px;
+            line-height: 1;
+        }
+
+        .selectIcon {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translate(0, -50%);
+            width: 33px;
+            height: 33px;
+        }
+    }
+
+    .doorPhotoContent {
+        margin-top: 48px;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+
+        .doorPhotoTitle {
+            height: 58px;
+            width: 100%;
+            font-size: 28px;
+            text-align: left;
+            line-height: 1;
+        }
+
+        .doorPhotoPickerBox {
+            width: 605px;
+            height: 377px;
+            overflow: hidden;
+            -moz-box-shadow: 5px 4px 20px #DEDEDE;
+            -webkit-box-shadow: 5px 4px 20px #DEDEDE;
+            box-shadow: 5px 4px 20px #DEDEDE;
+            border-radius: 30px;
+            overflow: hidden;
+
+            .closeBox {
+                width: 100%;
+                height: 100%;
+                position: relative;
+
+                .close {
+                    width: 30px;
+                    height: 30px;
+                    position: absolute;
+                    right: 12px;
+                    top: 12px;
+                    text-align: right;
+                    vertical-align: top;
+                    z-index: 2;
+                }
+
+                .doorPhotoPickerImg {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+
+    .environmentContent {
+        margin-top: 48px;
+        width: 100%;
+        height: auto;
+
+        .doorPhotoTitle {
+            height: 58px;
+            width: 100%;
+            font-size: 28px;
+            text-align: left;
+            line-height: 1;
+        }
+
+        .doorPhotoList {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            .doorPhotoItem {
+                width: 198px;
+                height: 198px;
+                overflow: hidden;
+                margin-right: 20px;
+                margin-bottom: 50px;
+                -moz-box-shadow: 5px 4px 20px #DEDEDE;
+                -webkit-box-shadow: 5px 4px 20px #DEDEDE;
+                box-shadow: 5px 4px 20px #DEDEDE;
+                border-radius: 30px;
+                overflow: hidden;
+                position: relative;
+
+                .close {
+                    width: 30px;
+                    height: 30px;
+                    position: absolute;
+                    right: 12px;
+                    top: 12px;
+                    text-align: right;
+                    vertical-align: top;
+                    z-index: 2;
+                }
+
+                .doorPhotoPickerImg {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+
+    .sumbitCreatStore {
+        width: 100%;
+        height: 100px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 30px;
+        background: linear-gradient(-30deg, rgba(71, 129, 254, 1) 0%, rgba(91, 161, 250, 1) 100%);
+    }
+}
+
+:global {
+    .am-flexbox-item {
+        border-radius: 30px;
+        overflow: hidden;
+    }
+
+    .am-image-picker-list .am-image-picker-upload-btn {
+        background: url('http://oss.tdianyi.com/front/axaJkK8StSzTQRtedfhpD2j5kb6J2iMc.png');
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+    }
+
+    .am-image-picker-list .am-flexbox .am-flexbox-item {
+        margin-right: 0;
+    }
+
+    .am-image-picker-list {
+        padding: 0;
+    }
+}
