@@ -10,9 +10,13 @@ import upload from '@/services/oss';
 import { connect } from 'dva';
 import Cookies from 'js-cookie';
 import ExampleImg from '../../components/example/index'
-
+import axios from 'axios';
 export default class CreateStore extends Component {
     state = {
+        location: {
+            longitude: 113.3348617553711,
+            latitude: 23.18288803100586
+        },
         //门头照例子
         exampleImgShow: false,
         //经营品类
@@ -31,12 +35,59 @@ export default class CreateStore extends Component {
             storesMails: '',
             storePhoto: '',
             environmentPhoto1: '',
-            environmentPhoto2: ''
+            environmentPhoto2: '',
+            _code:''
         }
     }
     componentDidMount() {
         this.getManageType();
         this.getStroage();
+        this.getLocation();
+    }
+    getLocation() {
+        let userAgent = navigator.userAgent;
+        let isIos = userAgent.indexOf('iPhone') > -1;
+        let url: any;
+        if (isIos) {
+            url = sessionStorage.getItem('url');
+        } else {
+            url = location.href;
+        }
+        request({
+            url: 'wechat/getShareSign',
+            method: 'get',
+            params: {
+                url
+            }
+        }).then(res => {
+            let _this: any = this;
+            wx.config({
+                debug: false,
+                appId: res.appId,
+                timestamp: res.timestamp,
+                nonceStr: res.nonceStr,
+                signature: res.signature,
+                jsApiList: [
+                    "getLocation",
+                    "openLocation"
+                ]
+            });
+            wx.ready(() => {
+                wx.getLocation({
+                    type: 'wgs84',
+                    success: function (res: any) {
+                        let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                        let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                        let location = {
+                            latitude,
+                            longitude
+                        };
+                        _this.setState({ location });
+                    }
+                });
+
+            })
+        });
     }
     /**打开地图 */
     openMap = () => {
@@ -64,7 +115,6 @@ export default class CreateStore extends Component {
         this.setStroage(data);
         this.setState({ data, value: v })
     }
-
     onChange1 = (files1: any, type: any, index: any) => {
         Toast.loading('');
         if (files1[0]) {
@@ -133,32 +183,85 @@ export default class CreateStore extends Component {
     // 设置缓存
     setStroage = (data: object) => {
         console.log(data);
-        localStorage.setItem('creatStoreData', JSON.stringify(data))
+        localStorage.setItem('creatStoreData', JSON.stringify(data));
+        localStorage.setItem('creatStoreDataTime', JSON.stringify(new Date().getTime()));
     }
     //获取缓存
     getStroage = () => {
-        let stroage: any = JSON.parse(localStorage.getItem('creatStoreData'));
-        let tempData = {
-            storeName: '',
-            storeAddress: '',
-            storeHouseNumber: '',
-            phone: '',
-            manage_type: '',
-            selector: '',
-            storesMails: '',
-            storePhoto: '',
-            environmentPhoto1: '',
-            environmentPhoto2: ''
+        //小于一天86400000毫秒时执行
+        if (localStorage.getItem('creatStoreDataTime') && (new Date().getTime() - JSON.parse(localStorage.getItem('creatStoreDataTime')) < 86400000)) {
+            let stroage: any = JSON.parse(localStorage.getItem('creatStoreData'));
+            let tempData = {
+                storeName: '',
+                storeAddress: '',
+                storeHouseNumber: '',
+                phone: '',
+                manage_type: '',
+                selector: '',
+                storesMails: '',
+                storePhoto: '',
+                environmentPhoto1: '',
+                environmentPhoto2: '',
+                _code:''
+            }
+            let temp = { ...tempData, ...stroage };
+            console.log(temp);
+            this.setState({ data: temp });
         }
-        let temp = { ...tempData, ...stroage };
-        console.log(temp);
-        this.setState({ data: temp });
     }
     handlechange = (type: any, e: any) => {
         let data = this.state.data;
         data[type] = e.target.value;
         this.setStroage(data);
         this.setState({ data })
+    }
+
+    submit = () => {
+        const {
+            storeName,
+            storeAddress,
+            storeHouseNumber,
+            phone,
+            manage_type,
+            storesMails,
+            storePhoto,
+            environmentPhoto1,
+            environmentPhoto2,
+            _code
+        } = this.state.data
+        request({
+            url: 'v3/stores',
+            method: 'post',
+            data: {
+                store_name: storeName,
+                // 详细地址
+                address: storeAddress + storeHouseNumber,
+                // 定位地址
+                gaode_address: storeAddress,
+                house_num: storeHouseNumber,
+                phone,
+                email: storesMails,
+                manage_type,
+                store_door_header_img: storePhoto,
+                store_img_one: environmentPhoto1,
+                store_img_two: environmentPhoto2,
+                //经纬度
+                xpoint: this.state.location.longitude,
+                ypoint: this.state.location.latitude,
+                // //二维码序列号
+                code_id: _code
+            }
+        }).then(res => {
+            let { code, data, message } = res;
+            if (code == 200) {
+                let is_existence = data.is_existence ? data.is_existence : 0;
+                Toast.success(data.msg, 2, () => {
+                    router.push({ pathname: '/choiceSubmitQua', query: { is_existence: is_existence } })
+                })
+            } else {
+                Toast.fail(data.msg)
+            }
+        })
     }
     render() {
         return (
@@ -207,6 +310,10 @@ export default class CreateStore extends Component {
                 <div className={styles.inputItem}>
                     <div className={styles.inputTitle}>邮箱</div>
                     <input className={styles.inputBox} placeholder="请输入邮箱地址" onChange={this.handlechange.bind(this, 'storesMails')} value={this.state.data.storesMails} />
+                </div>
+                <div className={styles.inputItem}>
+                    <div className={styles.inputTitle}>邀请码</div>
+                    <input className={styles.inputBox} placeholder="请输入邀请码（非必填）" onChange={this.handlechange.bind(this, '_code')} value={this.state.data._code} />
                 </div>
                 <div className={styles.doorPhotoContent}>
                     <div className={styles.doorPhotoTitle}>上传门头照</div>
@@ -263,10 +370,9 @@ export default class CreateStore extends Component {
                                     />
                                 </div>
                         }
-
                     </div>
                 </div>
-                <div className={styles.sumbitCreatStore}>提交</div>
+                <div className={styles.sumbitCreatStore} onclick={this.submit}>提交</div>
                 {
                     this.state.exampleImgShow ? <ExampleImg
                         exampleImg={'http://oss.tdianyi.com/front/KcrsrfW8mzAtC2b8fDw5JAWxHWZKhnAz.png'}
@@ -274,7 +380,6 @@ export default class CreateStore extends Component {
                         onCancle={this.onCancle}
                     /> : null
                 }
-
             </div>
         )
     }

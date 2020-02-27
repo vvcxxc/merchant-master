@@ -62,7 +62,8 @@ export default class MapPage extends Component {
   setStroage = (address: string) => {
     let stroage: any = localStorage.getItem('creatStoreData') ? JSON.parse(localStorage.getItem('creatStoreData')) : {};
     let temp = { ...stroage, storeAddress: address }
-    localStorage.setItem('creatStoreData', JSON.stringify(temp))
+    localStorage.setItem('creatStoreData', JSON.stringify(temp));
+    localStorage.setItem('creatStoreDataTime', JSON.stringify(new Date().getTime()));
   }
 
   componentDidMount() {
