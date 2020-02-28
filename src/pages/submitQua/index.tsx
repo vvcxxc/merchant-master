@@ -139,12 +139,11 @@ export default connect(({ submitQua }: any) => submitQua)(
     };
 
 
-
+    getCaption = (str: string) => {
+      console.log(str)
+      return str.split('http://oss.tdianyi.com/')[1]
+    }
     componentDidMount() {
-      console.log(this.props.location.query.dredgeType)
-      function getCaption(str: string) {
-        return str.split('http://oss.tdianyi.com/')[1]
-      }
       // 暂时
       Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
         let { data } = res.data;
@@ -165,7 +164,9 @@ export default connect(({ submitQua }: any) => submitQua)(
         method: 'get'
       }).then(res => {
         let { data } = res;
-        let { contact_name, legal_id_no, legal_id_valid_date, settle_bank_account_name, settle_bank_account_no, settle_bank, three_certs_in_one_no, corn_bus_name, legal_name, three_certs_in_one_valid_date, bank_name, legal_id_front_img, legal_id_back_img, hand_hold_id_img, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, Bank_license_imgUrl } = data;
+        let { contact_name, legal_id_no, legal_id_valid_date, settle_bank_account_name, settle_bank_account_no, settle_bank, three_certs_in_one_no, corn_bus_name, legal_name, three_certs_in_one_valid_date, bank_name, legal_id_front_img, legal_id_back_img, hand_hold_id_img, bank_card_front_img, bank_card_back_img, three_certs_in_one_img,
+          //  Bank_license_imgUrl 
+        } = data;
         if (three_certs_in_one_valid_date[0] == 0) {
           three_certs_in_one_valid_date = '长期'
         }
@@ -177,6 +178,9 @@ export default connect(({ submitQua }: any) => submitQua)(
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
+              dredgeType: this.props.location.query.dredgeType,
+              is_existence: this.props.location.query.is_existence,
+
               // contact_name: contact_name != "" ? contact_name : (Cookies.get("_handleName") ? JSON.parse(Cookies.get("_handleName")) : ""),
               // legal_id_no: legal_id_no != "" ? legal_id_no : (Cookies.get("_legal_id_no") ? JSON.parse(Cookies.get("_legal_id_no")) : ""),
               // date: legal_id_valid_date != "" ? legal_id_valid_date : (Cookies.get("_date") ? JSON.parse(Cookies.get("_date")) : ""),
@@ -208,15 +212,15 @@ export default connect(({ submitQua }: any) => submitQua)(
               three_certs_in_one_valid_date: Cookies.get("_three_certs_in_one_valid_date") ? JSON.parse(Cookies.get("_three_certs_in_one_valid_date")) : three_certs_in_one_valid_date,
               bank_name: Cookies.get("_handleBankName") ? JSON.parse(Cookies.get("_handleBankName")) : bank_name,
 
-              legal_id_front_img: Cookies.get("_changeIdFront") ? JSON.parse(Cookies.get("_changeIdFront")) : getCaption(legal_id_front_img),
-              legal_id_back_img: Cookies.get("_changeIdBack") ? JSON.parse(Cookies.get("_changeIdBack")) : getCaption(legal_id_back_img),
-              hand_hold_id_img: Cookies.get("_changeIdHand") ? JSON.parse(Cookies.get("_changeIdHand")) : getCaption(hand_hold_id_img),
-              bank_card_front_img: Cookies.get("_changeBankFront") ? JSON.parse(Cookies.get("_changeBankFront")) : getCaption(bank_card_front_img),
-              bank_card_back_img: Cookies.get("_changeBankBack") ? JSON.parse(Cookies.get("_changeBankBack")) : getCaption(bank_card_back_img),
-              three_certs_in_one_img: Cookies.get("_changeLicense") ? JSON.parse(Cookies.get("_changeLicense")) : getCaption(three_certs_in_one_img),
+              legal_id_front_img: Cookies.get("_changeIdFront") ? JSON.parse(Cookies.get("_changeIdFront")) : this.getCaption(legal_id_front_img),
+              legal_id_back_img: Cookies.get("_changeIdBack") ? JSON.parse(Cookies.get("_changeIdBack")) : this.getCaption(legal_id_back_img),
+              hand_hold_id_img: Cookies.get("_changeIdHand") ? JSON.parse(Cookies.get("_changeIdHand")) : this.getCaption(hand_hold_id_img),
+              bank_card_front_img: Cookies.get("_changeBankFront") ? JSON.parse(Cookies.get("_changeBankFront")) : this.getCaption(bank_card_front_img),
+              bank_card_back_img: Cookies.get("_changeBankBack") ? JSON.parse(Cookies.get("_changeBankBack")) : this.getCaption(bank_card_back_img),
+              three_certs_in_one_img: Cookies.get("_changeLicense") ? JSON.parse(Cookies.get("_changeLicense")) : this.getCaption(three_certs_in_one_img),
 
 
-              Bank_license_imgUrl: Cookies.get("_changeBankLicense") ? JSON.parse(Cookies.get("_changeBankLicense")) : getCaption(Bank_license_imgUrl),
+              // Bank_license_imgUrl: Cookies.get("_changeBankLicense") ? JSON.parse(Cookies.get("_changeBankLicense")) : this.getCaption(Bank_license_imgUrl),
 
 
               is_id_front: (Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) != "") ? true : ((Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) == "") ? false : (legal_id_front_img != "" ? true : false)),
@@ -225,7 +229,7 @@ export default connect(({ submitQua }: any) => submitQua)(
               is_bank_front: (Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) != "") ? true : ((Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) == "") ? false : (bank_card_front_img != "" ? true : false)),
               is_bank_back: (Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) != "") ? true : ((Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) == "") ? false : (bank_card_back_img != "" ? true : false)),
               is_license: (Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) != "") ? true : ((Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) == "") ? false : (three_certs_in_one_img != "" ? true : false)),
-              Bank_is_license: (Cookies.get("_changeBankLicense") && JSON.parse(Cookies.get("_changeBankLicense")) != "") ? true : ((Cookies.get("_changeBankLicense") && JSON.parse(Cookies.get("_changeBankLicense")) == "") ? false : (three_certs_in_one_img != "" ? true : false)),
+              // Bank_is_license: (Cookies.get("_changeBankLicense") && JSON.parse(Cookies.get("_changeBankLicense")) != "") ? true : ((Cookies.get("_changeBankLicense") && JSON.parse(Cookies.get("_changeBankLicense")) == "") ? false : (three_certs_in_one_img != "" ? true : false)),
 
               modal1img: [],
               id_back: [],
@@ -315,7 +319,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             type: 'submitQua/setQua',
             payload: {
               date_back: false,
-              bankShow: false
+              bankShow: false,
             }
           })
           return
@@ -921,41 +925,41 @@ export default connect(({ submitQua }: any) => submitQua)(
       }
     }
     //银行许可证
-    changeBankLicense = (files: any) => {
-      // this.props.dispatch({
-      //   type: 'submitQua/setQua',
-      //   payload: {
-      //     license_img: files
-      //   }
-      // })
-      Toast.loading('', 100)
-      if (files[0]) {
-        let img = files[0].url;
-        upload(img).then(res => {
-          Toast.hide();
-          let Bank_license_imgUrl = res.data.path;
-          Cookies.set("_changeBankLicense", JSON.stringify(res.data.path), { expires: 1 });
-          this.props.dispatch({
-            type: 'submitQua/setQua',
-            payload: {
-              Banklicense_img: files,
-              Bank_license_imgUrl
-            }
-          })
-          console.log(Bank_license_imgUrl, '8888')
-        });
-      } else {
-        Toast.hide();
-        Cookies.set("_changeBankLicense", JSON.stringify(""), { expires: 1 });
-        this.props.dispatch({
-          type: 'submitQua/setQua',
-          payload: {
-            Banklicense_img: files,
-            Bank_license_imgUrl: ''
-          }
-        })
-      }
-    }
+    // changeBankLicense = (files: any) => {
+    //   // this.props.dispatch({
+    //   //   type: 'submitQua/setQua',
+    //   //   payload: {
+    //   //     license_img: files
+    //   //   }
+    //   // })
+    //   Toast.loading('', 100)
+    //   if (files[0]) {
+    //     let img = files[0].url;
+    //     upload(img).then(res => {
+    //       Toast.hide();
+    //       let Bank_license_imgUrl = res.data.path;
+    //       Cookies.set("_changeBankLicense", JSON.stringify(res.data.path), { expires: 1 });
+    //       this.props.dispatch({
+    //         type: 'submitQua/setQua',
+    //         payload: {
+    //           Banklicense_img: files,
+    //           Bank_license_imgUrl
+    //         }
+    //       })
+    //       console.log(Bank_license_imgUrl, '8888')
+    //     });
+    //   } else {
+    //     Toast.hide();
+    //     Cookies.set("_changeBankLicense", JSON.stringify(""), { expires: 1 });
+    //     this.props.dispatch({
+    //       type: 'submitQua/setQua',
+    //       payload: {
+    //         Banklicense_img: files,
+    //         Bank_license_imgUrl: ''
+    //       }
+    //     })
+    //   }
+    // }
 
     /**选择有效期 */
     chooseDate = (type: number) => () => {
@@ -1038,16 +1042,16 @@ export default connect(({ submitQua }: any) => submitQua)(
         }
       })
     }
-    closeBankLicense = () => {
-      Cookies.set("_changeBankLicense", JSON.stringify(""), { expires: 1 });
-      this.props.dispatch({
-        type: 'submitQua/setQua',
-        payload: {
-          Bank_is_license: false,
-          Bank_license_imgUrl: ''
-        }
-      })
-    }
+    // closeBankLicense = () => {
+    //   Cookies.set("_changeBankLicense", JSON.stringify(""), { expires: 1 });
+    //   this.props.dispatch({
+    //     type: 'submitQua/setQua',
+    //     payload: {
+    //       Bank_is_license: false,
+    //       Bank_license_imgUrl: ''
+    //     }
+    //   })
+    // }
 
     /**保存或者提交 */
     submit = (type: number) => async () => {
@@ -1072,7 +1076,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //   Toast.fail('未选择支行', 1);
       //   return
       // }
-      let is_existence = this.props.location.query.is_existence;
+      let is_existence = this.props.is_existence;
       await this.setState({
         ToastTipsLegalIDImg: "",
         ToastTipsContactName: "",
@@ -1088,10 +1092,12 @@ export default connect(({ submitQua }: any) => submitQua)(
         ToastTipsCornBusName: "",
         ToastTipsLegalName: "",
         ToastTipsBusinessDate: "",
-        ToastTipsBankLicense: ""
+        // ToastTipsBankLicense: ""
       })
 
-      const { legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank, Bank_license_imgUrl } = this.props;
+      const { legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank,
+        // Bank_license_imgUrl 
+      } = this.props;
       // 身份证照片
       if (!legal_id_front_img || !legal_id_back_img || !hand_hold_id_img) {
         this.setState({
@@ -1198,11 +1204,11 @@ export default connect(({ submitQua }: any) => submitQua)(
           ToastTipsLegalName: "请输入用户法人姓名"
         })
       }
-      if (!Bank_license_imgUrl) {
-        this.setState({
-          ToastTipsBankLicense: "请上传银行开户许可证图片"
-        })
-      }
+      // if (!Bank_license_imgUrl) {
+      //   this.setState({
+      //     ToastTipsBankLicense: "请上传银行开户许可证图片"
+      //   })
+      // }
 
       // 营业执照有效期
       const businessNowTimeStamp = Date.now();
@@ -1243,11 +1249,11 @@ export default connect(({ submitQua }: any) => submitQua)(
         ToastTipsCornBusName,
         ToastTipsLegalName,
         ToastTipsBusinessDate,
-        ToastTipsBankLicense
+        // ToastTipsBankLicense
       } = this.state;
 
-      if (this.props.location.query.dredgeType == 2 &&
-        !this.props.location.query.is_existence
+      if (this.props.dredgeType == 2 &&
+        !this.props.is_existence
         && (
           ToastTipsLegalIDImg ||
           ToastTipsContactName ||
@@ -1262,11 +1268,11 @@ export default connect(({ submitQua }: any) => submitQua)(
           ToastTipsBusinessNo ||
           ToastTipsCornBusName ||
           ToastTipsLegalName ||
-          ToastTipsBusinessDate ||
-          ToastTipsBankLicense
+          ToastTipsBusinessDate
+          //  ||ToastTipsBankLicense
         )) { return; }
       else if (
-        this.props.location.query.dredgeType != 2 && (
+        this.props.dredgeType != 2 && (
           ToastTipsLegalIDImg ||
           ToastTipsContactName ||
           ToastTipsLegalIdNo ||
@@ -1279,15 +1285,15 @@ export default connect(({ submitQua }: any) => submitQua)(
         )
       ) {
         return;
-      } else if (this.props.location.query.dredgeType == 2 &&
-        this.props.location.query.is_existence
+      } else if (this.props.dredgeType == 2 &&
+        this.props.is_existence
         && (
           ToastTipsBusinessImg ||
           ToastTipsBusinessNo ||
           ToastTipsCornBusName ||
           ToastTipsLegalName ||
-          ToastTipsBusinessDate ||
-          ToastTipsBankLicense
+          ToastTipsBusinessDate
+          //  || ToastTipsBankLicense
         )) {
         return;
       }
@@ -1311,11 +1317,10 @@ export default connect(({ submitQua }: any) => submitQua)(
         bank_name,
         settle_bank,
         confirm_step: type,
-        merchant_property: this.props.location.query.dredgeType,
-        bank_opening_permit: Bank_license_imgUrl,
+        merchant_property: this.props.dredgeType,
+        // bank_opening_permit: Bank_license_imgUrl,
         is_existence: is_existence
       }
-      console.log('09999999')
 
       request({
         url: 'v3/payment_profiles',
@@ -1527,18 +1532,18 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         )
 
-      const BankLicense = this.props.Bank_is_license == true ? (
-        <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/" + this.props.Bank_license_imgUrl + '?x-oss-process=image/resize,m_fill,w_669,h_438'} /><div className={styles.close} onClick={this.closeBankLicense}>{''}</div></div>
-      ) : (
-          <ImagePicker
-            className={styles.license}
-            files={this.props.Banklicense_img}
-            multiple={false}
-            length={1}
-            selectable={this.props.Banklicense_img.length < 1}
-            onChange={this.changeBankLicense}
-          />
-        )
+      // const BankLicense = this.props.Bank_is_license == true ? (
+      //   <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/" + this.props.Bank_license_imgUrl + '?x-oss-process=image/resize,m_fill,w_669,h_438'} /><div className={styles.close} onClick={this.closeBankLicense}>{''}</div></div>
+      // ) : (
+      //     <ImagePicker
+      //       className={styles.license}
+      //       files={this.props.Banklicense_img}
+      //       multiple={false}
+      //       length={1}
+      //       selectable={this.props.Banklicense_img.length < 1}
+      //       onChange={this.changeBankLicense}
+      //     />
+      //   )
 
       // const chooseTime = this.state.is_show == true ? (<ChooseDate type={this.state.type} choose_date={this.state.choose_date} onChange={this.timeChange}/>) : ('');
 
@@ -1567,7 +1572,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             <WingBlank>
 
               {
-                this.props.location.query.dredgeType != 2 || (!this.props.location.query.is_existence && this.props.location.query.dredgeType == 2) ? <div>
+                this.props.dredgeType != 2 || (!this.props.is_existence && this.props.dredgeType == 2) ? <div>
 
 
                   <Flex className={styles.sfz_title}>
@@ -1740,7 +1745,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
               {
-                this.props.location.query.dredgeType == 2 ?
+                this.props.dredgeType == 2 ?
                   <div>
                     <Flex className={styles.bank_title}>
                       <div className={styles.sfz_left}>营业执照</div>
@@ -1789,7 +1794,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                       ) : ""
                     }
 
-                    <Flex className={styles.bank_title}>
+                    {/* <Flex className={styles.bank_title}>
                       <div className={styles.sfz_left}>银行开户许可证</div>
                       <div className={styles.sfz_right} onClick={this.toBankLicenseExample}>查看示例</div>
                     </Flex>
@@ -1802,7 +1807,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                           <span>{ToastTipsBankLicense}</span>
                         </Flex>
                       ) : ""
-                    }
+                    } */}
                   </div> : null
 
 

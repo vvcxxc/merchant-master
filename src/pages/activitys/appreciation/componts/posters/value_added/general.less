@@ -1,0 +1,213 @@
+main {
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+
+  .poster_box {
+    width: 544px;
+    height: 854px;
+    margin-bottom: 50px;
+    background: rgba(255, 255, 255, 1);
+
+    .title_img {
+      width: 100%;
+    }
+
+    .main {
+      margin-top: 12px;
+      margin-bottom: 28px;
+
+      .gift_img {
+        text-align: center;
+        height: 507px;
+        position: relative;
+
+        ul {
+          position: absolute;
+          bottom: 20px;
+          right: 40px;
+          width: 192px;
+          height: 208px;
+          background: #EE2633;
+          border-radius: 20px 21px;
+          padding-bottom: 6px;
+
+          li:nth-child(1) {
+            padding: 12px 0px;
+            font-size: 28px;
+            font-family: PingFang SC;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 1);
+          }
+
+          li:nth-child(2) {
+            padding: 0px 12px;
+            position: relative;
+
+            img {
+              width: 170px;
+              height: 146px;
+              border-radius: 0px 0px 10px 10px;
+            }
+
+            .test {
+              position: absolute;
+              top: 1px;
+              left: 13px;
+              border-radius: 0px;
+            }
+
+            .giving {
+              position: absolute;
+              right: 12px;
+              top: 10px;
+              width: 49px;
+              height: 49px;
+              line-height: 49px;
+              text-align: center;
+              background: linear-gradient(0deg, rgba(243, 94, 4, 1) 0%, rgba(255, 163, 58, 1) 100%);
+              box-shadow: 0px 8px 7px 0px rgba(6, 0, 1, 0.08);
+              border-radius: 50%;
+              font-size: 28px;
+              font-family: PingFang SC;
+              font-weight: bold;
+              color: rgba(255, 255, 255, 1);
+            }
+
+            .price {
+              position: absolute;
+              left: 15px;
+              bottom: 15px;
+              font-size: 26px;
+              font-family: PingFang SC;
+              font-weight: 800;
+            }
+          }
+        }
+
+        img {
+          width: 507px;
+          height: 507px;
+        }
+      }
+    }
+
+  }
+}
+
+.project_info {
+  display: flex;
+  border: 1px solid rgba(226, 226, 226, 1);
+  margin: 0 19px;
+  padding: 19px 21px 15px 21px;
+  border-top: none;
+
+  .info_left {
+    flex: 1.8;
+    padding-top: 5px;
+
+    li:nth-child(1) {
+      margin-bottom: 21px;
+      font-size: 15px;
+      font-family: PingFang SC;
+      font-weight: bold;
+      color: rgba(238, 38, 51, 1);
+
+      span:nth-child(1) {
+        font-size: 36px;
+      }
+
+      span:nth-child(2) {
+        padding: 0 5px;
+        margin-left: 20px;
+        font-weight: normal;
+        border: 1px solid rgba(238, 38, 51, 1);
+        border-radius: 13px;
+      }
+    }
+
+    li:nth-child(2) {
+      height: 65px;
+      font-size: 22px;
+      font-family: PingFang SC;
+      font-weight: bold;
+      color: rgba(0, 0, 0, 1);
+      overflow: hidden;
+    }
+
+    li:nth-child(3),
+    li:nth-child(4) {
+      font-size: 16px;
+      font-family: PingFang SC;
+      font-weight: bold;
+      color: rgba(179, 179, 179, 1);
+    }
+
+  }
+
+  .info_right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+      margin-bottom: 12px;
+      height: 142px;
+      width: 142px;
+      background: rgba(247, 247, 247, 1);
+    }
+
+    div {
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: bold;
+      color: rgba(85, 85, 85, 1);
+    }
+  }
+}
+
+.user_button {
+  text-align: center;
+  font-size: 36px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#metas {
+  background: rgba(255, 255, 255, 1);
+}
+
+.my_img {
+  width: 544px;
+  height: 854px;
+  margin-bottom: 10px;
+}
+
+//隐藏生成海报前的静态页
+.hidden_page {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: -100;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
