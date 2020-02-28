@@ -36,7 +36,18 @@ export default class CreateStore extends Component {
             storePhoto: '',
             environmentPhoto1: '',
             environmentPhoto2: '',
-            _code:''
+            _code: ''
+        },
+        error: {
+            storeName: '',
+            storeAddress: '',
+            storeHouseNumber: '',
+            phone: '',
+            manage_type: '',
+            storesMails: '',
+            _code: '',
+            storePhoto: '',
+            environmentPhoto: ''
         }
     }
     componentDidMount() {
@@ -202,7 +213,7 @@ export default class CreateStore extends Component {
                 storePhoto: '',
                 environmentPhoto1: '',
                 environmentPhoto2: '',
-                _code:''
+                _code: ''
             }
             let temp = { ...tempData, ...stroage };
             console.log(temp);
@@ -216,7 +227,7 @@ export default class CreateStore extends Component {
         this.setState({ data })
     }
 
-    submit = () => {
+    submitInfo = () => {
         const {
             storeName,
             storeAddress,
@@ -228,7 +239,29 @@ export default class CreateStore extends Component {
             environmentPhoto1,
             environmentPhoto2,
             _code
-        } = this.state.data
+        } = this.state.data;
+
+        let total: any = {}
+        total.storeName = !this.getBytes(storeName) ? '请输入门店名称' : ''
+        total.storeAddress = !storeAddress ? '请点击获取门店位置信息' : ''
+        total.storeHouseNumber = !storeHouseNumber ? '请输入商家门店地址信息' : ''
+        total.phone =
+            !/^1[3456789]\d{9}$/.test(phone) || !/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(phone) ?
+                '请输入正确11位手机号码或7-8位座机号码' : ''
+        // return
+        total.manage_type = !manage_type ? '请选择商家品类信息' : ''
+        total.storesMails = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$").test(storesMails) ? '' : '请输入正确邮箱信息'
+        //二维码
+        total._code = _code && _code.length > 6 ? '请输入正确二维码序号' : ''
+        total.storePhoto = storePhoto.length < 1 ? '请上传商家门店照片' : ''
+        total.environmentPhoto = environmentPhoto1.length < 1 || environmentPhoto2.length < 1 ? '请上传商家环境照片' : ''
+        for (const key in total) {
+            if (total[key]) {
+                this.setState({ error: total })
+                return
+            }
+        }
+        this.setState({ error: {} });
         request({
             url: 'v3/stores',
             method: 'post',
@@ -263,13 +296,28 @@ export default class CreateStore extends Component {
             }
         })
     }
+    //
+    getBytes = (str: string) => {
+        let num = 0
+        for (let i = 0; i < str.length; i++) {
+            /*字符串的charCodeAt()方法获取对应的ASCII码值
+            汉字的ASCII大于255,其它的ASCII编码值在0-255之间*/
+            str.charCodeAt(i) > 255 ? num += 2 : num += 1;
+        }
+        return num;
+    }
     render() {
+        const { error } = this.state;
         return (
             <div className={styles.creatStorePage}>
                 <div className={styles.inputItem}>
                     <div className={styles.inputTitle}>门店名称</div>
                     <input className={styles.inputBox} placeholder="请输入门店名称" onChange={this.handlechange.bind(this, 'storeName')} value={this.state.data.storeName} />
                 </div>
+                {
+                    error.storeName ?
+                        <div className={styles.groub_hint}>{error.storeName}</div> : null
+                }
                 <div className={styles.selectItem} onClick={this.openMap}>
                     <div className={styles.selectTitle}>门店地址</div>
                     {
@@ -280,14 +328,26 @@ export default class CreateStore extends Component {
                     }
                     <img className={styles.selectIcon} src="http://oss.tdianyi.com/front/eMbkt8GMNGYCpfFNe8Bycmb5QDRMTXkP.png" />
                 </div>
+                {
+                    error.storeAddress ?
+                        <div className={styles.groub_hint}>{error.storeAddress}</div> : null
+                }
                 <div className={styles.inputItem}>
                     <div className={styles.inputTitle}>门牌号</div>
                     <input className={styles.inputBox} placeholder="请输入详细地址" onChange={this.handlechange.bind(this, 'storeHouseNumber')} value={this.state.data.storeHouseNumber} />
                 </div>
+                {
+                    error.storeHouseNumber ?
+                        <div className={styles.groub_hint}>{error.storeHouseNumber}</div> : null
+                }
                 <div className={styles.inputItem}>
                     <div className={styles.inputTitle}>门店电话</div>
                     <input className={styles.inputBox} placeholder="请输入电话号码" onChange={this.handlechange.bind(this, 'phone')} value={this.state.data.phone} />
                 </div>
+                {
+                    error.phone ?
+                        <div className={styles.groub_hint}>{error.phone}</div> : null
+                }
                 <Picker
                     className={styles.picker}
                     style={{ width: '100%', fontSize: '28px' }}
@@ -307,14 +367,26 @@ export default class CreateStore extends Component {
                         <img className={styles.selectIcon} src="http://oss.tdianyi.com/front/eMbkt8GMNGYCpfFNe8Bycmb5QDRMTXkP.png" />
                     </div>
                 </Picker>
+                {
+                    error.manage_type ?
+                        <div className={styles.groub_hint}>{error.manage_type}</div> : null
+                }
                 <div className={styles.inputItem}>
                     <div className={styles.inputTitle}>邮箱</div>
                     <input className={styles.inputBox} placeholder="请输入邮箱地址" onChange={this.handlechange.bind(this, 'storesMails')} value={this.state.data.storesMails} />
                 </div>
+                {
+                    error.storesMails ?
+                        <div className={styles.groub_hint}>{error.storesMails}</div> : null
+                }
                 <div className={styles.inputItem}>
                     <div className={styles.inputTitle}>邀请码</div>
                     <input className={styles.inputBox} placeholder="请输入邀请码（非必填）" onChange={this.handlechange.bind(this, '_code')} value={this.state.data._code} />
                 </div>
+                {
+                    error._code ?
+                        <div className={styles.groub_hint}>{error._code}</div> : null
+                }
                 <div className={styles.doorPhotoContent}>
                     <div className={styles.doorPhotoTitle}>上传门头照</div>
                     <div className={styles.doorPhotoPickerBox} >
@@ -331,6 +403,10 @@ export default class CreateStore extends Component {
                         }
                     </div>
                 </div>
+                {
+                    error.storePhoto ?
+                        <div className={styles.groub_hint}>{error.storePhoto}</div> : null
+                }
                 <div className={styles.environmentContent}>
                     <div className={styles.doorPhotoTitle}>上传环境照</div>
                     <div className={styles.doorPhotoList}>
@@ -372,7 +448,11 @@ export default class CreateStore extends Component {
                         }
                     </div>
                 </div>
-                <div className={styles.sumbitCreatStore} onclick={this.submit}>提交</div>
+                {
+                    error.environmentPhoto ?
+                        <div className={styles.groub_hint}>{error.environmentPhoto}</div> : null
+                }
+                <div className={styles.sumbitCreatStore} onClick={this.submitInfo.bind(this)}>提交</div>
                 {
                     this.state.exampleImgShow ? <ExampleImg
                         exampleImg={'http://oss.tdianyi.com/front/KcrsrfW8mzAtC2b8fDw5JAWxHWZKhnAz.png'}
