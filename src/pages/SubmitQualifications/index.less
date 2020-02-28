@@ -1,0 +1,468 @@
+.creatStorePage {
+    height: auto;
+    min-height: 100vh;
+    width: 100vw;
+    background: #f2f4f5;
+    padding-bottom: 130px;
+
+    .backgroundContent {
+        height: auto;
+        width: 100%;
+        background: #fff;
+        margin-bottom: 20px;
+        padding: 0 30px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+
+        .contentTitle {
+            height: 127px;
+            width: 100%;
+            text-align: left;
+            line-height: 1;
+            font-size: 30px;
+            font-family: PingFang;
+            font-weight: 500;
+            color: rgba(52, 58, 64, 1);
+            padding-top: 52px;
+            box-sizing: border-box;
+        }
+
+        .idCardBox {
+            height: 230px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            .idCarduploadBox {
+                width: 218px;
+                height: 204px;
+                -moz-box-shadow: 5px 4px 20px #DEDEDE;
+                -webkit-box-shadow: 5px 4px 20px #DEDEDE;
+                box-shadow: 5px 4px 20px #DEDEDE;
+                border-radius: 30px;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+
+                .idCardContent {
+                    height: 140px;
+                    width: 100%;
+                    overflow: hidden;
+                    position: relative;
+
+                    .PickerImgBtn {
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        z-index: 2;
+                    }
+
+                    .backgImg {
+                        width: 100%;
+                        height: 100%;
+                    }
+
+                    .closeImgBtn {
+                        width: 30px;
+                        height: 30px;
+                        position: absolute;
+                        right: 12px;
+                        top: 12px;
+                        text-align: right;
+                        vertical-align: top;
+                        z-index: 2;
+                    }
+                }
+
+                .idCardTitle {
+                    height: calc(100% - 140px);
+                    width: 100%;
+                    box-sizing: border-box;
+                    border-top: 1.5px solid #dde2e5;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 24px;
+                    font-family: PingFang;
+                    font-weight: 500;
+                    color: rgba(152, 166, 173, 1);
+                    line-height: 1;
+                }
+
+            }
+        }
+
+        .bankCardBox {
+            height: 290px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            .bankCarduploadBox {
+                width: 316px;
+                height: 265px;
+                -moz-box-shadow: 5px 4px 20px #DEDEDE;
+                -webkit-box-shadow: 5px 4px 20px #DEDEDE;
+                box-shadow: 5px 4px 20px #DEDEDE;
+                border-radius: 30px;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+
+                .bankCardContent {
+                    height: 200px;
+                    width: 100%;
+                    overflow: hidden;
+                    position: relative;
+
+                    .PickerImgBtn {
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        z-index: 2;
+                    }
+
+                    .backgImg {
+                        width: 100%;
+                        height: 100%;
+                    }
+
+                    .closeImgBtn {
+                        width: 30px;
+                        height: 30px;
+                        position: absolute;
+                        right: 12px;
+                        top: 12px;
+                        text-align: right;
+                        vertical-align: top;
+                        z-index: 2;
+                    }
+                }
+
+                .bankCardTitle {
+                    height: calc(100% - 200px);
+                    width: 100%;
+                    box-sizing: border-box;
+                    border-top: 1.5px solid #dde2e5;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 24px;
+                    font-family: PingFang;
+                    font-weight: 500;
+                    color: rgba(152, 166, 173, 1);
+                    line-height: 1;
+                }
+
+            }
+
+        }
+
+        .bankLicenseuploadBox {
+            width: 671px;
+            height: 432px;
+            -moz-box-shadow: 5px 4px 20px #DEDEDE;
+            -webkit-box-shadow: 5px 4px 20px #DEDEDE;
+            box-shadow: 5px 4px 20px #DEDEDE;
+            border-radius: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+
+            .bankLicenseContent {
+                height: 375px;
+                width: 100%;
+                overflow: hidden;
+                position: relative;
+
+                .PickerImgBtn {
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    z-index: 2;
+                }
+
+                .backgImg {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .closeImgBtn {
+                    width: 30px;
+                    height: 30px;
+                    position: absolute;
+                    right: 12px;
+                    top: 12px;
+                    text-align: right;
+                    vertical-align: top;
+                    z-index: 2;
+                }
+            }
+
+            .bankLicenseTitle {
+                height: calc(100% - 375px);
+                width: 100%;
+                box-sizing: border-box;
+                border-top: 1.5px solid #dde2e5;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 24px;
+                font-family: PingFang;
+                font-weight: 500;
+                color: rgba(152, 166, 173, 1);
+                line-height: 1;
+            }
+
+        }
+
+        .businessLicenseuploadBox {
+            width: 671px;
+            height: 432px;
+            -moz-box-shadow: 5px 4px 20px #DEDEDE;
+            -webkit-box-shadow: 5px 4px 20px #DEDEDE;
+            box-shadow: 5px 4px 20px #DEDEDE;
+            border-radius: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+
+            .businessLicenseContent {
+                height: 375px;
+                width: 100%;
+                overflow: hidden;
+                position: relative;
+
+                .PickerImgBtn {
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    z-index: 2;
+                }
+
+                .backgImg {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .closeImgBtn {
+                    width: 30px;
+                    height: 30px;
+                    position: absolute;
+                    right: 12px;
+                    top: 12px;
+                    text-align: right;
+                    vertical-align: top;
+                    z-index: 2;
+                }
+            }
+
+            .businessLicenseTitle {
+                height: calc(100% - 375px);
+                width: 100%;
+                box-sizing: border-box;
+                border-top: 1.5px solid #dde2e5;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 24px;
+                font-family: PingFang;
+                font-weight: 500;
+                color: rgba(152, 166, 173, 1);
+                line-height: 1;
+            }
+        }
+
+        .inputItem {
+            height: 108px;
+            width: 100%;
+            border-bottom: 1.5px solid #dde2e5;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            .inputTitle {
+                height: 30px;
+                width: 175px;
+                color: #000;
+                font-size: 30px;
+                line-height: 1;
+            }
+
+            .inputBox {
+                height: 50px;
+                width: calc(100% - 175px);
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                border: none;
+            }
+
+            .inputBox::-webkit-input-placeholder {
+                color: #98A6AD;
+                font-size: 30px;
+                text-align: left;
+            }
+        }
+
+        .selectItem {
+            height: 108px;
+            width: 100%;
+            border-bottom: 1.5px solid #dde2e5;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            position: relative;
+
+            .selectTitle {
+                height: 30px;
+                width: 175px;
+                color: #000;
+                font-size: 30px;
+                line-height: 1;
+            }
+
+            .unSelectBox {
+                height: 50px;
+                width: calc(100% - 175px);
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                border: none;
+                color: #000;
+                font-size: 30px;
+                line-height: 1;
+            }
+
+            .selectBox {
+                height: 50px;
+                width: calc(100% - 175px);
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                border: none;
+                color: #98A6AD;
+                font-size: 30px;
+                line-height: 1;
+            }
+
+            .selectIcon {
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translate(0, -50%);
+                width: 33px;
+                height: 33px;
+            }
+        }
+    }
+
+    .bottomBox {
+        height: 130px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        background: #fff;
+        border-top: 1.5px solid #dde2e5;
+        box-sizing: border-box;
+        padding: 0 52px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        .saveBtn {
+            width: 312px;
+            height: 98px;
+            background: rgba(255, 255, 255, 1);
+            border: 1px solid rgba(200, 206, 212, 1);
+            border-radius: 49px;
+            font-size: 34px;
+            font-family: Adobe Heiti Std;
+            font-weight: normal;
+            color: rgba(52, 58, 64, 1);
+            line-height: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .submitBtn {
+            width: 312px;
+            height: 98px;
+            background: linear-gradient(-30deg, rgba(71, 129, 254, 1) 0%, rgba(91, 161, 250, 1) 100%);
+            border-radius: 49px;
+            font-size: 34px;
+            font-family: PingFang;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 1);
+            line-height: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+
+    .groub_hint {
+        margin-top: -1px;
+        padding-top: 5px;
+        font-size: 22px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: rgba(210, 40, 75, 1);
+        text-align: right;
+        border-top: 1px solid red;
+    }
+}
+
+:global {
+
+    // .am-flexbox-item {
+    //     border-radius: 30px;
+    //     overflow: hidden;
+    // }
+
+    .am-image-picker-list .am-image-picker-upload-btn {
+        background: url('http://oss.tdianyi.com/front/axaJkK8StSzTQRtedfhpD2j5kb6J2iMc.png');
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+    }
+
+    .am-image-picker-list .am-flexbox .am-flexbox-item {
+        margin-right: 0;
+    }
+
+    .am-image-picker-list {
+        padding: 0;
+    }
+}
