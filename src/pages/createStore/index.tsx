@@ -405,7 +405,6 @@ export default connect(({ createStore }: any) => createStore)(
     }
 
     createStore = () => {
-
       let detailAddress = Cookies.get("handleDetailAddress");
       let { name, address, house_num, phone, manage_type, email, _code, store_door_header_img, store_img_one, store_img_two, location, code_id } = this.props;
       let total: any = {}
@@ -458,13 +457,14 @@ export default connect(({ createStore }: any) => createStore)(
           code_id: _code
         }
       }).then(res => {
-        let { code, data } = res;
+        let { code, data, message } = res;
         if (code == 200) {
-          Toast.success(data, 2, () => {
-            router.push('/choiceSubmitQua');
+          let is_existence = data.is_existence ? data.is_existence : 0;
+          Toast.success(data.msg, 2, () => {
+            router.push({ pathname: '/choiceSubmitQua', query: { is_existence: is_existence } })
           })
         } else {
-          Toast.fail(data)
+          Toast.fail(data.msg)
         }
       })
       // } else {
