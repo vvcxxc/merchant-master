@@ -15,6 +15,7 @@ const now = new Date(nowTimeStamp);
 export default connect(({ submitQua }: any) => submitQua)(
   class chooseDate extends Component<any> {
     state = {
+      choose_date: '',
       value: now,
       date: '',
       /**选择日期 */
@@ -26,7 +27,8 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
 
     componentDidMount() {
-      let { type, choose_date } = this.props;
+      let { choose_date } = this.state;
+      let type = Number(this.props.location.query.type);
       if (choose_date && choose_date != '无') {
         let is_have = choose_date.includes('长')
         if (is_have) {
@@ -72,27 +74,18 @@ export default connect(({ submitQua }: any) => submitQua)(
     /**点击完成 */
     submit = () => {
       const { type, date } = this.state;
+      let stroage: any = localStorage.getItem('SubmitQualifications') ? JSON.parse(localStorage.getItem('SubmitQualifications')) : {};
       if (type == 1) {
-        Cookies.set("_date", JSON.stringify(date), { expires: 1 });
-        this.props.dispatch({
-          type: 'submitQua/setQua',
-          payload: {
-            date
-          }
-        })
+        let temp = { ...stroage, idCardValidity: date }
+        localStorage.setItem('SubmitQualifications', JSON.stringify(temp));
+        localStorage.setItem('SubmitQualificationsTime', JSON.stringify(new Date().getTime()));
       } else {
-        Cookies.set("_three_certs_in_one_valid_date", JSON.stringify(date), { expires: 1 });
-        this.props.dispatch({
-          type: 'submitQua/setQua',
-          payload: {
-            three_certs_in_one_valid_date: date
-          }
-        })
+        let temp = { ...stroage, businessLicenseValidity: date }
+        localStorage.setItem('SubmitQualifications', JSON.stringify(temp));
+        localStorage.setItem('SubmitQualificationsTime', JSON.stringify(new Date().getTime()));
       }
       router.goBack();
     }
-
-
     render() {
       const { is_type1, is_type2 } = this.state;
       const type1 = is_type1 == true ? (

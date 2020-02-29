@@ -64,6 +64,7 @@
                         left: 0;
                         top: 0;
                         z-index: 2;
+                        opacity: 0;
                     }
 
                     .backgImg {
@@ -135,6 +136,7 @@
                         left: 0;
                         top: 0;
                         z-index: 2;
+                        opacity: 0;
                     }
 
                     .backgImg {
@@ -199,6 +201,7 @@
                     left: 0;
                     top: 0;
                     z-index: 2;
+                    opacity: 0;
                 }
 
                 .backgImg {
@@ -261,6 +264,7 @@
                     left: 0;
                     top: 0;
                     z-index: 2;
+                    opacity: 0;
                 }
 
                 .backgImg {
@@ -304,6 +308,7 @@
             flex-direction: row;
             justify-content: flex-start;
             align-items: center;
+            position: relative;
 
             .inputTitle {
                 height: 30px;
@@ -328,12 +333,41 @@
                 font-size: 30px;
                 text-align: left;
             }
+
+            .chooseSubBranch {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 99;
+                transform: translate(0, -100%);
+                width: 100%;
+                height: auto;
+                max-height: 505px;
+                overflow-x: hidden;
+                overflow-y: scroll;
+                border: 5px solid #dde2e5;
+                background: #fff;
+                padding: 0 20px;
+                box-sizing: border-box;
+
+                .chooseSubBranchItem {
+                    height: auto;
+                    width: 100%;
+                    line-height: 1.2;
+                    border-bottom: 1.5px solid #dde2e5;
+                    color: rgba(52, 58, 64, 1);
+                    padding: 15px;
+                }
+
+                .chooseSubBranchItem:last-child {
+                    border-bottom: none;
+                }
+            }
         }
 
         .selectItem {
             height: 108px;
             width: 100%;
-            border-bottom: 1.5px solid #dde2e5;
             display: flex;
             flex-direction: row;
             justify-content: flex-start;
@@ -447,11 +481,6 @@
 
 :global {
 
-    // .am-flexbox-item {
-    //     border-radius: 30px;
-    //     overflow: hidden;
-    // }
-
     .am-image-picker-list .am-image-picker-upload-btn {
         background: url('http://oss.tdianyi.com/front/axaJkK8StSzTQRtedfhpD2j5kb6J2iMc.png');
         background-size: 100% 100%;
@@ -465,4 +494,17 @@
     .am-image-picker-list {
         padding: 0;
     }
+}
+
+.toast_tips {
+    color: #d2284b;
+    border-top: 1px solid #d2284b;
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+
+.toast_tips_img {
+    color: #d2284b;
+    padding-top: 10px;
+    margin-bottom: 10px;
 }

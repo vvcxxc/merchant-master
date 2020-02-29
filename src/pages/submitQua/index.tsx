@@ -174,7 +174,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           three_certs_in_one_valid_date = '长期'
         }
 
-        if (this.props.date_back == false) {
+        if (this.props.vvvvv == false) {
           this.props.dispatch({
             type: 'submitQua/setQua',
             payload: {
