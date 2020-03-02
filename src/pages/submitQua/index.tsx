@@ -1816,7 +1816,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
               }
             </WingBlank>
-            <Flex className={styles.buttons}>
+            <Flex className={styles.bottombuttons}>
               <div className={styles.save} onClick={this.submit(1)}>保存</div>
               <div className={styles.submit} onClick={this.submit(2)}>提交审核</div>
             </Flex>
