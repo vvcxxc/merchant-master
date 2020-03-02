@@ -60,7 +60,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 			haveChangeMoney: false,
 			// 温馨提示
 			isShow: false,
-			lockMoney: 0
+			// lockMoney: 0
 		};
 
 		componentDidMount = () => {
@@ -89,7 +89,7 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 					is_pause: nextProps.editForm.is_pause,
 					check_status: nextProps.editForm.check_status,
 					countMoney: nextProps.userMoney,
-					lockMoney: nextProps.editForm.today_lock_surplus_money
+					// lockMoney: nextProps.editForm.today_lock_surplus_money
 				});
 			} else {
 				this.setState({
@@ -376,13 +376,13 @@ export default connect(({ businessArea, app }: any) => ({ businessArea, app }))(
 									) : ''
 								}
 
-								<div className={styles.freeze_wrap} style={{ display: 'flex', justifyContent: 'space-between' }}>
+								{/* <div className={styles.freeze_wrap} style={{ display: 'flex', justifyContent: 'space-between' }}>
 									<div style={{ display: 'flex', alignItems: 'flex-end' }}>
 										<div className={styles.freeze_money}>冻结金额</div>
 										< img src={require('@/assets/ad/ad_question.png')} style={{ marginRight: '15px' }} className={styles.ad_question} onClick={this.handleClickAdQuestion} />
 									</div>
 									<div className={styles.freeze_value}>￥{this.state.lockMoney}</div>
-								</div>
+								</div> */}
 								{
 									this.state.isShow ? (
 										<div className={styles.tips_title}>
