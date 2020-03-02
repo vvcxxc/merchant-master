@@ -61,7 +61,8 @@ export default connect(({ app }: any) => app)(
                 let { data } = res;
                 let reason = '';
                 if (data.apply_store_status.store_open_status == 0) {
-                    router.push('/createStore');
+                    // router.push('/createStore');
+                    router.push('/createTheStore');
                 } else if (data.apply_store_status.store_open_status == 2) {
                     router.push('/review');
                 } else if (data.apply_store_status.store_open_status == 1) {

@@ -217,7 +217,8 @@ export default connect(({ register }: any) => register)(
         if (code == 200) {
           Toast.success('注册成功', 2, () => {
             localStorage.setItem('token', 'Bearer ' + res.data.token);
-            router.push('/createStore');
+            // router.push('/createStore');
+            router.push('/createTheStore');
           })
 
         } else {
