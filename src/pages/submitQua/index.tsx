@@ -1457,8 +1457,7 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
 
     render() {
-      const dredgeType = this.props.location.query.dredgeType;
-      const is_existence = this.props.location.query.is_existence;
+
       const idFront = this.props.is_id_front == true ? (
         <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_front_img + '?x-oss-process=image/resize,m_fill,w_209,h_149'} alt="" /><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
       ) : (
@@ -1567,7 +1566,8 @@ export default connect(({ submitQua }: any) => submitQua)(
         ToastTipsBusinessDate,
         ToastTipsBankLicense
       } = this.state
-
+      const dredgeType = Number(this.props.location.query.dredgeType);
+      const is_existence = Number(this.props.location.query.is_existence);
       return (
 
         <div style={{ width: '100%', height: 'auto', minHeight: '100vh', background: '#fff' }} id="box0" className={styles.submitQua}>
