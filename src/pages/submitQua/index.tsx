@@ -1568,6 +1568,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       } = this.state
       const dredgeType = Number(this.props.location.query.dredgeType);
       const is_existence = Number(this.props.location.query.is_existence);
+      console.log('555',dredgeType,is_existence)
       return (
 
         <div style={{ width: '100%', height: 'auto', minHeight: '100vh', background: '#fff' }} id="box0" className={styles.submitQua}>
