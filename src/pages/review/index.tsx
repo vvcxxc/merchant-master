@@ -125,7 +125,8 @@ export default class Review extends Component {
       // router.push('/createStore')
       router.push('/createTheStore');
     }else{
-      router.push('/submitQua')
+      // router.push('/submitQua')
+      router.push({ pathname: '/SubmitQualifications', query: { dredgeType: 2, is_existence: 0 } })
     }
   }
 

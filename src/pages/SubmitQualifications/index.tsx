@@ -610,8 +610,8 @@ export default class SubmitQualifications extends Component {
     }
 
     render() {
-        const dredgeType = this.props.location.query.dredgeType;
-        const is_existence = this.props.location.query.is_existence;
+        const dredgeType = Number(this.props.location.query.dredgeType);
+        const is_existence = Number(this.props.location.query.is_existence);
         const {
             ToastTipsLegalIDImg,
             ToastTipsContactName,
