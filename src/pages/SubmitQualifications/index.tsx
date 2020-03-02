@@ -316,6 +316,7 @@ export default class SubmitQualifications extends Component {
     }
     //提交
     submitInfo = (type: number) => async () => {
+
         let dredgeType = this.props.location.query.dredgeType;
         let is_existence = this.props.location.query.is_existence;
         await this.setState({
@@ -581,11 +582,14 @@ export default class SubmitQualifications extends Component {
             merchant_property: dredgeType,
             is_existence: is_existence
         }
+
+        Toast.loading('');
         request({
             url: 'v3/payment_profiles',
             method: 'post',
             data
         }).then(res => {
+            Toast.hide();
             let { code, data } = res;
             if (code == 200) {
                 if (type == 1) {
@@ -600,6 +604,8 @@ export default class SubmitQualifications extends Component {
             } else {
                 Toast.fail(data)
             }
+        }).catch(err => {
+            Toast.hide();
         })
     }
 
