@@ -71,7 +71,42 @@ export default class SubmitQualifications extends Component {
         ToastTipsBankLicense: ""
     }
     componentDidMount() {
-        this.getStroage();
+        this.getOldData();
+    }
+
+    getOldData = () => {
+        let that = this;
+        request({
+            url: 'v3/payment_profiles',
+            method: 'get'
+        }).then(res => {
+            let { data } = res;
+            let temp = {
+                idCardimg1: data.legal_id_front_img.split('http://oss.tdianyi.com/')[1],
+                idCardimg2: data.legal_id_back_img.split('http://oss.tdianyi.com/')[1],
+                idCardimg3: data.hand_hold_id_img.split('http://oss.tdianyi.com/')[1],
+                name: data.contact_name,
+                idCardNum: data.legal_id_no,
+                idCardValidity: data.legal_id_valid_date,
+                bankCardimg1: data.bank_card_front_img.split('http://oss.tdianyi.com/')[1],
+                bankCardimg2: data.bank_card_back_img.split('http://oss.tdianyi.com/')[1],
+                accountHolder: data.settle_bank_account_name,
+                bankCardNum: data.settle_bank_account_no,
+                depositBank: data.settle_bank,
+                subBranch: data.bank_name,
+                businessLicenseimg: data.three_certs_in_one_img.split('http://oss.tdianyi.com/')[1],
+                registrationNumber: data.three_certs_in_one_no,
+                licenseName: data.corn_bus_name,
+                legalPerson: data.legal_name,
+                businessLicenseValidity: data.three_certs_in_one_valid_date,
+            };
+            that.setState({ data: temp }, () => {
+                that.getStroage();
+            })
+
+        }).catch((err) => {
+            this.getStroage();
+        })
     }
     //选择有效期
     chooseDate = (type: string) => {
