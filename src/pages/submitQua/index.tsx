@@ -145,6 +145,7 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
     componentDidMount() {
       // 暂时
+      console.log('dredgeType', this.props.location.query.dredgeType, 'is_existence:', this.props.location.query.is_existence)
       Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
         let { data } = res.data;
         let oss_data = {
@@ -1457,6 +1458,7 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
 
     render() {
+
       const idFront = this.props.is_id_front == true ? (
         <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_front_img + '?x-oss-process=image/resize,m_fill,w_209,h_149'} alt="" /><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
       ) : (
@@ -1565,14 +1567,17 @@ export default connect(({ submitQua }: any) => submitQua)(
         ToastTipsBusinessDate,
         ToastTipsBankLicense
       } = this.state
-
+      const dredgeType = Number(this.props.location.query.dredgeType);
+      const is_existence = Number(this.props.location.query.is_existence);
+      console.log('555', dredgeType, is_existence)
       return (
-        <div style={{ width: '100%', height: 'auto', background: '#fff' }} id="box0" className={styles.submitQua}>
+
+        <div style={{ width: '100%', height: 'auto', minHeight: '100vh', background: '#fff' }} id="box0" className={styles.submitQua}>
           <div>
             <WingBlank>
 
               {
-                this.props.dredgeType != 2 || (!this.props.is_existence && this.props.dredgeType == 2) ? <div>
+                dredgeType != 2 || (!is_existence && dredgeType == 2) ? <div>
 
 
                   <Flex className={styles.sfz_title}>
@@ -1745,7 +1750,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
               {
-                this.props.dredgeType == 2 ?
+                dredgeType == 2 ?
                   <div>
                     <Flex className={styles.bank_title}>
                       <div className={styles.sfz_left}>营业执照</div>
@@ -1813,7 +1818,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
               }
             </WingBlank>
-            <Flex className={styles.buttons}>
+            <Flex className={styles.bottombuttons}>
               <div className={styles.save} onClick={this.submit(1)}>保存</div>
               <div className={styles.submit} onClick={this.submit(2)}>提交审核</div>
             </Flex>

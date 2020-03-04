@@ -173,10 +173,7 @@ export default class MyIndex extends Component {
     request({
       url: 'v3/finance/getStatements',
       method: 'get',
-      params: {
-        begin_date: params.begin_date,
-        end_date: params.end_date
-      }
+      params
     }).then(res => {
       const { data, code } = res
       if (code == 200 && this.state.titleType == 0) {
