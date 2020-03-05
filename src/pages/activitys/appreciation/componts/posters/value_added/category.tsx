@@ -9,6 +9,7 @@ interface Props {
   close: () => void,
   details: any
 }
+
 // 增值海报
 export default class PosterTwo extends Component<any> {
 
@@ -130,7 +131,7 @@ export default class PosterTwo extends Component<any> {
         </div>
       </div>
     </div>
-    return <main onClick={this.closePoster.bind(this)} style={{ display: this.state.show ? '' : 'none'  }}>
+    return <main className={styles.poster_main} onClick={this.closePoster.bind(this)} style={{ display: this.state.show ? '' : 'none'  }}>
       <div className={styles.hidden_page}>{dom}</div>
       <img
         onClick={this.noAllow.bind(this)} className={list.gift_id ? styles.img_have_gift : styles.img_no_gift} src={this.state.imgurl} alt="" />
