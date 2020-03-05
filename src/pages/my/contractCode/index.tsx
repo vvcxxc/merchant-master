@@ -8,7 +8,9 @@ class ContractCode extends Component {
     state = {
         info: {
             wx_sign_status: 0,
-            wx_sign_url: "0"
+            wx_sign_url: "0",
+            apply_store_status: { store_open_status: 0 },
+            payment_status: { payment_open_status: 0 },
         }
     }
 
@@ -17,7 +19,9 @@ class ContractCode extends Component {
             url: 'api/merchant/supplier/info'
         });
         if (res.code === 200) {
-            this.setState({ info: res.data });
+            this.setState({ info: res.data }, () => {
+                // console.log(this.state)
+            });
         }
     }
 
@@ -26,7 +30,7 @@ class ContractCode extends Component {
     // }
 
     render() {
-        const { wx_sign_url, wx_sign_status } = this.state.info;
+        const { wx_sign_url, wx_sign_status, apply_store_status, payment_status } = this.state.info;
         return (
             <div className={styles.my_contract_code}>
                 <div className={styles.title}>我的签约码</div>
@@ -60,7 +64,7 @@ class ContractCode extends Component {
                     </div>
                     <div className={styles.result}>
                         <div className={styles.title}>我的信息核对结果</div>
-                        <div className={styles.result_info}>{wx_sign_status == 3 ? "待签约" : wx_sign_status == 4 ? "审核通过" : ""}</div>
+                        <div className={styles.result_info}>{wx_sign_status == 3 ? "待签约" : apply_store_status.store_open_status == 3 && payment_status.payment_open_status == 3 && wx_sign_status == 4 ? "审核通过" : ""}</div>
                         {/* <div className={styles.result_go_confirm}>
                             <span onClick={this.handleGoConfirm}>去确认</span>
                         </div> */}

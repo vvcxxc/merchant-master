@@ -38,6 +38,8 @@ export default connect()(
         name: '',
         preview: '',
         wx_sign_status: 0,
+        apply_store_status: { store_open_status: 0 },
+        payment_status: { payment_open_status: 0 },
         money: '',
         wx_sign_url: '0',
         integral: 0,
@@ -125,20 +127,26 @@ export default connect()(
      * 我的签约码
      */
     handleContractCode = () => {
-      const { wx_sign_status } = this.state.info;
-      if (wx_sign_status == 0 || wx_sign_status == 2) {
+      // 商店状态和支付状态其中一个不为3就去提交资料
+      // 商店状态和支付状态都为3待审核
+      // 商店状态和支付状态和微信状态都为3待签约
+
+      const { wx_sign_status, apply_store_status, payment_status } = this.state.info;
+      // console.log(apply_store_status,payment_status)
+      
+      if (apply_store_status.store_open_status != 3 || payment_status.payment_open_status != 3) {
         alert('签约提示', '当前未提交商家资料信息，无法进行签约', [
           { text: '忽略', onPress: () => console.log('cancel') },
           { text: '去提交', onPress: () => console.log('ok') },
         ])
-      } else if (wx_sign_status == 1) {
-        alert('签约提示', '当前提交商户资料待审核，请稍后在我的签约码查询状态，如更新为“待签约”，即可进入下一步', [
-          { text: '关闭', onPress: () => console.log('ok') },
-        ])
-      } else if (wx_sign_status == 3) {
+      } else if (apply_store_status.store_open_status == 3 && payment_status.payment_open_status == 3 && wx_sign_status == 3) {
         alert('签约提示', '当前提交注册微信特约商户，已通过审核，请进行签约信息确认', [
           { text: '忽略', onPress: () => console.log('cancel') },
           { text: '去签约', onPress: () => router.push('/my/contractCode') },
+        ])
+      } else if (apply_store_status.store_open_status == 3 && payment_status.payment_open_status == 3) {
+        alert('签约提示', '当前提交商户资料待审核，请稍后在我的签约码查询状态，如更新为“待签约”，即可进入下一步', [
+          { text: '关闭', onPress: () => console.log('ok') },
         ])
       }
     }
