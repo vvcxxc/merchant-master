@@ -1,6 +1,6 @@
 /**title: 个人中心 */
 import React, { Component } from 'react';
-import { Flex, WingBlank, Toast, List } from 'antd-mobile';
+import { Flex, WingBlank, Toast, List, Modal } from 'antd-mobile';
 import styles from './index.less';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
@@ -10,6 +10,7 @@ import ShareThree from './components/share_three/index'
 
 const Item = List.Item;
 const Brief = Item.Brief;
+const alert = Modal.alert;
 
 interface State {
   info: Info;
@@ -37,6 +38,8 @@ export default connect()(
         name: '',
         preview: '',
         wx_sign_status: 0,
+        apply_store_status: { store_open_status: 0 },
+        payment_status: { payment_open_status: 0 },
         money: '',
         wx_sign_url: '0',
         integral: 0,
@@ -111,27 +114,59 @@ export default connect()(
     }
 
     // /**我的签约码 */
-    goSignCode = () => {
-    	router.push({
-    		pathname: '/my/signCode',
-    		query: {
-    			url: this.state.info.wx_sign_url
-    		}
-    	})
+    // goSignCode = () => {
+    //   router.push({
+    //     pathname: '/my/signCode',
+    //     query: {
+    //       url: this.state.info.wx_sign_url
+    //     }
+    //   })
+    // }
+
+    /**
+     * 我的签约码
+     */
+    handleContractCode = () => {
+      // 商店状态和支付状态其中一个不为3就去提交资料
+      // 商店状态和支付状态都为3待审核
+      // 商店状态和支付状态和微信状态都为3待签约
+
+      const { wx_sign_status, apply_store_status, payment_status } = this.state.info;
+      // console.log(apply_store_status,payment_status)
+
+      if (apply_store_status.store_open_status != 3 || payment_status.payment_open_status != 3) {
+        alert('签约提示', '当前未提交商家资料信息，无法进行签约', [
+          { text: '忽略' },
+          { text: '去提交', onPress: () => router.push('/submitQua') },
+        ])
+      } else if (apply_store_status.store_open_status == 3 && payment_status.payment_open_status == 3 && wx_sign_status == 3) {
+        alert('签约提示', '当前提交注册微信特约商户，已通过审核，请进行签约信息确认', [
+          { text: '忽略' },
+          { text: '去签约', onPress: () => router.push('/my/contractCode') },
+        ])
+      } else if (apply_store_status.store_open_status == 3 && payment_status.payment_open_status == 3 && wx_sign_status == 4) {
+        router.push('/my/contractCode')
+      } else if (apply_store_status.store_open_status == 3 && payment_status.payment_open_status == 3) {
+        alert('签约提示', '当前提交商户资料待审核，请稍后在我的签约码查询状态，如更新为“待签约”，即可进入下一步', [
+          { text: '关闭' },
+        ])
+      }
     }
 
     render() {
-      const signCode = this.state.info.wx_sign_status == 2 ? (
-        <Item
-          arrow="horizontal"
-          thumb={require('@/assets/my/activity.png')}
-          multipleLine
-          onClick={this.goSignCode}
-          className={styles.my_items}
-        >
-          我的签约码
-				</Item>
-      ) : null;
+      // const signCode = this.state.info.wx_sign_status == 2 ? (
+      //   <Item
+      //     arrow="horizontal"
+      //     thumb={require('@/assets/my/activity.png')}
+      //     multipleLine
+      //     onClick={this.goSignCode}
+      //     className={styles.my_items}
+      //   >
+      //     我的签约码
+      // 	</Item>
+      // ) : null;
+      const { wx_sign_status } = this.state.info;
+      const contractCodeStatus = wx_sign_status == 0 ? "未提交资料" : wx_sign_status == 1 ? "审核中" : wx_sign_status == 2 ? "已驳回" : wx_sign_status == 3 ? "待签约" : wx_sign_status == 4 ? "已完成" : "";
       return (
         <div className={styles.page}>
           {/* <ShareThree show={this.state.showSharethree} onclick={this.closeShareThree.bind(this)} info={this.state.info} />
@@ -249,7 +284,17 @@ export default connect()(
             >
               我的云音箱
 						</Item>
-            {signCode}
+            {/* {signCode} */}
+            <Item
+              arrow="horizontal"
+              thumb={require('@/assets/my/my_contract_code.png')}
+              multipleLine
+              extra={contractCodeStatus}
+              className={styles.my_items}
+              onClick={this.handleContractCode.bind(this)}
+            >
+              我的签约码
+						</Item>
           </List>
           <List className={styles.my_info_items}>
             <Item

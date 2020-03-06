@@ -120,6 +120,7 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
           gif_pic: data.group_gif_info.gif_pic,             //礼品图片
           gift_money: data.group_gif_info.gif_integral,     //礼品价
           coupons_number: data.group_info.group_number,     //猜测是几人团
+          big_pic: data.activity_image
         }
       })
 
