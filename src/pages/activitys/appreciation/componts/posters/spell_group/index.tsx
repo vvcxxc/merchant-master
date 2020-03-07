@@ -28,6 +28,7 @@ export default class Poster extends Component<any> {
   }
 
   showMyPoster = () => {
+    console.log(this.props.list,'list')
     let dom = document.getElementById('metas')
     QRCode.toDataURL(this.props.list.link)                                      // 网络链接转化为二维码
       .then((url: any) => {
@@ -66,7 +67,7 @@ export default class Poster extends Component<any> {
       <div className={styles.main}>
 
         <div className={styles.gift_img}>
-          <img src={list.shop_door_header_img} alt="" />
+          <img src={list.big_pic} alt="" />
           { //礼品id不能为0
             list.gift_id ? <ul>
               <li>下单即送礼品</li>
@@ -105,7 +106,7 @@ export default class Poster extends Component<any> {
         </div>
       </div>
     </div>
-    return <main style={{ display: this.state.show ? '' : 'none' }} onClick={this.closePoster}>
+    return <main className={styles.poster_main} style={{ display: this.state.show ? '' : 'none' }} onClick={this.closePoster}>
       <div className={styles.hidden_page}>{dom}</div>
       <img onClick={this.noAllow.bind(this)} className={styles.my_img} src={this.state.imgurl} alt="" />
       <div className={styles.user_button}>长按保存图片到相册</div>

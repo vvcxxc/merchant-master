@@ -68,7 +68,9 @@ export default class Poster extends Component<any> {
       <img className={styles.title_img} src={require('../../../../../../assets/poster_head2.png')} alt="" />
       <div className={styles.main}>
         <div className={styles.gift_img}>
-          <img src={list.shop_door_header_img} alt="" />
+          {/* <img src={list.shop_door_header_img} alt="" />
+           */}
+          <img src={list.big_pic} alt=""/>
           {
             list.gift_id ?
               <ul>
@@ -112,7 +114,7 @@ export default class Poster extends Component<any> {
         </div>
       </div>
     </div>
-    return <main style={{ display: this.state.show ? '' : 'none' }} onClick={this.closePoster}>
+    return <main className={styles.poster_main} style={{ display: this.state.show ? '' : 'none' }} onClick={this.closePoster}>
       <div className={styles.hidden_page}>{dom}</div>
       <img
         onClick={this.noAllow.bind(this)} className={styles.my_img} src={this.state.imgurl} alt="" />
