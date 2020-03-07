@@ -285,16 +285,21 @@ export default connect()(
               我的云音箱
 						</Item>
             {/* {signCode} */}
-            <Item
-              arrow="horizontal"
-              thumb={require('@/assets/my/my_contract_code.png')}
-              multipleLine
-              extra={contractCodeStatus}
-              className={styles.my_items}
-              onClick={this.handleContractCode.bind(this)}
-            >
-              我的签约码
-						</Item>
+            {
+              wx_sign_status != 0 ? (
+                <Item
+                  arrow="horizontal"
+                  thumb={require('@/assets/my/my_contract_code.png')}
+                  multipleLine
+                  extra={contractCodeStatus}
+                  className={styles.my_items}
+                  onClick={this.handleContractCode.bind(this)}
+                >
+                  我的签约码
+						    </Item>
+              ) : ""
+            }
+
           </List>
           <List className={styles.my_info_items}>
             <Item
