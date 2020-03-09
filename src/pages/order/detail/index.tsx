@@ -201,7 +201,7 @@ export default class OrderDetail extends Component<any, State> {
                 }
 
               </Flex>
-              <Flex>
+              {/* <Flex>
                 <div className="label">交易金额</div>
                 <Flex.Item></Flex.Item>
               </Flex>
@@ -212,7 +212,7 @@ export default class OrderDetail extends Component<any, State> {
               <Flex>
                 <div className="label">实际付款</div>
                 <Flex.Item></Flex.Item>
-              </Flex>
+              </Flex> */}
               <Flex>
                 <div className="label">商品来源</div>
                 <Flex.Item>{this.source(data.source)}</Flex.Item>
