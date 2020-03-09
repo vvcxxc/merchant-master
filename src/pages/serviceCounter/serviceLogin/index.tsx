@@ -14,7 +14,7 @@ export default class ServiceCounter extends Component<Props>{
     userPassword: String || Number
   }
   allowLanding = () => {
-    // 确认登陆 获取后台返回token
+    // 确认登录 获取后台返回token
     new_request({
       url: 'v3/service/counter/login',
       method: 'post',
