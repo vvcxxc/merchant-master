@@ -226,11 +226,11 @@ export default class OrderDetail extends Component<any, State> {
                   <div>
                     <Flex>
                       <div className="label">券交易手续费</div>
-                      <Flex.Item>{data.service_charge}</Flex.Item>
+                      <Flex.Item>-{data.service_charge}</Flex.Item>
                     </Flex>
                     <Flex>
                       <div className="label">商家实收金额</div>
-                      <Flex.Item>{data.net_receipts}</Flex.Item>
+                      <Flex.Item>+{data.net_receipts}</Flex.Item>
                     </Flex>
                   </div>
                 ) : ""
