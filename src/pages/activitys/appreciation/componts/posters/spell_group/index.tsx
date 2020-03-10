@@ -72,7 +72,8 @@ export default class Poster extends Component<any> {
             list.gift_id ? <ul>
               <li>下单即送礼品</li>
               <li >
-                <img src={list.shop_door_header_img} alt="" />
+                {/* <img src={list.shop_door_header_img} alt="" /> */}
+                <img src={list.gif_pic} alt="" />
                 <img className={styles.test} src={require('../../../../../../assets/box_shadow.png')} alt="" />
                 <span className={styles.giving}>赠</span>
                 <span className={styles.price} style={{ color: '#fff' }}>￥{list.gift_money}</span>
