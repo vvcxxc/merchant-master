@@ -136,7 +136,7 @@ export default class PosterTwo extends Component<any> {
       <div className={styles.hidden_page}>{dom}</div>
       <img
         onClick={this.noAllow.bind(this)} className={list.gift_id ? styles.img_have_gift : styles.img_no_gift} src={this.state.imgurl} alt="" />
-      <div className={styles.user_button}>长按保存图片到相册</div>
+      <div className={styles.user_button}>1长按保存图片到相册</div>
     </main>
   }
 }
