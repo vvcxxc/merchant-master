@@ -122,7 +122,6 @@ export default connect(({ activity }: any) => activity)(
           show_notice: data.appreciation_info.images.length > 0 ? true : false
         })
 
-        console.log(data,)
         this.setState({
           poster_youhui_type: data.appreciation_info.youhui_type,//0品类券/1:全场通用
           youhui_id: data.appreciation_gif_info.youhui_id,
@@ -285,9 +284,7 @@ export default connect(({ activity }: any) => activity)(
                 <span>{types}</span>
               </div>
               <img src={require('./share.png')} onClick={
-                // this.shareClick
                 () => {
-                  // console.log('触发')
                   this.setState({ spell_group: true })
                 }
               } />
