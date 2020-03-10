@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Posters from '@/pages/activitys/appreciation/componts/posters'
+// import Posters from '@/pages/activitys/appreciation/componts/posters'
 import styles from './index.less'
 import request from '@/services/request';
 import wx from "weixin-js-sdk";
@@ -205,9 +205,9 @@ export default class BottomShare extends Component<Props>{
             className={styles.share_prompt}
           >点击并分享给朋友</div>
         </div>
-        <Posters closePoster={this.closePoster} showPoster={this.state.showPoster} data={this.state.posterData}
+        {/* <Posters closePoster={this.closePoster} showPoster={this.state.showPoster} data={this.state.posterData}
         >{null}
-          </Posters>
+          </Posters> */}
         {/* 海报组件 */}
 
         <div className={styles.share_box} style={{ display: this.state.showBottom  ? '' : 'none' }}>
