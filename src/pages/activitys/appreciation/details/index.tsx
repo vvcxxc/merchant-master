@@ -9,8 +9,6 @@ import Success from '@/pages/verification/success';
 import PosterCategory from '@/pages/activitys/appreciation/componts/posters/value_added/category'
 //通用券海报
 import PosterGeneral from '@/pages/activitys/appreciation/componts/posters/value_added/general'
-
-
 import styles from './index.less';
 // import EchartsSan from '../../../../components/echart_shan/index'
 // import Poster from '@/pages/activitys/appreciation/componts/posters/spell_group'
@@ -148,9 +146,7 @@ export default connect(({ activity }: any) => activity)(
             use_tim: data.appreciation_coupons_info.use_tim,
             gif_name: data.appreciation_gif_info.gif_name,
             gif_money: data.appreciation_gif_info.gif_integral,
-            big_pic: data.appreciation_info.images[0]
-              // data.activity_image
-              // gif_integral
+            big_pic: data.appreciation_info.poster_image
           }
         })
 
