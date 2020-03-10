@@ -90,8 +90,9 @@ export default class Poster extends Component<any> {
             </li>
             <li className="myhidden"><div className={styles.text}>
               {
-                list.name && list.name.length > 20 ? list.name.slice(0, 24) + '...' : list.name
+                list.activity_name && list.activity_name.length > 20 ? list.activity_name.slice(0, 24) + '...' : list.activity_name
               }
+              {/* activity_name */}
             </div></li>
             <li><div className={styles.text}>适用店铺：
               {list.name && list.name.length > 11 ? list.name.slice(0, 11) + '...' : list.name}

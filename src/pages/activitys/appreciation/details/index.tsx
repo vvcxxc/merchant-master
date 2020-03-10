@@ -146,7 +146,8 @@ export default connect(({ activity }: any) => activity)(
             use_tim: data.appreciation_coupons_info.use_tim,
             gif_name: data.appreciation_gif_info.gif_name,
             gif_money: data.appreciation_gif_info.gif_integral,
-            big_pic: data.appreciation_info.poster_image
+            big_pic: data.appreciation_info.poster_image,
+            gif_integral: data.appreciation_gif_info.gif_integral
           }
         })
 

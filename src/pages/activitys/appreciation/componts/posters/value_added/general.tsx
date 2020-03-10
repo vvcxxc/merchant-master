@@ -79,7 +79,10 @@ export default class Poster extends Component<any> {
                   <img src={list.git_img} alt="" />
                   <img className={styles.test} src={require('../../../../../../assets/box_shadow.png')} alt="" />
                   <span className={styles.giving}>赠</span>
-                  <span className={styles.price} style={{ color: '#fff' }}>￥{list.pay_money}</span>
+                  <span className={styles.price} style={{ color: '#fff' }}>￥
+                  {/* {list.pay_money} */}
+                    {list.gif_integral}
+                  </span>
                 </li>
               </ul> : null
           }
@@ -118,7 +121,7 @@ export default class Poster extends Component<any> {
       <div className={styles.hidden_page}>{dom}</div>
       <img
         onClick={this.noAllow.bind(this)} className={styles.my_img} src={this.state.imgurl} alt="" />
-      <div className={styles.user_button}>长按保存图片到相册</div>
+      <div className={styles.user_button}>2长按保存图片到相册</div>
     </main>
   }
 }
