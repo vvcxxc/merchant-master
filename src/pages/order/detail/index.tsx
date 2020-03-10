@@ -179,6 +179,10 @@ export default class OrderDetail extends Component<any, State> {
             <div className="box">
               <div className="title">订单交易详情</div>
               <Flex>
+                <div className="label">用户买券金额</div>
+                <Flex.Item>￥{data.pay_money}</Flex.Item>
+              </Flex>
+              <Flex>
                 <div className="label">用户信息</div>
                 <Flex.Item>{data.user_name}</Flex.Item>
               </Flex>
