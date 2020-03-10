@@ -90,8 +90,9 @@ export default class Poster extends Component<any> {
 
         <div className={styles.project_info}>
           <ul className={styles.info_left}>
-            <li>活动价 ￥<span>{list.active_money}</span>
-              <span>最高可抵{list.max_money}元</span>
+            <li>活动价 ￥<span>{list.active_money}</span></li>
+            <li className={styles.group_number}>
+              <span >最高可抵{list.max_money}元</span>
             </li>
             <li>
               <div>
@@ -121,7 +122,7 @@ export default class Poster extends Component<any> {
       <div className={styles.hidden_page}>{dom}</div>
       <img
         onClick={this.noAllow.bind(this)} className={styles.my_img} src={this.state.imgurl} alt="" />
-      <div className={styles.user_button}>2长按保存图片到相册</div>
+      <div className={styles.user_button}>长按保存图片到相册</div>
     </main>
   }
 }
