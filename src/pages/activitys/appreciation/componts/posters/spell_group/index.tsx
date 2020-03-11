@@ -84,13 +84,15 @@ export default class Poster extends Component<any> {
 
         <div className={styles.project_info}>
           <ul className={styles.info_left}>
-            <li>拼团价 ￥<span>{list.group_money}</span>
+            <li>拼团价 ￥<span>{list.group_money}</span></li>
+            <li>
               <span>￥{list.pay_money}</span>
-              <span>{list.coupons_number}人团</span>
+              <span className={styles.group_number}>{list.coupons_number}人团</span>
             </li>
-            <li className="myhidden"><div className={styles.text}>
+            <li className="myhidden">
+              <div className={styles.text}>
               {
-                list.name && list.name.length > 20 ? list.name.slice(0, 24) + '...' : list.name
+                list.activity_name && list.activity_name.length > 20 ? list.activity_name.slice(0, 24) + '...' : list.activity_name
               }
             </div></li>
             <li><div className={styles.text}>适用店铺：

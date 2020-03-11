@@ -13,7 +13,9 @@
 
   .poster_box {
     width: 544px;
-    height: 854px;
+    // height: 854px;
+    height: 860px;
+    // height: 895px;
     margin-bottom: 50px;
     background: rgba(255, 255, 255, 1);
 
@@ -109,32 +111,44 @@
   margin: 0 19px;
   padding: 19px 21px 15px 21px;
   border-top: none;
+  border-bottom: none;
+
+  .group_number {
+    margin-bottom: 10px;
+    // height: 32px;
+    font-size: 22px;
+    font-family: PingFang SC;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 1);
+    // overflow: hidden;
+
+    span {
+      font-size: 18px;
+      padding: 1px 5px;
+      font-weight: normal;
+      color: rgba(238, 38, 51, 1);
+      border: 1px solid rgba(238, 38, 51, 1);
+      border-radius: 13px;
+    }
+  }
 
   .info_left {
     flex: 1.8;
     padding-top: 5px;
 
     li:nth-child(1) {
-      margin-bottom: 21px;
       font-size: 15px;
       font-family: PingFang SC;
       font-weight: bold;
       color: rgba(238, 38, 51, 1);
 
-      span:nth-child(1) {
+      span {
         font-size: 36px;
       }
 
-      span:nth-child(2) {
-        padding: 0 5px;
-        margin-left: 20px;
-        font-weight: normal;
-        border: 1px solid rgba(238, 38, 51, 1);
-        border-radius: 13px;
-      }
     }
 
-    li:nth-child(2) {
+    li:nth-child(3) {
       height: 65px;
       font-size: 22px;
       font-family: PingFang SC;
@@ -143,12 +157,18 @@
       overflow: hidden;
     }
 
-    li:nth-child(3),
-    li:nth-child(4) {
+    li:nth-child(4),
+    li:nth-child(5) {
       font-size: 16px;
       font-family: PingFang SC;
       font-weight: bold;
       color: rgba(179, 179, 179, 1);
+
+      .text {
+        text-align: left;
+        width: 300px;
+        overflow: hidden;
+      }
     }
 
   }
@@ -160,6 +180,7 @@
     align-items: center;
 
     img {
+      margin-top: 13px;
       margin-bottom: 12px;
       height: 142px;
       width: 142px;

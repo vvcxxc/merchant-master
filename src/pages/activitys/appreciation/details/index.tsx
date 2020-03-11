@@ -122,7 +122,6 @@ export default connect(({ activity }: any) => activity)(
           show_notice: data.appreciation_info.images.length > 0 ? true : false
         })
 
-        console.log(data,)
         this.setState({
           poster_youhui_type: data.appreciation_info.youhui_type,//0品类券/1:全场通用
           youhui_id: data.appreciation_gif_info.youhui_id,
@@ -146,7 +145,8 @@ export default connect(({ activity }: any) => activity)(
             use_tim: data.appreciation_coupons_info.use_tim,
             gif_name: data.appreciation_gif_info.gif_name,
             gif_money: data.appreciation_gif_info.gif_integral,
-            big_pic: data.appreciation_info.poster_image
+            big_pic: data.appreciation_info.poster_image,
+            gif_integral: data.appreciation_gif_info.gif_integral
           }
         })
 
@@ -284,9 +284,7 @@ export default connect(({ activity }: any) => activity)(
                 <span>{types}</span>
               </div>
               <img src={require('./share.png')} onClick={
-                // this.shareClick
                 () => {
-                  // console.log('触发')
                   this.setState({ spell_group: true })
                 }
               } />

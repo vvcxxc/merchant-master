@@ -79,7 +79,10 @@ export default class Poster extends Component<any> {
                   <img src={list.git_img} alt="" />
                   <img className={styles.test} src={require('../../../../../../assets/box_shadow.png')} alt="" />
                   <span className={styles.giving}>赠</span>
-                  <span className={styles.price} style={{ color: '#fff' }}>￥{list.pay_money}</span>
+                  <span className={styles.price} style={{ color: '#fff' }}>￥
+                  {/* {list.pay_money} */}
+                    {list.gif_integral}
+                  </span>
                 </li>
               </ul> : null
           }
@@ -87,8 +90,9 @@ export default class Poster extends Component<any> {
 
         <div className={styles.project_info}>
           <ul className={styles.info_left}>
-            <li>活动价 ￥<span>{list.active_money}</span>
-              <span>最高可抵{list.max_money}元</span>
+            <li>活动价 ￥<span>{list.active_money}</span></li>
+            <li className={styles.group_number}>
+              <span >最高可抵{list.max_money}元</span>
             </li>
             <li>
               <div>
