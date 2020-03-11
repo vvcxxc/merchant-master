@@ -84,9 +84,8 @@ export default class Poster extends Component<any> {
 
         <div className={styles.project_info}>
           <ul className={styles.info_left}>
-            <li>拼团价 ￥<span>{list.group_money}</span></li>
-            <li>
-              <span>￥{list.pay_money}</span>
+            <li>拼团价 ￥<span>{list.group_money}</span>
+              <span className={styles.group_oldPrice}>￥{list.pay_money}</span>
               <span className={styles.group_number}>{list.coupons_number}人团</span>
             </li>
             <li className="myhidden">
