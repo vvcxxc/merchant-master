@@ -85,7 +85,9 @@ export default class Poster extends Component<any> {
         <div className={styles.project_info}>
           <ul className={styles.info_left}>
             <li>拼团价 ￥<span>{list.group_money}</span>
-              <span className={styles.group_oldPrice}>￥{list.pay_money}</span>
+              <span>￥{list.pay_money}</span>
+            </li>
+            <li>
               <span className={styles.group_number}>{list.coupons_number}人团</span>
             </li>
             <li className="myhidden">
@@ -109,10 +111,10 @@ export default class Poster extends Component<any> {
       </div>
     </div>
     return <main className={styles.poster_main} style={{ display: this.state.show ? '' : 'none' }} onClick={this.closePoster}>
-      <div>
-        <div className={styles.hidden_page}>{dom}</div>
-        <img onClick={this.noAllow.bind(this)} className={styles.my_img} src={this.state.imgurl} alt="" />
-      </div>
+
+      <div className={styles.hidden_page}>{dom}</div>
+      <img onClick={this.noAllow.bind(this)} className={styles.my_img} src={this.state.imgurl} alt="" />
+
       <div className={styles.user_button}>长按保存图片到相册</div>
     </main>
   }
