@@ -2,27 +2,49 @@
   width: 100%;
   height: 100%;
   background: #fff;
+
+  .refuseReason {
+    height: 80px;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    height: 56px;
+    background: #F36C6B;
+    font-size: 30px;
+    color:rgba(255,255,255,1);
+    line-height: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
   .box {
     margin: 0 40px;
   }
+
   .title {
     height: 236px;
     padding-top: 47px;
     border-bottom: 1px solid #e5e5e5;
     margin-bottom: 45px;
+
     .notice {
       width: 83px;
       height: 83px;
       margin-right: 32px;
+
       img {
         width: 100%;
       }
     }
+
     .res {
       p {
         margin: 0;
         font-size: 24px;
       }
+
       .res_title {
         font-size: 34px;
         font-weight: bold;
@@ -32,14 +54,17 @@
     }
   }
 }
+
 .steps :global {
   .am-steps-item-error .am-steps-item-title {
     color: #333;
   }
+
   .am-steps-item-error .am-steps-item-description {
     color: #333;
   }
 }
+
 .out {
   text-align: right;
   color: #21418A;

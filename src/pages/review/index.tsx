@@ -24,7 +24,8 @@ export default class Review extends Component {
     store_reason: '',
     status: '',
     reason: '',
-    is_show: false
+    is_show: false,
+    refuse_reason: ''
   }
   componentDidMount() {
     request({
@@ -41,7 +42,7 @@ export default class Review extends Component {
         let status = '';
 
 
-        let { store_open_status } = data.apply_store_status;
+        let { store_open_status, refuse_reason } = data.apply_store_status;
         let { payment_open_status } = data.payment_status;
 
         // 审核状态的判断
@@ -108,7 +109,8 @@ export default class Review extends Component {
           store_reason,
           qua_reason,
           status,
-          reason
+          reason,
+          refuse_reason
         });
 
 
@@ -144,6 +146,9 @@ export default class Review extends Component {
 
     return (
       <div className={styles.reviewPage}>
+        {
+          this.state.refuse_reason ? <div className={styles.refuseReason}>{this.state.refuse_reason}</div> : null
+        }
         <WingBlank className={styles.box}>
           <Flex className={styles.title}>
             <div className={styles.notice}>
