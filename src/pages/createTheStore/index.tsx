@@ -222,7 +222,7 @@ export default class CreateStore extends Component {
     }
     handlechange = (type: any, e: any) => {
         let data = this.state.data;
-        data[type] = e.target.value;
+        data[type] = e.target.value.trim();
         this.setStroage(data);
         this.setState({ data })
     }
