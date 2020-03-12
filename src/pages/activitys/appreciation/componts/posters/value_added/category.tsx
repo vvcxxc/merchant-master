@@ -96,9 +96,10 @@ export default class PosterTwo extends Component<any> {
                 <div>
                   <div>{list.gif_name}</div>
                 </div>
-                <div className={styles.price}>￥<span>{list.gif_money
-                  // pay_money
-                }</span></div>
+                <div className={styles.price}>￥<span>
+                  {/* {list.gif_money} */}
+                  {list.gif_integral}
+                </span></div>
               </li>
             </ul> : null
           }
@@ -108,7 +109,7 @@ export default class PosterTwo extends Component<any> {
               <li className="myhidden" id="myhidden_box">
                 <div className={styles.text} id="myhidden">
                   {
-                    list.name && list.name.length > 20 ? list.name.slice(0, 24) + '...' : list.name
+                    list.activity_name && list.activity_name.length > 20 ? list.activity_name.slice(0, 24) + '...' : list.activity_name
                   }
                 </div>
               </li>

@@ -155,11 +155,11 @@ export default connect(({ createStore }: any) => createStore)(
     };
     /**设置门店电话 */
     handlePhone = (e: any) => {
-      Cookies.set("handlePhone", JSON.stringify(e.target.value), { expires: 1 });
+      Cookies.set("handlePhone", JSON.stringify(e.target.value.trim()), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
-          phone: e.target.value
+          phone: e.target.value.trim()
         }
       })
     };
