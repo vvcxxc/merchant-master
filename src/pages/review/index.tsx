@@ -146,9 +146,6 @@ export default class Review extends Component {
 
     return (
       <div className={styles.reviewPage}>
-        {
-          this.state.refuse_reason ? <div className={styles.refuseReason}>{this.state.refuse_reason}</div> : null
-        }
         <WingBlank className={styles.box}>
           <Flex className={styles.title}>
             <div className={styles.notice}>
