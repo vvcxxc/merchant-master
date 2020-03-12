@@ -5,8 +5,12 @@ import request from '@/services/request';
 import router from 'umi/router';
 import wx from "weixin-js-sdk";
 import Success from '@/pages/verification/success';
-import BottomShare from '@/pages/activitys/appreciation/componts/bottom_share'
-import Posters from '@/pages/activitys/appreciation/componts/posters'
+// import BottomShare from '@/pages/activitys/appreciation/componts/bottom_share'废弃
+// import Posters from '@/pages/activitys/appreciation/componts/posters'废弃
+//品类券海报
+import PosterCategory from '@/pages/activitys/appreciation/componts/posters/value_added/category'
+//通用券海报
+import PosterGeneral from '@/pages/activitys/appreciation/componts/posters/value_added/general'
 import EchartsSan from '../../../../components/echart_shan/index'
 import { connect } from 'dva';
 
@@ -23,8 +27,8 @@ export default connect(({ activity }: any) => activity)(
   class GroupDetails extends Component<any> {
 
     state = {
-      show_notice:false,
-      youhui_id:'',
+      show_notice: false,
+      youhui_id: '',
       echart_Data: [],
       posterData: {},
       info: {
@@ -67,6 +71,10 @@ export default connect(({ activity }: any) => activity)(
       type: '',
       types: '',
       showShare: false,//是否显示分享的组件
+
+      //海报
+      spell_group: false,
+      poster_youhui_type: 0
     }
 
     componentWillMount() {
@@ -98,8 +106,8 @@ export default connect(({ activity }: any) => activity)(
         }
       }).then(res => {
         let { data } = res;
-        console.log(data.appreciation_info.images,'data');
-        
+        console.log(data.appreciation_info.images, 'data');
+
         this.setState({
           echart_Data: [
             data.appreciation_count.participate_number,
@@ -110,45 +118,69 @@ export default connect(({ activity }: any) => activity)(
 
         this.setState({
           youhui_id: data.appreciation_gif_info.youhui_id,
-          show_notice: data.appreciation_info.images.length>0?true:false
+          show_notice: data.appreciation_info.images.length > 0 ? true : false
         })
 
         this.setState({
+          poster_youhui_type: data.appreciation_info.youhui_type,//0品类券/1:全场通用
+          youhui_id: data.appreciation_gif_info.youhui_id,
+          show_notice: data.appreciation_info.images.length > 0 ? true : false,
           posterData: {
-            ...data.supplier,
-            git_money: data.appreciation_gif_info.gif_integral,//礼品金额
-            gif_pic: data.appreciation_gif_info.gif_pic,//礼品图片
-            gift_id: data.appreciation_gif_info.gift_id,// 礼品id 如果为0 海报就不显示礼品图片以及信息
-            // pay_money: data.appreciation_info.max_money,  // 后端改变上下参数
-            // max_money: data.appreciation_info.pay_money,
-            // pay_money: data.appreciation_info.pay_money,  // 后端改变上下参数
-            // max_money: data.appreciation_info.poster_max_money,
-            pay_money: data.appreciation_info.pay_money,
+            ...data.supplier,                     //地址 店名 店铺照 电话
+            // 礼品id为0? 不显示礼品以及信息
+            gift_id: data.appreciation_gif_info.gift_id,
+            //活动价格
+            active_money: data.appreciation_info.poster_pay_money,
+            //增值最大金额
             max_money: data.appreciation_info.poster_max_money,
-            poster_max_money: data.appreciation_info.poster_max_money,
-            ...data.supplier,
+            //购买券的价格
+            pay_money: data.appreciation_info.pay_money,
+            //礼品小图
+            git_img: data.appreciation_gif_info.gif_pic,
+            // data.appreciation_info.images[0],
+            link: data.appreciation_info.link,
+            activity_name: data.appreciation_info.activity_name,
+            total_fee: data.appreciation_info.total_fee,//使用门槛
             use_tim: data.appreciation_coupons_info.use_tim,
             gif_name: data.appreciation_gif_info.gif_name,
-            schedule: data.appreciation_count.schedule,
-            link: data.appreciation_info.link,
-            title: '增值',
-            total_fee: data.appreciation_info.total_fee,
+            gif_money: data.appreciation_gif_info.gif_integral,
+            big_pic: data.appreciation_info.poster_image,
+            gif_integral: data.appreciation_gif_info.gif_integral
           }
         })
+
+        // this.setState({
+        //   posterData: {
+        //     ...data.supplier,
+        //     git_money: data.appreciation_gif_info.gif_integral,//礼品金额
+        //     gif_pic: data.appreciation_gif_info.gif_pic,//礼品图片
+        //     gift_id: data.appreciation_gif_info.gift_id,// 礼品id 如果为0 海报就不显示礼品图片以及信息
+        //     pay_money: data.appreciation_info.pay_money,
+        //     max_money: data.appreciation_info.poster_max_money,
+        //     poster_max_money: data.appreciation_info.poster_max_money,
+        //     ...data.supplier,
+        //     use_tim: data.appreciation_coupons_info.use_tim,
+        //     gif_name: data.appreciation_gif_info.gif_name,
+        //     schedule: data.appreciation_count.schedule,
+        //     link: data.appreciation_info.link,
+        //     title: '增值',
+        //     total_fee: data.appreciation_info.total_fee,
+        //   }
+        // })
 
         // this.createHeadImg(data.supplier.shop_door_header_img)
         // if (data.appreciation_gif_info.gift_id != 0) {
         //   this.createGiftImg(data.appreciation_gif_info.gif_pic)
         // }
-        this.createHeadImg(data.supplier.shop_door_header_img + '?x-oss-process=image/format,jpg/resize,m_pad,h_180,w_180/quality,q_90'
-        )
-        if (data.appreciation_gif_info.gift_id != 0) {
-          this.createGiftImg(data.appreciation_gif_info.gif_pic + '?x-oss-process=image/format,jpg/resize,m_pad,w_300,h_150/quality,q_90')
-        }
+        // this.createHeadImg(data.supplier.shop_door_header_img + '?x-oss-process=image/format,jpg/resize,m_pad,h_180,w_180/quality,q_90'
+        // )
+        // if (data.appreciation_gif_info.gift_id != 0) {
+        //   this.createGiftImg(data.appreciation_gif_info.gif_pic + '?x-oss-process=image/format,jpg/resize,m_pad,w_300,h_150/quality,q_90')
+        // }
 
-        if (data.appreciation_gif_info.gift_id == 0) {
-          this.setState({ is_gift: false })
-        }
+        // if (data.appreciation_gif_info.gift_id == 0) {
+        //   this.setState({ is_gift: false })
+        // }
         this.setState({ info: data })
       })
     }
@@ -180,54 +212,53 @@ export default connect(({ activity }: any) => activity)(
     }
 
     // 创建图片
-    createHeadImg = (imgData: string) => {
-      let tempImage2 = new Image();// 礼品图片
-      tempImage2.crossOrigin = ""
-      tempImage2.src = this.judgeNetwork(imgData);
-      tempImage2.onload = () => {
-        this.props.dispatch({
-          type: 'activity/setDetails',
-          payload: {
-            headImg: this.getBase64Image2(tempImage2)
-          }
-        });
-      }
-    }
-    createGiftImg = (imgData: string) => {
-      let tempImage2 = new Image();// 礼品图片
-      tempImage2.crossOrigin = ""
-      tempImage2.src = this.judgeNetwork(imgData);
-      tempImage2.onload = () => {
-        this.props.dispatch({
-          type: 'activity/setDetails',
-          payload: {
-            giftImg: this.getBase64Image2(tempImage2)
-          }
-        });
-      }
-    }
+    // createHeadImg = (imgData: string) => {
+    //   let tempImage2 = new Image();// 礼品图片
+    //   tempImage2.crossOrigin = ""
+    //   tempImage2.src = this.judgeNetwork(imgData);
+    //   tempImage2.onload = () => {
+    //     this.props.dispatch({
+    //       type: 'activity/setDetails',
+    //       payload: {
+    //         headImg: this.getBase64Image2(tempImage2)
+    //       }
+    //     });
+    //   }
+    // }
+    // createGiftImg = (imgData: string) => {
+    //   let tempImage2 = new Image();// 礼品图片
+    //   tempImage2.crossOrigin = ""
+    //   tempImage2.src = this.judgeNetwork(imgData);
+    //   tempImage2.onload = () => {
+    //     this.props.dispatch({
+    //       type: 'activity/setDetails',
+    //       payload: {
+    //         giftImg: this.getBase64Image2(tempImage2)
+    //       }
+    //     });
+    //   }
+    // }
 
     // 转换图片
-    getBase64Image2 = (img: any) => {
-      var canvas: any = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      var ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0, img.width, img.height);
-      var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
-      var dataURL = canvas.toDataURL("image/" + ext, 0.1);
-      return dataURL;
-    }
+    // getBase64Image2 = (img: any) => {
+    //   var canvas: any = document.createElement("canvas");
+    //   canvas.width = img.width;
+    //   canvas.height = img.height;
+    //   var ctx = canvas.getContext("2d");
+    //   ctx.drawImage(img, 0, 0, img.width, img.height);
+    //   var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
+    //   var dataURL = canvas.toDataURL("image/" + ext, 0.1);
+    //   return dataURL;
+    // }
 
     // 用来给域里面添加 ‘ \ ’
-    judgeNetwork = (Network: string) => {
-      // console.log(Network,'999')
-      if (Network.split('com', 2)[1].slice(0, 1) == '/') {
-        return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
-      } else {
-        return Network
-      }
-    }
+    // judgeNetwork = (Network: string) => {
+    //   if (Network.split('com', 2)[1].slice(0, 1) == '/') {
+    //     return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
+    //   } else {
+    //     return Network
+    //   }
+    // }
 
 
     lookDetail = () => {
@@ -288,20 +319,20 @@ export default connect(({ activity }: any) => activity)(
             colors={['#5476C4', '#7156C6', '#45BDBD']}
           />) : null
 
-      const bottom_share = (
-        <BottomShare
-          closeShare={this.closeShare}
-          showShare={this.state.showShare}
-          type={{
-            activity_id: infoData.activity_id,
-            id: infoData.youhui_id,
-            name: '增值',
-            gift_id: infoData.gift_id,
-            ...share
-          }}
-          posterData={this.state.posterData}
-        >{null}
-        </BottomShare>)
+      // const bottom_share = (
+      //   <BottomShare
+      //     closeShare={this.closeShare}
+      //     showShare={this.state.showShare}
+      //     type={{
+      //       activity_id: infoData.activity_id,
+      //       id: infoData.youhui_id,
+      //       name: '增值',
+      //       gift_id: infoData.gift_id,
+      //       ...share
+      //     }}
+      //     posterData={this.state.posterData}
+      //   >{null}
+      //   </BottomShare>)
       return (
         <div className={styles.detailsPage}>
           <WingBlank>
@@ -311,7 +342,10 @@ export default connect(({ activity }: any) => activity)(
                 {info.appreciation_info.activity_name}
                 <span>{types}</span>
               </div>
-              <img src={require('./share.png')} onClick={this.shareClick} />
+              <img src={require('./share.png')}
+                // onClick={this.shareClick}
+                onClick={() => {this.setState({ spell_group: true })}}
+              />
             </Flex>
             {
               this.state.info.appreciation_info.images.length ? < Flex className={styles.activity_img}>
@@ -391,9 +425,9 @@ export default connect(({ activity }: any) => activity)(
                 <div className={styles.item_long}>
                   {description}
                 </div>
-              </Flex>:null
+              </Flex> : null
             }
-            
+
 
             {/* 礼品信息 */}
             {isGift}
@@ -402,7 +436,17 @@ export default connect(({ activity }: any) => activity)(
             {/* <Button type='primary' style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button> */}
             {button}
           </WingBlank>
-          {bottom_share}
+          {
+            !this.state.poster_youhui_type ? <PosterGeneral
+              show={this.state.spell_group}
+              list={this.state.posterData}
+              close={() => this.setState({ spell_group: false })}
+            /> : <PosterCategory
+                show={this.state.spell_group}
+                list={this.state.posterData}
+                close={() => this.setState({ spell_group: false })} />
+          }
+          {/* {bottom_share} */}
         </div>
       )
     }
