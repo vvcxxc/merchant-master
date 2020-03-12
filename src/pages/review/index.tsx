@@ -24,7 +24,8 @@ export default class Review extends Component {
     store_reason: '',
     status: '',
     reason: '',
-    is_show: false
+    is_show: false,
+    refuse_reason: ''
   }
   componentDidMount() {
     request({
@@ -41,12 +42,12 @@ export default class Review extends Component {
         let status = '';
 
 
-        let { store_open_status } = data.apply_store_status;
+        let { store_open_status, refuse_reason } = data.apply_store_status;
         let { payment_open_status } = data.payment_status;
 
         // 审核状态的判断
         if (store_open_status == 2) {
-          reason = data.apply_store_status.refuse_reason
+          reason = data.payment_status.refuse_reason
           status = '审核失败'
         } else {
           if (payment_open_status == 2) {
@@ -108,7 +109,8 @@ export default class Review extends Component {
           store_reason,
           qua_reason,
           status,
-          reason
+          reason,
+          refuse_reason
         });
 
 
@@ -137,7 +139,7 @@ export default class Review extends Component {
 
 
   render() {
-    const { qua_status, store_status, status, reason, store_reason, qua_reason } = this.state;
+    const { qua_status, store_status, status, reason, store_reason, qua_reason,refuse_reason } = this.state;
     const button = this.state.is_show == true ? (
       <Button type='primary' style={{ marginTop: 152 }} onClick={this.submit}>继续入驻</Button>
     ) : null;
@@ -151,7 +153,7 @@ export default class Review extends Component {
             </div>
             <div className={styles.res}>
               <p className={styles.res_title}>{status}</p>
-              <p>{reason}</p>
+              <p>{refuse_reason}</p>
             </div>
           </Flex>
           <Flex className={styles.steps}>
