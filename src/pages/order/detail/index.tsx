@@ -190,7 +190,7 @@ export default class OrderDetail extends Component<any, State> {
                 <div className="label">商品名称</div>
                 <Flex.Item>{data.name}</Flex.Item>
               </Flex>
-              <Flex>
+              <Flex> 
                 <div className="label">核销状态</div>
                 <Flex.Item>{data.use_status}</Flex.Item>
               </Flex>
