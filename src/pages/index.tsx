@@ -360,7 +360,7 @@ export default connect(({ app }: any) => app)(
                             <div className={styles.today_income}>
                                 <Flex>
                                     <div className={styles.today_income_title}>
-                                        今日收入（元）
+                                        今日二维码收款（元）
                                     </div>
                                     {/* <img src={require('@/assets/index/arrow_icon.png')} className={styles.arrow_icon} alt="" /> */}
                                 </Flex>
