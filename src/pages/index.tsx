@@ -204,6 +204,7 @@ export default connect(({ app }: any) => app)(
                     let res = JSON.parse(resultStr);
                     if (res.verificationType && res.verificationType == "Prize") {
                         //核销奖品
+                        console.log(res)
                         request({
                             url: 'v3/activity/verification',
                             method: 'PUT',
@@ -359,7 +360,7 @@ export default connect(({ app }: any) => app)(
                             <div className={styles.today_income}>
                                 <Flex>
                                     <div className={styles.today_income_title}>
-                                        今日收入（元）
+                                        今日二维码收款（元）
                                     </div>
                                     {/* <img src={require('@/assets/index/arrow_icon.png')} className={styles.arrow_icon} alt="" /> */}
                                 </Flex>
