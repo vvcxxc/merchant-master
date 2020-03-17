@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 export default connect(({ createStore }: any) => createStore)(
   class CreateStore extends Component<any> {
     state = {
-      error:{},//表单校验报错
+      error: {},//表单校验报错
       /**店铺名 */
       name: '',
       /**店铺地址 */
@@ -61,13 +61,13 @@ export default connect(({ createStore }: any) => createStore)(
     componentDidMount() {
       // console.log(Cookies.get('handleAddress'))
       // console.log(Cookies.get('handleDetailAddress'))
-      if((Cookies.get('handleAddress') && Cookies.get('handleDetailAddress') )) {
-        if((Cookies.get('handleAddress') != Cookies.get('handleDetailAddress'))) {
+      if ((Cookies.get('handleAddress') && Cookies.get('handleDetailAddress'))) {
+        if ((Cookies.get('handleAddress') != Cookies.get('handleDetailAddress'))) {
           // console.log('执行不等于')
           this.setState({
             detailAddress: Cookies.get("handleDetailAddress") ? JSON.parse(Cookies.get("handleDetailAddress")) : ""
           })
-        }else {
+        } else {
           // console.log('执行等于')
           this.setState({
             detailAddress: Cookies.get("handleDetailAddress") ? JSON.parse(Cookies.get("handleDetailAddress")) : ""
@@ -75,7 +75,7 @@ export default connect(({ createStore }: any) => createStore)(
         }
 
 
-      }else {
+      } else {
         // console.log('执行2')
         this.setState({
           // detailAddress: Cookies.get("handleDetailAddress") ? JSON.parse(Cookies.get("handleDetailAddress")) :
@@ -142,7 +142,7 @@ export default connect(({ createStore }: any) => createStore)(
 
     /**设置门店名 */
     handleName = (e: any) => {
-      if(this.getBytes(e.target.value) > 30) return
+      if (this.getBytes(e.target.value) > 30) return
       // console.log(this.props)
       Cookies.set("handleName", JSON.stringify(e.target.value), { expires: 1 });
       // console.log(Cookies.get("storeinfo"));
@@ -155,11 +155,11 @@ export default connect(({ createStore }: any) => createStore)(
     };
     /**设置门店电话 */
     handlePhone = (e: any) => {
-      Cookies.set("handlePhone", JSON.stringify(e.target.value), { expires: 1 });
+      Cookies.set("handlePhone", JSON.stringify(e.target.value.trim()), { expires: 1 });
       this.props.dispatch({
         type: 'createStore/setStore',
         payload: {
-          phone: e.target.value
+          phone: e.target.value.trim()
         }
       })
     };
@@ -227,7 +227,7 @@ export default connect(({ createStore }: any) => createStore)(
 
     /**门店图片选择后 */
     Storechange = (files: any) => {
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -263,7 +263,7 @@ export default connect(({ createStore }: any) => createStore)(
     }
     /**个人照1 */
     Mychange = (files: any) => {
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -297,7 +297,7 @@ export default connect(({ createStore }: any) => createStore)(
     }
     /**个人照2 */
     Mychange2 = (files: any) => {
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -375,7 +375,7 @@ export default connect(({ createStore }: any) => createStore)(
       router.push('/createStore/map')
     }
 
-    handleChange = (e:any) => {
+    handleChange = (e: any) => {
       // let address = e.target.value;
       // Cookies.set("handleAddress", JSON.stringify(address), { expires: 1 });
       // this.props.dispatch({
@@ -394,42 +394,41 @@ export default connect(({ createStore }: any) => createStore)(
     }
 
 
-   getBytes =(str:string)=> {
-     let num = 0
-     for (let i = 0; i < str.length; i++) {
-     /*字符串的charCodeAt()方法获取对应的ASCII码值
-     汉字的ASCII大于255,其它的ASCII编码值在0-255之间*/
-       str.charCodeAt(i) > 255 ? num += 2 : num += 1;
+    getBytes = (str: string) => {
+      let num = 0
+      for (let i = 0; i < str.length; i++) {
+        /*字符串的charCodeAt()方法获取对应的ASCII码值
+        汉字的ASCII大于255,其它的ASCII编码值在0-255之间*/
+        str.charCodeAt(i) > 255 ? num += 2 : num += 1;
+      }
+      return num;
     }
-    return num;
-  }
 
     createStore = () => {
-
       let detailAddress = Cookies.get("handleDetailAddress");
       let { name, address, house_num, phone, manage_type, email, _code, store_door_header_img, store_img_one, store_img_two, location, code_id } = this.props;
       let total: any = {}
       total.name = !this.getBytes(name) ? '请输入门店名称' : ''
       total.address = !address ? '请点击获取门店位置信息' : ''
 
-        // if(!detailAddress) {
-        //   Toast.fail('详细地址不能为空')
-        //   return
-        // }
+      // if(!detailAddress) {
+      //   Toast.fail('详细地址不能为空')
+      //   return
+      // }
       total.detailAddress = !detailAddress ? '请输入商家门店地址信息' : ''
 
       total.phone =
         !/^1[3456789]\d{9}$/.test(phone) || !/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(phone) ?
-        '请输入正确11位手机号码或7-8位座机号码' : ''
+          '请输入正确11位手机号码或7-8位座机号码' : ''
       // return
       total.manage_type = !manage_type ? '请选择商家品类信息' : ''
-      total.email =new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$").test(email) ? '' :'请输入正确邮箱信息'
+      total.email = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$").test(email) ? '' : '请输入正确邮箱信息'
       //二维码
-      total.code_id = code_id && code_id.length > 6 ?'请输入正确二维码序号':''
+      total.code_id = code_id && code_id.length > 6 ? '请输入正确二维码序号' : ''
 
       total.store_door_header_img = store_door_header_img.length < 1 ? '请上传商家门店照片' : ''
 
-      total.store_img = store_img_two.length < 1 || store_img_one.length<1 ?'请上传商家环境照片':''
+      total.store_img = store_img_two.length < 1 || store_img_one.length < 1 ? '请上传商家环境照片' : ''
       for (const key in total) {
         if (total[key]) {
           this.setState({ error: total })
@@ -437,36 +436,37 @@ export default connect(({ createStore }: any) => createStore)(
         }
         this.setState({ error: {} })
       }
-        request({
-          url: 'v3/stores',
-          method: 'post',
-          data: {
-            store_name: name,
-            // 详细地址
-            address:JSON.parse(detailAddress),
-            // 定位地址
-            gaode_address:address,
-            house_num,
-            phone,
-            manage_type,
-            store_door_header_img,
-            store_img_one,
-            store_img_two,
-            xpoint: location.longitude,
-            ypoint: location.latitude,
-            email,
-            code_id: _code
-          }
-        }).then(res => {
-          let { code, data } = res;
-          if (code == 200) {
-            Toast.success(data, 2, () => {
-              router.push('/submitQua');
-            })
-          } else {
-            Toast.fail(data)
-          }
-        })
+      request({
+        url: 'v3/stores',
+        method: 'post',
+        data: {
+          store_name: name,
+          // 详细地址
+          address: JSON.parse(detailAddress),
+          // 定位地址
+          gaode_address: address,
+          house_num,
+          phone,
+          manage_type,
+          store_door_header_img,
+          store_img_one,
+          store_img_two,
+          xpoint: location.longitude,
+          ypoint: location.latitude,
+          email,
+          code_id: _code
+        }
+      }).then(res => {
+        let { code, data, message } = res;
+        if (code == 200) {
+          let is_existence = data.is_existence ? data.is_existence : 0;
+          Toast.success(data.msg, 2, () => {
+            router.push({ pathname: '/choiceSubmitQua', query: { is_existence: is_existence } })
+          })
+        } else {
+          Toast.fail(data.msg)
+        }
+      })
       // } else {
       //   console.log(name + "," + address + "," + house_num + "," + phone + "," + manage_type + "," + email + "," + store_door_header_img + "," + store_img_one + "," + store_img_two)
       //   Toast.fail('请将信息填写完整')
@@ -476,7 +476,7 @@ export default connect(({ createStore }: any) => createStore)(
       window.location.href = 'https://xiaokefu.com.cn/s/9196ogf3'
     }
     render() {
-      const { error }= this.state
+      const { error } = this.state
       const { files, my_files, my_files2 } = this.props;
       // const map = this.state.is_map == true ? (
       //   <MapPage onChange={this.mapChange}/>
@@ -597,7 +597,7 @@ export default connect(({ createStore }: any) => createStore)(
             <Flex className={styles.pushStore}>
               {
                 this.props.imgshow1 == true ? (
-                  <div className={styles.doorimg}><img src={"http://oss.tdianyi.com/" + this.props.store_door_header_img+"?x-oss-process=image/resize,m_fill,w_665,h_432"} /><div className={styles.close} onClick={this.closeStoreimgk}>{''}</div></div>
+                  <div className={styles.doorimg}><img src={"http://oss.tdianyi.com/" + this.props.store_door_header_img + "?x-oss-process=image/resize,m_fill,w_665,h_432"} /><div className={styles.close} onClick={this.closeStoreimgk}>{''}</div></div>
                 ) : (
                     <ImagePicker
                       style={{ width: '100%' }}
@@ -621,7 +621,7 @@ export default connect(({ createStore }: any) => createStore)(
             <Flex className={styles.imgSmall}>
               {
                 this.props.imgshow2 == true ? (
-                  <div className={styles.warpimg1} ><img src={"http://oss.tdianyi.com/" + this.props.store_img_one+'?x-oss-process=image/resize,m_fill,w_242,h_158'} /><div className={styles.close} onClick={this.closePerimg1}>{''}</div></div>
+                  <div className={styles.warpimg1} ><img src={"http://oss.tdianyi.com/" + this.props.store_img_one + '?x-oss-process=image/resize,m_fill,w_242,h_158'} /><div className={styles.close} onClick={this.closePerimg1}>{''}</div></div>
                 ) : (
                     <ImagePicker
                       files={my_files}
@@ -634,7 +634,7 @@ export default connect(({ createStore }: any) => createStore)(
               }
               {
                 this.props.imgshow3 == true ? (
-                  <div className={styles.warpimg1} onClick={() => { }}><img src={"http://oss.tdianyi.com/" + this.props.store_img_two+'?x-oss-process=image/resize,m_fill,w_242,h_158'} /><div className={styles.close} onClick={this.closePerimg2}>{''}</div></div>
+                  <div className={styles.warpimg1} onClick={() => { }}><img src={"http://oss.tdianyi.com/" + this.props.store_img_two + '?x-oss-process=image/resize,m_fill,w_242,h_158'} /><div className={styles.close} onClick={this.closePerimg2}>{''}</div></div>
                 ) : (
                     <ImagePicker
                       files={my_files2}
@@ -658,7 +658,7 @@ export default connect(({ createStore }: any) => createStore)(
           </WingBlank>
           {/* {map} */}
           <div className={styles.service} onClick={this.service}>
-            <img src={require('@/assets/service.png')}/>
+            <img src={require('@/assets/service.png')} />
           </div>
         </div>
       )

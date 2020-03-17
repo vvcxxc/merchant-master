@@ -25,7 +25,7 @@ export default class IdCardExample extends Component {
           </Flex>
           <Flex className={styles.footer} style={{marginTop: 36}}>请保证身份证各项信息清晰可见，无遮挡</Flex>
           <Button type="primary" style={{ marginTop: 60, marginBottom: 40 }} className={styles.button} onClick={this.goBack}>
-            已了解，去上传
+            我已了解，去上传
           </Button>
         </WingBlank>
       </div>

@@ -34,13 +34,13 @@ class LimitActivity extends Component {
         }).then(res => {
             Toast.hide();
             if (type == 2) {//已结束
-                let data0 = this.state.data0.concat(res.data);
+                let data0 = res.data;
                 this.setState({ data0: data0, data: data0 });
             } else if (type == 1) {//1招募中
-                let data1 = this.state.data1.concat(res.data);
+                let data1 = res.data;
                 this.setState({ data1: data1, data: data1 });
             } else if (type == 3) {
-                let data2 = this.state.data2.concat(res.data);
+                let data2 = res.data;
                 this.setState({ data2: data2, data: data2 })
             }
         }).catch(err => {

@@ -22,9 +22,12 @@
 
   //有礼品的海报
   .img_have_gift {
-    margin-bottom: 10px;
     width: 544px;
     height: 1027px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .poster_box {
@@ -33,13 +36,17 @@
     height: 1027px;
     margin-bottom: 50px;
     background: rgba(255, 255, 255, 1);
+    overflow: hidden;
   }
 
   //无礼品的海报
   .img_no_gift {
-    margin-bottom: 10px;
     width: 544px;
     height: 870px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .poster_no_gift {
@@ -122,6 +129,7 @@
           background-repeat: no-repeat;
           display: flex;
           align-items: center;
+          justify-content: center;
 
           div:nth-child(1) {
             padding-left: 5px;
@@ -175,6 +183,7 @@
 .info {
   margin: 0 26px;
   border: 1px solid rgba(226, 226, 226, 1);
+  box-sizing: border-box;
 }
 
 .gift_box {
@@ -188,6 +197,7 @@
   background: rgba(255, 255, 255, 1);
   border-radius: 20px;
   border: 2px solid #F5F2F5;
+  margin-bottom: 0;
 
   .left {
     width: 121px;
@@ -327,8 +337,28 @@
   text-align: center;
   font-size: 36px;
   font-family: PingFang SC;
-  font-weight: 500;
+  // margin-top: 50px;
+  line-height: 1;
   color: rgba(255, 255, 255, 1);
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 564px;
+}
+
+.user_button_nogift {
+  text-align: center;
+  font-size: 36px;
+  font-family: PingFang SC;
+  // margin-top: 50px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 1);
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 485px;
 }
 
 ul {
@@ -361,8 +391,24 @@ ul {
   justify-content: center;
   align-items: center;
   z-index: -100;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 544px;
+  height: 1027px;
+  // opacity: 0;
+}
+
+.hidden_page_nogift {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: -100;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 544px;
+  height: 870px;
+  // opacity: 0;
 }

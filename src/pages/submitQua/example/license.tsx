@@ -19,7 +19,7 @@ export default class LicenseExample extends Component {
            <Flex className={styles.footer}>2、需文字清晰、完整，露出国徽及印章 </Flex>
            <Flex className={styles.footer}>3、不可使用其他证件替代，包括食品安全证明等 </Flex>
            <Button type="primary" style={{ marginTop: 60 }} className={styles.button} onClick={this.goBack}>
-            已了解，去上传
+            我已了解，去上传
           </Button>
         </WingBlank>
       </div>

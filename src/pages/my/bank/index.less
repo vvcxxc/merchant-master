@@ -1,36 +1,97 @@
 .bank_card {
   margin-top: 30px;
-  width: 100%;
-  height: 288px;
-  background: #21418A;
-  color: #fff;
-  border-radius:10px;
   padding: 40px;
+  height: 421px;
+  width: 687px;
+  color: #fff;
+  border-radius: 10px;
   box-sizing: border-box;
+  background-image: url('../../../assets/bank_card.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+
   .bank_name {
-    font-size: 36px;
+    position: relative;
+    margin-bottom: 133px;
+    align-items: flex-start;
+    font-size: 34px;
+
+    img {
+      margin-right: 20px;
+      height: 48px;
+      height: 48px;
+    }
+
+    .etui {
+
+      span {
+        display: block;
+      }
+
+      span:nth-child(1) {
+        margin-bottom: 15px;
+        font-size: 34px;
+        line-height: 34px;
+      }
+
+      span:nth-child(2) {
+        font-size: 24px;
+      }
+    }
+
+    div:nth-child(3) {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 143px;
+      height: 64px;
+      line-height: 60px;
+      font-size: 30px;
+      font-family: Adobe Heiti Std;
+      font-weight: normal;
+      text-align: center;
+      border-radius: 32px;
+      color: rgba(71, 129, 254, 1);
+      background: rgba(255, 255, 255, 1)
+    }
   }
-  .bank_type {
-    font-size: 28px;
-    margin-top: 25px;
-    margin-bottom: 55px;
+
+  .bank_num_title {
+    margin-bottom: 21px;
+    font-size: 18px;
+    font-family: PingFang;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 1);
   }
+
   .bank_num {
     font-size: 40px;
+
+    span {
+      margin-right: 40px;
+    }
   }
+
 }
+
 .button {
+  margin-top: 88px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 88px;
-  margin-top: 88px;
-  border:2px solid rgba(33,65,138,1);
-  border-radius:44px;
-  font-size: 32px;
-  color: #21418A;
-  justify-content: space-around;
+  font-size: 34px;
+  font-family: Adobe Heiti Std;
+  font-weight: normal;
+  color: rgba(71, 129, 254, 1);
+  border: 1px solid rgba(71, 129, 254, 1);
+  border-radius: 49px;
 }
+
 .no_bank {
   padding-top: 50px;
+
   img {
     width: 260px;
   }
