@@ -110,6 +110,7 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
       //拼团海报所需信息
       this.setState({
         spellGroupInfo: {
+          activity_name: data.activity_name,
           group_money: data.group_info.group_money,//拼团价
           pay_money: data.group_info.pay_money,              //原价
           group_number: data.group_info.group_number,       //拼团人数

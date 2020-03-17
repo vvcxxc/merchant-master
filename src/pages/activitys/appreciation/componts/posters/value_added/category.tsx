@@ -96,9 +96,10 @@ export default class PosterTwo extends Component<any> {
                 <div>
                   <div>{list.gif_name}</div>
                 </div>
-                <div className={styles.price}>￥<span>{list.gif_money
-                  // pay_money
-                }</span></div>
+                <div className={styles.price}>￥<span>
+                  {/* {list.gif_money} */}
+                  {list.gif_integral}
+                </span></div>
               </li>
             </ul> : null
           }
@@ -108,7 +109,7 @@ export default class PosterTwo extends Component<any> {
               <li className="myhidden" id="myhidden_box">
                 <div className={styles.text} id="myhidden">
                   {
-                    list.name && list.name.length > 20 ? list.name.slice(0, 24) + '...' : list.name
+                    list.activity_name && list.activity_name.length > 20 ? list.activity_name.slice(0, 24) + '...' : list.activity_name
                   }
                 </div>
               </li>
@@ -131,11 +132,10 @@ export default class PosterTwo extends Component<any> {
         </div>
       </div>
     </div>
-    return <main className={styles.poster_main} onClick={this.closePoster.bind(this)} style={{ display: this.state.show ? '' : 'none'  }}>
-      <div className={styles.hidden_page}>{dom}</div>
-      <img
-        onClick={this.noAllow.bind(this)} className={list.gift_id ? styles.img_have_gift : styles.img_no_gift} src={this.state.imgurl} alt="" />
-      <div className={styles.user_button}>长按保存图片到相册</div>
+    return <main className={styles.poster_main} onClick={this.closePoster.bind(this)} style={{ display: this.state.show ? '' : 'none' }}>
+      <div className={list.gift_id ? styles.hidden_page : styles.hidden_page_nogift}>{dom}</div>
+      <img onClick={this.noAllow.bind(this)} className={list.gift_id ? styles.img_have_gift : styles.img_no_gift} src={this.state.imgurl} alt="" />
+      <div className={list.gift_id ? styles.user_button : styles.user_button_nogift}>长按保存图片到相册</div>
     </main>
   }
 }

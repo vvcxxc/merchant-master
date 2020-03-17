@@ -13,9 +13,12 @@
 
   .poster_box {
     width: 544px;
-    height: 854px;
+    // height: 854px;
+    height: 860px;
+    // height: 895px;
     margin-bottom: 50px;
     background: rgba(255, 255, 255, 1);
+    overflow: hidden;
 
     .title_img {
       width: 100%;
@@ -40,12 +43,16 @@
           border-radius: 20px 21px;
           padding-bottom: 6px;
 
+
+
           li:nth-child(1) {
             padding: 12px 0px;
             font-size: 28px;
             font-family: PingFang SC;
             font-weight: 800;
             color: rgba(255, 255, 255, 1);
+            margin-bottom: 10px;
+            line-height: 1;
           }
 
           li:nth-child(2) {
@@ -109,33 +116,48 @@
   margin: 0 19px;
   padding: 19px 21px 15px 21px;
   border-top: none;
+  border-bottom: none;
+
+  .group_number {
+    margin-bottom: 10px;
+    // height: 32px;
+    font-size: 22px;
+    font-family: PingFang SC;
+    color: rgba(0, 0, 0, 1);
+    font-weight: lighter;
+    // overflow: hidden;
+
+    span {
+      font-size: 18px;
+      padding: 2px 10px;
+      box-sizing: border-box;
+      font-weight: normal;
+      color: rgba(238, 38, 51, 1);
+      border: 1px solid rgba(238, 38, 51, 1);
+      border-radius: 13px;
+    }
+  }
 
   .info_left {
     flex: 1.8;
     padding-top: 5px;
 
     li:nth-child(1) {
-      margin-bottom: 21px;
       font-size: 15px;
       font-family: PingFang SC;
-      font-weight: bold;
       color: rgba(238, 38, 51, 1);
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      line-height: 1;
 
-      span:nth-child(1) {
+      span {
         font-size: 36px;
       }
 
-      span:nth-child(2) {
-        padding: 0 5px;
-        margin-left: 20px;
-        font-weight: normal;
-        border: 1px solid rgba(238, 38, 51, 1);
-        border-radius: 13px;
-      }
     }
 
-    li:nth-child(2) {
-      height: 65px;
+    li:nth-child(3) {
+      height: 55px;
       font-size: 22px;
       font-family: PingFang SC;
       font-weight: bold;
@@ -143,12 +165,18 @@
       overflow: hidden;
     }
 
-    li:nth-child(3),
-    li:nth-child(4) {
+    li:nth-child(4),
+    li:nth-child(5) {
       font-size: 16px;
       font-family: PingFang SC;
       font-weight: bold;
       color: rgba(179, 179, 179, 1);
+
+      .text {
+        text-align: left;
+        width: 300px;
+        overflow: hidden;
+      }
     }
 
   }
@@ -160,6 +188,7 @@
     align-items: center;
 
     img {
+      margin-top: 13px;
       margin-bottom: 12px;
       height: 142px;
       width: 142px;
@@ -176,11 +205,13 @@
 }
 
 .user_button {
+  width: 100%;
   text-align: center;
   font-size: 36px;
   font-family: PingFang SC;
-  font-weight: 500;
   color: rgba(255, 255, 255, 1);
+  margin-top: 50px;
+  line-height: 1;
 }
 
 ul {
@@ -196,7 +227,6 @@ ul {
 .my_img {
   width: 544px;
   height: 854px;
-  margin-bottom: 10px;
 }
 
 //隐藏生成海报前的静态页

@@ -28,7 +28,7 @@ export default class Poster extends Component<any> {
   }
 
   showMyPoster = () => {
-    console.log(this.props.list,'list')
+    console.log(this.props.list, 'list')
     let dom = document.getElementById('metas')
     QRCode.toDataURL(this.props.list.link)                                      // 网络链接转化为二维码
       .then((url: any) => {
@@ -58,7 +58,7 @@ export default class Poster extends Component<any> {
   noAllow = (e: any) => {
     e.stopPropagation();
   }
-  
+
   render() {
     const { list } = this.props
     const { gift } = this.state
@@ -72,7 +72,8 @@ export default class Poster extends Component<any> {
             list.gift_id ? <ul>
               <li>下单即送礼品</li>
               <li >
-                <img src={list.shop_door_header_img} alt="" />
+                {/* <img src={list.shop_door_header_img} alt="" /> */}
+                <img src={list.gif_pic} alt="" />
                 <img className={styles.test} src={require('../../../../../../assets/box_shadow.png')} alt="" />
                 <span className={styles.giving}>赠</span>
                 <span className={styles.price} style={{ color: '#fff' }}>￥{list.gift_money}</span>
@@ -85,19 +86,22 @@ export default class Poster extends Component<any> {
           <ul className={styles.info_left}>
             <li>拼团价 ￥<span>{list.group_money}</span>
               <span>￥{list.pay_money}</span>
-              <span>{list.coupons_number}人团</span>
             </li>
-            <li className="myhidden"><div className={styles.text}>
-              {
-                list.name && list.name.length > 20 ? list.name.slice(0, 24) + '...' : list.name
-              }
-            </div></li>
+            <li>
+              <span className={styles.group_number}>{list.coupons_number}人团</span>
+            </li>
+            <li className="myhidden">
+              <div className={styles.text}>
+                {
+                  list.activity_name && list.activity_name.length > 20 ? list.activity_name.slice(0, 24) + '...' : list.activity_name
+                }
+              </div></li>
             <li><div className={styles.text}>适用店铺：
               {list.name && list.name.length > 11 ? list.name.slice(0, 11) + '...' : list.name}
             </div></li>
             <li>
               <div className={styles.text}> 店铺地址：{list.address && list.address.length > 11 ? list.address.slice(0, 11) + '...' : list.address}
-            </div></li>
+              </div></li>
           </ul>
           <div className={styles.info_right}>
             <img src={gift} alt="" />
@@ -107,8 +111,10 @@ export default class Poster extends Component<any> {
       </div>
     </div>
     return <main className={styles.poster_main} style={{ display: this.state.show ? '' : 'none' }} onClick={this.closePoster}>
+
       <div className={styles.hidden_page}>{dom}</div>
       <img onClick={this.noAllow.bind(this)} className={styles.my_img} src={this.state.imgurl} alt="" />
+
       <div className={styles.user_button}>长按保存图片到相册</div>
     </main>
   }

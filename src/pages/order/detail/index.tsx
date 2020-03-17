@@ -179,6 +179,10 @@ export default class OrderDetail extends Component<any, State> {
             <div className="box">
               <div className="title">订单交易详情</div>
               <Flex>
+                <div className="label">用户买券金额</div>
+                <Flex.Item>￥{data.pay_money}</Flex.Item>
+              </Flex>
+              <Flex>
                 <div className="label">用户信息</div>
                 <Flex.Item>{data.user_name}</Flex.Item>
               </Flex>
@@ -201,7 +205,7 @@ export default class OrderDetail extends Component<any, State> {
                 }
 
               </Flex>
-              <Flex>
+              {/* <Flex>
                 <div className="label">交易金额</div>
                 <Flex.Item></Flex.Item>
               </Flex>
@@ -212,7 +216,7 @@ export default class OrderDetail extends Component<any, State> {
               <Flex>
                 <div className="label">实际付款</div>
                 <Flex.Item></Flex.Item>
-              </Flex>
+              </Flex> */}
               <Flex>
                 <div className="label">商品来源</div>
                 <Flex.Item>{this.source(data.source)}</Flex.Item>
@@ -222,11 +226,11 @@ export default class OrderDetail extends Component<any, State> {
                   <div>
                     <Flex>
                       <div className="label">券交易手续费</div>
-                      <Flex.Item>{data.service_charge}</Flex.Item>
+                      <Flex.Item>-{data.service_charge}</Flex.Item>
                     </Flex>
                     <Flex>
                       <div className="label">商家实收金额</div>
-                      <Flex.Item>{data.net_receipts}</Flex.Item>
+                      <Flex.Item>+{data.net_receipts}</Flex.Item>
                     </Flex>
                   </div>
                 ) : ""
