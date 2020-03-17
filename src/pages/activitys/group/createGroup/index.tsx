@@ -236,7 +236,7 @@ export default connect(({ activity }: any) => activity)(
 
     /**确认发布 */
     confirm = async () => {
-      let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name } = this.props.Group;
+      let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name, shareText } = this.props.Group;
       let rule = {
         is_name: '',
         is_date: '',
@@ -335,7 +335,8 @@ export default connect(({ activity }: any) => activity)(
             mail_mode,
             gift_id,
             gift_pic,
-            gift_name
+            gift_name,
+            share_info: shareText
           }
         });
         // console.log('abc')
@@ -382,8 +383,18 @@ export default connect(({ activity }: any) => activity)(
       this.setState({ ...time }, this.closeModal)
     };
 
+
+    handleChangeShare = (e: any) => {
+      this.props.dispatch({
+        type: 'activity/setGroup',
+        payload: {
+          shareText: e.target.value
+        }
+      })
+    }
+
     render() {
-      const { start_date, end_date, activity_name, cover_img, describe_img1, describe_img2, old_price, participation_money, group_number, group_sum, validity } = this.props.Group;
+      const { start_date, end_date, activity_name, cover_img, describe_img1, describe_img2, old_price, participation_money, group_number, group_sum, validity, shareText } = this.props.Group;
       const chooseMail = this.props.Group.mail_mode == '1' ? (
         <Flex className={styles.choose}>
           <div style={{ marginRight: 17 }} onClick={this.chooseMailMode.bind(this, '1')}><img src={require('./image/choose.png')} />店家支付</div>
@@ -575,6 +586,12 @@ export default connect(({ activity }: any) => activity)(
                 </Flex>
                 {Gift}
               </div>
+            </div>
+            <div className={styles.gift}>
+              <Flex className={styles.share_title}><div>分享设置</div></Flex>
+              <Flex className={styles.share_border}>
+                <textarea value={shareText} cols="30" rows="10" className={styles.share_inp} placeholder="设置分享内容:请输入" onChange={this.handleChangeShare}></textarea>
+              </Flex>
             </div>
             <Flex className={styles.read}>
               {/* <img src={require('./image/tip.png')}/>创建必读 */}
