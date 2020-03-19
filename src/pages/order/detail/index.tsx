@@ -37,7 +37,7 @@ export default class OrderDetail extends Component<any, State> {
           youhui_log_id: id
         }
       })
-    }else if (youhui_type == 1 && order_id) {
+    } else if (youhui_type == 1 && order_id) {
       // 现金券
       router.push({
         pathname: '/finance/detail',
@@ -104,8 +104,8 @@ export default class OrderDetail extends Component<any, State> {
     const data = this.state.data;
     return (
       <div className={styles.page} style={{ height: "auto", minHeight: "100%", paddingBottom: "20px" }}>
-        <WingBlank style={{padding: '0 .1rem'}}>
-          <div className="price">+{data.pay_money}</div>
+        <WingBlank style={{ padding: '0 .1rem' }}>
+          {/* <div className="price">+{data.pay_money}</div>
           <div className="trade">交易成功</div>
           <div className="content">
             <div className="box">
@@ -170,21 +170,72 @@ export default class OrderDetail extends Component<any, State> {
                     }
 
                   </Flex>
-                  {/* <Flex>
-								<div className="label">交易金额</div>
-								<Flex.Item></Flex.Item>
-							</Flex>
-              <Flex>
-								<div className="label">优惠金额</div>
-								<Flex.Item></Flex.Item>
-							</Flex>
-              <Flex>
-								<div className="label">实际付款</div>
-								<Flex.Item></Flex.Item>
-							</Flex> */}
                 </div>
               ) : null
             }
+          </div> */}
+          {console.log('data', data)}
+          <div className="content">
+            <div className="box">
+              <div className="title">订单交易详情</div>
+              <Flex>
+                <div className="label">用户买券金额</div>
+                <Flex.Item>￥{data.pay_money}</Flex.Item>
+              </Flex>
+              <Flex>
+                <div className="label">用户信息</div>
+                <Flex.Item>{data.user_name}</Flex.Item>
+              </Flex>
+              <Flex>
+                <div className="label">商品名称</div>
+                <Flex.Item>{data.name}</Flex.Item>
+              </Flex>
+              <Flex> 
+                <div className="label">核销状态</div>
+                <Flex.Item>{data.use_status}</Flex.Item>
+              </Flex>
+              <Flex>
+                <div className="label">核销时间</div>
+                <Flex.Item>{data.refund_time}</Flex.Item>
+              </Flex>
+              <Flex justify='between'>
+                <div className="label" style={{ width: 300 }}>交易单号</div>
+                {
+                  data.order_sn ? <Flex style={{ color: '#486DDA' }} justify='end' onClick={this.orderSnGo}>{data.order_sn}<Icon type='right' /></Flex> : null
+                }
+
+              </Flex>
+              {/* <Flex>
+                <div className="label">交易金额</div>
+                <Flex.Item></Flex.Item>
+              </Flex>
+              <Flex>
+                <div className="label">优惠金额</div>
+                <Flex.Item></Flex.Item>
+              </Flex>
+              <Flex>
+                <div className="label">实际付款</div>
+                <Flex.Item></Flex.Item>
+              </Flex> */}
+              <Flex>
+                <div className="label">商品来源</div>
+                <Flex.Item>{this.source(data.source)}</Flex.Item>
+              </Flex>
+              {
+                data.is_display_service_net == 1 ? (
+                  <div>
+                    <Flex>
+                      <div className="label">券交易手续费</div>
+                      <Flex.Item>-{data.service_charge}</Flex.Item>
+                    </Flex>
+                    <Flex>
+                      <div className="label">商家实收金额</div>
+                      <Flex.Item>+{data.net_receipts}</Flex.Item>
+                    </Flex>
+                  </div>
+                ) : ""
+              }
+            </div>
           </div>
         </WingBlank>
       </div>

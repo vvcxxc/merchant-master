@@ -36,8 +36,8 @@ export default class Poster extends Component<any> {
       .then((url: any) => {
         this.setState({ gift: url }, () => {
           html2canvas(dom, {                                //canvas截图生成图片
-            height: dom?.offsetHeight,
-            width: dom?.offsetWidth,
+            height: dom.offsetHeight,
+            width: dom.offsetWidth,
             allowTaint: false,
             useCORS: true,
           }).then((res: any) => {
