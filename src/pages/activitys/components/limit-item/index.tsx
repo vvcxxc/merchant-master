@@ -18,22 +18,26 @@ interface Params {
 /**满多少减多少 项 额度限制组件 */
 export default class LimitItem extends Component<Props & Params> {
 	handleMinChange = (e: any) => {
-		// if (/^[0-9]+\.+[0-9]\d{0,1}$/.test(e.target.value) || /^[0-9]+\.?$/.test(e.target.value) || e.target.value == "") {
+    if(/^[0-9]{0,5}$/.test(e.target.value) || e.target.value == "" ){
       if(e.target.value == ""){
-        this.props.onChange(this.props.index, { min: undefined, max: this.props.max });
+        this.props.onChange(this.props.index, { min: '', max: this.props.max });
       }else {
         this.props.onChange(this.props.index, { min: Number(e.target.value), max: this.props.max });
       }
-		// }
+    }else{
+      this.props.onChange(this.props.index, { max: this.props.max, min: this.props.min });
+    }
 	};
 	handleMaxChange = (e: any) => {
-    if( e.target.value == ""){
-      this.props.onChange(this.props.index, { max: undefined, min: this.props.min });
+    if(/^[0-9]{0,5}$/.test(e.target.value) || e.target.value == "" ){
+      if(e.target.value == ""){
+        this.props.onChange(this.props.index, { max: '', min: this.props.min });
+      }else{
+        this.props.onChange(this.props.index, { max: Number(e.target.value), min: this.props.min });
+      }
     }else{
-      this.props.onChange(this.props.index, { max: Number(e.target.value), min: this.props.min });
+      this.props.onChange(this.props.index, { max: this.props.max, min: this.props.min });
     }
-		// if (/^[0-9]+\.+[0-9]\d{0,1}$/.test(e.target.value) || /^[0-9]+\.?$/.test(e.target.value) || e.target.value == "") {
-		// }
 
 	};
 	handleIconClick = () => this.props.onClick(this.props.index);
