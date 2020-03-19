@@ -41,7 +41,7 @@ export default class CreateMoneyOff extends Component {
 		if (index !== 0) {
 			rules.splice(index, 1);
 		} else {
-			rules.push({ min: undefined, max: undefined });
+			rules.push({ min: '', max: '' });
 		}
 		this.setState({ rules });
 	};
