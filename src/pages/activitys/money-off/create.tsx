@@ -16,7 +16,7 @@ export default class CreateMoneyOff extends Component {
 	state = {
 		start_date: '',
 		end_date: '',
-		rules: [{ min: undefined, max: undefined }],
+		rules: [{ min: '', max: '' }],
 		showSelectTime: false,
 		indexList: [],
 		timeSelect: false
