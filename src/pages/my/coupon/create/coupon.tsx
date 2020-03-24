@@ -145,6 +145,16 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			})
 		}
 
+
+		handleChangeShare = (e: any) => {
+			this.props.dispatch({
+				type: 'createCoupon/setCoupon',
+				payload: {
+					shareText: e.target.value
+				}
+			})
+		}
+
 		render() {
 			const { error } = this.props
 			const notice = this.state.showNotice && (
@@ -267,6 +277,14 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 							{error.activeImg ? error.activeImg : null}
 						</div>
 					}
+
+					<div className={styles.gift}>
+						<Flex className={styles.share_title}><div>分享设置</div></Flex>
+						<Flex className={styles.share_border}>
+							<textarea value={this.props.shareText} cols="30" rows="10" className={styles.share_inp} placeholder="设置分享内容:请输入" onChange={this.handleChangeShare}></textarea>
+						</Flex>
+					</div>
+
 					{notice}
 				</div>
 			);

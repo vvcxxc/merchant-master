@@ -52,8 +52,10 @@ export default connect(({ activity }: any) => activity)(
       ToastTipsTotalNum: "",
       // 使用须知
       ToastTipsDescription: "",
-      // 活动图片
+      // 品类券活动图片
       ToastTipsImageUrl: "",
+      // 全场通用券
+      currencyToastImg: "",
     };
     componentDidMount() {
       console.log(this.props.Appreciation)
@@ -241,6 +243,7 @@ export default connect(({ activity }: any) => activity)(
         ToastTipsTotalNum: "",
         ToastTipsDescription: "",
         ToastTipsImageUrl: "",
+        currencyToastImg: "",
       }, () => {
         this.props.dispatch({
           type: 'activity/setAppreciation',
@@ -269,7 +272,7 @@ export default connect(({ activity }: any) => activity)(
 
     /**提交 */
     submit = async () => {
-      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description, activity_coupons_type, image, image_url1, image_url2, } = this.props.Appreciation
+      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description, activity_coupons_type, image, image_url1, image_url2, currency_image_url1, currency_image_url2, currency_image_url3 } = this.props.Appreciation
 
       await this.setState({
         ToastTipsActivity: "",
@@ -282,6 +285,7 @@ export default connect(({ activity }: any) => activity)(
         ToastTipsTotalNum: "",
         ToastTipsDescription: "",
         ToastTipsImageUrl: "",
+        currencyToastImg: ""
       })
 
       // 自定义名称
@@ -400,7 +404,18 @@ export default connect(({ activity }: any) => activity)(
       // 活动图片
       let image_url;
       if (this.props.Appreciation.activity_coupons_type == 1) {
-        image_url = undefined;
+        // image_url = undefined;
+        image_url = [];
+        image_url.push(currency_image_url1);
+        image_url.push(currency_image_url2);
+        image_url.push(currency_image_url3);
+        image_url.forEach(item => {
+          if (!item) {
+            this.setState({
+              currencyToastImg: "请上传图片完整后再重新提交"
+            })
+          }
+        })
       } else {
         image_url = [];
         image_url.push(image)
@@ -424,6 +439,12 @@ export default connect(({ activity }: any) => activity)(
         this.state.ToastTipsValidity ||
         this.state.ToastTipsTotalNum
       ) return;
+
+      if (activity_coupons_type == 1) {
+        if (
+          this.state.currencyToastImg
+        ) return;
+      }
 
       if (activity_coupons_type == 2) {
         if (
@@ -459,7 +480,7 @@ export default connect(({ activity }: any) => activity)(
             appreciation_number_sum: appreciation_number_sum * 1,
             activity_name: this.state.value == 0 ? "" : activityName,
             description: this.props.Appreciation.activity_coupons_type != 1 ? description : undefined,
-            image: this.props.Appreciation.activity_coupons_type != 1 ? image : undefined,
+            image: this.props.Appreciation.activity_coupons_type != 1 ? image : currency_image_url1,
             image_url
           }
         });
@@ -611,10 +632,92 @@ export default connect(({ activity }: any) => activity)(
       }
     }
 
+    changeCurrencycoverimg = (files: any) => {
+      Toast.loading('')
+      if (files[0]) {
+        let img = files[0].url;
+        upload(img).then(res => {
+          Toast.hide()
+          let { data } = res;
+          this.props.dispatch({
+            type: 'activity/setAppreciation',
+            payload: {
+              currency_cover_img: files,
+              currency_image_url1: data.path
+            }
+          });
+        });
+      } else {
+        Toast.hide()
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            currency_cover_img: [],
+            currency_image_url1: '',
+          }
+        });
+      }
+    }
+
+
+    changeCurrencyDescribe1 = (files: any) => {
+      Toast.loading('')
+      if (files[0]) {
+        let img = files[0].url;
+        upload(img).then(res => {
+          Toast.hide()
+          let { data } = res;
+          this.props.dispatch({
+            type: 'activity/setAppreciation',
+            payload: {
+              currency_describe_img1: files,
+              currency_image_url2: data.path
+            }
+          });
+        });
+      } else {
+        Toast.hide()
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            currency_describe_img1: [],
+            currency_image_url2: '',
+          }
+        });
+      }
+    }
+
+    changeCurrencyDescribe2 = (files: any) => {
+      Toast.loading('')
+      if (files[0]) {
+        let img = files[0].url;
+        upload(img).then(res => {
+          Toast.hide()
+          let { data } = res;
+          this.props.dispatch({
+            type: 'activity/setAppreciation',
+            payload: {
+              currency_describe_img2: files,
+              currency_image_url3: data.path
+            }
+          });
+        });
+      } else {
+        Toast.hide()
+        this.props.dispatch({
+          type: 'activity/setAppreciation',
+          payload: {
+            currency_describe_img2: [],
+            currency_image_url3: '',
+          }
+        });
+      }
+    }
+
 
     render() {
 
-      const { ToastTipsActivity, ToastTipsActivityTime, ToastTipsAppreciationRange, ToastTipsAppreciationNum, ToastTipsPayMoney, ToastTipsTotalFee, ToastTipsValidity, ToastTipsTotalNum, ToastTipsDescription, ToastTipsImageUrl } = this.state;
+      const { ToastTipsActivity, ToastTipsActivityTime, ToastTipsAppreciationRange, ToastTipsAppreciationNum, ToastTipsPayMoney, ToastTipsTotalFee, ToastTipsValidity, ToastTipsTotalNum, ToastTipsDescription, ToastTipsImageUrl, currencyToastImg } = this.state;
 
       const chooseMail = this.props.Appreciation.mail_mode == '1' ? (
         <Flex className={styles.choose}>
@@ -652,7 +755,24 @@ export default connect(({ activity }: any) => activity)(
 
 
 
-      const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, display, start_date, end_date, cover_img, describe_img1, describe_img2 } = this.props.Appreciation
+      const { activityName,
+        start_price,
+        end_price,
+        appreciation_number_sum,
+        validity,
+        pay_money,
+        total_num,
+        total_fee,
+        display,
+        start_date,
+        end_date,
+        cover_img,
+        describe_img1,
+        describe_img2,
+        currency_cover_img,
+        currency_describe_img1,
+        currency_describe_img2
+      } = this.props.Appreciation
 
       const { value } = this.state;
       // const time = this.state.startTime
@@ -878,7 +998,7 @@ export default connect(({ activity }: any) => activity)(
               </List>
 
               {
-                this.props.Appreciation.activity_coupons_type != 1 ? <div>
+                this.props.Appreciation.activity_coupons_type != 1 ? (<div>
                   <Flex className={styles.img_title}>
                     <div>活动图片</div>
                   </Flex>
@@ -924,13 +1044,69 @@ export default connect(({ activity }: any) => activity)(
                       <div className={styles.describe}></div>
                     </div>
                   </Flex>
-                </div> : null
+                </div>) : (
+                    <div>
+                      <Flex className={styles.img_title}>
+                        <div>活动图片</div>
+                      </Flex>
+                      <div className={styles.img_msg}>温馨提示：请上传横向的图片，建议图片比例为16:9。</div>
+                      <Flex className={styles.img_box}>
+                        <div className={styles.image}>
+                          <div className={styles.cover_img}>
+                            <ImagePicker
+                              className={styles.upload_img}
+                              files={currency_cover_img}
+                              multiple={false}
+                              length={1}
+                              selectable={currency_cover_img.length < 1}
+                              onChange={this.changeCurrencycoverimg}
+                            />
+                          </div>
+                          <div className={styles.describe}>封面</div>
+                        </div>
+                        <div className={styles.image}>
+                          <div>
+                            <ImagePicker
+                              className={styles.upload_img}
+                              files={currency_describe_img1}
+                              multiple={false}
+                              length={1}
+                              selectable={currency_describe_img1.length < 1}
+                              onChange={this.changeCurrencyDescribe1}
+                            />
+                          </div>
+                          <div className={styles.describe}></div>
+                        </div>
+                        <div className={styles.image}>
+                          <div>
+                            <ImagePicker
+                              className={styles.upload_img}
+                              files={currency_describe_img2}
+                              multiple={false}
+                              length={1}
+                              selectable={currency_describe_img2.length < 1}
+                              onChange={this.changeCurrencyDescribe2}
+                            />
+                          </div>
+                          <div className={styles.describe}></div>
+                        </div>
+                      </Flex>
+                    </div>
+                  )
               }
 
               {
                 ToastTipsImageUrl ? (
                   <Flex justify="end" className={styles.toast_tips}>
                     <span>{ToastTipsImageUrl}</span>
+                  </Flex>
+                ) : ""
+              }
+
+              {
+                currencyToastImg ? (
+                  <Flex justify="end" className={styles.toast_tips}>
+                    <span>{currencyToastImg}</span>
                   </Flex>
                 ) : ""
               }

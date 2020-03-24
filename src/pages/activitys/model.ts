@@ -27,7 +27,8 @@ export interface Group {
   storeItems: Array<any>;
   headImg: string;
   giftImg: string;
-  activity_image: string
+  activity_image: string;
+  shareText: string;
 }
 
 export interface Appreciation {
@@ -42,12 +43,21 @@ export interface Appreciation {
   end_price: string;
   appreciation_number_sum: string;
   validity: string;
+
   cover_img: Array<any>;
   describe_img1: Array<any>;
   describe_img2: Array<any>;
   image: string;
   image_url1: string;
   image_url2: string;
+
+  currency_cover_img: Array<any>;
+  currency_describe_img1: Array<any>;
+  currency_describe_img2: Array<any>;  
+  currency_image_url1: string;
+  currency_image_url2: string;
+  currency_image_url3: string;
+
   pay_money: string;
   total_num: string;
   total_fee: string;
@@ -75,7 +85,8 @@ const model: Model = {
       participation_money: '',
       group_number: '',
       group_sum: '',
-      validity: ''
+      validity: '',
+      shareText: '',
     },
     Appreciation: {
       mail_mode: '1',
@@ -84,7 +95,10 @@ const model: Model = {
       cover_img: [],
       describe_img1: [],
       describe_img2: [],
-      description: []
+      description: [],
+      currency_cover_img: [],
+      currency_describe_img1: [],
+      currency_describe_img2: [],
     },
     details: {
       headImg: '1',
@@ -158,6 +172,9 @@ const model: Model = {
           cover_img: [],
           describe_img1: [],
           describe_img2: [],
+          currency_cover_img: [],
+          currency_describe_img1: [],
+          currency_describe_img2: [],
           mail_mode: '1',
           name_mode: 0,
           description: [],

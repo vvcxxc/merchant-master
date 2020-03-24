@@ -33,6 +33,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				buyingPrice: '',//购买价格错误
 				issuedNumber: '',//发放数量错误
 				validity: '',//有效期错误
+				cashActiveImage: ''
 			}
 		};
 
@@ -46,6 +47,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			);
 
 		handleSubmit = async () => {
+			console.log(this.props);
 			const { type } = this.state
 			let total: any = {}
 			//这里触发校验函数
@@ -93,11 +95,11 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				) : (
 						total.activeImg = '请上传图片完整后再重新提交'
 					)
-
+				// console.log(total);
 			}
 
 			if (type == 1) {//现金券判断
-				const { coupons_type, pay_money, return_money, total_fee, total_num, validity } = this.props.moneyForm
+				const { coupons_type, pay_money, return_money, total_fee, total_num, validity, money_image_url1, money_image_url2, money_image_url3 } = this.props.moneyForm
 
 				let returnMoney = return_money && Number(return_money)
 				let payMoney = pay_money && Number(pay_money)
@@ -125,6 +127,10 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				total.issuedNumber = !totalNum && totalNum !== 0 ? '请设置发放数量' : (
 					totalNum <= 0 ? '发放数量必须大于0' : ''
 				)
+
+				total.cashActiveImage = !money_image_url1 || !money_image_url2 || !money_image_url3 ? '请上传图片完整后再重新提交' : ""
+
+				// console.log(total);
 
 			}
 
@@ -197,7 +203,8 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					// temp_url2: this.props.couponForm.temp_url2,
 					is_ad: this.props.location.query.isAd,
 					/**商圈广告下，购买价格为0 */
-					pay_money: this.state.showPrice ? this.props.couponForm.pay_money * 1 : 0
+					pay_money: this.state.showPrice ? this.props.couponForm.pay_money * 1 : 0,
+					share_info: this.props.couponForm.shareText
 				}
 			});
 
@@ -215,7 +222,9 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					total_num: this.props.moneyForm.total_num * 1,
 					is_ad: this.props.location.query.isAd,
 					/**商圈广告下，购买价格为0 */
-					pay_money: this.state.showPrice ? this.props.moneyForm.pay_money * 1 : 0
+					pay_money: this.state.showPrice ? this.props.moneyForm.pay_money * 1 : 0,
+					image: this.props.moneyForm.money_image_url1,
+					image_url: [this.props.moneyForm.money_image_url1, this.props.moneyForm.money_image_url2, this.props.moneyForm.money_image_url3]
 				}
 			});
 
