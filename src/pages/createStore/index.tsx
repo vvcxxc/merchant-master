@@ -16,7 +16,7 @@ export default connect(({ createStore }: any) => createStore)(
       /**店铺地址 */
       address: '',
       /**门牌号 */
-      house_num: '',
+      house_num: '', 
       /**门店电话 */
       phone: '',
       /**经营范围 */
