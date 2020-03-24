@@ -1,8 +1,62 @@
 import React, { Component } from 'react';
+import { Toast } from 'antd-mobile';
 import telImg from '@/assets/telphone.png';
 import styles from './index.less';
+import Request from '@/services/request';
+import qs from 'qs';
+
+let timer = null;
 
 class CountMsg extends Component {
+
+    state = {
+        // 验证码
+        code: "",
+        isOk: true,
+        wait: ""
+    }
+
+    // 销毁定时器
+    componentWillUnmount() {
+        clearInterval(timer)
+    }
+
+    handleGetCode = () => {
+        let wait = 60;
+        let _this = this;
+        function resend() {
+            if (wait == 0) {
+                _this.setState({ isOk: true });
+                clearInterval(timer)
+            } else {
+                wait--;
+                _this.setState({ isOk: false, wait });
+                clearInterval();
+            }
+        }
+        resend();
+        timer = setInterval(() => {
+            resend()
+        }, 1000);
+        Request({
+            url: 'verifyCode',
+            method: 'post',
+            data: qs.stringify({
+                // phone
+            })
+        }).then(res => {
+            if (res.code == 200) {
+                Toast.success('验证码已发送');
+            } else {
+                _this.setState({ is_ok: true });
+                clearInterval(timer);
+                Toast.fail(res.message);
+            }
+        })
+    }
+
+
+
     render() {
         return (
             <div className={styles.count_msg}>
@@ -22,9 +76,15 @@ class CountMsg extends Component {
                 <div className={styles.code}>
                     <div className={styles.code_wrap}>
                         <div className={styles.import_code}>
-                            <input type="text" className={styles.code_inp} placeholder="请输入验证码"/>
+                            <input type="text" className={styles.code_inp} placeholder="请输入验证码" value={this.state.code} />
                         </div>
-                        <div className={styles.send_code}>获取验证码</div>
+                        {
+                            this.state.isOk ? (
+                                <div className={styles.send_code} onClick={this.handleGetCode} >获取验证码</div>
+                            ) : (
+                                    <div className={styles.send_code_disabled}>{this.state.wait}s后重新获取</div>
+                                )
+                        }
                     </div>
                 </div>
 
