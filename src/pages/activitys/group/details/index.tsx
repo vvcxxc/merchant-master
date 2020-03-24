@@ -55,7 +55,6 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
     is_gift: true,
     types: '',
     showShare: false,
-
     spell_group: false,
     spellGroupInfo: {}
   }

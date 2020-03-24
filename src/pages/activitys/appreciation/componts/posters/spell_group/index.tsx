@@ -58,7 +58,6 @@ export default class Poster extends Component<any> {
   noAllow = (e: any) => {
     e.stopPropagation();
   }
-
   render() {
     const { list } = this.props
     const { gift } = this.state
