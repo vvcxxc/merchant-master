@@ -76,7 +76,7 @@ class CountMsg extends Component {
                 <div className={styles.code}>
                     <div className={styles.code_wrap}>
                         <div className={styles.import_code}>
-                            <input type="text" className={styles.code_inp} placeholder="请输入验证码" value={this.state.code} />
+                            <input type="text" className={styles.code_inp} placeholder="请输入验证码" defaultValue={this.state.code} />
                         </div>
                         {
                             this.state.isOk ? (
