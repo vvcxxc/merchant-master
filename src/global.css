@@ -13,7 +13,7 @@ body > .am-flexbox > div,
 #root > .am-flexbox > div {
   -webkit-overflow-scrolling: touch;
 }
-body {
+body { 
   margin: 0;
 }
 a {
