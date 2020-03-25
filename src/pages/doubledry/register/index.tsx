@@ -41,7 +41,7 @@ class Register extends Component {
         DoubleDryUser: "",
         DoubleDryBankCard: "",
         DoubleDryBankName: "",
-        DoubleDryBankID: "",
+        // DoubleDryBankID: "",
         DoubleDrySubBranchBank: "",
 
 
@@ -68,7 +68,9 @@ class Register extends Component {
         id: 0,
         allBank: [],
 
-        payplatform_check_status: 0,
+        // payplatform_check_status: 0,
+
+        isAdd: true, // 判断添加还是编辑 默认添加
     }
 
     async componentDidMount() {
@@ -89,7 +91,8 @@ class Register extends Component {
         })
 
         await request({
-            url: 'v1/common/getBankNames'
+            url: 'v3/bank_name',
+            method: 'POST'
         }).then(res => {
             if (res.code == 200 && res.data.length != 0) {
                 this.setState({
@@ -99,49 +102,52 @@ class Register extends Component {
         })
 
         await request({
-            url: 'sqAccount'
+            url: 'v3/cardidentity_card'
         }).then(res => {
             // console.log(res)
-            if (res.code == 200 && res.data != null) {
+            if (res.code == 200 && res.data.length != 0) {
+                // alert('asa')
                 this.setState({
-                    payplatform_check_status: res.data.payplatform_check_status,
+                    // payplatform_check_status: res.data.payplatform_check_status,
                     DoubleDryUserName: res.data.identity_name,
-                    DoubleDryIDCardNumber: res.data.identity_no,
-                    DoubleDryIDCardValidity: res.data.identity_valid_time == "" ? "长期" : res.data.identity_valid_time,
+                    DoubleDryIDCardNumber: res.data.identity_card,
+                    DoubleDryIDCardValidity: res.data.identity_validity_card === 0 ? "长期" : res.data.identity_validity_card,
 
-                    DoubleDryIsHaveImgFrontID: res.data.identity_face_img ? true : false,
-                    double_dry_img_url_front_id: res.data.identity_face_img,
+                    DoubleDryIsHaveImgFrontID: res.data.identity_card_positive ? true : false,
+                    double_dry_img_url_front_id: res.data.identity_card_positive,
 
-                    DoubleDryIsHaveImgBehindID: res.data.identity_back_img ? true : false,
-                    double_dry_img_url_behind_id: res.data.identity_back_img,
+                    DoubleDryIsHaveImgBehindID: res.data.identity_card_opposite ? true : false,
+                    double_dry_img_url_behind_id: res.data.identity_card_opposite,
 
-                    DoubleDryIsHaveImgFrontBehindID: res.data.identity_in_hand_img ? true : false,
-                    double_dry_img_url_front_behind_id: res.data.identity_in_hand_img,
+                    DoubleDryIsHaveImgFrontBehindID: res.data.identity_hand_card ? true : false,
+                    double_dry_img_url_front_behind_id: res.data.identity_hand_card,
 
-                    DoubleDryUser: res.data.owner_name,
-                    DoubleDryBankCard: res.data.bankcard_no,
-                    DoubleDryBankID: res.data.bank_id,
-                    // DoubleDryBankName: res.data.bank_name,
-                    DoubleDrySubBranchBank: res.data.branch_address,
+                    DoubleDryUser: res.data.bank_account_name,
+                    DoubleDryBankCard: res.data.bank_card_number,
+                    // DoubleDryBankID: res.data.bank_id,
+                    DoubleDryBankName: res.data.bank_name,
+                    DoubleDrySubBranchBank: res.data.bank_branch,
 
-                    DoubleDryisHaveImgFrontBank: res.data.bankcard_face_img ? true : false,
-                    double_dry_img_url_front_bank: res.data.bankcard_face_img,
+                    DoubleDryisHaveImgFrontBank: res.data.bank_positive ? true : false,
+                    double_dry_img_url_front_bank: res.data.bank_positive,
 
-                    DoubleDryisHaveImgBehindBank: res.data.bankcard_back_img ? true : false,
-                    double_dry_img_url_behind_bank: res.data.bankcard_back_img,
+                    DoubleDryisHaveImgBehindBank: res.data.bank_opposite ? true : false,
+                    double_dry_img_url_behind_bank: res.data.bank_opposite,
 
-                    id: res.data.id
+                    // id: res.data.id,
+
+                    isAdd: false
                 }, () => {
-                    this.state.allBank.forEach(item => {
-                        if (item.bank_id == this.state.DoubleDryBankID) {
-                            this.setState({
-                                DoubleDryBankName: item.bank_name
-                            })
-                        } 
-                    })
-                    if (this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1 ) {
-                        router.push('/doubledry/audit');
-                    }
+                    // this.state.allBank.forEach(item => {
+                    //     if (item.bank_id == this.state.DoubleDryBankID) {
+                    //         this.setState({
+                    //             DoubleDryBankName: item.bank_name
+                    //         })
+                    //     } 
+                    // })
+                    // if (this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1 ) {
+                    //     router.push('/doubledry/audit');
+                    // }
                 })
             }
         })
@@ -251,11 +257,11 @@ class Register extends Component {
         /**
         * 银行ID
         */
-        Cookies.get("DoubleDryBankID") || Cookies.get("DoubleDryBankID") == "" ? (
-            this.setState({
-                DoubleDryBankID: Cookies.get("DoubleDryBankID")
-            })
-        ) : "";
+        // Cookies.get("DoubleDryBankID") || Cookies.get("DoubleDryBankID") == "" ? (
+        //     this.setState({
+        //         DoubleDryBankID: Cookies.get("DoubleDryBankID")
+        //     })
+        // ) : "";
 
 
         /**
@@ -488,9 +494,10 @@ class Register extends Component {
     */
     handleSelectBank = (bankName: any) => {
         request({
-            url: 'v1/common/getBankNames',
+            url: 'v3/bank_name',
+            method: 'POST',
             params: {
-                bank_name: bankName,
+                name: bankName,
             }
         }).then(res => {
             if (res.data.length != 0) {
@@ -520,7 +527,7 @@ class Register extends Component {
     handleSelectBankItem = (item: any) => {
         // console.log(item);
         Cookies.set("DoubleDryBankName", item.bank_name, { expires: 1 });
-        Cookies.set("DoubleDryBankID", item.bank_id, { expires: 1 });
+        // Cookies.set("DoubleDryBankID", item.bank_id, { expires: 1 });
         this.setState({
             DoubleDryBankName: item.bank_name,
             bankID: item.bank_id,
@@ -620,55 +627,103 @@ class Register extends Component {
             DoubleDryUser,
             DoubleDryBankCard,
             DoubleDryBankName,
-            DoubleDryBankID,
+            // DoubleDryBankID,
             DoubleDrySubBranchBank,
             double_dry_img_url_front_bank,
-            double_dry_img_url_behind_bank
+            double_dry_img_url_behind_bank,
+            isAdd
         } = this.state;
-        request({
-            url: 'sqAccount',
-            method: "POST",
-            data: {
-                account_id: id,
-                identity_name: DoubleDryUserName,
-                identity_no: DoubleDryIDCardNumber,
-                identity_valid_time: DoubleDryIDCardValidity == "长期" ? "" : DoubleDryIDCardValidity,
-                identity_is_long_time: DoubleDryIDCardValidity == "长期" ? 1 : 0,
-                identity_face_img: double_dry_img_url_front_id,
-                identity_back_img: double_dry_img_url_behind_id,
-                identity_in_hand_img: double_dry_img_url_front_behind_id,
-                owner_name: DoubleDryUser,
-                bankcard_no: DoubleDryBankCard,
-                // bank_name: DoubleDryBankName,
-                bank_id: DoubleDryBankID,
-                branch_address: DoubleDrySubBranchBank,
-                bankcard_face_img: double_dry_img_url_front_bank,
-                bankcard_back_img: double_dry_img_url_behind_bank
-            }
-        }).then(res => {
-            if (res.code == 200) {
-                Toast.success(res.message, 1, () => {
-                    // router.push(`/doubledry/bindcard?bankCode=${DoubleDryBankCard}`); 
-                    // router.push('/doubledry/bindcard');
-                    Cookies.remove('DoubleDryUserName');
-                    Cookies.remove('DoubleDryIDCardNumber');
-                    Cookies.remove('DoubleDryIDCardValidity'); 
-                    Cookies.remove('double_dry_img_url_front_id');
-                    Cookies.remove('double_dry_img_url_behind_id');
-                    Cookies.remove('double_dry_img_url_front_behind_id');
-                    Cookies.remove('DoubleDryUser');
-                    Cookies.remove('DoubleDryBankCard');
-                    Cookies.remove('DoubleDryBankName');
-                    Cookies.remove('DoubleDryBankID');
-                    Cookies.remove('DoubleDrySubBranchBank');
-                    Cookies.remove('double_dry_img_url_front_bank');
-                    Cookies.remove('double_dry_img_url_behind_bank');
-                    router.push('/doubledry/audit');
-                });
-            } else {
-                Toast.fail(res.message, 1);
-            }
-        })
+        console.log(isAdd)
+        if (isAdd) {
+            request({
+                url: 'v3/add_cardidentity_card',
+                method: "POST",
+                data: {
+                    // account_id: id,
+                    identity_name: DoubleDryUserName,
+                    identity_card: DoubleDryIDCardNumber,
+                    identity_validity_card: DoubleDryIDCardValidity == "长期" ? 0 : DoubleDryIDCardValidity,
+                    // identity_is_long_time: DoubleDryIDCardValidity == "长期" ? 1 : 0,
+                    identity_card_positive: double_dry_img_url_front_id,
+                    identity_card_opposite: double_dry_img_url_behind_id,
+                    identity_hand_card: double_dry_img_url_front_behind_id,
+                    bank_account_name: DoubleDryUser,
+                    bank_card_number: DoubleDryBankCard,
+                    bank_name: DoubleDryBankName,
+                    // bank_id: DoubleDryBankID,
+                    bank_branch: DoubleDrySubBranchBank,
+                    bank_positive: double_dry_img_url_front_bank,
+                    bank_opposite: double_dry_img_url_behind_bank
+                }
+            }).then(res => {
+                if (res.code == 200) {
+                    Toast.success(res.message, 1, () => {
+                        // router.push(`/doubledry/bindcard?bankCode=${DoubleDryBankCard}`); 
+                        // router.push('/doubledry/bindcard');
+                        Cookies.remove('DoubleDryUserName');
+                        Cookies.remove('DoubleDryIDCardNumber');
+                        Cookies.remove('DoubleDryIDCardValidity');
+                        Cookies.remove('double_dry_img_url_front_id');
+                        Cookies.remove('double_dry_img_url_behind_id');
+                        Cookies.remove('double_dry_img_url_front_behind_id');
+                        Cookies.remove('DoubleDryUser');
+                        Cookies.remove('DoubleDryBankCard');
+                        Cookies.remove('DoubleDryBankName');
+                        // Cookies.remove('DoubleDryBankID');
+                        Cookies.remove('DoubleDrySubBranchBank');
+                        Cookies.remove('double_dry_img_url_front_bank');
+                        Cookies.remove('double_dry_img_url_behind_bank');
+                        router.push('/doubledry/audit');
+                    });
+                } else {
+                    Toast.fail(res.message, 1);
+                }
+            })
+        } else {
+            request({
+                url: 'v3/edit_cardidentity_card',
+                method: "POST",
+                data: {
+                    // account_id: id,
+                    identity_name: DoubleDryUserName,
+                    identity_card: DoubleDryIDCardNumber,
+                    identity_validity_card: DoubleDryIDCardValidity == "长期" ? 0 : DoubleDryIDCardValidity,
+                    // identity_is_long_time: DoubleDryIDCardValidity == "长期" ? 1 : 0,
+                    identity_card_positive: double_dry_img_url_front_id,
+                    identity_card_opposite: double_dry_img_url_behind_id,
+                    identity_hand_card: double_dry_img_url_front_behind_id,
+                    bank_account_name: DoubleDryUser,
+                    bank_card_number: DoubleDryBankCard,
+                    bank_name: DoubleDryBankName,
+                    // bank_id: DoubleDryBankID,
+                    bank_branch: DoubleDrySubBranchBank,
+                    bank_positive: double_dry_img_url_front_bank,
+                    bank_opposite: double_dry_img_url_behind_bank
+                }
+            }).then(res => {
+                if (res.code == 200) {
+                    Toast.success(res.message, 1, () => {
+                        Cookies.remove('DoubleDryUserName');
+                        Cookies.remove('DoubleDryIDCardNumber');
+                        Cookies.remove('DoubleDryIDCardValidity');
+                        Cookies.remove('double_dry_img_url_front_id');
+                        Cookies.remove('double_dry_img_url_behind_id');
+                        Cookies.remove('double_dry_img_url_front_behind_id');
+                        Cookies.remove('DoubleDryUser');
+                        Cookies.remove('DoubleDryBankCard');
+                        Cookies.remove('DoubleDryBankName');
+                        // Cookies.remove('DoubleDryBankID');
+                        Cookies.remove('DoubleDrySubBranchBank');
+                        Cookies.remove('double_dry_img_url_front_bank');
+                        Cookies.remove('double_dry_img_url_behind_bank');
+                        router.push('/doubledry/audit');
+                    });
+                } else {
+                    Toast.fail(res.message, 1);
+                }
+            })
+        }
+
     }
 
     render() {

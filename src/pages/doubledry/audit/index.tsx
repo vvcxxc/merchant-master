@@ -7,55 +7,48 @@ class Audit extends Component {
 
     state = {
         /**
-         * payplatform_check_status    0,1 待审核  2 审核通过   3审核不通过
+         * is_sq    0 认证失败  1 已认证  2 未认证   3 审核中    4 未提交
+         * 
+         * sq_failure   审核失败原因
          */
-        payplatform_check_status: 0,
+        is_sq: null,
 
 
-        sq_finished_step: 0
+        sq_failure: ""
     }
 
     componentDidMount() {
         Request({
-            url: 'sqAccount'
-        }).then(res => {
-            if (res.code == 200 && res.data.length != 0) {
-                this.setState({
-                    payplatform_check_status: res.data.payplatform_check_status,
-                })
-            }
-        })
-
-        Request({
-            url: 'user/info',
-            method: 'get',
+            url: 'api/merchant/supplier/info'
         }).then(res => {
             if (res.code == 200) {
                 this.setState({
-                    sq_finished_step: res.data.sq_finished_step
+                    is_sq: res.data.is_sq,
+                    sq_failure: res.data.sq_failure
                 })
             }
         })
     }
 
     handleNext = () => {
-        if (this.state.sq_finished_step == 0) {
-            router.push('/doubledry/register')
-        } else if (this.state.sq_finished_step == 1) {
-            router.push('/doubledry/bindcard')
-        } else if (this.state.sq_finished_step == 2) {
-            router.push('/doubledry/withdraw')
-        }
+        // if (this.state.sq_finished_step == 0) {
+        //     router.push('/doubledry/register')
+        // } else if (this.state.sq_finished_step == 1) {
+        //     router.push('/doubledry/bindcard')
+        // } else if (this.state.sq_finished_step == 2) {
+        //     router.push('/doubledry/withdraw')
+        // }
     }
 
     handleResetSubmit = () => {
-            if (this.state.sq_finished_step == 0) {
-                router.push('/doubledry/register')
-            } else if (this.state.sq_finished_step == 1) {
-                router.push('/doubledry/bindcard')
-            } else if (this.state.sq_finished_step == 2) {
-                router.push('/doubledry/withdraw')
-            }
+        router.push('/doubledry/register')
+        // if (this.state.sq_finished_step == 0) {
+        //     router.push('/doubledry/register')
+        // } else if (this.state.sq_finished_step == 1) {
+        //     router.push('/doubledry/bindcard')
+        // } else if (this.state.sq_finished_step == 2) {
+        //     router.push('/doubledry/withdraw')
+        // }
     }
 
     render() {
@@ -63,7 +56,7 @@ class Audit extends Component {
 
             <div className={styles.audit}>
                 {
-                    this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1 || this.state.payplatform_check_status == 3 ? (
+                    this.state.is_sq == 0 || this.state.is_sq == 2 || this.state.is_sq == 3 || this.state.is_sq == 4 ? (
                         <div className={styles.audit_logo}>
                             <img src={require('@/assets/warn.png')} alt="" className={styles.img} />
                         </div>
@@ -74,14 +67,14 @@ class Audit extends Component {
                         )
                 }
                 <div className={styles.audit_info}>{
-                    this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1 ? "资料提交审核,请等候" : this.state.payplatform_check_status == 3 ? "资料审核失败，请重新修改" : this.state.payplatform_check_status == 2 ? "资料审核通过" : ""
+                    this.state.is_sq == 2 || this.state.is_sq == 3 || this.state.is_sq == 4 ? "资料提交审核,请等候" : this.state.is_sq == 0 ? "资料审核失败，请重新修改" : this.state.is_sq == 1 ? "资料审核通过" : ""
                 }</div>
                 {
-                    this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1 ? (
+                    this.state.is_sq == 2 || this.state.is_sq == 3 || this.state.is_sq == 4 ? (
                         <div className={styles.audit_btn} onClick={() => router.push('/my')}>知道了</div>
-                    ) : this.state.payplatform_check_status == 2 ? (
+                    ) : this.state.is_sq == 1 ? (
                         <div className={styles.audit_btn} onClick={this.handleNext}>下一步</div>
-                    ) : this.state.payplatform_check_status == 3 ? (
+                    ) : this.state.is_sq == 0 ? (
                         <div className={styles.audit_btn} onClick={this.handleResetSubmit}>重新提交</div>
                     ) : ""
                 }
