@@ -20,6 +20,10 @@ class Detail extends Component {
     };
 
     componentWillMount = () => {
+        this.getData();
+    }
+
+    getData = () => {
         const id = this.props.history.location.query.id;
         Request({
             url: `v3/merchant/delivery/order/${id}`,
@@ -31,6 +35,25 @@ class Detail extends Component {
                 })
             }
         })
+    }
+
+    handleAcceptOrder = (id: any) => {
+        alert('提示', '确认接单吗？', [
+            { text: '取消', onPress: () => console.log('cancel'), style: 'default' },
+            {
+                text: '确认', onPress: () => {
+                    Request({
+                        url: `v3/merchant/delivery/order/${id}`,
+                        method: 'POST'
+                    }).then(res => {
+                        // console.log(res)
+                        if (res.code == 200) {
+                            this.getData();
+                        }
+                    })
+                }
+            },
+        ])
     }
 
     render() {
@@ -63,7 +86,7 @@ class Detail extends Component {
                 </div>
                 <div className={styles.flex_order_info}>
                     <div className={styles.order_info_status}>订单金额</div>
-                    <div className={styles.order_info_value}>{info.delivery_money}元</div>
+                    <div className={styles.order_info_value}>{info.order_money}元</div>
                 </div>
                 <div className={styles.flex_order_info}>
                     <div className={styles.order_info_status}>订单时间</div>
@@ -106,9 +129,30 @@ class Detail extends Component {
                     <div className={styles.cancel} onClick={this.handleCancel}>取消</div>
                     <div className={styles.order_btn}>核销二维码</div>
                 </div> */}
-                <div className={styles.footer_btn}>
+                {/* <div className={styles.footer_btn}>
                     <div className={styles.go_back} onClick={() => router.push('/activitys/dispatching/List')}>返回配送列表</div>
-                </div>
+                </div> */}
+
+
+
+                {/* 0待接单 1配送中 2配送成功 3配送失败 */}
+                {
+                    info.delivery_status == 0 ? (
+                        <div className={styles.footer_btn}>
+                            {/* <div className={styles.cancel} onClick={this.handleCancel}>取消</div> */}
+                            <div className={styles.order_btn} onClick={this.handleAcceptOrder.bind(this, info.id)}>接单</div>
+                        </div>
+                    ) : info.delivery_status == 1 ? (
+                        <div className={styles.footer_btn}>
+                            {/* <div className={styles.cancel} onClick={this.handleCancel}>取消</div> */}
+                            <div className={styles.order_btn}>核销二维码</div>
+                        </div>
+                    ) : (
+                                <div className={styles.footer_btn}>
+                                    <div className={styles.go_back} onClick={() => router.push('/activitys/dispatching/List')}>返回配送列表</div>
+                                </div>
+                            )
+                }
             </div>
         )
     }

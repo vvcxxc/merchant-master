@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import Request from '@/services/request';
 import router from 'umi/router';
+import { Modal } from 'antd-mobile';
+
+const alert = Modal.alert;
 
 class List extends Component {
 
@@ -10,6 +13,10 @@ class List extends Component {
     }
 
     componentWillMount = () => {
+        this.getData();
+    }
+
+    getData = () => {
         Request({
             url: 'v3/merchant/delivery/order',
         }).then(res => {
@@ -21,13 +28,32 @@ class List extends Component {
         })
     }
 
-    handleDetail = (id:any) => {
+    handleDetail = (id: any) => {
         router.push({
             pathname: "/activitys/dispatching/detail",
             query: {
                 id
             }
         })
+    }
+
+    handleAcceptOrder = (id: any) => {
+        alert('提示', '确认接单吗？', [
+            { text: '取消', onPress: () => console.log('cancel'), style: 'default' },
+            {
+                text: '确认', onPress: () => {
+                    Request({
+                        url: `v3/merchant/delivery/order/${id}`,
+                        method: 'POST'
+                    }).then(res => {
+                        // console.log(res)
+                        if (res.code == 200) {
+                            this.getData();
+                        }
+                    })
+                }
+            },
+        ])
     }
 
     render() {
@@ -54,16 +80,17 @@ class List extends Component {
                             </div>
                             <div className={styles.divider}></div>
                             <div className={styles.footer_btn}>
-                                <div className={styles.order_status}>
-                                    {/* 0待接单 1配送中 2配送成功 3配送失败 */}
-                                    {
-                                        item.delivery_status == 0 ? "接单" :
-                                            item.delivery_status == 1 ? "核销二维码" :
-                                                item.delivery_status == 2 ? "已完成" :
-                                                    item.delivery_status == 3 ? "配送失败" : ""
-                                    }
-                                </div>
-                                <div className={styles.order_detail} onClick={this.handleDetail.bind(this,item.id)}>查看</div>
+
+                                {/* 0待接单 1配送中 2配送成功 3配送失败 */}
+                                {
+                                    item.delivery_status == 0 ? <div className={styles.order_status} onClick={this.handleAcceptOrder.bind(this, item.id)}>接单</div> :
+                                        item.delivery_status == 1 ? <div className={styles.order_status}>核销二维码</div> :
+                                            // item.delivery_status == 2 ? <div className={styles.order_status}>已完成</div> :
+                                            // item.delivery_status == 3 ? <div className={styles.order_status}>配送失败</div> :
+                                            ""
+                                }
+
+                                <div className={styles.order_detail} onClick={this.handleDetail.bind(this, item.id)}>查看</div>
                             </div>
                         </div>
                     ))
