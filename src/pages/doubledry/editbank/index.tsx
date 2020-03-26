@@ -28,7 +28,7 @@ class BankCard extends Component {
         User: "",
         bankCard: "",
         bankName: "",
-        bankID: "",
+        // bankID: "",
         allBank: [],
         subBranchBank: "",
 
@@ -39,15 +39,7 @@ class BankCard extends Component {
         isShowSubBranch: false,
         subBranchBankArr: [],
 
-        checkout_status: 0,
-        checkout_comment: "",
-        is_show: true,
-
-
-        // 默认为修改
-        is_edit: true,
-
-        check_status: null // 1待审核 2通过 3拒绝
+        id : 0
     }
 
     async componentDidMount() {
@@ -67,9 +59,10 @@ class BankCard extends Component {
         })
 
         await Request({
-            url: 'v1/common/getBankNames'
+            url: 'v3/bank_name',
+            method: 'POST'
         }).then(res => {
-            if (res.code == 200 && res.data.length != 0) {
+            if (res.status_code == 200 && res.data.length != 0) {
                 this.setState({
                     allBank: res.data
                 })
@@ -78,60 +71,36 @@ class BankCard extends Component {
 
         await this.getData();
 
-
-        // /**
-        //  * 银行ID
-        //  */
-        // Cookies.get("EditBankID") || Cookies.get("EditBankID") == "" ? (
-        //     this.setState({
-        //         bankID: Cookies.get("EditBankID")
-        //     })
-        // ) : "";
-
     }
 
     getData = () => {
         Request({
-            url: 'getBankInfo',
+            url: 'v3/bank',
             method: 'get'
         }).then(res => {
-            const { code, message } = res;
-            if (code == 200 && Object.keys(res.data).length != 0) {
+            const { status_code, message } = res;
+            if (status_code == 200 && Object.keys(res.data).length != 0) {
                 this.setState({
-                    checkout_status: res.data.userBankinfo.checkout_status,
-                    checkout_comment: res.data.userBankinfo.checkout_comment,
-
-                    img_url_front: res.data.userBankinfo.bankcard_face_img,
+                    img_url_front: res.data.bank_positive,
                     isHaveImgFront: true,
 
-                    img_url_behind: res.data.userBankinfo.bankcard_back_img,
+                    img_url_behind: res.data.bank_opposite,
                     isHaveImgBehind: true,
 
-                    User: res.data.userBankinfo.owner_name,
+                    User: res.data.bank_account_name,
 
-                    bankCard: res.data.userBankinfo.bankcard_no,
+                    bankCard: res.data.bank_card_number,
 
-                    // bankName: res.data.userBankinfo.bank_name,
+                    bankName: res.data.bank_name,
 
-                    subBranchBank: res.data.userBankinfo.branch_address,
+                    subBranchBank: res.data.bank_branch,
 
-                    check_status: res.data.userBankinfo.check_status,
+                    id: res.data.id
 
-                    bankID: res.data.userBankinfo.bank_id
                 }, () => {
-                    this.state.allBank.forEach(item => {
-                        if (item.bank_id == this.state.bankID) {
-                            this.setState({
-                                bankName: item.bank_name
-                            })
-                        }
-                    })
                 })
-            } else if (code == 403) {
-                this.setState({
-                    is_show: false,
-                    is_edit: false
-                })
+            } else if (status_code == 403) {
+                this.setState({})
             }
         });
     }
@@ -240,9 +209,10 @@ class BankCard extends Component {
   */
     handleSelectBank = (bankName: any) => {
         Request({
-            url: 'v1/common/getBankNames',
+            url: 'v3/bank_name',
+            method: 'POST',
             params: {
-                bank_name: bankName,
+                name: bankName,
             }
         }).then(res => {
             if (res.data.length != 0) {
@@ -276,7 +246,7 @@ class BankCard extends Component {
         // Cookies.set("EditBankID", item.bank_id, { expires: 1 });
         this.setState({
             bankName: item.bank_name,
-            bankID: item.bank_id,
+            // bankID: item.bank_id,
             isShowBank: false,
             searchBank: "",
         })
@@ -315,7 +285,10 @@ class BankCard extends Component {
      */
 
     handleNextStep = () => {
-        const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName, is_edit, bankID } = this.state;
+        const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName,
+            // bankID
+            id
+        } = this.state;
         if (!img_url_front || !img_url_behind) {
             Toast.fail('请上传银行卡正反面信息', 1);
             return;
@@ -343,66 +316,49 @@ class BankCard extends Component {
 
         Toast.loading("");
 
-        if (is_edit) {
-            // 审核中为1 直接下一步
-            // 审核失败为3 重新提交资料 完成后再请求数据
-            if (this.state.check_status == 0 || this.state.check_status == 1) {
-                router.push('/doubledry/BankCardAudit');
-                return;
+        Request({
+            method: 'PUT',
+            url: `v3/bank/${id}`,
+            params: {
+                bank_name: bankName,
+                bank_card_number: bankCard,
+                bank_branch: subBranchBank,
+                bank_account_name: User,
+                bank_positive: img_url_front,
+                bank_opposite: img_url_behind,
             }
-            Request({
-                method: 'post',
-                url: 'setBankInfo',
-                params: {
-                    // bank_name: bankName,
-                    bank_id: bankID,
-                    bankcard_no: bankCard,
-                    branch_address: subBranchBank,
-                    owner_name: User,
-                    bankcard_face_img: img_url_front,
-                    bankcard_back_img: img_url_behind,
-                    is_edit: 1
-                }
-            }).then(res => {
-                if (res.code == 200) {
-                    Toast.success(res.message, 2, () => {
-                        router.push('/doubledry/BankCardAudit');
-                        // router.push('/PersonalInformation')
-                        // this.getData();
-                    });
-                } else {
-                    Toast.fail(res.message, 1);
-                }
-            })
-        } else {
-            Request({
-                method: 'post',
-                url: 'setBankInfo',
-                params: {
-                    // bank_name: bankName,
-                    bank_id: bankID,
-                    bankcard_no: bankCard,
-                    branch_address: subBranchBank,
-                    owner_name: User,
-                    bankcard_face_img: img_url_front,
-                    bankcard_back_img: img_url_behind
-                }
-            }).then(res => {
-                if (res.code == 200) {
-                    Toast.success(res.message, 2, () => {
-                        // router.push('/PersonalInformation')
-                        router.push('/doubledry/BankCardAudit');
-                    });
-                } else {
-                    Toast.fail(res.message, 1);
-                }
-            })
-        }
+        }).then(res => {
+            if (res.status_code == 200) {
+                Toast.success(res.message, 2, () => {
+                    router.push('/doubledry/bankaudit');
+                });
+            } else {
+                Toast.fail(res.message, 1);
+            }
+        })
 
     }
 
     render() {
-        const { frontFiles, isHaveImgFront, img_url_front, isHaveImgBehind, img_url_behind, behindFiles, User, bankCard, bankName, subBranchBank, isShowSubBranch, subBranchBankArr, checkout_status, checkout_comment, isShowBank, BankArr, searchBank } = this.state;
+        const {
+            frontFiles,
+            isHaveImgFront,
+            img_url_front,
+            isHaveImgBehind,
+            img_url_behind,
+            behindFiles,
+            User,
+            bankCard,
+            bankName,
+            subBranchBank,
+            isShowSubBranch,
+            subBranchBankArr,
+            // checkout_status, 
+            // checkout_comment, 
+            isShowBank,
+            BankArr,
+            searchBank
+        } = this.state;
         return (
             <div className={styles.bank_page}>
                 {/* <NavBar
