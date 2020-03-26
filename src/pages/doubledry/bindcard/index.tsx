@@ -125,7 +125,7 @@ export default class bindPhoneNumber extends Component {
                     resend()
                 }, 1000);
                 Request({
-                    url: 'v1/sq/get_bing_code',
+                    url: 'v3/sq/send_sms_code',
                     method: 'post',
                     data: qs.stringify({
                         phone
@@ -156,6 +156,7 @@ export default class bindPhoneNumber extends Component {
 
     handleNext = async () => {
         const { phone, code, seqNo } = this.state;
+        // console.log(phone, code);
         if (!(/^1[3456789]\d{9}$/.test(phone))) {
             Toast.fail('请输入11位有效手机号', 1);
             return;
@@ -166,14 +167,15 @@ export default class bindPhoneNumber extends Component {
         }
         await this.setState({ isOkClick: false })
         Request({
-            url: 'v1/sq/submit_bing_code',
+            url: 'v3/sq/bind_card',
             method: "POST",
             data: qs.stringify({
                 // bankcard_no: this.state.bank_no,
                 // verify_code: code,
                 // mobile: phone
                 seqNo: seqNo,
-                smsCode: code
+                code: code,
+                phone
             })
         }).then(res => {
             if (res.code == 200) {
@@ -224,10 +226,10 @@ export default class bindPhoneNumber extends Component {
 
     getBankNo = () => {
         Request({
-            url: 'sqAccount'
+            url: 'v3/cardidentity_card'
         }).then(res => {
             if (res.code == 200) {
-                let occurTime = String(res.data.bankcard_no);
+                let occurTime = String(res.data.bank_card_number);
                 let code = this.insertStr(this.insertStr(this.insertStr(this.insertStr(this.insertStr(occurTime, 4, " "), 9, " "), 14, " "), 19, " "), 24, " ");
                 this.setState({ bank_no: code })
             }
@@ -254,7 +256,7 @@ export default class bindPhoneNumber extends Component {
                         <span>银行卡号：</span>
                         <span>{this.state.bank_no}</span>
                     </div>
-                    <div className={styles.edit_card} onClick={() => router.push('/submitQua/EditBankCard')}>修改银行卡</div>
+                    <div className={styles.edit_card} onClick={() => router.push('/doubledry/editbank')}>修改银行卡</div>
                 </div>
 
                 <div className={styles.phoneNumber}>

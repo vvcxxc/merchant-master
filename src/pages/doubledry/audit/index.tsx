@@ -60,11 +60,12 @@ class Audit extends Component {
                         <div className={styles.audit_logo}>
                             <img src={require('@/assets/warn.png')} alt="" className={styles.img} />
                         </div>
-                    ) : (
-                            <div className={styles.audit_logo}>
-                                <img src={require('@/assets/success.png')} alt="" className={styles.img} />
-                            </div>
-                        )
+                    ) : ""
+                        // (
+                        //     <div className={styles.audit_logo}>
+                        //         <img src={require('@/assets/success.png')} alt="" className={styles.img} />
+                        //     </div>
+                        // )
                 }
                 <div className={styles.audit_info}>{
                     this.state.is_sq == 2 || this.state.is_sq == 3 || this.state.is_sq == 4 ? "资料提交审核,请等候" : this.state.is_sq == 0 ? "资料审核失败，请重新修改" : this.state.is_sq == 1 ? "资料审核通过" : ""

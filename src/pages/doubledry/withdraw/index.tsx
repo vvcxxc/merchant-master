@@ -22,7 +22,7 @@ export default class WithDraw extends Component {
 
         seqNoForAuto: '',
 
-        isOkClick: true 
+        isOkClick: true
     }
 
     // 销毁定时器
@@ -43,7 +43,7 @@ export default class WithDraw extends Component {
     }
 
     handleSendCode = () => {
-        const { phone } = this.state;
+        const { phone,bank_no } = this.state;
         if (!(/^1[3456789]\d{9}$/.test(phone))) {
             Toast.fail('请输入11位有效手机号', 1);
             return;
@@ -66,10 +66,11 @@ export default class WithDraw extends Component {
                 resend()
             }, 1000);
             Request({
-                url: 'v1/sq/get_auto_fetch_code',
+                url: 'v3/sq/send_sms_auto',
                 method: 'post',
                 data: qs.stringify({
-                    phone
+                    phone,
+                    bank_card_number: bank_no
                 })
             }).then(res => {
                 if (res.code == 200) {
@@ -91,7 +92,7 @@ export default class WithDraw extends Component {
     }
 
     handleNext = async () => {
-        const { phone, code, seqNoForAuto } = this.state;
+        const { phone, code, seqNoForAuto,bank_no } = this.state;
         if (!(/^1[3456789]\d{9}$/.test(phone))) {
             Toast.fail('请输入11位有效手机号', 1);
             return;
@@ -102,19 +103,21 @@ export default class WithDraw extends Component {
         }
         await this.setState({ isOkClick: false })
         Request({
-            url: 'v1/sq/submit_auto_fetch_code',
+            url: 'v3/sq/confirm_auto',
             method: "POST",
             data: qs.stringify({
                 // bankcard_no: this.state.bank_no,
                 // verify_code: code,
                 // mobile: phone 
                 seqNoForAuto: seqNoForAuto,
-                smsCode: code
+                code,
+                phone,
+                bank_card_number:bank_no
             })
         }).then(res => {
             if (res.code == 200) {
                 this.setState({ isOkClick: true })
-                router.push('/PersonalInformation/withDraw')
+                router.push('/my/withdraw')
             } else {
                 this.setState({ isOkClick: true })
                 Toast.fail(res.message);
@@ -126,11 +129,18 @@ export default class WithDraw extends Component {
 
     componentWillMount() {
         clearInterval(timer);
-        if (this.props.location.query.bankCode) {
-            let occurTime = String(this.props.location.query.bankCode);
-            let code = this.insertStr(this.insertStr(this.insertStr(this.insertStr(this.insertStr(occurTime, 4, " "), 9, " "), 14, " "), 19, " "), 24, " ");
-            this.setState({ bank_no: code })
-        }
+        Request({
+            url: 'v3/cardidentity_card'
+        }).then(res => {
+            if (res.code == 200) {
+                this.setState({ bank_no: res.data.bank_card_number })
+            }
+        })
+        // if (this.props.location.query.bankCode) {
+        //     let occurTime = String(this.props.location.query.bankCode);
+        //     let code = this.insertStr(this.insertStr(this.insertStr(this.insertStr(this.insertStr(occurTime, 4, " "), 9, " "), 14, " "), 19, " "), 24, " ");
+        //     this.setState({ bank_no: code })
+        // }
     }
     insertStr = (s: string, start: number, newStr: string) => {
         return s.slice(0, start) + newStr + s.slice(start);
@@ -151,9 +161,9 @@ export default class WithDraw extends Component {
                 </div>
                 <div className={styles.phoneNumber}>
                     <div className={styles.passwordBox}>
-                        {
+                        {/* {
                             this.props.location.query.bankCode ? <div className={styles.bankCardBox} >银行卡号：{this.state.bank_no}</div> : null
-                        }
+                        } */}
 
                         <div className={styles.content}>
                             <div className={styles.items1}>

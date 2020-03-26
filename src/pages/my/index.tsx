@@ -159,21 +159,31 @@ export default connect()(
     }
 
     handleWithDraw = () => {
-      const {is_existence,is_sq,sq_failure,is_card_activation,is_opening} = this.state.info;
-      if(is_existence == 1) {
-        if(is_sq == 1) {
-          if(is_card_activation == 0) {
+      const { is_existence, is_sq, sq_failure, is_card_activation, is_opening } = this.state.info;
+      if (is_existence == 1) {
+        if (is_sq == 1) {
+          if (is_card_activation == 0) {
             router.push('/doubledry/bindcard')
-          }else if (is_card_activation == 1 && is_opening == 0) {
+          } else if (is_card_activation == 1 && is_opening == 0) {
             router.push('/doubledry/withdraw')
-          }else if (is_card_activation == 1 && is_opening == 1) {
+          } else if (is_card_activation == 1 && is_opening == 1) {
             router.push('/my/withdraw')
           }
-        }else {
+        } else {
           router.push('/doubledry/audit')
         }
-      }else if (is_existence == 0) {
+      } else if (is_existence == 0) {
         router.push('/doubledry/register')
+      }
+    }
+
+    handleRouteMyBank = () => {
+      // () => router.push('/my/bank')
+      const { is_sq } = this.state.info;
+      if(is_sq == 1) {
+        router.push('/my/bank')
+      }else { 
+        router.push('/doubledry/bankaudit')
       }
     }
 
@@ -243,7 +253,7 @@ export default connect()(
               </div>
             </div>
             <div className={styles.user_bank_gift}>
-              <div className={styles.user_bank} onClick={() => router.push('/my/bank')}>
+              <div className={styles.user_bank} onClick={this.handleRouteMyBank}>
                 <div className={styles.bank_num}>{this.state.info.bank_count}</div>
                 <div className={styles.bank_title}>银行卡</div>
               </div>
