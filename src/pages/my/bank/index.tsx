@@ -40,29 +40,11 @@ export default class MyBank extends Component {
     const bank = this.state.is_show == true ? (
       <div>
         <div className={styles.bank_card}>
-          <Flex className={styles.bank_name}>
-            <img src={require('../../../assets/bank_card_logo.png')} alt=""/>
-            <div className={styles.etui}>
-              <span>{info.bank_name}</span>
-              <span>储蓄卡</span>
-            </div>
-            <div
-              onClick={() =>
-                router.push('/my/bank/verifyBank')} 
-            >去验证</div>
-          </Flex>
-          <Flex className={styles.bank_num_title}>卡号</Flex>
-          {
-            info.bank_info ? <Flex className={styles.bank_num}>
-              <span>{info.bank_info.slice(0, 4)}</span>
-              <span>{'****'}</span>
-              <span>{'****'}</span>
-              <span>{info.bank_info.slice(-4)}</span>
-            </Flex> : null
-          }
-          
-        </div>
-        <Button className={styles.button} onClick={this.toChange}>修改银行卡</Button>
+            <Flex className={styles.bank_name}>{info.bank_name}</Flex>
+            <Flex className={styles.bank_type}>储蓄卡</Flex>
+            <Flex className={styles.bank_num}>{this.replaceStr(info.bank_info)}</Flex>
+          </div>
+          {/* <Button className={styles.button} onClick={this.toChange}>修改银行卡</Button> */}
       </div>
     ) : (
         <Flex justify='around' className={styles.no_bank}>

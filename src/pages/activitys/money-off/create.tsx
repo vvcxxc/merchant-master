@@ -16,7 +16,7 @@ export default class CreateMoneyOff extends Component {
 	state = {
 		start_date: '',
 		end_date: '',
-		rules: [{ min: undefined, max: undefined }],
+		rules: [{ min: '', max: '' }],
 		showSelectTime: false,
 		indexList: [],
 		timeSelect: false
@@ -41,7 +41,7 @@ export default class CreateMoneyOff extends Component {
 		if (index !== 0) {
 			rules.splice(index, 1);
 		} else {
-			rules.push({ min: undefined, max: undefined });
+			rules.push({ min: '', max: '' });
 		}
 		this.setState({ rules });
 	};
