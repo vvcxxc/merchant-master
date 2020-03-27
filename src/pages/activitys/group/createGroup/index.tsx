@@ -63,7 +63,6 @@ export default connect(({ activity }: any) => activity)(
             return;
           }
         })
-        return;
       }
       this.props.dispatch({
         type: 'activity/setGroup',

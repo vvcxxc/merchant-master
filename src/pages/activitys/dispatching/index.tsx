@@ -127,7 +127,7 @@ export default class Dispatching extends Component {
           this.state.show_time ? <SelectBox type={1} onChange={this.handleChange} start_time={this.state.delivery_start_time} end_time={this.state.delivery_end_time} /> : null
         }
         {
-          this.props.location.query.type == 1 ? <div className={styles.btn_box}>
+          this.props.location.query.type != 1 ? <div className={styles.btn_box}>
             <div className={styles.btn_save} onClick={this.hanleSumbit.bind(this, 1)}>确认并使用</div>
           </div> : <div className={styles.btn_box_sumbit}>
               <div className={styles.btn_cancle} onClick={() => { router.goBack() }}>取消</div>

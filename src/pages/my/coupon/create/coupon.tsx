@@ -159,7 +159,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						return;
 					}
 				})
-				return;
 			}
 			this.props.dispatch({
 				type: 'createCoupon/setCoupon',
