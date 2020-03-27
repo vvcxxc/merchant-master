@@ -1,0 +1,107 @@
+.dispatch_list {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: #E9EEF2;
+    padding: 35px;
+    box-sizing: border-box;
+    .list_item {
+        width: 100%;
+        height: 282px;
+        background: #fff;
+        border-radius: 20px;
+        padding: 52px 32px 0 32px;
+        box-sizing: border-box;
+        margin-bottom: 18px;
+        .prize_info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            .prize_name {
+                font-size: 34px;
+                color: #2C3E50;
+                font-weight: 600;
+            }
+            .prize_status {
+                font-size: 30px;
+                color: #2C3E50;
+                font-weight: 600;
+            }
+        }
+        .prize_moment {
+            color: #ADB5BD;
+            display: flex;
+            font-size: 26px;
+            margin-bottom: 42px;
+            .prize_date {
+                margin-right: 24px;
+            }
+        }
+        .divider {
+            width:100%;
+            height:1px;
+            background:rgba(233,238,242,1);
+            // background: #000;
+        }
+        .footer_btn {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            height: 90px;
+            .order_status {
+                width: 135px;
+                height: 56px;
+                line-height: 56px;
+                background: #4486F7;
+                border-radius: 10px;
+                text-align: center;
+                font-size: 26px;
+                color: #fff;
+                margin-right: 20px;
+            }
+            .order_detail {
+                width: 135px;
+                height: 56px;
+                line-height: 56px;
+                border:1px solid #4486F7;
+                background: #fff;
+                border-radius: 10px;
+                text-align: center;
+                font-size: 26px;
+                color: #4486F7;
+            }
+        }
+
+
+        
+    }
+
+    .verificationPage {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: rgba(250, 250, 250, 0.9);
+        z-index: 99999;
+        :global {
+            .icons {
+                width: 100%;
+                padding: 0 36px;
+                box-sizing: border-box;
+                img {
+                    width: 126px;
+                    height: 126px;
+                    margin-bottom: 22px;
+                }
+            }
+            .close-icon {
+                padding: 50px 0 150px;
+                .am-icon {
+                    width: 68px !important;
+                    height: 68px !important;
+                }
+            }
+        }
+    }
+}

@@ -213,7 +213,7 @@ export default connect(({ app }: any) => app)(
                             }
                         }).then(res => {
                             if (res.code == 200) {
-                                Toast.success(res.message , 2, () => {
+                                Toast.success(res.message, 2, () => {
                                     router.push({
                                         pathname: '/verificationPrize',
                                     })
@@ -452,6 +452,19 @@ export default connect(({ app }: any) => app)(
                                     <img src={require('@/assets/index/diamond.png')} className="icon_img" alt="" />
                                     <div className="item_name">钻石展位</div>
                                 </Flex>
+                            </div>
+                        </div>
+                        <div className={styles.distribution}>
+                            <div className={styles.distributionTitle}>配送服务</div>
+                            <div className={styles.distributionContent}>
+                                <div className={styles.distributionOrder} onClick={() => { router.push('/activitys/dispatching/List'); }}>
+                                    <div className={styles.distributionText}>配送订单</div>
+                                    <img className={styles.distributionIcon} src="http://oss.tdianyi.com/front/Fcf2cyDMDBxMzrD2G87iNWidYYk3MQ4d.png" />
+                                </div>
+                                <div className={styles.distributionSet} onClick={() => { router.push({ pathname: '/activitys/dispatching', query: { type: 1 } }); }}>
+                                    <div className={styles.distributionText}>设置配送服务</div>
+                                    <img className={styles.distributionIcon} src="http://oss.tdianyi.com/front/zAHNTZB4iRbNymXmjZ4JH6yct8GXD3KZ.png" />
+                                </div>
                             </div>
                         </div>
                         {/* <div className={styles.box}>

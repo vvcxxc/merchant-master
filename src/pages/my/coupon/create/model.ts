@@ -13,6 +13,7 @@ export interface CouponForm {
   temp_url1: any[];
   temp_url2: any[];
   shareText: string;
+  isDelivery:boolean
 }
 
 export interface MoneyForm {
@@ -38,6 +39,7 @@ const model: Model = {
       description: [],
       temp_url1: [],
       temp_url2: [],
+      isDelivery:false
     },
     moneyForm: {
       coupons_type: 1,
