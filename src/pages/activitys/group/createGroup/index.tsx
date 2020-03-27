@@ -37,7 +37,6 @@ export default connect(({ activity }: any) => activity)(
       if (this.props.Group.gift_id) {
         this.setState({ is_gift: true })
       }
-
     }
     /**选择券范围 */
     onScope = (value: any) => {
@@ -52,6 +51,15 @@ export default connect(({ activity }: any) => activity)(
         });
       });
     };
+    /**选择配送 */
+    onDelivery = () => {
+      this.props.dispatch({
+        type: 'activity/setGroup',
+        payload: {
+          isDelivery: !this.props.Group.isDelivery
+        }
+      });
+    }
     startChange = (value: any) => {
       console.log(value)
       this.props.dispatch({
@@ -236,7 +244,7 @@ export default connect(({ activity }: any) => activity)(
 
     /**确认发布 */
     confirm = async () => {
-      let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name, shareText } = this.props.Group;
+      let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name, shareText, isDelivery } = this.props.Group;
       let rule = {
         is_name: '',
         is_date: '',
@@ -247,7 +255,6 @@ export default connect(({ activity }: any) => activity)(
         is_validity: '',
         is_image: '',
       }
-
       // 开团数量
       if (group_sum == 0) {
         rule.is_num = '开团数量必须大于0'
@@ -336,7 +343,8 @@ export default connect(({ activity }: any) => activity)(
             gift_id,
             gift_pic,
             gift_name,
-            share_info: shareText
+            share_info: shareText,
+            is_delivery: isDelivery ? 1 : 0
           }
         });
         // console.log('abc')
@@ -487,7 +495,27 @@ export default connect(({ activity }: any) => activity)(
                 <Icon type="right" color='#999' className={styles.icon_right} />
               </div>
             </Flex>
-
+            <Flex className={styles.radio0}>
+              <div className={styles.radioFlex}>
+                <div className={styles.radioScope}>
+                  活动范围
+							</div>
+                <div className={styles.radioBox}>
+                  {
+                    this.props.Group.isDelivery ?
+                      <Flex className={styles.choose}>
+                        <div className={styles.chooseBox} style={{ marginRight: 80 }} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/p8kjkCbnYmZfD3JGP8feeKsWt8BQNHPh.png" />不可配送</div>
+                        <div className={styles.chooseBox} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/36DfKaXdP8ea7SRcCXT8neArCE2YB76N.png" />可配送</div>
+                      </Flex>
+                      :
+                      <Flex className={styles.choose}>
+                        <div className={styles.chooseBox} style={{ marginRight: 80 }} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/36DfKaXdP8ea7SRcCXT8neArCE2YB76N.png" />不可配送</div>
+                        <div className={styles.chooseBox} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/p8kjkCbnYmZfD3JGP8feeKsWt8BQNHPh.png" />可配送</div>
+                      </Flex>
+                  }
+                </div>
+              </div>
+            </Flex>
 
             {/* <Flex className={styles.radio1}>
               <div className={styles.radioFlex}>
