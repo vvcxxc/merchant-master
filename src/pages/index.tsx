@@ -457,11 +457,11 @@ export default connect(({ app }: any) => app)(
                         <div className={styles.distribution}>
                             <div className={styles.distributionTitle}>配送服务</div>
                             <div className={styles.distributionContent}>
-                                <div className={styles.distributionOrder}>
+                                <div className={styles.distributionOrder} onClick={() => { router.push('/activitys/dispatching/List'); }}>
                                     <div className={styles.distributionText}>配送订单</div>
                                     <img className={styles.distributionIcon} src="http://oss.tdianyi.com/front/Fcf2cyDMDBxMzrD2G87iNWidYYk3MQ4d.png" />
                                 </div>
-                                <div className={styles.distributionSet}>
+                                <div className={styles.distributionSet} onClick={() => { router.push('/activitys/dispatching'); }}>
                                     <div className={styles.distributionText}>设置配送服务</div>
                                     <img className={styles.distributionIcon} src="http://oss.tdianyi.com/front/zAHNTZB4iRbNymXmjZ4JH6yct8GXD3KZ.png" />
                                 </div>
