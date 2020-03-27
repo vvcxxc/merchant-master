@@ -178,7 +178,7 @@ export default class bindPhoneNumber extends Component {
                 phone 
             })
         }).then(res => {
-            if (res.code == 200) {
+            if (res.status_code == 200) {
                 this.setState({ isOkClick: true })
                 router.push({ pathname: '/doubledry/withdraw' });
             } else {
