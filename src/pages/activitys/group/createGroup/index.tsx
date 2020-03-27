@@ -62,6 +62,9 @@ export default connect(({ activity }: any) => activity)(
             router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
             return;
           }
+        }).catch(err => {
+          router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
+          return;
         })
       }
       this.props.dispatch({

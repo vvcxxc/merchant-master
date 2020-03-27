@@ -158,6 +158,9 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 						router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
 						return;
 					}
+				}).catch(err => {
+					router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
+					return;
 				})
 			}
 			this.props.dispatch({
