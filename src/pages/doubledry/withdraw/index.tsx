@@ -73,7 +73,7 @@ export default class WithDraw extends Component {
                     bank_card_number: bank_no
                 })
             }).then(res => {
-                if (res.code == 200) {
+                if (res.status_code == 200) {
                     Toast.success('验证码已发送');
                     _this.setState({
                         seqNoForAuto: res.data.seqNoForAuto
