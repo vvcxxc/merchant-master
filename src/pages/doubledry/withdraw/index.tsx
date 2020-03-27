@@ -115,7 +115,7 @@ export default class WithDraw extends Component {
                 bank_card_number: bank_no
             })
         }).then(res => {
-            if (res.status_code == 200) {
+            if (res.status_code == 200) { 
                 this.setState({ isOkClick: true })
                 Toast.success(res.message, 1, () => {
                     router.push('/my/withdraw')
