@@ -87,4 +87,33 @@
             background: #4264E0;
         }
     }
+
+    .verificationPage {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: rgba(250, 250, 250, 0.9);
+        z-index: 99999;
+        :global {
+            .icons {
+                width: 100%;
+                padding: 0 36px;
+                box-sizing: border-box;
+                img {
+                    width: 126px;
+                    height: 126px;
+                    margin-bottom: 22px;
+                }
+            }
+            .close-icon {
+                padding: 50px 0 150px;
+                .am-icon {
+                    width: 68px !important;
+                    height: 68px !important;
+                }
+            }
+        }
+    }
 }

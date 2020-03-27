@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import { Modal } from 'antd-mobile';
+import { Modal, Flex, Icon, Toast } from 'antd-mobile';
 import styles from './index.less';
 import Request from '@/services/request';
 import router from 'umi/router';
+import wx from 'weixin-js-sdk';
 
 
 const alert = Modal.alert;
 class Detail extends Component {
 
     state = {
-        info: {}
+        info: {},
+        showVerification: false
     }
 
     handleCancel = () => {
@@ -55,6 +57,96 @@ class Detail extends Component {
             },
         ])
     }
+
+
+    /**核销 */
+    handleVerification = () => this.setState({ showVerification: !this.state.showVerification });
+
+    /**点击核销 */
+    Verification = () => {
+        wx.scanQRCode({
+            needResult: 1,
+            desc: 'scanQRCode desc',
+            success: ({ resultStr }: any) => {
+                let res = JSON.parse(resultStr);
+                if (res.verificationType && res.verificationType == "Prize") {
+                    //核销奖品
+                    console.log(res)
+                    Request({
+                        url: 'v3/activity/verification',
+                        method: 'PUT',
+                        data: {
+                            id: res.id
+                        }
+                    }).then(res => {
+                        if (res.code == 200) {
+                            Toast.success(res.message, 2, () => {
+                                router.push({
+                                    pathname: '/verificationPrize',
+                                })
+                            });
+                        } else {
+                            Toast.fail(res.message);
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                    });
+                } else {
+                    //核销
+                    Request({
+                        url: 'api/merchant/youhui/userConsume',
+                        method: 'post',
+                        data: {
+                            code: res.youhui_sn
+                        }
+                    }).then(res => {
+                        if (res.code == 200) {
+                            Toast.success(res.message, 2, () => {
+                                router.push({
+                                    pathname: '/verification/success',
+                                    query: {
+                                        youhui_log_id: res.data.youhu_log_id
+                                    }
+                                })
+                            });
+                        } else {
+                            Toast.fail(res.message);
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                    });
+                }
+            }
+        });
+    };
+
+    /**审核页面 */
+    verificationPage = () =>
+        this.state.showVerification ? (
+            <Flex className={styles.verificationPage} justify="end" direction="column">
+                <Flex className="icons">
+                    <Flex.Item>
+                        <Flex justify="center" direction="column" onClick={this.Verification}>
+                            <img src={require('@/assets/menu/15.png')} />
+                        扫码验证
+                    </Flex>
+                    </Flex.Item>
+                    <Flex.Item>
+                        <Flex
+                            justify="center"
+                            direction="column"
+                            onClick={() => { router.push('/verification/inputcode') }}
+                        >
+                            <img src={require('@/assets/menu/16.png')} />
+                        输码验证
+                    </Flex>
+                    </Flex.Item>
+                </Flex>
+                <Flex className="close-icon" align="center" justify="center">
+                    <Icon type="cross-circle-o" color="rgba(0, 0, 0, 0.2)" onClick={this.handleVerification} />
+                </Flex>
+            </Flex>
+        ) : null;
 
     render() {
         const { info } = this.state;
@@ -145,7 +237,7 @@ class Detail extends Component {
                     ) : info.delivery_status == 1 ? (
                         <div className={styles.footer_btn}>
                             {/* <div className={styles.cancel} onClick={this.handleCancel}>取消</div> */}
-                            <div className={styles.order_btn}>核销二维码</div>
+                            <div className={styles.order_btn} onClick={this.handleVerification}>核销二维码</div>
                         </div>
                     ) : (
                                 <div className={styles.footer_btn}>
@@ -153,6 +245,7 @@ class Detail extends Component {
                                 </div>
                             )
                 }
+                {this.verificationPage()}
             </div>
         )
     }
