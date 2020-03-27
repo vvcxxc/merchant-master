@@ -46,7 +46,32 @@ class List extends Component {
                 text: '确认', onPress: () => {
                     Request({
                         url: `v3/merchant/delivery/order/${id}`,
-                        method: 'POST'
+                        method: 'put',
+                        data: {
+                            delivery_status: 4
+                        }
+                    }).then(res => {
+                        // console.log(res)
+                        if (res.code == 200) {
+                            this.getData();
+                        }
+                    })
+                }
+            },
+        ])
+    }
+
+    handleDispatch = (id: any) => {
+        alert('提示', '确认配送吗？', [
+            { text: '取消', onPress: () => console.log('cancel'), style: 'default' },
+            {
+                text: '确认', onPress: () => {
+                    Request({
+                        url: `v3/merchant/delivery/order/${id}`,
+                        method: 'put',
+                        data: {
+                            delivery_status: 1
+                        }
                     }).then(res => {
                         // console.log(res)
                         if (res.code == 200) {
@@ -158,12 +183,13 @@ class List extends Component {
                             <div className={styles.prize_info}>
                                 <div className={styles.prize_name}>{item.delivery_name}</div>
                                 <div className={styles.prize_status}>
-                                    {/* 0待接单 1配送中 2配送成功 3配送失败 */}
+                                    {/* 0待接单 1配送中 2配送成功 3配送失败 4已接单 */}
                                     {
                                         item.delivery_status == 0 ? "待接单" :
                                             item.delivery_status == 1 ? "配送中" :
                                                 item.delivery_status == 2 ? "配送成功" :
-                                                    item.delivery_status == 3 ? "配送失败" : ""
+                                                    item.delivery_status == 3 ? "配送失败" :
+                                                        item.delivery_status == 4 ? "已接单" : ""
                                     }
                                 </div>
                             </div>
@@ -173,13 +199,14 @@ class List extends Component {
                             <div className={styles.divider}></div>
                             <div className={styles.footer_btn}>
 
-                                {/* 0待接单 1配送中 2配送成功 3配送失败 */}
+                                {/* 0待接单 1配送中 2配送成功 3配送失败 4已接单 */}
                                 {
                                     item.delivery_status == 0 ? <div className={styles.order_status} onClick={this.handleAcceptOrder.bind(this, item.id)}>接单</div> :
                                         item.delivery_status == 1 ? <div className={styles.order_status} onClick={this.handleVerification}>核销二维码</div> :
                                             // item.delivery_status == 2 ? <div className={styles.order_status}>已完成</div> :
                                             // item.delivery_status == 3 ? <div className={styles.order_status}>配送失败</div> :
-                                            ""
+                                            item.delivery_status == 4 ? <div className={styles.order_status} onClick={this.handleDispatch.bind(this, item.id)}>配送</div> :
+                                                ""
                                 }
 
                                 <div className={styles.order_detail} onClick={this.handleDetail.bind(this, item.id)}>查看</div>
