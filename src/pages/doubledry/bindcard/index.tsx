@@ -175,7 +175,7 @@ export default class bindPhoneNumber extends Component {
                 // mobile: phone
                 seqNo: seqNo,
                 code: code,
-                phone
+                phone 
             })
         }).then(res => {
             if (res.code == 200) {
