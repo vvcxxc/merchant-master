@@ -59,7 +59,7 @@ export default connect(({ activity }: any) => activity)(
           method: 'GET',
         }).then(res => {
           if (!res.data.delivery_status) {
-            router.push('/activitys/dispatching');
+            router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
             return;
           }
         })
