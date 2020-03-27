@@ -88,7 +88,7 @@ const model: Model = {
       group_sum: '',
       validity: '',
       shareText: '',
-      isDelivery: true
+      isDelivery: false
     },
     Appreciation: {
       mail_mode: '1',
