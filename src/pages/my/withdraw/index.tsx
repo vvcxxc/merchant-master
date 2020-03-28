@@ -32,7 +32,9 @@ class WithDraw extends Component {
     num: '',
     is_ok: false,
     data: {},
-    msg_show: false
+    msg_show: false,
+
+    isOkClick: true
   };
 
   componentWillMount() {
@@ -81,9 +83,12 @@ class WithDraw extends Component {
   };
 
   /**提现 */
-  WithDraw = () => {
+  WithDraw = async () => {
     let { money } = this.state;
     if (money && Number(money) >= 20) {
+
+      await this.setState({ isOkClick: false })
+
       request({
         url: 'api/merchant/supplier/withdraw',
         method: 'post',
@@ -91,6 +96,7 @@ class WithDraw extends Component {
           money
         }
       }).then(res => {
+        
         let { message, code } = res;
         if (code == 200) {
           Toast.success(message, 2);
@@ -101,9 +107,12 @@ class WithDraw extends Component {
             bank_name: info.bank_name,
             img: info.bank_img
           };
-          this.setState({ is_ok: true, data });
-        } else Toast.fail(message, 2);
-      });
+          this.setState({ is_ok: true, data, isOkClick: true });
+        } else {
+          Toast.fail(message, 2);
+          this.setState({ isOkClick: true })
+        };
+      })
     } else {
       this.setState({ msg_show: true })
     }
@@ -184,9 +193,17 @@ class WithDraw extends Component {
               全部提现
 						</span>
           </Flex>
-          <Button type="primary" style={{ marginTop: 60 }} onClick={this.WithDraw}>
-            提现
-					</Button>
+          {
+            this.state.isOkClick ? (
+              <Button type="primary" style={{ marginTop: 60 }} onClick={this.WithDraw}>
+                提现
+              </Button>
+            ) : (
+                <Button type="primary" style={{ marginTop: 60 }}>
+                  提现
+                </Button>
+              )
+          }
           <Button
             onClick={this.goWithDraw}
             type="primary"
