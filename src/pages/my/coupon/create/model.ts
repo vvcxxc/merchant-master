@@ -39,7 +39,7 @@ const model: Model = {
       description: [],
       temp_url1: [],
       temp_url2: [],
-      isDelivery:true
+      isDelivery:false
     },
     moneyForm: {
       coupons_type: 1,

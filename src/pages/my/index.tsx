@@ -45,7 +45,12 @@ export default connect()(
         integral: 0,
         canInvite: 0,
         bank_count: 1,
-        me_money: 0
+        me_money: 0,
+        is_existence: 0,  // 添加身份证和银行卡
+        is_sq: 0,         // 双乾审核状态
+        sq_failure: "",        // 双乾审核失败原因
+        is_card_activation: 0, // 绑卡激活状态
+        is_opening: 0,         // 提现状态
       },
       showSharethree: false
     };
@@ -66,7 +71,7 @@ export default connect()(
       });
       Toast.hide();
       if (res.code === 200) {
-        this.setState({ info: res.data });
+        this.setState({ info: res.data }, () => { console.log(this.state) });
       }
     };
 
@@ -153,6 +158,35 @@ export default connect()(
       }
     }
 
+    handleWithDraw = () => {
+      const { is_existence, is_sq, sq_failure, is_card_activation, is_opening } = this.state.info;
+      if (is_existence == 1) {
+        if (is_sq == 1) {
+          if (is_card_activation == 0) {
+            router.push('/doubledry/bindcard')
+          } else if (is_card_activation == 1 && is_opening == 0) {
+            router.push('/doubledry/withdraw')
+          } else if (is_card_activation == 1 && is_opening == 1) {
+            router.push('/my/withdraw')
+          }
+        } else {
+          router.push('/doubledry/audit')
+        }
+      } else if (is_existence == 0) {
+        router.push('/doubledry/register')
+      }
+    }
+
+    handleRouteMyBank = () => {
+      // () => router.push('/my/bank')
+      const { is_sq } = this.state.info;
+      if(is_sq == 1) {
+        router.push('/my/bank')
+      }else { 
+        router.push('/doubledry/bankaudit')
+      }
+    }
+
     render() {
       // const signCode = this.state.info.wx_sign_status == 2 ? (
       //   <Item
@@ -205,7 +239,7 @@ export default connect()(
                 </div>
                 <div className={styles.count_balance_btn}>
                   <div className={styles.count_balance_invest} onClick={() => router.push('/my/rechange')}>充值</div>
-                  <div className={styles.count_balance_withdraw} onClick={() => router.push('/my/withdraw')}>提现</div>
+                  <div className={styles.count_balance_withdraw} onClick={this.handleWithDraw}>提现</div>
                 </div>
               </div>
               <div className={styles.platform_revenu}>
@@ -219,7 +253,7 @@ export default connect()(
               </div>
             </div>
             <div className={styles.user_bank_gift}>
-              <div className={styles.user_bank} onClick={() => router.push('/my/bank')}>
+              <div className={styles.user_bank} onClick={this.handleRouteMyBank}>
                 <div className={styles.bank_num}>{this.state.info.bank_count}</div>
                 <div className={styles.bank_title}>银行卡</div>
               </div>
@@ -296,7 +330,7 @@ export default connect()(
                   onClick={this.handleContractCode.bind(this)}
                 >
                   我的签约码
-						    </Item>
+                </Item>
               ) : ""
             }
 

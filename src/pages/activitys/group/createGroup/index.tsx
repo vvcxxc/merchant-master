@@ -53,6 +53,18 @@ export default connect(({ activity }: any) => activity)(
     };
     /**选择配送 */
     onDelivery = () => {
+      if (!this.props.Group.isDelivery) {
+        request({
+          url: 'v3/merchant/delivery',
+          method: 'GET',
+        }).then(res => {
+          if (!res.data.delivery_status) {
+            router.push('/activitys/dispatching');
+            return;
+          }
+        })
+        return;
+      }
       this.props.dispatch({
         type: 'activity/setGroup',
         payload: {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import router from 'umi/router';
 import request from '@/services/request';
 import { List, WingBlank, Flex, Button, Toast } from 'antd-mobile';
+
 const Item = List.Item;
 export default class MyInfo extends Component {
   state = {

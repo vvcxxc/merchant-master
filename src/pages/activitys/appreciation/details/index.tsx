@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import { Carousel, Flex, WingBlank, Button, Toast, Modal } from 'antd-mobile';
-import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router';
 import wx from "weixin-js-sdk";
+import { connect } from 'dva';
+import { Carousel, Flex, WingBlank, Button, Toast, Modal } from 'antd-mobile';
 import Success from '@/pages/verification/success';
-// import BottomShare from '@/pages/activitys/appreciation/componts/bottom_share'废弃
-// import Posters from '@/pages/activitys/appreciation/componts/posters'废弃
 //品类券海报
 import PosterCategory from '@/pages/activitys/appreciation/componts/posters/value_added/category'
 //通用券海报
 import PosterGeneral from '@/pages/activitys/appreciation/componts/posters/value_added/general'
-import EchartsSan from '../../../../components/echart_shan/index'
-import { connect } from 'dva';
+import styles from './index.less';
+// import EchartsSan from '../../../../components/echart_shan/index'
+// import Poster from '@/pages/activitys/appreciation/componts/posters/spell_group'
+
+
 
 
 const alert = Modal.alert;
@@ -75,6 +76,7 @@ export default connect(({ activity }: any) => activity)(
       //海报
       spell_group: false,
       poster_youhui_type: 0
+      // spellGroupInfo: {}
     }
 
     componentWillMount() {
@@ -106,7 +108,6 @@ export default connect(({ activity }: any) => activity)(
         }
       }).then(res => {
         let { data } = res;
-        console.log(data.appreciation_info.images, 'data');
 
         this.setState({
           echart_Data: [
@@ -137,7 +138,7 @@ export default connect(({ activity }: any) => activity)(
             pay_money: data.appreciation_info.pay_money,
             //礼品小图
             git_img: data.appreciation_gif_info.gif_pic,
-            // data.appreciation_info.images[0],
+              // data.appreciation_info.images[0],
             link: data.appreciation_info.link,
             activity_name: data.appreciation_info.activity_name,
             total_fee: data.appreciation_info.total_fee,//使用门槛
@@ -154,7 +155,7 @@ export default connect(({ activity }: any) => activity)(
         //     ...data.supplier,
         //     git_money: data.appreciation_gif_info.gif_integral,//礼品金额
         //     gif_pic: data.appreciation_gif_info.gif_pic,//礼品图片
-        //     gift_id: data.appreciation_gif_info.gift_id,// 礼品id 如果为0 海报就不显示礼品图片以及信息
+        //     gift_id: data.appreciation_gif_info.gift_id,// 礼品id 为0 不显示礼品图片以及信息
         //     pay_money: data.appreciation_info.pay_money,
         //     max_money: data.appreciation_info.poster_max_money,
         //     poster_max_money: data.appreciation_info.poster_max_money,
@@ -167,16 +168,6 @@ export default connect(({ activity }: any) => activity)(
         //     total_fee: data.appreciation_info.total_fee,
         //   }
         // })
-
-        // this.createHeadImg(data.supplier.shop_door_header_img)
-        // if (data.appreciation_gif_info.gift_id != 0) {
-        //   this.createGiftImg(data.appreciation_gif_info.gif_pic)
-        // }
-        // this.createHeadImg(data.supplier.shop_door_header_img + '?x-oss-process=image/format,jpg/resize,m_pad,h_180,w_180/quality,q_90'
-        // )
-        // if (data.appreciation_gif_info.gift_id != 0) {
-        //   this.createGiftImg(data.appreciation_gif_info.gif_pic + '?x-oss-process=image/format,jpg/resize,m_pad,w_300,h_150/quality,q_90')
-        // }
 
         // if (data.appreciation_gif_info.gift_id == 0) {
         //   this.setState({ is_gift: false })
@@ -211,56 +202,6 @@ export default connect(({ activity }: any) => activity)(
       this.setState({ showShare: false })
     }
 
-    // 创建图片
-    // createHeadImg = (imgData: string) => {
-    //   let tempImage2 = new Image();// 礼品图片
-    //   tempImage2.crossOrigin = ""
-    //   tempImage2.src = this.judgeNetwork(imgData);
-    //   tempImage2.onload = () => {
-    //     this.props.dispatch({
-    //       type: 'activity/setDetails',
-    //       payload: {
-    //         headImg: this.getBase64Image2(tempImage2)
-    //       }
-    //     });
-    //   }
-    // }
-    // createGiftImg = (imgData: string) => {
-    //   let tempImage2 = new Image();// 礼品图片
-    //   tempImage2.crossOrigin = ""
-    //   tempImage2.src = this.judgeNetwork(imgData);
-    //   tempImage2.onload = () => {
-    //     this.props.dispatch({
-    //       type: 'activity/setDetails',
-    //       payload: {
-    //         giftImg: this.getBase64Image2(tempImage2)
-    //       }
-    //     });
-    //   }
-    // }
-
-    // 转换图片
-    // getBase64Image2 = (img: any) => {
-    //   var canvas: any = document.createElement("canvas");
-    //   canvas.width = img.width;
-    //   canvas.height = img.height;
-    //   var ctx = canvas.getContext("2d");
-    //   ctx.drawImage(img, 0, 0, img.width, img.height);
-    //   var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
-    //   var dataURL = canvas.toDataURL("image/" + ext, 0.1);
-    //   return dataURL;
-    // }
-
-    // 用来给域里面添加 ‘ \ ’
-    // judgeNetwork = (Network: string) => {
-    //   if (Network.split('com', 2)[1].slice(0, 1) == '/') {
-    //     return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
-    //   } else {
-    //     return Network
-    //   }
-    // }
-
-
     lookDetail = () => {
       router.push({ pathname: '/activitys/group/event_details', query: { youhui_id: this.state.youhui_id } })
     }
@@ -269,8 +210,8 @@ export default connect(({ activity }: any) => activity)(
 
     render() {
       const { info, is_gift, types, show_notice } = this.state;
-      let infoData: any = info.appreciation_gif_info
-      let share: any = info.share
+      // let infoData: any = info.appreciation_gif_info
+      // let share: any = info.share
       const description = info.appreciation_coupons_info.description.map((item, idx) => <p key={idx}>· {item}</p>);
       const button = this.state.type == '3' ? null : (
         <Button
@@ -311,28 +252,28 @@ export default connect(({ activity }: any) => activity)(
         </div>
       ) : null;
 
-      const echart = this.state.echart_Data.length > 1 ?
-        (
-          <EchartsSan
-            list={this.state.echart_Data}
-            name={["参与人数", "增值人数", "券使用人数"]}
-            colors={['#5476C4', '#7156C6', '#45BDBD']}
-          />) : null
+      // const echart = this.state.echart_Data.length > 1 ?
+      //   (
+      //     <EchartsSan
+      //       list={this.state.echart_Data}
+      //       name={["参与人数", "增值人数", "券使用人数"]}
+      //       colors={['#5476C4', '#7156C6', '#45BDBD']}
+      //     />) : null
 
       // const bottom_share = (
-      //   <BottomShare
-      //     closeShare={this.closeShare}
-      //     showShare={this.state.showShare}
-      //     type={{
-      //       activity_id: infoData.activity_id,
-      //       id: infoData.youhui_id,
-      //       name: '增值',
-      //       gift_id: infoData.gift_id,
-      //       ...share
-      //     }}
-      //     posterData={this.state.posterData}
-      //   >{null}
-      //   </BottomShare>)
+      // <BottomShare
+      //   closeShare={this.closeShare}
+      //   showShare={this.state.showShare}
+      //   type={{
+      //     activity_id: infoData.activity_id,
+      //     id: infoData.youhui_id,
+      //     name: '增值',
+      //     gift_id: infoData.gift_id,
+      //     ...share
+      //   }}
+      //   posterData={this.state.posterData}
+      // >{null}
+      // </BottomShare>)
       return (
         <div className={styles.detailsPage}>
           <WingBlank>
@@ -342,10 +283,11 @@ export default connect(({ activity }: any) => activity)(
                 {info.appreciation_info.activity_name}
                 <span>{types}</span>
               </div>
-              <img src={require('./share.png')}
-                // onClick={this.shareClick}
-                onClick={() => {this.setState({ spell_group: true })}}
-              />
+              <img src={require('./share.png')} onClick={
+                () => {
+                  this.setState({ spell_group: true })
+                }
+              } />
             </Flex>
             {
               this.state.info.appreciation_info.images.length ? < Flex className={styles.activity_img}>
@@ -427,13 +369,7 @@ export default connect(({ activity }: any) => activity)(
                 </div>
               </Flex> : null
             }
-
-
-            {/* 礼品信息 */}
             {isGift}
-
-            {/* 撤销按钮 */}
-            {/* <Button type='primary' style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button> */}
             {button}
           </WingBlank>
           {
@@ -446,7 +382,6 @@ export default connect(({ activity }: any) => activity)(
                 list={this.state.posterData}
                 close={() => this.setState({ spell_group: false })} />
           }
-          {/* {bottom_share} */}
         </div>
       )
     }

@@ -7,6 +7,8 @@ import upload from '@/services/oss';
 import Notice from '@/pages/activitys/components/notice';
 import router from 'umi/router';
 import CustomInput from './InputItem'
+import request from '@/services/request';
+
 interface errorType {
 	nameWrong?: string,			//券名错误
 	marketPrice?: string,		//市场价错误
@@ -147,6 +149,18 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 
 		/**选择配送 */
 		onDelivery = () => {
+			if (!this.props.isDelivery) {
+				request({
+					url: 'v3/merchant/delivery',
+					method: 'GET',
+				}).then(res => {
+					if (!res.data.delivery_status) {
+						router.push('/activitys/dispatching');
+						return;
+					}
+				})
+				return;
+			}
 			this.props.dispatch({
 				type: 'createCoupon/setCoupon',
 				payload: {

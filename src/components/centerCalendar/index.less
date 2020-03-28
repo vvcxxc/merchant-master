@@ -1,0 +1,246 @@
+.calendar {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 26px;
+    padding-right: 32px;
+    padding-top: 48px;
+    padding-bottom: 36px;
+    border-bottom: 2px solid #eff1f3;
+    box-sizing: border-box;
+    position: relative;
+
+    .titleLeft {
+      margin-right: 28px;
+      font-size: 28px;
+      font-family: PingFang SC;
+      font-weight: bold;
+      color: rgba(95, 102, 108, 1);
+    }
+
+    .titleRight {
+      color: #3f4692;
+
+      img {
+        height: 32px;
+      }
+    }
+
+    .titleCenter {
+      display: flex;
+      position: absolute;
+      left: 25%;
+      top: 25%;
+
+      .showTime {
+        height: 62px;
+        width: 170px;
+        border: 2px solid #d4d8dc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: rgba(51, 51, 51, 1);
+      }
+
+      .division {
+        margin: 0px 5px;
+        color: #d9dce0;
+      }
+    }
+  }
+
+  .hint {
+    background: rgba(247, 246, 252, 1);
+    border-radius: 3px;
+    padding-top: 23px;
+    padding-bottom: 25px;
+
+    div {
+      margin-bottom: 11px;
+      font-size: 24px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: rgba(41, 49, 134, 1);
+      opacity: 0.9;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: rgba(173, 181, 189, 1);
+      border-radius: 4px;
+      margin-right: 18px;
+      margin-left: 32px;
+    }
+  }
+}
+
+.headerTitle {
+  ul {
+    display: flex;
+    justify-content: space-around;
+    box-sizing: border-box;
+
+    li {
+      height: 56px;
+      width: 56px;
+      list-style: none;
+      font-size: 34px;
+      font-family: PingFang SC;
+      font-weight: bold;
+      border-radius: 3px;
+      background: rgba(221, 226, 229, 1);
+      color: rgba(51, 51, 51, 1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        height: 33px;
+      }
+    }
+
+    li:nth-child(1) {
+      transform: rotate(180deg);
+    }
+
+    li:nth-child(2) {
+      background-color: #fff;
+    }
+  }
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-around;
+
+  div {
+    width: 136px;
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(197, 213, 251, 1);
+    border-radius: 3px;
+    font-size: 28px;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #293186;
+
+  }
+
+  .showMounthTitle {
+    color: rgba(255, 255, 255, 1);
+    background: #293186;
+  }
+}
+
+.weekTime {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(221, 226, 229, 1);
+  width: 100%;
+  box-sizing: border-box;
+
+  .weekTimeContent {
+    display: flex;
+    width: 100%;
+
+    div {
+      display: flex;
+      justify-content: center;
+      width: 110px;
+    }
+  }
+}
+
+.dayBox {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  border-bottom: 2px solid rgba(221, 226, 229, 1);
+  box-sizing: border-box;
+
+  .totalDay {
+    height: 410px;
+    width: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+
+    .tallLight {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 14.2%;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      position: relative;
+      box-sizing: border-box;
+
+      .day {
+        height: 70px;
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-left: -1px;
+
+        .ball {
+          position: absolute;
+          z-index: 0;
+          height: 70px;
+          width: 70px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+          text-align: center;
+        }
+
+        .start_stop {
+          position: absolute;
+          bottom: -27px;
+          font-size: 20px;
+          left: 40%;
+          display: flex;
+          justify-content: center;
+          color: #293186;
+
+        }
+      }
+
+      .ball_left {
+        height: 70px;
+        position: absolute;
+        left: 0;
+        width: 50%;
+        z-index: 0.5;
+        background-color: #e9eaf3;
+      }
+
+      .ball_right {
+        height: 70px;
+        position: absolute;
+        right: 0;
+        width: 50%;
+        background-color: #e9eaf3;
+        z-index: 0.5;
+      }
+
+
+
+
+
+
+    }
+  }
+}
