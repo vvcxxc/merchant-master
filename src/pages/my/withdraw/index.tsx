@@ -106,7 +106,7 @@ class WithDraw extends Component {
             num,
             bank_name: info.bank_name,
             img: info.bank_img
-          };
+          }; 
           this.setState({ is_ok: true, data, isOkClick: true });
         } else {
           Toast.fail(message, 2);
