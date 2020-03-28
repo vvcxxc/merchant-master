@@ -230,8 +230,8 @@ class Detail extends Component {
                     <div className={styles.order_info_value}>{info.delivery_money}元</div>
                 </div>
                 <div className={styles.flex_order_info}>
-                    <div className={styles.order_info_status}>配送地址</div>
-                    <div className={styles.order_info_value}>{info.detail}</div>
+                    <div className={styles.order_info_address}>配送地址</div>
+                    <div className={styles.address_detail}>{info.province + info.city + info.district + info.detail}</div>
                 </div>
 
 
