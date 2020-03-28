@@ -183,13 +183,17 @@ class List extends Component {
                             <div className={styles.prize_info}>
                                 <div className={styles.prize_name}>{item.delivery_name}</div>
                                 <div className={styles.prize_status}>
-                                    {/* 0待接单 1配送中 2配送成功 3配送失败 4已接单 */}
+                                    {/*  
+                                        delivery_status  0待接单 1配送中 2配送成功 3配送失败 4已接单 
+                                        order_status     0待支付 1正常 2商家取消 3用户取消 4订单过期自动取消 5订单已完成
+                                    */}
                                     {
-                                        item.delivery_status == 0 ? "待接单" :
-                                            item.delivery_status == 1 ? "配送中" :
-                                                item.delivery_status == 2 ? "配送成功" :
-                                                    item.delivery_status == 3 ? "配送失败" :
-                                                        item.delivery_status == 4 ? "已接单" : ""
+                                        item.order_status == 2 || item.order_status == 3 || item.order_status == 4 ? "已取消" :
+                                            item.delivery_status == 0 ? "待接单" :
+                                                item.delivery_status == 1 ? "配送中" :
+                                                    item.delivery_status == 2 ? "配送成功" :
+                                                        item.delivery_status == 3 ? "配送失败" :
+                                                            item.delivery_status == 4 ? "已接单" : ""
                                     }
                                 </div>
                             </div>
