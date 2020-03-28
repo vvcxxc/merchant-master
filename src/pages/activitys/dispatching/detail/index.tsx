@@ -233,7 +233,7 @@ class Detail extends Component {
                     <div className={styles.order_info_address}>配送地址</div>
                     <div className={styles.address_detail}>{info.province + info.city + info.district + info.detail}</div>
                 </div>
-
+ 
 
                 {/* <div className={styles.footer_btn}>
                     <div className={styles.cancel} onClick={this.handleCancel}>取消</div>
