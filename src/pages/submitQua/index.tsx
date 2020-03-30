@@ -136,6 +136,16 @@ export default connect(({ submitQua }: any) => submitQua)(
       ToastTipsCornBusName: "",
       ToastTipsLegalName: "",
       ToastTipsBusinessDate: "",
+
+
+      is_bank_adopt: 0,  //银行卡已绑定就隐藏银行卡信息
+      is_sq_adopt: 0,    //双乾通过隐藏身份证信息
+
+      isShowBank: false,
+      BankArr: [],
+      searchBank: "",
+
+      payment_open_status: 0, // 只有为2的时候才是修改 其他为新增
     };
 
 
@@ -150,7 +160,122 @@ export default connect(({ submitQua }: any) => submitQua)(
       // if (Cookies.get("_bank3disable") && JSON.parse(Cookies.get("_bank3disable")) == true) {
       //   this.refs.bank3.inputRef.inputRef.setAttribute('disabled', true);
       // }
+      request({
+        url: 'v3/payment_profiles/payment_status'
+      }).then(async res => {
+        if (res.code == 200) {
+          // 只有为2的时候才是修改 其他为新增
+          if (res.data.payment_status.payment_open_status == 2) {
+            await this.setState({
+              payment_open_status: res.data.payment_status.payment_open_status
+            }, () => {
+              console.log('.payment_status.payment_open_status', this.state)
+            })
+            request({
+              url: 'v3/payment_profiles',
+              method: 'get'
+            }).then(res => {
+              let { data } = res;
+              let { contact_name, legal_id_no, legal_id_valid_date, settle_bank_account_name, settle_bank_account_no, settle_bank, three_certs_in_one_no, corn_bus_name, legal_name, three_certs_in_one_valid_date, bank_name, legal_id_front_img, legal_id_back_img, hand_hold_id_img, bank_card_front_img, bank_card_back_img, three_certs_in_one_img } = data;
+              if (three_certs_in_one_valid_date[0] == 0) {
+                three_certs_in_one_valid_date = '长期'
+              }
+              if (three_certs_in_one_valid_date[0] == 0) {
+                three_certs_in_one_valid_date = '长期'
+              }
 
+              this.setState({
+                is_bank_adopt: data.is_bank_adopt,
+                is_sq_adopt: data.is_sq_adopt
+              })
+
+              let arr = (this.props.contact_name || this.props.legal_id_no || this.props.date || this.props.settle_bank_account_name || this.props.settle_bank_account_no || this.props.settle_bank || this.props.three_certs_in_one_no || this.props.corn_bus_name || this.props.legal_name || this.props.three_certs_in_one_valid_date || this.props.bank_name || this.props.legal_id_front_img || this.props.legal_id_back_img || this.props.hand_hold_id_img || this.props.bank_card_front_img || this.props.bank_card_back_img || this.props.three_certs_in_one_img)
+              if (this.props.date_back == false) {
+                this.props.dispatch({
+                  type: 'submitQua/setQua',
+                  payload: {
+
+                    contact_name: Cookies.get("_handleName") ? JSON.parse(Cookies.get("_handleName")) : contact_name,
+                    legal_id_no: Cookies.get("_legal_id_no") ? JSON.parse(Cookies.get("_legal_id_no")) : legal_id_no,
+                    date: Cookies.get("_date") ? JSON.parse(Cookies.get("_date")) : legal_id_valid_date,
+                    settle_bank_account_name: Cookies.get("_handleBankAccountName") ? JSON.parse(Cookies.get("_handleBankAccountName")) : settle_bank_account_name,
+                    settle_bank_account_no: Cookies.get("_handleBankNum") ? JSON.parse(Cookies.get("_handleBankNum")) : settle_bank_account_no,
+                    settle_bank: Cookies.get("_handleSettleBank") ? Cookies.get("_handleSettleBank") : settle_bank,
+                    three_certs_in_one_no: Cookies.get("_handleLicenseNUm") ? JSON.parse(Cookies.get("_handleLicenseNUm")) : three_certs_in_one_no,
+                    corn_bus_name: Cookies.get("_handleLicenseName") ? JSON.parse(Cookies.get("_handleLicenseName")) : corn_bus_name,
+                    legal_name: Cookies.get("_handleLegalName") ? JSON.parse(Cookies.get("_handleLegalName")) : legal_name,
+                    three_certs_in_one_valid_date: Cookies.get("_three_certs_in_one_valid_date") ? JSON.parse(Cookies.get("_three_certs_in_one_valid_date")) : three_certs_in_one_valid_date,
+                    bank_name: Cookies.get("_handleBankName") ? JSON.parse(Cookies.get("_handleBankName")) : bank_name,
+
+                    legal_id_front_img: Cookies.get("_changeIdFront") ? JSON.parse(Cookies.get("_changeIdFront")) : getCaption(legal_id_front_img),
+                    legal_id_back_img: Cookies.get("_changeIdBack") ? JSON.parse(Cookies.get("_changeIdBack")) : getCaption(legal_id_back_img),
+                    hand_hold_id_img: Cookies.get("_changeIdHand") ? JSON.parse(Cookies.get("_changeIdHand")) : getCaption(hand_hold_id_img),
+                    bank_card_front_img: Cookies.get("_changeBankFront") ? JSON.parse(Cookies.get("_changeBankFront")) : getCaption(bank_card_front_img),
+                    bank_card_back_img: Cookies.get("_changeBankBack") ? JSON.parse(Cookies.get("_changeBankBack")) : getCaption(bank_card_back_img),
+                    three_certs_in_one_img: Cookies.get("_changeLicense") ? JSON.parse(Cookies.get("_changeLicense")) : getCaption(three_certs_in_one_img),
+
+
+                    is_id_front: (Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) != "") ? true : ((Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) == "") ? false : (legal_id_front_img != "" ? true : false)),
+                    is_id_back: (Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) != "") ? true : ((Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) == "") ? false : (legal_id_back_img != "" ? true : false)),
+                    is_id_hand: (Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) != "") ? true : ((Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) == "") ? false : (hand_hold_id_img != "" ? true : false)),
+                    is_bank_front: (Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) != "") ? true : ((Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) == "") ? false : (bank_card_front_img != "" ? true : false)),
+                    is_bank_back: (Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) != "") ? true : ((Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) == "") ? false : (bank_card_back_img != "" ? true : false)),
+                    is_license: (Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) != "") ? true : ((Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) == "") ? false : (three_certs_in_one_img != "" ? true : false)),
+
+                    // is_id_front: (legal_id_front_img != "" || Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) != "") ? true : false,
+                    // is_id_back: (legal_id_back_img != "" || Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) != "") ? true : false,
+                    // is_id_hand: (hand_hold_id_img != "" || Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) != "") ? true : false,
+                    // is_bank_front: (bank_card_front_img != "" || Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) != "") ? true : false,
+                    // is_bank_back: (bank_card_back_img != "" || Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) != "") ? true : false,
+                    // is_license: (three_certs_in_one_img != "" || Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) != "") ? true : false,
+                    modal1img: [],
+                    id_back: [],
+                    id_front: [],
+                    id_hand: [],
+                    bank_front: [],
+                    bank_back: [],
+                    license_img: [],
+                  }
+                })
+
+                let temp_name = Cookies.get("_handleSettleBank") ? Cookies.get("_handleSettleBank") : settle_bank;
+                if (this.state.hasBankList.indexOf(temp_name) > -1) {
+                  this.props.dispatch({
+                    type: 'submitQua/setQua',
+                    payload: {
+                      bank_disable: true
+                    }
+                  });
+                }
+
+
+              } else {
+                // let temp=document.getElementById("box1").value;
+                // this.handleBankName(temp);
+
+                let temp_name = Cookies.get("_handleSettleBank") ? JSON.parse(Cookies.get("_handleSettleBank")) : settle_bank;
+                if (this.state.hasBankList.indexOf(temp_name) > -1) {
+                  this.props.dispatch({
+                    type: 'submitQua/setQua',
+                    payload: {
+                      bank_disable: true
+                    }
+                  });
+                }
+
+                this.props.dispatch({
+                  type: 'submitQua/setQua',
+                  payload: {
+                    date_back: false,
+                    bankShow: false
+                  }
+                })
+                return
+              }
+            })
+          }
+        }
+      })
 
 
       // 暂时
@@ -168,170 +293,56 @@ export default connect(({ submitQua }: any) => submitQua)(
 
         window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
       })
+
+    }
+
+    handleSelectBank = (bankName: any) => {
       request({
-        url: 'v3/payment_profiles',
-        method: 'get'
+        url: 'v3/bank_name',
+        method: 'POST',
+        params: {
+          name: bankName,
+        }
       }).then(res => {
-        let { data } = res;
-        let { contact_name, legal_id_no, legal_id_valid_date, settle_bank_account_name, settle_bank_account_no, settle_bank, three_certs_in_one_no, corn_bus_name, legal_name, three_certs_in_one_valid_date, bank_name, legal_id_front_img, legal_id_back_img, hand_hold_id_img, bank_card_front_img, bank_card_back_img, three_certs_in_one_img } = data;
-        if (three_certs_in_one_valid_date[0] == 0) {
-          three_certs_in_one_valid_date = '长期'
-        }
-        if (three_certs_in_one_valid_date[0] == 0) {
-          three_certs_in_one_valid_date = '长期'
-        }
-
-        let arr = (this.props.contact_name || this.props.legal_id_no || this.props.date || this.props.settle_bank_account_name || this.props.settle_bank_account_no || this.props.settle_bank || this.props.three_certs_in_one_no || this.props.corn_bus_name || this.props.legal_name || this.props.three_certs_in_one_valid_date || this.props.bank_name || this.props.legal_id_front_img || this.props.legal_id_back_img || this.props.hand_hold_id_img || this.props.bank_card_front_img || this.props.bank_card_back_img || this.props.three_certs_in_one_img)
-        if (this.props.date_back == false) {
-          this.props.dispatch({
-            type: 'submitQua/setQua',
-            payload: {
-              // contact_name: contact_name != "" ? contact_name : (Cookies.get("_handleName") ? JSON.parse(Cookies.get("_handleName")) : ""),
-              // legal_id_no: legal_id_no != "" ? legal_id_no : (Cookies.get("_legal_id_no") ? JSON.parse(Cookies.get("_legal_id_no")) : ""),
-              // date: legal_id_valid_date != "" ? legal_id_valid_date : (Cookies.get("_date") ? JSON.parse(Cookies.get("_date")) : ""),
-              // settle_bank_account_name: settle_bank_account_name != "" ? settle_bank_account_name : (Cookies.get("_handleBankAccountName") ? JSON.parse(Cookies.get("_handleBankAccountName")) : ""),
-              // settle_bank_account_no: settle_bank_account_no != "" ? settle_bank_account_no : (Cookies.get("_handleBankNum") ? JSON.parse(Cookies.get("_handleBankNum")) : ""),
-              // settle_bank: settle_bank != "" ? settle_bank : (Cookies.get("_handleSettleBank") ? JSON.parse(Cookies.get("_handleSettleBank")) : ""),
-              // three_certs_in_one_no: three_certs_in_one_no != "" ? three_certs_in_one_no : (Cookies.get("_handleLicenseNUm") ? JSON.parse(Cookies.get("_handleLicenseNUm")) : ""),
-              // corn_bus_name: corn_bus_name != "" ? corn_bus_name : (Cookies.get("_handleLicenseName") ? JSON.parse(Cookies.get("_handleLicenseName")) : ""),
-              // legal_name: legal_name != "" ? legal_name : (Cookies.get("_handleLegalName") ? JSON.parse(Cookies.get("_handleLegalName")) : ""),
-              // three_certs_in_one_valid_date: three_certs_in_one_valid_date != "" ? three_certs_in_one_valid_date : (Cookies.get("_three_certs_in_one_valid_date") ? JSON.parse(Cookies.get("_three_certs_in_one_valid_date")) : ""),
-              // bank_name: bank_name != "" ? bank_name : (Cookies.get("_handleBankName") ? JSON.parse(Cookies.get("_handleBankName")) : ""),
-
-              // legal_id_front_img: legal_id_front_img != "" ? getCaption(legal_id_front_img) : (Cookies.get("_changeIdFront") ? JSON.parse(Cookies.get("_changeIdFront")) : ""),
-              // legal_id_back_img: legal_id_back_img != "" ? getCaption(legal_id_back_img) : (Cookies.get("_changeIdBack") ? JSON.parse(Cookies.get("_changeIdBack")) : ""),
-              // hand_hold_id_img: hand_hold_id_img != "" ? getCaption(hand_hold_id_img) : (Cookies.get("_changeIdHand") ? JSON.parse(Cookies.get("_changeIdHand")) : ""),
-              // bank_card_front_img: bank_card_front_img != "" ? getCaption(bank_card_front_img) : (Cookies.get("_changeBankFront") ? JSON.parse(Cookies.get("_changeBankFront")) : ""),
-              // bank_card_back_img: bank_card_back_img != "" ? getCaption(bank_card_back_img) : (Cookies.get("_changeBankBack") ? JSON.parse(Cookies.get("_changeBankBack")) : ""),
-              // three_certs_in_one_img: three_certs_in_one_img != "" ? getCaption(three_certs_in_one_img) : (Cookies.get("_changeLicense") ? JSON.parse(Cookies.get("_changeLicense")) : ""),
-
-              contact_name: Cookies.get("_handleName") ? JSON.parse(Cookies.get("_handleName")) : contact_name,
-              legal_id_no: Cookies.get("_legal_id_no") ? JSON.parse(Cookies.get("_legal_id_no")) : legal_id_no,
-              date: Cookies.get("_date") ? JSON.parse(Cookies.get("_date")) : legal_id_valid_date,
-              settle_bank_account_name: Cookies.get("_handleBankAccountName") ? JSON.parse(Cookies.get("_handleBankAccountName")) : settle_bank_account_name,
-              settle_bank_account_no: Cookies.get("_handleBankNum") ? JSON.parse(Cookies.get("_handleBankNum")) : settle_bank_account_no,
-              settle_bank: Cookies.get("_handleSettleBank") ? JSON.parse(Cookies.get("_handleSettleBank")) : settle_bank,
-              three_certs_in_one_no: Cookies.get("_handleLicenseNUm") ? JSON.parse(Cookies.get("_handleLicenseNUm")) : three_certs_in_one_no,
-              corn_bus_name: Cookies.get("_handleLicenseName") ? JSON.parse(Cookies.get("_handleLicenseName")) : corn_bus_name,
-              legal_name: Cookies.get("_handleLegalName") ? JSON.parse(Cookies.get("_handleLegalName")) : legal_name,
-              three_certs_in_one_valid_date: Cookies.get("_three_certs_in_one_valid_date") ? JSON.parse(Cookies.get("_three_certs_in_one_valid_date")) : three_certs_in_one_valid_date,
-              bank_name: Cookies.get("_handleBankName") ? JSON.parse(Cookies.get("_handleBankName")) : bank_name,
-
-              legal_id_front_img: Cookies.get("_changeIdFront") ? JSON.parse(Cookies.get("_changeIdFront")) : getCaption(legal_id_front_img),
-              legal_id_back_img: Cookies.get("_changeIdBack") ? JSON.parse(Cookies.get("_changeIdBack")) : getCaption(legal_id_back_img),
-              hand_hold_id_img: Cookies.get("_changeIdHand") ? JSON.parse(Cookies.get("_changeIdHand")) : getCaption(hand_hold_id_img),
-              bank_card_front_img: Cookies.get("_changeBankFront") ? JSON.parse(Cookies.get("_changeBankFront")) : getCaption(bank_card_front_img),
-              bank_card_back_img: Cookies.get("_changeBankBack") ? JSON.parse(Cookies.get("_changeBankBack")) : getCaption(bank_card_back_img),
-              three_certs_in_one_img: Cookies.get("_changeLicense") ? JSON.parse(Cookies.get("_changeLicense")) : getCaption(three_certs_in_one_img),
-
-
-              is_id_front: (Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) != "") ? true : ((Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) == "") ? false : (legal_id_front_img != "" ? true : false)),
-              is_id_back: (Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) != "") ? true : ((Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) == "") ? false : (legal_id_back_img != "" ? true : false)),
-              is_id_hand: (Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) != "") ? true : ((Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) == "") ? false : (hand_hold_id_img != "" ? true : false)),
-              is_bank_front: (Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) != "") ? true : ((Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) == "") ? false : (bank_card_front_img != "" ? true : false)),
-              is_bank_back: (Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) != "") ? true : ((Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) == "") ? false : (bank_card_back_img != "" ? true : false)),
-              is_license: (Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) != "") ? true : ((Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) == "") ? false : (three_certs_in_one_img != "" ? true : false)),
-
-              // is_id_front: (legal_id_front_img != "" || Cookies.get("_changeIdFront") && JSON.parse(Cookies.get("_changeIdFront")) != "") ? true : false,
-              // is_id_back: (legal_id_back_img != "" || Cookies.get("_changeIdBack") && JSON.parse(Cookies.get("_changeIdBack")) != "") ? true : false,
-              // is_id_hand: (hand_hold_id_img != "" || Cookies.get("_changeIdHand") && JSON.parse(Cookies.get("_changeIdHand")) != "") ? true : false,
-              // is_bank_front: (bank_card_front_img != "" || Cookies.get("_changeBankFront") && JSON.parse(Cookies.get("_changeBankFront")) != "") ? true : false,
-              // is_bank_back: (bank_card_back_img != "" || Cookies.get("_changeBankBack") && JSON.parse(Cookies.get("_changeBankBack")) != "") ? true : false,
-              // is_license: (three_certs_in_one_img != "" || Cookies.get("_changeLicense") && JSON.parse(Cookies.get("_changeLicense")) != "") ? true : false,
-              modal1img: [],
-              id_back: [],
-              id_front: [],
-              id_hand: [],
-              bank_front: [],
-              bank_back: [],
-              license_img: []
-            }
+        if (res.data.length != 0) {
+          this.setState({
+            isShowBank: true,
+            BankArr: res.data,
           })
-
-          let temp_name = Cookies.get("_handleSettleBank") ? JSON.parse(Cookies.get("_handleSettleBank")) : settle_bank;
-          if (this.state.hasBankList.indexOf(temp_name) > -1) {
-            this.props.dispatch({
-              type: 'submitQua/setQua',
-              payload: {
-                bank_disable: true
-              }
-            });
-          }
-
-          // if (legal_id_front_img) {
-          //   this.props.dispatch({
-          //     type: 'submitQua/setQua',
-          //     payload: {
-          //       is_id_front: true
-          //     }
-          //   })
-          // }
-          // if (legal_id_back_img) {
-          //   this.props.dispatch({
-          //     type: 'submitQua/setQua',
-          //     payload: {
-          //       is_id_back: true
-          //     }
-          //   })
-          // }
-          // if (hand_hold_id_img) {
-          //   this.props.dispatch({
-          //     type: 'submitQua/setQua',
-          //     payload: {
-          //       is_id_hand: true
-          //     }
-          //   })
-          // }
-          // if (bank_card_front_img) {
-          //   this.props.dispatch({
-          //     type: 'submitQua/setQua',
-          //     payload: {
-          //       is_bank_front: true
-          //     }
-          //   })
-          // }
-          // if (bank_card_back_img) {
-          //   this.props.dispatch({
-          //     type: 'submitQua/setQua',
-          //     payload: {
-          //       is_bank_back: true
-          //     }
-          //   })
-          // }
-          // if (three_certs_in_one_img) {
-          //   this.props.dispatch({
-          //     type: 'submitQua/setQua',
-          //     payload: {
-          //       is_license: true
-          //     }
-          //   })
-          // }
-
-        } else {
-          // let temp=document.getElementById("box1").value;
-          // this.handleBankName(temp);
-
-          let temp_name = Cookies.get("_handleSettleBank") ? JSON.parse(Cookies.get("_handleSettleBank")) : settle_bank;
-          if (this.state.hasBankList.indexOf(temp_name) > -1) {
-            this.props.dispatch({
-              type: 'submitQua/setQua',
-              payload: {
-                bank_disable: true
-              }
-            });
-          }
-
-          this.props.dispatch({
-            type: 'submitQua/setQua',
-            payload: {
-              date_back: false,
-              bankShow: false
-            }
-          })
-          return
         }
       })
     }
+
+    /**
+   * 搜索银行
+   */
+    handleSearchBank = (e: any) => {
+      this.setState({
+        searchBank: e
+      }, () => {
+        this.handleSelectBank(e);
+      })
+    }
+
+    /**
+   * 选择银行
+   */
+    handleSelectBankItem = (item: any) => {
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          settle_bank: item.bank_name
+        }
+      })
+      Cookies.set("_handleSettleBank", item.bank_name, { expires: 1 });
+      this.setState({
+        isShowBank: false,
+        searchBank: "",
+      })
+    }
+
+
+
     /**查看身份证示例 */
     toIdCardExample = () => {
       this.props.dispatch({
@@ -403,15 +414,15 @@ export default connect(({ submitQua }: any) => submitQua)(
       })
     }
     /**开户银行 */
-    handleSettleBank = (e: any) => {
-      Cookies.set("_handleSettleBank", JSON.stringify(e), { expires: 1 });
-      this.props.dispatch({
-        type: 'submitQua/setQua',
-        payload: {
-          settle_bank: e
-        }
-      })
-    }
+    // handleSettleBank = (e: any) => {
+    //   Cookies.set("_handleSettleBank", JSON.stringify(e), { expires: 1 });
+    //   this.props.dispatch({
+    //     type: 'submitQua/setQua',
+    //     payload: {
+    //       settle_bank: e
+    //     }
+    //   })
+    // }
     /**支行 */
     handleBankName = (e: any) => {
       if (e == '' || e == undefined) {
@@ -484,7 +495,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     id_front: files
       //   }
       // })
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -560,7 +571,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     id_back: files
       //   }
       // })
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -666,7 +677,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     bank_front: files
       //   }
       // })
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -764,7 +775,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     bank_back: files
       //   }
       // })
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -862,7 +873,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       //     license_img: files
       //   }
       // })
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -1007,27 +1018,6 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     /**保存或者提交 */
     submit = (type: number) => async () => {
-      // if (this.props.bankShow) {
-      //   //清除，以免这次保存下次直接提交
-      //   Cookies.set("_handleBankName", JSON.stringify(""), { expires: 1 });
-      //   this.props.dispatch({
-      //     type: 'submitQua/setQua',
-      //     payload: {
-      //       bankShow: false,
-      //       bank_name: ""
-      //     }
-      //   })
-      //   //提交的话直接打回
-      //   if (type == 2) {
-      //     Toast.fail('未选择支行', 1);
-      //     return
-      //   }
-      // }
-
-      // if (this.props.bankShow) {
-      //   Toast.fail('未选择支行', 1);
-      //   return
-      // }
 
       await this.setState({
         ToastTipsLegalIDImg: "",
@@ -1046,181 +1036,16 @@ export default connect(({ submitQua }: any) => submitQua)(
         ToastTipsBusinessDate: "",
       })
 
-      const { legal_id_front_img, legal_id_back_img, hand_hold_id_img, contact_name, legal_id_no, date, bank_card_front_img, bank_card_back_img, three_certs_in_one_img, settle_bank_account_no, settle_bank_account_name, three_certs_in_one_valid_date, three_certs_in_one_no, corn_bus_name, legal_name, bank_name, settle_bank } = this.props;
-      // 身份证照片
-      if (!legal_id_front_img || !legal_id_back_img || !hand_hold_id_img) {
-        this.setState({
-          ToastTipsLegalIDImg: "请上传身份证正反面图片"
-        })
-      }
-      // 身份证姓名
-      if (!(/^[\u4E00-\u9FA5]{1,}$/.test(contact_name))) {
-        this.setState({
-          ToastTipsContactName: "请输入用户身份证姓名"
-        })
-      }
-      // 身份证号
-      if (!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/).test(legal_id_no)) {
-        this.setState({
-          ToastTipsLegalIdNo: "请输入正确身份证号码"
-        })
-      }
-      const nowTimeStamp = Date.now();
-      const now = new Date(nowTimeStamp);
-      const nowTime = moment(now).unix();
-      const dateTime = moment(date).unix();
-
-      const nowYear = moment(now).year();
-      const nowMonth = moment(now).month() + 1;
-      const nowDay = moment(now).date();
-
-      const dateYear = moment(date).year();
-      const dateMonth = moment(date).month() + 1;
-      const dateDay = moment(date).date();
-      if (!date) {
-        this.setState({
-          ToastTipsIDDate: "请输入正确有效期"
-        })
-      } else if (dateTime < nowTime) {
-        if (nowYear == dateYear && nowMonth == dateMonth && nowDay == dateDay) {
-        } else {
-          this.setState({
-            ToastTipsIDDate: "请输入正确有效期"
-          })
-        }
-      }
-
-      // 银行卡照片
-      if (!bank_card_front_img || !bank_card_back_img) {
-        this.setState({
-          ToastTipsBankCardImg: "请上传银行卡正反面图片"
-        })
-      }
-
-      // 开户人
-      if (!(/^[\u4E00-\u9FA5]{1,}$/.test(settle_bank_account_name))) {
-        this.setState({
-          ToastTipsBankAccountName: "请输入开户人姓名"
-        })
-      }
-
-      // 银行号
-      if (!(/^\d{16,19}$/).test(settle_bank_account_no)) {
-        this.setState({
-          ToastTipsBankAccountNo: "请输入正确16-19位数字银行卡账号"
-        })
-      }
-
-      // 开户行
-      if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(settle_bank))) {
-        this.setState({
-          ToastTipsSettleBank: "请输入正确开户银行卡名称"
-        })
-      }
-
-      // 支行
-      if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(bank_name))) {
-        this.setState({
-          ToastTipsBankName: "请输入正确开户支行名称"
-        })
-      }
-
-      // 营业执照
-      if (!three_certs_in_one_img) {
-        this.setState({
-          ToastTipsBusinessImg: "请上传商家营业执照图片"
-        })
-      }
-
-      // 营业执照注册号
-      if (!(/^[a-zA-Z0-9]{1,18}$/.test(three_certs_in_one_no))) {
-        this.setState({
-          ToastTipsBusinessNo: "请输入正确18位营业执照号码"
-        })
-      }
-
-      // 执照名称
-      if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(corn_bus_name))) {
-        this.setState({
-          ToastTipsCornBusName: "请输入正确营业执照名称"
-        })
-      }
-
-
-      // 执照法人
-      if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(legal_name))) {
-        this.setState({
-          ToastTipsLegalName: "请输入用户法人姓名"
-        })
-      }
-
-      // 营业执照有效期
-      const businessNowTimeStamp = Date.now();
-      const businessNow = new Date(businessNowTimeStamp);
-      const businessNowTime = moment(businessNow).unix();
-      const businessDateTime = moment(three_certs_in_one_valid_date).unix();
-
-      const businessNowYear = moment(businessNow).year();
-      const businessNowMonth = moment(businessNow).month() + 1;
-      const businessNowDay = moment(businessNow).date();
-      const businessDateYear = moment(three_certs_in_one_valid_date).year();
-      const businessDateMonth = moment(three_certs_in_one_valid_date).month() + 1;
-      const businessDateDay = moment(three_certs_in_one_valid_date).date();
-      if (!three_certs_in_one_valid_date) {
-        this.setState({
-          ToastTipsBusinessDate: "请输入正确有效期"
-        })
-      } else if (businessDateTime < businessNowTime) {
-        if (businessNowYear == businessDateYear && businessNowMonth == businessDateMonth && businessNowDay == businessDateDay) {
-        } else {
-          this.setState({
-            ToastTipsBusinessDate: "请输入正确有效期"
-          })
-        }
-      }
-
       const {
-        ToastTipsLegalIDImg,
-        ToastTipsContactName,
-        ToastTipsLegalIdNo,
-        ToastTipsIDDate,
-        ToastTipsBankCardImg,
-        ToastTipsBankAccountName,
-        ToastTipsBankAccountNo,
-        ToastTipsSettleBank,
-        ToastTipsBankName,
-        ToastTipsBusinessImg,
-        ToastTipsBusinessNo,
-        ToastTipsCornBusName,
-        ToastTipsLegalName,
-        ToastTipsBusinessDate
-      } = this.state;
-      if(
-        ToastTipsLegalIDImg ||
-        ToastTipsContactName ||
-        ToastTipsLegalIdNo ||
-        ToastTipsIDDate ||
-        ToastTipsBankCardImg ||
-        ToastTipsBankAccountName ||
-        ToastTipsBankAccountNo ||
-        ToastTipsSettleBank ||
-        ToastTipsBankName ||
-        ToastTipsBusinessImg ||
-        ToastTipsBusinessNo ||
-        ToastTipsCornBusName ||
-        ToastTipsLegalName ||
-        ToastTipsBusinessDate
-      ) return;
-      let data = {
-        legal_id_back_img,
         legal_id_front_img,
-        three_certs_in_one_img,
+        legal_id_back_img,
         hand_hold_id_img,
+        contact_name,
+        legal_id_no,
+        date,
         bank_card_front_img,
         bank_card_back_img,
-        contact_name,
-        legal_id_valid_date: date,
-        legal_id_no,
+        three_certs_in_one_img,
         settle_bank_account_no,
         settle_bank_account_name,
         three_certs_in_one_valid_date,
@@ -1228,34 +1053,895 @@ export default connect(({ submitQua }: any) => submitQua)(
         corn_bus_name,
         legal_name,
         bank_name,
-        settle_bank,
-        confirm_step: type
-      }
+        settle_bank } = this.props;
 
-      request({
-        url: 'v3/payment_profiles',
-        method: 'post',
-        data
-      }).then(res => {
-        let { code, data } = res;
-        if (code == 200) {
-          if (type == 1) {
-            Toast.success('保存成功', 2, () => {
-              router.push('/review')
-            })
-          } else if (type == 2) {
-            Toast.success('提交成功', 2, () => {
-              router.push('/review')
+      if (this.state.payment_open_status == 2) {
+        if (this.state.is_sq_adopt == 0 && this.state.is_bank_adopt == 0) {
+          // 身份证照片
+          if (!legal_id_front_img || !legal_id_back_img || !hand_hold_id_img) {
+            this.setState({
+              ToastTipsLegalIDImg: "请上传身份证正反面图片"
             })
           }
-        } else {
-          Toast.fail(data)
+          // 身份证姓名
+          if (!(/^[\u4E00-\u9FA5]{1,}$/.test(contact_name))) {
+            this.setState({
+              ToastTipsContactName: "请输入用户身份证姓名"
+            })
+          }
+          // 身份证号
+          if (!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/).test(legal_id_no)) {
+            this.setState({
+              ToastTipsLegalIdNo: "请输入正确身份证号码"
+            })
+          }
+          const nowTimeStamp = Date.now();
+          const now = new Date(nowTimeStamp);
+          const nowTime = moment(now).unix();
+          const dateTime = moment(date).unix();
+
+          const nowYear = moment(now).year();
+          const nowMonth = moment(now).month() + 1;
+          const nowDay = moment(now).date();
+
+          const dateYear = moment(date).year();
+          const dateMonth = moment(date).month() + 1;
+          const dateDay = moment(date).date();
+          if (!date) {
+            this.setState({
+              ToastTipsIDDate: "请输入正确有效期"
+            })
+          } else if (dateTime < nowTime) {
+            if (nowYear == dateYear && nowMonth == dateMonth && nowDay == dateDay) {
+            } else {
+              this.setState({
+                ToastTipsIDDate: "请输入正确有效期"
+              })
+            }
+          }
+
+          // 银行卡照片
+          if (!bank_card_front_img || !bank_card_back_img) {
+            this.setState({
+              ToastTipsBankCardImg: "请上传银行卡正反面图片"
+            })
+          }
+
+          // 开户人
+          if (!(/^[\u4E00-\u9FA5]{1,}$/.test(settle_bank_account_name))) {
+            this.setState({
+              ToastTipsBankAccountName: "请输入开户人姓名"
+            })
+          }
+
+          // 银行号
+          if (!(/^\d{16,19}$/).test(settle_bank_account_no)) {
+            this.setState({
+              ToastTipsBankAccountNo: "请输入正确16-19位数字银行卡账号"
+            })
+          }
+
+          // 开户行
+          if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(settle_bank))) {
+            this.setState({
+              ToastTipsSettleBank: "请输入正确开户银行卡名称"
+            })
+          }
+
+          // 支行
+          if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(bank_name))) {
+            this.setState({
+              ToastTipsBankName: "请输入正确开户支行名称"
+            })
+          }
+
+          // 营业执照
+          if (!three_certs_in_one_img) {
+            this.setState({
+              ToastTipsBusinessImg: "请上传商家营业执照图片"
+            })
+          }
+
+          // 营业执照注册号
+          if (!(/^[a-zA-Z0-9]{1,18}$/.test(three_certs_in_one_no))) {
+            this.setState({
+              ToastTipsBusinessNo: "请输入正确18位营业执照号码"
+            })
+          }
+
+          // 执照名称
+          if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(corn_bus_name))) {
+            this.setState({
+              ToastTipsCornBusName: "请输入正确营业执照名称"
+            })
+          }
+
+
+          // 执照法人
+          if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(legal_name))) {
+            this.setState({
+              ToastTipsLegalName: "请输入用户法人姓名"
+            })
+          }
+
+          // 营业执照有效期
+          const businessNowTimeStamp = Date.now();
+          const businessNow = new Date(businessNowTimeStamp);
+          const businessNowTime = moment(businessNow).unix();
+          const businessDateTime = moment(three_certs_in_one_valid_date).unix();
+
+          const businessNowYear = moment(businessNow).year();
+          const businessNowMonth = moment(businessNow).month() + 1;
+          const businessNowDay = moment(businessNow).date();
+          const businessDateYear = moment(three_certs_in_one_valid_date).year();
+          const businessDateMonth = moment(three_certs_in_one_valid_date).month() + 1;
+          const businessDateDay = moment(three_certs_in_one_valid_date).date();
+          if (!three_certs_in_one_valid_date) {
+            this.setState({
+              ToastTipsBusinessDate: "请输入正确有效期"
+            })
+          } else if (businessDateTime < businessNowTime) {
+            if (businessNowYear == businessDateYear && businessNowMonth == businessDateMonth && businessNowDay == businessDateDay) {
+            } else {
+              this.setState({
+                ToastTipsBusinessDate: "请输入正确有效期"
+              })
+            }
+          }
+
+          const {
+            ToastTipsLegalIDImg,
+            ToastTipsContactName,
+            ToastTipsLegalIdNo,
+            ToastTipsIDDate,
+            ToastTipsBankCardImg,
+            ToastTipsBankAccountName,
+            ToastTipsBankAccountNo,
+            ToastTipsSettleBank,
+            ToastTipsBankName,
+            ToastTipsBusinessImg,
+            ToastTipsBusinessNo,
+            ToastTipsCornBusName,
+            ToastTipsLegalName,
+            ToastTipsBusinessDate
+          } = this.state;
+          if (
+            ToastTipsLegalIDImg ||
+            ToastTipsContactName ||
+            ToastTipsLegalIdNo ||
+            ToastTipsIDDate ||
+            ToastTipsBankCardImg ||
+            ToastTipsBankAccountName ||
+            ToastTipsBankAccountNo ||
+            ToastTipsSettleBank ||
+            ToastTipsBankName ||
+            ToastTipsBusinessImg ||
+            ToastTipsBusinessNo ||
+            ToastTipsCornBusName ||
+            ToastTipsLegalName ||
+            ToastTipsBusinessDate
+          ) return;
+          let data = {
+            legal_id_back_img,
+            legal_id_front_img,
+            three_certs_in_one_img,
+            hand_hold_id_img,
+            bank_card_front_img,
+            bank_card_back_img,
+            contact_name,
+            legal_id_valid_date: date,
+            legal_id_no,
+            settle_bank_account_no,
+            settle_bank_account_name,
+            three_certs_in_one_valid_date,
+            three_certs_in_one_no,
+            corn_bus_name,
+            legal_name,
+            bank_name,
+            settle_bank,
+            confirm_step: type
+          }
+
+          request({
+            url: 'v3/payment_profiles',
+            method: 'put',
+            data
+          }).then(res => {
+            let { code, data } = res;
+            if (code == 200) {
+              if (type == 1) {
+                Toast.success('保存成功', 2, () => {
+                  router.push('/review')
+                })
+              } else if (type == 2) {
+                Toast.success('提交成功', 2, () => {
+                  router.push('/review')
+                })
+              }
+            } else {
+              Toast.fail(data)
+            }
+          })
+        } else if (this.state.is_sq_adopt == 0 && this.state.is_bank_adopt != 0) {
+          // 身份证照片
+          if (!legal_id_front_img || !legal_id_back_img || !hand_hold_id_img) {
+            this.setState({
+              ToastTipsLegalIDImg: "请上传身份证正反面图片"
+            })
+          }
+          // 身份证姓名
+          if (!(/^[\u4E00-\u9FA5]{1,}$/.test(contact_name))) {
+            this.setState({
+              ToastTipsContactName: "请输入用户身份证姓名"
+            })
+          }
+          // 身份证号
+          if (!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/).test(legal_id_no)) {
+            this.setState({
+              ToastTipsLegalIdNo: "请输入正确身份证号码"
+            })
+          }
+          const nowTimeStamp = Date.now();
+          const now = new Date(nowTimeStamp);
+          const nowTime = moment(now).unix();
+          const dateTime = moment(date).unix();
+
+          const nowYear = moment(now).year();
+          const nowMonth = moment(now).month() + 1;
+          const nowDay = moment(now).date();
+
+          const dateYear = moment(date).year();
+          const dateMonth = moment(date).month() + 1;
+          const dateDay = moment(date).date();
+          if (!date) {
+            this.setState({
+              ToastTipsIDDate: "请输入正确有效期"
+            })
+          } else if (dateTime < nowTime) {
+            if (nowYear == dateYear && nowMonth == dateMonth && nowDay == dateDay) {
+            } else {
+              this.setState({
+                ToastTipsIDDate: "请输入正确有效期"
+              })
+            }
+          }
+
+          // 营业执照
+          if (!three_certs_in_one_img) {
+            this.setState({
+              ToastTipsBusinessImg: "请上传商家营业执照图片"
+            })
+          }
+
+          // 营业执照注册号
+          if (!(/^[a-zA-Z0-9]{1,18}$/.test(three_certs_in_one_no))) {
+            this.setState({
+              ToastTipsBusinessNo: "请输入正确18位营业执照号码"
+            })
+          }
+
+          // 执照名称
+          if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(corn_bus_name))) {
+            this.setState({
+              ToastTipsCornBusName: "请输入正确营业执照名称"
+            })
+          }
+
+
+          // 执照法人
+          if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(legal_name))) {
+            this.setState({
+              ToastTipsLegalName: "请输入用户法人姓名"
+            })
+          }
+
+          // 营业执照有效期
+          const businessNowTimeStamp = Date.now();
+          const businessNow = new Date(businessNowTimeStamp);
+          const businessNowTime = moment(businessNow).unix();
+          const businessDateTime = moment(three_certs_in_one_valid_date).unix();
+
+          const businessNowYear = moment(businessNow).year();
+          const businessNowMonth = moment(businessNow).month() + 1;
+          const businessNowDay = moment(businessNow).date();
+          const businessDateYear = moment(three_certs_in_one_valid_date).year();
+          const businessDateMonth = moment(three_certs_in_one_valid_date).month() + 1;
+          const businessDateDay = moment(three_certs_in_one_valid_date).date();
+          if (!three_certs_in_one_valid_date) {
+            this.setState({
+              ToastTipsBusinessDate: "请输入正确有效期"
+            })
+          } else if (businessDateTime < businessNowTime) {
+            if (businessNowYear == businessDateYear && businessNowMonth == businessDateMonth && businessNowDay == businessDateDay) {
+            } else {
+              this.setState({
+                ToastTipsBusinessDate: "请输入正确有效期"
+              })
+            }
+          }
+
+          const {
+            ToastTipsLegalIDImg,
+            ToastTipsContactName,
+            ToastTipsLegalIdNo,
+            ToastTipsIDDate,
+            ToastTipsBankCardImg,
+            ToastTipsBankAccountName,
+            ToastTipsBankAccountNo,
+            ToastTipsSettleBank,
+            ToastTipsBankName,
+            ToastTipsBusinessImg,
+            ToastTipsBusinessNo,
+            ToastTipsCornBusName,
+            ToastTipsLegalName,
+            ToastTipsBusinessDate
+          } = this.state;
+          if (
+            ToastTipsLegalIDImg ||
+            ToastTipsContactName ||
+            ToastTipsLegalIdNo ||
+            ToastTipsIDDate ||
+            ToastTipsBankCardImg ||
+            ToastTipsBankAccountName ||
+            ToastTipsBankAccountNo ||
+            ToastTipsSettleBank ||
+            ToastTipsBankName ||
+            ToastTipsBusinessImg ||
+            ToastTipsBusinessNo ||
+            ToastTipsCornBusName ||
+            ToastTipsLegalName ||
+            ToastTipsBusinessDate
+          ) return;
+          let data = {
+            legal_id_back_img,
+            legal_id_front_img,
+            three_certs_in_one_img,
+            hand_hold_id_img,
+            // bank_card_front_img,
+            // bank_card_back_img,
+            contact_name,
+            legal_id_valid_date: date,
+            legal_id_no,
+            // settle_bank_account_no,
+            // settle_bank_account_name,
+            three_certs_in_one_valid_date,
+            three_certs_in_one_no,
+            corn_bus_name,
+            legal_name,
+            // bank_name,
+            // settle_bank,
+            confirm_step: type
+          }
+
+          request({
+            url: 'v3/payment_profiles',
+            method: 'put',
+            data
+          }).then(res => {
+            let { code, data } = res;
+            if (code == 200) {
+              if (type == 1) {
+                Toast.success('保存成功', 2, () => {
+                  router.push('/review')
+                })
+              } else if (type == 2) {
+                Toast.success('提交成功', 2, () => {
+                  router.push('/review')
+                })
+              }
+            } else {
+              Toast.fail(data)
+            }
+          })
+        } else if (this.state.is_sq_adopt != 0 && this.state.is_bank_adopt == 0) {
+
+          // 银行卡照片
+          if (!bank_card_front_img || !bank_card_back_img) {
+            this.setState({
+              ToastTipsBankCardImg: "请上传银行卡正反面图片"
+            })
+          }
+
+          // 开户人
+          if (!(/^[\u4E00-\u9FA5]{1,}$/.test(settle_bank_account_name))) {
+            this.setState({
+              ToastTipsBankAccountName: "请输入开户人姓名"
+            })
+          }
+
+          // 银行号
+          if (!(/^\d{16,19}$/).test(settle_bank_account_no)) {
+            this.setState({
+              ToastTipsBankAccountNo: "请输入正确16-19位数字银行卡账号"
+            })
+          }
+
+          // 开户行
+          if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(settle_bank))) {
+            this.setState({
+              ToastTipsSettleBank: "请输入正确开户银行卡名称"
+            })
+          }
+
+          // 支行
+          if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(bank_name))) {
+            this.setState({
+              ToastTipsBankName: "请输入正确开户支行名称"
+            })
+          }
+
+          // 营业执照
+          if (!three_certs_in_one_img) {
+            this.setState({
+              ToastTipsBusinessImg: "请上传商家营业执照图片"
+            })
+          }
+
+          // 营业执照注册号
+          if (!(/^[a-zA-Z0-9]{1,18}$/.test(three_certs_in_one_no))) {
+            this.setState({
+              ToastTipsBusinessNo: "请输入正确18位营业执照号码"
+            })
+          }
+
+          // 执照名称
+          if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(corn_bus_name))) {
+            this.setState({
+              ToastTipsCornBusName: "请输入正确营业执照名称"
+            })
+          }
+
+
+          // 执照法人
+          if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(legal_name))) {
+            this.setState({
+              ToastTipsLegalName: "请输入用户法人姓名"
+            })
+          }
+
+          // 营业执照有效期
+          const businessNowTimeStamp = Date.now();
+          const businessNow = new Date(businessNowTimeStamp);
+          const businessNowTime = moment(businessNow).unix();
+          const businessDateTime = moment(three_certs_in_one_valid_date).unix();
+
+          const businessNowYear = moment(businessNow).year();
+          const businessNowMonth = moment(businessNow).month() + 1;
+          const businessNowDay = moment(businessNow).date();
+          const businessDateYear = moment(three_certs_in_one_valid_date).year();
+          const businessDateMonth = moment(three_certs_in_one_valid_date).month() + 1;
+          const businessDateDay = moment(three_certs_in_one_valid_date).date();
+          if (!three_certs_in_one_valid_date) {
+            this.setState({
+              ToastTipsBusinessDate: "请输入正确有效期"
+            })
+          } else if (businessDateTime < businessNowTime) {
+            if (businessNowYear == businessDateYear && businessNowMonth == businessDateMonth && businessNowDay == businessDateDay) {
+            } else {
+              this.setState({
+                ToastTipsBusinessDate: "请输入正确有效期"
+              })
+            }
+          }
+
+          const {
+            ToastTipsLegalIDImg,
+            ToastTipsContactName,
+            ToastTipsLegalIdNo,
+            ToastTipsIDDate,
+            ToastTipsBankCardImg,
+            ToastTipsBankAccountName,
+            ToastTipsBankAccountNo,
+            ToastTipsSettleBank,
+            ToastTipsBankName,
+            ToastTipsBusinessImg,
+            ToastTipsBusinessNo,
+            ToastTipsCornBusName,
+            ToastTipsLegalName,
+            ToastTipsBusinessDate
+          } = this.state;
+          if (
+            ToastTipsLegalIDImg ||
+            ToastTipsContactName ||
+            ToastTipsLegalIdNo ||
+            ToastTipsIDDate ||
+            ToastTipsBankCardImg ||
+            ToastTipsBankAccountName ||
+            ToastTipsBankAccountNo ||
+            ToastTipsSettleBank ||
+            ToastTipsBankName ||
+            ToastTipsBusinessImg ||
+            ToastTipsBusinessNo ||
+            ToastTipsCornBusName ||
+            ToastTipsLegalName ||
+            ToastTipsBusinessDate
+          ) return;
+          let data = {
+            // legal_id_back_img,
+            // legal_id_front_img,
+            three_certs_in_one_img,
+            // hand_hold_id_img,
+            bank_card_front_img,
+            bank_card_back_img,
+            // contact_name,
+            // legal_id_valid_date: date,
+            // legal_id_no,
+            settle_bank_account_no,
+            settle_bank_account_name,
+            three_certs_in_one_valid_date,
+            three_certs_in_one_no,
+            corn_bus_name,
+            legal_name,
+            bank_name,
+            settle_bank,
+            confirm_step: type
+          }
+
+          request({
+            url: 'v3/payment_profiles',
+            method: 'put',
+            data
+          }).then(res => {
+            let { code, data } = res;
+            if (code == 200) {
+              if (type == 1) {
+                Toast.success('保存成功', 2, () => {
+                  router.push('/review')
+                })
+              } else if (type == 2) {
+                Toast.success('提交成功', 2, () => {
+                  router.push('/review')
+                })
+              }
+            } else {
+              Toast.fail(data)
+            }
+          })
+        } else if (this.state.is_sq_adopt != 0 && this.state.is_bank_adopt != 0) {
+
+          // 营业执照
+          if (!three_certs_in_one_img) {
+            this.setState({
+              ToastTipsBusinessImg: "请上传商家营业执照图片"
+            })
+          }
+
+          // 营业执照注册号
+          if (!(/^[a-zA-Z0-9]{1,18}$/.test(three_certs_in_one_no))) {
+            this.setState({
+              ToastTipsBusinessNo: "请输入正确18位营业执照号码"
+            })
+          }
+
+          // 执照名称
+          if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(corn_bus_name))) {
+            this.setState({
+              ToastTipsCornBusName: "请输入正确营业执照名称"
+            })
+          }
+
+
+          // 执照法人
+          if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(legal_name))) {
+            this.setState({
+              ToastTipsLegalName: "请输入用户法人姓名"
+            })
+          }
+
+          // 营业执照有效期
+          const businessNowTimeStamp = Date.now();
+          const businessNow = new Date(businessNowTimeStamp);
+          const businessNowTime = moment(businessNow).unix();
+          const businessDateTime = moment(three_certs_in_one_valid_date).unix();
+
+          const businessNowYear = moment(businessNow).year();
+          const businessNowMonth = moment(businessNow).month() + 1;
+          const businessNowDay = moment(businessNow).date();
+          const businessDateYear = moment(three_certs_in_one_valid_date).year();
+          const businessDateMonth = moment(three_certs_in_one_valid_date).month() + 1;
+          const businessDateDay = moment(three_certs_in_one_valid_date).date();
+          if (!three_certs_in_one_valid_date) {
+            this.setState({
+              ToastTipsBusinessDate: "请输入正确有效期"
+            })
+          } else if (businessDateTime < businessNowTime) {
+            if (businessNowYear == businessDateYear && businessNowMonth == businessDateMonth && businessNowDay == businessDateDay) {
+            } else {
+              this.setState({
+                ToastTipsBusinessDate: "请输入正确有效期"
+              })
+            }
+          }
+
+          const {
+            ToastTipsLegalIDImg,
+            ToastTipsContactName,
+            ToastTipsLegalIdNo,
+            ToastTipsIDDate,
+            ToastTipsBankCardImg,
+            ToastTipsBankAccountName,
+            ToastTipsBankAccountNo,
+            ToastTipsSettleBank,
+            ToastTipsBankName,
+            ToastTipsBusinessImg,
+            ToastTipsBusinessNo,
+            ToastTipsCornBusName,
+            ToastTipsLegalName,
+            ToastTipsBusinessDate
+          } = this.state;
+          if (
+            ToastTipsLegalIDImg ||
+            ToastTipsContactName ||
+            ToastTipsLegalIdNo ||
+            ToastTipsIDDate ||
+            ToastTipsBankCardImg ||
+            ToastTipsBankAccountName ||
+            ToastTipsBankAccountNo ||
+            ToastTipsSettleBank ||
+            ToastTipsBankName ||
+            ToastTipsBusinessImg ||
+            ToastTipsBusinessNo ||
+            ToastTipsCornBusName ||
+            ToastTipsLegalName ||
+            ToastTipsBusinessDate
+          ) return;
+          let data = {
+            // legal_id_back_img,
+            // legal_id_front_img,
+            three_certs_in_one_img,
+            // hand_hold_id_img,
+            // bank_card_front_img,
+            // bank_card_back_img,
+            // contact_name,
+            // legal_id_valid_date: date,
+            // legal_id_no,
+            // settle_bank_account_no,
+            // settle_bank_account_name,
+            three_certs_in_one_valid_date,
+            three_certs_in_one_no,
+            corn_bus_name,
+            legal_name,
+            // bank_name,
+            // settle_bank,
+            confirm_step: type
+          }
+
+          request({
+            url: 'v3/payment_profiles',
+            method: 'put',
+            data
+          }).then(res => {
+            let { code, data } = res;
+            if (code == 200) {
+              if (type == 1) {
+                Toast.success('保存成功', 2, () => {
+                  router.push('/review')
+                })
+              } else if (type == 2) {
+                Toast.success('提交成功', 2, () => {
+                  router.push('/review')
+                })
+              }
+            } else {
+              Toast.fail(data)
+            }
+          })
         }
-      })
+
+      }else {
+        // 身份证照片
+        if (!legal_id_front_img || !legal_id_back_img || !hand_hold_id_img) {
+          this.setState({
+            ToastTipsLegalIDImg: "请上传身份证正反面图片"
+          })
+        }
+        // 身份证姓名
+        if (!(/^[\u4E00-\u9FA5]{1,}$/.test(contact_name))) {
+          this.setState({
+            ToastTipsContactName: "请输入用户身份证姓名"
+          })
+        }
+        // 身份证号
+        if (!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/).test(legal_id_no)) {
+          this.setState({
+            ToastTipsLegalIdNo: "请输入正确身份证号码"
+          })
+        }
+        const nowTimeStamp = Date.now();
+        const now = new Date(nowTimeStamp);
+        const nowTime = moment(now).unix();
+        const dateTime = moment(date).unix();
+
+        const nowYear = moment(now).year();
+        const nowMonth = moment(now).month() + 1;
+        const nowDay = moment(now).date();
+
+        const dateYear = moment(date).year();
+        const dateMonth = moment(date).month() + 1;
+        const dateDay = moment(date).date();
+        if (!date) {
+          this.setState({
+            ToastTipsIDDate: "请输入正确有效期"
+          })
+        } else if (dateTime < nowTime) {
+          if (nowYear == dateYear && nowMonth == dateMonth && nowDay == dateDay) {
+          } else {
+            this.setState({
+              ToastTipsIDDate: "请输入正确有效期"
+            })
+          }
+        }
+
+        // 银行卡照片
+        if (!bank_card_front_img || !bank_card_back_img) {
+          this.setState({
+            ToastTipsBankCardImg: "请上传银行卡正反面图片"
+          })
+        }
+
+        // 开户人
+        if (!(/^[\u4E00-\u9FA5]{1,}$/.test(settle_bank_account_name))) {
+          this.setState({
+            ToastTipsBankAccountName: "请输入开户人姓名"
+          })
+        }
+
+        // 银行号
+        if (!(/^\d{16,19}$/).test(settle_bank_account_no)) {
+          this.setState({
+            ToastTipsBankAccountNo: "请输入正确16-19位数字银行卡账号"
+          })
+        }
+
+        // 开户行
+        if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(settle_bank))) {
+          this.setState({
+            ToastTipsSettleBank: "请输入正确开户银行卡名称"
+          })
+        }
+
+        // 支行
+        if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(bank_name))) {
+          this.setState({
+            ToastTipsBankName: "请输入正确开户支行名称"
+          })
+        }
+
+        // 营业执照
+        if (!three_certs_in_one_img) {
+          this.setState({
+            ToastTipsBusinessImg: "请上传商家营业执照图片"
+          })
+        }
+
+        // 营业执照注册号
+        if (!(/^[a-zA-Z0-9]{1,18}$/.test(three_certs_in_one_no))) {
+          this.setState({
+            ToastTipsBusinessNo: "请输入正确18位营业执照号码"
+          })
+        }
+
+        // 执照名称
+        if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(corn_bus_name))) {
+          this.setState({
+            ToastTipsCornBusName: "请输入正确营业执照名称"
+          })
+        }
+
+
+        // 执照法人
+        if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(legal_name))) {
+          this.setState({
+            ToastTipsLegalName: "请输入用户法人姓名"
+          })
+        }
+
+        // 营业执照有效期
+        const businessNowTimeStamp = Date.now();
+        const businessNow = new Date(businessNowTimeStamp);
+        const businessNowTime = moment(businessNow).unix();
+        const businessDateTime = moment(three_certs_in_one_valid_date).unix();
+
+        const businessNowYear = moment(businessNow).year();
+        const businessNowMonth = moment(businessNow).month() + 1;
+        const businessNowDay = moment(businessNow).date();
+        const businessDateYear = moment(three_certs_in_one_valid_date).year();
+        const businessDateMonth = moment(three_certs_in_one_valid_date).month() + 1;
+        const businessDateDay = moment(three_certs_in_one_valid_date).date();
+        if (!three_certs_in_one_valid_date) {
+          this.setState({
+            ToastTipsBusinessDate: "请输入正确有效期"
+          })
+        } else if (businessDateTime < businessNowTime) {
+          if (businessNowYear == businessDateYear && businessNowMonth == businessDateMonth && businessNowDay == businessDateDay) {
+          } else {
+            this.setState({
+              ToastTipsBusinessDate: "请输入正确有效期"
+            })
+          }
+        }
+
+        const {
+          ToastTipsLegalIDImg,
+          ToastTipsContactName,
+          ToastTipsLegalIdNo,
+          ToastTipsIDDate,
+          ToastTipsBankCardImg,
+          ToastTipsBankAccountName,
+          ToastTipsBankAccountNo,
+          ToastTipsSettleBank,
+          ToastTipsBankName,
+          ToastTipsBusinessImg,
+          ToastTipsBusinessNo,
+          ToastTipsCornBusName,
+          ToastTipsLegalName,
+          ToastTipsBusinessDate
+        } = this.state;
+        if (
+          ToastTipsLegalIDImg ||
+          ToastTipsContactName ||
+          ToastTipsLegalIdNo ||
+          ToastTipsIDDate ||
+          ToastTipsBankCardImg ||
+          ToastTipsBankAccountName ||
+          ToastTipsBankAccountNo ||
+          ToastTipsSettleBank ||
+          ToastTipsBankName ||
+          ToastTipsBusinessImg ||
+          ToastTipsBusinessNo ||
+          ToastTipsCornBusName ||
+          ToastTipsLegalName ||
+          ToastTipsBusinessDate
+        ) return;
+        let data = {
+          legal_id_back_img,
+          legal_id_front_img,
+          three_certs_in_one_img,
+          hand_hold_id_img,
+          bank_card_front_img,
+          bank_card_back_img,
+          contact_name,
+          legal_id_valid_date: date,
+          legal_id_no,
+          settle_bank_account_no,
+          settle_bank_account_name,
+          three_certs_in_one_valid_date,
+          three_certs_in_one_no,
+          corn_bus_name,
+          legal_name,
+          bank_name,
+          settle_bank,
+          confirm_step: type
+        }
+
+        request({
+          url: 'v3/payment_profiles',
+          method: 'post',
+          data
+        }).then(res => {
+          let { code, data } = res;
+          if (code == 200) {
+            if (type == 1) {
+              Toast.success('保存成功', 2, () => {
+                router.push('/review')
+              })
+            } else if (type == 2) {
+              Toast.success('提交成功', 2, () => {
+                router.push('/review')
+              })
+            }
+          } else {
+            Toast.fail(data)
+          }
+        })
+      }
+
+
+
 
     }
     selectImg = (files: any) => {
-      Toast.loading('',100)
+      Toast.loading('', 100)
       if (files[0]) {
         let img = files[0].url;
         upload(img).then(res => {
@@ -1368,7 +2054,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
     render() {
       const idFront = this.props.is_id_front == true ? (
-        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_front_img+'?x-oss-process=image/resize,m_fill,w_209,h_149'} alt="" /><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
+        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_front_img + '?x-oss-process=image/resize,m_fill,w_209,h_149'} alt="" /><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.front_img}
@@ -1380,7 +2066,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         );
       const idBack = this.props.is_id_back == true ? (
-        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_back_img+'?x-oss-process=image/resize,m_fill,w_209,h_149'} /><div className={styles.close} onClick={this.closeIDBack}>{''}</div></div>
+        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_back_img + '?x-oss-process=image/resize,m_fill,w_209,h_149'} /><div className={styles.close} onClick={this.closeIDBack}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.back_img}
@@ -1392,7 +2078,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         )
       const idHand = this.props.is_id_hand == true ? (
-        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.hand_hold_id_img+'?x-oss-process=image/resize,m_fill,w_209,h_149'} /><div className={styles.close} onClick={this.closeIDHand}>{''}</div></div>
+        <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.hand_hold_id_img + '?x-oss-process=image/resize,m_fill,w_209,h_149'} /><div className={styles.close} onClick={this.closeIDHand}>{''}</div></div>
       ) : (
           //809
           <ImagePicker
@@ -1406,7 +2092,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         )
       const bankFront = this.props.is_bank_front == true ? (
-        <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/" + this.props.bank_card_front_img+'?x-oss-process=image/resize,m_fill,w_324,h_203'} /><div className={styles.close} onClick={this.closeBankFront}>{''}</div></div>
+        <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/" + this.props.bank_card_front_img + '?x-oss-process=image/resize,m_fill,w_324,h_203'} /><div className={styles.close} onClick={this.closeBankFront}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.bank_front}
@@ -1418,7 +2104,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         )
       const bankBack = this.props.is_bank_back == true ? (
-        <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/" + this.props.bank_card_back_img+'?x-oss-process=image/resize,m_fill,w_324,h_203'} /><div className={styles.close} onClick={this.closeBankBack}>{''}</div></div>
+        <div className={styles.bankcard}><img src={"http://oss.tdianyi.com/" + this.props.bank_card_back_img + '?x-oss-process=image/resize,m_fill,w_324,h_203'} /><div className={styles.close} onClick={this.closeBankBack}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.bank_back}
@@ -1430,7 +2116,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         )
       const License = this.props.is_license == true ? (
-        <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/" + this.props.three_certs_in_one_img+'?x-oss-process=image/resize,m_fill,w_669,h_438'} /><div className={styles.close} onClick={this.closeLicense}>{''}</div></div>
+        <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/" + this.props.three_certs_in_one_img + '?x-oss-process=image/resize,m_fill,w_669,h_438'} /><div className={styles.close} onClick={this.closeLicense}>{''}</div></div>
       ) : (
           <ImagePicker
             className={styles.license}
@@ -1466,170 +2152,199 @@ export default connect(({ submitQua }: any) => submitQua)(
         <div style={{ width: '100%', height: 'auto', background: '#fff' }} id="box0" className={styles.submitQua}>
           <div>
             <WingBlank>
-              <Flex className={styles.sfz_title}>
-                <div className={styles.sfz_left}>身份证</div>
-                <div className={styles.sfz_right} onClick={this.toIdCardExample}>查看示例</div>
-              </Flex>
-              <Flex style={{ marginTop: '23px' }}>请上传经营者身份证</Flex>
-              <Flex className={styles.sfz_img}>
-                {idFront}
-                {idBack}
-                {idHand}
-              </Flex>
               {
-                ToastTipsLegalIDImg ? (
-                  <Flex justify="end" className={styles.toast_tips_img}>
-                    <span>{ToastTipsLegalIDImg}</span>
-                  </Flex>
-                ) : ""
-              }
+                this.state.is_sq_adopt == 0 ? (
+                  <div>
+                    <Flex className={styles.sfz_title}>
+                      <div className={styles.sfz_left}>身份证</div>
+                      <div className={styles.sfz_right} onClick={this.toIdCardExample}>查看示例</div>
+                    </Flex>
+                    <Flex style={{ marginTop: '23px' }}>请上传经营者身份证</Flex>
+                    <Flex className={styles.sfz_img}>
+                      {idFront}
+                      {idBack}
+                      {idHand}
+                    </Flex>
+                    {
+                      ToastTipsLegalIDImg ? (
+                        <Flex justify="end" className={styles.toast_tips_img}>
+                          <span>{ToastTipsLegalIDImg}</span>
+                        </Flex>
+                      ) : ""
+                    }
 
-              <Modal
-                className={styles.id_modal}
-                visible={this.state.modal1}
-                transparent
-                maskClosable={true}
-                onClose={this.onClose('modal1')}
-                wrapProps={{ onTouchStart: this.onWrapTouchStart }}
-              >
-                <div style={{ height: "5.625rem" }}>
-                  <div style={{ width: "100%", paddingBottom: "0", height: "auto" }}>
-                    <img style={{ height: "100%", width: "100%" }} src={require('./model.png')} />
-                  </div>
-                  <div style={{ width: "100%", position: "relative" }}>
-                    <div style={{ width: "100%", lineHeight: "1", paddingTop: "0.12rem", color: "#21418a", fontSize: "0.3rem", textAlign: "center" }}>知道了</div>
-                    <div className={styles.imgpickerBox} >
-                      <ImagePicker
-                        multiple={false}
-                        length={1}
-                        onChange={this.selectImg}
-                      // onAddImageClick={this.handleAddImageClick}
-                      />
-                    </div>
-                  </div>
-                </div>
+                    <Modal
+                      className={styles.id_modal}
+                      visible={this.state.modal1}
+                      transparent
+                      maskClosable={true}
+                      onClose={this.onClose('modal1')}
+                      wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+                    >
+                      <div style={{ height: "5.625rem" }}>
+                        <div style={{ width: "100%", paddingBottom: "0", height: "auto" }}>
+                          <img style={{ height: "100%", width: "100%" }} src={require('./model.png')} />
+                        </div>
+                        <div style={{ width: "100%", position: "relative" }}>
+                          <div style={{ width: "100%", lineHeight: "1", paddingTop: "0.12rem", color: "#21418a", fontSize: "0.3rem", textAlign: "center" }}>知道了</div>
+                          <div className={styles.imgpickerBox} >
+                            <ImagePicker
+                              multiple={false}
+                              length={1}
+                              onChange={this.selectImg}
+                            // onAddImageClick={this.handleAddImageClick}
+                            />
+                          </div>
+                        </div>
+                      </div>
 
-              </Modal>
-              <List>
-                <InputItem placeholder='请输入姓名' value={this.props.contact_name} onChange={this.handleName} clear>姓名</InputItem>
-                {
-                  ToastTipsContactName ? (
-                    <Flex justify="end" className={styles.toast_tips}>
-                      <span>{ToastTipsContactName}</span>
-                    </Flex>
-                  ) : ""
-                }
-                <InputItem placeholder='请输入身份证号' onChange={this.handleID} value={this.props.legal_id_no} clear>身份证号</InputItem>
-                {
-                  ToastTipsLegalIdNo ? (
-                    <Flex justify="end" className={styles.toast_tips}>
-                      <span>{ToastTipsLegalIdNo}</span>
-                    </Flex>
-                  ) : ""
-                }
-                <InputItem
-                  placeholder='请选择身份证有效期'
-                  editable={false}
-                  value={this.props.date}
-                  onClick={this.chooseDate(1)}
-                  clear
-                >
-                  有效期
-                  <Icon
-                    type='right'
-                    className={styles.youxiao}
-                  />
-                </InputItem>
-                {
-                  ToastTipsIDDate ? (
-                    <Flex justify="end" className={styles.toast_tips}>
-                      <span>{ToastTipsIDDate}</span>
-                    </Flex>
-                  ) : ""
-                }
-              </List>
-
-
-              <Flex className={styles.bank_title}>
-                <div className={styles.sfz_left}>银行卡认证</div>
-                <div className={styles.sfz_right} onClick={this.toBankExample}>查看示例</div>
-              </Flex>
-
-              <div className={styles.radioScope}>
-                <div className={styles.radioTitle}>
-                  推荐使用银行
-                  <img src={ad_intro2} onClick={() => { this.setState({ prompt: !this.state.prompt }) }} />
-                </div>
-              </div>
-              <div className={styles.radio0_space} style={{ height: this.state.prompt ? "auto" : 0 }}>
-                <div className={styles.radio0_msg}>
-                  <p>
-                    银行列表：工商银行，建设银行，农业银行，中国银行，交通银行，招商银行，中信银行，兴业银行，民生银行，浦发银行，光大银行，广发银行，华夏银行，平安银行，浙商银行，渤海银行，恒丰银行，邮政储蓄银行。
-                    </p>
-                </div>
-              </div>
-              <Flex className={styles.bank_img}>
-                {bankFront}
-                {bankBack}
-              </Flex>
-              {
-                ToastTipsBankCardImg ? (
-                  <Flex justify="end" className={styles.toast_tips_img}>
-                    <span>{ToastTipsBankCardImg}</span>
-                  </Flex>
-                ) : ""
-              }
-              <div className={styles.bank_toast}>温馨提示：1.请上传清晰的图片，银行卡号不可遮蔽。2.暂不支持部分银行卡。</div>
-              <List>
-                <InputItem ref="bank1" placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name} clear>开户人</InputItem>
-                {
-                  ToastTipsBankAccountName ? (
-                    <Flex justify="end" className={styles.toast_tips}>
-                      <span>{ToastTipsBankAccountName}</span>
-                    </Flex>
-                  ) : ""
-                }
-                <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum} clear>银行卡号</InputItem>
-                {
-                  ToastTipsBankAccountNo ? (
-                    <Flex justify="end" className={styles.toast_tips}>
-                      <span>{ToastTipsBankAccountNo}</span>
-                    </Flex>
-                  ) : ""
-                }
-                <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank} clear>开户行</InputItem>
-                {
-                  ToastTipsSettleBank ? (
-                    <Flex justify="end" className={styles.toast_tips}>
-                      <span>{ToastTipsSettleBank}</span>
-                    </Flex>
-                  ) : ""
-                }
-                <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} onBlur={() => {
-                  setTimeout(() => { this.props.dispatch({ type: 'submitQua/setQua', payload: { bankShow: false } }) }, 300)
-                }} clear>支行</InputItem>
-                {
-                  ToastTipsBankName ? (
-                    <Flex justify="end" className={styles.toast_tips}>
-                      <span>{ToastTipsBankName}</span>
-                    </Flex>
-                  ) : ""
-                }
-
-                <div className={styles.bankMsg} style={{ display: this.props.bankShow && this.props.bank_disable ? "block" : "none" }}>
-                  <div className={styles.bankMsg_box} >
-                    <ul className={styles.bankMsg_box_ul}>
+                    </Modal>
+                    <List>
+                      <InputItem placeholder='请输入姓名' value={this.props.contact_name} onChange={this.handleName} clear>姓名</InputItem>
                       {
-                        this.state.bankList != [] ? this.state.bankList.map((item: any, index) => {
-                          return (
-                            <li key={index} className={styles.bankMsg_box_li} onClick={this.chooseOne}>{item.name}</li>
-                          )
-                        }) : null
+                        ToastTipsContactName ? (
+                          <Flex justify="end" className={styles.toast_tips}>
+                            <span>{ToastTipsContactName}</span>
+                          </Flex>
+                        ) : ""
                       }
-                    </ul>
+                      <InputItem placeholder='请输入身份证号' onChange={this.handleID} value={this.props.legal_id_no} clear>身份证号</InputItem>
+                      {
+                        ToastTipsLegalIdNo ? (
+                          <Flex justify="end" className={styles.toast_tips}>
+                            <span>{ToastTipsLegalIdNo}</span>
+                          </Flex>
+                        ) : ""
+                      }
+                      <InputItem
+                        placeholder='请选择身份证有效期'
+                        editable={false}
+                        value={this.props.date}
+                        onClick={this.chooseDate(1)}
+                        clear
+                      >
+                        有效期
+                  <Icon
+                          type='right'
+                          className={styles.youxiao}
+                        />
+                      </InputItem>
+                      {
+                        ToastTipsIDDate ? (
+                          <Flex justify="end" className={styles.toast_tips}>
+                            <span>{ToastTipsIDDate}</span>
+                          </Flex>
+                        ) : ""
+                      }
+                    </List>
                   </div>
-                </div>
-              </List>
+                ) : ""
+              }
+
+              {
+                this.state.is_bank_adopt == 0 ? (
+                  <div>
+                    <Flex className={styles.bank_title}>
+                      <div className={styles.sfz_left}>银行卡认证</div>
+                      <div className={styles.sfz_right} onClick={this.toBankExample}>查看示例</div>
+                    </Flex>
+
+                    <div className={styles.radioScope}>
+                      <div className={styles.radioTitle}>
+                        推荐使用银行
+                  <img src={ad_intro2} onClick={() => { this.setState({ prompt: !this.state.prompt }) }} />
+                      </div>
+                    </div>
+                    <div className={styles.radio0_space} style={{ height: this.state.prompt ? "auto" : 0 }}>
+                      <div className={styles.radio0_msg}>
+                        <p>
+                          银行列表：工商银行，建设银行，农业银行，中国银行，交通银行，招商银行，中信银行，兴业银行，民生银行，浦发银行，光大银行，广发银行，华夏银行，平安银行，浙商银行，渤海银行，恒丰银行，邮政储蓄银行。
+                    </p>
+                      </div>
+                    </div>
+                    <Flex className={styles.bank_img}>
+                      {bankFront}
+                      {bankBack}
+                    </Flex>
+                    {
+                      ToastTipsBankCardImg ? (
+                        <Flex justify="end" className={styles.toast_tips_img}>
+                          <span>{ToastTipsBankCardImg}</span>
+                        </Flex>
+                      ) : ""
+                    }
+                    <div className={styles.bank_toast}>温馨提示：1.请上传清晰的图片，银行卡号不可遮蔽。2.暂不支持部分银行卡。</div>
+                    <List>
+                      <InputItem ref="bank1" placeholder='请输入开户人姓名' onChange={this.handleBankAccountName} value={this.props.settle_bank_account_name} clear>开户人</InputItem>
+                      {
+                        ToastTipsBankAccountName ? (
+                          <Flex justify="end" className={styles.toast_tips}>
+                            <span>{ToastTipsBankAccountName}</span>
+                          </Flex>
+                        ) : ""
+                      }
+                      <InputItem ref="bank2" placeholder='经营者银行卡（仅限储蓄卡）' value={this.props.settle_bank_account_no} onChange={this.handleBankNum} clear>银行卡号</InputItem>
+                      {
+                        ToastTipsBankAccountNo ? (
+                          <Flex justify="end" className={styles.toast_tips}>
+                            <span>{ToastTipsBankAccountNo}</span>
+                          </Flex>
+                        ) : ""
+                      }
+                      {/* <InputItem ref="bank3" placeholder='开户银行' value={this.props.settle_bank} onChange={this.handleSettleBank} clear>开户行</InputItem> */}
+                      <InputItem editable={false} onClick={this.handleSelectBank.bind(this, "")} value={this.props.settle_bank} placeholder='请选择开户银行' clear>开户银行</InputItem>
+                      {
+                        this.state.isShowBank ? (
+                          <div className={styles.search_wrap}>
+                            <List className={styles.search_result}>
+                              <InputItem value={this.state.searchBank} onChange={this.handleSearchBank} placeholder='请搜索银行' clear></InputItem>
+                              {
+                                this.state.BankArr.map(item => (
+                                  <List.Item key={item.bank_id} onClick={this.handleSelectBankItem.bind(this, item)}>{item.bank_name}</List.Item>
+                                ))
+                              }
+                            </List>
+                          </div>
+                        ) : ""
+                      }
+
+                      {
+                        ToastTipsSettleBank ? (
+                          <Flex justify="end" className={styles.toast_tips}>
+                            <span>{ToastTipsSettleBank}</span>
+                          </Flex>
+                        ) : ""
+                      }
+                      <InputItem ref="bank4" placeholder='请输入支行' id="box1" value={this.props.bank_name} onChange={this.handleBankName} onBlur={() => {
+                        setTimeout(() => { this.props.dispatch({ type: 'submitQua/setQua', payload: { bankShow: false } }) }, 300)
+                      }} clear>支行</InputItem>
+                      {
+                        ToastTipsBankName ? (
+                          <Flex justify="end" className={styles.toast_tips}>
+                            <span>{ToastTipsBankName}</span>
+                          </Flex>
+                        ) : ""
+                      }
+
+                      <div className={styles.bankMsg} style={{ display: this.props.bankShow && this.props.bank_disable ? "block" : "none" }}>
+                        <div className={styles.bankMsg_box} >
+                          <ul className={styles.bankMsg_box_ul}>
+                            {
+                              this.state.bankList != [] ? this.state.bankList.map((item: any, index) => {
+                                return (
+                                  <li key={index} className={styles.bankMsg_box_li} onClick={this.chooseOne}>{item.name}</li>
+                                )
+                              }) : null
+                            }
+                          </ul>
+                        </div>
+                      </div>
+                    </List>
+                  </div>
+                ) : ""
+              }
+
+
               <Flex className={styles.bank_title}>
                 <div className={styles.sfz_left}>营业执照</div>
                 <div className={styles.sfz_right} onClick={this.toLicenseExample}>查看示例</div>
