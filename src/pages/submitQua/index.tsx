@@ -1768,7 +1768,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             method: 'put',
             data
           }).then(res => {
-            let { code, data } = res;
+            let { code, data } = res; 
             if (code == 200) {
               if (type == 1) {
                 Toast.success('保存成功', 2, () => {
