@@ -1243,7 +1243,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           }
 
           request({
-            url: 'v3/payment_profiles',
+            url: 'v3/edit_payment_profiles',
             method: 'put',
             data
           }).then(res => {
@@ -1414,7 +1414,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           }
 
           request({
-            url: 'v3/payment_profiles',
+            url: 'v3/edit_payment_profiles',
             method: 'put',
             data
           }).then(res => {
@@ -1578,7 +1578,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           }
 
           request({
-            url: 'v3/payment_profiles',
+            url: 'v3/edit_payment_profiles',
             method: 'put',
             data
           }).then(res => {
@@ -1707,7 +1707,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           }
 
           request({
-            url: 'v3/payment_profiles',
+            url: 'v3/edit_payment_profiles',
             method: 'put',
             data
           }).then(res => {
