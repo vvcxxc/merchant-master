@@ -43,7 +43,7 @@ export default class WithDraw extends Component {
     }
 
     handleSendCode = () => {
-        const { phone,bank_no } = this.state;
+        const { phone, bank_no } = this.state;
         if (!(/^1[3456789]\d{9}$/.test(phone))) {
             Toast.fail('请输入11位有效手机号', 1);
             return;
@@ -73,7 +73,7 @@ export default class WithDraw extends Component {
                     bank_card_number: bank_no
                 })
             }).then(res => {
-                if (res.code == 200) {
+                if (res.status_code == 200) {
                     Toast.success('验证码已发送');
                     _this.setState({
                         seqNoForAuto: res.data.seqNoForAuto
@@ -92,7 +92,7 @@ export default class WithDraw extends Component {
     }
 
     handleNext = async () => {
-        const { phone, code, seqNoForAuto,bank_no } = this.state;
+        const { phone, code, seqNoForAuto, bank_no } = this.state;
         if (!(/^1[3456789]\d{9}$/.test(phone))) {
             Toast.fail('请输入11位有效手机号', 1);
             return;
@@ -112,12 +112,15 @@ export default class WithDraw extends Component {
                 seqNoForAuto: seqNoForAuto,
                 code,
                 phone,
-                bank_card_number:bank_no
+                bank_card_number: bank_no
             })
         }).then(res => {
-            if (res.code == 200) {
+            if (res.status_code == 200) {
                 this.setState({ isOkClick: true })
-                router.push('/my/withdraw')
+                Toast.success(res.message, 1, () => {
+                    router.push('/my/withdraw')
+                });
+
             } else {
                 this.setState({ isOkClick: true })
                 Toast.fail(res.message);

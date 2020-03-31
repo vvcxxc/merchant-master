@@ -131,7 +131,7 @@ export default class bindPhoneNumber extends Component {
                         phone
                     })
                 }).then(res => {
-                    if (res.code == 200) {
+                    if (res.status_code == 200) {
                         Toast.success('验证码已发送');
                         _this.setState({
                             isAgree: false,
@@ -178,9 +178,11 @@ export default class bindPhoneNumber extends Component {
                 phone
             })
         }).then(res => {
-            if (res.code == 200) {
+            if (res.status_code == 200) {
                 this.setState({ isOkClick: true })
-                router.push({ pathname: '/doubledry/withdraw' });
+                Toast.success(res.message, 1, () => {
+                    router.push({ pathname: '/doubledry/withdraw' });
+                });
             } else {
                 this.setState({ isOkClick: true })
                 Toast.fail(res.message);
