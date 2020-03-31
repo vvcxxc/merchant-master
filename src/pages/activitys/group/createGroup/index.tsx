@@ -58,12 +58,14 @@ export default connect(({ activity }: any) => activity)(
           url: 'v3/merchant/delivery',
           method: 'GET',
         }).then(res => {
-          if (!res.data.delivery_status) {
-            router.push('/activitys/dispatching');
+          if (res.data.delivery_status == 2) {
+            router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
             return;
           }
+        }).catch(err => {
+          router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
+          return;
         })
-        return;
       }
       this.props.dispatch({
         type: 'activity/setGroup',

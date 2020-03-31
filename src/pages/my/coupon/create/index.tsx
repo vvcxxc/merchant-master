@@ -62,7 +62,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 
 				!coupons_name || coupons_name.length < 1 ?
 					total.nameWrong = '请输入优惠券名称' : (
-						!/^[\u4e00-\u9fa5A-Za-z0-9-_!@#$%^&*()+=,./';:"?><\|！@#￥%……&*（）——：“”；》《，。、？|]*$/.test(coupons_name) ?
+						!/^[\u4e00-\u9fa5A-Za-z0-9-_!@#$%^&*()+=,./';:"?><\|！@#￥%……&*（）——：“”；》《，。【】、？|]*$/.test(coupons_name) ?
 							total.nameWrong = '优惠券名称中含有非法字符，请重新编辑。' : ''
 					)
 

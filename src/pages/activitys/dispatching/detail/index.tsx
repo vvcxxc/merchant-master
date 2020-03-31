@@ -188,13 +188,17 @@ class Detail extends Component {
                 <div className={styles.flex_order_info}>
                     <div className={styles.order_info_status}>配送状态</div>
                     <div className={styles.order_status}>
-                        {/* 0待接单 1配送中 2配送成功 3配送失败 4已接单*/}
-                        {
-                            info.delivery_status == 0 ? "待接单" :
-                                info.delivery_status == 1 ? "配送中" :
-                                    info.delivery_status == 2 ? "配送成功" :
-                                        info.delivery_status == 3 ? "配送失败" :
-                                            info.delivery_status == 4 ? "已接单" : ""
+                        {/*  
+                            delivery_status  0待接单 1配送中 2配送成功 3配送失败 4已接单 
+                            order_status     0待支付 1正常 2商家取消 3用户取消 4订单过期自动取消 5订单已完成
+                        */}
+                        { 
+                            info.order_status == 2 || info.order_status == 3 || info.order_status == 4 ? "已取消" :
+                                info.delivery_status == 0 ? "待接单" :
+                                    info.delivery_status == 1 ? "配送中" :
+                                        info.delivery_status == 2 ? "配送成功" :
+                                            info.delivery_status == 3 ? "配送失败" :
+                                                info.delivery_status == 4 ? "已接单" : ""
                         }
                     </div>
                 </div>
@@ -230,10 +234,10 @@ class Detail extends Component {
                     <div className={styles.order_info_value}>{info.delivery_money}元</div>
                 </div>
                 <div className={styles.flex_order_info}>
-                    <div className={styles.order_info_status}>配送地址</div>
-                    <div className={styles.order_info_value}>{info.detail}</div>
+                    <div className={styles.order_info_address}>配送地址</div>
+                    <div className={styles.address_detail}>{info.province + info.city + info.district + info.detail}</div>
                 </div>
-
+ 
 
                 {/* <div className={styles.footer_btn}>
                     <div className={styles.cancel} onClick={this.handleCancel}>取消</div>
