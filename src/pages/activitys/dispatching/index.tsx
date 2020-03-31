@@ -68,7 +68,7 @@ export default class Dispatching extends Component {
 
     let { delivery_start_time, delivery_end_time, delivery_radius_m, delivery_phone, delivery_service_money } = this.state;
     if (!delivery_start_time || !delivery_end_time || !delivery_radius_m || !delivery_phone || !delivery_service_money) {
-      Toast.fail('请填写完信息', 1500);
+      Toast.fail('请填写完信息',1);
     }
 
     request({
@@ -80,17 +80,17 @@ export default class Dispatching extends Component {
         delivery_radius_m: this.state.delivery_radius_m.split('.0km')[0],
         delivery_phone: this.state.delivery_phone,
         delivery_service_money: this.state.delivery_service_money,
-        delivery_status: this.state.delivery_status,
+        delivery_status: this.state.delivery_status ? this.state.delivery_status : 2,
       }
     }).then((res: any) => {
       if (res.code == 200) {
-        Toast.success('修改成功', 1500);
-        setTimeout(() => { router.goBack(); }, 1500)
+        Toast.success('修改成功', 1);
+        setTimeout(() => { router.goBack(); }, 1)
       } else {
-        Toast.fail(res.message, 1500);
+        Toast.fail(res.message, 1);
       }
     }).catch(err => {
-      Toast.fail('修改失败', 1500);
+      Toast.fail('修改失败', 1);
     })
   }
 

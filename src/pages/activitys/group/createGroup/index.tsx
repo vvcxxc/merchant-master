@@ -58,7 +58,7 @@ export default connect(({ activity }: any) => activity)(
           url: 'v3/merchant/delivery',
           method: 'GET',
         }).then(res => {
-          if (!res.data.delivery_status) {
+          if (!res.data.delivery_status || res.data.delivery_status == 2) {
             router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
             return;
           }
