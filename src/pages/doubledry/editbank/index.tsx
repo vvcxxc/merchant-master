@@ -330,7 +330,7 @@ class BankCard extends Component {
         }).then(res => {
             if (res.status_code == 200) {
                 Toast.success(res.message, 2, () => {
-                    router.push('/doubledry/bankaudit');
+                    router.push('/doubledry/bindcard');
                 });
             } else {
                 Toast.fail(res.message, 1);
