@@ -7,7 +7,7 @@ import request from '@/services/request'
 
 export default class Dispatching extends Component {
   state = {
-    delivery_status: 0,
+    delivery_status: 2,//2不配送 1配送
     delivery_service_money: '',
     delivery_phone: undefined,
     delivery_radius_m: '',
