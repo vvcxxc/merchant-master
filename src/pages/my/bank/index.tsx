@@ -44,7 +44,7 @@ export default class MyBank extends Component {
             <Flex className={styles.bank_type}>储蓄卡</Flex>
             <Flex className={styles.bank_num}>{this.replaceStr(info.bank_info)}</Flex>
           </div>
-          <Button className={styles.button} onClick={this.toChange}>修改银行卡</Button>
+          {/* <Button className={styles.button} onClick={this.toChange}>修改银行卡</Button> */}
       </div>
     ) : (
       <Flex justify='around' className={styles.no_bank}>
