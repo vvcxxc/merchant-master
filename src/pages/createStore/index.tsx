@@ -460,7 +460,7 @@ export default connect(({ createStore }: any) => createStore)(
         }).then(res => {
           let { code, data } = res;
           if (code == 200) {
-            Toast.success(data, 2, () => {
+            Toast.success(data.msg, 2, () => {
               router.push('/submitQua');
             })
           } else {
