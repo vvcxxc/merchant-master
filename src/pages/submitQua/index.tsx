@@ -146,6 +146,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       searchBank: "",
 
       payment_open_status: 0, // 只有为2的时候才是修改 其他为新增
+      is_existence: 0, // 等于0的话显示出身份证和银行卡
     };
 
 
@@ -164,7 +165,10 @@ export default connect(({ submitQua }: any) => submitQua)(
         url: 'v3/payment_profiles/payment_status'
       }).then(async res => {
         if (res.code == 200) {
-          // 只有为2的时候才是修改 其他为新增
+          // 只有payment_open_status为2的时候才是修改 payment_open_status为其他值和is_existence的话为新增
+          this.setState({
+            is_existence: res.data.is_existence
+          })
           if (res.data.payment_status.payment_open_status == 2) {
             await this.setState({
               payment_open_status: res.data.payment_status.payment_open_status
@@ -1728,7 +1732,138 @@ export default connect(({ submitQua }: any) => submitQua)(
           })
         }
 
-      }else {
+      } else if (this.state.is_existence == 1) {
+        // 营业执照
+        if (!three_certs_in_one_img) {
+          this.setState({
+            ToastTipsBusinessImg: "请上传商家营业执照图片"
+          })
+        }
+
+        // 营业执照注册号
+        if (!(/^[a-zA-Z0-9]{1,18}$/.test(three_certs_in_one_no))) {
+          this.setState({
+            ToastTipsBusinessNo: "请输入正确18位营业执照号码"
+          })
+        }
+
+        // 执照名称
+        if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(corn_bus_name))) {
+          this.setState({
+            ToastTipsCornBusName: "请输入正确营业执照名称"
+          })
+        }
+
+
+        // 执照法人
+        if (!(/^[\u4e00-\u9fa5a-zA-Z0-9]{1,}$/.test(legal_name))) {
+          this.setState({
+            ToastTipsLegalName: "请输入用户法人姓名"
+          })
+        }
+
+        // 营业执照有效期
+        const businessNowTimeStamp = Date.now();
+        const businessNow = new Date(businessNowTimeStamp);
+        const businessNowTime = moment(businessNow).unix();
+        const businessDateTime = moment(three_certs_in_one_valid_date).unix();
+
+        const businessNowYear = moment(businessNow).year();
+        const businessNowMonth = moment(businessNow).month() + 1;
+        const businessNowDay = moment(businessNow).date();
+        const businessDateYear = moment(three_certs_in_one_valid_date).year();
+        const businessDateMonth = moment(three_certs_in_one_valid_date).month() + 1;
+        const businessDateDay = moment(three_certs_in_one_valid_date).date();
+        if (!three_certs_in_one_valid_date) {
+          this.setState({
+            ToastTipsBusinessDate: "请输入正确有效期"
+          })
+        } else if (businessDateTime < businessNowTime) {
+          if (businessNowYear == businessDateYear && businessNowMonth == businessDateMonth && businessNowDay == businessDateDay) {
+          } else {
+            this.setState({
+              ToastTipsBusinessDate: "请输入正确有效期"
+            })
+          }
+        }
+
+        const {
+          ToastTipsLegalIDImg,
+          ToastTipsContactName,
+          ToastTipsLegalIdNo,
+          ToastTipsIDDate,
+          ToastTipsBankCardImg,
+          ToastTipsBankAccountName,
+          ToastTipsBankAccountNo,
+          ToastTipsSettleBank,
+          ToastTipsBankName,
+          ToastTipsBusinessImg,
+          ToastTipsBusinessNo,
+          ToastTipsCornBusName,
+          ToastTipsLegalName,
+          ToastTipsBusinessDate
+        } = this.state;
+        if (
+          ToastTipsLegalIDImg ||
+          ToastTipsContactName ||
+          ToastTipsLegalIdNo ||
+          ToastTipsIDDate ||
+          ToastTipsBankCardImg ||
+          ToastTipsBankAccountName ||
+          ToastTipsBankAccountNo ||
+          ToastTipsSettleBank ||
+          ToastTipsBankName ||
+          ToastTipsBusinessImg ||
+          ToastTipsBusinessNo ||
+          ToastTipsCornBusName ||
+          ToastTipsLegalName ||
+          ToastTipsBusinessDate
+        ) return;
+        let data = {
+          // legal_id_back_img,
+          // legal_id_front_img,
+          three_certs_in_one_img,
+          // hand_hold_id_img,
+          // bank_card_front_img,
+          // bank_card_back_img,
+          // contact_name,
+          // legal_id_valid_date: date,
+          // legal_id_no,
+          // settle_bank_account_no,
+          // settle_bank_account_name,
+          three_certs_in_one_valid_date,
+          three_certs_in_one_no,
+          corn_bus_name,
+          legal_name,
+          // bank_name,
+          // settle_bank,
+          confirm_step: type,
+          is_existence: this.state.is_existence
+        }
+
+        request({
+          url: 'v3/payment_profiles',
+          method: 'post',
+          data
+        }).then(res => {
+          let { code, data } = res;
+          if (code == 200) {
+            if (type == 1) {
+              Toast.success('保存成功', 2, () => {
+                router.push('/review')
+              })
+            } else if (type == 2) {
+              Toast.success('提交成功', 2, () => {
+                router.push('/review')
+              })
+            }
+          } else {
+            Toast.fail(data)
+          }
+        })
+
+      }
+      else {
         // 身份证照片
         if (!legal_id_front_img || !legal_id_back_img || !hand_hold_id_img) {
           this.setState({
@@ -1911,7 +2046,8 @@ export default connect(({ submitQua }: any) => submitQua)(
           legal_name,
           bank_name,
           settle_bank,
-          confirm_step: type
+          confirm_step: type,
+          is_existence: this.state.is_existence
         }
 
         request({
@@ -2149,11 +2285,11 @@ export default connect(({ submitQua }: any) => submitQua)(
       } = this.state
 
       return (
-        <div style={{ width: '100%', height: 'auto', background: '#fff' }} id="box0" className={styles.submitQua}>
+        <div style={{ width: '100%', height: 'auto', background: '#fff',paddingBottom: '100px' }} id="box0" className={styles.submitQua}>
           <div>
-            <WingBlank>
+            <WingBlank className={styles.page}>
               {
-                this.state.is_sq_adopt == 0 ? (
+                this.state.is_sq_adopt == 0 && this.state.is_existence == 0 ? (
                   <div>
                     <Flex className={styles.sfz_title}>
                       <div className={styles.sfz_left}>身份证</div>
@@ -2242,7 +2378,7 @@ export default connect(({ submitQua }: any) => submitQua)(
               }
 
               {
-                this.state.is_bank_adopt == 0 ? (
+                this.state.is_bank_adopt == 0 && this.state.is_existence == 0 ? (
                   <div>
                     <Flex className={styles.bank_title}>
                       <div className={styles.sfz_left}>银行卡认证</div>
