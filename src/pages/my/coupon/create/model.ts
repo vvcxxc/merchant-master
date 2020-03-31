@@ -12,6 +12,8 @@ export interface CouponForm {
   image_url: any[];
   temp_url1: any[];
   temp_url2: any[];
+  shareText: string;
+  isDelivery:boolean
 }
 
 export interface MoneyForm {
@@ -21,6 +23,12 @@ export interface MoneyForm {
   total_fee: string;
   validity: string;
   total_num: string;
+  money_image_url1: string;
+  money_image_url2: string;
+  money_image_url3: string;
+  money_temp_url1: any[];
+  money_temp_url2: any[];
+  money_temp_url3: any[];
 }
 
 const model: Model = {
@@ -31,9 +39,13 @@ const model: Model = {
       description: [],
       temp_url1: [],
       temp_url2: [],
+      isDelivery:false
     },
     moneyForm: {
-      coupons_type: 1
+      coupons_type: 1,
+      money_temp_url1: [],
+      money_temp_url2: [],
+      money_temp_url3: []
     }
   },
   reducers: {

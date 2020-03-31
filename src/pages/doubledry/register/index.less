@@ -1,0 +1,384 @@
+.register {
+    width: 100%;
+    // height: 100%;
+    background: #F2F5FC;
+    padding: 20px;
+    box-sizing: border-box;
+    .register_step {
+        width: 100%;
+        height: 110px;
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px 35px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        .active_step {
+            width: 42px;
+            height: 42px;
+            background: #547BE7;
+            line-height: 42px;
+            font-size: 30px;
+            color: #fff;
+            text-align: center;
+            border-radius: 50%;
+        }
+        .active_text {
+            font-size: 30px;
+            color: #547BE7;
+        }
+        .unactive_step {
+            width: 42px;
+            height: 42px;
+            background: #999999;
+            line-height: 42px;
+            font-size: 30px;
+            color: #fff;
+            text-align: center;
+            border-radius: 50%;
+        }
+        .unactive_text {
+            font-size: 30px;
+            color: #999999;
+        }
+    }
+
+    .id_card {
+        .title {
+            padding: 30px 0 20px 30px;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            .logo {
+                width: 8px;
+                height: 25px;
+                background: #547BE7;
+                border-radius: 4px;
+                margin-right: 20px;
+            }
+        }
+        .idcard_imagepicker,
+        .handInIDCard {
+            padding: 0px 30px 60px 30px;
+            display: flex;
+            justify-content: space-between;
+
+            // margin-bottom: 74px;
+            .image_picker {
+                width: 308px;
+                height: 196px;
+                // border: 1px dashed #000;
+                position: relative;
+                // display: table-cell;
+                // text-align: center;
+                // vertical-align: middle;
+                // margin-right: 20px;
+                position: relative;
+
+                .image_picker_comp {
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    z-index: 99999;
+                    opacity: 0;
+
+                    div {
+                        margin: 0;
+                        padding: 0;
+                        width: 100%;
+                        height: 100%;
+                    }
+
+                    div.am-flexbox-item {
+                        width: 308px;
+                    }
+                }
+
+                .file_upload {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    z-index: 9999;
+                    width: 100%;
+                    height: 100%;
+                    filter: opacity(0);
+                }
+
+                .image_bg {
+                    // width: 308px;
+                    // height: 196px;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .image_desc {
+                    // position: absolute;
+                    // bottom: 20px;
+                    margin-top: 10px;
+                    width: 100%;
+                    text-align: center;
+                    font-size: 28px;
+                }
+            }
+
+            .preview_wrap {
+                width: 308px;
+                height: 196px;
+                position: relative;
+
+                // margin-right: 20px;
+                .preview_img {
+                    width: 308px;
+                    height: 196px;
+                    // border: 1px solid #ccc;
+                }
+
+                .delete_img {
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
+                    width: 36px;
+                    height: 36px;
+                }
+            }
+        }
+        .handInIDCard{
+            margin-bottom: 30px;
+        }
+    }
+
+    .bank_card {
+        .title {
+            padding: 30px 0 20px 30px;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            .logo {
+                width: 8px;
+                height: 25px;
+                background: #547BE7;
+                border-radius: 4px;
+                margin-right: 20px;
+            }
+        }
+        .inputBox {
+            border-radius: 10px;
+            overflow: hidden;
+            :global {
+              .am-list-item .am-input-label {
+                font-size: 30px;
+              }
+              .am-list-item .am-input-control input {
+                font-size: 30px;
+              }
+            }
+            .bankcard_imagepicker { 
+                padding: 0 30px;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 94px;
+                .image_picker {
+                    width: 320px;
+                    height: 204px; 
+                    position: relative;
+                    .image_picker_comp {
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        z-index: 99999;
+                        opacity: 0;
+                        div {
+                            margin: 0;
+                            padding: 0;
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                    // img {
+                    //     position: absolute;
+                    //     // width: 50px;
+                    //     // height: 50px;
+                    //     // left: 50%;
+                    //     // top: 50%;
+                    //     // margin-left: -25px;
+                    //     // margin-top: -25px;
+                    //     top: 0;
+                    //     left: 0;
+                    // }
+                    .image_bg {
+                      // width: 308px;
+                      // height: 196px;
+                      width: 100%;
+                      height: 100%;
+                  }
+                    .image_desc {
+                      margin-top: 10px;
+                      width: 100%;
+                      text-align: center;
+                      font-size: 28px;
+                    }
+                }
+                .preview_wrap {
+                    width: 320px;
+                    height: 204px;
+                    position: relative;
+                    .preview_img {
+                        width: 320px;
+                        height: 204px;
+                        border: 1px solid #ccc;
+                    }
+                    .delete_img {
+                        position: absolute;
+                        right: 10px;
+                        top: 10px;
+                        width: 36px;
+                        height: 36px;
+                    }
+                }
+            }
+        }
+    }
+    .register_btn {
+        width: 100%;
+        height: 95px;
+        background: #547BE7;
+        color: #fff;
+        text-align: center;
+        line-height: 95px;
+        border-radius: 10px;
+        margin-top: 80px;
+    }
+}
+
+// Modal
+.modal_wrap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, .7);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .modal_container {
+        width: 526px;
+        height: 538px;
+        background-color: #fff;
+        border-radius: 10px;
+
+        .modal_exeample {
+            padding: 0 36px;
+            box-sizing: border-box;
+
+            .modal_title {
+                font-size: 36px;
+                font-weight: 500;
+                padding: 30px;
+                text-align: center;
+            }
+
+            .modal_pic {
+                width: 392px;
+                height: 231px;
+                background: #F2F5FC;
+                margin-left: 33px;
+                // border: 1px solid #ccc;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                img {
+                  width: 189px;
+                  height: 214px;
+                  // padding: 11px 27px;
+                  box-sizing: border-box;
+                }
+
+            }
+
+            .modal_desc {
+                font-size: 30px;
+                font-family: PingFang SC;
+                font-weight: 500;
+                color: rgba(0, 0, 0, 1);
+
+                // font-size: 30px;
+                // color: #888;
+                text-align: center;
+                padding: 18px 0;
+            }
+        }
+
+        .modal_btn_tool {
+            position: relative;
+
+            .modal_btn {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                // width: 446px;
+                margin: 0 40px;
+                height: 76px;
+                background: rgba(84, 123, 231, 1);
+                border-radius: 10px;
+                // text-align: center;
+                font-size: 30px;
+                font-family: PingFang SC;
+                font-weight: 500;
+                color: rgba(255, 255, 255, 1);
+
+                // border-top: 1px solid #c1c1c1;
+                // font-size: 36px;
+                // font-weight: 500;
+                // color: #02BB00;
+                // padding: 26px 0;
+                // text-align: center;
+            }
+
+            .image_picker_front_behind {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+
+                div {
+                    margin: 0;
+                    padding: 0;
+                    width: 100%;
+                    height: 100%;
+
+                    input {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.search_wrap {
+    width: 100%;
+    height: 350px;
+    margin-top: 15px;
+    padding: 0 30px;
+    box-sizing: border-box;
+    .search_result {
+      width: 100%;
+      height: 100%;
+      // border: 2px solid #ccc;
+      box-shadow: 1px 1px 10px 1px #ccc;
+      background: #fff;
+      overflow: auto;
+    }
+  }

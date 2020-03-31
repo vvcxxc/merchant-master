@@ -37,7 +37,6 @@ export default connect(({ activity }: any) => activity)(
       if (this.props.Group.gift_id) {
         this.setState({ is_gift: true })
       }
-
     }
     /**选择券范围 */
     onScope = (value: any) => {
@@ -52,6 +51,29 @@ export default connect(({ activity }: any) => activity)(
         });
       });
     };
+    /**选择配送 */
+    onDelivery = () => {
+      if (!this.props.Group.isDelivery) {
+        request({
+          url: 'v3/merchant/delivery',
+          method: 'GET',
+        }).then(res => {
+          if (res.data.delivery_status == 2) {
+            router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
+            return;
+          }
+        }).catch(err => {
+          router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
+          return;
+        })
+      }
+      this.props.dispatch({
+        type: 'activity/setGroup',
+        payload: {
+          isDelivery: !this.props.Group.isDelivery
+        }
+      });
+    }
     startChange = (value: any) => {
       console.log(value)
       this.props.dispatch({
@@ -236,7 +258,7 @@ export default connect(({ activity }: any) => activity)(
 
     /**确认发布 */
     confirm = async () => {
-      let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name } = this.props.Group;
+      let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name, shareText, isDelivery } = this.props.Group;
       let rule = {
         is_name: '',
         is_date: '',
@@ -247,7 +269,6 @@ export default connect(({ activity }: any) => activity)(
         is_validity: '',
         is_image: '',
       }
-
       // 开团数量
       if (group_sum == 0) {
         rule.is_num = '开团数量必须大于0'
@@ -335,7 +356,9 @@ export default connect(({ activity }: any) => activity)(
             mail_mode,
             gift_id,
             gift_pic,
-            gift_name
+            gift_name,
+            share_info: shareText,
+            is_delivery: isDelivery ? 1 : 0
           }
         });
         // console.log('abc')
@@ -382,8 +405,18 @@ export default connect(({ activity }: any) => activity)(
       this.setState({ ...time }, this.closeModal)
     };
 
+
+    handleChangeShare = (e: any) => {
+      this.props.dispatch({
+        type: 'activity/setGroup',
+        payload: {
+          shareText: e.target.value
+        }
+      })
+    }
+
     render() {
-      const { start_date, end_date, activity_name, cover_img, describe_img1, describe_img2, old_price, participation_money, group_number, group_sum, validity } = this.props.Group;
+      const { start_date, end_date, activity_name, cover_img, describe_img1, describe_img2, old_price, participation_money, group_number, group_sum, validity, shareText } = this.props.Group;
       const chooseMail = this.props.Group.mail_mode == '1' ? (
         <Flex className={styles.choose}>
           <div style={{ marginRight: 17 }} onClick={this.chooseMailMode.bind(this, '1')}><img src={require('./image/choose.png')} />店家支付</div>
@@ -476,7 +509,27 @@ export default connect(({ activity }: any) => activity)(
                 <Icon type="right" color='#999' className={styles.icon_right} />
               </div>
             </Flex>
-
+            <Flex className={styles.radio0}>
+              <div className={styles.radioFlex}>
+                <div className={styles.radioScope}>
+                  活动范围
+							</div>
+                <div className={styles.radioBox}>
+                  {
+                    this.props.Group.isDelivery ?
+                      <Flex className={styles.choose}>
+                        <div className={styles.chooseBox} style={{ marginRight: 80 }} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/p8kjkCbnYmZfD3JGP8feeKsWt8BQNHPh.png" />不可配送</div>
+                        <div className={styles.chooseBox} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/36DfKaXdP8ea7SRcCXT8neArCE2YB76N.png" />可配送</div>
+                      </Flex>
+                      :
+                      <Flex className={styles.choose}>
+                        <div className={styles.chooseBox} style={{ marginRight: 80 }} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/36DfKaXdP8ea7SRcCXT8neArCE2YB76N.png" />不可配送</div>
+                        <div className={styles.chooseBox} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/p8kjkCbnYmZfD3JGP8feeKsWt8BQNHPh.png" />可配送</div>
+                      </Flex>
+                  }
+                </div>
+              </div>
+            </Flex>
 
             {/* <Flex className={styles.radio1}>
               <div className={styles.radioFlex}>
@@ -575,6 +628,12 @@ export default connect(({ activity }: any) => activity)(
                 </Flex>
                 {Gift}
               </div>
+            </div>
+            <div className={styles.gift}>
+              <Flex className={styles.share_title}><div>分享设置</div></Flex>
+              <Flex className={styles.share_border}>
+                <textarea value={shareText} cols="30" rows="10" className={styles.share_inp} placeholder="设置分享内容:请输入" onChange={this.handleChangeShare}></textarea>
+              </Flex>
             </div>
             <Flex className={styles.read}>
               {/* <img src={require('./image/tip.png')}/>创建必读 */}

@@ -7,6 +7,8 @@ import upload from '@/services/oss';
 import Notice from '@/pages/activitys/components/notice';
 import router from 'umi/router';
 import CustomInput from './InputItem'
+import request from '@/services/request';
+
 interface errorType {
 	nameWrong?: string,			//券名错误
 	marketPrice?: string,		//市场价错误
@@ -145,6 +147,39 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			})
 		}
 
+		/**选择配送 */
+		onDelivery = () => {
+			if (!this.props.isDelivery) {
+				request({
+					url: 'v3/merchant/delivery',
+					method: 'GET',
+				}).then(res => {
+					if (res.data.delivery_status==2) {
+						router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
+						return;
+					}
+				}).catch(err => {
+					router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
+					return;
+				})
+			}
+			this.props.dispatch({
+				type: 'createCoupon/setCoupon',
+				payload: {
+					isDelivery: !this.props.isDelivery
+				}
+			});
+		};
+
+		handleChangeShare = (e: any) => {
+			this.props.dispatch({
+				type: 'createCoupon/setCoupon',
+				payload: {
+					shareText: e.target.value
+				}
+			})
+		}
+
 		render() {
 			const { error } = this.props
 			const notice = this.state.showNotice && (
@@ -212,6 +247,27 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 							style={{ borderTop: error.validity ? '1px solid red' : '' }}
 						>{error.validity ? error.validity : null}</div>
 					}
+					<Flex className={styles.radio0}>
+						<div className={styles.radioFlex}>
+							<div className={styles.radioScope}>
+								活动范围
+							</div>
+							<div className={styles.radioBox}>
+								{
+									this.props.isDelivery ?
+										<Flex className={styles.choose}>
+											<div className={styles.chooseBox} style={{ marginRight: 80 }} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/p8kjkCbnYmZfD3JGP8feeKsWt8BQNHPh.png" />不可配送</div>
+											<div className={styles.chooseBox} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/36DfKaXdP8ea7SRcCXT8neArCE2YB76N.png" />可配送</div>
+										</Flex>
+										:
+										<Flex className={styles.choose}>
+											<div className={styles.chooseBox} style={{ marginRight: 80 }} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/36DfKaXdP8ea7SRcCXT8neArCE2YB76N.png" />不可配送</div>
+											<div className={styles.chooseBox} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/p8kjkCbnYmZfD3JGP8feeKsWt8BQNHPh.png" />可配送</div>
+										</Flex>
+								}
+							</div>
+						</div>
+					</Flex>
 					<List.Item
 						extra={<span>{
 							this.props.description && this.props.description.length != 0 ? '已设置' + this.props.description.length + '条规则' : '请设置使用须知'}
@@ -267,6 +323,14 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 							{error.activeImg ? error.activeImg : null}
 						</div>
 					}
+
+					<div className={styles.gift}>
+						<Flex className={styles.share_title}><div>分享设置</div></Flex>
+						<Flex className={styles.share_border}>
+							<textarea value={this.props.shareText} cols="30" rows="10" className={styles.share_inp} placeholder="设置分享内容:请输入" onChange={this.handleChangeShare}></textarea>
+						</Flex>
+					</div>
+
 					{notice}
 				</div>
 			);
