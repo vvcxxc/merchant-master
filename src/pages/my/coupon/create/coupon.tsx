@@ -154,7 +154,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					url: 'v3/merchant/delivery',
 					method: 'GET',
 				}).then(res => {
-					if (res.data.delivery_status==2) {
+					if (!res.data.delivery_status || res.data.delivery_status == 2) {
 						router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
 						return;
 					}
