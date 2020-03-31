@@ -30,7 +30,7 @@ export default class Dispatching extends Component {
   }
   checkoutStatus = () => {
     if (this.state.delivery_status) {
-      this.setState({ delivery_status: 0 })
+      this.setState({ delivery_status: 2 })
     } else {
       this.setState({ delivery_status: 1 })
     }
@@ -66,6 +66,12 @@ export default class Dispatching extends Component {
 
   hanleSumbit = (type: number, e: any) => {
     console.log(this.state)
+
+    let { delivery_start_time, delivery_end_time, delivery_radius_m, delivery_phone, delivery_service_money } = this.state;
+    if (!delivery_start_time || !delivery_end_time || !delivery_radius_m || !delivery_phone || !delivery_service_money) {
+      Toast.fail('请填写完信息', 1500);
+    }
+
     request({
       url: 'v3/merchant/delivery',
       method: 'POST',
