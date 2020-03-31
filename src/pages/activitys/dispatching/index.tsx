@@ -80,7 +80,7 @@ export default class Dispatching extends Component {
         delivery_radius_m: this.state.delivery_radius_m.split('.0km')[0],
         delivery_phone: this.state.delivery_phone,
         delivery_service_money: this.state.delivery_service_money,
-        delivery_status: this.state.delivery_status,
+        delivery_status: this.state.delivery_status ? this.state.delivery_status : 2,
       }
     }).then((res: any) => {
       if (res.code == 200) {
