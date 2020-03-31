@@ -2286,7 +2286,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
       return (
         <div style={{ width: '100%', height: 'auto', background: '#fff', paddingBottom: '100px' }} id="box0" className={styles.submitQua}>
-          <div>
+          <div> 
             <WingBlank className={styles.page}>
               {
                 this.state.payment_open_status == 2 ? (
