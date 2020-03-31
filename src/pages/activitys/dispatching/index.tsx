@@ -29,7 +29,7 @@ export default class Dispatching extends Component {
     })
   }
   checkoutStatus = () => {
-    if (this.state.delivery_status) {
+    if (this.state.delivery_status == 1) {
       this.setState({ delivery_status: 2 })
     } else {
       this.setState({ delivery_status: 1 })
