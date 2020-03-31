@@ -7,7 +7,7 @@ import request from '@/services/request'
 
 export default class Dispatching extends Component {
   state = {
-    delivery_status: 2,//2不配送 1配送
+    delivery_status: 1,//2不配送 1配送
     delivery_service_money: '',
     delivery_phone: undefined,
     delivery_radius_m: '',
@@ -22,7 +22,6 @@ export default class Dispatching extends Component {
       method: 'GET'
     }).then((res: any) => {
       let { delivery_status, delivery_service_money, delivery_phone, delivery_radius_m, delivery_end_time, delivery_start_time } = res.data
-      console.log(res)
       this.setState({ delivery_status, delivery_service_money, delivery_phone, delivery_radius_m, delivery_end_time, delivery_start_time })
     }).catch(err => {
 
@@ -100,8 +99,8 @@ export default class Dispatching extends Component {
       <div className={styles.dispatching_page}>
         <Flex className={styles.line_layout} justify='between' align='center'>
           <div className={styles.line_label}>配送服务</div>
-          <div className={this.state.delivery_status==1 ? styles.line_checkout : styles.line_checkout_right} onClick={this.checkoutStatus}>
-            <div className={this.state.delivery_status==1 ? styles.checkout_icon : styles.checkout_icon_right}></div>
+          <div className={this.state.delivery_status != 1 ? styles.line_checkout : styles.line_checkout_right} onClick={this.checkoutStatus}>
+            <div className={this.state.delivery_status != 1 ? styles.checkout_icon : styles.checkout_icon_right}></div>
           </div>
         </Flex>
         <Flex className={styles.line_layout} justify='between' align='center'>
