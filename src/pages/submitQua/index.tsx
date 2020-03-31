@@ -298,7 +298,7 @@ export default connect(({ submitQua }: any) => submitQua)(
         window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
       })
 
-    }
+    } 
 
     handleSelectBank = (bankName: any) => {
       request({
