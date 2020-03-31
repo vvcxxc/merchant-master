@@ -292,7 +292,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           signature: data.signature,
           callback: data.callback,
           host: data.host,
-          key: data.dir
+          key: data.dir 
         };
 
         window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
