@@ -180,7 +180,7 @@ export default class bindPhoneNumber extends Component {
         }).then(res => {
             if (res.status_code == 200) {
                 this.setState({ isOkClick: true })
-                Toast.success(res.message, 1, () => {
+                Toast.success('绑卡成功', 1, () => {
                     router.push({ pathname: '/doubledry/withdraw' });
                 });
             } else {
