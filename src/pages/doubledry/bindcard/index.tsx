@@ -183,7 +183,7 @@ export default class bindPhoneNumber extends Component {
                 Toast.success('绑卡成功', 1, () => {
                     router.push({ pathname: '/doubledry/withdraw' });
                 });
-            } else {
+            } else { 
                 this.setState({ isOkClick: true })
                 Toast.fail(res.message);
             }
