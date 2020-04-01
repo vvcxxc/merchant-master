@@ -154,12 +154,14 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					url: 'v3/merchant/delivery',
 					method: 'GET',
 				}).then(res => {
-					if (!res.data.delivery_status) {
-						router.push('/activitys/dispatching');
+					if (!res.data.delivery_status || res.data.delivery_status == 2) {
+						router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
 						return;
 					}
+				}).catch(err => {
+					router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
+					return;
 				})
-				return;
 			}
 			this.props.dispatch({
 				type: 'createCoupon/setCoupon',
