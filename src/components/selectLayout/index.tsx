@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import styles from './index.less';
-import { WingBlank, Flex, Tabs } from 'antd-mobile';
+import { WingBlank, Flex, Tabs, Modal, List, Switch } from 'antd-mobile';
 import UndeterminedModal, { Undetermined, After } from './undeterminedModal';
 import SelectDate from './selectDate';
 import checkIcon from '../../assets/icon-check.png'
 import icon from '../../assets/icon.png';
 import { Item } from 'rc-menu';
-
+import moment from 'moment';
+import Calendar from '../../components/centerCalendar'
 //改前须知
 //传入参数
 // undetermined为条件1，格式{id,label},
@@ -19,9 +20,12 @@ import { Item } from 'rc-menu';
 
 interface Props {
   /**无关紧要的信息 */
+  hasHeaderTab?: boolean;
   hasInsignificant?: boolean;
   /**无关紧要的信息 值 */
   insignificant?: any;
+  headerTab?: any;
+  changeHeaderTab?: (query: any) => any;
   /**快速筛选条件列表 */
   undetermined?: Undetermined;
   undetermined2?: any;
@@ -75,7 +79,15 @@ export default class FiltrateLayout extends Component<Props> {
     timeCheck: false,
     tabActive: 0,
     /**时间筛选标题 */
-    title2: "月份"
+    title2: "月份",
+    headerTabSelect: 0,
+    en: false,
+    show: false,
+    showStartTimg: 0,
+    showEndTimg: 0,
+    onSelect: false,
+    config: {
+    },
   };
   componentDidMount() {
     if (this.props.dateTitle) {
@@ -90,7 +102,11 @@ export default class FiltrateLayout extends Component<Props> {
       this.props.changePlatType && this.props.changePlatType();
     }
   }
-
+  //收入，支出
+  changeHeaderTab = (type: any) => {
+    this.setState({ headerTabSelect: type })
+    this.props.changeHeaderTab && this.props.changeHeaderTab(type)
+  }
 
   handleHotClick = () => this.setState({ hotShow: !this.state.hotShow, timeShow: false });
 
@@ -113,6 +129,7 @@ export default class FiltrateLayout extends Component<Props> {
   hotHide = () => this.setState({ hotShow: false });
   timeHide = () => this.setState({ timeShow: false });
   timeChange = (value: string | undefined, end_time: string | undefined): any => {
+    //  'value,end_time:2020-01-18 2020-01-21'
     // this.setState({ title2: value == undefined ? "月份" : value })// 启林注释，解决月份消失的问题
     this.setState({ timeShow: false, query: { ...this.state.query, time: value, end_time } }, () => {
       this.handleQueryChange();
@@ -140,13 +157,32 @@ export default class FiltrateLayout extends Component<Props> {
     })
   }
 
+  getCalendar = (start: number, end: number, startDay: number, endDay: number) => {
+    console.log('hhh', start, end, startDay, endDay);
+  }
 
   render() {
-    const { hotCheck, hotShow, timeCheck, timeShow } = this.state
+    const now = new Date();
+    const { hotCheck, hotShow, timeCheck, timeShow } = this.state;
+    const header_tab = this.props.hasHeaderTab && (
+      <div className={styles.header_tab} >
+        {
+          this.props.headerTab.map((item: any, index: any) => (
+            <div className={styles.header_tab_item} key={index} onClick={this.changeHeaderTab.bind(this, item.type)}>
+              <div className={styles.header_tab_item_word}>{item.name}</div>
+              {
+                this.state.headerTabSelect == item.type ? <div className={styles.header_tab_item_select}></div> : null
+              }
+            </div>
+          ))
+        }
+
+      </div>
+    );
     const insignificant = this.props.hasInsignificant && (
       <Flex className={styles.header}>
         {
-          this.props.insignificant.map((item: any,index:any) => (
+          this.props.insignificant.map((item: any, index: any) => (
             <Flex className={styles.header_item} justify='center' key={index}>
               <div className={styles.item_title}>{item.name}</div>
               <div className={styles.item_num}>{item.num}</div>
@@ -206,6 +242,8 @@ export default class FiltrateLayout extends Component<Props> {
           </WingBlank>
         </div>
         {/* 无关紧要的信息 */}
+
+        {header_tab}
         {insignificant}
 
         {
@@ -248,6 +286,21 @@ export default class FiltrateLayout extends Component<Props> {
           onHide={this.timeHide}
           onChange={this.timeChange}
         />
+        {/* <Modal
+          visible={this.state.timeShow}
+          transparent
+          maskClosable={true}
+          onClose={() => { this.setState({ timeShow: false }) }}
+        >
+          <div className={styles.dateModel}>
+            <div className={styles.calendarContent}>
+              <Calendar
+                confirm={this.getCalendar}
+                onClose={() => { this.setState({ timeShow: false }) }}
+              />
+            </div>
+          </div>
+        </Modal> */}
       </Flex>
     );
   }

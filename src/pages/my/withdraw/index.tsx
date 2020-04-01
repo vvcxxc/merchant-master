@@ -32,7 +32,9 @@ class WithDraw extends Component {
     num: '',
     is_ok: false,
     data: {},
-    msg_show: false
+    msg_show: false,
+
+    isOkClick: true
   };
 
   componentWillMount() {
@@ -81,9 +83,12 @@ class WithDraw extends Component {
   };
 
   /**提现 */
-  WithDraw = () => {
+  WithDraw = async () => {
     let { money } = this.state;
     if (money && Number(money) >= 20) {
+
+      await this.setState({ isOkClick: false })
+
       request({
         url: 'api/merchant/supplier/withdraw',
         method: 'post',
@@ -91,6 +96,7 @@ class WithDraw extends Component {
           money
         }
       }).then(res => {
+        
         let { message, code } = res;
         if (code == 200) {
           Toast.success(message, 2);
@@ -101,9 +107,12 @@ class WithDraw extends Component {
             bank_name: info.bank_name,
             img: info.bank_img
           };
-          this.setState({ is_ok: true, data });
-        } else Toast.fail(message, 2);
-      });
+          this.setState({ is_ok: true, data, isOkClick: true });
+        } else {
+          Toast.fail(message, 2);
+          this.setState({ isOkClick: true })
+        };
+      })
     } else {
       this.setState({ msg_show: true })
     }
@@ -184,9 +193,17 @@ class WithDraw extends Component {
               全部提现
 						</span>
           </Flex>
-          <Button type="primary" style={{ marginTop: 60 }} onClick={this.WithDraw}>
-            提现
-					</Button>
+          {
+            this.state.isOkClick ? (
+              <Button type="primary" style={{ marginTop: 60 }} onClick={this.WithDraw}>
+                提现
+              </Button>
+            ) : (
+                <Button type="primary" style={{ marginTop: 60 }}>
+                  提现
+                </Button>
+              )
+          }
           <Button
             onClick={this.goWithDraw}
             type="primary"
@@ -197,7 +214,7 @@ class WithDraw extends Component {
           <div className={styles.toast} >
             <div className={styles.toast_title}>温馨提示 :</div>
             <div className={styles.toast_content}>1、金额限制: 最低提现金额为20元。</div>
-            <div className={styles.toast_content}>2、银行卡到账时间: T+1日（第二个工作日）。</div>
+            <div className={styles.toast_content}>2、银行卡到账时间: T+1（第二个工作日）。</div>
             <div className={styles.toast_content}>3、提现进度查询位置: “首页-资产管理-提现进度”</div>
             <div className={styles.toast_content}>4、因网银转账的规则限制，提现金额小数仅能精确到小数点后2位。</div>
           </div>

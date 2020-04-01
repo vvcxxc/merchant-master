@@ -6,8 +6,8 @@ import router from 'umi/router';
 import EchartsSan from '../../../../components/echart_shan'
 // import BottomShare from '@/pages/activitys/appreciation/componts/bottom_share'
 // import Posters from '@/pages/activitys/appreciation/componts/posters'
-import Poster from '@/pages/activitys/appreciation/componts/posters/spell_group'
 import { connect } from 'dva';
+import Poster from '@/pages/activitys/appreciation/componts/posters/spell_group'
 
 const alert = Modal.alert;
 interface Props {
@@ -89,24 +89,6 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
     }).then(res => {
       let { data } = res;
 
-      //拼团海报所需信息
-      this.setState({
-        spellGroupInfo: {
-          activity_name: data.activity_name,
-          group_money: data.group_info.group_money,//拼团价
-          pay_money: data.group_info.pay_money,              //原价
-          group_number: data.group_info.group_number,       //拼团人数
-          ...data.supplier,
-          link: data.group_info.link,                       //跳转的详情页面
-          gift_id: data.group_gif_info.gift_id,             // 礼品id为0? 不显示礼品以及信息
-          gif_name: data.group_gif_info.gif_name,
-          gif_pic: data.group_gif_info.gif_pic,             //礼品图片
-          gift_money: data.group_gif_info.gif_integral,     //礼品价
-          coupons_number: data.group_info.group_number,     //猜测是几人团
-          big_pic: data.activity_image
-        }
-      })
-
       // this.setState({
       //   posterData: {
       //     ...data.supplier,
@@ -124,18 +106,23 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
       //   }
       // })
 
-      // this.createHeadImg(data.supplier.shop_door_header_img)
-      // if (data.group_gif_info.gift_id != 0) {
-      //   this.createGiftImg(data.group_gif_info.gif_pic)
-      // }
-
-      // this.createHeadImg(data.supplier.shop_door_header_img + '?x-oss-process=image/format,jpg/resize,m_pad,h_160,w_160/quality,q_90'
-      // )
-      // this.createHeadImg(data.supplier.shop_door_header_img + '?x-oss-process=image/format,jpg/resize,m_pad,h_180,w_180/quality,q_90'
-      // )
-      // if (data.group_gif_info.gift_id != 0) {
-      //   this.createGiftImg(data.group_gif_info.gif_pic + '?x-oss-process=image/format,jpg/resize,m_pad,w_300,h_130/quality,q_90')
-      // }
+      //拼团海报所需信息
+      this.setState({
+        spellGroupInfo: {
+          activity_name: data.activity_name,
+          group_money: data.group_info.group_money,//拼团价
+          pay_money: data.group_info.pay_money,              //原价
+          group_number: data.group_info.group_number,       //拼团人数
+          ...data.supplier,
+          link: data.group_info.link,                       //跳转的详情页面
+          gift_id: data.group_gif_info.gift_id,             // 礼品id为0? 不显示礼品以及信息
+          gif_name: data.group_gif_info.gif_name,
+          gif_pic: data.group_gif_info.gif_pic,             //礼品图片
+          gift_money: data.group_gif_info.gif_integral,     //礼品价
+          coupons_number: data.group_info.group_number,     //猜测是几人团
+          big_pic: data.activity_image
+        }
+      })
 
       this.setState({
         dataEchart: [
@@ -197,56 +184,6 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
     this.setState({ showShare: false })
   }
 
-  // 创建图片
-  // createHeadImg = (imgData: string) => {
-  //   let tempImage2 = new Image();// 礼品图片
-  //   tempImage2.crossOrigin = ""
-  //   tempImage2.src = this.judgeNetwork(imgData);
-  //   tempImage2.onload = () => {
-  //     this.props.dispatch({
-  //       type: 'activity/setDetails',
-  //       payload: {
-  //         headImg: this.getBase64Image2(tempImage2)
-  //       }
-  //     });
-  //   }
-  // }
-
-  // createGiftImg = (imgData: string) => {
-  //   let tempImage2 = new Image();// 礼品图片
-  //   tempImage2.crossOrigin = ""
-  //   tempImage2.src = this.judgeNetwork(imgData);
-  //   tempImage2.onload = () => {
-  //     this.props.dispatch({
-  //       type: 'activity/setDetails',
-  //       payload: {
-  //         giftImg: this.getBase64Image2(tempImage2)
-  //       }
-  //     });
-  //   }
-  // }
-
-  // 转换图片
-  // getBase64Image2 = (img: any) => {
-  //   var canvas: any = document.createElement("canvas");
-  //   canvas.width = img.width;
-  //   canvas.height = img.height;
-  //   var ctx = canvas.getContext("2d");
-  //   ctx.drawImage(img, 0, 0, img.width, img.height);
-  //   var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
-  //   var dataURL = canvas.toDataURL("image/" + ext);
-  //   return dataURL;
-  // }
-
-  // 用来给域里面添加 ‘ \ ’
-  // judgeNetwork = (Network: string) => {
-  //   if (Network.split('com', 2)[1].slice(0, 1) == '/') {
-  //     return Network.split('.com/', 2)[0] + '.com' + "\\/" + Network.split('.com/', 2)[1]
-  //   } else {
-  //     return Network
-  //   }
-  // }
-
   // 点击查看详情
   lookDetail = () => {
     router.push({ pathname: '/activitys/group/event_details', query: { id: this.props.location.query.id} })
@@ -254,9 +191,9 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
 
   render() {
     const { info, is_gift, types, dataEchart } = this.state;
-    let infoData: any = info.group_gif_info;
-    let share: any = info.share
-    let echartData: any = this.state.dataEchart
+    // let infoData: any = info.group_gif_info;
+    // let share: any = info.share
+    // let echartData: any = this.state.dataEchart
     const description = info.group_coupons_info.description.map((item, idx) => <p key={idx}>· {item}</p>)
     const button = this.state.type == '3' ? null : (
       <Button
@@ -331,12 +268,9 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
               {info.activity_name}
               <span>{types}</span>
             </div>
-            <img src={require('./share.png')}
-              // onClick={this.shareClick}
-              onClick={() => {
-                this.setState({ spell_group: true })
-              }}
-            />
+            <img src={require('./share.png')} onClick={() => {
+              this.setState({ spell_group:true})
+            }} />
           </Flex>
           {/* 图片 */}
           {
@@ -409,16 +343,10 @@ export default connect(({ activity }: any) => activity)(class GroupDetails exten
               {description}
             </div>
           </Flex>
-
-          {/* 礼品信息 */}
           {isGift}
-
-          {/* 撤销按钮 */}
-          {/* <Button  style={{marginTop: 50, marginBottom: 30}} onClick={this.stop}>撤销活动</Button> */}
           {button}
         </WingBlank>
         <Poster show={this.state.spell_group} list={this.state.spellGroupInfo} close={() => this.setState({ value_added: false })} />
-        {/* {bottom_share} */}
       </div>
     )
   }

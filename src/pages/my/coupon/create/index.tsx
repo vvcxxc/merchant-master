@@ -62,7 +62,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 
 				!coupons_name || coupons_name.length < 1 ?
 					total.nameWrong = '请输入优惠券名称' : (
-						!/^[\u4e00-\u9fa5A-Za-z0-9-_!@#$%^&*()+=,./';:"?><\|！@#￥%……&*（）——：“”；》《，。、？|]*$/.test(coupons_name) ?
+						!/^[\u4e00-\u9fa5A-Za-z0-9-_!@#$%^&*()+=,./';:"?><\|！@#￥%……&*（）——：“”；》《，【】。、？|]*$/.test(coupons_name) ?
 							total.nameWrong = '优惠券名称中含有非法字符，请重新编辑。' : ''
 					)
 
@@ -204,7 +204,9 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					is_ad: this.props.location.query.isAd,
 					/**商圈广告下，购买价格为0 */
 					pay_money: this.state.showPrice ? this.props.couponForm.pay_money * 1 : 0,
-					share_info: this.props.couponForm.shareText
+					share_info: this.props.couponForm.shareText,
+					is_delivery: this.props.couponForm.isDelivery ? 1 : 0,
+
 				}
 			});
 

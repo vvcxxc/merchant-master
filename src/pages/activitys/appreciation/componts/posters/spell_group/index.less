@@ -17,6 +17,7 @@
     height: 865px;
     margin-bottom: 50px;
     background: rgba(255, 255, 255, 1);
+    overflow: hidden;
 
     .title_img {
       width: 100%;
@@ -121,9 +122,18 @@
       font-family: PingFang SC;
       font-weight: bold;
       color: rgba(238, 38, 51, 1);
+      margin-bottom: 10px;
+      box-sizing: border-box;
 
       span:nth-child(1) {
         font-size: 36px;
+        margin-right: 15px;
+      }
+
+      span:nth-child(2) {
+        font-size: 22px;
+        text-decoration: line-through;
+        color: rgba(179, 179, 179, 1);
       }
 
     }
@@ -135,15 +145,10 @@
       font-weight: bold;
       color: rgba(238, 38, 51, 1);
 
-      span:nth-child(1) {
-        margin-right: 20px;
-        font-size: 22px;
-        text-decoration: line-through;
-        color: rgba(179, 179, 179, 1);
-      }
-
       .group_number {
         padding: 0 10px;
+        height: 26px;
+        line-height: 26px;
         font-weight: normal;
         border: 1px solid rgba(238, 38, 51, 1);
         border-radius: 13px;
@@ -152,7 +157,7 @@
 
     li:nth-child(3) {
       margin-bottom: 18px;
-      height: 50px;
+      height: 40px;
       width: 300px;
       font-size: 22px;
       font-family: PingFang SC;
@@ -204,11 +209,13 @@
 }
 
 .user_button {
+  width: 100%;
   text-align: center;
   font-size: 36px;
   font-family: PingFang SC;
-  font-weight: 500;
   color: rgba(255, 255, 255, 1);
+  margin-top: 50px;
+  line-height: 1;
 }
 
 ul {
@@ -224,7 +231,6 @@ ul {
 .my_img {
   width: 544px;
   height: 854px;
-  margin-bottom: 10px;
 }
 
 //隐藏生成海报前的静态页

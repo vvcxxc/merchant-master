@@ -29,6 +29,7 @@ export interface Group {
   giftImg: string;
   activity_image: string;
   shareText: string;
+  isDelivery: boolean
 }
 
 export interface Appreciation {
@@ -53,7 +54,7 @@ export interface Appreciation {
 
   currency_cover_img: Array<any>;
   currency_describe_img1: Array<any>;
-  currency_describe_img2: Array<any>;  
+  currency_describe_img2: Array<any>;
   currency_image_url1: string;
   currency_image_url2: string;
   currency_image_url3: string;
@@ -87,6 +88,7 @@ const model: Model = {
       group_sum: '',
       validity: '',
       shareText: '',
+      isDelivery: false
     },
     Appreciation: {
       mail_mode: '1',
@@ -166,7 +168,8 @@ const model: Model = {
           mail_mode: '1',
           scope_mode: 0,
           storeItems: [],
-          description: []
+          description: [],
+          isDelivery: true
         },
         Appreciation: {
           cover_img: [],
