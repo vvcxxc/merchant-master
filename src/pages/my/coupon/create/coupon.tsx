@@ -58,8 +58,9 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 		};
 		// handleShowNotice = () => this.setState({ showNotice: true });
 		handleShowNotice = () => router.push({ pathname: '/activitys/notice', query: { type: 3 } })
-		handleInput = (type: string) => (value: any) => {
+		handleInput = (type: string) => async (value: any) => {
 			if (type == 'coupons_name') {
+        console.log(value,value.length)
 				if (value.length <= 30) {
 					//名字
 					this.props.dispatch({
@@ -68,7 +69,15 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 							[type]: value
 						}
 					});
-				}
+				}else {
+          Toast.fail('优惠券名字最多输入30个字符')
+          this.props.dispatch({
+						type: 'createCoupon/setCoupon',
+						payload: {
+							[type]: value.slice(0,30)
+						}
+          });
+        }
 			} else {
 				if (value.split(".")[1] == undefined || (value.split(".")[1].length < 3 && value.split(".")[2] == undefined)) {
 					this.props.dispatch({
@@ -187,7 +196,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					/>
 				</Flex>
 			);
-
 			return (
 				<div className={styles.discount_coupon}>
 					<CustomInput
