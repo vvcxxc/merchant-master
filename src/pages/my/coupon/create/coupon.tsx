@@ -96,38 +96,75 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 
 		uploadImage = (type: any) => (files: any[], operationType: string, index?: number): void => {
 			this.setState({ [type]: files });
-			if (type === 'files') {
-				this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { temp_url1: files } });
-			} else {
-				this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { temp_url2: files } });
-			}
 			if (operationType === 'add') {
 				Toast.loading('上传图片中');
 				upload(files[files.length - 1].url).then(res => {
 					this.setState({ [type]: files });
 					Toast.hide();
 					if (res.status === 'ok') {
-						if (type === 'files') {
-							this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { image: res.data.path, image_url: [...(this.props.image_url || []), res.data.path] } });
-						} else {
-							this.props.dispatch({
-								type: 'createCoupon/setCoupon',
-								payload: { image_url: [...(this.props.image_url || []), res.data.path] }
-							});
+						switch (type) {
+							case 'files':
+								this.props.dispatch({
+									type: 'createCoupon/setCoupon', payload: {
+										image: res.data.path,
+										image_url: [...(this.props.image_url || []), res.data.path],
+										temp_url1: files
+									}
+								});
+								break;
+							case 'detailFiles':
+								this.props.dispatch({
+									type: 'createCoupon/setCoupon',
+									payload: {
+										image_url: [...(this.props.image_url || []), res.data.path],
+										temp_url2: files
+									}
+								});
+								break;
+							case 'detailFilesSecond':
+								this.props.dispatch({
+									type: 'createCoupon/setCoupon',
+									payload: {
+										image_url: [...(this.props.image_url || []), res.data.path],
+										temp_url3: files
+									}
+								});
+								break;
 						}
+
 					}
 				});
 			} else if (operationType === 'remove') {
 				this.setState({ [type]: files });
-				if (type === 'files') {
-					this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { image: '' } });
-				} else {
-					const urls = [...(this.props.image_url || [])];
-					urls.splice(index || -1, 1);
-					this.props.dispatch({
-						type: 'createCoupon/setCoupon',
-						payload: { image_url: [...urls] }
-					});
+				switch (type) {
+					case 'files':
+						const firstUrl = [...(this.props.image_url || [])];
+						this.props.dispatch({
+							type: 'createCoupon/setCoupon',
+							payload: {
+								image: '',
+								image_url: firstUrl.splice(index || 1, 3),
+								temp_url1: [],
+							}
+						
+						});
+						break;
+					case 'detailFiles':
+						const urls = [...(this.props.image_url || [])];
+						urls.splice(index || -1, 1);
+						this.props.dispatch({
+							type: 'createCoupon/setCoupon',
+							payload: { image_url: [...urls], temp_url2: [] },
+						});
+						break;
+					case 'detailFilesSecond':
+						let second = [...(this.props.image_url || [])];
+						second.splice(index || -1, 2);
+						this.props.dispatch({
+							type: 'createCoupon/setCoupon',
+							payload: { image_url: [...second], temp_url3: []},
+						});
+						break;
 				}
 			}
 		};
@@ -236,7 +273,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 							style={{ borderTop: error.userNotice ? '1px solid red' : '' }}
 						>{error.userNotice ? error.userNotice : null}</div>
 					}
-					<div id={styles.no_bottom_box} >
+					<div id={styles.no_bottom_box}>
 						<List.Item >活动图片</List.Item>
 					</div>
 					{/* <div>活动图片</div> */}
@@ -255,6 +292,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 							</div>
 							<div className={styles.describe}>封面</div>
 						</div>
+						
 						<div className={styles.image}>
 							<div className={styles.cover_img}>
 								<ImagePicker
@@ -264,6 +302,19 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 									files={this.props.temp_url2}
 									onChange={this.uploadImage('detailFiles')}
 									selectable={!Boolean(this.props.temp_url2) || this.props.temp_url2.length < 1}
+								/>
+							</div>
+							<div className={styles.describe}></div>
+						</div>
+						<div className={styles.image}>
+							<div className={styles.cover_img}>
+								<ImagePicker
+									className={styles.upload_img}
+									multiple={false}
+									length={1}
+									files={this.props.temp_url3}
+									onChange={this.uploadImage('detailFilesSecond')}
+									selectable={!Boolean(this.props.temp_url3) || this.props.temp_url3.length < 1}
 								/>
 							</div>
 							<div className={styles.describe}></div>
