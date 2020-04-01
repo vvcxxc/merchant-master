@@ -436,37 +436,36 @@ export default connect(({ createStore }: any) => createStore)(
         }
         this.setState({ error: {} })
       }
-      request({
-        url: 'v3/stores',
-        method: 'post',
-        data: {
-          store_name: name,
-          // 详细地址
-          address: JSON.parse(detailAddress),
-          // 定位地址
-          gaode_address: address,
-          house_num,
-          phone,
-          manage_type,
-          store_door_header_img,
-          store_img_one,
-          store_img_two,
-          xpoint: location.longitude,
-          ypoint: location.latitude,
-          email,
-          code_id: _code
-        }
-      }).then(res => {
-        let { code, data, message } = res;
-        if (code == 200) {
-          let is_existence = data.is_existence ? data.is_existence : 0;
-          Toast.success(data.msg, 2, () => {
-            router.push({ pathname: '/choiceSubmitQua', query: { is_existence: is_existence } })
-          })
-        } else {
-          Toast.fail(data.msg)
-        }
-      })
+        request({
+          url: 'v3/stores',
+          method: 'post',
+          data: {
+            store_name: name,
+            // 详细地址
+            address:JSON.parse(detailAddress),
+            // 定位地址
+            gaode_address:address,
+            house_num,
+            phone,
+            manage_type,
+            store_door_header_img,
+            store_img_one,
+            store_img_two,
+            xpoint: location.longitude,
+            ypoint: location.latitude,
+            email,
+            code_id: _code
+          }
+        }).then(res => {
+          let { code, data } = res;
+          if (code == 200) {
+            Toast.success(data.msg, 2, () => {
+              router.push('/submitQua');
+            })
+          } else {
+            Toast.fail(data)
+          }
+        })
       // } else {
       //   console.log(name + "," + address + "," + house_num + "," + phone + "," + manage_type + "," + email + "," + store_door_header_img + "," + store_img_one + "," + store_img_two)
       //   Toast.fail('请将信息填写完整')

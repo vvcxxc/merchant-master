@@ -570,7 +570,7 @@ export default connect(({ activity }: any) => activity)(
             <Flex className={styles.img_title}>
               <div>图片详情</div>
             </Flex>
-            <div className={styles.img_msg}>温馨提示：请上传横向的图片，建议图片比例为16:9。</div>
+            <div className={styles.img_msg}>温馨提示：请上传正方形的图片，建议图片比例为1:1。</div>
             <Flex className={styles.img_box}>
               <div className={styles.image}>
                 <div className={styles.cover_img}>

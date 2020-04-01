@@ -19,8 +19,8 @@ export default class CustomInput extends Component<Props> {
     value: ''
   }
   componentDidMount() {
-    const { value } = this.props
-    this.setState({ value: this.props.value })
+    // const { value } = this.props
+    // this.setState({ value: this.props.value })
   }
   handleInput2 = (type: string) => (value: any) => {
     if (this.props.integer) {
@@ -37,10 +37,14 @@ export default class CustomInput extends Component<Props> {
     }
 
   }
+  // componentWillReceiveProps(next){
+  //   console.log(next.value,22)
+  //   this.setState({value: next.value})
+  // }
 
   render() {
-    const { value } = this.state
-    const { placeholder, type, extra, showName, error } = this.props
+    // const { value } = this.state
+    const { placeholder, type, extra, showName, error,value } = this.props
     return (
       <div>
         <InputItem
