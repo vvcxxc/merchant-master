@@ -7,6 +7,8 @@ import upload from '@/services/oss';
 import Notice from '@/pages/activitys/components/notice';
 import router from 'umi/router';
 import CustomInput from './InputItem'
+import request from '@/services/request';
+
 interface errorType {
 	nameWrong?: string,			//券名错误
 	marketPrice?: string,		//市场价错误
@@ -58,8 +60,9 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 		};
 		// handleShowNotice = () => this.setState({ showNotice: true });
 		handleShowNotice = () => router.push({ pathname: '/activitys/notice', query: { type: 3 } })
-		handleInput = (type: string) => (value: any) => {
+		handleInput = (type: string) => async (value: any) => {
 			if (type == 'coupons_name') {
+        console.log(value,value.length)
 				if (value.length <= 30) {
 					//名字
 					this.props.dispatch({
@@ -68,7 +71,15 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 							[type]: value
 						}
 					});
-				}
+				}else {
+          Toast.fail('优惠券名字最多输入30个字符')
+          this.props.dispatch({
+						type: 'createCoupon/setCoupon',
+						payload: {
+							[type]: value.slice(0,30)
+						}
+          });
+        }
 			} else {
 				if (value.split(".")[1] == undefined || (value.split(".")[1].length < 3 && value.split(".")[2] == undefined)) {
 					this.props.dispatch({
@@ -96,38 +107,75 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 
 		uploadImage = (type: any) => (files: any[], operationType: string, index?: number): void => {
 			this.setState({ [type]: files });
-			if (type === 'files') {
-				this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { temp_url1: files } });
-			} else {
-				this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { temp_url2: files } });
-			}
 			if (operationType === 'add') {
 				Toast.loading('上传图片中');
 				upload(files[files.length - 1].url).then(res => {
 					this.setState({ [type]: files });
 					Toast.hide();
 					if (res.status === 'ok') {
-						if (type === 'files') {
-							this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { image: res.data.path, image_url: [...(this.props.image_url || []), res.data.path] } });
-						} else {
-							this.props.dispatch({
-								type: 'createCoupon/setCoupon',
-								payload: { image_url: [...(this.props.image_url || []), res.data.path] }
-							});
+						switch (type) {
+							case 'files':
+								this.props.dispatch({
+									type: 'createCoupon/setCoupon', payload: {
+										image: res.data.path,
+										image_url: [...(this.props.image_url || []), res.data.path],
+										temp_url1: files
+									}
+								});
+								break;
+							case 'detailFiles':
+								this.props.dispatch({
+									type: 'createCoupon/setCoupon',
+									payload: {
+										image_url: [...(this.props.image_url || []), res.data.path],
+										temp_url2: files
+									}
+								});
+								break;
+							case 'detailFilesSecond':
+								this.props.dispatch({
+									type: 'createCoupon/setCoupon',
+									payload: {
+										image_url: [...(this.props.image_url || []), res.data.path],
+										temp_url3: files
+									}
+								});
+								break;
 						}
+
 					}
 				});
 			} else if (operationType === 'remove') {
 				this.setState({ [type]: files });
-				if (type === 'files') {
-					this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { image: '' } });
-				} else {
-					const urls = [...(this.props.image_url || [])];
-					urls.splice(index || -1, 1);
-					this.props.dispatch({
-						type: 'createCoupon/setCoupon',
-						payload: { image_url: [...urls] }
-					});
+				switch (type) {
+					case 'files':
+						const firstUrl = [...(this.props.image_url || [])];
+						this.props.dispatch({
+							type: 'createCoupon/setCoupon',
+							payload: {
+								image: '',
+								image_url: firstUrl.splice(index || 1, 3),
+								temp_url1: [],
+							}
+						
+						});
+						break;
+					case 'detailFiles':
+						const urls = [...(this.props.image_url || [])];
+						urls.splice(index || -1, 1);
+						this.props.dispatch({
+							type: 'createCoupon/setCoupon',
+							payload: { image_url: [...urls], temp_url2: [] },
+						});
+						break;
+					case 'detailFilesSecond':
+						let second = [...(this.props.image_url || [])];
+						second.splice(index || -1, 2);
+						this.props.dispatch({
+							type: 'createCoupon/setCoupon',
+							payload: { image_url: [...second], temp_url3: []},
+						});
+						break;
 				}
 			}
 		};
@@ -145,6 +193,29 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 			})
 		}
 
+		/**选择配送 */
+		onDelivery = () => {
+			if (!this.props.isDelivery) {
+				request({
+					url: 'v3/merchant/delivery',
+					method: 'GET',
+				}).then(res => {
+					if (!res.data.delivery_status || res.data.delivery_status == 2) {
+						router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
+						return;
+					}
+				}).catch(err => {
+					router.push({ pathname: '/activitys/dispatching', query: { type: 2 } });
+					return;
+				})
+			}
+			this.props.dispatch({
+				type: 'createCoupon/setCoupon',
+				payload: {
+					isDelivery: !this.props.isDelivery
+				}
+			});
+		};
 
 		handleChangeShare = (e: any) => {
 			this.props.dispatch({
@@ -187,7 +258,6 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					/>
 				</Flex>
 			);
-
 			return (
 				<div className={styles.discount_coupon}>
 					<CustomInput
@@ -222,6 +292,27 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 							style={{ borderTop: error.validity ? '1px solid red' : '' }}
 						>{error.validity ? error.validity : null}</div>
 					}
+					<Flex className={styles.radio0}>
+						<div className={styles.radioFlex}>
+							<div className={styles.radioScope}>
+								活动范围
+							</div>
+							<div className={styles.radioBox}>
+								{
+									this.props.isDelivery ?
+										<Flex className={styles.choose}>
+											<div className={styles.chooseBox} style={{ marginRight: 80 }} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/p8kjkCbnYmZfD3JGP8feeKsWt8BQNHPh.png" />不可配送</div>
+											<div className={styles.chooseBox} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/36DfKaXdP8ea7SRcCXT8neArCE2YB76N.png" />可配送</div>
+										</Flex>
+										:
+										<Flex className={styles.choose}>
+											<div className={styles.chooseBox} style={{ marginRight: 80 }} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/36DfKaXdP8ea7SRcCXT8neArCE2YB76N.png" />不可配送</div>
+											<div className={styles.chooseBox} onClick={this.onDelivery.bind(this)}><img src="http://oss.tdianyi.com/front/p8kjkCbnYmZfD3JGP8feeKsWt8BQNHPh.png" />可配送</div>
+										</Flex>
+								}
+							</div>
+						</div>
+					</Flex>
 					<List.Item
 						extra={<span>{
 							this.props.description && this.props.description.length != 0 ? '已设置' + this.props.description.length + '条规则' : '请设置使用须知'}
@@ -236,7 +327,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 							style={{ borderTop: error.userNotice ? '1px solid red' : '' }}
 						>{error.userNotice ? error.userNotice : null}</div>
 					}
-					<div id={styles.no_bottom_box} >
+					<div id={styles.no_bottom_box}>
 						<List.Item >活动图片</List.Item>
 					</div>
 					{/* <div>活动图片</div> */}
@@ -255,6 +346,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 							</div>
 							<div className={styles.describe}>封面</div>
 						</div>
+						
 						<div className={styles.image}>
 							<div className={styles.cover_img}>
 								<ImagePicker
@@ -264,6 +356,19 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 									files={this.props.temp_url2}
 									onChange={this.uploadImage('detailFiles')}
 									selectable={!Boolean(this.props.temp_url2) || this.props.temp_url2.length < 1}
+								/>
+							</div>
+							<div className={styles.describe}></div>
+						</div>
+						<div className={styles.image}>
+							<div className={styles.cover_img}>
+								<ImagePicker
+									className={styles.upload_img}
+									multiple={false}
+									length={1}
+									files={this.props.temp_url3}
+									onChange={this.uploadImage('detailFilesSecond')}
+									selectable={!Boolean(this.props.temp_url3) || this.props.temp_url3.length < 1}
 								/>
 							</div>
 							<div className={styles.describe}></div>

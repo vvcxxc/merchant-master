@@ -204,7 +204,9 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					is_ad: this.props.location.query.isAd,
 					/**商圈广告下，购买价格为0 */
 					pay_money: this.state.showPrice ? this.props.couponForm.pay_money * 1 : 0,
-					share_info: this.props.couponForm.shareText
+					share_info: this.props.couponForm.shareText,
+					is_delivery: this.props.couponForm.isDelivery ? 1 : 0,
+
 				}
 			});
 

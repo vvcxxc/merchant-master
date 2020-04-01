@@ -32,7 +32,7 @@ export default function name(params: any) {
           </li>
           <li>
             <div>卡券数量</div>
-            <div>{params.list.total_num}{'张'}</div>
+            <div>{params.list.user_count}{'张'}</div>
           </li>
           <li>
             <div>卡券有效期</div>
@@ -73,7 +73,7 @@ export default function name(params: any) {
             </li>
             <li>
               <div>卡券数量</div>
-              <div>{params.list.total_num}{'张'}</div>
+              <div>{params.list.user_count}{'张'}</div>
             </li>
           </ul>
       }

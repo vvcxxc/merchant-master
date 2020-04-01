@@ -121,7 +121,6 @@ export default connect(({ submitQua }: any) => submitQua)(
       ],
       prompt: false,
 
-
       ToastTipsLegalIDImg: "",
       ToastTipsContactName: "",
       ToastTipsLegalIdNo: "",
@@ -150,7 +149,10 @@ export default connect(({ submitQua }: any) => submitQua)(
     };
 
 
-
+    getCaption = (str: string) => {
+      console.log(str)
+      return str.split('http://oss.tdianyi.com/')[1]
+    }
     componentDidMount() {
       function getCaption(str: string) {
         return str.split('http://oss.tdianyi.com/')[1]
@@ -283,6 +285,7 @@ export default connect(({ submitQua }: any) => submitQua)(
 
 
       // 暂时
+      console.log('dredgeType', this.props.location.query.dredgeType, 'is_existence:', this.props.location.query.is_existence)
       Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
         let { data } = res.data;
         let oss_data = {
@@ -376,6 +379,15 @@ export default connect(({ submitQua }: any) => submitQua)(
         }
       });
       router.push('/submitQua/example/license')
+    }
+    toBankLicenseExample = () => {
+      this.props.dispatch({
+        type: 'submitQua/setQua',
+        payload: {
+          date_back: true
+        }
+      });
+      router.push('/submitQua/example/bankLicense')
     }
     /**姓名输入 */
     handleName = (e: any) => {
@@ -936,7 +948,42 @@ export default connect(({ submitQua }: any) => submitQua)(
         })
       }
     }
-
+    //银行许可证
+    // changeBankLicense = (files: any) => {
+    //   // this.props.dispatch({
+    //   //   type: 'submitQua/setQua',
+    //   //   payload: {
+    //   //     license_img: files
+    //   //   }
+    //   // })
+    //   Toast.loading('', 100)
+    //   if (files[0]) {
+    //     let img = files[0].url;
+    //     upload(img).then(res => {
+    //       Toast.hide();
+    //       let Bank_license_imgUrl = res.data.path;
+    //       Cookies.set("_changeBankLicense", JSON.stringify(res.data.path), { expires: 1 });
+    //       this.props.dispatch({
+    //         type: 'submitQua/setQua',
+    //         payload: {
+    //           Banklicense_img: files,
+    //           Bank_license_imgUrl
+    //         }
+    //       })
+    //       console.log(Bank_license_imgUrl, '8888')
+    //     });
+    //   } else {
+    //     Toast.hide();
+    //     Cookies.set("_changeBankLicense", JSON.stringify(""), { expires: 1 });
+    //     this.props.dispatch({
+    //       type: 'submitQua/setQua',
+    //       payload: {
+    //         Banklicense_img: files,
+    //         Bank_license_imgUrl: ''
+    //       }
+    //     })
+    //   }
+    // }
 
     /**选择有效期 */
     chooseDate = (type: number) => () => {
@@ -1019,10 +1066,19 @@ export default connect(({ submitQua }: any) => submitQua)(
         }
       })
     }
+    // closeBankLicense = () => {
+    //   Cookies.set("_changeBankLicense", JSON.stringify(""), { expires: 1 });
+    //   this.props.dispatch({
+    //     type: 'submitQua/setQua',
+    //     payload: {
+    //       Bank_is_license: false,
+    //       Bank_license_imgUrl: ''
+    //     }
+    //   })
+    // }
 
     /**保存或者提交 */
     submit = (type: number) => async () => {
-
       await this.setState({
         ToastTipsLegalIDImg: "",
         ToastTipsContactName: "",
@@ -1038,6 +1094,7 @@ export default connect(({ submitQua }: any) => submitQua)(
         ToastTipsCornBusName: "",
         ToastTipsLegalName: "",
         ToastTipsBusinessDate: "",
+        // ToastTipsBankLicense: ""
       })
 
       const {
@@ -2189,6 +2246,7 @@ export default connect(({ submitQua }: any) => submitQua)(
     }
 
     render() {
+
       const idFront = this.props.is_id_front == true ? (
         <div className={styles.idcard}><img src={"http://oss.tdianyi.com/" + this.props.legal_id_front_img + '?x-oss-process=image/resize,m_fill,w_209,h_149'} alt="" /><div className={styles.close} onClick={this.closeIDFront}>{''}</div></div>
       ) : (
@@ -2264,6 +2322,19 @@ export default connect(({ submitQua }: any) => submitQua)(
           />
         )
 
+      // const BankLicense = this.props.Bank_is_license == true ? (
+      //   <div className={styles.licenseImg}><img src={"http://oss.tdianyi.com/" + this.props.Bank_license_imgUrl + '?x-oss-process=image/resize,m_fill,w_669,h_438'} /><div className={styles.close} onClick={this.closeBankLicense}>{''}</div></div>
+      // ) : (
+      //     <ImagePicker
+      //       className={styles.license}
+      //       files={this.props.Banklicense_img}
+      //       multiple={false}
+      //       length={1}
+      //       selectable={this.props.Banklicense_img.length < 1}
+      //       onChange={this.changeBankLicense}
+      //     />
+      //   )
+
       // const chooseTime = this.state.is_show == true ? (<ChooseDate type={this.state.type} choose_date={this.state.choose_date} onChange={this.timeChange}/>) : ('');
 
 
@@ -2282,8 +2353,11 @@ export default connect(({ submitQua }: any) => submitQua)(
         ToastTipsCornBusName,
         ToastTipsLegalName,
         ToastTipsBusinessDate,
+        ToastTipsBankLicense
       } = this.state
-
+      const dredgeType = Number(this.props.location.query.dredgeType);
+      const is_existence = Number(this.props.location.query.is_existence);
+      console.log('555', dredgeType, is_existence)
       return (
         <div style={{ width: '100%', height: 'auto', background: '#fff', paddingBottom: '100px' }} id="box0" className={styles.submitQua}>
           <div> 
@@ -2720,7 +2794,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                 ) : ""
               }
             </WingBlank>
-            <Flex className={styles.buttons}>
+            <Flex className={styles.bottombuttons}>
               <div className={styles.save} onClick={this.submit(1)}>保存</div>
               <div className={styles.submit} onClick={this.submit(2)}>提交审核</div>
             </Flex>

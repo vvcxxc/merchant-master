@@ -151,6 +151,46 @@
   }
 }
 
+.radio0 {
+  height: 94px;
+  border-bottom: 1px solid #ddd;
+
+  .radioFlex {
+    position: relative;
+    width: 100%;
+    height: auto;
+
+    .radioScope {
+      color: #666666;
+      font-size: 0.28rem;
+      display: inline-block;
+
+    }
+
+    .radioBox {
+      display: inline-block;
+      float: right;
+
+      .choose {
+        width: auto;
+
+        .chooseBox {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+
+          img {
+            width: 26px;
+            margin-right: 11px;
+          }
+        }
+
+      }
+    }
+  }
+}
+
 .radio1 {
   height: 94px;
   border-bottom: 1px solid #ddd;
@@ -239,8 +279,6 @@
 
 .img_box {
   .image {
-    width: 176px;
-    margin-right: 40px;
     font-size: 23px;
     color: #999;
     text-align: center;
@@ -339,18 +377,24 @@
     margin-bottom: 0;
   }
 
-  .am-flexbox-item {
-    width: 176px !important;
-    height: 97px;
-  }
-
   .am-image-picker-list .am-flexbox .am-flexbox-item {
-    margin-right: 0;
+    width: 218px;
+    margin-right: 16px;
   }
 
   .am-image-picker-list .am-image-picker-upload-btn {
-    background: url('./shangchuan.png') no-repeat;
+    background: url('http://oss.tdianyi.com/front/837fWG4NCCJ5xpXTmHHGPiTZbBYGhTbj.png') no-repeat;
     background-size: 100%;
+  }
+
+  .am-image-picker-list .am-image-picker-upload-btn::before {
+    height: 0;
+    width: 0;
+  }
+
+  .am-image-picker-list .am-image-picker-upload-btn::after {
+    height: 0;
+    width: 0;
   }
 
   .am-image-picker-list .am-flexbox .am-flexbox-item {
@@ -396,8 +440,10 @@
 .share_title {
   margin: 24px 0;
 }
+
 .share_border {
   border: 1px solid #ccc;
+
   .share_inp {
     width: 100%;
     border: 1px solid #ccc;

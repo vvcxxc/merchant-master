@@ -1,0 +1,130 @@
+.order_detail {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    overflow: auto;
+    padding: 34px 32px 140px 32px;
+    box-sizing: border-box;
+    .order_name {
+        display: flex;
+        align-items: center;
+        margin-bottom: 70px;
+        .logo {
+            width: 8px;
+            height: 32px;
+            background: #4264E0;
+            margin-right: 20px;
+        }
+        .title {
+            font-size: 34px;
+            color: #000000;
+            font-weight: 600;
+        }
+    }
+    .flex_order_info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 60px;
+        .order_info_status {
+            font-size: 30px;
+            color: #000000;
+        }
+        .order_info_value {
+            font-size: 30px;
+            color: #333;
+        }
+        .order_status {
+            font-size: 30px;
+            color: #4264E0;
+        }
+        .order_info_address {
+            font-size: 30px;
+            color: #000000;
+            flex: 1;
+        }
+        .address_detail {
+            font-size: 30px;
+            color: #333;
+            flex: 3;
+            text-align: right;
+        }
+    }
+
+    .divider {
+        width:100%;
+        height:1px;
+        background:rgba(240,242,245,1);
+        margin-bottom: 60px;
+    }
+
+    .footer_btn {
+        width: 100%;
+        height: 135px;
+        background: #fff;
+        border-top: 1px solid #F0F2F5;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        padding: 0 30px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .cancel {
+            width: 333px;
+            height: 98px;
+            border: 1px solid #98A6AD;
+            line-height: 98px;
+            text-align: center;
+            border-radius: 49px;
+        }
+        .order_btn {
+            // width: 333px;
+            width: 100%;
+            height: 98px;
+            line-height: 98px;
+            text-align: center;
+            border-radius: 49px;
+            color: #fff;
+            background: #4264E0;
+        }
+        .go_back {
+            width: 100%;
+            height: 98px;
+            line-height: 98px;
+            text-align: center;
+            border-radius: 49px;
+            color: #fff;
+            background: #4264E0;
+        }
+    }
+
+    .verificationPage {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: rgba(250, 250, 250, 0.9);
+        z-index: 99999;
+        :global {
+            .icons {
+                width: 100%;
+                padding: 0 36px;
+                box-sizing: border-box;
+                img {
+                    width: 126px;
+                    height: 126px;
+                    margin-bottom: 22px;
+                }
+            }
+            .close-icon {
+                padding: 50px 0 150px;
+                .am-icon {
+                    width: 68px !important;
+                    height: 68px !important;
+                }
+            }
+        }
+    }
+}
