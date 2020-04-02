@@ -41,7 +41,8 @@ const model: Model = {
       temp_url1: [],
       temp_url2: [],
       temp_url3: [],
-      isDelivery:false
+      isDelivery: false,
+      image_url:['','','']
     },
     moneyForm: {
       coupons_type: 1,

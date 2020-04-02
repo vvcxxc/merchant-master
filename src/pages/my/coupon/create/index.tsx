@@ -47,14 +47,18 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 			);
 
 		handleSubmit = async () => {
-			console.log(this.props);
+
 			const { type } = this.state
 			let total: any = {}
 			//这里触发校验函数
 			if (type === 0) {//优惠券判断
 
-				const { coupons_name, return_money, total_num, pay_money, validity, description, image_url, total_fee } = this.props.couponForm
-
+				const {
+					coupons_name, return_money,
+					total_num, pay_money, validity,
+					description, image_url, total_fee
+				} = this.props.couponForm
+				let [firstImage, secondImage, thirdImage] = this.props.couponForm.image_url
 				let returnMoney = return_money && Number(return_money)//市场价格
 				let totalNum = total_num && Number(total_num)//发放数量
 				let payMoney = pay_money && Number(pay_money)//购买价格
@@ -90,12 +94,8 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					})
 				)
 
-				image_url ? (
-					total.activeImg = !image_url[0] || !image_url[1] ? '请上传图片完整后再重新提交' : ''
-				) : (
-						total.activeImg = '请上传图片完整后再重新提交'
-					)
-				// console.log(total);
+				total.activeImg = firstImage.length && secondImage.length && thirdImage.length ? '' : '请上传图片完整后再重新提交'
+
 			}
 
 			if (type == 1) {//现金券判断
@@ -128,7 +128,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 					totalNum <= 0 ? '发放数量必须大于0' : ''
 				)
 
-				total.cashActiveImage = !money_image_url1 || !money_image_url2 || !money_image_url3 ? '请上传图片完整后再重新提交' : ""
+				total.cashActiveImage = !money_image_url1 || !money_image_url2 ? '请上传图片完整后再重新提交' : ""
 
 				// console.log(total);
 

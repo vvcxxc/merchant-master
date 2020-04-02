@@ -107,6 +107,7 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 
 		uploadImage = (type: any) => (files: any[], operationType: string, index?: number): void => {
 			this.setState({ [type]: files });
+			const firstUrl = [...(this.props.image_url || [])];
 			if (operationType === 'add') {
 				Toast.loading('上传图片中');
 				upload(files[files.length - 1].url).then(res => {
@@ -115,29 +116,32 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 					if (res.status === 'ok') {
 						switch (type) {
 							case 'files':
+								firstUrl[0] = res.data.path
 								this.props.dispatch({
 									type: 'createCoupon/setCoupon', payload: {
 										image: res.data.path,
-										image_url: [...(this.props.image_url || []), res.data.path],
-										temp_url1: files
+										temp_url1: files,
+										image_url: firstUrl
 									}
 								});
 								break;
 							case 'detailFiles':
+								firstUrl[1] = res.data.path
 								this.props.dispatch({
 									type: 'createCoupon/setCoupon',
 									payload: {
-										image_url: [...(this.props.image_url || []), res.data.path],
-										temp_url2: files
+										temp_url2: files,
+										image_url: firstUrl
 									}
 								});
 								break;
 							case 'detailFilesSecond':
+								firstUrl[2] = res.data.path
 								this.props.dispatch({
 									type: 'createCoupon/setCoupon',
 									payload: {
-										image_url: [...(this.props.image_url || []), res.data.path],
-										temp_url3: files
+										temp_url3: files,
+										image_url: firstUrl
 									}
 								});
 								break;
@@ -147,33 +151,38 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
 				});
 			} else if (operationType === 'remove') {
 				this.setState({ [type]: files });
+			
 				switch (type) {
 					case 'files':
-						const firstUrl = [...(this.props.image_url || [])];
+						firstUrl[0] = ''
 						this.props.dispatch({
 							type: 'createCoupon/setCoupon',
 							payload: {
 								image: '',
-								image_url: firstUrl.splice(index || 1, 3),
 								temp_url1: [],
+								image_url: firstUrl
 							}
 						
 						});
 						break;
 					case 'detailFiles':
-						const urls = [...(this.props.image_url || [])];
-						urls.splice(index || -1, 1);
+						firstUrl[1] = ''
 						this.props.dispatch({
 							type: 'createCoupon/setCoupon',
-							payload: { image_url: [...urls], temp_url2: [] },
+							payload: {
+								image_url: firstUrl,
+								temp_url2: []
+							}
 						});
 						break;
 					case 'detailFilesSecond':
-						let second = [...(this.props.image_url || [])];
-						second.splice(index || -1, 2);
+						firstUrl[2] = ''
 						this.props.dispatch({
 							type: 'createCoupon/setCoupon',
-							payload: { image_url: [...second], temp_url3: []},
+							payload: {
+								image_url: firstUrl,
+								temp_url3: []
+							}
 						});
 						break;
 				}
