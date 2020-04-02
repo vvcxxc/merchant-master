@@ -194,11 +194,11 @@ class Detail extends Component {
                         */}
                         {
                             info.order_status == 2 || info.order_status == 3 || info.order_status == 4 ? "已取消" :
-                                info.delivery_status == 0 ? "待接单" :
-                                    info.delivery_status == 1 ? "配送中" :
-                                        info.delivery_status == 2 ? "配送成功" :
-                                            info.delivery_status == 3 ? "配送失败" :
-                                                info.delivery_status == 4 ? "已接单" : ""
+                                info.order_status == 1 && info.delivery_status == 0 ? "待接单" :
+                                    info.order_status == 1 && info.delivery_status == 1 ? "配送中" :
+                                        info.order_status == 1 && info.delivery_status == 2 ? "配送成功" :
+                                            info.order_status == 1 && info.delivery_status == 3 ? "配送失败" :
+                                                info.order_status == 1 && info.delivery_status == 4 ? "已接单" : ""
                         }
                     </div>
                 </div>
@@ -259,17 +259,17 @@ class Detail extends Component {
 
                 {/* 0待接单 1配送中 2配送成功 3配送失败 4已接单 */}
                 {
-                    info.delivery_status == 0 ? (
+                    info.order_status == 1 && info.delivery_status == 0 ? (
                         <div className={styles.footer_btn}>
                             {/* <div className={styles.cancel} onClick={this.handleCancel}>取消</div> */}
                             <div className={styles.order_btn} onClick={this.handleAcceptOrder.bind(this, info.id)}>接单</div>
                         </div>
-                    ) : info.delivery_status == 1 ? (
+                    ) : info.order_status == 1 && info.delivery_status == 1 ? (
                         <div className={styles.footer_btn}>
                             {/* <div className={styles.cancel} onClick={this.handleCancel}>取消</div> */}
                             <div className={styles.order_btn} onClick={this.handleVerification}>核销二维码</div>
                         </div>
-                    ) : info.delivery_status == 4 ? (
+                    ) : info.order_status == 1 && info.delivery_status == 4 ? (
                         <div className={styles.footer_btn}>
                             {/* <div className={styles.cancel} onClick={this.handleCancel}>取消</div> */}
                             <div className={styles.order_btn} onClick={this.handleDispatch.bind(this, info.id)}>配送</div>
