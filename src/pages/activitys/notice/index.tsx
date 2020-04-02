@@ -136,7 +136,7 @@ export default connect(({ activity, createCoupon, participateActive }: any) => (
             return;
           }
         }
-        drag_list.unshift(lists);
+        drag_list.push(lists);
         this.setState({
           drag_list,
           tag: '',
