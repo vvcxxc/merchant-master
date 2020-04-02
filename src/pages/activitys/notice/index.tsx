@@ -102,7 +102,7 @@ export default connect(({ activity, createCoupon, participateActive }: any) => (
           return;
         }
       }
-      drag_list.unshift(list);
+      drag_list.push(list);
       let id = key - 1
       this.setState({
         drag_list,
@@ -201,7 +201,7 @@ export default connect(({ activity, createCoupon, participateActive }: any) => (
       }
       router.goBack()
     }
-    
+
     handleChangeBlur = (e) => {
       window.scrollTo(0, 0)
     }
