@@ -189,11 +189,11 @@ class List extends Component {
                                     */}
                                     {
                                         item.order_status == 2 || item.order_status == 3 || item.order_status == 4 ? "已取消" :
-                                            item.delivery_status == 0 ? "待接单" :
-                                                item.delivery_status == 1 ? "配送中" :
-                                                    item.delivery_status == 2 ? "配送成功" :
-                                                        item.delivery_status == 3 ? "配送失败" :
-                                                            item.delivery_status == 4 ? "已接单" : ""
+                                            item.order_status == 1 && item.delivery_status == 0 ? "待接单" :
+                                                item.order_status == 1 && item.delivery_status == 1 ? "配送中" :
+                                                    item.order_status == 1 && item.delivery_status == 2 ? "配送成功" :
+                                                        item.order_status == 1 && item.delivery_status == 3 ? "配送失败" :
+                                                            item.order_status == 1 && item.delivery_status == 4 ? "已接单" : ""
                                     }
                                 </div>
                             </div>
@@ -205,11 +205,11 @@ class List extends Component {
 
                                 {/* 0待接单 1配送中 2配送成功 3配送失败 4已接单 */}
                                 {
-                                    item.delivery_status == 0 ? <div className={styles.order_status} onClick={this.handleAcceptOrder.bind(this, item.id)}>接单</div> :
-                                        item.delivery_status == 1 ? <div className={styles.order_status} onClick={this.handleVerification}>核销二维码</div> :
+                                    item.order_status == 1 && item.delivery_status == 0 ? <div className={styles.order_status} onClick={this.handleAcceptOrder.bind(this, item.id)}>接单</div> :
+                                        item.order_status == 1 && item.delivery_status == 1 ? <div className={styles.order_status} onClick={this.handleVerification}>核销二维码</div> :
                                             // item.delivery_status == 2 ? <div className={styles.order_status}>已完成</div> :
                                             // item.delivery_status == 3 ? <div className={styles.order_status}>配送失败</div> :
-                                            item.delivery_status == 4 ? <div className={styles.order_status} onClick={this.handleDispatch.bind(this, item.id)}>配送</div> :
+                                            item.order_status == 1 && item.delivery_status == 4 ? <div className={styles.order_status} onClick={this.handleDispatch.bind(this, item.id)}>配送</div> :
                                                 ""
                                 }
 
