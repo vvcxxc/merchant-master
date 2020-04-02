@@ -31,8 +31,8 @@ export default class Rechange extends Component {
       if (openId) {
         Toast.loading('充值中');
         const res = await request({
-          // url: 'v3/pay/recharge',
-          url: 'v4/pay/recharge',
+          url: 'v3/pay/recharge',
+          // url: 'v4/pay/recharge',
           method: 'post',
           data: {
             xcx: 0,
