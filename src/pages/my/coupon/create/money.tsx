@@ -16,15 +16,29 @@ interface Props extends MoneyForm {
 export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 	class MoneyForm extends Component<Props> {
 		handleInput = (type: string) => (value: any) => {
-			this.props.dispatch({
-				type: 'createCoupon/setMoney',
-				payload: {
-					[type]: parseInt(value)
-					// [type]: value
+      console.log(value,type)
+      if(type == 'limit_purchase_quantity'){
+        if(value <= 100){
+          this.props.dispatch({
+            type: 'createCoupon/setMoney',
+            payload: {
+              [type]: value
+            }
+          });
+        }
+      }else {
+        this.props.dispatch({
+          type: 'createCoupon/setMoney',
+          payload: {
+            [type]: parseInt(value)
+            // [type]: value
 
-				}
-			});
-		};
+          }
+        });
+      }
+
+    };
+
 
 		handleInput2 = (type: string) => (value: any) => {
 			if (value.split(".")[1] == undefined || (value.split(".")[1].length < 3 && value.split(".")[2] == undefined)) {
@@ -157,7 +171,18 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 					}
 				});
 			}
-		}
+    }
+
+    // 选择限制
+    onChooseLimit = () => {
+
+      this.props.dispatch({
+        type: 'createCoupon/setMoney',
+        payload: {
+          isLimit: !this.props.isLimit
+        }
+      });
+    }
 
 
 		render() {
@@ -220,6 +245,26 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						onChange={this.handleInput('total_num')}
 						error={error.issuedNumber}
 					/>
+          <Flex justify='between' className={styles.limit_box}>
+            <div>限购设置</div>
+            <div className={styles.radioBox}>{
+              this.props.isLimit ?
+                <Flex className={styles.choose}>
+                  <div className={styles.chooseBox} onClick={this.onChooseLimit} style={{ marginRight: 80 }}><img src="http://oss.tdianyi.com/front/p8kjkCbnYmZfD3JGP8feeKsWt8BQNHPh.png" />无限制</div>
+                  <div className={styles.chooseBox} onClick={this.onChooseLimit}><img src="http://oss.tdianyi.com/front/36DfKaXdP8ea7SRcCXT8neArCE2YB76N.png" />x份/人</div>
+                </Flex>
+                :
+                <Flex className={styles.choose}>
+                  <div className={styles.chooseBox} onClick={this.onChooseLimit} style={{ marginRight: 80 }}><img src="http://oss.tdianyi.com/front/36DfKaXdP8ea7SRcCXT8neArCE2YB76N.png" />无限制</div>
+                  <div className={styles.chooseBox} onClick={this.onChooseLimit}><img src="http://oss.tdianyi.com/front/p8kjkCbnYmZfD3JGP8feeKsWt8BQNHPh.png" />x份/人</div>
+                </Flex>
+            }</div>
+          </Flex>
+          {
+            this.props.isLimit ? <Flex className={styles.limit_number_box}>
+              <InputItem type='number' value={this.props.limit_purchase_quantity} onChange={this.handleInput('limit_purchase_quantity')} placeholder='每个用户最多可购买数量' />
+            </Flex> : null
+          }
 					<div id={styles.no_bottom_box} >
 						<List.Item >活动图片</List.Item>
 					</div>
