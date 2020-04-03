@@ -47,14 +47,18 @@ export default connect(({ createCoupon }: any) => createCoupon)(
       );
 
     handleSubmit = async () => {
-      console.log(this.props);
+
       const { type } = this.state
       let total: any = {}
       //这里触发校验函数
       if (type === 0) {//优惠券判断
 
-        const { coupons_name, return_money, total_num, pay_money, validity, description, image_url, total_fee, isLimit, limit_purchase_quantity } = this.props.couponForm
-
+        const {
+          coupons_name, return_money,
+          total_num, pay_money, validity,
+          description, isLimit, limit_purchase_quantity, image_url, total_fee
+        } = this.props.couponForm
+        let [firstImage, secondImage, thirdImage] = this.props.couponForm.image_url
         let returnMoney = return_money && Number(return_money)//市场价格
         let totalNum = total_num && Number(total_num)//发放数量
         let payMoney = pay_money && Number(pay_money)//购买价格
@@ -69,10 +73,9 @@ export default connect(({ createCoupon }: any) => createCoupon)(
         total.marketPrice = !returnMoney && returnMoney !== 0 ? '请输入市场价格' : (
           returnMoney == 0 ? '市场价格必须大于0' : ''
         )
-        if(isLimit && !limit_purchase_quantity){
+        if (isLimit && !limit_purchase_quantity) {
           Toast.fail('限购数量不能为0')
         }
-
         total.issuedNumber = !totalNum && totalNum !== 0 ? '请设置发放数量' : (
           totalNum === 0 ? '发放数量必须大于0' : ''
         )
@@ -93,16 +96,12 @@ export default connect(({ createCoupon }: any) => createCoupon)(
           })
         )
 
-        image_url ? (
-          total.activeImg = !image_url[0] || !image_url[1] ? '请上传图片完整后再重新提交' : ''
-        ) : (
-            total.activeImg = '请上传图片完整后再重新提交'
-          )
-        // console.log(total);
+        total.activeImg = firstImage.length && secondImage.length && thirdImage.length ? '' : '请上传图片完整后再重新提交'
+
       }
 
       if (type == 1) {//现金券判断
-        const { coupons_type,isLimit,limit_purchase_quantity, pay_money, return_money, total_fee, total_num, validity, money_image_url1, money_image_url2, money_image_url3 } = this.props.moneyForm
+        const { coupons_type, pay_money, isLimit, limit_purchase_quantity, return_money, total_fee, total_num, validity, money_image_url1, money_image_url2, money_image_url3 } = this.props.moneyForm
 
         let returnMoney = return_money && Number(return_money)
         let payMoney = pay_money && Number(pay_money)
@@ -118,10 +117,9 @@ export default connect(({ createCoupon }: any) => createCoupon)(
             payMoney > returnMoney && returnMoney && this.state.showPrice ? '购买价格不可高于优惠券面额，请重新设置.' : ''
           )
         )
-        if(isLimit && !limit_purchase_quantity){
+        if (isLimit && !limit_purchase_quantity) {
           Toast.fail('限购数量不能为0')
         }
-
         // total.doorsill = !totalFee && totalFee !== 0 ? '请设置使用门槛' : (
         // 	totalFee > returnMoney ? '使用门槛不可高于卡券面额，请重新设置' : ''//如果returnMoney没有值？
         // )
@@ -134,7 +132,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
           totalNum <= 0 ? '发放数量必须大于0' : ''
         )
 
-        total.cashActiveImage = !money_image_url1 || !money_image_url2 || !money_image_url3 ? '请上传图片完整后再重新提交' : ""
+        total.cashActiveImage = !money_image_url1 || !money_image_url2 ? '请上传图片完整后再重新提交' : ""
 
         // console.log(total);
 
@@ -191,7 +189,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
       }
     };
 
-    postCoupon = () => {
+    postCoupon = () =>
       request({
         url: 'api/merchant/youhui/addDiscounts',
         method: 'post',
@@ -205,10 +203,10 @@ export default connect(({ createCoupon }: any) => createCoupon)(
           description: this.props.couponForm.description,
           image: this.props.couponForm.image,
           image_url: this.props.couponForm.image_url,
-          limit_purchase_quantity: this.props.couponForm.isLimit ? this.props.couponForm.limit_purchase_quantity : 0,
           // temp_url1: this.props.couponForm.temp_url1,
           // temp_url2: this.props.couponForm.temp_url2,
           is_ad: this.props.location.query.isAd,
+          limit_purchase_quantity: this.props.couponForm.isLimit ? this.props.couponForm.limit_purchase_quantity : 0,
           /**商圈广告下，购买价格为0 */
           pay_money: this.state.showPrice ? this.props.couponForm.pay_money * 1 : 0,
           share_info: this.props.couponForm.shareText,
@@ -216,7 +214,6 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 
         }
       });
-    }
 
     postMoney = () =>
 

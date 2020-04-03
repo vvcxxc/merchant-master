@@ -114,80 +114,89 @@ export default connect(({ createCoupon }: any) => createCoupon.couponForm)(
       }
     };
 
-    uploadImage = (type: any) => (files: any[], operationType: string, index?: number): void => {
-      this.setState({ [type]: files });
-      if (operationType === 'add') {
-        Toast.loading('上传图片中');
-        upload(files[files.length - 1].url).then(res => {
-          this.setState({ [type]: files });
-          Toast.hide();
-          if (res.status === 'ok') {
-            switch (type) {
-              case 'files':
-                this.props.dispatch({
-                  type: 'createCoupon/setCoupon', payload: {
-                    image: res.data.path,
-                    image_url: [...(this.props.image_url || []), res.data.path],
-                    temp_url1: files
-                  }
-                });
-                break;
-              case 'detailFiles':
-                this.props.dispatch({
-                  type: 'createCoupon/setCoupon',
-                  payload: {
-                    image_url: [...(this.props.image_url || []), res.data.path],
-                    temp_url2: files
-                  }
-                });
-                break;
-              case 'detailFilesSecond':
-                this.props.dispatch({
-                  type: 'createCoupon/setCoupon',
-                  payload: {
-                    image_url: [...(this.props.image_url || []), res.data.path],
-                    temp_url3: files
-                  }
-                });
-                break;
-            }
+		uploadImage = (type: any) => (files: any[], operationType: string, index?: number): void => {
+			this.setState({ [type]: files });
+			const firstUrl = [...(this.props.image_url || [])];
+			if (operationType === 'add') {
+				Toast.loading('上传图片中');
+				upload(files[files.length - 1].url).then(res => {
+					this.setState({ [type]: files });
+					Toast.hide();
+					if (res.status === 'ok') {
+						switch (type) {
+							case 'files':
+								firstUrl[0] = res.data.path
+								this.props.dispatch({
+									type: 'createCoupon/setCoupon', payload: {
+										image: res.data.path,
+										temp_url1: files,
+										image_url: firstUrl
+									}
+								});
+								break;
+							case 'detailFiles':
+								firstUrl[1] = res.data.path
+								this.props.dispatch({
+									type: 'createCoupon/setCoupon',
+									payload: {
+										temp_url2: files,
+										image_url: firstUrl
+									}
+								});
+								break;
+							case 'detailFilesSecond':
+								firstUrl[2] = res.data.path
+								this.props.dispatch({
+									type: 'createCoupon/setCoupon',
+									payload: {
+										temp_url3: files,
+										image_url: firstUrl
+									}
+								});
+								break;
+						}
 
-          }
-        });
-      } else if (operationType === 'remove') {
-        this.setState({ [type]: files });
-        switch (type) {
-          case 'files':
-            const firstUrl = [...(this.props.image_url || [])];
-            this.props.dispatch({
-              type: 'createCoupon/setCoupon',
-              payload: {
-                image: '',
-                image_url: firstUrl.splice(index || 1, 3),
-                temp_url1: [],
-              }
+					}
+				});
+			} else if (operationType === 'remove') {
+				this.setState({ [type]: files });
 
-            });
-            break;
-          case 'detailFiles':
-            const urls = [...(this.props.image_url || [])];
-            urls.splice(index || -1, 1);
-            this.props.dispatch({
-              type: 'createCoupon/setCoupon',
-              payload: { image_url: [...urls], temp_url2: [] },
-            });
-            break;
-          case 'detailFilesSecond':
-            let second = [...(this.props.image_url || [])];
-            second.splice(index || -1, 2);
-            this.props.dispatch({
-              type: 'createCoupon/setCoupon',
-              payload: { image_url: [...second], temp_url3: [] },
-            });
-            break;
-        }
-      }
-    };
+				switch (type) {
+					case 'files':
+						firstUrl[0] = ''
+						this.props.dispatch({
+							type: 'createCoupon/setCoupon',
+							payload: {
+								image: '',
+								temp_url1: [],
+								image_url: firstUrl
+							}
+
+						});
+						break;
+					case 'detailFiles':
+						firstUrl[1] = ''
+						this.props.dispatch({
+							type: 'createCoupon/setCoupon',
+							payload: {
+								image_url: firstUrl,
+								temp_url2: []
+							}
+						});
+						break;
+					case 'detailFilesSecond':
+						firstUrl[2] = ''
+						this.props.dispatch({
+							type: 'createCoupon/setCoupon',
+							payload: {
+								image_url: firstUrl,
+								temp_url3: []
+							}
+						});
+						break;
+				}
+			}
+		};
 
     //账号输入
     onChangeText = (value: any) => {
