@@ -73,7 +73,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
         total.marketPrice = !returnMoney && returnMoney !== 0 ? '请输入市场价格' : (
           returnMoney == 0 ? '市场价格必须大于0' : ''
         )
-        if (isLimit && !limit_purchase_quantity) {
+        if (isLimit && !Number(limit_purchase_quantity)) {
           Toast.fail('限购数量不能为0')
         }
         total.issuedNumber = !totalNum && totalNum !== 0 ? '请设置发放数量' : (
@@ -117,7 +117,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
             payMoney > returnMoney && returnMoney && this.state.showPrice ? '购买价格不可高于优惠券面额，请重新设置.' : ''
           )
         )
-        if (isLimit && !limit_purchase_quantity) {
+        if (isLimit && !Number(limit_purchase_quantity)) {
           Toast.fail('限购数量不能为0')
         }
         // total.doorsill = !totalFee && totalFee !== 0 ? '请设置使用门槛' : (
