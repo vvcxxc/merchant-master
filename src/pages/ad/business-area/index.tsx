@@ -7,7 +7,6 @@ import ExpenseCalendar from '../components/expense-calendar';
 import Chart from './chart';
 import request from '@/services/request';
 import { Toast } from 'antd-mobile';
-import FreezeRecord from './freezeRecord';
 
 export default class BusinessArea extends Component {
 	state = {
@@ -54,7 +53,6 @@ export default class BusinessArea extends Component {
 		// const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
 		const expenseCalendar = <ExpenseCalendar adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId} />;
 		const chart = <Chart adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId} />;
-		const freezeRecord = <FreezeRecord adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId}/>
-		return <AdLayout children={[form, expenseCalendar, chart, freezeRecord]} value={this.props.location.query.value} />;
+		return <AdLayout children={[form, expenseCalendar, chart]} value={this.props.location.query.value} />;
 	}
 }

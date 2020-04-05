@@ -89,13 +89,8 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			uploadIng: false,
 
 			countMoney: 0,
-			haveChangeMoney: false,
+			haveChangeMoney: false
 
-			// 温馨提示
-			isShow: false,
-			lockMoney: 0,
-
-			showMask: true
 		};
 		UNSAFE_componentWillReceiveProps(nextProps: any) {
 			console.log('nextProps', nextProps)
@@ -152,8 +147,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						paused_status: nextProps.editForm.paused_status,
 						is_pause: nextProps.editForm.is_pause,
 						check_status: nextProps.editForm.check_status,
-						countMoney: nextProps.userMoney,
-						lockMoney: nextProps.editForm.today_lock_surplus_money
+						countMoney: nextProps.userMoney
 					}, () => {
 					});
 				} else {
@@ -415,18 +409,6 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 			}
 		}
 
-		handleClickAdQuestion = () => {
-			this.setState({
-				isShow: !this.state.isShow
-			})
-		}
-
-		handleAddBurget = () => {
-			this.setState({
-				showMask: true
-			})
-		}
-
 		render() {
 			const time = this.state.startTime
 				? moment.unix(this.state.startTime || 0).format('YYYY.MM.DD') +
@@ -499,39 +481,6 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 						</div>
 					</Modal>
 
-					{
-						this.state.showMask ? (
-							<div className={styles.add_burget_modal}>
-								<div className={styles.add_burget_mask}></div>
-								<div className={styles.modal_content}>
-									<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-										<div className={styles.add_burget_name}>增加预算:</div>
-										<input type="text" placeholder="请输入增加预算金额" className={styles.add_input} />
-										<div className={styles.money}>元</div>
-									</div>
-
-									<div className={styles.checkout}>
-										<div style={{ display: 'flex', justifyContent: 'space-around' }}>
-											<div style={{ display: 'flex', alignItems: 'center' }}>
-												<img src={require('../../../assets/ad/ad_check.png')} alt="" className={styles.ad_check_img} />
-												<div className={styles.ad_check_text}>应用于每天</div>
-											</div>
-											<div style={{ display: 'flex', alignItems: 'center' }}>
-												<img src={require('../../../assets/ad/ad_nocheck.png')} alt="" className={styles.ad_check_img} />
-												<div className={styles.ad_check_text}>仅应用于今天</div>
-											</div>
-										</div>
-									</div>
-
-									<div className={styles.ad_burget_btn}>
-										<div className={styles.ad_burget_submit}>提交</div>
-										<div className={styles.ad_burget_close} onClick={() => this.setState({ showMask: false })}>关闭</div>
-									</div>
-								</div>
-							</div>
-						) : ""
-					}
-
 					<div className={((this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1)) ? styles.ad_status_isPut : this.state.is_pause == 1 ? styles.ad_status_ispause : (this.state.is_pause == 0 && this.state.check_status == 2) ? styles.ad_status_isFail : ''}>
 						{
 							// this.state.ad_status == 0 ? ' 暂未投放':
@@ -560,29 +509,22 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 										)
 									}
 
-									<div style={{ display: 'flex', alignItems: 'center' }}>
-										<InputItem
-											value={this.state.price}
-											// extra="元"
-											type="money"
-											onChange={this.handleChangePrice}
-											className={styles.daily_budget}
-										// style={{width: '2000px'}}
-										>
-											每日预算
+									<InputItem
+										value={this.state.price}
+										extra="元"
+										type="money"
+										onChange={this.handleChangePrice}
+										className={styles.daily_budget}
+									>
+										每日预算
 										<span className={styles.budget_info}>
-												{/* {
-													(this.state.is_pause == -1) ? '最低预算2元，建议预算101元'
-														: (this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元，低于1.1元广告将暂停`
-															: (this.state.is_pause == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元` : ''
-												} */}
-												最低预算2元，建议预算101元
-											</span>
-										</InputItem>
-										<div className={styles.add_burget}>
-											<span onClick={this.handleAddBurget}>追加预算</span>
-										</div>
-									</div>
+											{
+												(this.state.is_pause == -1) ? '最低预算2元，建议预算101元'
+													: (this.state.is_pause == 0 && this.state.check_status == 0) || (this.state.is_pause == 0 && this.state.check_status == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元，低于1.1元广告将暂停`
+														: (this.state.is_pause == 1) ? `预算剩余${(Number(this.state.price) - Number(this.state.already_use_budget)).toFixed(2)}元` : ''
+											}
+										</span>
+									</InputItem>
 									{
 										this.state.priceErr && !this.state.price ? <div className={styles.errorLine} >账号余额低于每日最低预算，请充值后重新投放</div> : (
 											this.state.priceErr && this.state.price && Number(this.state.price) <= 2 ? <div className={styles.errorLine} >每日投放预算不可低于2元</div> : null
@@ -622,6 +564,7 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 									)
 								}
 
+								<WhiteSpace size="lg" />
 								{
 									this.state.is_pause == 1 ? (
 										<div className={styles.paused_status} onClick={this.handlePaused.bind(this)} style={this.state.paused_status == 5 ? { color: 'blue', textDecoration: 'underline' } : {}}>
@@ -634,50 +577,6 @@ export default connect(({ ad, app }: any) => ({ ad, app }))(
 											})
 										</div>
 									) : ''
-								}
-
-								<div className={styles.ad_throw_detail}>
-
-									<div className={styles.ad_throw_title} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #E5E5E5' }}>
-										<div className={styles.ad_throw_title_name}>
-											<div className={styles.ad_logo}></div>
-											<div>今日广告投放详情</div>
-										</div>
-										< img src={require('@/assets/ad/ad_question.png')} style={{ marginRight: '15px' }} className={styles.ad_question} onClick={this.handleClickAdQuestion} />
-									</div>
-
-									<div className={styles.freeze_wrap} style={{ display: 'flex', justifyContent: 'space-between' }}>
-										<div style={{ display: 'flex', alignItems: 'center' }}>
-											<div className={styles.freeze_money}>今日预算金额</div>
-										</div>
-										<div className={styles.freeze_value}>￥{this.state.lockMoney}</div>
-									</div>
-
-									<div className={styles.freeze_wrap} style={{ display: 'flex', justifyContent: 'space-between' }}>
-										<div style={{ display: 'flex', alignItems: 'center' }}>
-											<div className={styles.freeze_money}>冻结金额</div>
-										</div>
-										<div className={styles.freeze_value}>￥{this.state.lockMoney}</div>
-									</div>
-
-									<div className={styles.freeze_wrap} style={{ display: 'flex', justifyContent: 'space-between' }}>
-										<div style={{ display: 'flex', alignItems: 'center' }}>
-											<div className={styles.freeze_money}>冻结金额</div>
-										</div>
-										<div className={styles.freeze_value}>￥{this.state.lockMoney}</div>
-									</div>
-								</div>
-								{
-									this.state.isShow ? (
-										<div className={styles.tips_title}>
-											<div className={styles.tips_name}>温馨提示</div>
-											<div className={styles.tips_item}>1.投放广告后，为确保广告投放正常每日预算金额会进行冻结。</div>
-											<div className={styles.tips_item}>2.停止广告投放，剩余的冻结金额即会返还至账户金额。</div>
-											<div className={styles.tips_item}>3.今日预算金额：广告投放时设置的每日预算金额。</div>
-											<div className={styles.tips_item}>4.追加预算金额：在广告投放过程中，追加的预算金额。</div>
-											<div className={styles.tips_item}>5.当前冻结金额：（今日预算金额+追加预算金额）-今日已消耗广告费用</div>
-										</div>
-									) : ""
 								}
 							</Flex.Item>
 
