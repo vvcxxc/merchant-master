@@ -3,20 +3,23 @@ import { Flex, List, InputItem, ImagePicker, Toast } from 'antd-mobile';
 import { connect } from 'dva';
 import { MoneyForm } from './model';
 import CustomInput from './InputItem'
+import UploadImage from '@/components/upload-image' 
 import styles from './index.less'
 import upload from '@/services/oss';
 
 interface Props extends MoneyForm {
 	dispatch: (arg0: any) => any;
 	showPrice: boolean;
-	error: any
+	error: any,
+	cashcouponImage: any,
+	cashcouponImageApi: any,
+	moneyForm: any
 }
 
 /**创建优惠券 */
-export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
+export default connect(({ createCoupon }: any) => createCoupon)(
 	class MoneyForm extends Component<Props> {
 		handleInput = (type: string) => (value: any) => {
-      console.log(value,type)
       if(type == 'limit_purchase_quantity'){
         if(value <= 100){
           this.props.dispatch({
@@ -31,8 +34,6 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
           type: 'createCoupon/setMoney',
           payload: {
             [type]: parseInt(value)
-            // [type]: value
-
           }
         });
       }
@@ -45,53 +46,11 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 				this.props.dispatch({
 					type: 'createCoupon/setMoney',
 					payload: {
-						// [type]: parseInt(value)
 						[type]: value
-
 					}
 				});
 			}
 		};
-
-
-
-		// uploadImage = (type: any) => (files: any[], operationType: string, index?: number): void => {
-		// 	this.setState({ [type]: files });
-		// 	if (type === 'files') {
-		// 		this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { temp_url1: files } });
-		// 	} else {
-		// 		this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { temp_url2: files } });
-		// 	}
-		// 	if (operationType === 'add') {
-		// 		Toast.loading('上传图片中');
-		// 		upload(files[files.length - 1].url).then(res => {
-		// 			this.setState({ [type]: files });
-		// 			Toast.hide();
-		// 			if (res.status === 'ok') {
-		// 				if (type === 'files') {
-		// 					this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { image: res.data.path, image_url: [...(this.props.image_url || []), res.data.path] } });
-		// 				} else {
-		// 					this.props.dispatch({
-		// 						type: 'createCoupon/setCoupon',
-		// 						payload: { image_url: [...(this.props.image_url || []), res.data.path] }
-		// 					});
-		// 				}
-		// 			}
-		// 		});
-		// 	} else if (operationType === 'remove') {
-		// 		this.setState({ [type]: files });
-		// 		if (type === 'files') {
-		// 			this.props.dispatch({ type: 'createCoupon/setCoupon', payload: { image: '' } });
-		// 		} else {
-		// 			const urls = [...(this.props.image_url || [])];
-		// 			urls.splice(index || -1, 1);
-		// 			this.props.dispatch({
-		// 				type: 'createCoupon/setCoupon',
-		// 				payload: { image_url: [...urls] }
-		// 			});
-		// 		}
-		// 	}
-		// };
 
 		changeImageURL1 = (files: any) => {
 			Toast.loading('')
@@ -175,21 +134,44 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 
     // 选择限制
     onChooseLimit = () => {
-
       this.props.dispatch({
         type: 'createCoupon/setMoney',
         payload: {
-          isLimit: !this.props.isLimit
+					isLimit: !this.props.moneyForm.isLimit
         }
       });
-    }
+		}
+		
+		//图片详情使用dva
+		uploadImageData = (showFiles: any, propFiles: any) => {
+			this.props.dispatch({//负责显示给前台
+				type: 'createCoupon/setCashcouponImage',
+				payload: showFiles
+			})
+			this.props.dispatch({//传递给后台
+				type: 'createCoupon/setCashcouponImageApi',
+				payload: propFiles
+			})
+		}
 
 
 		render() {
-			const { error } = this.props
+			const { error, cashcouponImage, cashcouponImageApi } = this.props
+			const {
+				pay_money,
+				validity,
+				return_money,
+				total_fee,
+				total_num,
+				money_temp_url1,
+				money_temp_url2,
+				money_temp_url3,
+				isLimit,
+				limit_purchase_quantity
+			} = this.props.moneyForm
 			const priceInput = this.props.showPrice && (
 				<CustomInput
-					value={String(this.props.pay_money || '')}
+					value={String(pay_money || '')}
 					type="money"
 					showName='购买价格'
 					onChange={this.handleInput2('pay_money')}
@@ -206,7 +188,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						className="numberInput"
 						extra="天可用"
 						type="money"
-						value={String(this.props.validity || '')}
+						value={String(validity || '')}
 						onChange={this.handleInput('validity')}
 					/>
 				</Flex>
@@ -215,7 +197,7 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 			return (
 				<div>
 					<CustomInput
-						value={String(this.props.return_money || '')}
+						value={String(return_money || '')}
 						type="money"
 						showName='面额'
 						onChange={this.handleInput2('return_money')}
@@ -227,12 +209,11 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						showName='使用门槛'
 						type="money"
 						extra="元"
-						value={this.props.total_fee}
+						value={total_fee}
 						onChange={this.handleInput2('total_fee')}
 						error={error.doorsill}
 					/>
 					<List.Item extra={DateInput}>优惠券有效期</List.Item>
-
 
 					<div className={styles.groub_hint} style={{ borderTop: error.validity ? '1px solid red' : '' }}>{error.validity ? error.validity : ''}</div>
 
@@ -241,14 +222,14 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 						type="money"
 						extra="张"
 						integer={6}
-						value={String(this.props.total_num || '')}
+						value={String(total_num || '')}
 						onChange={this.handleInput('total_num')}
 						error={error.issuedNumber}
 					/>
           <Flex justify='between' className={styles.limit_box}>
             <div>限购设置</div>
             <div className={styles.radioBox}>{
-              this.props.isLimit ?
+              isLimit ?
                 <Flex className={styles.choose}>
                   <div className={styles.chooseBox} onClick={this.onChooseLimit} style={{ marginRight: 80 }}><img src="http://oss.tdianyi.com/front/p8kjkCbnYmZfD3JGP8feeKsWt8BQNHPh.png" />无限制</div>
                   <div className={styles.chooseBox} onClick={this.onChooseLimit}><img src="http://oss.tdianyi.com/front/36DfKaXdP8ea7SRcCXT8neArCE2YB76N.png" />x份/人</div>
@@ -261,8 +242,8 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
             }</div>
           </Flex>
           {
-            this.props.isLimit ? <Flex className={styles.limit_number_box}>
-              <InputItem type='number' value={this.props.limit_purchase_quantity} onChange={this.handleInput('limit_purchase_quantity')} placeholder='每个用户最多可购买数量' />
+            isLimit ? <Flex className={styles.limit_number_box}>
+              <InputItem type='number' value={limit_purchase_quantity} onChange={this.handleInput('limit_purchase_quantity')} placeholder='每个用户最多可购买数量' />
             </Flex> : null
           }
 					<div id={styles.no_bottom_box} >
@@ -276,9 +257,9 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 									className={styles.upload_img}
 									multiple={false}
 									length={1}
-									files={this.props.money_temp_url1}
+									files={money_temp_url1}
 									onChange={this.changeImageURL1}
-									selectable={!Boolean(this.props.money_temp_url1) || this.props.money_temp_url1.length < 1}
+									selectable={!Boolean(money_temp_url1) || money_temp_url1.length < 1}
 								/>
 							</div>
 							<div className={styles.describe}>封面</div>
@@ -289,9 +270,9 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 									className={styles.upload_img}
 									multiple={false}
 									length={1}
-									files={this.props.money_temp_url2}
+									files={money_temp_url2}
 									onChange={this.changeImageURL2}
-									selectable={!Boolean(this.props.money_temp_url2) || this.props.money_temp_url2.length < 1}
+									selectable={!Boolean(money_temp_url2) || money_temp_url2.length < 1}
 								/>
 							</div>
 							<div className={styles.describe}></div>
@@ -302,22 +283,33 @@ export default connect(({ createCoupon }: any) => createCoupon.moneyForm)(
 									className={styles.upload_img}
 									multiple={false}
 									length={1}
-									files={this.props.money_temp_url3}
+									files={money_temp_url3}
 									onChange={this.changeImageURL3}
-									selectable={!Boolean(this.props.money_temp_url3) || this.props.money_temp_url3.length < 1}
+									selectable={!Boolean(money_temp_url3) || money_temp_url3.length < 1}
 								/>
 							</div>
 							<div className={styles.describe}></div>
 						</div>
 					</Flex>
-					{
-						<div className={styles.groub_hint} style={{
-							marginBottom: '50px',
-							borderTop: error.cashActiveImage ? '1px solid red' : ''
-						}}>
-							{error.cashActiveImage ? error.cashActiveImage : null}
-						</div>
-					}
+
+					<div
+						className={error.cashActiveImage  ? styles.show_active_picture_error : styles.hidden_active_picture_error}>
+						{error.cashActiveImage ? error.cashActiveImage  : null}
+					</div>
+
+					<div className={styles.image_details}>
+						详情图片
+							<span className={styles.prompt}>可上传6张图片对商品进行详细的说明，尺寸比例不限</span>
+					</div>
+					<Flex className={styles.upload_image_box}>
+						<UploadImage
+							showFiles={cashcouponImage}
+							propFiles={cashcouponImageApi}
+							length={6}
+							onChange={this.uploadImageData}
+						/>
+					</Flex>
+
 				</div>
 			);
 		}

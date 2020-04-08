@@ -133,14 +133,10 @@ export default connect(({ createCoupon }: any) => createCoupon)(
         )
 
         total.cashActiveImage = !money_image_url1 || !money_image_url2 ? '请上传图片完整后再重新提交' : ""
-
-        // console.log(total);
-
       }
 
       switch (type) {
         case 1:
-          console.log(324)
           this.setState({ errorTwo: total })
           for (let key in total) {
             if (total[key]) {
@@ -154,7 +150,6 @@ export default connect(({ createCoupon }: any) => createCoupon)(
         default:
           this.setState({ error: total })
           for (let key in total) {
-            console.log(total[key])
             if (total[key]) {
               this.setState({ error: total })
               return
@@ -179,6 +174,11 @@ export default connect(({ createCoupon }: any) => createCoupon)(
           }
         });
         this.props.dispatch({ type: 'createCoupon/reset' });
+        if (this.state.type === 0) {//删除优惠券图文详情
+          this.props.dispatch({ type: 'createCoupon/clearImageDetailsApi' })
+        } else {
+          this.props.dispatch({ type: 'createCoupon/clearCashcouponImage' })
+        }
         setTimeout(() => {
           if (this.props.location.query.isAd) {
             router.goBack();
@@ -194,7 +194,6 @@ export default connect(({ createCoupon }: any) => createCoupon)(
         url: 'api/merchant/youhui/addDiscounts',
         method: 'post',
         data: {
-          // ...this.props.couponForm,
           coupons_type: this.props.couponForm.coupons_type * 1,
           coupons_name: this.props.couponForm.coupons_name,
           return_money: this.props.couponForm.return_money * 1,
@@ -203,15 +202,13 @@ export default connect(({ createCoupon }: any) => createCoupon)(
           description: this.props.couponForm.description,
           image: this.props.couponForm.image,
           image_url: this.props.couponForm.image_url,
-          // temp_url1: this.props.couponForm.temp_url1,
-          // temp_url2: this.props.couponForm.temp_url2,
           is_ad: this.props.location.query.isAd,
           limit_purchase_quantity: this.props.couponForm.isLimit ? this.props.couponForm.limit_purchase_quantity : 0,
           /**商圈广告下，购买价格为0 */
           pay_money: this.state.showPrice ? this.props.couponForm.pay_money * 1 : 0,
           share_info: this.props.couponForm.shareText,
           is_delivery: this.props.couponForm.isDelivery ? 1 : 0,
-
+          brief: this.props.imageDetailsApi
         }
       });
 
@@ -221,7 +218,6 @@ export default connect(({ createCoupon }: any) => createCoupon)(
         url: 'api/merchant/youhui/addDiscounts',
         method: 'post',
         data: {
-          // ...this.props.moneyForm,
           return_money: this.props.moneyForm.return_money * 1,
           coupons_type: this.props.moneyForm.coupons_type * 1,
           total_fee: this.props.moneyForm.total_fee * 1,
@@ -232,7 +228,8 @@ export default connect(({ createCoupon }: any) => createCoupon)(
           /**商圈广告下，购买价格为0 */
           pay_money: this.state.showPrice ? this.props.moneyForm.pay_money * 1 : 0,
           image: this.props.moneyForm.money_image_url1,
-          image_url: [this.props.moneyForm.money_image_url1, this.props.moneyForm.money_image_url2, this.props.moneyForm.money_image_url3]
+          image_url: [this.props.moneyForm.money_image_url1, this.props.moneyForm.money_image_url2, this.props.moneyForm.money_image_url3],
+          brief: this.props.cashcouponImageApi
         }
       });
 

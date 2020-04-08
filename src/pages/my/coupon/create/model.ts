@@ -54,10 +54,61 @@ const model: Model = {
       money_temp_url1: [],
       money_temp_url2: [],
       money_temp_url3: [],
-      isLimit: false
-    }
+      isLimit: false,
+      total_fee:''
+    },
+    imageDetails: [],     //兑换券  负责显示给前台用户
+    imageDetailsApi: [],  //兑换券  负责提供后台接口所需格式参数
+    cashcouponImage: [],//现金券 负责显示给前台用户
+    cashcouponImageApi: [],//现金券 负责提供后台接口所需格式参数
   },
   reducers: {
+    setCashcouponImage(state, { payload }) {//只处理 现金券图片详情数据
+      return {
+        ...state,
+        cashcouponImage: [
+          ...payload
+        ]
+      }
+    },
+    setCashcouponImageApi(state, { payload }) {
+      return {
+        ...state,
+        cashcouponImageApi: [
+          ...payload
+        ]
+      }
+    },
+    clearCashcouponImage(state, { payload }) {
+      return {
+        ...state,
+        cashcouponImageApi: [],
+        cashcouponImage: []
+      }
+    },
+    setImageDetails(state, { payload }) {//只处理 兑换券图片详情数据
+      return {
+        ...state,
+        imageDetails: [
+          ...payload
+        ]
+      }
+    },
+    setImageDetailsApi(state, { payload }) {
+      return {
+        ...state,
+        imageDetailsApi: [
+          ...payload,
+        ]
+      }
+    },
+    clearImageDetailsApi(state, { payload }) {
+      return {
+        ...state,
+        imageDetails: [],
+        imageDetailsApi: []
+      }
+    },
     setCoupon(state, { payload }) {
       return {
         ...state,
