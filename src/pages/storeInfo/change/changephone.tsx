@@ -120,10 +120,10 @@ export default class ChangePhone extends Component {
           phone: phone,
         }
       }).then(res => {
-        Toast.hide()
         let { code } = res;
         if (code == 200) {
           timer = setInterval(() => {
+            Toast.hide()
             if (wait == 0) {
               this.setState({ is_ok: true, wait: '' });
               clearInterval(timer);
@@ -133,6 +133,7 @@ export default class ChangePhone extends Component {
             }
           }, 1000);
         } else {
+        Toast.hide()
           Toast.fail(res.data)
         }
       }).catch(()=>{
