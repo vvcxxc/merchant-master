@@ -112,6 +112,7 @@ export default class ChangePhone extends Component {
   getCode = (phone: string) => {
     let wait = 60;
     if (phone) {
+      Toast.loading('',6000)
       request({
         url: 'v3/verify_code',
         method: 'get',
@@ -122,6 +123,7 @@ export default class ChangePhone extends Component {
         let { code } = res;
         if (code == 200) {
           timer = setInterval(() => {
+            Toast.hide()
             if (wait == 0) {
               this.setState({ is_ok: true, wait: '' });
               clearInterval(timer);
@@ -131,8 +133,11 @@ export default class ChangePhone extends Component {
             }
           }, 1000);
         } else {
+        Toast.hide()
           Toast.fail(res.data)
         }
+      }).catch(()=>{
+        Toast.hide()
       });
     } else {
       Toast.fail('请输入手机号', 1)

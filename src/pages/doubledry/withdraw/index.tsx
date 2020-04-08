@@ -65,6 +65,7 @@ export default class WithDraw extends Component {
             timer = setInterval(() => {
                 resend()
             }, 1000);
+            Toast.loading('',6000)
             Request({
                 url: 'v3/sq/send_sms_auto',
                 method: 'post',
@@ -73,6 +74,7 @@ export default class WithDraw extends Component {
                     bank_card_number: bank_no
                 })
             }).then(res => {
+              Toast.hide()
                 if (res.status_code == 200) {
                     Toast.success('验证码已发送');
                     _this.setState({
@@ -85,6 +87,8 @@ export default class WithDraw extends Component {
                     clearInterval(timer);
                     Toast.fail(res.message);
                 }
+            }).catch(()=>{
+              Toast.hide()
             })
         } else {
             Toast.fail('请输入手机号', 1)
@@ -108,7 +112,7 @@ export default class WithDraw extends Component {
             data: qs.stringify({
                 // bankcard_no: this.state.bank_no,
                 // verify_code: code,
-                // mobile: phone 
+                // mobile: phone
                 seqNoForAuto: seqNoForAuto,
                 code,
                 phone,
