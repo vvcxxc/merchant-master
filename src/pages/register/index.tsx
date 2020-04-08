@@ -134,6 +134,7 @@ export default connect(({ register }: any) => register)(
       const { phone } = this.props;
       let wait = 60;
       if (phone) {
+        Toast.loading('',6000)
         request({
           url: 'v3/verify_code',
           method: 'get',
@@ -141,6 +142,7 @@ export default connect(({ register }: any) => register)(
             phone: phone,
           }
         }).then(res => {
+          Toast.hide()
           let { code } = res;
           if (code == 200) {
             let timer = setInterval(() => {
@@ -169,6 +171,8 @@ export default connect(({ register }: any) => register)(
           } else {
             Toast.fail(res.data)
           }
+        }).catch(()=>{
+          Toast.hide()
         });
       } else {
         Toast.fail('请输入手机号', 1)

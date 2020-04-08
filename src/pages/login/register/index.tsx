@@ -127,6 +127,7 @@ export default connect(({ register }: any) => register)(
           Toast.fail('短信发送失败，请稍后重试')
           return;
         }
+        Toast.loading('',6000)
         request({
           url: 'v3/verify_code',
           method: 'get',
@@ -134,6 +135,7 @@ export default connect(({ register }: any) => register)(
             phone: phone,
           }
         }).then(res => {
+          Toast.hide()
           let { code } = res;
           if (code == 200) {
             Toast.success('发送验证码成功');
@@ -163,6 +165,8 @@ export default connect(({ register }: any) => register)(
           } else {
             Toast.fail('短信发送失败，请稍后重试')
           }
+        }).catch(()=>{
+          Toast.hide()
         });
       } else {
         Toast.fail('请输入手机号', 1)

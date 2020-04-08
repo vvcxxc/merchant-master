@@ -10,7 +10,7 @@ import { message } from 'antd';
 
 export default class MyBank extends Component {
   state = {
-    
+
     //input输入值
     phoneNumber: '',
     verification: '',
@@ -18,11 +18,11 @@ export default class MyBank extends Component {
     //短信验证码
     showTime: false,
     time: 60,
-    
+
     //商户id 银行卡号
     id: '',
     card: '',
-    
+
     //控制绑定成功 绑定失败弹框
     success: false,
     fail:false
@@ -42,7 +42,7 @@ export default class MyBank extends Component {
         Toast.fail(message)
       }
     })
-    
+
   }
 
 
@@ -74,7 +74,7 @@ export default class MyBank extends Component {
       Toast.fail('手机号不能为空')
       return
     }
-
+    Toast.loading('',6000)
     request({
       url: 'v3/sendSmsCode',
       method: 'post',
@@ -83,6 +83,7 @@ export default class MyBank extends Component {
         phone: phoneNumber
       }
     }).then(res => {
+      Toast.hide()
       const { code, message, data } = res
       if (code == 200) {
         Toast.success(message)
@@ -91,10 +92,12 @@ export default class MyBank extends Component {
       } else {
         Toast.fail(message)
       }
+    }).catch(()=>{
+      Toast.hide()
     })
   }
 
-  
+
   //绑定银行卡
   bindingCard = () => {
     const { verification, phoneNumber,id } = this.state
@@ -106,7 +109,7 @@ export default class MyBank extends Component {
         phone: phoneNumber,
         code: verification
       }
-    }).then(res => { 
+    }).then(res => {
       const { code, data } = res
       if (code == 200) {
         this.setState({ success:true })
