@@ -48,6 +48,7 @@ export default class ForgetPassword extends Component {
         Toast.fail('短信发送失败，请稍后重试')
         return;
       }
+      Toast.loading('',6000)
       request({
         url: 'v3/verify_code',
         method: 'get',
@@ -55,6 +56,7 @@ export default class ForgetPassword extends Component {
           phone: phone,
         }
       }).then(res => {
+        Toast.hide()
         let { code } = res;
         if (code == 200) {
           Toast.success('发送验证码成功');
@@ -71,6 +73,8 @@ export default class ForgetPassword extends Component {
         } else {
           Toast.fail('短信发送失败，请稍后重试')
         }
+      }).catch(()=>{
+        Toast.hide()
       });
     } else {
       Toast.fail('请输入手机号', 1)
@@ -125,7 +129,7 @@ export default class ForgetPassword extends Component {
     // 提示确认密码不相同
     // const prompt = this.state.is_true === true || this.state.confirm_password === "" ? (
     //   ''
-    // ) : ( 
+    // ) : (
     //   <span style={{ color:'red' }}>确认密码与新密码不同</span>
     // );
     return (

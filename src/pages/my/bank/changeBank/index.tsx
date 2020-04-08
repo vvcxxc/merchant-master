@@ -42,7 +42,7 @@ export default class ChangeBank extends Component {
     request({
       url: 'api/merchant/staff/userBankInfo',
       method: 'get'
-    }).then(res => { 
+    }).then(res => {
       const { data } = res
       this.setState({
         bank_user: data.bank_user,
@@ -159,10 +159,12 @@ export default class ChangeBank extends Component {
    */
   getCode = () => {
     let wait = 60;
+    Toast.loading('',6000)
       request({
         url: 'api/merchant/staff/getVerification',
         method: 'post',
       }).then(res => {
+        Toast.hide()
         let { code } = res;
         if ( code == 200 ){
           Toast.success('已发送，请注意查收',1)
@@ -180,6 +182,7 @@ export default class ChangeBank extends Component {
           Toast.fail('当日获取验证码次数已达上限，请明日重试', 1);
         }
       }).catch(res => {
+        Toast.hide()
         Toast.fail('当日获取验证码次数已达上限，请明日重试',1);
       })
   }
@@ -187,7 +190,7 @@ export default class ChangeBank extends Component {
   /**更新 */
   update = () => {
     // console.log(this.state.bank_front,'898989');
-    
+
     let { bank_user, bank_name, subbranch, verification, bank_info, bank_card_front_img, bank_card_back_img } = this.state;
     request({
       url: 'api/merchant/staff/add/bank',
@@ -214,7 +217,7 @@ export default class ChangeBank extends Component {
   }
 
   card_img_box = (e:any) => {
-    
+
   }
 
   //删除旧数据 的两张图片
@@ -242,7 +245,7 @@ export default class ChangeBank extends Component {
       );
     return (
       <div style={{ width: '100%', height: '100%', background: '#fff' }}>
-       
+
         <WingBlank>
           <Flex className={styles.title}>银行卡认证</Flex>
           <Flex className={styles.bank_img}>
@@ -251,7 +254,7 @@ export default class ChangeBank extends Component {
                 this.state.card_front ? <div className={styles.img_box}>
                   <div className={styles.border_error} onClick={this.deleteCardFront}>
                     <img src={require('../../../../assets/error.png')} alt="" /></div>
-                  <img src={'http://oss.tdianyi.com/' + this.state.card_front} alt=""  /> 
+                  <img src={'http://oss.tdianyi.com/' + this.state.card_front} alt=""  />
                 </div>: null
               }
               <ImagePicker
@@ -262,11 +265,11 @@ export default class ChangeBank extends Component {
                 files={this.state.bank_front}
                 onChange={this.changeFront}
               />
-              
+
             </div>
             <div className={styles.card_img_box} >
               {
-                this.state.card_back ? <div className={styles.img_box}> 
+                this.state.card_back ? <div className={styles.img_box}>
                   <div onClick={this.deleteCard_back} className={styles.border_error}><img src={require('../../../../assets/error.png')} alt="" /></div>
                   <img src={'http://oss.tdianyi.com/' + this.state.card_back} alt="" />
                 </div> : null
