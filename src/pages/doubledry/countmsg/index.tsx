@@ -38,6 +38,7 @@ class CountMsg extends Component {
         timer = setInterval(() => {
             resend()
         }, 1000);
+        Toast.loading('',6000)
         Request({
             url: 'verifyCode',
             method: 'post',
@@ -45,6 +46,7 @@ class CountMsg extends Component {
                 // phone
             })
         }).then(res => {
+          Toast.hide()
             if (res.code == 200) {
                 Toast.success('验证码已发送');
             } else {
@@ -52,6 +54,8 @@ class CountMsg extends Component {
                 clearInterval(timer);
                 Toast.fail(res.message);
             }
+        }).catch(()=>{
+          Toast.hide()
         })
     }
 
