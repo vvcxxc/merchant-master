@@ -138,7 +138,10 @@ class List extends Component {
                                 })
                             });
                         } else {
-                            Toast.fail(res.message);
+                            // Toast.fail(res.message);
+                            alert('提示', res.message, [
+                              { text: '确定', onPress: () => console.log('ok') },
+                            ]);
                         }
                     }).catch(err => {
                         console.log(err)
@@ -162,7 +165,10 @@ class List extends Component {
                                 })
                             });
                         } else {
-                            Toast.fail(res.message);
+                            // Toast.fail(res.message);
+                            alert('提示', res.message, [
+                              { text: '确定', onPress: () => console.log('ok') },
+                            ]);
                         }
                     }).catch(err => {
                         console.log(err)

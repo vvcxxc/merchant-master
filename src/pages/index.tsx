@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import styles from './index.less';
-import { Flex, WingBlank, Icon, Toast, Grid } from 'antd-mobile';
+import { Flex, WingBlank, Icon, Toast, Grid, Modal } from 'antd-mobile';
 import verificationImage from '../assets/varied/verification@2x.png';
 import { connect } from 'dva';
 import router from 'umi/router';
@@ -11,6 +11,7 @@ import { routerRedux } from 'dva/router';
 import request from '@/services/request';
 import wx from 'weixin-js-sdk';
 import Cookies from 'js-cookie';
+const alert = Modal.alert;
 declare global {
     interface Window { open_id: string; pay_url: string; Url: string }
 }
@@ -219,7 +220,10 @@ export default connect(({ app }: any) => app)(
                                     })
                                 });
                             } else {
-                                Toast.fail(res.message);
+                                // Toast.fail(res.message);
+                                alert('提示', res.message, [
+                                  { text: '确定', onPress: () => console.log('ok') },
+                                ]);
                             }
                         }).catch(err => {
                             console.log(err)
@@ -243,7 +247,10 @@ export default connect(({ app }: any) => app)(
                                     })
                                 });
                             } else {
-                                Toast.fail(res.message);
+                                // Toast.fail(res.message);
+                                alert('提示', res.message, [
+                                  { text: '确定', onPress: () => console.log('ok') },
+                                ]);
                             }
                         }).catch(err => {
                             console.log(err)
