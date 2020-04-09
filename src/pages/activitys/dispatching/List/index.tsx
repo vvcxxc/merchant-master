@@ -24,7 +24,7 @@ class List extends Component {
         } else {
             url = location.href;
         }
-        request({
+        Request({
             url: 'wechat/getShareSign',
             method: 'get',
             params: {
