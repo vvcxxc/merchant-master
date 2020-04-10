@@ -22,6 +22,7 @@ export default class InputCode extends Component {
 	submit = () => {
 		let { code } = this.state;
 		if (code) {
+      Toast.loading('',100)
 			request({
 				url: 'api/merchant/youhui/userConsume',
 				method: 'post',
@@ -29,6 +30,7 @@ export default class InputCode extends Component {
 					code
 				}
 			}).then(res => {
+        Toast.hide()
 				if (res.code == 200) {
           router.push({
             pathname: '/verification/success',
@@ -42,7 +44,9 @@ export default class InputCode extends Component {
             { text: '确定', onPress: () => console.log('ok') },
           ]);
 				}
-			});
+			}).catch( () => {
+        Toast.loading('',100)
+      });
 		} else {
 			Toast.fail('请输入优惠券码');
 		}

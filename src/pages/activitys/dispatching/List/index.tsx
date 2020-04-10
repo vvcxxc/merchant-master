@@ -124,6 +124,7 @@ class List extends Component {
                 if (res.verificationType && res.verificationType == "Prize") {
                     //核销奖品
                     console.log(res)
+                    Toast.loading('',100)
                     Request({
                         url: 'v3/activity/verification',
                         method: 'PUT',
@@ -131,6 +132,7 @@ class List extends Component {
                             id: res.id
                         }
                     }).then(res => {
+                      Toast.hide()
                         if (res.code == 200) {
                             Toast.success(res.message, 2, () => {
                                 router.push({
@@ -144,10 +146,12 @@ class List extends Component {
                             ]);
                         }
                     }).catch(err => {
+                      Toast.hide()
                         console.log(err)
                     });
                 } else {
                     //核销
+                    Toast.loading('',100)
                     Request({
                         url: 'api/merchant/youhui/userConsume',
                         method: 'post',
@@ -155,6 +159,7 @@ class List extends Component {
                             code: res.youhui_sn
                         }
                     }).then(res => {
+                      Toast.hide()
                         if (res.code == 200) {
                             Toast.success(res.message, 2, () => {
                                 router.push({
@@ -171,6 +176,7 @@ class List extends Component {
                             ]);
                         }
                     }).catch(err => {
+                      Toast.hide()
                         console.log(err)
                     });
                 }
