@@ -165,7 +165,8 @@ export default class bindPhoneNumber extends Component {
             Toast.fail('请输入验证码', 1);
             return;
         }
-        await this.setState({ isOkClick: false })
+        await this.setState({ isOkClick: false });
+        Toast.loading('', 0);
         Request({
             url: 'v3/sq/bind_card',
             method: "POST",
@@ -180,11 +181,13 @@ export default class bindPhoneNumber extends Component {
         }).then(res => {
             if (res.status_code == 200) {
                 this.setState({ isOkClick: true })
+                Toast.hide()
                 Toast.success('绑卡成功', 1, () => {
                     router.push({ pathname: '/doubledry/withdraw' });
                 });
             } else { 
                 this.setState({ isOkClick: true })
+                Toast.hide()
                 Toast.fail(res.message);
             }
         })
