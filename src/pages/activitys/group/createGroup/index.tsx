@@ -10,6 +10,7 @@ import router from 'umi/router';
 import { connect } from 'dva';
 import ad_intro2 from '@/assets/ad/ad_intro2.png'
 import PaymentReturnRules from '../../payment/rules';
+import UploadImage from '@/components/upload-image'
 
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
@@ -258,6 +259,7 @@ export default connect(({ activity }: any) => activity)(
 
     /**确认发布 */
     confirm = async () => {
+      const { groupImageDetailsApi } = this.props
       let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name, shareText, isDelivery } = this.props.Group;
       let rule = {
         is_name: '',
@@ -358,13 +360,13 @@ export default connect(({ activity }: any) => activity)(
             gift_pic,
             gift_name,
             share_info: shareText,
-            is_delivery: isDelivery ? 1 : 0
+            is_delivery: isDelivery ? 1 : 0,
+            brief: groupImageDetailsApi
           }
         });
-        // console.log('abc')
         let { data, message, code } = res;
-        // console.log(res)
         if (code == 200) {
+          this.props.dispatch({ type: 'activity/clearGroupImageDetails' });
           if (data.order_sn) {
             this.props.dispatch({
               type: 'activity/setGroup',
@@ -415,7 +417,23 @@ export default connect(({ activity }: any) => activity)(
       })
     }
 
+    //图片详情使用dva
+    uploadImageData = (showFiles: any, propFiles: any) => {
+      this.props.dispatch({//负责显示给前台
+        type: 'activity/setGroupImageDetails',
+        payload: showFiles
+      })
+      this.props.dispatch({//传递给后台
+        type: 'activity/setGroupImageDetailsApi',
+        payload: propFiles
+      })
+    }
+
     render() {
+      const {
+        groupImageDetails,
+        groupImageDetailsApi
+      } = this.props
       const { start_date, end_date, activity_name, cover_img, describe_img1, describe_img2, old_price, participation_money, group_number, group_sum, validity, shareText } = this.props.Group;
       const chooseMail = this.props.Group.mail_mode == '1' ? (
         <Flex className={styles.choose}>
@@ -614,7 +632,23 @@ export default connect(({ activity }: any) => activity)(
                 <div className={styles.describe}></div>
               </div>
             </Flex>
-            {rule.is_image ? <div className={styles.error}>{rule.is_image}</div> : null}
+            <div
+              className={rule.is_image ? styles.show_active_picture_error : styles.hidden_active_picture_error}>
+              {rule.is_image ? rule.is_image : null}
+            </div>
+
+            <div className={styles.image_details_group}>
+              详情图片
+							<span className={styles.prompt}>可上传6张图片对商品进行详细的说明，尺寸比例不限</span>
+            </div>
+            <Flex className={styles.upload_image_box}>
+              <UploadImage
+                showFiles={groupImageDetails}
+                propFiles={groupImageDetailsApi}
+                length={6}
+                onChange={this.uploadImageData}
+              />
+            </Flex>
             <div className={styles.gift}>
               <Flex className={styles.title}><div>礼品设置</div></Flex>
               <div className={styles.gift_Box}>

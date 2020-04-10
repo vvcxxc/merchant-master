@@ -7,7 +7,6 @@ import ExpenseCalendar from '../components/expense-calendar';
 import Chart from './chart';
 import request from '@/services/request';
 import { Toast } from 'antd-mobile';
-import FreezeRecord from './freezeRecord';
 
 import { connect } from 'dva';
 
@@ -90,7 +89,7 @@ export default connect(({ ad }: any) => ad)(
 			});
 			this.setState({
 				userMoney: res.data.money
-			})
+      })
 		}
 
 		// setLog = async () => {
@@ -120,12 +119,11 @@ export default connect(({ ad }: any) => ad)(
 		}
 
 		render() {
-			const form = <From onSuccess={this.handleSuccess} position={this.state.position} getIndex={this.handleIndexFromChild} editForm={this.state.data} type={this.props.location.query.type} userMoney={this.state.userMoney} />;
+			const form = <From onSuccess={this.handleSuccess} position={this.state.position} getIndex={this.handleIndexFromChild} editForm={this.state.data} type={this.props.location.query.type} userMoney={this.state.userMoney}/>;
 			// const expenseCalendar = <ExpenseCalendar log={this.state.log} />;
 			const expenseCalendar = <ExpenseCalendar adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId} />;
 			const chart = <Chart adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId} />;
-			const freezeRecord = <FreezeRecord adId={this.props.location.query.ad_id && this.props.location.query.value == 1 ? Number(this.props.location.query.ad_id) : this.state.adId}/>
-			return <AdLayout children={[form, expenseCalendar, chart, freezeRecord]} value={this.props.location.query.value} />;
+			return <AdLayout children={[form, expenseCalendar, chart]} value={this.props.location.query.value}/>;
 		}
 	}
 )

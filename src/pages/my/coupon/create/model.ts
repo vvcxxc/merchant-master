@@ -14,7 +14,9 @@ export interface CouponForm {
   temp_url2: any[];
   temp_url3: any[];
   shareText: string;
-  isDelivery:boolean
+  isDelivery:boolean;
+  isLimit: boolean;
+  limit_purchase_quantity: string;
 }
 
 export interface MoneyForm {
@@ -30,6 +32,8 @@ export interface MoneyForm {
   money_temp_url1: any[];
   money_temp_url2: any[];
   money_temp_url3: any[];
+  isLimit: boolean;
+  limit_purchase_quantity: string;
 }
 
 const model: Model = {
@@ -41,16 +45,70 @@ const model: Model = {
       temp_url1: [],
       temp_url2: [],
       temp_url3: [],
-      isDelivery:false
+      isDelivery:false,
+      isLimit: false,
+      image_url:['','','']
     },
     moneyForm: {
       coupons_type: 1,
       money_temp_url1: [],
       money_temp_url2: [],
-      money_temp_url3: []
-    }
+      money_temp_url3: [],
+      isLimit: false,
+      total_fee:''
+    },
+    imageDetails: [],     //兑换券  负责显示给前台用户
+    imageDetailsApi: [],  //兑换券  负责提供后台接口所需格式参数
+    cashcouponImage: [],//现金券 负责显示给前台用户
+    cashcouponImageApi: [],//现金券 负责提供后台接口所需格式参数
   },
   reducers: {
+    setCashcouponImage(state, { payload }) {//只处理 现金券图片详情数据
+      return {
+        ...state,
+        cashcouponImage: [
+          ...payload
+        ]
+      }
+    },
+    setCashcouponImageApi(state, { payload }) {
+      return {
+        ...state,
+        cashcouponImageApi: [
+          ...payload
+        ]
+      }
+    },
+    clearCashcouponImage(state, { payload }) {
+      return {
+        ...state,
+        cashcouponImageApi: [],
+        cashcouponImage: []
+      }
+    },
+    setImageDetails(state, { payload }) {//只处理 兑换券图片详情数据
+      return {
+        ...state,
+        imageDetails: [
+          ...payload
+        ]
+      }
+    },
+    setImageDetailsApi(state, { payload }) {
+      return {
+        ...state,
+        imageDetailsApi: [
+          ...payload,
+        ]
+      }
+    },
+    clearImageDetailsApi(state, { payload }) {
+      return {
+        ...state,
+        imageDetails: [],
+        imageDetailsApi: []
+      }
+    },
     setCoupon(state, { payload }) {
       return {
         ...state,

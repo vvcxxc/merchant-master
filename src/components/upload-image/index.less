@@ -1,0 +1,35 @@
+.upload_image_ql :global {
+    .am-image-picker-list {
+        padding: 0;
+        margin-bottom: 0;
+    }
+
+    .am-image-picker-list .am-flexbox .am-flexbox-item {
+        width: 221px;
+        margin-right: 16px;
+    }
+
+    .am-image-picker-list .am-flexbox {
+        overflow: visible;
+    }
+
+    .am-image-picker-list .am-image-picker-upload-btn {
+        background: url('http://oss.tdianyi.com/front/837fWG4NCCJ5xpXTmHHGPiTZbBYGhTbj.png') no-repeat;
+        background-size: 100%;
+    }
+
+    .am-image-picker-list .am-flexbox .am-flexbox-item {
+        overflow-y: visible;
+    }
+
+    // 去掉伪元素十字架
+    .am-image-picker-list .am-image-picker-upload-btn::after {
+        height: 0;
+        width: 0;
+    }
+
+    .am-image-picker-list .am-image-picker-upload-btn::before {
+        height: 0;
+        width: 0;
+    }
+}

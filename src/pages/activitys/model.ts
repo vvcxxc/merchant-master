@@ -108,18 +108,34 @@ const model: Model = {
       activity_image: '1',
       longCanvas: '1',
       shortCanvas: '1'
-    }
+    },
+    groupImageDetails: [],//现金券 负责显示给前台用户
+    groupImageDetailsApi: [],//现金券 负责提供后台接口所需格式参数
   },
   reducers: {
-    // changeIsHaveData(state, { payload }) {
-    //   return {
-    //     ...state,
-    //     Group: {
-    //       ...state.Group,
-    //       isHaveData: payload.flag
-    //     },
-    //   }
-    // },
+    setGroupImageDetails(state, { payload }) {
+      return {
+        ...state,
+        groupImageDetails: [
+          ...payload
+        ]
+      }
+    },
+    setGroupImageDetailsApi(state, { payload }) {
+      return {
+        ...state,
+        groupImageDetailsApi: [
+          ...payload
+        ]
+      }
+    },
+    clearGroupImageDetails(state, { payload }) {
+      return {
+        ...state,
+        groupImageDetails: [],
+        groupImageDetailsApi: []
+      }
+    },
     setDetails(state, { payload }) {
       return {
         ...state,

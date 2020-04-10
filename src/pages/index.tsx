@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import styles from './index.less';
-import { Flex, WingBlank, Icon, Toast, Grid } from 'antd-mobile';
+import { Flex, WingBlank, Icon, Toast, Grid, Modal } from 'antd-mobile';
 import verificationImage from '../assets/varied/verification@2x.png';
 import { connect } from 'dva';
 import router from 'umi/router';
@@ -11,6 +11,7 @@ import { routerRedux } from 'dva/router';
 import request from '@/services/request';
 import wx from 'weixin-js-sdk';
 import Cookies from 'js-cookie';
+const alert = Modal.alert;
 declare global {
     interface Window { open_id: string; pay_url: string; Url: string }
 }
@@ -205,6 +206,7 @@ export default connect(({ app }: any) => app)(
                     if (res.verificationType && res.verificationType == "Prize") {
                         //核销奖品
                         console.log(res)
+                        Toast.loading('',100)
                         request({
                             url: 'v3/activity/verification',
                             method: 'PUT',
@@ -212,6 +214,7 @@ export default connect(({ app }: any) => app)(
                                 id: res.id
                             }
                         }).then(res => {
+                          Toast.hide()
                             if (res.code == 200) {
                                 Toast.success(res.message, 2, () => {
                                     router.push({
@@ -219,13 +222,18 @@ export default connect(({ app }: any) => app)(
                                     })
                                 });
                             } else {
-                                Toast.fail(res.message);
+                                // Toast.fail(res.message);
+                                alert('提示', res.message, [
+                                  { text: '确定', onPress: () => console.log('ok') },
+                                ]);
                             }
                         }).catch(err => {
+                          Toast.hide()
                             console.log(err)
                         });
                     } else {
                         //核销
+                        Toast.loading('',100)
                         request({
                             url: 'api/merchant/youhui/userConsume',
                             method: 'post',
@@ -233,6 +241,7 @@ export default connect(({ app }: any) => app)(
                                 code: res.youhui_sn
                             }
                         }).then(res => {
+                          Toast.hide()
                             if (res.code == 200) {
                                 Toast.success(res.message, 2, () => {
                                     router.push({
@@ -243,9 +252,13 @@ export default connect(({ app }: any) => app)(
                                     })
                                 });
                             } else {
-                                Toast.fail(res.message);
+                                // Toast.fail(res.message);
+                                alert('提示', res.message, [
+                                  { text: '确定', onPress: () => console.log('ok') },
+                                ]);
                             }
                         }).catch(err => {
+                          Toast.hide()
                             console.log(err)
                         });
                     }

@@ -1,214 +1,304 @@
 .page {
-    height: 100%;
-    min-height: calc(100vh - 88px);
-    background: #fff;
+  height: 100%;
+  min-height: calc(100vh - 88px);
+  background: #fff;
 
-    .prompt {
-        font-family: PingFang-SC-Medium;
-        color: red;
-        margin-top: 10px;
-        font-size: 24px;
-    }
+  .prompt {
+    font-family: PingFang-SC-Medium;
+    color: red;
+    margin-top: 10px;
+    font-size: 24px;
+  }
 
-    .groub_hint {
-        position: relative;
-        margin-bottom: -20px;
-        height: 20px;
-        z-index: 10;
-        font-size: 22px;
-        font-family: PingFang SC;
-        font-weight: 500;
-        color: rgba(210, 40, 75, 1);
-        text-align: right;
-    }
+  .groub_hint {
+    position: relative;
+    margin-bottom: -20px;
+    height: 20px;
+    z-index: 10;
+    font-size: 22px;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgba(210, 40, 75, 1);
+    text-align: right;
+  }
 
-    .radio0 {
-        height: 94px;
-        border-bottom: 1px solid #ddd;
+  .radio0 {
+    height: 94px;
+    border-bottom: 1px solid #ddd;
+    padding-right: 30px;
+    font-size: 28px;
+    color: #666666;
+    .radioFlex {
+      position: relative;
+      width: 100%;
+      height: auto;
 
-        .radioFlex {
-            position: relative;
-            width: 100%;
-            height: auto;
+      .radioScope {
+        color: #666666;
+        font-size: 0.28rem;
+        display: inline-block;
 
-            .radioScope {
-                color: #666666;
-                font-size: 0.28rem;
-                display: inline-block;
+      }
 
+      .radioBox {
+        display: inline-block;
+        float: right;
+
+        .choose {
+          width: auto;
+
+          .chooseBox {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            img {
+              width: 26px;
+              margin-right: 11px;
             }
+          }
 
-            .radioBox {
-                display: inline-block;
-                float: right;
-
-                .choose {
-                    width: auto;
-
-                    .chooseBox {
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        justify-content: center;
-
-                        img {
-                            width: 26px;
-                            margin-right: 11px;
-                        }
-                    }
-
-                }
-            }
         }
+      }
     }
+  }
+
+  .limit_box {
+    padding-right: 30px;
+    height: 108px;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+    color: #666666;
+    font-size: 28px;
+
+    .radioBox {
+      display: inline-block;
+      // float: right;
+
+      .choose {
+        width: auto;
+
+        .chooseBox {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+
+          img {
+            width: 26px;
+            margin-right: 11px;
+          }
+        }
+
+      }
+    }
+  }
+  .limit_number_box {
+    padding-right: 30px;
+    height: 108px;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+    color: #666666;
+    font-size: 28px;
+    // background: #ADB5BD;
+    input {
+      width: 100%;
+      // background: #ADB5BD;
+    }
+    :global .am-list-line{
+      border: none !important;
+    }
+  }
 }
 
 .addImg {
-    width: 78px;
-    height: 78px;
-    background-color: rgba(247, 247, 247, 1);
-    border-radius: 5px;
+  width: 78px;
+  height: 78px;
+  background-color: rgba(247, 247, 247, 1);
+  border-radius: 5px;
 }
 
 .coverTitle {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .upload {
-    display: none;
+  display: none;
 }
 
 .btns {
-    width: 100%;
+  width: 100%;
 
-    div {
-        height: 88px;
-        border: 1px solid rgba(102, 102, 102, 1);
-        text-align: center;
-        line-height: 88px;
-        font-size: 32px;
+  div {
+    height: 88px;
+    border: 1px solid rgba(102, 102, 102, 1);
+    text-align: center;
+    line-height: 88px;
+    font-size: 32px;
 
-        &:last-child {
-            background-color: rgba(33, 65, 138, 1);
-            color: #fff;
-        }
+    &:last-child {
+      background-color: rgba(33, 65, 138, 1);
+      color: #fff;
     }
+  }
 }
 
 .coupons_name :global {
-    .am-input-control input {
-        text-align: right;
-    }
+  .am-input-control input {
+    text-align: right;
+  }
 }
 
 
 :global {
-    .numberInput {
-        padding: 0 10px !important;
-        width: 150px;
-        text-align: center;
+  .numberInput {
+    padding: 0 10px !important;
+    width: 150px;
+    text-align: center;
 
-        .am-list-line {
-            border-bottom: none !important;
-        }
+    .am-list-line {
+      border-bottom: none !important;
     }
+  }
 }
 
 
 .img_box {
-    padding: 20px 0px;
+  padding: 20px 0px;
 
-    .image {
-        font-size: 23px;
-        color: #999;
-        text-align: center;
+  .image {
+    font-size: 23px;
+    color: #999;
+    text-align: center;
 
-        .describe {
-            margin-top: 16px;
-            height: 25px;
-        }
+    .describe {
+      margin-top: 16px;
+      height: 25px;
     }
+  }
 }
 
 .upload_img :global {
-    .am-image-picker-list {
-        padding: 0;
-        margin-bottom: 0;
-    }
+  .am-image-picker-list {
+    padding: 0;
+    margin-bottom: 0;
+  }
 
-    .am-image-picker-list .am-flexbox .am-flexbox-item {
-        width: 218px;
-        margin-right: 16px;
-    }
+  .am-image-picker-list .am-flexbox .am-flexbox-item {
+    width: 218px;
+    margin-right: 16px;
+  }
 
-    .am-image-picker-list .am-image-picker-upload-btn {
-        background: url('http://oss.tdianyi.com/front/837fWG4NCCJ5xpXTmHHGPiTZbBYGhTbj.png') no-repeat;
-        background-size: 100%;
-    }
+  .am-image-picker-list .am-image-picker-upload-btn {
+    background: url('http://oss.tdianyi.com/front/837fWG4NCCJ5xpXTmHHGPiTZbBYGhTbj.png') no-repeat;
+    background-size: 100%;
+  }
 
-    .am-image-picker-list .am-image-picker-upload-btn::before {
-        height: 0;
-        width: 0;
-    }
+  .am-image-picker-list .am-image-picker-upload-btn::before {
+    height: 0;
+    width: 0;
+  }
 
-    .am-image-picker-list .am-image-picker-upload-btn::after {
-        height: 0;
-        width: 0;
-    }
+  .am-image-picker-list .am-image-picker-upload-btn::after {
+    height: 0;
+    width: 0;
+  }
 
 
-    .am-image-picker-list .am-flexbox .am-flexbox-item {
-        overflow-y: visible;
-    }
+  .am-image-picker-list .am-flexbox .am-flexbox-item {
+    overflow-y: visible;
+  }
 
 
 }
 
 :global {
-    .am-list-body {
-        border: none
-    }
+  .am-list-body {
+    border: none
+  }
 }
 
 #no_bottom_box {
-    :global {
-        .am-list-line {
-            border: none
-        }
+  :global {
+    .am-list-line {
+      border: none
     }
+  }
 }
 
 .page {
-    :global .am-list-item {
-        padding-left: 0;
-    }
+  :global .am-list-item {
+    padding-left: 0;
+  }
 
-    :global .am-list-item .am-list-line .am-list-extra {
-        padding-top: 0;
-        padding-bottom: 0;
-    }
+  :global .am-list-item .am-list-line .am-list-extra {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 
-    :global .am-list-item .am-list-line .am-list-content {
-        font-size: 28px !important;
-        color: #666666 !important;
-    }
+  :global .am-list-item .am-list-line .am-list-content {
+    font-size: 28px !important;
+    color: #666666 !important;
+  }
 
 }
 
 
 .share_title {
-    margin: 24px 0;
+  margin: 24px 0;
 }
 
 .share_border {
-    border: 1px solid #ccc;
-    margin-bottom: 24px;
+  border: 1px solid #ccc;
+  margin-bottom: 24px;
 
-    .share_inp {
-        width: 100%;
-        border: 1px solid #ccc;
-        padding: 15px;
-        overflow: auto;
+  .share_inp {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 15px;
+    overflow: auto;
+  }
+}
+
+//详情图片
+.image_details {
+    margin-bottom: 20px;
+    font-size: 30px;
+    font-family: Adobe Heiti Std;
+    font-weight: normal;
+    color:#666666;
+
+    .prompt {
+        margin-left: 16px;
+        font-size: 23px;
+        font-family: Adobe Heiti Std;
+        font-weight: normal;
+        color: rgba(253, 73, 73, 1);
     }
 }
 
+.show_active_picture_error {
+  margin-bottom: 20px;
+  position: relative;
+  height: 20px;
+  z-index: 10;
+  font-size: 22px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: rgba(210, 40, 75, 1);
+  text-align: right;
+  border-top: 1px solid red;
+}
+
+.hidden_active_picture_error {
+  margin-bottom: 0px;
+  position: relative;
+  height: 20px;
+  z-index: 10;
+  font-size: 22px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: rgba(210, 40, 75, 1);
+  text-align: right;
+}

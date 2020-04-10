@@ -3,11 +3,11 @@
  */
 
 import React, { Component } from 'react';
-import { InputItem, Flex, WingBlank, Button, Toast } from 'antd-mobile';
+import { InputItem, Flex, WingBlank, Button, Toast, Modal } from 'antd-mobile';
 import styles from './index.less';
 import request from '@/services/request';
 import router from 'umi/router';
-
+const alert = Modal.alert;
 export default class InputCode extends Component {
 	state = {
 		code: ''
@@ -22,6 +22,7 @@ export default class InputCode extends Component {
 	submit = () => {
 		let { code } = this.state;
 		if (code) {
+      Toast.loading('',100)
 			request({
 				url: 'api/merchant/youhui/userConsume',
 				method: 'post',
@@ -29,6 +30,7 @@ export default class InputCode extends Component {
 					code
 				}
 			}).then(res => {
+        Toast.hide()
 				if (res.code == 200) {
           router.push({
             pathname: '/verification/success',
@@ -37,9 +39,14 @@ export default class InputCode extends Component {
             }
           })
 				} else {
-					Toast.fail(res.message);
+          // Toast.fail(res.message);
+          alert('提示', res.message, [
+            { text: '确定', onPress: () => console.log('ok') },
+          ]);
 				}
-			});
+			}).catch( () => {
+        Toast.loading('',100)
+      });
 		} else {
 			Toast.fail('请输入优惠券码');
 		}

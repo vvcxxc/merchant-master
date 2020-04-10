@@ -301,7 +301,7 @@ export default connect(({ submitQua }: any) => submitQua)(
         window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
       })
 
-    } 
+    }
 
     handleSelectBank = (bankName: any) => {
       request({
@@ -1308,7 +1308,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             method: 'put',
             data
           }).then(res => {
-            let { code, data } = res;
+            let { code, data, message } = res;
             if (code == 200) {
               if (type == 1) {
                 Toast.success('保存成功', 2, () => {
@@ -1320,7 +1320,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                 })
               }
             } else {
-              Toast.fail(data)
+              Toast.fail(message)
             }
           })
         } else if (this.state.is_sq_adopt == 0 && this.state.is_bank_adopt != 0) {
@@ -1479,7 +1479,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             method: 'put',
             data
           }).then(res => {
-            let { code, data } = res;
+            let { code, data, message } = res;
             if (code == 200) {
               if (type == 1) {
                 Toast.success('保存成功', 2, () => {
@@ -1491,7 +1491,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                 })
               }
             } else {
-              Toast.fail(data)
+              Toast.fail(message)
             }
           })
         } else if (this.state.is_sq_adopt != 0 && this.state.is_bank_adopt == 0) {
@@ -1643,7 +1643,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             method: 'put',
             data
           }).then(res => {
-            let { code, data } = res;
+            let { code, data, message } = res;
             if (code == 200) {
               if (type == 1) {
                 Toast.success('保存成功', 2, () => {
@@ -1655,7 +1655,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                 })
               }
             } else {
-              Toast.fail(data)
+              Toast.fail(message)
             }
           })
         } else if (this.state.is_sq_adopt != 0 && this.state.is_bank_adopt != 0) {
@@ -1772,7 +1772,7 @@ export default connect(({ submitQua }: any) => submitQua)(
             method: 'put',
             data
           }).then(res => {
-            let { code, data } = res;
+            let { code, data, message } = res;
             if (code == 200) {
               if (type == 1) {
                 Toast.success('保存成功', 2, () => {
@@ -1784,7 +1784,7 @@ export default connect(({ submitQua }: any) => submitQua)(
                 })
               }
             } else {
-              Toast.fail(data)
+              Toast.fail(message)
             }
           })
         }
@@ -1903,7 +1903,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           method: 'post',
           data
         }).then(res => {
-          let { code, data } = res;
+          let { code, data, message } = res;
           if (code == 200) {
             if (type == 1) {
               Toast.success('保存成功', 2, () => {
@@ -1915,7 +1915,7 @@ export default connect(({ submitQua }: any) => submitQua)(
               })
             }
           } else {
-            Toast.fail(data)
+            Toast.fail(message)
           }
         })
 
@@ -2112,7 +2112,7 @@ export default connect(({ submitQua }: any) => submitQua)(
           method: 'post',
           data
         }).then(res => {
-          let { code, data } = res;
+          let { code, data, message } = res;
           if (code == 200) {
             if (type == 1) {
               Toast.success('保存成功', 2, () => {
@@ -2124,7 +2124,7 @@ export default connect(({ submitQua }: any) => submitQua)(
               })
             }
           } else {
-            Toast.fail(data)
+            Toast.fail(message)
           }
         })
       }
@@ -2360,7 +2360,7 @@ export default connect(({ submitQua }: any) => submitQua)(
       console.log('555', dredgeType, is_existence)
       return (
         <div style={{ width: '100%', height: 'auto', background: '#fff', paddingBottom: '100px' }} id="box0" className={styles.submitQua}>
-          <div> 
+          <div>
             <WingBlank className={styles.page}>
               {
                 this.state.payment_open_status == 2 ? (

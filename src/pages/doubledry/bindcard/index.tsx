@@ -124,6 +124,7 @@ export default class bindPhoneNumber extends Component {
                 timer = setInterval(() => {
                     resend()
                 }, 1000);
+                Toast.loading('',6000)
                 Request({
                     url: 'v3/sq/send_sms_code',
                     method: 'post',
@@ -131,6 +132,7 @@ export default class bindPhoneNumber extends Component {
                         phone
                     })
                 }).then(res => {
+                  Toast.hide()
                     if (res.status_code == 200) {
                         Toast.success('验证码已发送');
                         _this.setState({
@@ -147,6 +149,8 @@ export default class bindPhoneNumber extends Component {
                         clearInterval(timer);
                         Toast.fail(res.message);
                     }
+                }).catch(()=>{
+                  Toast.hide()
                 })
             } else {
                 Toast.fail('请输入手机号', 1)
@@ -185,7 +189,7 @@ export default class bindPhoneNumber extends Component {
                 Toast.success('绑卡成功', 1, () => {
                     router.push({ pathname: '/doubledry/withdraw' });
                 });
-            } else { 
+            } else {
                 this.setState({ isOkClick: true })
                 Toast.hide()
                 Toast.fail(res.message);

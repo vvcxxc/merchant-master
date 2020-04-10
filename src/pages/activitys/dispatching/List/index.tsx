@@ -16,6 +16,33 @@ class List extends Component {
 
     componentWillMount = () => {
         this.getData();
+        let userAgent = navigator.userAgent;
+        let isIos = userAgent.indexOf('iPhone') > -1;
+        let url: any;
+        if (isIos) {
+            url = sessionStorage.getItem('url');
+        } else {
+            url = location.href;
+        }
+        Request({
+            url: 'wechat/getShareSign',
+            method: 'get',
+            params: {
+                url
+            }
+        }).then(res => {
+            let _this = this;
+            wx.config({
+                debug: false,
+                appId: res.appId,
+                timestamp: res.timestamp,
+                nonceStr: res.nonceStr,
+                signature: res.signature,
+                jsApiList: ['getLocation', 'openLocation', 'scanQRCode']
+            });
+        }).catch(err => {
+            console.log(err)
+        });
     }
 
     getData = () => {
@@ -97,6 +124,7 @@ class List extends Component {
                 if (res.verificationType && res.verificationType == "Prize") {
                     //核销奖品
                     console.log(res)
+                    Toast.loading('',100)
                     Request({
                         url: 'v3/activity/verification',
                         method: 'PUT',
@@ -104,6 +132,7 @@ class List extends Component {
                             id: res.id
                         }
                     }).then(res => {
+                      Toast.hide()
                         if (res.code == 200) {
                             Toast.success(res.message, 2, () => {
                                 router.push({
@@ -111,13 +140,18 @@ class List extends Component {
                                 })
                             });
                         } else {
-                            Toast.fail(res.message);
+                            // Toast.fail(res.message);
+                            alert('提示', res.message, [
+                              { text: '确定', onPress: () => console.log('ok') },
+                            ]);
                         }
                     }).catch(err => {
+                      Toast.hide()
                         console.log(err)
                     });
                 } else {
                     //核销
+                    Toast.loading('',100)
                     Request({
                         url: 'api/merchant/youhui/userConsume',
                         method: 'post',
@@ -125,6 +159,7 @@ class List extends Component {
                             code: res.youhui_sn
                         }
                     }).then(res => {
+                      Toast.hide()
                         if (res.code == 200) {
                             Toast.success(res.message, 2, () => {
                                 router.push({
@@ -135,9 +170,13 @@ class List extends Component {
                                 })
                             });
                         } else {
-                            Toast.fail(res.message);
+                            // Toast.fail(res.message);
+                            alert('提示', res.message, [
+                              { text: '确定', onPress: () => console.log('ok') },
+                            ]);
                         }
                     }).catch(err => {
+                      Toast.hide()
                         console.log(err)
                     });
                 }
@@ -183,8 +222,8 @@ class List extends Component {
                             <div className={styles.prize_info}>
                                 <div className={styles.prize_name}>{item.delivery_name}</div>
                                 <div className={styles.prize_status}>
-                                    {/*  
-                                        delivery_status  0待接单 1配送中 2配送成功 3配送失败 4已接单 
+                                    {/*
+                                        delivery_status  0待接单 1配送中 2配送成功 3配送失败 4已接单
                                         order_status     0待支付 1正常 2商家取消 3用户取消 4订单过期自动取消 5订单已完成
                                     */}
                                     {
