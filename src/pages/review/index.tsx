@@ -72,10 +72,10 @@ export default class Review extends Component {
           store_reason = '审核中'
         } else if (store_open_status == 2) {
           store_status = 'error'
-          store_reason = '审核失败'
+          store_reason = res.data.apply_store_status.refuse_reason
         } else if (store_open_status == 3) {
-          store_status = 'finish',
-            store_reason = '已完成'
+          store_status = 'finish'
+          store_reason = '已完成'
         }
 
         // 资质的判断
@@ -84,7 +84,7 @@ export default class Review extends Component {
           qua_reason = '审核中'
         } else if (payment_open_status == 2) {
           qua_status = 'error'
-          qua_status = '审核失败'
+          qua_reason = res.data.payment_status.refuse_reason
         } else if (payment_open_status == 3) {
           qua_status = 'finish'
           qua_reason = '已完成'
@@ -101,7 +101,7 @@ export default class Review extends Component {
         if (payment_open_status == 3 && store_open_status == 3) {
           router.push('/')
         }
-
+        console.log(qua_status, 'qua_status')
         this.setState({
           info: data,
           store_status,
@@ -139,11 +139,11 @@ export default class Review extends Component {
 
 
   render() {
-    const { qua_status, store_status, status, reason, store_reason, qua_reason,refuse_reason } = this.state;
+    const { qua_status, store_status, status, reason, store_reason, qua_reason, refuse_reason } = this.state;
     const button = this.state.is_show == true ? (
       <Button type='primary' style={{ marginTop: 152 }} onClick={this.submit}>继续入驻</Button>
     ) : null;
-
+    console.log(qua_status)
     return (
       <div className={styles.reviewPage}>
         <WingBlank className={styles.box}>
