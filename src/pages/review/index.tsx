@@ -124,7 +124,7 @@ export default class Review extends Component {
   submit = () => {
     let { info } = this.state;
     if (info.apply_store_status.store_open_status == 2) {
-      router.push('/createStore')
+      router.push({pathname: '/createStore', query: {type: 'edit'}})
     } else {
       router.push({ pathname: '/submitQua', query: { dredgeType: 2, is_existence: 0 } })
     }
