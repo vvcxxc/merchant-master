@@ -460,7 +460,11 @@ export default connect(({ createStore }: any) => createStore)(
           let { code, data } = res;
           if (code == 200) {
             Toast.success(data.msg, 2, () => {
-              router.push('/submitQua');
+              if(location.href.includes('?')){
+                router.push('/review');
+              }else{
+                router.push('/submitQua');
+              }
             })
           } else {
             if(data.msg){
