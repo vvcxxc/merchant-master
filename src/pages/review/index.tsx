@@ -46,12 +46,14 @@ export default class Review extends Component {
         let { payment_open_status } = data.payment_status;
 
         // 审核状态的判断
+        console.log(store_open_status,333)
         if (store_open_status == 2) {
           reason = data.apply_store_status.refuse_reason
           status = '审核失败'
         } else {
           if (payment_open_status == 2) {
             reason = data.payment_status.refuse_reason
+            console.log(reason)
             status = '审核失败'
           } else {
             if (payment_open_status == 0) {
@@ -153,7 +155,7 @@ export default class Review extends Component {
             </div>
             <div className={styles.res}>
               <p className={styles.res_title}>{status}</p>
-              <p>{refuse_reason}</p>
+              <p>{reason}</p>
             </div>
           </Flex>
           <Flex className={styles.steps}>
