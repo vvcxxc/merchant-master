@@ -47,7 +47,7 @@ export default class Review extends Component {
 
         // 审核状态的判断
         if (store_open_status == 2) {
-          reason = data.payment_status.refuse_reason
+          reason = data.apply_store_status.refuse_reason
           status = '审核失败'
         } else {
           if (payment_open_status == 2) {
