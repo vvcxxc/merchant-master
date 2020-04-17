@@ -419,7 +419,7 @@ export default connect(({ createStore }: any) => createStore)(
 
       total.phone =
         !/^1[3456789]\d{9}$/.test(phone) || !/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(phone) ?
-          '请输入正确11位手机号码或7-8位座机号码' : ''
+          '请输入正确11位手机号码' : ''
       // return
       total.manage_type = !manage_type ? '请选择商家品类信息' : ''
       total.email = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$").test(email) ? '' : '请输入正确邮箱信息'
@@ -544,7 +544,7 @@ export default connect(({ createStore }: any) => createStore)(
               <span>门店电话</span>
               <input
                 type="text"
-                placeholder='请输入手机号、座机（需加区号）'
+                placeholder='请输入手机号'
                 value={this.props.phone}
                 onChange={this.handlePhone}
               />
