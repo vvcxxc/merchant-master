@@ -11,7 +11,7 @@ const config: IConfig = {
     "window.pay_url": "http://test.api.tdianyi.com/payCentre/toSupplierWxPay",
     "window.shareLink": "http://test.mall.tdianyi.com/",
     "window.service_url": "http://test.mall.tdianyi.com/pages/mycardticket/index",
-    "Environment": "test"
+    "Environment": "local"
   },
 }
 export default config

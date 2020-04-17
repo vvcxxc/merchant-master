@@ -11,7 +11,7 @@ import wx from "weixin-js-sdk";
 import { connect } from 'dva';
 import router from 'umi/router';
 import Cookies from 'js-cookie';
-
+declare const Environment: string
 export default connect(({ createStore }: any) => createStore)(
   class MapPage extends Component<any> {
     geocoder: any;
@@ -106,8 +106,6 @@ export default connect(({ createStore }: any) => createStore)(
                 latitude,
                 longitude
               };
-              // console.log(this.props.address)
-              // if (!this.props.address) {
 
               if(!_this.props.address) {
                 // alert('123')
@@ -144,9 +142,10 @@ export default connect(({ createStore }: any) => createStore)(
                   _this.setState({
                     address: '未知地点'
                   });
+
                 }
               })
-            }
+            },
           });
 
         })
@@ -209,6 +208,24 @@ export default connect(({ createStore }: any) => createStore)(
     createSearch = (result: any) => {
       // alert('ok')
       let _this = this;
+      if(Environment == 'local'){
+        setTimeout(()=>{
+          this.msearch = new AMap.PlaceSearch({
+            pageSize: 5,
+            pageIndex: 1,
+            city: '广州市'
+          });
+
+          this.msearch.search('大石', function (status: any, result: any) {
+            _this.setState({
+              searchList: result.poiList.pois
+            })
+          })
+        },2000)
+
+        return
+      }
+
       let { city, district, street } = result.regeocode.addressComponent
       this.msearch = new AMap.PlaceSearch({
         pageSize: 5,
@@ -237,6 +254,7 @@ export default connect(({ createStore }: any) => createStore)(
       this.setState({ search_words: e });
       this.msearch.search(keywords, function (status: any, result: object) {
         if (result.poiList) {
+          console.log(result.poiList.pois,'result.poiList.pois')
           that.setState({
             is_search: true,
             search_list: result.poiList.pois
@@ -252,7 +270,6 @@ export default connect(({ createStore }: any) => createStore)(
     }
 
     chooseOne = async (item: any, idx: any) => {
-      console.log(item)
       if(item.name){
         await this.setState({
           index: idx,
@@ -290,8 +307,9 @@ export default connect(({ createStore }: any) => createStore)(
         },
         addressItem: {}
       })
-      let location = this.state.location;
-      let address = this.state.address;
+      let location = this.props.location;
+      console.log('best',location)
+      let address = this.props.address;
       if(location && address){
         this.props.dispatch({
           type: 'createStore/setStore',
@@ -496,6 +514,7 @@ export default connect(({ createStore }: any) => createStore)(
           })
         },
         click: (e: any) => {
+          console.log(333)
           this.setState({
             location: {
               longitude: e.lnglat.lng,
@@ -514,7 +533,6 @@ export default connect(({ createStore }: any) => createStore)(
           const lnglat = e.lnglat;
           _this.geocoder && _this.geocoder.getAddress(lnglat, (status: any, result: any) => {
             if (status === 'complete') {
-              console.log(result)
               if (result.regeocode) {
                 _this.createSearch(result);
                 let res = result.regeocode.addressComponent
@@ -590,13 +608,18 @@ export default connect(({ createStore }: any) => createStore)(
           <Flex direction='column'>
             <div className={styles.mapBox}>
               {console.log('location',location)}
-              <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
+              {
+                events ?
+                 <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
                 {
                   location ? (
                     <Marker position={location} />
                   ) : null
                 }
               </Map>
+              : null
+              }
+
             </div>
             {picker}
             <div className={styles.searchList}>
