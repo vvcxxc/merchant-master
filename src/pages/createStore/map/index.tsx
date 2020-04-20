@@ -141,6 +141,12 @@ export default connect(({ createStore }: any) => createStore)(
                       address: result.regeocode.formattedAddress || '未知地点',
                       city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province
                     });
+                    _this.props.dispatch({
+                      type: 'createStore/setStore',
+                      payload: {
+                        location,
+                      }
+                    })
                   } else {
                     _this.setState({
                       address: '未知地点'
