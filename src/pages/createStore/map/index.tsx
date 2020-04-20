@@ -98,7 +98,7 @@ export default connect(({ createStore }: any) => createStore)(
         });
         wx.ready(() => {
           wx.getLocation({
-            type: 'wgs84',
+            type: 'gcj02',
             success: function (res: any) {
               let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
               let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
