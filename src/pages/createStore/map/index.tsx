@@ -250,6 +250,11 @@ export default connect(({ createStore }: any) => createStore)(
         keywords = city + district + street;
       }else {
         keywords = result
+        this.msearch = new AMap.PlaceSearch({
+          pageSize: 5,
+          pageIndex: 1,
+          // city
+        });
       }
 
       this.msearch.search(keywords, function (status: any, result: any) {
