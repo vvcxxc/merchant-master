@@ -1,12 +1,12 @@
-import * as Sentry from '@sentry/browser';
+// import * as Sentry from '@sentry/browser';
 // ref: https://umijs.org/config/
 declare const Environment: string
-if (Environment == 'test' || Environment == 'release' || Environment == 'master') {
-  Sentry.init({
-    dsn: "http://256d89d4fb9243008db86e5039ecbf41@sentry.tdianyi.com/3",
-    environment: Environment
-  });
-}
+// if (Environment == 'test' || Environment == 'release' || Environment == 'master') {
+//   Sentry.init({
+//     dsn: "http://256d89d4fb9243008db86e5039ecbf41@sentry.tdianyi.com/3",
+//     environment: Environment
+//   });
+// }
 import Vconsole from 'vconsole'
 if(Environment != 'master'){
   // if(process.env.NODE_ENV != '')

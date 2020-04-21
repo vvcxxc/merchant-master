@@ -223,11 +223,11 @@ export default class StoreInfo extends Component {
     }).then(res => {
       let { code, data } = res;
       if(code == 200){
-        Toast.success(data,2,() => {
+        Toast.success(data.msg,2,() => {
           router.goBack();
         });
       }else{
-        Toast.fail(data);
+        Toast.fail(data.msg);
       }
     })
   }
@@ -235,7 +235,7 @@ export default class StoreInfo extends Component {
   render (){
     const { store_head, store_img1, store_img2, store_name, address,detailAddress, house_num, phone, email, store_img_one, store_img_two, store_door_header_img} = this.state;
     const map = this.state.is_map == true ? (
-      <MapPage onChange={this.mapChange}/>
+      <MapPage onChange={this.mapChange} location={this.state.location} address={this.state.address}/>
     ) : (
       ''
     );

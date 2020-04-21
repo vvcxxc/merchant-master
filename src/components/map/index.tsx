@@ -10,7 +10,10 @@ import axios from 'axios';
 import wx from "weixin-js-sdk";
 
 interface Props {
-  onChange: (location: object, address: string) => any
+  onChange: (location: object, address: string) => any;
+  location: object;
+  address: string
+
 }
 
 
@@ -57,7 +60,11 @@ export default class MapPage extends Component<Props> {
     active_best_style: {
       color: '#FF6654'
     },
-    addressItem: {}
+    addressItem: {},
+    best_item: {
+      location: {},
+      address: ''
+    }
   };
 
   componentDidMount() {
@@ -97,52 +104,68 @@ export default class MapPage extends Component<Props> {
           "getLocation",
         ]
       });
-      wx.ready(() => {
-        console.log('resres',res)
-        wx.getLocation({
-          type: 'wgs84',
-          fail: function(err:any){
-            console.log(err)
-          },
-          success: function (res: any) {
-            console.log('res',res)
-            let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-            let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-            let location = {
-              latitude,
-              longitude
-            };
-            _this.setState({ location });
-            const lnglat = [longitude, latitude]
-            _this.geocoder && _this.geocoder.getAddress(lnglat, (status, result) => {
-              if (status === 'complete') {
-                if (result.regeocode) {
-                  _this.createSearch(result);
-                  let res = result.regeocode.addressComponent
-                  let province = res.province + res.city + res.district;
-                  _this.setState({
-                    province,
-                    value: [res.province, res.city, res.district],
-                    city: [res.province, res.city, res.district],
-                    district: result.regeocode.addressComponent.district,
-                    address: result.regeocode.formattedAddress || '未知地点',
-                    city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province
-                  });
+      if(this.props.location){
+        this.setState({
+          location: {longitude: this.props.location.longitude,latitude: this.props.location.latitude},
+          address: this.props.address,
+          best_item:{
+            location: {longitude: this.props.location.longitude,latitude: this.props.location.latitude},
+            address: this.props.address,
+          }
+        })
+        this.createSearch(this.props.address);
+      }else {
+        wx.ready(() => {
+          wx.getLocation({
+            type: 'gcj02',
+            fail: function(err:any){
+              console.log(err)
+            },
+            success: function (res: any) {
+              console.log('res',res)
+              let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+              let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+              let location = {
+                latitude,
+                longitude
+              };
+              _this.setState({ location });
+              const lnglat = [longitude, latitude]
+              _this.geocoder && _this.geocoder.getAddress(lnglat, (status, result) => {
+                if (status === 'complete') {
+                  if (result.regeocode) {
+                    _this.createSearch(result);
+                    let res = result.regeocode.addressComponent
+                    let province = res.province + res.city + res.district;
+                    _this.setState({
+                      province,
+                      value: [res.province, res.city, res.district],
+                      city: [res.province, res.city, res.district],
+                      district: result.regeocode.addressComponent.district,
+                      address: result.regeocode.formattedAddress || '未知地点',
+                      city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province,
+                      best_item: {
+                        location,
+                        address: result.regeocode.formattedAddress || '未知地点'
+                      }
+                    });
+                  } else {
+                    _this.setState({
+                      address: '未知地点'
+                    });
+                  }
                 } else {
                   _this.setState({
                     address: '未知地点'
                   });
                 }
-              } else {
-                _this.setState({
-                  address: '未知地点'
-                });
-              }
-            })
-          }
-        });
+              })
+            }
+          });
 
-      })
+        })
+      }
+
     });
   }
 
@@ -201,20 +224,33 @@ export default class MapPage extends Component<Props> {
   /**地图页初始化搜索 */
   createSearch = (result: any) => {
     // alert('ok')
+    let keywords = ''
     let _this = this;
+    if(typeof(result) != 'string'){
     let { city, district, street } = result.regeocode.addressComponent
+
+    keywords = city + district + street;
     this.msearch = new AMap.PlaceSearch({
       pageSize: 5,
       pageIndex: 1,
       city
     });
-    let keywords = city + district + street;
+
+    }else {
+      keywords = result
+      this.msearch = new AMap.PlaceSearch({
+        pageSize: 5,
+        pageIndex: 1,
+        // city
+      });
+    }
 
     this.msearch.search(keywords, function (status: any, result: object) {
       _this.setState({
         searchList: result.poiList.pois
       })
     })
+
   }
 
 
@@ -245,15 +281,17 @@ export default class MapPage extends Component<Props> {
   }
 
   chooseOne = async (item: any, idx: any) => {
+     let location = {
+      longitude: item.location.lng,
+      latitude: item.location.lat
+    }
     await this.setState({
       index: idx,
       active_best_style: {},
-      addressItem: item
+      addressItem: item,
+      location
     })
-    // let location = {
-    //   longitude: item.location.lng,
-    //   latitude: item.location.lat
-    // }
+
     // let name = item.name;
     // let province = this.state.city[0];
     // let address = item.address;
@@ -268,7 +306,8 @@ export default class MapPage extends Component<Props> {
       active_best_style: {
         color: '#FF6654'
       },
-      addressItem: {}
+      addressItem: {},
+      location: this.state.best_item.location
     })
     // let location = this.state.location;
     // let address = this.state.address;
@@ -297,7 +336,12 @@ export default class MapPage extends Component<Props> {
         district: result.regeocode.addressComponent.district,
         address: result.regeocode.formattedAddress || '未知地点',
         city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province,
-        is_map: true
+        is_map: true,
+        location,
+        best_item: {
+          location,
+          address: result.regeocode.formattedAddress || '未知地点',
+        }
       }, () => {
         // let address = this.state.city[0] + this.state.city[1] + item.address + item.name;
         // this.props.onChange(location,address);
@@ -396,7 +440,7 @@ export default class MapPage extends Component<Props> {
             buttonOffset: new AMap.Pixel(14, 130),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
             showMarker: false,        //定位成功后在定位到的位置显示点标记，默认：true
             showCircle: false,        //定位成功后用圆圈表示定位精度范围，默认：true
-            panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+            panToLocation: false,     //定位成功后将定位到的位置作为地图中心点，默认：true
             zoomToAccuracy: true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
           });
           instance.addControl(geolocation);
@@ -438,7 +482,14 @@ export default class MapPage extends Component<Props> {
                 city: [res.province, res.city, res.district],
                 district: result.regeocode.addressComponent.district,
                 address: result.regeocode.formattedAddress || '未知地点',
-                city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province
+                city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province,
+                best_item: {
+                  location: {
+                    longitude: e.lnglat.lng,
+                    latitude: e.lnglat.lat
+                  },
+                  address: result.regeocode.formattedAddress || '未知地点',
+                }
               });
             } else {
               _this.setState({

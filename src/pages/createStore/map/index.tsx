@@ -11,7 +11,7 @@ import wx from "weixin-js-sdk";
 import { connect } from 'dva';
 import router from 'umi/router';
 import Cookies from 'js-cookie';
-
+declare const Environment: string
 export default connect(({ createStore }: any) => createStore)(
   class MapPage extends Component<any> {
     geocoder: any;
@@ -98,7 +98,7 @@ export default connect(({ createStore }: any) => createStore)(
         });
         wx.ready(() => {
           wx.getLocation({
-            type: 'wgs84',
+            type: 'gcj02',
             success: function (res: any) {
               let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
               let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
@@ -106,20 +106,24 @@ export default connect(({ createStore }: any) => createStore)(
                 latitude,
                 longitude
               };
-              // console.log(this.props.address)
-              // if (!this.props.address) {
-
-              if(!_this.props.address) {
-                // alert('123')
-                _this.setState({ location });
+              console.log(res)
+              if(Cookies.get('handleAddress')) {
+                let address = Cookies.get('handleAddress') || ""
+                address = address.replace(/\"/g,"")
+                let location = JSON.parse(Cookies.get('handleLocation'))
+                console.log(address,'sss')
+                _this.setState({ location,address });
                 _this.props.dispatch({
                   type: 'createStore/setStore',
                   payload: {
                     location,
+                    address
                   }
                 })
+                _this.createSearch(address);
+                return
               }
-
+              console.log(Cookies.get('handleAddress'))
               const lnglat = [longitude, latitude]
               _this.geocoder && _this.geocoder.getAddress(lnglat, (status: string, result: any) => {
                 if (status === 'complete') {
@@ -127,14 +131,22 @@ export default connect(({ createStore }: any) => createStore)(
                     _this.createSearch(result);
                     let res = result.regeocode.addressComponent
                     let province = res.province + res.city + res.district;
+                    console.log(result,'result.regeocode')
                     _this.setState({
                       province,
+                      location,
                       value: [res.province, res.city, res.district],
                       city: [res.province, res.city, res.district],
                       district: result.regeocode.addressComponent.district,
                       address: result.regeocode.formattedAddress || '未知地点',
                       city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province
                     });
+                    _this.props.dispatch({
+                      type: 'createStore/setStore',
+                      payload: {
+                        location,
+                      }
+                    })
                   } else {
                     _this.setState({
                       address: '未知地点'
@@ -144,9 +156,10 @@ export default connect(({ createStore }: any) => createStore)(
                   _this.setState({
                     address: '未知地点'
                   });
+
                 }
               })
-            }
+            },
           });
 
         })
@@ -209,15 +222,43 @@ export default connect(({ createStore }: any) => createStore)(
     createSearch = (result: any) => {
       // alert('ok')
       let _this = this;
-      let { city, district, street } = result.regeocode.addressComponent
-      this.msearch = new AMap.PlaceSearch({
-        pageSize: 5,
-        pageIndex: 1,
-        city
-      });
-      let keywords = city + district + street;
+      // if(Environment == 'local'){
+      //   setTimeout(()=>{
+      //     this.msearch = new AMap.PlaceSearch({
+      //       pageSize: 5,
+      //       pageIndex: 1,
+      //       city: '广州市'
+      //     });
+
+      //     this.msearch.search('大石', function (status: any, result: any) {
+      //       _this.setState({
+      //         searchList: result.poiList.pois
+      //       })
+      //     })
+      //   },2000)
+
+      //   return
+      // }
+      let keywords = {}
+      if(typeof(result) != 'string'){
+        let { city, district, street } = result.regeocode.addressComponent
+        this.msearch = new AMap.PlaceSearch({
+          pageSize: 5,
+          pageIndex: 1,
+          city
+        });
+        keywords = city + district + street;
+      }else {
+        keywords = result
+        this.msearch = new AMap.PlaceSearch({
+          pageSize: 5,
+          pageIndex: 1,
+          // city
+        });
+      }
 
       this.msearch.search(keywords, function (status: any, result: any) {
+        console.log(result.poiList.pois,'searchList')
         _this.setState({
           searchList: result.poiList.pois
         })
@@ -237,6 +278,7 @@ export default connect(({ createStore }: any) => createStore)(
       this.setState({ search_words: e });
       this.msearch.search(keywords, function (status: any, result: object) {
         if (result.poiList) {
+          console.log(result.poiList.pois,'result.poiList.pois')
           that.setState({
             is_search: true,
             search_list: result.poiList.pois
@@ -252,22 +294,23 @@ export default connect(({ createStore }: any) => createStore)(
     }
 
     chooseOne = async (item: any, idx: any) => {
-      console.log(item)
       if(item.name){
-        await this.setState({
-          index: idx,
-          active_best_style: {},
-          addressItem: item
-        })
+
         let location = {
           longitude: item.location.lng,
           latitude: item.location.lat
         }
+        await this.setState({
+          index: idx,
+          active_best_style: {},
+          addressItem: item,
+        })
         let name = item.name;
         let province = this.state.city[0];
         let address = item.address;
         let city = this.state.city_name;
         let Address = province + city + address + name;
+        // this.createSearch(Address);
         // Cookies.set("handleAddress", JSON.stringify(Address), { expires: 1 });
         // Cookies.set("handleLocation", JSON.stringify(location), { expires: 1 });
         this.props.dispatch({
@@ -290,8 +333,9 @@ export default connect(({ createStore }: any) => createStore)(
         },
         addressItem: {}
       })
+      console.log(3232)
       let location = this.state.location;
-      let address = this.state.address;
+      let address = this.props.address;
       if(location && address){
         this.props.dispatch({
           type: 'createStore/setStore',
@@ -322,8 +366,10 @@ export default connect(({ createStore }: any) => createStore)(
           city: "010"//城市，默认：“全国”
         })
       })
+      console.log(item,'sss')
       let lnglat = [location.longitude, location.latitude]
       _this.geocoder && _this.geocoder.getAddress(lnglat, (status: any, result: any) => {
+        console.log(result.regeocode,'sss')
         let res = result.regeocode.addressComponent
         let province = res.province + res.city + res.district;
         _this.setState({
@@ -331,13 +377,15 @@ export default connect(({ createStore }: any) => createStore)(
           value: [res.province, res.city, res.district],
           city: [res.province, res.city, res.district],
           district: result.regeocode.addressComponent.district,
-          address: result.regeocode.formattedAddress || '未知地点',
+          address: province + item.address + item.name || '未知地点',
           city_name: result.regeocode.addressComponent.city || result.regeocode.addressComponent.province,
           // 选择地点后回到地图
-          is_map: true
+          is_map: true,
+          location
         }, () => {
-          let address = this.state.city[0] + this.state.city[1] + item.address + item.name;
+          let address = this.state.address;
           // this.props.onChange(location,address);
+          this.createSearch(address);
           Cookies.set("handleAddress", JSON.stringify(address), { expires: 1 });
           Cookies.set("handleDetailAddress", JSON.stringify(address), { expires: 1 });
           Cookies.set("handleLocation", JSON.stringify(location), { expires: 1 });
@@ -496,6 +544,7 @@ export default connect(({ createStore }: any) => createStore)(
           })
         },
         click: (e: any) => {
+          console.log(333)
           this.setState({
             location: {
               longitude: e.lnglat.lng,
@@ -514,7 +563,6 @@ export default connect(({ createStore }: any) => createStore)(
           const lnglat = e.lnglat;
           _this.geocoder && _this.geocoder.getAddress(lnglat, (status: any, result: any) => {
             if (status === 'complete') {
-              console.log(result)
               if (result.regeocode) {
                 _this.createSearch(result);
                 let res = result.regeocode.addressComponent
@@ -590,13 +638,18 @@ export default connect(({ createStore }: any) => createStore)(
           <Flex direction='column'>
             <div className={styles.mapBox}>
               {console.log('location',location)}
-              <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
+              {
+                events ?
+                 <Map events={events} amapkey={'47d12b3485d7ded218b0d369e2ddd1ea'} plugins={plugins} zoom={18} center={location}>
                 {
                   location ? (
                     <Marker position={location} />
                   ) : null
                 }
               </Map>
+              : null
+              }
+
             </div>
             {picker}
             <div className={styles.searchList}>
