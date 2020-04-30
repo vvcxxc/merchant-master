@@ -1,0 +1,97 @@
+.gift_list {
+  width: 100%;
+  height: 100%;
+  background: #F2F5FC;
+  .list_header {
+    width: 100%;
+    height: 72px;
+    background:rgba(225,239,253,1);
+    font-size: 28px;
+    color: #4781FE;
+    padding-right: 42px;
+  }
+  .button_box {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 128px;
+    background: #fff;
+    padding: 0 46px;
+    .cancel {
+      width:321px;
+      height:95px;
+      border:1px solid rgba(84,123,231,1);
+      border-radius:48px;
+      font-size:30px;
+      color: #547BE7;
+    }
+    .submit {
+      width:321px;
+      height:95px;
+      background:rgba(84,123,231,1);
+      border-radius:48px;
+      font-size:30px;
+      color: #fff;
+    }
+  }
+}
+
+.item {
+  width: 100%;
+  height: 175px;
+  background: #fff;
+  margin-bottom: 10px;
+  padding: 30px;
+  .item_left {
+    .item_img_box {
+      position: relative;
+      overflow: hidden;
+      width: 114px;
+      height: 114px;
+      border-radius: 16px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+      .item_label {
+        position: absolute;
+        left: -42px;
+        top: -42px;
+        width: 84px;
+        height: 84px;
+        background: #1D70FF;
+        color: #fff;
+        font-size: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        transform: rotate(-45deg);
+      }
+    }
+    .item_info {
+      margin-left: 22px;
+      color: #98A6AD;
+      font-size: 24px;
+      .item_name {
+        font-size: 30px;
+        color: #000;
+      }
+      .item_money {
+        font-size: 30px;
+        color: #F70909;
+      }
+    }
+
+  }
+  .checkout_icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+  .no_checkout_icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #98A6AD;
+  }
+}
