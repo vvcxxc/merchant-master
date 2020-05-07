@@ -248,7 +248,26 @@ export default connect(({ activity }: any) => activity)(
       }
     }
     toGift = () => {
-      router.push({ pathname: '/activitys/choosegift', query: { type: 1 } })
+      // router.push({ pathname: '/activitys/choosegift', query: { type: 1 } })
+      const { group_sum,group_number } = this.props.Group
+      // 开团数量
+      if (group_sum == 0) {
+        Toast.fail('开团数量必须大于0')
+        return
+      } else if (group_sum == '') {
+        Toast.fail('请设置开团数量')
+        return
+      }
+       // 拼团人数的验证
+       if (group_number == 0) {
+        Toast.fail('拼团人数必须大于0')
+        return
+      } else if (group_number == '') {
+        Toast.fail('请设置拼团人数')
+        return
+      }
+      const num = group_number * group_sum
+      router.push({ pathname: '/activitys/gift', query: { type: 1, num} })
     }
     toSetting = () => {
       router.push({ pathname: '/activitys/setting/groupSetting' })

@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { Flex } from 'antd-mobile'
 import styles from './index.less'
+import router from 'umi/router'
 interface Props {
   list: Array<object>;
   name: string;
+  id: number;
+  num: string;
+  type: string;
 }
 export default function GiftItem(props: Props) {
+
+  const toAdd = () => {
+    router.push({pathname: '/activitys/gift/gift-list', query: {id: props.id, num: props.num, type: props.type}})
+  }
+
   return (
     <div className={styles.item_box}>
       <Flex className={styles.item} align='center' justify='between' >
@@ -13,7 +22,7 @@ export default function GiftItem(props: Props) {
           <i className={styles.title_icon} />
           <div className={styles.title}>{props.name}</div>
         </Flex>
-        <Flex className={styles.add_gift} align='center' justify='center'>
+        <Flex className={styles.add_gift} align='center' justify='center' onClick={toAdd}>
           添加礼品
         </Flex>
       </Flex>
