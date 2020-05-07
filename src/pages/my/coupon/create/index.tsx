@@ -90,11 +90,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
           Validity === 0 ? '优惠券有效期必须大于0' : ''
         )
 
-        !description[0] ? total.userNotice = '请设置使用须知' : (
-          description.map((item: any, index: number) => {
-            !/^[\u4e00-\u9fa5A-Za-z0-9-_!@#$%^&*()+=,./';:"?><\|！@#￥%……&*（）——：“”；》《，。、？|]*$/.test(item) ? total.userNotice = '含有非法字符，请重新编辑后提交' : ''
-          })
-        )
+        !description[0] ? total.userNotice = '请设置使用须知' : total.userNotice = ''
 
         total.activeImg = firstImage.length && secondImage.length && thirdImage.length ? '' : '请上传图片完整后再重新提交'
 
