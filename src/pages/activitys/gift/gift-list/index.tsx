@@ -62,7 +62,8 @@ export default connect(({ gift }: any) => gift)(
           this.setState({ gift_list: res.data })
         })
       }else {
-        this.setState({gift_list})
+        this.giftList(gift_list,list[id].list)
+
       }
 
 
@@ -70,13 +71,38 @@ export default connect(({ gift }: any) => gift)(
 
     }
 
+    //  将gift_list和list比对
+    giftList = (gift_list: any, list: any) => {
+      let giftList = [...gift_list]
+      for (let i in giftList){
+        giftList[i].occupation_number = 0
+        for (let a in list){
+          if(giftList[i].id == list[a].gift_id){
+            giftList[i].is_choose = true
+            giftList[i].occupation_number = list[a].repertory_num
+          }
+        }
+      }
+      this.setState({gift_list: giftList})
+    }
+
+
+
+
     chooseItem = (action: string, item: object) => {
       const { type, sum, item_id } = this.state
       let { gift_list, list } = this.state
       if (action === 'add') {
-
-        let occupation_number = sum
-        let total_surplus_num = item.total_surplus_num - occupation_number
+        let occupation_number = 0 // 已选择数量
+        let total_surplus_num = 0
+        if(sum > item.total_surplus_num){
+          console.log(32323)
+          occupation_number = item.total_surplus_num
+          total_surplus_num = 0
+        }else {
+          occupation_number = sum // 已选择数量
+          total_surplus_num = item.total_surplus_num - occupation_number // 剩余数量
+        }
         for (let i in gift_list) {
           if (gift_list[i].id == item.id) {
             gift_list[i].total_surplus_num = total_surplus_num
@@ -99,7 +125,7 @@ export default connect(({ gift }: any) => gift)(
         this.setState({gift_list,list})
       } else if (action === 'delete') {
 
-        let total_surplus_num = Number(item.total_surplus_num) + Number(sum)
+        let total_surplus_num = Number(item.total_surplus_num) + Number(item.occupation_number)
         for(let i in gift_list){
           if(gift_list[i].id == item.id){
             gift_list[i].occupation_number = 0

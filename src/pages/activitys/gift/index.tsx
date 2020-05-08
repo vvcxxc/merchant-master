@@ -53,7 +53,16 @@ export default connect(({ gift }: any) => gift)(
       console.log(index,'ss')
       let id = item.id
       let list = this.props.list
-      console.log(list)
+      let gift_list = this.props.gift_list
+
+      for (let i in gift_list){
+        if(gift_list[i].id == item.id){
+          gift_list[i].total_surplus_num = item.occupation_number + item.total_surplus_num
+          gift_list[i].is_choose = false
+        }
+      }
+
+
       list[index].list =  list[index].list.filter(res => {
         return res.gift_id != item.id
       })
@@ -63,7 +72,8 @@ export default connect(({ gift }: any) => gift)(
       this.props.dispatch({
         type: 'gift/setData',
         payload: {
-          list: [...list]
+          list: [...list],
+          gift_list: [...gift_list]
         }
       })
 
