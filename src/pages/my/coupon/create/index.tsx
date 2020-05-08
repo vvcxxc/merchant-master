@@ -47,6 +47,9 @@ export default connect(({ createCoupon }: any) => createCoupon)(
       );
 
     handleSubmit = async () => {
+      await this.props.dispatch({
+        type: 'createCoupon/fetchGift',
+      })
 
       const { type } = this.state
       let total: any = {}
@@ -173,6 +176,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
             value: res.data.youhu_id
           }
         });
+        this.props.dispatch({type: 'gift/reset',})
         this.props.dispatch({ type: 'createCoupon/reset' });
         if (this.state.type === 0) {//删除优惠券图文详情
           this.props.dispatch({ type: 'createCoupon/clearImageDetailsApi' })
@@ -208,7 +212,8 @@ export default connect(({ createCoupon }: any) => createCoupon)(
           pay_money: this.state.showPrice ? this.props.couponForm.pay_money * 1 : 0,
           share_info: this.props.couponForm.shareText,
           is_delivery: this.props.couponForm.isDelivery ? 1 : 0,
-          brief: this.props.imageDetailsApi
+          brief: this.props.imageDetailsApi,
+          gift: JSON.stringify(this.props.gift)
         }
       });
 
@@ -229,7 +234,8 @@ export default connect(({ createCoupon }: any) => createCoupon)(
           pay_money: this.state.showPrice ? this.props.moneyForm.pay_money * 1 : 0,
           image: this.props.moneyForm.money_image_url1,
           image_url: [this.props.moneyForm.money_image_url1, this.props.moneyForm.money_image_url2, this.props.moneyForm.money_image_url3],
-          brief: this.props.cashcouponImageApi
+          brief: this.props.cashcouponImageApi,
+          gift: JSON.stringify(this.props.gift)
         }
       });
 

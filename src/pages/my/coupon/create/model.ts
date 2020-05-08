@@ -61,6 +61,7 @@ const model: Model = {
     imageDetailsApi: [],  //兑换券  负责提供后台接口所需格式参数
     cashcouponImage: [],//现金券 负责显示给前台用户
     cashcouponImageApi: [],//现金券 负责提供后台接口所需格式参数
+    gift: []
   },
   reducers: {
     setCashcouponImage(state, { payload }) {//只处理 现金券图片详情数据
@@ -138,9 +139,26 @@ const model: Model = {
           ...payload
         }
       };
-    }
+    },
+    setGift(state, { payload }) {
+      return {
+        ...state,
+        gift: payload.gift
+      }
+    },
   },
-  effects: {}
+  effects: {
+    *fetchGift({ payload, callback }, { call, put, select }){
+      const res = yield select((state,) => state.gift)
+      if(res){
+        const gift = res.gift
+        yield put({
+          type: 'setGift',
+          payload: {gift}
+        })
+      }
+    }
+  }
 };
 
 export default model;

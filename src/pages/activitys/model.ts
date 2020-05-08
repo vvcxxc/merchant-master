@@ -111,6 +111,7 @@ const model: Model = {
     },
     groupImageDetails: [],//现金券 负责显示给前台用户
     groupImageDetailsApi: [],//现金券 负责提供后台接口所需格式参数
+    gift: [], // 礼品
   },
   reducers: {
     setGroupImageDetails(state, { payload }) {
@@ -174,6 +175,12 @@ const model: Model = {
         }
       }
     },
+    setGift(state, { payload }) {
+      return {
+        ...state,
+        gift: payload.gift
+      }
+    },
     Clean(state) {
       return {
         ...state,
@@ -199,6 +206,18 @@ const model: Model = {
           description: [],
           activity_coupons_type: 1,
         }
+      }
+    }
+  },
+  effects: {
+    *fetchGift({ payload, callback }, { call, put, select }){
+      const res = yield select((state) => state.gift)
+      if(res){
+        const gift = res.gift
+        yield put({
+          type: 'setGift',
+          payload: {gift}
+        })
       }
     }
   }

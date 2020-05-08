@@ -15,7 +15,7 @@ import UploadImage from '@/components/upload-image'
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
 
-export default connect(({ activity }: any) => activity)(
+export default connect(({ activity,}: any) => activity)(
   class createGroup extends Component<any> {
     state = {
       is_gift: false,
@@ -266,8 +266,7 @@ export default connect(({ activity }: any) => activity)(
         Toast.fail('请设置拼团人数')
         return
       }
-      const num = group_number * group_sum
-      router.push({ pathname: '/activitys/gift', query: { type: 1, num} })
+      router.push({ pathname: '/activitys/gift', query: { type: 1, sum: group_sum, num: group_number} })
     }
     toSetting = () => {
       router.push({ pathname: '/activitys/setting/groupSetting' })
@@ -278,6 +277,9 @@ export default connect(({ activity }: any) => activity)(
 
     /**确认发布 */
     confirm = async () => {
+      await this.props.dispatch({
+        type: 'activity/fetchGift',
+      })
       const { groupImageDetailsApi } = this.props
       let { activity_name, description, start_date, end_date, old_price, participation_money, group_number, group_sum, validity, image, image_url1, image_url2, gift_id, gift_pic, mail_mode, gift_name, shareText, isDelivery } = this.props.Group;
       let rule = {
@@ -385,6 +387,7 @@ export default connect(({ activity }: any) => activity)(
         });
         let { data, message, code } = res;
         if (code == 200) {
+          this.props.dispatch({type: 'gift/reset',})
           this.props.dispatch({ type: 'activity/clearGroupImageDetails' });
           if (data.order_sn) {
             this.props.dispatch({

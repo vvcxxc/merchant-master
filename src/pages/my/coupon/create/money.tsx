@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Flex, List, InputItem, ImagePicker, Toast } from 'antd-mobile';
+import { Flex, List, InputItem, ImagePicker, Toast, Icon } from 'antd-mobile';
 import { connect } from 'dva';
 import { MoneyForm } from './model';
 import CustomInput from './InputItem'
-import UploadImage from '@/components/upload-image' 
+import UploadImage from '@/components/upload-image'
 import styles from './index.less'
 import upload from '@/services/oss';
 
@@ -141,7 +141,7 @@ export default connect(({ createCoupon }: any) => createCoupon)(
         }
       });
 		}
-		
+
 		//图片详情使用dva
 		uploadImageData = (showFiles: any, propFiles: any) => {
 			this.props.dispatch({//负责显示给前台
@@ -152,7 +152,16 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 				type: 'createCoupon/setCashcouponImageApi',
 				payload: propFiles
 			})
-		}
+    }
+
+    toGift = () => {
+      const {total_num} = this.props.moneyForm
+      if(!total_num){
+        Toast.fail('请先输入发放数量')
+        return
+      }
+      router.push({ pathname: '/activitys/gift', query: {sum: total_num, type: 3}})
+    }
 
 
 		render() {
@@ -309,7 +318,19 @@ export default connect(({ createCoupon }: any) => createCoupon)(
 							onChange={this.uploadImageData}
 						/>
 					</Flex>
-
+          <div className={styles.gift}>
+              <Flex className={styles.title}><div>礼品设置</div></Flex>
+              <div className={styles.gift_Box}>
+                <Flex className={styles.giftBox} onClick={this.toGift}>
+                  <div style={{ color: "#666666" }}>选择礼品</div>
+                  <div className={styles.giftName} >
+                    <div className={styles.giftName_title} >
+                     </div>
+                    <Icon type="right" color='#999' className={styles.icon_right} />
+                  </div>
+                </Flex>
+              </div>
+            </div>
 				</div>
 			);
 		}

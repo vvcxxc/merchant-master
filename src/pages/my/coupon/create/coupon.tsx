@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { InputItem, List, Flex, ImagePicker, Toast } from 'antd-mobile';
+import { InputItem, List, Flex, ImagePicker, Toast, Icon } from 'antd-mobile';
 import { connect } from 'dva';
 import { CouponForm } from './model';
 import styles from './index.less';
@@ -264,6 +264,16 @@ export default connect(({ createCoupon }: any) => createCoupon)(
       })
     }
 
+
+    toGift = () => {
+      const {total_num} = this.props.couponForm
+      if(!total_num){
+        Toast.fail('请先输入发放数量')
+        return
+      }
+      router.push({ pathname: '/activitys/gift', query: {sum: total_num, type: 4}})
+    }
+
     render() {
       const {
         description,
@@ -463,6 +473,20 @@ export default connect(({ createCoupon }: any) => createCoupon)(
               onChange={this.uploadImageData}
             />
           </Flex>
+
+          <div className={styles.gift}>
+              <Flex className={styles.title}><div>礼品设置</div></Flex>
+              <div className={styles.gift_Box}>
+                <Flex className={styles.giftBox} onClick={this.toGift}>
+                  <div style={{ color: "#666666" }}>选择礼品</div>
+                  <div className={styles.giftName} >
+                    <div className={styles.giftName_title} >
+                     </div>
+                    <Icon type="right" color='#999' className={styles.icon_right} />
+                  </div>
+                </Flex>
+              </div>
+            </div>
 
           <div className={styles.gift}>
             <Flex className={styles.share_title}><div>分享设置</div></Flex>

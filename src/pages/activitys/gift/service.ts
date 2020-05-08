@@ -4,7 +4,7 @@ export const getGiftList = (number: any) => {
   return request({
     url: 'api/gift/getMatterGift',
     method: 'get',
-    data: {
+    params: {
       init_repertory_num: number
     }
   })
