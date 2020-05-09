@@ -382,7 +382,8 @@ export default connect(({ activity,}: any) => activity)(
             gift_name,
             share_info: shareText,
             is_delivery: isDelivery ? 1 : 0,
-            brief: groupImageDetailsApi
+            brief: groupImageDetailsApi,
+            gift: JSON.stringify(this.props.gift)
           }
         });
         let { data, message, code } = res;

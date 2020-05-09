@@ -16,6 +16,7 @@ export default function GiftItem(props: Props) {
   const toAdd = () => {
     const {type, id, num, sum} = props
     if(type == 1){
+      console.log(32323)
       if(id == 1 || id == 2 || id == 3){
         let number = sum * num
         router.push({pathname: '/activitys/gift/gift-list', query: {id, sum: number, type}})
@@ -23,6 +24,7 @@ export default function GiftItem(props: Props) {
         router.push({pathname: '/activitys/gift/gift-list', query: {id, sum, type}})
       }
     }else if (type == 2){
+      console.log(type, id, num, sum)
       if (id == 1){
         let number = sum * num
         router.push({pathname: '/activitys/gift/gift-list', query: {id, sum: number, type}})
@@ -56,7 +58,7 @@ export default function GiftItem(props: Props) {
           {
             props.list.map(item => {
               return (
-                <Flex className={styles.gift_item} align='center' justify='between'>
+                <Flex className={styles.gift_item} align='center' justify='between' key={item.id}>
                   <Flex direction='column' align='start'>
                     <div>礼品名称：{item.gift_name}</div>
                     <div>提供店铺：{item.supplier_location.name}</div>

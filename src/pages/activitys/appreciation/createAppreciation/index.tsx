@@ -203,7 +203,16 @@ export default connect(({ activity }: any) => activity)(
     }
 
     toGift = () => {
-      router.push({ pathname: '/activitys/choosegift', query: { type: 2 } })
+      const {appreciation_number_sum, total_num} = this.props.Appreciation
+      if(!appreciation_number_sum){
+        Toast.fail("请输入助力人数")
+        return
+      }
+      if(!total_num){
+        Toast.fail("请输入发放数量")
+        return
+      }
+      router.push({ pathname: '/activitys/gift', query: { type: 2, sum: total_num, num: appreciation_number_sum } })
     }
 
     /**选择支付方式 */
@@ -273,7 +282,9 @@ export default connect(({ activity }: any) => activity)(
     /**提交 */
     submit = async () => {
       const { activityName, start_price, end_price, appreciation_number_sum, validity, pay_money, total_num, total_fee, start_date, end_date, gift_id, mail_mode, gift_pic, gift_name, description, activity_coupons_type, image, image_url1, image_url2, currency_image_url1, currency_image_url2, currency_image_url3 } = this.props.Appreciation
-
+      await this.props.dispatch({
+        type: 'activity/fetchGift',
+      })
       await this.setState({
         ToastTipsActivity: "",
         ToastTipsActivityTime: "",
@@ -481,11 +492,13 @@ export default connect(({ activity }: any) => activity)(
             activity_name: this.state.value == 0 ? "" : activityName,
             description: this.props.Appreciation.activity_coupons_type != 1 ? description : undefined,
             image: this.props.Appreciation.activity_coupons_type != 1 ? image : currency_image_url1,
-            image_url
+            image_url,
+            gift: JSON.stringify(this.props.gift)
           }
         });
         let { data, message, code } = res;
         if (code == 200) {
+          this.props.dispatch({type: 'gift/reset',})
           if (data.order_sn) {
             // 支付去
             this.props.dispatch({

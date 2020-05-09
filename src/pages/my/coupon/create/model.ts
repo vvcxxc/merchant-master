@@ -39,6 +39,7 @@ export interface MoneyForm {
 const model: Model = {
   namespace: 'createCoupon',
   state: {
+    type: 0,
     couponForm: {
       coupons_type: 0,
       description: [],
@@ -146,6 +147,12 @@ const model: Model = {
         gift: payload.gift
       }
     },
+    setType(state, { payload }) {
+      return {
+        ...state,
+        type: payload.type
+      }
+    }
   },
   effects: {
     *fetchGift({ payload, callback }, { call, put, select }){

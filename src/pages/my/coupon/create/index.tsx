@@ -38,12 +38,19 @@ export default connect(({ createCoupon }: any) => createCoupon)(
     };
 
     componentDidMount = () => {
+      const {type} = this.props;
+      console.log(type)
+      if(type){
+        this.setState({type})
+      }
       this.setState({ showPrice: !this.props.location.query.isAd });
     };
 
     handleSelectType = () =>
-      ActionSheet.showActionSheetWithOptions({ options: types }, type =>
+      ActionSheet.showActionSheetWithOptions({ options: types }, type =>{
+        this.props.dispatch({type:'createCoupon/setType', payload: {type}})
         this.setState({ type: type !== -1 ? type : this.state.type })
+      }
       );
 
     handleSubmit = async () => {

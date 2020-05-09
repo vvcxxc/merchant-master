@@ -6,7 +6,7 @@ import CustomInput from './InputItem'
 import UploadImage from '@/components/upload-image'
 import styles from './index.less'
 import upload from '@/services/oss';
-
+import router from 'umi/router'
 interface Props extends MoneyForm {
 	dispatch: (arg0: any) => any;
 	showPrice: boolean;
