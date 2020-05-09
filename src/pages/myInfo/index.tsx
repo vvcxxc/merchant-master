@@ -65,7 +65,7 @@ export default class MyInfo extends Component {
         <List style={{marginTop:'22px'}}>
           <WingBlank>
             <Item extra="修改" arrow="horizontal" onClick={this.toChangePassword} style={{height: '1rem'}}>修改账户密码</Item>
-            <Item extra={account_mobile} arrow="horizontal" onClick={this.toChangePhone} style={{height: '1rem'}}>换绑手机</Item>
+            {/* <Item extra={account_mobile} arrow="horizontal" onClick={this.toChangePhone} style={{height: '1rem'}}>换绑手机</Item> */}
           </WingBlank>
         </List>
 
