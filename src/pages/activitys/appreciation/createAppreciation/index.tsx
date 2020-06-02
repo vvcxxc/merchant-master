@@ -83,7 +83,7 @@ export default connect(({ activity }: any) => activity)(
     /**改变值 */
     activityNameChange = (e: any) => {
       if (e.length <= 30) {
-        this.props.dispatch({
+        ({
           type: 'activity/setAppreciation',
           payload: {
             activityName: e
